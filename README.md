@@ -1,6 +1,6 @@
 # codeschool.ing — vitrine de cursos e trilhas
 
-Site de `codeschool.ing` — **Etapa 1: a vitrine**. Apresenta cursos, trilhas de formação, metodologia e captação de matrículas. Não há login, pagamento nem área do aluno: isso é a Etapa 2 (plataforma/LMS), a ser decidida entre desenvolvimento sob medida e plataforma pronta.
+Site de `codeschool.ing` — **Etapa 1: a vitrine**. Apresenta cursos, trilhas de formação, metodologia e captação de matrículas. Não há login, pagamento nem área do aluno: isso é a Etapa 2 (plataforma/LMS), que será **desenvolvimento sob medida** — plataforma pronta está descartada.
 
 **Este código nasceu como vitrine da Televideo Informática e foi transferido para a codeschool.ing.** O catálogo — 86 cursos e 16 trilhas de programação, dados, infraestrutura, segurança e IA — sempre foi o desta escola: o público é quem quer trabalhar com tecnologia. A Televideo atende outro público (informática de uso, sem virar programador) e ganhará a própria versão a partir desta mesma base, trocando `dados.js` e a identidade.
 
