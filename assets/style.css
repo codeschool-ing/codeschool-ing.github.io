@@ -1,0 +1,1102 @@
+/* ==========================================================================
+   codeschool.ing — vitrine de cursos e trilhas
+   Mesma identidade e navegação do portal: telas de altura cheia com
+   rolagem discreta entre elas (ver assets/script.js).
+   ========================================================================== */
+
+:root{
+  --ink:#0a0e14;
+  --panel:#111721;
+  --scan:#1b2431;
+  --phosphor:#5b8cff;     /* azul da marca */
+  --phosphor-dim:#33549e;
+  --amber:#ff4d5e;        /* vermelho da marca */
+  --paper:#e8e6df;
+  --paper-dim:#9aa0a8;
+  --wire:#233043;
+}
+
+html[data-tema="claro"]{
+  --ink:#f2f4f9;
+  --panel:#ffffff;
+  --scan:#e7ebf4;
+  --phosphor:#2b52c9;
+  --phosphor-dim:#6c86c9;
+  --amber:#d40f28;
+  --paper:#20263c;
+  --paper-dim:#5a6274;
+  --wire:#ccd4e3;
+}
+html[data-tema="claro"] body::before{opacity:.10}
+html[data-tema="claro"] nav{background:rgba(242,244,249,.88)}
+html[data-tema="claro"] .terminal,
+html[data-tema="claro"] .modal-caixa{box-shadow:0 0 0 1px rgba(20,30,60,.05),0 24px 48px -20px rgba(20,30,60,.25)}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--paper);
+  font-family:'IBM Plex Sans',sans-serif;line-height:1.6;overflow-x:hidden;
+  transition:background .3s ease,color .3s ease;
+}
+::selection{background:var(--phosphor);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+.mono{font-family:'IBM Plex Mono',monospace}
+.dim{color:var(--paper-dim)}
+.fx{color:var(--phosphor)}
+
+body::before{
+  content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(0,0,0,.14) 3px 4px);
+  opacity:.35;mix-blend-mode:multiply;
+}
+
+/* ---------- TELAS (fullpage) ---------- */
+.screen{
+  height:100vh;
+  height:100svh;
+  overflow-y:auto;
+  display:flex;flex-direction:column;
+  padding:88px clamp(20px,5vw,64px) 34px;
+  scrollbar-width:none;
+}
+.screen::-webkit-scrollbar{display:none}
+.screen::before{content:"";margin-bottom:auto}
+.screen::after{content:"";margin-top:auto}
+.screen>*{width:100%;max-width:1300px;margin-inline:auto}
+.panel-sec{background:var(--panel);border-top:1px solid var(--wire);border-bottom:1px solid var(--wire)}
+
+/* ---------- NAV ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;height:64px;
+  padding:0 clamp(20px,5vw,64px);
+  background:rgba(10,14,20,.78);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--wire);
+  transition:background .3s ease;
+}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:1.05rem}
+/* o nome inteiro é um item flex só: o `gap` do `.brand` separa o LED do
+   nome e não se mete entre "codeschool", o ponto e "ing".
+   Caixa alta só aqui, no letreiro da barra: no rodapé, no título e nos
+   endereços a marca continua minúscula, que é como ela se escreve. */
+.brand-nome{white-space:nowrap;text-transform:uppercase;letter-spacing:.01em}
+.brand-sep{color:var(--paper-dim);font-weight:400}
+.brand .led{width:9px;height:9px;border-radius:50%;background:var(--phosphor);box-shadow:0 0 10px var(--phosphor);animation:blink 2.4s steps(1) infinite}
+@keyframes blink{0%,88%{opacity:1}90%,100%{opacity:.25}}
+.navlinks{display:flex;align-items:center;gap:24px;font-size:.82rem;margin-left:auto;white-space:nowrap}
+.navlinks a{color:var(--paper-dim);transition:color .2s;position:relative}
+.navlinks a:hover,.navlinks a.on{color:var(--phosphor)}
+.navlinks a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--phosphor);transition:width .25s}
+.navlinks a:not(.nav-cta):hover::after,.navlinks a.on:not(.nav-cta)::after{width:100%}
+/* é um <button> (abre um diálogo, não navega), então herda o que os
+   vizinhos <a> ganham de graça: fonte, tamanho e fundo transparente */
+.nav-cta{
+  border:1px solid var(--phosphor-dim);color:var(--phosphor)!important;padding:7px 16px;
+  border-radius:2px;transition:background .2s,color .2s;
+  font-family:inherit;font-size:inherit;line-height:inherit;background:none;cursor:pointer;
+}
+.nav-cta:hover{background:var(--phosphor);color:var(--ink)!important}
+.nav-acoes{display:flex;align-items:center;gap:10px;margin-left:20px}
+.tema{
+  display:grid;place-items:center;width:34px;height:34px;
+  background:none;border:1px solid var(--wire);border-radius:2px;
+  color:var(--paper-dim);cursor:pointer;transition:color .2s,border-color .2s;
+}
+.tema:hover{color:var(--phosphor);border-color:var(--phosphor)}
+.tema svg{width:17px;height:17px}
+.tema .ico-sol{display:none}
+html[data-tema="claro"] .tema .ico-sol{display:block}
+html[data-tema="claro"] .tema .ico-lua{display:none}
+.burger{display:none;background:none;border:0;color:var(--paper);font-size:1.4rem;cursor:pointer}
+/* ---------- SELETOR DE IDIOMA ---------- */
+.idioma{position:relative}
+.idioma-btn{
+  display:flex;align-items:center;gap:6px;height:34px;padding:0 10px;
+  background:none;border:1px solid var(--wire);border-radius:2px;
+  color:var(--paper-dim);cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.06em;
+  transition:color .2s,border-color .2s;
+}
+.idioma-btn:hover{color:var(--phosphor);border-color:var(--phosphor)}
+.idioma-btn svg{width:16px;height:16px}
+.idioma-menu{
+  position:absolute;top:calc(100% + 8px);right:0;z-index:110;
+  display:none;flex-direction:column;min-width:150px;
+  background:var(--panel);border:1px solid var(--wire);border-radius:4px;padding:4px;
+  box-shadow:0 18px 36px -14px rgba(0,0,0,.6);
+}
+.idioma.aberto .idioma-menu{display:flex}
+.idioma-op{
+  text-align:left;background:none;border:0;border-radius:3px;cursor:pointer;
+  padding:8px 11px;color:var(--paper-dim);font:inherit;font-size:.8rem;
+  transition:color .2s,background .2s;
+}
+.idioma-op:hover{color:var(--paper);background:var(--scan)}
+.idioma-op.on{color:var(--phosphor);background:rgba(91,140,255,.12)}
+html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
+/* Área do aluno: reservada para a Etapa 2 (plataforma). Fica visível e
+   desabilitada de propósito — anuncia o que vem sem prometer link que não abre. */
+/* No vermelho da marca: é o único item da barra que não leva a lugar
+   nenhum ainda, e a cor o separa da navegação de verdade em vez de fazê-lo
+   competir com ela. */
+.nav-aluno{
+  display:flex;align-items:center;gap:7px;cursor:default;white-space:nowrap;flex:0 0 auto;
+  font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--amber);
+  border:1px solid var(--amber);border-radius:2px;padding:6px 11px;
+  transition:background .2s,color .2s;
+}
+.nav-aluno:hover{background:var(--amber);color:var(--ink)}
+.nav-aluno svg{width:15px;height:15px;flex:0 0 auto}
+.nav-breve{
+  font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--amber);border:1px solid var(--amber);border-radius:2px;padding:1px 5px;
+}
+
+/* ---------- INDICADORES LATERAIS ---------- */
+.dots{
+  position:fixed;right:20px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:12px;z-index:90;
+}
+.dots button{
+  width:9px;height:9px;padding:0;cursor:pointer;
+  background:transparent;border:1px solid var(--phosphor-dim);border-radius:1px;
+  transition:background .2s,box-shadow .2s,transform .2s;
+}
+.dots button:hover{transform:scale(1.25)}
+.dots button.on{background:var(--phosphor);box-shadow:0 0 8px var(--phosphor)}
+
+/* ---------- HERO ---------- */
+.hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:.76rem;letter-spacing:.18em;
+  color:var(--phosphor-dim);text-transform:uppercase;margin-bottom:18px;
+  display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--phosphor-dim);flex-shrink:0}
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:clamp(2rem,4.6vw,3.5rem);line-height:1.02;letter-spacing:-.03em;margin-bottom:18px;
+}
+.cursor{display:inline-block;width:.5ch;height:.9em;background:var(--amber);vertical-align:-.06em;margin-left:.08em;animation:cur 1.05s steps(1) infinite}
+@keyframes cur{50%{opacity:0}}
+.hero .lead{font-size:1.02rem;color:var(--paper-dim);max-width:52ch;margin-bottom:24px}
+.hero .lead strong{color:var(--paper);font-weight:600}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.hero-nums{
+  display:flex;gap:24px;flex-wrap:wrap;
+  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--paper-dim);
+  padding-top:18px;border-top:1px solid var(--wire);
+}
+.hero-nums strong{color:var(--phosphor);font-size:1.05rem}
+
+.btn{
+  font-family:'IBM Plex Mono',monospace;font-size:.85rem;font-weight:500;
+  padding:12px 24px;border-radius:2px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:transform .15s,box-shadow .2s,border-color .2s,color .2s,background .2s;
+}
+.btn-primary{background:var(--phosphor);color:var(--ink);border:1px solid var(--phosphor)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(91,140,255,.28)}
+.btn-ghost{background:transparent;color:var(--paper);border:1px solid var(--wire)}
+.btn-ghost:hover{border-color:var(--phosphor);color:var(--phosphor)}
+
+.terminal{
+  background:var(--panel);border:1px solid var(--wire);border-radius:6px;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(0,0,0,.4),0 30px 60px -20px rgba(0,0,0,.7);
+}
+.term-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:var(--scan);border-bottom:1px solid var(--wire)}
+.term-bar .dot{width:11px;height:11px;border-radius:50%}
+.d-r{background:#ff5f56}.d-y{background:#ffbd2e}.d-g{background:#27c93f}
+.term-bar>span:last-of-type{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--paper-dim)}
+.term-body{padding:18px;font-family:'IBM Plex Mono',monospace;font-size:.82rem;line-height:1.85}
+.term-body .pr{color:var(--phosphor)}
+.term-body .cm{color:var(--paper-dim)}
+.term-body .ok{color:var(--amber)}
+/* O atraso vem da posição, calculado, não de uma regra por `nth-child`:
+   o terminal tem 13 linhas agora e ganharia mais a cada comando novo — com
+   a lista fixa, tudo além da sexta aparecia de uma vez, sem escalonar.
+   `--i` é preenchido em `montarTerminal()`. */
+.term-line{opacity:0;animation:typein .4s forwards;animation-delay:calc(.2s + var(--i,0) * .16s)}
+/* linha em branco entre um comando e o próximo */
+.term-vao{height:.7em}
+@keyframes typein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ---------- CABEÇALHO DAS SEÇÕES ---------- */
+/* o bloco já era centrado na página; o texto agora acompanha */
+.sec-head{margin-bottom:24px;max-width:760px;text-align:center}
+.sec-head .tag{font-family:'IBM Plex Mono',monospace;font-size:.74rem;letter-spacing:.16em;color:var(--amber);text-transform:uppercase}
+.sec-head h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.6rem,3.2vw,2.4rem);letter-spacing:-.02em;margin:10px 0 8px;line-height:1.08}
+.sec-head p{color:var(--paper-dim);font-size:.96rem}
+
+/* ---------- TRILHAS ---------- */
+/* o seletor cresce a cada trilha nova: uma linha com setas nas pontas,
+   em vez de quebrar e deixar uma aba órfã na segunda linha */
+/* Alternador de famílias: "por carreira" e "por tecnologia" são perguntas
+   diferentes (que profissão eu quero / que ferramenta eu quero dominar), e
+   as 14 abas não caberiam numa fileira só. Fica acima do seletor, discreto. */
+/* Duas fileiras de abas, uma por família, cada uma com rótulo e setas. Como
+   as famílias são só duas e não devem crescer, mostrar as duas ao mesmo tempo
+   informa mais e custa menos altura do que o alternador que havia antes. */
+.abas-caixa{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex:0 0 auto}
+/* a última fileira abre o mesmo respiro que o topo da trilha deixa
+   para o grafo: o bloco nome+objetivo fica centrado entre os dois */
+.abas-caixa[data-familia="tecnologia"]{margin-bottom:18px}
+/* "TRILHAS POR TECNOLOGIA" numa linha só comeria 165px das abas. Deixando
+   quebrar em duas linhas o rótulo custa os mesmos ~100px de largura, e a
+   altura já é a do botão de aba — não empurra nada. */
+.abas-rotulo{
+  font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--paper-dim);
+  flex:0 0 104px;line-height:1.3;
+}
+.chips-caixa{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0}
+
+/* ---------- MENU SUSPENSO (celular) ----------
+   Substitui as fileiras roláveis onde elas não cabem: com 360px de largura,
+   "← item item →" mostra meio item por vez e a seta ocupa mais que o rótulo. */
+.drop{display:none;position:relative;flex:1 1 auto;min-width:0}
+.drop-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+  background:var(--panel);border:1px solid var(--wire);border-radius:3px;
+  padding:10px 13px;cursor:pointer;color:var(--paper);
+  font-family:'IBM Plex Mono',monospace;font-size:.78rem;text-align:left;
+  transition:border-color .2s;
+}
+.drop-btn:hover,.drop.aberto .drop-btn{border-color:var(--phosphor)}
+.drop-atual{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.drop-seta{color:var(--phosphor);flex:0 0 auto;transition:transform .2s}
+.drop.aberto .drop-seta{transform:rotate(180deg)}
+.drop-lista{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:80;
+  display:none;flex-direction:column;max-height:60vh;overflow-y:auto;
+  background:var(--panel);border:1px solid var(--wire);border-radius:4px;padding:4px;
+  box-shadow:0 18px 36px -14px rgba(0,0,0,.6);
+}
+.drop.aberto .drop-lista{display:flex}
+/* Cabeçalho de grupo dentro do menu ("por carreira", "por tecnologia").
+   Com a cor das opções ele sumia no meio delas; aqui vira faixa: cor de
+   destaque, fundo próprio e um filete acima separando do grupo anterior. */
+.drop-grupo{
+  font-family:'IBM Plex Mono',monospace;font-size:.64rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--amber);
+  background:var(--scan);border-radius:2px;
+  padding:7px 11px;margin:8px 0 5px;
+}
+.drop-grupo:first-child{margin-top:0}
+.drop-grupo + .drop-op{margin-top:0}
+.drop-op{
+  text-align:left;background:none;border:0;border-radius:3px;cursor:pointer;
+  padding:9px 11px;color:var(--paper-dim);font:inherit;font-size:.82rem;
+  transition:color .2s,background .2s;
+}
+.drop-op:hover{color:var(--paper);background:var(--scan)}
+.drop-op.on{color:var(--phosphor);background:rgba(91,140,255,.12)}
+html[data-tema="claro"] .drop-op.on{background:rgba(43,82,201,.09)}
+.trilha-abas{
+  display:flex;flex-wrap:nowrap;gap:8px;
+  overflow-x:auto;padding-bottom:6px;scrollbar-width:none;
+  flex:1 1 auto;min-width:0;
+}
+.trilha-aba{align-self:flex-start}
+/* o fade aparece só do lado onde ainda há aba escondida (classes postas pelo script) */
+.trilha-abas.fade-dir{
+  mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent);
+  -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent);
+}
+.trilha-abas.fade-esq{
+  mask-image:linear-gradient(to left,#000 calc(100% - 34px),transparent);
+  -webkit-mask-image:linear-gradient(to left,#000 calc(100% - 34px),transparent);
+}
+.trilha-abas.fade-esq.fade-dir{
+  mask-image:linear-gradient(to right,transparent,#000 34px,#000 calc(100% - 34px),transparent);
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 34px,#000 calc(100% - 34px),transparent);
+}
+.trilha-abas::-webkit-scrollbar{display:none}
+.trilha-aba{
+  font-family:'IBM Plex Mono',monospace;font-size:.76rem;
+  color:var(--paper-dim);background:transparent;white-space:nowrap;flex:0 0 auto;
+  border:1px solid var(--wire);border-radius:2px;padding:8px 11px;cursor:pointer;
+  transition:color .2s,border-color .2s,background .2s;
+}
+.trilha-aba:hover{color:var(--paper);border-color:var(--phosphor-dim)}
+.trilha-aba.on{color:var(--phosphor);border-color:var(--phosphor);background:rgba(91,140,255,.07)}
+
+.trilha-painel{transition:opacity .2s ease}
+.trilha-painel.trocando{opacity:0}
+/* Descrição à esquerda, números à direita, na mesma linha. A descrição
+   ocupando a largura da página foi testada e não ficou boa: o texto ficava
+   largo demais para o olho acompanhar, e o título perdia a companhia. */
+.trilha-topo{
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  align-items:flex-start;margin-bottom:18px;flex:0 0 auto;
+}
+.trilha-topo>div:first-child{max-width:64ch}
+.trilha-topo h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;margin-bottom:5px}
+.trilha-topo p{color:var(--paper-dim);max-width:58ch;font-size:.92rem;line-height:1.5}
+.trilha-resumo{
+  display:flex;gap:20px;flex-wrap:wrap;flex-shrink:0;
+  font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--paper-dim);
+}
+.trilha-resumo b{display:block;color:var(--phosphor);font-size:1.2rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.trilha-resumo i{display:block;font-style:normal;font-size:.68rem;color:var(--phosphor-dim);margin-top:2px}
+
+/* ---------- O GRAFO DA TRILHA ----------
+   Cada coluna é um nível: tudo o que está na mesma coluna pode ser feito
+   ao mesmo tempo, porque nada ali depende de nada ali. As arestas são
+   desenhadas em SVG por cima, sobre as posições reais dos cartões. */
+/* a caixa segura as setas nas pontas; a barra de rolagem some */
+.grafo-caixa{display:flex;align-items:stretch;gap:8px}
+.grafo-seta,.abas-seta{
+  flex:0 0 auto;align-self:center;cursor:pointer;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--panel);border:1px solid var(--wire);color:var(--phosphor);
+  font-size:1rem;line-height:1;display:grid;place-items:center;
+  transition:border-color .2s,color .2s,opacity .2s;
+}
+.grafo-seta:hover:not(:disabled),.abas-seta:hover:not(:disabled){border-color:var(--phosphor)}
+.grafo-seta:disabled,.abas-seta:disabled{opacity:.25;cursor:default;color:var(--paper-dim)}
+.grafo-caixa.sem-setas .grafo-seta{display:none}
+.abas-caixa.sem-setas .abas-seta,.chips-caixa.sem-setas .abas-seta{visibility:hidden}
+
+/* a seção de trilhas não centraliza: o grafo ocupa a altura que sobrar */
+#trilhas::before,#trilhas::after{display:none}
+#trilhas{padding-top:78px;padding-bottom:20px}
+#trilhas>.trilha-painel{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+#trilhas .grafo-caixa{flex:1 1 auto;min-height:0}
+
+.trilha-grafo{
+  position:relative;overflow:auto;flex:1 1 auto;min-width:0;
+  padding-bottom:4px;scrollbar-width:none;
+  height:100%;
+}
+.trilha-grafo::-webkit-scrollbar{display:none}
+/* esmaece a borda onde ainda há grafo, como nas abas */
+.trilha-grafo.fade-dir{mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent)}
+.trilha-grafo.fade-esq{mask-image:linear-gradient(to left,#000 calc(100% - 26px),transparent)}
+.trilha-grafo.fade-esq.fade-dir{
+  mask-image:linear-gradient(to right,transparent,#000 26px,#000 calc(100% - 26px),transparent);
+}
+.grafo-arestas{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+.grafo-arestas .aresta{pointer-events:auto;cursor:help}
+.grafo-arestas .linha{fill:none;stroke:var(--phosphor-dim);stroke-width:1.5;opacity:.75;transition:stroke .15s,stroke-width .15s,opacity .15s}
+.grafo-arestas .hit{fill:none;stroke:transparent;stroke-width:14;pointer-events:stroke}
+.grafo-arestas .ponta{fill:var(--phosphor);opacity:.9;transition:r .15s}
+/* a aresta se destaca no cursor, como o cartão do curso */
+.aresta:hover .linha,.aresta.on .linha{stroke:var(--phosphor);stroke-width:2.6;opacity:1}
+.aresta:hover .ponta,.aresta.on .ponta{r:4.5}
+/* a faixa de cima e de baixo fica livre: é por ela que passam as arestas
+   que pulam colunas, em vez de atravessarem os cartões do meio */
+.grafo-niveis{position:relative;display:flex;align-items:stretch;gap:48px;width:max-content;min-width:100%;height:100%;padding:20px 0}
+/* um nível com muitos cursos quebra em sub-colunas em vez de esticar para
+   baixo: o grafo cresce na horizontal, que é onde há setas para navegar */
+/* O nível é uma faixa de sub-colunas. Quantas, e o que vai em cada uma, é
+   decidido no script depois de medir a altura disponível — nem flex-wrap nem
+   multi-coluna expandem a largura do container em direção de coluna, e os
+   cartões acabavam sobrepondo o nível vizinho. */
+.nivel{display:flex;align-items:center;gap:14px;flex:0 0 auto;height:100%}
+/* 16px, não 10: é por este corredor que passam as linhas que desviam de
+   um cartão, e com 10 elas raspavam nos vizinhos */
+.subcol{display:flex;flex-direction:column;gap:16px;justify-content:center;flex:0 0 auto}
+/* dentro de uma coluna o eixo principal é vertical: o flex-basis de 195px
+   do cartão viraria ALTURA. Aqui ele volta a ser largura e altura natural. */
+.subcol > .curso-no{flex:0 0 auto;width:238px}
+
+/* o nó de chegada: não é um curso, então não é um cartão — é um selo */
+.no-saida{
+  flex:0 0 auto;align-self:center;max-width:210px;
+  display:flex;align-items:center;gap:12px;padding:4px 0;background:none;border:0;
+}
+.saida-selo{
+  flex:0 0 auto;width:54px;height:54px;border-radius:50%;
+  display:grid;place-items:center;color:var(--amber);
+  border:1px solid var(--amber);background:rgba(255,77,94,.08);
+  box-shadow:0 0 0 5px rgba(255,77,94,.07);
+}
+html[data-tema="claro"] .saida-selo{background:rgba(212,15,40,.07);box-shadow:0 0 0 5px rgba(212,15,40,.06)}
+.saida-selo svg{width:22px;height:22px}
+.saida-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.saida-rotulo{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+.saida-nome{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;line-height:1.2}
+.curso-no{
+  /* não encolhe abaixo de 195px: com muitas etapas o trilho rola em vez
+     de espremer os títulos */
+  flex:1 0 195px;text-align:left;cursor:pointer;
+  background:var(--ink);border:1px solid var(--wire);border-radius:4px;
+  padding:11px 13px 10px;color:inherit;font:inherit;
+  display:flex;flex-direction:column;gap:4px;
+  transition:border-color .2s,transform .2s;
+}
+.curso-no:hover{border-color:var(--phosphor);transform:translateY(-3px)}
+.curso-no .ordem{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--phosphor-dim);letter-spacing:.1em}
+.curso-no .nome{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.95rem;line-height:1.18}
+.curso-no .meta{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--paper-dim);margin-top:auto;padding-top:5px}
+.curso-no .tag-compartilhado{
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--amber);
+  border:1px solid currentColor;border-radius:2px;padding:1px 6px;align-self:flex-start;
+}
+/* o pré-requisito por extenso: no desktop as arestas já dizem isso, mas
+   o texto continua servindo a leitor de tela e ao layout de celular */
+.curso-no .requer{
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--phosphor-dim);
+  border-top:1px dashed var(--wire);margin-top:4px;padding-top:5px;line-height:1.35;
+}
+/* onde as arestas são desenhadas elas já dizem isso; o texto fica só para
+   leitor de tela. O limite acompanha o do grafo (861px). */
+@media (min-width:861px){
+  .curso-no .requer{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
+}
+
+/* ---------- ETAPA COM BIFURCAÇÃO ----------
+   O caminho da trilha se abre: o aluno escolhe uma opção e o fluxo segue.
+   Visualmente é um bloco tracejado que envolve os cursos daquele caminho. */
+.garfo{
+  display:flex;flex-direction:column;gap:8px;flex:0 0 auto;
+  border:1px dashed var(--phosphor-dim);border-radius:6px;
+  padding:10px 11px 12px;background:rgba(91,140,255,.035);
+}
+html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
+.garfo-topo{display:flex;flex-direction:column;gap:8px}
+.garfo-rotulo{
+  font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--amber);
+}
+.garfo-abas{display:flex;gap:6px;flex-wrap:wrap}
+.garfo-aba{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;cursor:pointer;
+  display:flex;align-items:baseline;gap:6px;
+  background:var(--ink);color:var(--paper-dim);
+  border:1px solid var(--wire);border-radius:3px;padding:6px 10px;
+  transition:color .2s,border-color .2s,background .2s;
+}
+.garfo-aba:hover{color:var(--paper);border-color:var(--phosphor-dim)}
+.garfo-aba.on{color:var(--phosphor);border-color:var(--phosphor);background:rgba(91,140,255,.1)}
+.garfo-aba .garfo-h{font-size:.62rem;color:var(--paper-dim)}
+.garfo-aba.on .garfo-h{color:var(--phosphor-dim)}
+.garfo-nota{font-size:.78rem;line-height:1.45;color:var(--paper-dim);max-width:62ch}
+.garfo-cursos{display:flex;align-items:stretch;gap:10px}
+/* com uma opção de curso único o cartão não deve virar faixa larga */
+.garfo-cursos .curso-no{max-width:330px}
+
+/* em tela larga a nota vai para o lado das abas: o bloco fica mais baixo */
+@media (min-width:861px){
+  .garfo{
+    display:grid;grid-template-columns:1fr minmax(0,24ch);
+    grid-template-areas:"topo nota" "cursos cursos";
+    column-gap:18px;row-gap:10px;max-width:620px;
+  }
+  .garfo-topo{grid-area:topo}
+  .garfo-nota{grid-area:nota;font-size:.7rem;line-height:1.4;align-self:end}
+  .garfo-cursos{grid-area:cursos}
+  .garfo-cursos .curso-no{flex:1 1 0;min-width:0}
+}
+
+/* ---------- CATÁLOGO ---------- */
+.filtros{display:flex;gap:14px;flex-wrap:nowrap;align-items:center;margin-bottom:16px}
+.busca{position:relative;flex:0 0 auto;width:min(300px,100%)}
+.busca-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--paper-dim)}
+.busca input{
+  width:100%;font-family:'IBM Plex Mono',monospace;font-size:.8rem;
+  background:var(--panel);border:1px solid var(--wire);border-radius:2px;
+  color:var(--paper);padding:9px 12px 9px 32px;
+}
+.busca input:focus{outline:none;border-color:var(--phosphor)}
+.chips{display:flex;gap:7px;flex-wrap:nowrap;flex:1 1 auto;min-width:0;
+  overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.chips::-webkit-scrollbar{display:none}
+.chips.fade-dir{mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent)}
+.chips.fade-esq{mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent)}
+.chips.fade-esq.fade-dir{mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent)}
+.chip{flex:0 0 auto;white-space:nowrap}
+.chip{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--paper-dim);
+  background:transparent;border:1px solid var(--wire);border-radius:2px;
+  padding:6px 9px;cursor:pointer;transition:color .2s,border-color .2s;
+  align-self:flex-start;
+}
+.chip:hover{color:var(--paper);border-color:var(--phosphor-dim)}
+.chip.on{color:var(--phosphor);border-color:var(--phosphor)}
+.chip .qtd{color:var(--amber);margin-left:5px}
+
+/* o catálogo é longo: rola dentro da própria tela */
+.cursos-rol{
+  max-height:52vh;overflow-y:auto;padding-right:10px;
+  scrollbar-width:thin;scrollbar-color:var(--wire) transparent;
+}
+.cursos-rol::-webkit-scrollbar{width:6px}
+.cursos-rol::-webkit-scrollbar-thumb{background:var(--wire);border-radius:3px}
+.cursos-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.curso-card{
+  display:flex;flex-direction:column;gap:7px;text-align:left;cursor:pointer;
+  background:var(--panel);border:1px solid var(--wire);border-radius:4px;
+  padding:16px 18px;color:inherit;font:inherit;
+  transition:border-color .2s,transform .2s;
+}
+.curso-card:hover{border-color:var(--phosphor);transform:translateY(-3px)}
+.curso-topo{display:flex;justify-content:space-between;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:.68rem}
+.curso-cat{color:var(--phosphor-dim)}
+.curso-nivel{color:var(--amber)}
+.curso-card h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.02rem;line-height:1.25}
+.curso-card p{font-size:.85rem;color:var(--paper-dim)}
+.curso-rodape{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  margin-top:auto;padding-top:9px;border-top:1px solid var(--wire);
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--paper-dim);
+}
+.curso-rodape .trilhas-qtd{color:var(--phosphor)}
+.vazio{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--paper-dim);margin-top:18px}
+
+/* ---------- PLANOS ---------- */
+/* três colunas iguais que viram uma só quando não cabem. `align-items:
+   stretch` (padrão do grid) mantém os três cartões da mesma altura mesmo
+   com listas de tamanhos diferentes; o botão desce para o rodapé de cada
+   um por causa do `margin-top:auto`. */
+.planos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.plano{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--panel);border:1px solid var(--wire);border-radius:4px;
+  padding:22px 20px;transition:border-color .2s,transform .2s;
+}
+.plano:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
+.plano-destaque{
+  border-color:var(--phosphor-dim);
+  background:linear-gradient(135deg,rgba(91,140,255,.08),var(--panel) 60%);
+}
+.plano-selo{
+  position:absolute;top:-9px;left:20px;
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink);background:var(--phosphor);
+  padding:3px 8px;border-radius:3px;
+}
+.plano-nome{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.15rem}
+.plano-chamada{font-size:.85rem;color:var(--paper-dim);margin-top:4px;min-height:2.6em}
+.plano-preco{
+  display:flex;align-items:baseline;gap:3px;
+  margin:14px 0 16px;padding-bottom:16px;border-bottom:1px solid var(--wire);
+  font-family:'IBM Plex Mono',monospace;
+}
+.plano-moeda{font-size:.85rem;color:var(--paper-dim)}
+.plano-preco strong{font-size:2rem;font-weight:600;color:var(--phosphor);line-height:1}
+.plano-periodo{font-size:.78rem;color:var(--paper-dim)}
+/* a lista come a sobra vertical do cartão: com isso o botão de cada plano
+   encosta no rodapé e os três ficam alinhados entre si */
+.plano-itens{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:.86rem;flex:1 1 auto}
+.plano-itens li{padding-left:18px;position:relative;color:var(--paper)}
+.plano-itens li::before{content:'✓';position:absolute;left:0;color:var(--phosphor)}
+.plano-btn{margin-top:20px;justify-content:center}
+
+/* ---------- DEPOIMENTOS ---------- */
+.depos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.depo{
+  background:var(--panel);border:1px solid var(--wire);border-radius:4px;padding:20px 22px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.depo-aspas{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;line-height:1;color:var(--phosphor-dim)}
+.depo p{font-size:.92rem}
+.depo-autor{margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:.72rem}
+.depo-autor b{display:block;color:var(--phosphor);font-weight:600}
+.depo-autor span{color:var(--paper-dim)}
+
+/* ---------- CAMPOS DO FORMULÁRIO ---------- */
+.campo{display:flex;flex-direction:column;gap:5px}
+.campo label{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--phosphor-dim)}
+.campo input,.campo select{
+  font-family:'IBM Plex Mono',monospace;font-size:.83rem;
+  background:var(--ink);border:1px solid var(--wire);border-radius:2px;
+  color:var(--paper);padding:10px 12px;width:100%;
+}
+.campo input:focus,.campo select:focus{outline:none;border-color:var(--phosphor)}
+.form-status{font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--phosphor)}
+.form-status:empty{display:none}
+
+.faq{display:flex;flex-direction:column;gap:7px}
+/* Na tela inteira as perguntas viram duas colunas: oito sanfonas numa
+   coluna só viravam uma fita estreita no meio de uma tela larga. Grid, não
+   `columns`: a coluna múltipla do CSS parte um <details> aberto ao meio.
+   `align-content:start` para as duas colunas crescerem de cima para baixo
+   em vez de se espalharem pela altura. */
+@media(min-width:861px){
+  .faq-tela{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;align-content:start}
+}
+.faq details{background:var(--ink);border:1px solid var(--wire);border-radius:4px;padding:12px 16px}
+.faq summary{
+  cursor:pointer;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.94rem;
+  list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:'IBM Plex Mono',monospace;color:var(--phosphor);flex-shrink:0}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin-top:8px;font-size:.86rem;color:var(--paper-dim)}
+.faq a{color:var(--phosphor)}
+
+/* ---------- CONTATO (bloco compartilhado com o outro site) ---------- */
+/* e-mail e newsletter dividem a linha ao meio. `align-items:stretch` faz o
+   cartão do e-mail acompanhar a altura do formulário, que é o mais alto. */
+.contato-linha{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;align-items:stretch}
+.contato-linha .news{margin-bottom:0}
+.canais{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:12px}
+.canal{
+  display:flex;align-items:center;gap:14px;
+  background:var(--panel);border:1px solid var(--wire);border-radius:4px;
+  padding:14px 16px;transition:border-color .2s,transform .2s;
+}
+a.canal:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
+.canal-destaque{border-color:var(--phosphor-dim);background:linear-gradient(135deg,rgba(91,140,255,.08),var(--panel) 60%)}
+.canal-icone{
+  width:38px;height:38px;flex-shrink:0;display:grid;place-items:center;
+  border:1px solid var(--wire);border-radius:4px;color:var(--phosphor);
+}
+.canal-icone svg{width:21px;height:21px}
+.canal-rotulo{
+  display:block;font-family:'IBM Plex Mono',monospace;font-size:.66rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--phosphor-dim);
+}
+.canal-valor{font-size:.86rem;color:var(--paper);overflow-wrap:anywhere;line-height:1.35}
+
+.news{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;
+  background:var(--panel);border:1px solid var(--wire);border-radius:4px;
+  padding:13px 16px;margin-bottom:12px;
+}
+.news-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--amber);
+}
+.news-copy p{font-size:.85rem;color:var(--paper-dim);max-width:44ch}
+.news-linha{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.news-prompt{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--paper)}
+.news-prompt .pr{color:var(--phosphor)}
+.news input{
+  font-family:'IBM Plex Mono',monospace;font-size:.83rem;
+  background:var(--ink);border:1px solid var(--wire);border-radius:2px;
+  color:var(--paper);padding:10px 12px;min-width:200px;flex:1;
+}
+.news input::placeholder{color:var(--paper-dim);opacity:.6}
+.news input:focus{outline:none;border-color:var(--phosphor)}
+.news-btn{padding:10px 18px;font-size:.79rem}
+.news-status{width:100%;font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--phosphor)}
+.news-status:empty{display:none}
+
+.social-grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.social{
+  position:relative;display:flex;flex-direction:column;gap:6px;
+  background:var(--panel);border:1px solid var(--wire);border-radius:4px;
+  padding:14px 13px;transition:border-color .2s,transform .2s;
+}
+.social:hover{border-color:var(--phosphor);transform:translateY(-3px)}
+.social svg{width:24px;height:24px;color:var(--paper-dim);transition:color .2s}
+.social:hover svg{color:var(--phosphor)}
+.s-nome{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.92rem}
+.s-user{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--paper-dim);overflow-wrap:anywhere;line-height:1.3}
+.s-seta{position:absolute;top:12px;right:12px;font-size:.95rem;color:var(--wire);transition:color .2s,transform .2s}
+.social:hover .s-seta{color:var(--phosphor);transform:translate(2px,-2px)}
+
+/* larguras intermediárias: canais em 2 colunas, para o e-mail não quebrar */
+@media(max-width:1080px) and (min-width:641px){
+  .canais{grid-template-columns:1fr 1fr}
+}
+
+/* A newsletter divide a linha com o e-mail, então a coluna dela é metade da
+   tela. Abaixo de ~1180px o rótulo, o campo e o botão não cabem os três na
+   mesma linha e o botão caía sozinho, encolhido e encostado à esquerda.
+   Mandando o rótulo ocupar a linha inteira, o campo e o botão dividem a de
+   baixo — que é o arranjo que já funciona no celular, sem empilhar tudo. */
+@media(min-width:561px) and (max-width:1180px){
+  .contato-linha .news-prompt{width:100%}
+  /* `flex-basis:0`, não `auto`: a quebra de linha é decidida pelo tamanho
+     base, e com `auto` o campo entrava na conta com a largura intrínseca
+     dele (~180px) e empurrava o botão para a linha seguinte antes de
+     qualquer encolhimento. Com base zero o botão cabe primeiro e o campo
+     cresce para o que sobrar. */
+  .contato-linha .news input{flex:1 1 0;min-width:0}
+}
+
+/* rodapé compacto na última tela */
+.foot-slim{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-top:24px;padding-top:16px;border-top:1px solid var(--wire);
+  font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--paper-dim);
+}
+.foot-links{display:flex;gap:16px}
+.foot-links a{color:var(--phosphor-dim);transition:color .2s}
+.foot-links a:hover{color:var(--phosphor)}
+
+/* ---------- MODAL DE CURSO ---------- */
+.modal[hidden]{display:none}
+.modal{
+  position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;
+  background:rgba(4,6,10,.88);backdrop-filter:blur(6px);animation:surgir .22s ease;
+}
+/* Com o modal aberto o fundo não rola. Prender só a roda e o toque no
+   JavaScript não bastava: sobravam a barra de rolagem do navegador, a
+   inércia do trackpad e as teclas dentro de um campo. Aqui o overflow é
+   cortado no documento e na tela — a posição atual fica exatamente onde
+   estava, porque nada é reposicionado. */
+html.modal-aberto,
+html.modal-aberto body{overflow:hidden}
+html.modal-aberto .screen{overflow:hidden}
+@keyframes surgir{from{opacity:0}to{opacity:1}}
+/* `100%`, não `96vw`: o `.modal` já reserva a margem no próprio padding.
+   Com 96vw a caixa ficava mais larga que a célula do grid em qualquer tela
+   abaixo de 1000px, transbordava para os dois lados e, como só o lado
+   direito é alcançável, o modal parecia deslocado. */
+.modal-caixa{
+  width:min(660px,100%);max-height:86vh;display:flex;flex-direction:column;
+  background:var(--panel);border:1px solid var(--wire);border-radius:6px;overflow:hidden;
+  box-shadow:0 40px 80px -20px rgba(0,0,0,.8);
+}
+
+/* ---------- vídeo de apresentação ----------
+   O quadro existe mesmo sem vídeo publicado: reservar o espaço agora evita
+   que a tela se reorganize quando os vídeos entrarem, um curso por vez. */
+.modal-video{
+  position:relative;display:grid;place-items:center;width:100%;aspect-ratio:16/9;
+  margin-bottom:16px;border:1px solid var(--wire);border-radius:4px;overflow:hidden;
+  background:var(--ink);padding:0;cursor:pointer;
+}
+.modal-video img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* numa coluna só, o quadro 16:9 numa janela baixa ocupava o modal inteiro
+   e empurrava o resumo para fora da tela — aqui ele para de crescer */
+@media (max-height:760px){
+  .modal-video{max-width:calc(46vh * 16 / 9);margin-inline:auto}
+}
+.modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.modal-video.tocando,.modal-video.vazio{cursor:default}
+/* triângulo de "tocar", desenhado em CSS para não depender de imagem */
+.video-play{
+  position:relative;z-index:1;width:54px;height:54px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(10,14,20,.72);border:1px solid var(--phosphor);
+  transition:background .2s,transform .2s;
+}
+.video-play::before{
+  content:"";border-style:solid;border-width:9px 0 9px 15px;margin-left:4px;
+  border-color:transparent transparent transparent var(--phosphor);
+}
+.modal-video:hover .video-play{background:var(--phosphor);transform:scale(1.06)}
+.modal-video:hover .video-play::before{border-left-color:var(--ink)}
+.modal-video.vazio{border-style:dashed}
+.modal-video.vazio .video-play{opacity:.45}
+.video-aviso{
+  position:absolute;bottom:10px;z-index:1;
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--paper-dim);
+}
+.modal-arquivo{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--paper-dim)}
+.modal-fechar{margin-left:12px;background:none;border:0;cursor:pointer;color:var(--paper-dim);font-size:1.3rem;line-height:1;transition:color .2s}
+.modal-fechar:hover{color:var(--amber)}
+.modal-corpo{padding:24px 26px;overflow-y:auto}
+
+/* ---------- MODAL DE INSCRIÇÃO ---------- */
+/* Mais estreito que o do curso: são dois ou três campos, e uma caixa de
+   660px deixaria o formulário perdido no meio dela. */
+.modal-estreito{width:min(460px,100%)}
+.assinar-corpo h3{margin-bottom:8px}
+.assinar-sub{color:var(--paper-dim);font-size:.88rem;margin-bottom:16px}
+/* Quando a pessoa vem de um cartão de plano, o plano é o cabeçalho e o
+   seletor some — restam nome e contato, o formulário mais curto possível. */
+.assinar-plano{
+  display:flex;align-items:baseline;gap:10px;margin-bottom:16px;
+  padding:10px 12px;border:1px solid var(--phosphor-dim);border-radius:3px;
+  background:linear-gradient(135deg,rgba(91,140,255,.1),transparent 70%);
+}
+.assinar-plano[hidden]{display:none}
+.assinar-plano-rotulo{
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--phosphor-dim);
+}
+.assinar-plano strong{font-family:'Space Grotesk',sans-serif;font-size:1rem;color:var(--paper)}
+/* empilhado sempre: numa caixa de 460px não há largura para duas colunas */
+.form-assinar{display:flex;flex-direction:column;gap:12px}
+.form-assinar .campo[hidden]{display:none}
+.form-assinar .btn{justify-content:center;margin-top:2px}
+
+/* Altura curta é quase sempre o teclado virtual aberto: a pessoa está
+   digitando e precisa enxergar o campo e o botão, não a explicação. O
+   subtítulo cede o lugar, e o resto encolhe — sem isso o "Comece agora"
+   ficava abaixo da dobra dentro do próprio modal. */
+@media(max-height:560px){
+  .assinar-corpo{padding:16px 18px}
+  .assinar-sub{display:none}
+  .assinar-corpo h3{font-size:1.15rem;margin-bottom:10px}
+  .assinar-plano{margin-bottom:12px;padding:8px 10px}
+  .form-assinar{gap:10px}
+}
+.modal-corpo h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:6px}
+.modal-meta{display:flex;gap:16px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:.73rem;color:var(--paper-dim);margin-bottom:14px}
+.modal-meta b{color:var(--phosphor);font-weight:500}
+.modal-corpo>p{color:var(--paper-dim);margin-bottom:16px}
+.modal-bloco{margin-bottom:16px}
+.modal-bloco h4{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--phosphor-dim);margin-bottom:8px;
+}
+.modal-bloco ul{list-style:none;display:grid;gap:5px}
+.modal-bloco li{font-size:.9rem;padding-left:20px;position:relative}
+.modal-bloco li::before{content:"→";position:absolute;left:0;color:var(--phosphor)}
+/* conteúdo detalhado: a lista técnica completa, recolhida por padrão */
+.modal-topicos{margin-bottom:16px;border:1px solid var(--wire);border-radius:4px;background:var(--ink)}
+.modal-topicos summary{
+  cursor:pointer;list-style:none;padding:10px 14px;display:flex;align-items:center;gap:10px;
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--phosphor-dim);transition:color .2s;
+}
+.modal-topicos summary::-webkit-details-marker{display:none}
+.modal-topicos summary::before{content:"+";color:var(--phosphor);font-size:.95rem;line-height:1}
+.modal-topicos[open] summary::before{content:"–"}
+.modal-topicos summary:hover{color:var(--phosphor)}
+.modal-topicos summary .qtd{margin-left:auto;color:var(--paper-dim);letter-spacing:.04em;text-transform:none}
+.modal-topicos ul{list-style:none;display:grid;gap:6px;padding:2px 14px 14px;border-top:1px solid var(--wire)}
+.modal-topicos li{font-size:.85rem;padding-left:18px;position:relative;color:var(--paper-dim)}
+.modal-topicos li::before{content:"·";position:absolute;left:5px;color:var(--phosphor)}
+
+.modal-trilhas{display:flex;gap:8px;flex-wrap:wrap}
+.modal-trilhas button{
+  font-family:'IBM Plex Mono',monospace;font-size:.73rem;cursor:pointer;
+  background:transparent;color:var(--phosphor);border:1px solid var(--phosphor-dim);
+  border-radius:2px;padding:6px 12px;transition:background .2s,color .2s;
+}
+.modal-trilhas button:hover{background:var(--phosphor);color:var(--ink)}
+.modal-trilhas.pre-req{margin-bottom:8px}
+.modal-trilhas.pre-req button{color:var(--amber);border-color:var(--amber)}
+.modal-trilhas.pre-req button:hover{background:var(--amber);color:var(--ink)}
+.modal-acoes{display:flex;gap:10px;flex-wrap:wrap;padding-top:4px}
+
+/* ---------- duas colunas onde couber ----------
+   Numa coluna só o modal de um curso grande passa de dois metros de
+   rolagem, e numa tela de 4K sobrava metade da largura vazia. Acima de
+   1024px o conteúdo se divide: à esquerda o que convence (o que é, quem
+   fala e o botão), à direita o que detalha (ementa, tópicos, dependências
+   e trilhas). O limite é onde cada coluna ainda fica com ~440px — abaixo
+   disso duas colunas ficam mais estreitas que uma linha confortável de
+   leitura, e voltar para uma só é melhor. */
+/* empilhado, a apresentação precisa de respiro antes de "o que você
+   aprende"; em duas colunas ela é o fim da coluna e a margem some */
+.modal-col-apresenta{margin-bottom:20px}
+
+@media (min-width:1024px){
+  .modal-caixa:not(.modal-estreito){width:min(1080px,94vw)}
+  /* O CORPO NÃO ROLA. Ele fica com a altura que a caixa permite e as duas
+     colunas dividem essa altura; quem rola é a lista de tópicos, por
+     dentro. Um teto fixo na lista não bastava: com 48 tópicos ela parava
+     em 420px, mas a coluna inteira (ementa + tópicos + pré-requisitos +
+     trilhas) continuava passando da altura e o modal voltava a rolar,
+     levando o vídeo e o botão para fora da vista. */
+  .modal-corpo:not(.assinar-corpo){
+    display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);
+    gap:0 30px;align-items:stretch;overflow:hidden;min-height:0;
+  }
+  .modal-col{min-height:0;display:flex;flex-direction:column}
+  .modal-col-apresenta{margin-bottom:0;overflow-y:auto}
+  /* o botão fica centrado sob o vídeo, que ocupa a coluna inteira */
+  .modal-col-apresenta .modal-acoes{padding-top:8px;justify-content:center}
+  .modal-video{max-width:none;margin-inline:0}
+  .modal-corpo:not(.assinar-corpo) h3{font-size:1.55rem}
+
+  /* A lista de tópicos rola por dentro, e o teto dela é medido em JS
+     (`ajustarTopicos`): ela recebe exatamente a altura que sobra na coluna,
+     então pré-requisitos e trilhas, que vêm depois, continuam à vista.
+     Não dá para resolver só no CSS: o `<details>` do Chrome envolve o
+     conteúdo num slot, e o `ul` não vira item flex — `flex:1 1 auto` nele
+     é aceito pelo estilo computado e ignorado pelo layout.
+     A rolagem na coluna é a rede de segurança para quando nem a lista no
+     mínimo faz o resto caber. */
+  .modal-col-detalhe{overflow-y:auto}
+  .modal-topicos ul{
+    overflow-y:auto;
+    scrollbar-width:thin;scrollbar-color:var(--wire) transparent;
+  }
+  .modal-col ::-webkit-scrollbar,
+  .modal-col::-webkit-scrollbar{width:6px}
+  .modal-col ::-webkit-scrollbar-thumb,
+  .modal-col::-webkit-scrollbar-thumb{background:var(--wire);border-radius:3px}
+}
+/* acima de 1500px o texto não deve crescer junto com a tela: linha longa
+   demais cansa. A caixa para de crescer e fica centrada. */
+@media (min-width:1500px){
+  .modal-caixa{width:1180px}
+}
+
+/* ==========================================================================
+   RESPONSIVO — testado em 360×740, 768×1024, 1024×768, 1366×768 e 1920×1080
+   ========================================================================== */
+
+/* tablets e notebooks estreitos: hero e matrícula em coluna */
+@media(max-width:1180px){
+  .hero-inner{grid-template-columns:1fr;gap:28px}
+  .terminal{display:none}
+  .cursos-rol{max-height:46vh}
+  .navlinks{
+    display:none;position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;align-items:stretch;gap:0;
+    background:var(--ink);border-bottom:1px solid var(--wire);
+  }
+  .navlinks.open{display:flex}
+  .navlinks a{padding:15px clamp(20px,5vw,64px);border-top:1px solid var(--wire)}
+  .navlinks .nav-cta{margin:12px clamp(20px,5vw,64px);text-align:center}
+  .burger{display:block}
+  .nav-aluno span:not(.nav-breve){display:none}
+  .nav-aluno .nav-breve{display:none}
+  .nav-aluno{padding:6px 9px}
+  .idioma-btn{padding:0 8px}
+  .nav-acoes{margin-left:auto}
+  .dots{right:10px}
+}
+
+/* Telas estreitas: o grafo vira lista.
+   O grafo só se paga quando cabem três ou quatro níveis de uma vez. Abaixo
+   disso a faixa mostraria um cartão e meio por vez, então os níveis empilham
+   e a dependência passa a ser lida no texto "depois de", não na aresta. */
+@media(max-width:860px){
+  .grafo-seta{display:none}
+  .trilha-grafo{max-height:46vh;height:auto;overflow-x:hidden}
+  /* aqui a rolagem é vertical, então o fade que avisa "tem mais" vai embaixo */
+  .trilha-grafo.fade-baixo{mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent)}
+  .grafo-arestas{display:none}
+  .grafo-niveis{flex-direction:column;gap:12px;width:auto;height:auto}
+  /* uma coluna só: as sub-colunas medidas para a tela larga deixam de valer
+     e cada cartão ocupa a largura inteira */
+  .nivel{gap:12px;height:auto;flex-direction:column;align-items:flex-start}
+  /* o cartão acompanha a largura da tela, mas sem virar faixa vazia no tablet */
+  .subcol{width:100%;max-width:560px}
+  .subcol > .curso-no,.subcol > .garfo,.subcol > .no-saida{
+    width:100%;max-width:none;min-width:0;
+  }
+  #trilhas .grafo-caixa{min-height:0}
+  .nivel + .nivel{border-top:1px dashed var(--wire);padding-top:12px}
+  .curso-no{flex:1 1 auto}
+  /* a bifurcação também empilha; as abas viram faixa deslizante */
+  .garfo-cursos{flex-direction:column}
+  .garfo-cursos .curso-no{max-width:none}
+  .garfo-abas{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+  .garfo-abas::-webkit-scrollbar{display:none}
+  .garfo-aba{flex:0 0 auto;white-space:nowrap}
+  .garfo-nota{font-size:.74rem}
+}
+
+/* onde a fileira rolável não cabe, entra o menu suspenso */
+@media(max-width:700px){
+  #drop-trilhas{display:block;margin-bottom:14px}
+  #drop-filtros{display:block}
+  .abas-caixa,.chips-caixa{display:none}
+  .filtros{flex-wrap:wrap;gap:10px}
+  .busca{width:100%}
+}
+
+/* Abaixo disso a barra só cabe com o essencial. A área do aluno é marcador
+   de funcionalidade futura: é a primeira a sair, antes do menu sanduíche. */
+@media(max-width:620px){
+  .nav-aluno{display:none}
+  .brand{font-size:.95rem}
+}
+
+/* celulares */
+@media(max-width:560px){
+  .screen{padding:78px 20px 26px}
+  .sec-head{margin-bottom:16px}
+  .sec-head p{font-size:.9rem}
+  .hero h1{font-size:clamp(1.7rem,7.5vw,2.2rem)}
+  .hero .lead{font-size:.94rem;margin-bottom:18px}
+  .btn{padding:11px 18px;font-size:.8rem}
+  /* Os dois botões do hero lado a lado, dividindo a largura do texto.
+     `flex-basis:0` porque a quebra de linha é decidida pelo tamanho base:
+     com `auto` o rótulo mais longo ("Catálogo de cursos", e pior nos outros
+     idiomas) empurrava o segundo botão para baixo antes de encolher.
+     O padding lateral cai para 10px para caber em telas de 360px. */
+  .hero-actions{flex-wrap:nowrap;gap:10px}
+  .hero-actions .btn{flex:1 1 0;min-width:0;justify-content:center;text-align:center;padding-left:10px;padding-right:10px}
+  .hero-nums{gap:14px;font-size:.7rem;padding-top:14px}
+  .hero-nums strong{font-size:.95rem}
+
+  /* a faixa deslizante das abas já vem do bloco principal; aqui só encurta */
+  .abas-caixa{margin-bottom:14px}
+  .trilha-grafo{max-height:42vh}
+  .trilha-topo{margin-bottom:14px}
+  /* sem encolher, os quatro números somavam mais que a largura da tela */
+  .trilha-resumo{gap:14px;font-size:.7rem;flex-shrink:1;width:100%}
+  .trilha-resumo b{font-size:1rem}
+
+  .cursos-rol{max-height:50vh}
+  .cursos-grade{grid-template-columns:1fr}
+  .planos{max-height:54vh;overflow-y:auto}
+  /* metade da largura só faz sentido quando há largura: no celular o
+     e-mail e a newsletter voltam a ocupar a linha inteira */
+  .contato-linha{grid-template-columns:1fr}
+  .depos{max-height:54vh;overflow-y:auto}
+  .depo{padding:16px 18px}
+  .foot-slim{flex-direction:column;text-align:center;gap:8px;font-size:.68rem}
+  .social-grade{grid-template-columns:1fr 1fr}
+  .canal{padding:12px 14px}
+  .canal-valor{font-size:.82rem}
+  .news-copy{width:100%}
+  /* Empilhado: rótulo, campo e botão, um por linha. Com `flex-wrap` o
+     rótulo e o campo brigavam pela primeira linha e o campo saía espremido
+     em ~150px. O botão vai à largura do cartão porque é o alvo de toque. */
+  /* `.news` é flex com wrap: sem `width:100%` a linha caía para baixo do
+     texto mas continuava com a largura do conteúdo (~195px), e nem o campo
+     nem o botão tinham como esticar. */
+  .news-linha{flex-direction:column;align-items:stretch;width:100%}
+  .news input{min-width:0;width:100%}
+  .news-btn{width:100%;justify-content:center}
+  .dots{right:6px;gap:10px}
+
+  /* modal: mais área útil e botão na largura do cartão, que é o alvo de toque */
+  .modal{padding:12px}
+  .modal-corpo{padding:20px}
+  .modal-acoes{width:100%}
+  .modal-acoes .btn{width:100%;justify-content:center}
+}
+
+/* janelas baixas (notebooks 768px de altura e afins) */
+@media(max-height:780px){
+  .screen{padding-top:78px}
+  .sec-head{margin-bottom:18px}
+  .sec-head h2{font-size:clamp(1.5rem,2.8vw,2rem)}
+  .hero h1{font-size:clamp(1.9rem,3.8vw,2.8rem);margin-bottom:14px}
+  .hero .lead{margin-bottom:18px;font-size:.96rem}
+  .hero-actions{margin-bottom:16px}
+  .hero-nums{padding-top:14px}
+  .term-body{padding:14px;font-size:.76rem;line-height:1.7}
+  /* O bloco de bifurcação é o item mais alto do grafo — abas, nota e até três
+     cartões — e numa janela de 720px ele não cabia na faixa. Aqui tudo dentro
+     dele encolhe alguns pixels, o que basta para o bloco caber inteiro. */
+  .curso-no{padding:9px 11px 8px;gap:3px}
+  .curso-no .nome{font-size:.88rem}
+  .curso-no .meta{padding-top:4px}
+  .garfo{padding:8px 9px 9px;row-gap:8px}
+  .garfo-abas{gap:5px}
+  .garfo-aba{padding:5px 9px}
+  .garfo-nota{font-size:.66rem;line-height:1.35}
+  .grafo-niveis{padding:12px 0}
+
+  .cursos-rol{max-height:44vh}
+  .plano{padding:18px 18px}
+  .depo{padding:16px 18px}
+  .faq details{padding:10px 14px}
+  .canal{padding:12px 14px}
+  .social{padding:12px 14px}
+  .foot-slim{margin-top:16px;padding-top:12px}
+}
+
+/* janelas muito baixas (720p e afins): só aqui o objetivo da trilha cede as
+   últimas linhas para o grafo caber. Numa janela de 768px ele ainda cabe
+   inteiro, e o texto é copy de venda — não se corta antes do necessário. */
+@media(max-height:740px){
+  .trilha-topo p{
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;
+    overflow:hidden;
+  }
+}
+/* num notebook de 768px a janela útil fica em ~681px: aí o objetivo cede mais
+   uma linha, porque cada 22px valem um cartão a mais por coluna do grafo */
+@media(max-height:700px){
+  .trilha-topo p{-webkit-line-clamp:2}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto}
+  .term-line{opacity:1}
+}

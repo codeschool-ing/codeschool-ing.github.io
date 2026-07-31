@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>codeschool.ing — Cursos e trilhas de programação</title>
+<meta name="description" content="Escola de tecnologia online: cursos de programação, dados, infraestrutura, segurança e IA organizados em trilhas de formação. Estude no seu ritmo, com professor acompanhando." />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<script>/* aplica o tema salvo antes da pintura, evitando "piscada" */
+try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElement.dataset.tema='claro'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="#topo" class="brand">
+    <span class="led"></span><span class="brand-nome">codeschool<span class="brand-sep">.</span>ing</span>
+  </a>
+  <div class="navlinks" id="menu">
+    <!-- botão, não âncora: abre o modal de inscrição, não leva a lugar
+         nenhum. É a porta de entrada de quem ainda não escolheu plano. -->
+    <button type="button" class="nav-cta" id="cta-assinar">Comece agora</button>
+    <a href="#trilhas">Trilhas</a>
+    <a href="#cursos">Cursos</a>
+    <a href="#planos">Planos</a>
+    <a href="#alunos">Alunos</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contato">Contato</a>
+  </div>
+  <div class="nav-acoes">
+    <button id="tema-btn" class="tema" aria-label="Mudar para tema claro">
+      <svg class="ico-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      <svg class="ico-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+    </button>
+    <div class="idioma" id="idioma">
+      <button class="idioma-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Escolher idioma">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>
+        <span id="idioma-curto">PT</span>
+      </button>
+      <div class="idioma-menu" id="idioma-menu" role="menu"></div>
+    </div>
+    <a href="#" class="nav-aluno" id="nav-aluno">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+      <span>Área do aluno</span>
+    </a>
+    <button class="burger" id="burger" aria-label="Abrir menu">≡</button>
+  </div>
+</nav>
+
+<!-- TELA 1 · HERO -->
+<header class="screen hero" id="topo">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="eyebrow">Escola de tecnologia</div>
+      <h1>Aprenda no seu ritmo,<br />com <span class="fx">a trilha certa do começo</span><span class="cursor"></span></h1>
+      <p class="lead">
+        Formação em tecnologia organizada em <strong>trilhas</strong>:
+        você sabe exatamente qual curso fazer primeiro, o que vem depois e
+        onde cada etapa vai te levar. Cursos de base valem para mais de uma
+        carreira — você não estuda a mesma coisa duas vezes.
+      </p>
+      <div class="hero-actions">
+        <a href="#trilhas" class="btn btn-primary">Ver as trilhas →</a>
+        <a href="#cursos" class="btn btn-ghost">Catálogo de cursos</a>
+      </div>
+      <div class="hero-nums">
+        <span><strong id="n-cursos">0</strong> cursos</span>
+        <span><strong id="n-trilhas">0</strong> trilhas de formação</span>
+        <span><strong id="n-horas">0</strong> horas de conteúdo</span>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="term-bar">
+        <span class="dot d-r"></span><span class="dot d-y"></span><span class="dot d-g"></span>
+        <span>aluno@codeschool:~</span>
+      </div>
+      <!-- montado em `montarTerminal()`, a partir de CURSOS e TRILHAS: as
+           respostas são dados reais, então não envelhecem quando o
+           catálogo muda. Comando em inglês, resposta no idioma do usuário. -->
+      <div class="term-body" id="term-body"></div>
+    </div>
+  </div>
+</header>
+
+<!-- TELA 2 · TRILHAS -->
+<section id="trilhas" class="screen panel-sec">
+  <!-- Duas fileiras: uma por família. Sem título, sem tag e sem alternador —
+       cada pixel acima do grafo é um curso a menos por coluna. -->
+  <!-- no celular as duas fileiras viram um menu só: com 360px de largura,
+       "← trilha trilha →" mostrava meia aba por vez -->
+  <div class="drop" id="drop-trilhas">
+    <button class="drop-btn" type="button" aria-expanded="false" aria-label="Escolher trilha">
+      <span class="drop-atual"></span><span class="drop-seta" aria-hidden="true">▾</span>
+    </button>
+    <div class="drop-lista" id="drop-trilhas-lista" role="menu"></div>
+  </div>
+  <div class="abas-caixa" data-familia="carreira">
+    <span class="abas-rotulo">trilhas por carreira</span>
+    <button class="abas-seta esq" type="button" data-rolar="-1" aria-label="Trilhas anteriores">←</button>
+    <div class="trilha-abas" id="abas-carreira" role="tablist" aria-label="Trilhas por carreira"></div>
+    <button class="abas-seta dir" type="button" data-rolar="1" aria-label="Próximas trilhas">→</button>
+  </div>
+  <div class="abas-caixa" data-familia="tecnologia">
+    <span class="abas-rotulo">trilhas por tecnologia</span>
+    <button class="abas-seta esq" type="button" data-rolar="-1" aria-label="Trilhas anteriores">←</button>
+    <div class="trilha-abas" id="abas-tecnologia" role="tablist" aria-label="Trilhas por tecnologia"></div>
+    <button class="abas-seta dir" type="button" data-rolar="1" aria-label="Próximas trilhas">→</button>
+  </div>
+  <div class="trilha-painel" id="trilha-painel" aria-live="polite"></div>
+</section>
+
+<!-- TELA 3 · CURSOS -->
+<section id="cursos" class="screen">
+  <div class="sec-head">
+    <h2>Portfólio</h2>
+    <p>Tudo o que está dentro das trilhas, curso a curso. Procure pelo nome, filtre por área ou abra um para ver a ementa.</p>
+  </div>
+  <div class="filtros">
+    <div class="busca">
+      <span class="busca-ico" aria-hidden="true">⌕</span>
+      <input type="search" id="busca" placeholder="buscar curso..." aria-label="Buscar curso" />
+    </div>
+    <div class="drop" id="drop-filtros">
+      <button class="drop-btn" type="button" aria-expanded="false" aria-label="Filtrar por área">
+        <span class="drop-atual"></span><span class="drop-seta" aria-hidden="true">▾</span>
+      </button>
+      <div class="drop-lista" id="drop-filtros-lista" role="menu"></div>
+    </div>
+    <div class="chips-caixa">
+      <button class="abas-seta esq" id="chips-esq" type="button" aria-label="Filtros anteriores">←</button>
+      <div class="chips" id="chips-cat" role="group" aria-label="Filtrar por área"></div>
+      <button class="abas-seta dir" id="chips-dir" type="button" aria-label="Próximos filtros">→</button>
+    </div>
+  </div>
+  <div class="cursos-rol">
+    <div class="cursos-grade" id="cursos-grade" aria-live="polite"></div>
+    <p class="vazio" id="cursos-vazio" hidden>nenhum curso encontrado — tente outro termo.</p>
+  </div>
+</section>
+
+<!-- TELA 4 · PLANOS -->
+<!-- Três planos de exemplo. Os valores estão zerados de propósito: o modelo
+     de cobrança ainda não foi decidido, e número inventado em vitrine vira
+     promessa. Ver o README. -->
+<section id="planos" class="screen panel-sec">
+  <div class="sec-head">
+    <h2>Planos</h2>
+    <p><span class="mono dim">[planos de exemplo — valores e benefícios ainda a definir]</span></p>
+  </div>
+  <div class="planos">
+    <article class="plano">
+      <h3 class="plano-nome">Essencial</h3>
+      <p class="plano-chamada">Para quem quer começar por um assunto só.</p>
+      <p class="plano-preco"><span class="plano-moeda">R$</span><strong>00</strong><span class="plano-periodo">/mês</span></p>
+      <ul class="plano-itens">
+        <li>Uma trilha à sua escolha</li>
+        <li>Aulas gravadas e material de apoio</li>
+        <li>Exercícios com correção automática</li>
+        <li>Certificado a cada curso concluído</li>
+      </ul>
+      <button type="button" class="btn btn-ghost plano-btn">Quero este plano →</button>
+    </article>
+    <article class="plano plano-destaque">
+      <span class="plano-selo">mais escolhido</span>
+      <h3 class="plano-nome">Completo</h3>
+      <p class="plano-chamada">Acesso ao catálogo inteiro, sem escolher agora.</p>
+      <p class="plano-preco"><span class="plano-moeda">R$</span><strong>00</strong><span class="plano-periodo">/mês</span></p>
+      <ul class="plano-itens">
+        <li>Todas as trilhas e todos os cursos</li>
+        <li>Encontros ao vivo para tirar dúvidas</li>
+        <li>Projetos avaliados por um professor</li>
+        <li>Certificado a cada curso concluído</li>
+      </ul>
+      <button type="button" class="btn btn-primary plano-btn">Quero este plano →</button>
+    </article>
+    <article class="plano">
+      <h3 class="plano-nome">Equipes</h3>
+      <p class="plano-chamada">Para empresas que vão formar mais de uma pessoa.</p>
+      <p class="plano-preco"><span class="plano-moeda">R$</span><strong>00</strong><span class="plano-periodo">/mês por pessoa</span></p>
+      <ul class="plano-itens">
+        <li>Tudo do plano Completo</li>
+        <li>Painel de acompanhamento da turma</li>
+        <li>Trilha desenhada com a empresa</li>
+        <li>Nota fiscal e pagamento centralizado</li>
+      </ul>
+      <button type="button" class="btn btn-ghost plano-btn">Falar com a gente →</button>
+    </article>
+  </div>
+</section>
+
+<!-- TELA 5 · ALUNOS -->
+<section id="alunos" class="screen">
+  <div class="sec-head">
+    <h2>Quem passou por aqui</h2>
+    <p><span class="mono dim">[depoimentos de exemplo — aguardam os relatos reais]</span></p>
+  </div>
+  <div class="depos" id="depos"></div>
+</section>
+
+<!-- TELA 6 · FAQ -->
+<!-- Ocupou a tela que era da matrícula: o formulário virou modal, aberto
+     pelos botões dos planos e pelo "Comece agora" do topo. As respostas
+     que dependem de política ainda não decidida trazem a marcação entre
+     colchetes — vale o mesmo critério dos preços e dos depoimentos. -->
+<section id="faq" class="screen panel-sec">
+  <div class="sec-head">
+    <h2>Perguntas frequentes</h2>
+    <p>O que a gente mais ouve — e, marcado, o que ainda está sendo definido.</p>
+  </div>
+  <div class="faq faq-tela">
+    <details>
+      <summary>Preciso ter computador em casa?</summary>
+      <p>Sim — os cursos são práticos e você acompanha fazendo. Um computador simples com internet e um navegador já resolvem.</p>
+    </details>
+    <details>
+      <summary>As aulas são ao vivo ou gravadas?</summary>
+      <p>As aulas ficam gravadas para você assistir quando puder, e há encontros ao vivo para dúvidas e prática dirigida.</p>
+    </details>
+    <details>
+      <summary>Preciso fazer a trilha inteira?</summary>
+      <p>Não. A trilha é uma recomendação de ordem — se você só precisa de um curso dela, assista só ele.</p>
+    </details>
+    <details>
+      <summary>O certificado é reconhecido?</summary>
+      <p>Emitimos certificado de curso livre com carga horária e código de validação, aceito para comprovação de qualificação profissional.</p>
+    </details>
+    <details>
+      <summary>Posso cancelar quando quiser?</summary>
+      <p>Sim: a assinatura é mensal e você cancela sozinho, sem falar com ninguém. O acesso continua até o fim do período já pago. <span class="mono dim">[resposta de exemplo — a política de cancelamento ainda será definida]</span></p>
+    </details>
+    <details>
+      <summary>Quais são as formas de pagamento?</summary>
+      <p>Cartão de crédito e Pix, com renovação automática no cartão. <span class="mono dim">[resposta de exemplo — os meios de pagamento ainda serão definidos]</span></p>
+    </details>
+    <details>
+      <summary>Dá para comprar um curso avulso, sem assinar?</summary>
+      <p>Não. O acesso é por assinatura, e ela abre o catálogo conforme o plano. <span class="mono dim">[resposta de exemplo — a venda avulsa ainda será decidida]</span></p>
+    </details>
+    <details>
+      <summary>Minha empresa pode contratar para a equipe?</summary>
+      <p>Pode: é o plano Equipes, com preço por pessoa e painel de acompanhamento da turma. <span class="mono dim">[resposta de exemplo — nota fiscal e condições ainda serão definidas]</span></p>
+    </details>
+  </div>
+</section>
+
+<!-- TELA 7 · CONTATO -->
+<section id="contato" class="screen">
+  <div class="sec-head">
+    <h2>Prefere falar com a gente?</h2>
+    <p>Dúvidas sobre cursos, trilhas ou certificados — escreva e a gente responde.</p>
+  </div>
+
+  <!-- e-mail e newsletter dividem a linha ao meio; no celular empilham -->
+  <div class="contato-linha">
+    <a class="canal canal-destaque" href="mailto:contact@codeschool.ing">
+      <span class="canal-icone" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+      </span>
+      <span><span class="canal-rotulo">e-mail</span><span class="canal-valor">contact@codeschool.ing</span></span>
+    </a>
+
+    <form class="news" id="news-form" novalidate>
+      <div class="news-copy">
+        <span class="news-tag">// newsletter</span>
+        <p>Novas turmas, cursos e conteúdo gratuito de tecnologia. Sem spam.</p>
+      </div>
+      <div class="news-linha">
+        <label class="news-prompt" for="news-email"><span class="pr">$</span> inscrever --email</label>
+        <input type="email" id="news-email" placeholder="voce@exemplo.com" required autocomplete="email" />
+        <button type="submit" class="btn btn-primary news-btn">assinar →</button>
+      </div>
+      <p class="news-status" id="news-status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <div class="social-grade">
+    <a class="social" href="https://www.linkedin.com/company/codeschool-ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="19" height="19" rx="4"/><circle cx="7.6" cy="7.8" r="1.3" fill="currentColor" stroke="none"/><path d="M7.6 10.5V17M11.5 17v-6.5m0 2.2c0-1.2 1-2.2 2.2-2.2s2.3 1 2.3 2.2V17" stroke-linecap="round"/></svg>
+      <span class="s-nome">LinkedIn</span><span class="s-user">/codeschool-ing</span><span class="s-seta" aria-hidden="true">↗</span>
+    </a>
+    <a class="social" href="https://www.instagram.com/codeschool.ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+      <span class="s-nome">Instagram</span><span class="s-user">@codeschool.ing</span><span class="s-seta" aria-hidden="true">↗</span>
+    </a>
+    <a class="social" href="https://www.facebook.com/codeschool.ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="19" height="19" rx="4"/><path d="M14.8 8h-1.6c-.9 0-1.5.6-1.5 1.5V21M9.5 12.5h5" stroke-linecap="round"/></svg>
+      <span class="s-nome">Facebook</span><span class="s-user">/codeschool.ing</span><span class="s-seta" aria-hidden="true">↗</span>
+    </a>
+    <a class="social" href="https://www.tiktok.com/@codeschool.ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M14.5 4v9.5a4 4 0 1 1-4-4"/><path d="M14.5 5.5c.5 2 2 3.5 4.5 3.8"/></svg>
+      <span class="s-nome">TikTok</span><span class="s-user">@codeschool.ing</span><span class="s-seta" aria-hidden="true">↗</span>
+    </a>
+    <a class="social" href="https://www.youtube.com/@codeschool.ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.2 9.2v5.6l4.6-2.8-4.6-2.8Z" fill="currentColor" stroke="none"/></svg>
+      <span class="s-nome">YouTube</span><span class="s-user">@codeschool.ing</span><span class="s-seta" aria-hidden="true">↗</span>
+    </a>
+  </div>
+
+  <div class="foot-slim">
+    <span>© <span id="ano"></span> codeschool.ing</span>
+    <div class="foot-links">
+      <a href="https://github.com/codeschool-ing">github</a>
+    </div>
+    <span>feito no Brasil · para qualquer lugar</span>
+  </div>
+</section>
+
+<!-- detalhe do curso -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <div class="term-bar">
+      <span class="dot d-r"></span><span class="dot d-y"></span><span class="dot d-g"></span>
+      <span class="modal-arquivo" id="modal-arquivo"></span>
+      <button class="modal-fechar" id="modal-fechar" aria-label="Fechar">×</button>
+    </div>
+    <div class="modal-corpo" id="modal-corpo"></div>
+  </div>
+</div>
+
+<!-- inscrição: abre pelos botões dos planos e pelo "Comece agora" do topo.
+     Quando vem de um plano, o plano é o cabeçalho e o formulário fica com
+     dois campos; quando vem do topo, aparece o seletor de plano. -->
+<div class="modal" id="modal-assinar" hidden>
+  <div class="modal-caixa modal-estreito" role="dialog" aria-modal="true" aria-labelledby="assinar-titulo">
+    <div class="term-bar">
+      <span class="dot d-r"></span><span class="dot d-y"></span><span class="dot d-g"></span>
+      <span class="modal-arquivo">assinatura.novo</span>
+      <button class="modal-fechar" id="assinar-fechar" aria-label="Fechar">×</button>
+    </div>
+    <div class="modal-corpo assinar-corpo">
+      <h3 id="assinar-titulo">Comece agora</h3>
+      <p class="assinar-sub">Deixe seu contato: a gente ajuda a escolher o plano certo e explica as formas de pagamento. Sem compromisso.</p>
+      <p class="assinar-plano" id="assinar-plano" hidden><span class="assinar-plano-rotulo">plano</span><strong id="assinar-plano-nome"></strong></p>
+      <form class="form-assinar" id="form-matricula" novalidate>
+        <div class="campo">
+          <label for="m-nome">nome</label>
+          <input type="text" id="m-nome" required placeholder="seu nome completo" autocomplete="name" />
+        </div>
+        <div class="campo">
+          <label for="m-contato">whatsapp ou e-mail</label>
+          <input type="text" id="m-contato" required placeholder="(45) 90000-0000" autocomplete="tel" />
+        </div>
+        <div class="campo" id="campo-plano">
+          <label for="m-plano">plano</label>
+          <select id="m-plano"></select>
+        </div>
+        <button type="submit" class="btn btn-primary">Comece agora →</button>
+        <p class="form-status" id="form-status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="assets/dados.js"></script>
+<script src="assets/i18n.js"></script>
+<script src="assets/i18n-cursos-en.js"></script>
+<script src="assets/i18n-cursos-es.js"></script>
+<script src="assets/i18n-cursos-fr.js"></script>
+<script src="assets/i18n-cursos-it.js"></script>
+<script src="assets/i18n-runtime.js"></script>
+<script src="assets/script.js"></script>
+</body>
+</html>
