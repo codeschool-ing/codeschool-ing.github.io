@@ -354,6 +354,38 @@ A ementa **condensa**; os tópicos **listam**. É `topicos` que carrega os itens
 - **Curso**: conceito em português (`Infraestrutura como Código`), nome próprio de tecnologia intacto (`JavaScript`, `Node.js`, `GitOps`, `Python`).
 - **Trilha**: nome em português (`Desenvolvimento Front-end`), e o cargo em inglês — como o mercado anuncia a vaga — no campo `saida` (`Front-end Developer júnior`).
 
+### A unidade intermediária: a decisão que fica para a Etapa 2
+
+**Entre "um curso" e "a trilha inteira" não existe nada, e as trilhas de carreira são longas:**
+
+| trilha | cursos | horas |
+| --- | --- | --- |
+| Engenharia de Dados | 17 | 1.040h |
+| DevSecOps | 16 | 970h |
+| Segurança Cibernética | 15 | 970h |
+| Business Intelligence | 14 | 900h |
+
+Oito das treze passam de 720h. É muito tempo sem nenhum marco de chegada — e é exatamente o buraco que a Alura preenche com o nível a mais que ela tem.
+
+**A Alura empilha; aqui as famílias ficam lado a lado.** Lá vale `Carreira ⊃ Trilha ⊃ Curso`: a Trilha é um recorte por assunto *dentro* de uma Carreira, e é a ela que o certificado se prende. Aqui, `carreira` e `tecnologia` são duas espécies do mesmo nível, e abaixo delas só existe o curso.
+
+A diferença não é cosmética. A hierarquia obriga cada curso a ter um pai só, e este catálogo não cabe nisso: **43 dos 86 cursos estão em duas ou mais trilhas** — `web-fundamentos` está em 11, `git`, `python` e `linux-terminal` em 8. São 192 vagas para 86 cursos distintos, fator de reuso de 2,23x. Numa árvore isso vira duplicação; é o grafo que sustenta a promessa de que ninguém estuda a mesma coisa duas vezes.
+
+Ou seja: a separação por família resolve **por onde entrar**; a Trilha da Alura resolve **como saber que avançou**. São problemas ortogonais, e só o primeiro está resolvido aqui.
+
+**Por que não agora.** A mudança é aditiva — um campo novo em `TRILHAS` não invalida o `cursos` que já existe, nada migra e nenhum link morre. O custo só salta no **primeiro certificado emitido para aluno real**, porque a partir dali trocar a unidade de certificação vira reemissão ou exceção. Esse prazo é o do LMS, não o da vitrine.
+
+**A armadilha é a mesma do caso Go.** O eixo óbvio para cortar uma trilha em blocos é fundamental / intermediário / avançado — e ele já foi rejeitado um andar abaixo, quando o Go foi dividido: nível não descreve capacidade, `nivel` já é campo, e quem termina o bloco "intermediário" não sabe dizer o que sabe fazer. Blocar por nível repetiria o erro com outro nome.
+
+**O que falta decidir, em ordem:**
+
+1. **O eixo.** Se não é nível, é o quê? O candidato coerente com o resto do catálogo é *capacidade* — cada bloco entrega algo que o aluno passa a saber fazer, como os quatro cursos de Go. O candidato mais ambicioso é *saída parcial empregável*: o bloco termina onde já dá para trabalhar de alguma coisa.
+2. **O nome.** "Trilha" já está gasto no nível de cima e "etapa" já nomeia as colunas do grafo. Sobram *módulo* e *bloco*.
+3. **A âncora do certificado.** A topologia daqui cria uma pergunta que a da Alura não tem: as trilhas de tecnologia terminam em **leque com escolha terminal**, onde os caminhos não voltam a se juntar. Certificar "Domínio de Python" certifica qual ramo — todos, ou o escolhido?
+4. **O custo de tradução.** Nome de bloco é string traduzível. Treze trilhas com três ou quatro blocos cada são ~45 nomes novos × 4 idiomas.
+
+**O benefício que já existiria hoje** — 1.040h numa tela só é intimidante numa vitrine cujo trabalho é converter matrícula — é problema de *apresentação*, e não exige inventar a unidade de certificação para ser resolvido.
+
 ## Mapa de expansão
 
 Os roadmaps que aparecem **em azul** dentro dos roadmaps do roadmap.sh são outros roadmaps inteiros. Nem todos viram trilha — a classificação que guia o crescimento do catálogo:
