@@ -1,14 +1,9 @@
 {
-  "name": "codeschool.ing",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.12"
-    }
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": ["esbenp.prettier-vscode"]
-    }
+    "ghcr.io/aleogr/workspace/features/base:1": {},
+    "ghcr.io/aleogr/workspace/features/claude:1": {},
+    "ghcr.io/aleogr/workspace/features/node:1": {},
+    "ghcr.io/aleogr/workspace/features/vscode:1": {}
   }
 }
