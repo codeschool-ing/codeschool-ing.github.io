@@ -2,7 +2,7 @@
 """Gera um HTML único, sem dependências externas, para enviar ou abrir direto
 do disco (file://). Embute o CSS, os seis scripts e o favicon.
 
-    python3 bundle.py            -> escola-vitrine.html
+    python3 ferramentas/bundle.py  -> escola-vitrine.html (na raiz)
     python3 bundle.py saida.html
 
 O site continua sendo servido a partir de index.html + assets/. Este arquivo
@@ -14,17 +14,18 @@ import re
 import sys
 
 AQUI = pathlib.Path(__file__).parent
-SAIDA = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else AQUI / 'escola-vitrine.html'
+RAIZ = AQUI.parent  # o site fica na raiz; esta ferramenta mora em ferramentas/
+SAIDA = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / 'escola-vitrine.html'
 
-html = (AQUI / 'index.html').read_text(encoding='utf-8')
+html = (RAIZ / 'index.html').read_text(encoding='utf-8')
 
 
 def ler(rel):
-    return (AQUI / rel).read_text(encoding='utf-8')
+    return (RAIZ / rel).read_text(encoding='utf-8')
 
 
 # favicon como data: URI
-favicon = base64.b64encode((AQUI / 'assets/favicon.svg').read_bytes()).decode()
+favicon = base64.b64encode((RAIZ / 'assets/favicon.svg').read_bytes()).decode()
 html = html.replace(
     'href="assets/favicon.svg"',
     'href="data:image/svg+xml;base64,' + favicon + '"',

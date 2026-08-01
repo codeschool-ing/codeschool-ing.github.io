@@ -1,5 +1,5 @@
 const fs = require('fs');
-const src = fs.readFileSync('assets/dados.js', 'utf8');
+const src = fs.readFileSync(require('path').join(__dirname,'..','assets','dados.js'), 'utf8');
 const { CURSOS, TRILHAS } = (new Function(src + '; return {CURSOS, TRILHAS};'))();
 const ids = new Set(CURSOS.map(c => c.id));
 let erros = 0;

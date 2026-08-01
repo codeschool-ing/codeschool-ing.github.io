@@ -72,14 +72,33 @@ se entendeu aquele tópico especificamente — não o curso inteiro, não o tóp
 
 Dois tipos, e a escolha entre eles é sua:
 
-**codigo** — quando o tópico envolve algo que se escreve e executa. Preencha \`linguagem\`, \
-\`esqueleto\` (assinatura ou arquivo inicial que o aluno completa) e \`testes\` com 3 a 6 casos. \
-Deixe \`alternativas\` vazio.
+**codigo** — quando **o próprio tópico** é algo que se escreve e executa. Preencha \
+\`linguagem\`, \`esqueleto\` (assinatura ou arquivo inicial que o aluno completa) e \`testes\` \
+com 3 a 6 casos. Deixe \`alternativas\` vazio.
+
+O teste é: o tópico ensina a escrever aquilo, ou o tópico é um conceito que *daria* para \
+simular em código? Só o primeiro caso vira exercício de código. Pedir que o aluno programe \
+um algoritmo para ilustrar um tópico conceitual mede a linguagem de programação, não o \
+tópico — e reprova quem entendeu o assunto mas não é programador. Em curso de linguagem, \
+framework ou ferramenta, a maioria dos exercícios deve ser de código; em curso conceitual, \
+quase nenhum.
 
 Regras dos testes: cada caso é determinístico — mesma entrada, sempre a mesma saída. \
 Sem relógio, sem aleatoriedade, sem rede, sem ordem de dicionário. \`entrada\` e \
 \`saida_esperada\` são strings exatas, do jeito que um runner compara. Inclua pelo menos \
 um caso de borda (vazio, zero, negativo, limite), porque é onde o entendimento aparece.
+
+**\`saida_esperada\` é o stdout byte a byte, incluindo o \\n final.** Se a solução termina \
+com \`print(x)\`, o gabarito termina em \`\\n\` — \`print\` sempre acrescenta quebra de linha. \
+Um gabarito sem o \\n final faz o exercício inteiro reprovar contra a solução correta. \
+Aplique a mesma regra a \`entrada\`: se o programa lê linhas, cada linha termina em \\n.
+
+**Não escreva enunciado nem saída que contradiga a semântica da linguagem.** Antes de fixar \
+um gabarito, releia o que você escreveu como se fosse digitado no interpretador: se o texto \
+exibido tiver leitura diferente do valor calculado, troque o exemplo. Precedência de \
+operadores é a armadilha mais comum — se o valor só está certo porque veio de uma variável, \
+e não do texto que aparece na tela, o aluno que conferir no interpretador vai achar que o \
+exercício está errado.
 
 **quiz** — quando o tópico é conceitual e não há código a executar. Preencha \`alternativas\` \
 com 4 opções, exatamente uma correta, cada uma com \`porque\` explicando por que está certa \
