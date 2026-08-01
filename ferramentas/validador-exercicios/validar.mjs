@@ -21,10 +21,14 @@ import { execFileSync } from 'node:child_process';
 
 const MODELO = 'claude-opus-5';
 
+/* Candidatos por linguagem, em ordem de preferência: ambientes variam — um Codespace
+ * de projeto Node pode não ter "python3" e ter "python", ou só a versão com número. */
 const EXECUTORES = {
-  python: { cmd: 'python3', args: (src) => ['-c', src] },
-  javascript: { cmd: 'node', args: (src) => ['-e', src] },
+  python: { candidatos: ['python3', 'python', 'python3.12', 'python3.11'], args: (src) => ['-c', src] },
+  javascript: { candidatos: ['node', 'nodejs'], args: (src) => ['-e', src] },
 };
+
+const RESOLVIDO = {}; // linguagem -> comando que funciona
 
 /* ---- argumentos ---------------------------------------------------------- */
 
@@ -147,9 +151,10 @@ ${e.esqueleto}
 
 function rodarCaso(linguagem, src, teste) {
   const exec = EXECUTORES[linguagem];
-  if (!exec) return { ok: false, motivo: `linguagem "${linguagem}" não suportada pelo validador` };
+  const cmd = RESOLVIDO[linguagem];
+  if (!exec || !cmd) return { ok: false, motivo: `linguagem "${linguagem}" não suportada pelo validador` };
   try {
-    const saida = execFileSync(exec.cmd, exec.args(src), {
+    const saida = execFileSync(cmd, exec.args(src), {
       input: teste.entrada ?? '',
       encoding: 'utf8',
       timeout: TIMEOUT,
@@ -159,9 +164,43 @@ function rodarCaso(linguagem, src, teste) {
     return { ok: false, motivo: 'saída diferente', esperado: teste.saida_esperada, obtido: saida };
   } catch (err) {
     if (err.code === 'ETIMEDOUT') return { ok: false, motivo: `estourou ${TIMEOUT / 1000}s` };
-    const stderr = (err.stderr ?? '').toString().trim().split('\n').pop();
-    return { ok: false, motivo: 'erro na execução', obtido: stderr };
+    // Nunca engolir a causa: quando o interpretador não existe o stderr vem vazio
+    // e só o err.code diz o que houve.
+    const stderr = (err.stderr ?? '').toString().trim();
+    const detalhe = stderr ? stderr.split('\n').pop() : `${err.code ?? 'erro'}: ${err.message.split('\n')[0]}`;
+    return { ok: false, motivo: 'erro na execução', obtido: detalhe };
   }
+}
+
+/* Confere que os interpretadores existem antes de acusar o conteúdo. Sem isso, um
+ * python3 ausente vira "8 exercícios reprovados" e manda você caçar defeito onde
+ * não tem. */
+function conferirInterpretadores(linguagens) {
+  const faltando = [];
+  for (const lang of linguagens) {
+    const exec = EXECUTORES[lang];
+    if (!exec) {
+      faltando.push(`${lang}: o validador não sabe executar essa linguagem`);
+      continue;
+    }
+    const tentado = [];
+    for (const cmd of exec.candidatos) {
+      try {
+        execFileSync(cmd, exec.args(lang === 'python' ? 'pass' : ';'), {
+          input: '',
+          encoding: 'utf8',
+          timeout: 10000,
+          stdio: ['pipe', 'pipe', 'pipe'],
+        });
+        RESOLVIDO[lang] = cmd;
+        break;
+      } catch {
+        tentado.push(cmd);
+      }
+    }
+    if (!RESOLVIDO[lang]) faltando.push(`${lang}: nenhum destes está no PATH — ${tentado.join(', ')}`);
+  }
+  return faltando;
 }
 
 /* ---- passada principal --------------------------------------------------- */
@@ -169,6 +208,17 @@ function rodarCaso(linguagem, src, teste) {
 const aprovados = [];
 const reprovados = [];
 const uso = { input_tokens: 0, output_tokens: 0, cache_read_input_tokens: 0, cache_creation_input_tokens: 0 };
+
+if (!soEstrutura) {
+  const linguagens = [...new Set(exercicios.filter((e) => e.tipo === 'codigo').map((e) => e.linguagem).filter(Boolean))];
+  const faltando = conferirInterpretadores(linguagens);
+  if (faltando.length) {
+    console.error('Não dá para validar exercícios de código neste ambiente:');
+    for (const f of faltando) console.error(`  · ${f}`);
+    console.error('\nInstale o que falta, ou rode com --so-estrutura para conferir só a estrutura.');
+    process.exit(2);
+  }
+}
 
 for (const [i, e] of exercicios.entries()) {
   const rotulo = `[${String(i + 1).padStart(2)}/${exercicios.length}] ${e.tipo.padEnd(6)} ${e.topico.slice(0, 44)}`;
