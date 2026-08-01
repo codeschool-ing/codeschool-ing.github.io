@@ -1,3 +1,7 @@
 # Saída do bundle.py: gerada a partir de index.html + assets/.
 # Serve para enviar por e-mail ou abrir do disco, não para publicar.
 /escola-vitrine.html
+
+# Ferramentas de catálogo: dependências e saída gerada.
+node_modules/
+ferramentas/gerador-exercicios/exercicios-*.json
