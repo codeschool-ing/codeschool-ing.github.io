@@ -159,9 +159,38 @@ function rodarCaso(linguagem, src, teste) {
     return { ok: false, motivo: 'saída diferente', esperado: teste.saida_esperada, obtido: saida };
   } catch (err) {
     if (err.code === 'ETIMEDOUT') return { ok: false, motivo: `estourou ${TIMEOUT / 1000}s` };
-    const stderr = (err.stderr ?? '').toString().trim().split('\n').pop();
-    return { ok: false, motivo: 'erro na execução', obtido: stderr };
+    // Nunca engolir a causa: quando o interpretador não existe o stderr vem vazio
+    // e só o err.code diz o que houve.
+    const stderr = (err.stderr ?? '').toString().trim();
+    const detalhe = stderr ? stderr.split('\n').pop() : `${err.code ?? 'erro'}: ${err.message.split('\n')[0]}`;
+    return { ok: false, motivo: 'erro na execução', obtido: detalhe };
   }
+}
+
+/* Confere que os interpretadores existem antes de acusar o conteúdo. Sem isso, um
+ * python3 ausente vira "8 exercícios reprovados" e manda você caçar defeito onde
+ * não tem. */
+function conferirInterpretadores(linguagens) {
+  const faltando = [];
+  for (const lang of linguagens) {
+    const exec = EXECUTORES[lang];
+    if (!exec) {
+      faltando.push(`${lang} (o validador não sabe executar)`);
+      continue;
+    }
+    try {
+      execFileSync(exec.cmd, exec.args(lang === 'python' ? 'pass' : ';'), {
+        input: '',
+        encoding: 'utf8',
+        timeout: 10000,
+        stdio: ['pipe', 'pipe', 'pipe'],
+      });
+    } catch (err) {
+      if (err.code === 'ENOENT') faltando.push(`${lang}: comando "${exec.cmd}" não encontrado no PATH`);
+      else faltando.push(`${lang}: "${exec.cmd}" falhou (${err.code ?? err.status})`);
+    }
+  }
+  return faltando;
 }
 
 /* ---- passada principal --------------------------------------------------- */
@@ -169,6 +198,17 @@ function rodarCaso(linguagem, src, teste) {
 const aprovados = [];
 const reprovados = [];
 const uso = { input_tokens: 0, output_tokens: 0, cache_read_input_tokens: 0, cache_creation_input_tokens: 0 };
+
+if (!soEstrutura) {
+  const linguagens = [...new Set(exercicios.filter((e) => e.tipo === 'codigo').map((e) => e.linguagem).filter(Boolean))];
+  const faltando = conferirInterpretadores(linguagens);
+  if (faltando.length) {
+    console.error('Não dá para validar exercícios de código neste ambiente:');
+    for (const f of faltando) console.error(`  · ${f}`);
+    console.error('\nInstale o que falta, ou rode com --so-estrutura para conferir só a estrutura.');
+    process.exit(2);
+  }
+}
 
 for (const [i, e] of exercicios.entries()) {
   const rotulo = `[${String(i + 1).padStart(2)}/${exercicios.length}] ${e.tipo.padEnd(6)} ${e.topico.slice(0, 44)}`;

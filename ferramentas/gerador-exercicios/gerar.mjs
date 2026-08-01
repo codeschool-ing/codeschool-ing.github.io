@@ -277,6 +277,15 @@ ${lote.map((t, i) => `${i + 1}. ${t}`).join('\n')}`;
 /* ---- saída e custo ------------------------------------------------------- */
 
 const saida = path.join(AQUI, `exercicios-${curso.id}.json`);
+
+// Não sobrescrever em silêncio: a rodada anterior custou dinheiro e pode conter
+// correções feitas à mão.
+if (fs.existsSync(saida)) {
+  const anterior = saida.replace(/\.json$/, `.${new Date().toISOString().replace(/[:.]/g, '-')}.json`);
+  fs.renameSync(saida, anterior);
+  console.log(`(a rodada anterior virou ${path.basename(anterior)})`);
+}
+
 fs.writeFileSync(
   saida,
   JSON.stringify({ curso: curso.id, modelo: MODELO, gerado_em: new Date().toISOString(), exercicios: todos }, null, 2),

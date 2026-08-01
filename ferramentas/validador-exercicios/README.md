@@ -61,5 +61,8 @@ passe de crítica com o tópico em contexto, que ainda não existe.
 mais. Não rode um JSON que você não gerou. Para volume, rode dentro de contêiner
 descartável — que é como o portal vai ter de executar código de aluno de qualquer forma.
 
-Linguagens suportadas: `python` (python3) e `javascript` (node). Outras reprovam com aviso
-explícito em vez de passar batido.
+Linguagens suportadas: `python` (python3) e `javascript` (node). Antes de validar qualquer
+coisa, o script confere que os interpretadores existem e **para com código 2** se faltar
+algum — sem isso, um `python3` ausente vira "8 exercícios reprovados" e manda você caçar
+defeito no conteúdo. Códigos de saída: `0` tudo aprovado, `1` algum exercício reprovou,
+`2` o ambiente não permite validar.
