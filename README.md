@@ -24,7 +24,8 @@ assets/i18n-runtime.js→ detecção de idioma, troca e reaplicação
 assets/style.css      → estilos
 assets/script.js      → trilhas, catálogo, modal de curso, modal de inscrição
 assets/favicon.svg    → chevron e cursor do prompt, nas cores do tema
-ferramentas/          → utilitários de catálogo, fora do site
+ferramentas/          → utilitários, fora do site
+  bundle.py           → gera o HTML único; escreve na raiz
   valida-catalogo.js  → confere depende: ids inexistentes e ciclos
   gerador-exercicios/ → gera exercícios auto-corrigíveis a partir dos tópicos
 ```
@@ -627,4 +628,4 @@ O formulário de matrícula continua aceitando telefone com máscara: quem prefe
 
 O destino é `codeschool-ing/codeschool-ing.github.io`, que é o Pages da organização: o conteúdo vai na **raiz** do repositório, não em `escola/`. Para o domínio próprio, um arquivo `CNAME` na raiz com uma linha, `codeschool.ing`, e o DNS apontando para o GitHub — `A` para os quatro endereços do Pages, ou `ALIAS`/`ANAME` para `codeschool-ing.github.io`.
 
-Não há build: é copiar `index.html` e `assets/` e commitar. O `escola-vitrine.html` do `bundle.py` serve para mandar por e-mail ou abrir do disco, não para publicar — no Pages os arquivos separados são melhores, porque o navegador cacheia cada um.
+Não há build: é copiar `index.html` e `assets/` e commitar. O `escola-vitrine.html` do `ferramentas/bundle.py` serve para mandar por e-mail ou abrir do disco, não para publicar — no Pages os arquivos separados são melhores, porque o navegador cacheia cada um.
