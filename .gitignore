@@ -4,4 +4,4 @@
 
 # Ferramentas de catálogo: dependências e saída gerada.
 node_modules/
-ferramentas/gerador-exercicios/exercicios-*.json
+ferramentas/*/exercicios-*.json

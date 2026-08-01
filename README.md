@@ -24,10 +24,11 @@ assets/i18n-runtime.js→ detecção de idioma, troca e reaplicação
 assets/style.css      → estilos
 assets/script.js      → trilhas, catálogo, modal de curso, modal de inscrição
 assets/favicon.svg    → chevron e cursor do prompt, nas cores do tema
-ferramentas/          → utilitários, fora do site
-  bundle.py           → gera o HTML único; escreve na raiz
-  valida-catalogo.js  → confere depende: ids inexistentes e ciclos
+ferramentas/          → utilitários, fora do site; uma pasta por ferramenta
+  bundle/             → gera o HTML único; escreve na raiz
+  valida-catalogo/    → confere depende: ids inexistentes e ciclos
   gerador-exercicios/ → gera exercícios auto-corrigíveis a partir dos tópicos
+  validador-exercicios/ → reprova exercício cuja solução não passa nos próprios casos
 ```
 
 ## Componentes que trocam de forma conforme a largura

@@ -14,7 +14,7 @@ import re
 import sys
 
 AQUI = pathlib.Path(__file__).parent
-RAIZ = AQUI.parent  # o site fica na raiz; esta ferramenta mora em ferramentas/
+RAIZ = AQUI.parent.parent  # o site fica na raiz; esta ferramenta mora em ferramentas/bundle/
 SAIDA = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / 'escola-vitrine.html'
 
 html = (RAIZ / 'index.html').read_text(encoding='utf-8')
