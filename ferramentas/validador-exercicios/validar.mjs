@@ -21,10 +21,14 @@ import { execFileSync } from 'node:child_process';
 
 const MODELO = 'claude-opus-5';
 
+/* Candidatos por linguagem, em ordem de preferência: ambientes variam — um Codespace
+ * de projeto Node pode não ter "python3" e ter "python", ou só a versão com número. */
 const EXECUTORES = {
-  python: { cmd: 'python3', args: (src) => ['-c', src] },
-  javascript: { cmd: 'node', args: (src) => ['-e', src] },
+  python: { candidatos: ['python3', 'python', 'python3.12', 'python3.11'], args: (src) => ['-c', src] },
+  javascript: { candidatos: ['node', 'nodejs'], args: (src) => ['-e', src] },
 };
+
+const RESOLVIDO = {}; // linguagem -> comando que funciona
 
 /* ---- argumentos ---------------------------------------------------------- */
 
@@ -147,9 +151,10 @@ ${e.esqueleto}
 
 function rodarCaso(linguagem, src, teste) {
   const exec = EXECUTORES[linguagem];
-  if (!exec) return { ok: false, motivo: `linguagem "${linguagem}" não suportada pelo validador` };
+  const cmd = RESOLVIDO[linguagem];
+  if (!exec || !cmd) return { ok: false, motivo: `linguagem "${linguagem}" não suportada pelo validador` };
   try {
-    const saida = execFileSync(exec.cmd, exec.args(src), {
+    const saida = execFileSync(cmd, exec.args(src), {
       input: teste.entrada ?? '',
       encoding: 'utf8',
       timeout: TIMEOUT,
@@ -175,20 +180,25 @@ function conferirInterpretadores(linguagens) {
   for (const lang of linguagens) {
     const exec = EXECUTORES[lang];
     if (!exec) {
-      faltando.push(`${lang} (o validador não sabe executar)`);
+      faltando.push(`${lang}: o validador não sabe executar essa linguagem`);
       continue;
     }
-    try {
-      execFileSync(exec.cmd, exec.args(lang === 'python' ? 'pass' : ';'), {
-        input: '',
-        encoding: 'utf8',
-        timeout: 10000,
-        stdio: ['pipe', 'pipe', 'pipe'],
-      });
-    } catch (err) {
-      if (err.code === 'ENOENT') faltando.push(`${lang}: comando "${exec.cmd}" não encontrado no PATH`);
-      else faltando.push(`${lang}: "${exec.cmd}" falhou (${err.code ?? err.status})`);
+    const tentado = [];
+    for (const cmd of exec.candidatos) {
+      try {
+        execFileSync(cmd, exec.args(lang === 'python' ? 'pass' : ';'), {
+          input: '',
+          encoding: 'utf8',
+          timeout: 10000,
+          stdio: ['pipe', 'pipe', 'pipe'],
+        });
+        RESOLVIDO[lang] = cmd;
+        break;
+      } catch {
+        tentado.push(cmd);
+      }
     }
+    if (!RESOLVIDO[lang]) faltando.push(`${lang}: nenhum destes está no PATH — ${tentado.join(', ')}`);
   }
   return faltando;
 }

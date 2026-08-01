@@ -24,6 +24,7 @@ assets/i18n-runtime.js→ detecção de idioma, troca e reaplicação
 assets/style.css      → estilos
 assets/script.js      → trilhas, catálogo, modal de curso, modal de inscrição
 assets/favicon.svg    → chevron e cursor do prompt, nas cores do tema
+.devcontainer/        → Node 22 + Python 3.12, o que as ferramentas precisam
 ferramentas/          → utilitários, fora do site; uma pasta por ferramenta
   bundle/             → gera o HTML único; escreve na raiz
   valida-catalogo/    → confere depende: ids inexistentes e ciclos
