@@ -4,4 +4,9 @@
 
 # Ferramentas de catálogo: dependências e saída gerada.
 node_modules/
-ferramentas/*/exercicios-*.json
+
+# O conteúdo em si é versionado: exercicios-<curso>.json custa dinheiro e revisão para
+# existir. O que se ignora são os derivados de cada rodada — .validado, .reprovado,
+# .criticado, .rejeitado e as cópias com timestamp —, que se refazem rodando o pipeline
+# de novo. O padrão separa os dois pelo segundo ponto no nome.
+ferramentas/*/exercicios-*.*.json

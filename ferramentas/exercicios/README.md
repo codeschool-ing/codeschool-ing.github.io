@@ -46,6 +46,14 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 
 O custo sai por etapa e somado, numa conta só.
 
+### O que é versionado
+
+`exercicios-<curso>.json` vai para o repositório: é conteúdo, custou dinheiro e revisão para
+existir, e é a entrada de todo o resto. Os derivados de cada rodada — `.validado`,
+`.reprovado`, `.criticado`, `.rejeitado` e as cópias com timestamp — ficam de fora, porque
+se refazem rodando o pipeline sobre o mesmo arquivo. O `.gitignore` separa os dois pelo
+segundo ponto no nome (`exercicios-*.*.json`).
+
 ## Paralelismo
 
 As três etapas rodam com **4 chamadas simultâneas** por padrão (`--paralelo N`). O pipeline
