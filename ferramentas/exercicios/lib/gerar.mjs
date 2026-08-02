@@ -2,6 +2,7 @@
 import { contexto } from './catalogo.mjs';
 import { perguntar } from './claude.mjs';
 import { esquema, REGRAS_POR_TIPO, resumo } from './tipos.mjs';
+import { mapaConcorrente } from './paralelo.mjs';
 
 const REGRAS = (opcoes) => `Você escreve exercícios para uma escola de programação online que
 corrige tudo por máquina. Não existe professor do outro lado: um exercício que precise de
@@ -29,31 +30,31 @@ sem "neste exercício você irá". Nome próprio de tecnologia fica intacto.
 texto além do valor, qual separador decimal, se há espaço no fim da linha. O aluno não pode
 descobrir o contrato pelos casos de teste — ele não os vê.`;
 
-export async function gerar({ curso, topicos, tamLote, opcoes, aoProgredir }) {
+export async function gerar({ curso, topicos, tamLote, paralelo, opcoes, aoProgredir }) {
   const lotes = [];
   for (let i = 0; i < topicos.length; i += tamLote) lotes.push(topicos.slice(i, i + tamLote));
 
-  const todos = [];
-  for (const [n, lote] of lotes.entries()) {
-    aoProgredir?.(`lote ${n + 1}/${lotes.length} (${lote.length} tópicos)`);
+  const system = `${REGRAS(opcoes)}\n\n---\n\n${contexto(curso)}`;
 
+  const porLote = await mapaConcorrente(lotes, paralelo, async (lote, n, concluir) => {
     const r = await perguntar({
       etapa: 'gerar',
-      system: `${REGRAS(opcoes)}\n\n---\n\n${contexto(curso)}`,
+      system,
       esquema: esquema(opcoes),
       maxTokens: 32000,
       pergunta: `Escreva os exercícios para estes tópicos:\n\n${lote.map((t, i) => `${i + 1}. ${t}`).join('\n')}`,
     });
-
+    const feitos = concluir();
     if (r.erro) {
-      aoProgredir?.(`  falhou: ${r.erro}`, true);
-      continue;
+      aoProgredir?.(`  lote ${n + 1} falhou: ${r.erro}`, feitos, lotes.length);
+      return [];
     }
     const lidos = r.exercicios ?? [];
-    todos.push(...lidos);
-    aoProgredir?.(`  ${lidos.length} exercícios`, true);
-  }
-  return todos;
+    aoProgredir?.(`  lote ${n + 1}: ${lidos.length} exercícios`, feitos, lotes.length);
+    return lidos;
+  });
+
+  return porLote.flat();
 }
 
 export function contagemPorTipo(exercicios) {

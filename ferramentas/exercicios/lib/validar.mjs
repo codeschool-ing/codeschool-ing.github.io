@@ -10,6 +10,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { perguntar } from './claude.mjs';
 import { conferir } from './tipos.mjs';
+import { mapaConcorrente } from './paralelo.mjs';
 
 const EXECUTORES = {
   python: { candidatos: ['python3', 'python', 'python3.12', 'python3.11'], args: (src) => ['-c', src] },
@@ -117,67 +118,68 @@ async function solucaoDeReferencia(e) {
   });
 }
 
-export async function validar({ exercicios, opcoes, timeout, aoProgredir }) {
-  const aprovados = [];
-  const reprovados = [];
-
-  for (const e of exercicios) {
+export async function validar({ exercicios, opcoes, timeout, paralelo, aoProgredir }) {
+  const veredictos = await mapaConcorrente(exercicios, paralelo, async (e, _i, concluir) => {
+    const aprovados = [];
+    const reprovados = [];
+    const aoProgredirLocal = (ex, estado, detalhe, falhas) => aoProgredir?.(ex, estado, detalhe, falhas, concluir(), exercicios.length);
+    {
     const problemas = conferir(e, opcoes);
     if (problemas.length) {
-      aoProgredir?.(e, 'ESTRUTURA', problemas.join('; '));
+      aoProgredirLocal(e, 'ESTRUTURA', problemas.join('; '));
       reprovados.push({ ...e, _motivo: problemas });
-      continue;
+      return { aprovados, reprovados };
     }
 
     if (e.tipo === 'resposta-expressao') {
       const r = verificarExpressao(e, timeout);
       if (r.erro) {
-        aoProgredir?.(e, 'REPROVA', r.erro);
+        aoProgredirLocal(e, 'REPROVA', r.erro);
         reprovados.push({ ...e, _motivo: [r.erro] });
       } else if (r.pulou) {
         // Sem verificação, o gabarito não foi conferido por ninguém: aprovar seria dar
         // selo de qualidade a algo não checado.
         const m = 'sem verificação (verificacao_operacao: nenhuma) — gabarito não conferido';
-        aoProgredir?.(e, 'REPROVA', m);
+        aoProgredirLocal(e, 'REPROVA', m);
         reprovados.push({ ...e, _motivo: [m] });
       } else if (!r.ok) {
         const det = `gabarito "${r.gabarito}", mas a verificação calcula "${r.calculado}"`;
-        aoProgredir?.(e, 'REPROVA', det);
+        aoProgredirLocal(e, 'REPROVA', det);
         reprovados.push({ ...e, _motivo: [det] });
       } else {
-        aoProgredir?.(e, 'ok', `sympy recalcula e confere: ${r.calculado}`);
+        aoProgredirLocal(e, 'ok', `sympy recalcula e confere: ${r.calculado}`);
         aprovados.push(e);
       }
-      continue;
+      return { aprovados, reprovados };
     }
 
     if (e.tipo === 'saida-esperada') {
       const r = rodar(e.linguagem, e.codigo_dado, '', timeout);
       if (r.erro) {
-        aoProgredir?.(e, 'REPROVA', `o trecho não executa: ${r.erro}`);
+        aoProgredirLocal(e, 'REPROVA', `o trecho não executa: ${r.erro}`);
         reprovados.push({ ...e, _motivo: [`o trecho não executa: ${r.erro}`] });
       } else if (r.saida !== e.resposta) {
         const det = `gabarito ${JSON.stringify(e.resposta)}, o interpretador produz ${JSON.stringify(r.saida)}`;
-        aoProgredir?.(e, 'REPROVA', det);
+        aoProgredirLocal(e, 'REPROVA', det);
         reprovados.push({ ...e, _motivo: [det] });
       } else {
-        aoProgredir?.(e, 'ok', 'saída confere com o interpretador');
+        aoProgredirLocal(e, 'ok', 'saída confere com o interpretador');
         aprovados.push(e);
       }
-      continue;
+      return { aprovados, reprovados };
     }
 
     if (e.tipo !== 'codigo') {
-      aoProgredir?.(e, 'ok', '');
+      aoProgredirLocal(e, 'ok', '');
       aprovados.push(e);
-      continue;
+      return { aprovados, reprovados };
     }
 
     const ref = await solucaoDeReferencia(e);
     if (ref.erro) {
-      aoProgredir?.(e, 'SOLUÇÃO', ref.erro);
+      aoProgredirLocal(e, 'SOLUÇÃO', ref.erro);
       reprovados.push({ ...e, _motivo: [ref.erro] });
-      continue;
+      return { aprovados, reprovados };
     }
 
     const falhas = [];
@@ -189,15 +191,20 @@ export async function validar({ exercicios, opcoes, timeout, aoProgredir }) {
     }
 
     if (falhas.length) {
-      aoProgredir?.(e, 'REPROVA', `${falhas.length}/${e.testes.length} casos`, falhas);
+      aoProgredirLocal(e, 'REPROVA', `${falhas.length}/${e.testes.length} casos`, falhas);
       reprovados.push({ ...e, _motivo: falhas, _solucao_referencia: ref.solucao });
     } else {
-      aoProgredir?.(e, 'ok', `${e.testes.length}/${e.testes.length} casos`);
+      aoProgredirLocal(e, 'ok', `${e.testes.length}/${e.testes.length} casos`);
       aprovados.push({ ...e, _solucao_referencia: ref.solucao });
     }
-  }
+    }
+    return { aprovados, reprovados };
+  });
 
-  return { aprovados, reprovados };
+  return {
+    aprovados: veredictos.flatMap((v) => v.aprovados),
+    reprovados: veredictos.flatMap((v) => v.reprovados),
+  };
 }
 
 export function linguagensUsadas(exercicios) {

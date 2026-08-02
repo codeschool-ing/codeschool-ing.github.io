@@ -38,12 +38,27 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 | `--lote N` | 6 tópicos por chamada |
 | `--alternativas N` | 5 |
 | `--timeout N` | 10 s por caso de teste |
+| `--paralelo N` | 4 chamadas simultâneas |
 | `--so-estrutura` | validar sem API nem execução (grátis) |
 | `--so-sondas` | criticar sem o julgamento (mais barato) |
 | `--seco` | gerar sem chamar a API |
 | `--cursos` | lista os ids do catálogo |
 
 O custo sai por etapa e somado, numa conta só.
+
+## Paralelismo
+
+As três etapas rodam com **4 chamadas simultâneas** por padrão (`--paralelo N`). O pipeline
+passa quase todo o relógio esperando rede: um curso de 48 tópicos são ~200 exercícios, cada
+um com até quatro chamadas em série. Em sequência isso são horas de espera.
+
+**Os resultados voltam na ordem da entrada**, mesmo terminando fora de ordem — o arquivo
+gerado não pode depender de quem respondeu primeiro, senão duas rodadas iguais produzem
+arquivos diferentes. Conferido: `--paralelo 1` e `--paralelo 8` produzem JSON byte a byte
+idêntico.
+
+Suba o número se não bater rate limit; o SDK já repete 429 sozinho com recuo. Baixe para 1
+quando quiser depurar um erro sem saída interleaved.
 
 ## Os sete tipos
 

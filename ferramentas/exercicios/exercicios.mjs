@@ -41,6 +41,7 @@ const opcoes = { alternativas: num('alternativas', 5) };
 const TAM_LOTE = num('lote', 6);
 const MAX_TOPICOS = num('max', Infinity);
 const TIMEOUT = num('timeout', 10) * 1000;
+const PARALELO = num('paralelo', 4);
 
 const ehArquivo = alvo?.endsWith('.json');
 const de = txt('de', ehArquivo ? 'validar' : 'gerar');
@@ -65,6 +66,7 @@ opções
   --lote N           tópicos por chamada (padrão 6)
   --alternativas N   alternativas por questão (padrão 5)
   --timeout N        segundos por caso de teste (padrão 10)
+  --paralelo N       chamadas simultâneas (padrão 4; suba se não bater rate limit)
   --so-estrutura     validar sem API nem execução
   --so-sondas        criticar sem o julgamento
   --seco             gerar sem chamar a API
@@ -100,6 +102,7 @@ async function etapaGerar(cursoId) {
   console.log(`curso ........ ${curso.nome} (${curso.id})`);
   console.log(`tópicos ...... ${topicos.length} de ${curso.topicos.length}`);
   console.log(`alternativas . ${opcoes.alternativas} por questão`);
+  console.log(`paralelo ..... ${PARALELO} chamadas simultâneas`);
   console.log('');
 
   if (tem('seco')) {
@@ -112,8 +115,9 @@ async function etapaGerar(cursoId) {
     curso,
     topicos,
     tamLote: TAM_LOTE,
+    paralelo: PARALELO,
     opcoes,
-    aoProgredir: (m, fim) => (fim ? console.log(m) : process.stdout.write(m + ' ...')),
+    aoProgredir: (m, feitos, total) => console.log(`[${String(feitos).padStart(2)}/${total}] ${m}`),
   });
 
   const destino = path.join(AQUI, `exercicios-${curso.id}.json`);
@@ -152,8 +156,9 @@ async function etapaValidar({ caminho, dados }) {
     exercicios,
     opcoes: { ...opcoes, alternativas: dados.alternativas ?? opcoes.alternativas },
     timeout: TIMEOUT,
-    aoProgredir: (e, estado, detalhe, falhas) => {
-      console.log(`  ${rot(e)} ${estado}${detalhe ? '  ' + detalhe : ''}`);
+    paralelo: PARALELO,
+    aoProgredir: (e, estado, detalhe, falhas, feitos, total) => {
+      console.log(`[${String(feitos).padStart(3)}/${total}] ${rot(e)} ${estado}${detalhe ? '  ' + detalhe : ''}`);
       for (const f of (falhas ?? []).slice(0, 2)) {
         console.log(`     caso ${f.caso} (${f.descricao}): ${f.motivo}`);
         if (f.esperado !== undefined) {
@@ -182,9 +187,10 @@ async function etapaCriticar({ caminho, dados }) {
     exercicios,
     curso,
     soSondas: tem('so-sondas'),
-    aoProgredir: (e, estado, achados) => {
+    paralelo: PARALELO,
+    aoProgredir: (e, estado, achados, feitos, total) => {
       const n = Array.isArray(achados) ? achados.length : 0;
-      console.log(`  ${rot(e)} ${estado}${estado === 'ok' && n ? `  (${n} ressalva menor)` : ''}`);
+      console.log(`[${String(feitos).padStart(3)}/${total}] ${rot(e)} ${estado}${estado === 'ok' && n ? `  (${n} ressalva menor)` : ''}`);
       if (estado === 'REPROVA') for (const a of achados) console.log(`     [${a.dimensao}] ${a.explicacao}`);
     },
   });

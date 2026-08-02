@@ -6,6 +6,7 @@
  */
 import { contexto } from './catalogo.mjs';
 import { perguntar } from './claude.mjs';
+import { mapaConcorrente } from './paralelo.mjs';
 
 /* ---- sonda: responder às cegas -------------------------------------------- */
 
@@ -193,11 +194,8 @@ ${e.dica_socratica}`,
 
 /* ---- passada -------------------------------------------------------------- */
 
-export async function criticar({ exercicios, curso, soSondas, aoProgredir }) {
-  const aprovados = [];
-  const reprovados = [];
-
-  for (const e of exercicios) {
+export async function criticar({ exercicios, curso, soSondas, paralelo, aoProgredir }) {
+  const veredictos = await mapaConcorrente(exercicios, paralelo, async (e, _i, concluir) => {
     const achados = [];
 
     if (COM_ALTERNATIVAS.has(e.tipo)) {
@@ -232,14 +230,17 @@ export async function criticar({ exercicios, curso, soSondas, aoProgredir }) {
     }
 
     const graves = achados.filter((a) => a.gravidade === 'alta');
+    const feitos = concluir();
     if (graves.length) {
-      aoProgredir?.(e, 'REPROVA', graves);
-      reprovados.push({ ...e, _critica: achados });
-    } else {
-      aoProgredir?.(e, 'ok', achados);
-      aprovados.push(achados.length ? { ...e, _critica: achados } : e);
+      aoProgredir?.(e, 'REPROVA', graves, feitos, exercicios.length);
+      return { reprovado: { ...e, _critica: achados } };
     }
-  }
+    aoProgredir?.(e, 'ok', achados, feitos, exercicios.length);
+    return { aprovado: achados.length ? { ...e, _critica: achados } : e };
+  });
 
-  return { aprovados, reprovados };
+  return {
+    aprovados: veredictos.filter((v) => v.aprovado).map((v) => v.aprovado),
+    reprovados: veredictos.filter((v) => v.reprovado).map((v) => v.reprovado),
+  };
 }
