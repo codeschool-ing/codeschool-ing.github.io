@@ -1,0 +1,10 @@
+{
+  "name": "exercicios",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Pipeline de exercicios do catalogo: gerar, validar e criticar",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0"
+  }
+}
