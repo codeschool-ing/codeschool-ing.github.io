@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /* Pipeline de exercícios do catálogo: gerar → validar → criticar.
  *
- *   node exercicios.mjs tudo     python --max 3     encadeia as três etapas
- *   node exercicios.mjs gerar    python --max 3
- *   node exercicios.mjs validar  exercicios-python.json
- *   node exercicios.mjs criticar exercicios-python.validado.json
- *   node exercicios.mjs cursos                      lista os ids do catálogo
+ *   node exercicios.mjs python --max 3          o ciclo inteiro (padrão)
+ *   node exercicios.mjs python --ate gerar      para depois de gerar
+ *   node exercicios.mjs arquivo.json            retoma: valida e critica
+ *   node exercicios.mjs arquivo.json --de criticar
+ *   node exercicios.mjs --cursos
  *
- * Cada etapa continua servindo sozinha: dá para validar um arquivo corrigido à mão sem
- * regerar, ou recriticar depois de ajustar um gabarito.
+ * O alvo é um id de curso ou um arquivo .json — o script distingue pelo sufixo. Retomar de
+ * um arquivo é o que torna barato corrigir um gabarito à mão e reconferir sem regerar.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,18 +18,22 @@ import { relatorio } from './lib/claude.mjs';
 import { gerar, contagemPorTipo } from './lib/gerar.mjs';
 import { validar, conferirInterpretadores, linguagensUsadas } from './lib/validar.mjs';
 import { criticar } from './lib/criticar.mjs';
-import { resumo, TIPOS } from './lib/tipos.mjs';
+import { TIPOS } from './lib/tipos.mjs';
 
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
+const ETAPAS = ['gerar', 'validar', 'criticar'];
 
 /* ---- argumentos ---------------------------------------------------------- */
 
 const argv = process.argv.slice(2);
-const comando = argv[0];
-const alvo = argv[1] && !argv[1].startsWith('--') ? argv[1] : null;
-const num = (nome, padrao) => {
+const alvo = argv.find((a) => !a.startsWith('--'));
+const txt = (nome, padrao) => {
   const i = argv.indexOf('--' + nome);
-  return i === -1 ? padrao : Number(argv[i + 1]);
+  return i === -1 ? padrao : argv[i + 1];
+};
+const num = (nome, padrao) => {
+  const v = txt(nome, null);
+  return v === null ? padrao : Number(v);
 };
 const tem = (nome) => argv.includes('--' + nome);
 
@@ -38,33 +42,44 @@ const TAM_LOTE = num('lote', 6);
 const MAX_TOPICOS = num('max', Infinity);
 const TIMEOUT = num('timeout', 10) * 1000;
 
-const AJUDA = `uso: node exercicios.mjs <comando> [alvo] [opções]
+const ehArquivo = alvo?.endsWith('.json');
+const de = txt('de', ehArquivo ? 'validar' : 'gerar');
+const ate = txt('ate', 'criticar');
 
-comandos
-  tudo <curso>       gerar, validar e criticar em sequência
-  gerar <curso>      escreve exercícios a partir dos tópicos
-  validar <arquivo>  confere estrutura e executa o que executa
-  criticar <arquivo> julga alvo, ambiguidade, gabarito e distratores
-  cursos             lista os ids do catálogo
+const AJUDA = `uso: node exercicios.mjs <curso|arquivo.json> [opções]
+
+O padrão é rodar o ciclo inteiro: gerar, validar e criticar.
+
+  node exercicios.mjs python --max 3        gera, valida e critica
+  node exercicios.mjs python --ate gerar    só gera
+  node exercicios.mjs saida.json            retoma: valida e critica
+  node exercicios.mjs saida.json --de criticar --ate criticar
+
+etapas
+  --de <etapa>       por onde começar (padrão: gerar, ou validar se o alvo é .json)
+  --ate <etapa>      onde parar (padrão: criticar)
+                     etapas: ${ETAPAS.join(', ')}
 
 opções
-  --max N            só os N primeiros tópicos (use na primeira vez)
+  --max N            só os N primeiros tópicos — use na primeira vez, custa centavos
   --lote N           tópicos por chamada (padrão 6)
   --alternativas N   alternativas por questão (padrão 5)
   --timeout N        segundos por caso de teste (padrão 10)
   --so-estrutura     validar sem API nem execução
   --so-sondas        criticar sem o julgamento
   --seco             gerar sem chamar a API
+  --cursos           lista os ids do catálogo
 
 tipos: ${TIPOS.join(', ')}`;
 
 /* ---- utilidades ---------------------------------------------------------- */
 
 const rot = (e) => `${e.tipo.padEnd(16)} ${(e.topico ?? '').slice(0, 38).padEnd(38)}`;
+const indice = (etapa) => ETAPAS.indexOf(etapa);
+const rodar = (etapa) => indice(etapa) >= indice(de) && indice(etapa) <= indice(ate);
 
 function gravar(destino, dados, exercicios) {
   fs.writeFileSync(destino, JSON.stringify({ ...dados, exercicios }, null, 2), 'utf8');
-  return path.basename(destino);
 }
 
 function preservar(caminho) {
@@ -76,18 +91,9 @@ function preservar(caminho) {
   }
 }
 
-function imprimirCusto() {
-  const r = relatorio();
-  if (!r.houveChamada) return;
-  console.log('');
-  console.log('custo por etapa');
-  for (const l of r.linhas) console.log(l);
-  console.log(`  ${'TOTAL'.padEnd(10)} US$ ${r.total.toFixed(4)}`);
-}
+/* ---- etapas -------------------------------------------------------------- */
 
-/* ---- comandos ------------------------------------------------------------ */
-
-async function cmdGerar(cursoId) {
+async function etapaGerar(cursoId) {
   const curso = acharCurso(cursoId);
   const topicos = curso.topicos.slice(0, MAX_TOPICOS);
 
@@ -116,26 +122,24 @@ async function cmdGerar(cursoId) {
   gravar(destino, dados, exercicios);
 
   console.log('');
-  console.log(`exercícios ... ${exercicios.length} (${contagemPorTipo(exercicios)})`);
-  console.log(`arquivo ...... ${path.basename(destino)}`);
-  return { destino, dados, exercicios };
+  console.log(`gerados ...... ${exercicios.length} (${contagemPorTipo(exercicios)})`);
+  return { caminho: destino, dados };
 }
 
-async function cmdValidar(arquivo, jaCarregado) {
-  const dados = jaCarregado ?? JSON.parse(fs.readFileSync(arquivo, 'utf8'));
+async function etapaValidar({ caminho, dados }) {
   const exercicios = dados.exercicios ?? [];
-  const soEstrutura = tem('so-estrutura');
 
-  if (!soEstrutura) {
+  if (!tem('so-estrutura')) {
     const faltando = conferirInterpretadores(linguagensUsadas(exercicios));
     if (faltando.length) {
-      console.error('Não dá para executar exercícios neste ambiente:');
+      console.error('\nNão dá para executar exercícios neste ambiente:');
       for (const f of faltando) console.error(`  · ${f}`);
       console.error('\nInstale o que falta, ou use --so-estrutura.');
       process.exit(2);
     }
   }
 
+  console.log('');
   const { aprovados, reprovados } = await validar({
     exercicios,
     opcoes: { ...opcoes, alternativas: dados.alternativas ?? opcoes.alternativas },
@@ -152,74 +156,75 @@ async function cmdValidar(arquivo, jaCarregado) {
     },
   });
 
-  const base = (arquivo ?? path.join(AQUI, `exercicios-${dados.curso}.json`)).replace(/\.json$/, '');
+  const base = caminho.replace(/\.json$/, '');
   gravar(`${base}.validado.json`, dados, aprovados);
   if (reprovados.length) gravar(`${base}.reprovado.json`, dados, reprovados);
 
   console.log('');
   console.log(`validados .... ${aprovados.length}/${exercicios.length}  (${reprovados.length} reprovados)`);
-  return { destino: `${base}.validado.json`, dados: { ...dados, exercicios: aprovados }, exercicios: aprovados };
+  return { caminho: `${base}.validado.json`, dados: { ...dados, exercicios: aprovados } };
 }
 
-async function cmdCriticar(arquivo, jaCarregado) {
-  const dados = jaCarregado ?? JSON.parse(fs.readFileSync(arquivo, 'utf8'));
+async function etapaCriticar({ caminho, dados }) {
   const exercicios = dados.exercicios ?? [];
   const curso = acharCurso(dados.curso);
 
+  console.log('');
   const { aprovados, reprovados } = await criticar({
     exercicios,
     curso,
     soSondas: tem('so-sondas'),
     aoProgredir: (e, estado, achados) => {
-      const menores = Array.isArray(achados) ? achados.length : 0;
-      console.log(`  ${rot(e)} ${estado}${estado === 'ok' && menores ? `  (${menores} ressalva menor)` : ''}`);
+      const n = Array.isArray(achados) ? achados.length : 0;
+      console.log(`  ${rot(e)} ${estado}${estado === 'ok' && n ? `  (${n} ressalva menor)` : ''}`);
       if (estado === 'REPROVA') for (const a of achados) console.log(`     [${a.dimensao}] ${a.explicacao}`);
     },
   });
 
-  const base = (arquivo ?? path.join(AQUI, `exercicios-${dados.curso}.validado.json`)).replace(/\.json$/, '');
+  const base = caminho.replace(/\.json$/, '');
   gravar(`${base}.criticado.json`, dados, aprovados);
   if (reprovados.length) gravar(`${base}.rejeitado.json`, dados, reprovados);
 
   console.log('');
   console.log(`aprovados .... ${aprovados.length}/${exercicios.length}  (${reprovados.length} rejeitados)`);
-  return { aprovados, reprovados };
+  return { reprovados: reprovados.length };
+}
+
+function imprimirCusto() {
+  const r = relatorio();
+  if (!r.houveChamada) return;
+  console.log('');
+  console.log('custo por etapa');
+  for (const l of r.linhas) console.log(l);
+  console.log(`  ${'TOTAL'.padEnd(10)} US$ ${r.total.toFixed(4)}`);
 }
 
 /* ---- despacho ------------------------------------------------------------ */
 
 try {
-  if (!comando || comando === 'ajuda' || tem('help')) {
+  if (tem('cursos')) {
+    for (const c of carregar().CURSOS) console.log(`${c.id.padEnd(24)} ${String(c.topicos?.length ?? 0).padStart(2)} tópicos  ${c.nome}`);
+  } else if (!alvo || tem('help') || tem('ajuda')) {
     console.log(AJUDA);
-  } else if (comando === 'cursos') {
-    for (const c of carregar().CURSOS) console.log(`${c.id.padEnd(24)} ${c.topicos?.length ?? 0} tópicos  ${c.nome}`);
-  } else if (comando === 'gerar') {
-    if (!alvo) throw new Error('falta o id do curso');
-    await cmdGerar(alvo);
-    imprimirCusto();
-  } else if (comando === 'validar') {
-    if (!alvo) throw new Error('falta o arquivo');
-    await cmdValidar(alvo);
-    imprimirCusto();
-  } else if (comando === 'criticar') {
-    if (!alvo) throw new Error('falta o arquivo');
-    const { reprovados } = await cmdCriticar(alvo);
-    imprimirCusto();
-    process.exit(reprovados.length ? 1 : 0);
-  } else if (comando === 'tudo') {
-    if (!alvo) throw new Error('falta o id do curso');
-    const g = await cmdGerar(alvo);
-    if (!g) process.exit(0);
-    console.log('');
-    const v = await cmdValidar(g.destino, g.dados);
-    console.log('');
-    const { reprovados } = await cmdCriticar(v.destino, v.dados);
-    imprimirCusto();
-    process.exit(reprovados.length ? 1 : 0);
   } else {
-    console.error(`comando desconhecido: ${comando}\n`);
-    console.error(AJUDA);
-    process.exit(1);
+    for (const e of [de, ate]) {
+      if (!ETAPAS.includes(e)) throw new Error(`etapa desconhecida: "${e}" — use ${ETAPAS.join(', ')}`);
+    }
+    if (indice(de) > indice(ate)) throw new Error(`--de ${de} vem depois de --ate ${ate}`);
+    if (ehArquivo && rodar('gerar')) throw new Error('o alvo é um arquivo: comece de validar ou criticar');
+
+    let estado = ehArquivo ? { caminho: alvo, dados: JSON.parse(fs.readFileSync(alvo, 'utf8')) } : null;
+    let reprovados = 0;
+
+    if (rodar('gerar')) {
+      estado = await etapaGerar(alvo);
+      if (!estado) process.exit(0); // --seco
+    }
+    if (rodar('validar')) estado = await etapaValidar(estado);
+    if (rodar('criticar')) ({ reprovados } = await etapaCriticar(estado));
+
+    imprimirCusto();
+    process.exit(reprovados ? 1 : 0);
   }
 } catch (err) {
   console.error(err.message);

@@ -109,7 +109,10 @@ operadores exibindo \`-7 ** 2 = 49\`. O valor está certo para a variável, mas 
 \`-7 ** 2\` no interpretador vê -49. Também conta não especificar a saída exigida quando a
 correção é por comparação exata.
 
-**gabarito** — a resposta marcada não é a melhor, ou outra se defende igualmente.
+**gabarito** — a resposta marcada não é a melhor, ou outra se defende igualmente. Em
+\`ordenacao\`, dois passos que podem trocar de lugar sem prejuízo significam dois gabaritos.
+Em \`associacao\`, teste cada item da direita contra **todas** as esquerdas: se algum casar
+plausivelmente com duas, o exercício tem mais de uma resposta certa.
 
 **distratores** — erradas óbvias demais; ou a correta mais longa e mais qualificada que as
 outras, entregando-se pelo formato; ou absolutos que quem faz prova descarta por hábito; ou
@@ -162,6 +165,8 @@ function corpo(e) {
       .join('\n')}`;
   if (e.tipo === 'saida-esperada') return `Linguagem: ${e.linguagem}\nTrecho:\n${e.codigo_dado}\nResposta: ${JSON.stringify(e.resposta)}`;
   if (e.tipo === 'ordenacao') return `Ordem correta:\n${e.itens.map((t, i) => `${i + 1}. ${t}`).join('\n')}`;
+  if (e.tipo === 'associacao')
+    return `Pares corretos:\n${e.pares.map((p, i) => `${i + 1}. ${p.esquerda}  ↔  ${p.direita}`).join('\n')}`;
   return '';
 }
 

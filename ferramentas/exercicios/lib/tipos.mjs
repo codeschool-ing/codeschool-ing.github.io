@@ -13,7 +13,11 @@
  * 24 disciplinas de infra e segurança, onde o que se ensina é ordem de operação.
  */
 
-export const TIPOS = ['codigo', 'saida-esperada', 'quiz', 'multipla-escolha', 'ordenacao'];
+export const TIPOS = ['codigo', 'saida-esperada', 'quiz', 'multipla-escolha', 'ordenacao', 'associacao'];
+
+/* Tipos que não pressupõem programação. Só `codigo` e `saida-esperada` dependem de um
+ * interpretador; os outros quatro servem a qualquer disciplina. */
+export const TIPOS_NEUTROS = ['quiz', 'multipla-escolha', 'ordenacao', 'associacao'];
 
 export const REGRAS_POR_TIPO = ({ alternativas }) => `
 **codigo** — quando **o próprio tópico** é algo que se escreve e executa. Preencha
@@ -54,6 +58,20 @@ que torna avaliável a parte do catálogo que não executa código.
 
 Cada passo precisa ter uma posição inequívoca: se dois passos puderem ser trocados sem
 prejuízo, o exercício tem duas respostas certas e não serve.
+
+**associacao** — o tópico tem itens que se emparelham um a um. Preencha \`pares\` com 4 a 6
+duplas \`{esquerda, direita}\`; o portal embaralha a coluna da direita. Serve para comando e
+efeito, erro e causa, conceito e definição, padrão e problema que ele resolve, campo do
+protocolo e função.
+
+A regra que faz ou quebra o tipo: **cada item da esquerda casa com exatamente um da
+direita, e isso tem de ser inequívoco.** Se um item da direita puder ser defendido para
+duas entradas da esquerda, o exercício tem mais de um gabarito. Antes de fechar, teste cada
+item da direita contra todas as esquerdas, não só contra a sua.
+
+Mantenha as duas colunas homogêneas: se as direitas forem definições, todas são definições,
+com comprimento parecido. Uma direita muito mais longa ou específica que as outras se
+entrega pelo formato, do mesmo jeito que a alternativa longa num quiz.
 
 ## Regras das alternativas (quiz e multipla-escolha)
 
@@ -135,11 +153,24 @@ export function esquema({ alternativas }) {
               description: 'só ordenacao: os passos NA ORDEM CORRETA',
               items: { type: 'string' },
             },
+            pares: {
+              type: 'array',
+              description: 'só associacao: duplas que se emparelham um a um',
+              items: {
+                type: 'object',
+                properties: {
+                  esquerda: { type: 'string' },
+                  direita: { type: 'string' },
+                },
+                required: ['esquerda', 'direita'],
+                additionalProperties: false,
+              },
+            },
             dica_socratica: { type: 'string' },
           },
           required: [
             'topico', 'tipo', 'dificuldade', 'enunciado', 'linguagem', 'esqueleto',
-            'testes', 'codigo_dado', 'resposta', 'alternativas', 'itens', 'dica_socratica',
+            'testes', 'codigo_dado', 'resposta', 'alternativas', 'itens', 'pares', 'dica_socratica',
           ],
           additionalProperties: false,
         },
@@ -193,6 +224,19 @@ export function conferir(e, { alternativas }) {
     if ((e.alternativas ?? []).some((a) => vazio(a.texto))) p.push('alternativa sem texto');
     naoDeveTer('testes', e.testes?.length, 'testes');
     naoDeveTer('itens', e.itens?.length, 'itens');
+  } else if (e.tipo === 'associacao') {
+    const n = e.pares?.length ?? 0;
+    if (n < 4) p.push(`associacao com ${n} pares (mínimo 4)`);
+    if (n > 6) p.push(`associacao com ${n} pares (máximo 6)`);
+    const esq = (e.pares ?? []).map((x) => x.esquerda);
+    const dir = (e.pares ?? []).map((x) => x.direita);
+    // Coluna repetida significa mais de um gabarito possível.
+    if (new Set(esq).size !== n) p.push('associacao com item repetido na esquerda');
+    if (new Set(dir).size !== n) p.push('associacao com item repetido na direita');
+    if ([...esq, ...dir].some(vazio)) p.push('associacao com item vazio');
+    naoDeveTer('alternativas', e.alternativas?.length, 'alternativas');
+    naoDeveTer('testes', e.testes?.length, 'testes');
+    naoDeveTer('itens', e.itens?.length, 'itens');
   } else if (e.tipo === 'ordenacao') {
     const n = e.itens?.length ?? 0;
     if (n < 4) p.push(`ordenacao com ${n} itens (mínimo 4)`);
@@ -201,7 +245,10 @@ export function conferir(e, { alternativas }) {
     if ((e.itens ?? []).some(vazio)) p.push('ordenacao com item vazio');
     naoDeveTer('alternativas', e.alternativas?.length, 'alternativas');
     naoDeveTer('testes', e.testes?.length, 'testes');
+    naoDeveTer('pares', e.pares?.length, 'pares');
   }
+
+  if (e.tipo !== 'associacao' && e.pares?.length) p.push(`${e.tipo} com pares preenchido`);
 
   return p;
 }
@@ -214,6 +261,7 @@ export function resumo(e) {
   }
   if (e.tipo === 'codigo') return `${e.testes?.length ?? 0} casos`;
   if (e.tipo === 'ordenacao') return `${e.itens?.length ?? 0} passos`;
+  if (e.tipo === 'associacao') return `${e.pares?.length ?? 0} pares`;
   if (e.tipo === 'saida-esperada') return e.linguagem;
   return '';
 }

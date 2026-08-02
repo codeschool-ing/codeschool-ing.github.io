@@ -15,19 +15,25 @@ cd ferramentas/exercicios
 npm install
 export ANTHROPIC_API_KEY=sk-ant-...
 
-node exercicios.mjs tudo python --max 3      # o ciclo inteiro
+node exercicios.mjs python --max 3           # o ciclo inteiro
 ```
 
-| comando | o que faz |
-| --- | --- |
-| `tudo <curso>` | encadeia as três etapas |
-| `gerar <curso>` | escreve exercícios a partir dos tópicos |
-| `validar <arquivo>` | confere estrutura e executa o que executa |
-| `criticar <arquivo>` | julga alvo, ambiguidade, gabarito e distratores |
-| `cursos` | lista os ids do catálogo |
+**O padrão é rodar tudo.** O alvo é um id de curso ou um arquivo `.json` — o script
+distingue pelo sufixo e começa na etapa que faz sentido.
+
+```sh
+node exercicios.mjs python --max 3            # gera, valida e critica
+node exercicios.mjs python --ate gerar        # só gera
+node exercicios.mjs saida.json                # retoma: valida e critica
+node exercicios.mjs saida.json --de criticar  # só critica
+```
+
+Retomar de um arquivo é o que torna barato corrigir um gabarito à mão e reconferir sem
+regerar — e sem pagar de novo, porque a solução de referência fica salva no aprovado.
 
 | opção | padrão |
 | --- | --- |
+| `--de` / `--ate` | `gerar` (ou `validar`, se o alvo é `.json`) até `criticar` |
 | `--max N` | todos — **use `--max 3` na primeira vez**, custa centavos |
 | `--lote N` | 6 tópicos por chamada |
 | `--alternativas N` | 5 |
@@ -35,11 +41,11 @@ node exercicios.mjs tudo python --max 3      # o ciclo inteiro
 | `--so-estrutura` | validar sem API nem execução (grátis) |
 | `--so-sondas` | criticar sem o julgamento (mais barato) |
 | `--seco` | gerar sem chamar a API |
+| `--cursos` | lista os ids do catálogo |
 
-Cada etapa serve sozinha: dá para validar um arquivo corrigido à mão sem regerar, ou
-recriticar depois de ajustar um gabarito. O custo sai por etapa e somado, numa conta só.
+O custo sai por etapa e somado, numa conta só.
 
-## Os cinco tipos
+## Os seis tipos
 
 | tipo | o aluno faz | corrigido por | serve para |
 | --- | --- | --- | --- |
@@ -48,6 +54,7 @@ recriticar depois de ajustar um gabarito. O custo sai por etapa e somado, numa c
 | `quiz` | escolhe uma | comparação | conceito com uma leitura |
 | `multipla-escolha` | escolhe várias | comparação de conjunto | conceito com vários aspectos |
 | `ordenacao` | põe em ordem | comparação de sequência | processo, pipeline, ciclo de vida |
+| `associacao` | emparelha duas colunas | comparação do mapeamento | comando e efeito, erro e causa, termo e definição |
 
 **`saida-esperada` é o tipo mais forte do conjunto.** O validador executa o trecho mostrado
 e compara com o gabarito, então defeito de semântica vira reprovação determinística em vez
@@ -56,6 +63,21 @@ para o literal — passou a ser pego por execução.
 
 **`ordenacao` existe pelas 24 disciplinas de infra e segurança**, onde o que se ensina é
 ordem de operação e quase nada executa. Sem ele, esses cursos ficariam só com quiz.
+
+**`associacao` é o mais versátil fora da programação.** O defeito que o define é ambiguidade:
+se um item da direita puder ser defendido para duas entradas da esquerda, há mais de um
+gabarito. A conferência estrutural rejeita coluna com item repetido; o crítico testa cada
+direita contra todas as esquerdas.
+
+### Reaproveitar noutra disciplina
+
+Quatro dos seis tipos — `quiz`, `multipla-escolha`, `ordenacao`, `associacao` — não
+pressupõem programação (a constante `TIPOS_NEUTROS` os marca). Só `codigo` e
+`saida-esperada` dependem de interpretador.
+
+O que ainda amarra o pipeline a este catálogo é `lib/catalogo.mjs`, que lê `assets/dados.js`
+e espera os campos `topicos`, `ementa`, `nivel`. Para outra escola, é esse módulo que muda —
+o resto viaja. Vale saber disso antes de acrescentar acoplamento novo em outros arquivos.
 
 ## As três etapas
 
