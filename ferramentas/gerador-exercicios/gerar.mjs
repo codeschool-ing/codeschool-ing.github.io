@@ -104,9 +104,27 @@ exercício está errado.
 com 4 opções, exatamente uma correta, cada uma com \`porque\` explicando por que está certa \
 ou errada. Deixe \`linguagem\`, \`esqueleto\` e \`testes\` vazios.
 
-Regras das alternativas: as erradas descrevem confusões que alunos reais têm, não absurdos \
-óbvios. Nada de "todas as anteriores", nada de alternativa mais longa que as outras por ser \
-a certa, nada que se resolva por eliminação sem saber o assunto.
+Regras das alternativas. Estas quatro falhas apareceram em quase todo quiz já gerado neste
+catálogo — confira cada uma antes de fechar a questão:
+
+1. **Tamanho.** A correta sai mais longa e mais qualificada que as outras, cheia de ressalvas
+   ("ainda que...", "mas depende de..."), e o aluno acerta pelo formato. As quatro devem ter
+   comprimento e grau de hedge parecidos. Se a correta precisa de ressalva, dê ressalva às
+   erradas também.
+2. **Absurdo óbvio.** Distrator que ninguém marcaria não é distrator, é enchimento — some com
+   ele e a questão vira de duas opções. Cada errada precisa ser algo que um aluno de verdade
+   responderia, num dia ruim.
+3. **Absolutos.** "Sempre", "nunca", "só quando", "apenas depois que" — quem faz prova
+   descarta isso por hábito, sem ler o mérito. Evite nas erradas, a menos que o absoluto seja
+   exatamente o erro em teste.
+4. **Categoria destoante.** Três erradas do mesmo assunto e a correta de outro (ou vice-versa)
+   deixam achar a diferente sem entender nada. As quatro devem pertencer ao mesmo campo.
+
+O teste final: um aluno esperto que **não estudou o tópico** consegue eliminar três
+alternativas só pela forma? Se consegue, refaça — a questão não mede o que você quer.
+
+A dica socrática entra na mesma conta: se ela descarta sozinha o distrator mais forte, o que
+sobra é escolha entre duas. Ela deve apontar o que examinar, não qual alternativa cair fora.
 
 **dica_socratica** aparece quando o aluno pede ajuda. Ela aponta o caminho e nunca entrega a \
 resposta: uma pergunta que faz a pessoa notar o que faltou, ou o nome do conceito a revisar. \
