@@ -45,7 +45,7 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 
 O custo sai por etapa e somado, numa conta só.
 
-## Os seis tipos
+## Os sete tipos
 
 | tipo | o aluno faz | corrigido por | serve para |
 | --- | --- | --- | --- |
@@ -55,6 +55,7 @@ O custo sai por etapa e somado, numa conta só.
 | `multipla-escolha` | escolhe várias | comparação de conjunto | conceito com vários aspectos |
 | `ordenacao` | põe em ordem | comparação de sequência | processo, pipeline, ciclo de vida |
 | `associacao` | emparelha duas colunas | comparação do mapeamento | comando e efeito, erro e causa, termo e definição |
+| `resposta-expressao` | escreve uma expressão | **equivalência simbólica (sympy)** | derivada, integral, simplificação |
 
 **`saida-esperada` é o tipo mais forte do conjunto.** O validador executa o trecho mostrado
 e compara com o gabarito, então defeito de semântica vira reprovação determinística em vez
@@ -69,11 +70,35 @@ se um item da direita puder ser defendido para duas entradas da esquerda, há ma
 gabarito. A conferência estrutural rejeita coluna com item repetido; o crítico testa cada
 direita contra todas as esquerdas.
 
+**`resposta-expressao` é o único tipo cujo gabarito se prova.** Nos outros, a correção do
+gabarito é evidência: a solução escrita às cegas concorda, o crítico não achou defeito. Aqui
+o sympy **recalcula a resposta por conta própria** a partir da expressão de origem e compara.
+Se divergir, o gabarito está errado — demonstrado, não julgado.
+
+```
+integral certa       ok       sympy recalcula e confere: x**3/3
+integral ERRADA      REPROVA  gabarito "x**3/2", mas a verificação calcula "x**3/3"
+```
+
+Um exercício com `verificacao_operacao: nenhuma` **reprova**: sem recálculo, ninguém conferiu
+o gabarito, e aprovar seria dar selo a algo não checado.
+
+Comparação é por equivalência, não por texto: `2*x`, `x*2` e `x+x` são a mesma resposta. Em
+integral, `+ C` é aceito — a diferença que não contém a variável de integração é a constante.
+
+Cuidado com domínio: sem `x:positive` em `variaveis`, o sympy não simplifica `sqrt(x**2)`
+para `x`, e o aluno que responder assim é reprovado. Declare a suposição quando o enunciado
+a implicar.
+
 ### Reaproveitar noutra disciplina
 
-Quatro dos seis tipos — `quiz`, `multipla-escolha`, `ordenacao`, `associacao` — não
-pressupõem programação (a constante `TIPOS_NEUTROS` os marca). Só `codigo` e
-`saida-esperada` dependem de interpretador.
+Cinco dos sete tipos — `quiz`, `multipla-escolha`, `ordenacao`, `associacao`,
+`resposta-expressao` — não pressupõem programação (a constante `TIPOS_NEUTROS` os marca).
+Só `codigo` e `saida-esperada` dependem de interpretador.
+
+Para **matemática** (cálculo, álgebra, vestibular), o conjunto já serve hoje:
+`resposta-expressao` cobre o exercício central, `ordenacao` cobre método passo a passo,
+`associacao` cobre função↔derivada, e os de alternativa cobrem o formato de prova.
 
 O que ainda amarra o pipeline a este catálogo é `lib/catalogo.mjs`, que lê `assets/dados.js`
 e espera os campos `topicos`, `ementa`, `nivel`. Para outra escola, é esse módulo que muda —
@@ -119,6 +144,11 @@ rende pouco — o que muda a conta é quantos exercícios por tópico.
 **Executa código gerado por IA na sua máquina**, com timeout por caso e nada mais. Não rode
 um JSON que você não gerou. Para volume, rode em contêiner descartável — que é como o portal
 vai executar código de aluno de qualquer forma.
+
+**`resposta-expressao` precisa de `sympy`** (`pip install sympy`). O script confere antes de
+validar e sai com código 2 se faltar. É dependência opcional: só entra quando há exercício
+desse tipo. O `sympify` roda sobre texto gerado pelo modelo — no portal, aplicado a texto de
+**aluno**, exige parsing restrito e sandbox, porque é execução de código.
 
 Linguagens: `python` e `javascript`. O script confere que os interpretadores existem antes de
 validar e **sai com código 2** se faltar algum — sem isso, um `python3` ausente vira "todos os

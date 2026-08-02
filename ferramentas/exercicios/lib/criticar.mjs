@@ -165,6 +165,8 @@ function corpo(e) {
       .join('\n')}`;
   if (e.tipo === 'saida-esperada') return `Linguagem: ${e.linguagem}\nTrecho:\n${e.codigo_dado}\nResposta: ${JSON.stringify(e.resposta)}`;
   if (e.tipo === 'ordenacao') return `Ordem correta:\n${e.itens.map((t, i) => `${i + 1}. ${t}`).join('\n')}`;
+  if (e.tipo === 'resposta-expressao')
+    return `Variáveis: ${(e.variaveis ?? []).join(', ')}\nGabarito: ${e.expressao_gabarito}\nVerificação: ${e.verificacao_operacao}(${e.verificacao_origem}, ${e.verificacao_variavel})`;
   if (e.tipo === 'associacao')
     return `Pares corretos:\n${e.pares.map((p, i) => `${i + 1}. ${p.esquerda}  ↔  ${p.direita}`).join('\n')}`;
   return '';

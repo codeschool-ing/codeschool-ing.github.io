@@ -13,11 +13,11 @@
  * 24 disciplinas de infra e segurança, onde o que se ensina é ordem de operação.
  */
 
-export const TIPOS = ['codigo', 'saida-esperada', 'quiz', 'multipla-escolha', 'ordenacao', 'associacao'];
+export const TIPOS = ['codigo', 'saida-esperada', 'quiz', 'multipla-escolha', 'ordenacao', 'associacao', 'resposta-expressao'];
 
 /* Tipos que não pressupõem programação. Só `codigo` e `saida-esperada` dependem de um
  * interpretador; os outros quatro servem a qualquer disciplina. */
-export const TIPOS_NEUTROS = ['quiz', 'multipla-escolha', 'ordenacao', 'associacao'];
+export const TIPOS_NEUTROS = ['quiz', 'multipla-escolha', 'ordenacao', 'associacao', 'resposta-expressao'];
 
 export const REGRAS_POR_TIPO = ({ alternativas }) => `
 **codigo** — quando **o próprio tópico** é algo que se escreve e executa. Preencha
@@ -72,6 +72,32 @@ item da direita contra todas as esquerdas, não só contra a sua.
 Mantenha as duas colunas homogêneas: se as direitas forem definições, todas são definições,
 com comprimento parecido. Uma direita muito mais longa ou específica que as outras se
 entrega pelo formato, do mesmo jeito que a alternativa longa num quiz.
+
+**resposta-expressao** — o aluno escreve uma expressão matemática e a correção compara por
+**equivalência simbólica**, não por texto: \`2*x\`, \`x*2\` e \`x+x\` são a mesma resposta.
+Serve para derivada, integral, limite, simplificação algébrica — qualquer coisa cuja
+resposta seja uma expressão.
+
+Preencha \`expressao_gabarito\` em sintaxe sympy (\`**\` para potência, \`*\` explícito,
+\`sqrt\`, \`log\`, \`sin\`), e \`variaveis\` com os símbolos usados. Uma variável aceita
+suposição de domínio no formato \`x:positive\` — sem ela, sympy não simplifica
+\`sqrt(x**2)\` para \`x\`, e o aluno que responder assim é reprovado. Declare a suposição
+sempre que o enunciado a implicar.
+
+**Os três campos de verificação são o que torna este tipo o mais confiável do conjunto.**
+Eles mandam o sympy **recalcular o gabarito por conta própria**:
+
+- \`verificacao_origem\` — a expressão de partida (o integrando, a função a derivar)
+- \`verificacao_operacao\` — \`diff\`, \`integrate\`, \`simplify\` ou \`nenhuma\`
+- \`verificacao_variavel\` — a variável da operação
+
+Aplicando a operação à origem, o resultado tem de bater com o seu gabarito. Se não bater, o
+gabarito está errado e o exercício reprova — sem julgamento nenhum. Use \`nenhuma\` só
+quando a conta não couber nessas três operações; um exercício sem verificação depende do seu
+gabarito estar certo, que é exatamente o que não dá para supor.
+
+Em integral, escrever \`+ C\` é aceito: a comparação ignora termo sem a variável de
+integração.
 
 ## Regras das alternativas (quiz e multipla-escolha)
 
@@ -166,11 +192,21 @@ export function esquema({ alternativas }) {
                 additionalProperties: false,
               },
             },
+            expressao_gabarito: { type: 'string', description: 'só resposta-expressao: a resposta em sintaxe sympy' },
+            variaveis: {
+              type: 'array',
+              description: 'só resposta-expressao: símbolos usados, opcionalmente "nome:suposicao"',
+              items: { type: 'string' },
+            },
+            verificacao_origem: { type: 'string', description: 'só resposta-expressao: expressão de partida' },
+            verificacao_operacao: { type: 'string', enum: ['diff', 'integrate', 'simplify', 'nenhuma'] },
+            verificacao_variavel: { type: 'string' },
             dica_socratica: { type: 'string' },
           },
           required: [
             'topico', 'tipo', 'dificuldade', 'enunciado', 'linguagem', 'esqueleto',
-            'testes', 'codigo_dado', 'resposta', 'alternativas', 'itens', 'pares', 'dica_socratica',
+            'testes', 'codigo_dado', 'resposta', 'alternativas', 'itens', 'pares', 'expressao_gabarito', 'variaveis',
+            'verificacao_origem', 'verificacao_operacao', 'verificacao_variavel', 'dica_socratica',
           ],
           additionalProperties: false,
         },
@@ -224,6 +260,22 @@ export function conferir(e, { alternativas }) {
     if ((e.alternativas ?? []).some((a) => vazio(a.texto))) p.push('alternativa sem texto');
     naoDeveTer('testes', e.testes?.length, 'testes');
     naoDeveTer('itens', e.itens?.length, 'itens');
+  } else if (e.tipo === 'resposta-expressao') {
+    if (vazio(e.expressao_gabarito)) p.push('resposta-expressao sem expressao_gabarito');
+    if (!(e.variaveis?.length)) p.push('resposta-expressao sem variaveis declaradas');
+    const op = e.verificacao_operacao;
+    if (!['diff', 'integrate', 'simplify', 'nenhuma'].includes(op)) p.push(`verificacao_operacao inválida: ${op}`);
+    if (op && op !== 'nenhuma') {
+      if (vazio(e.verificacao_origem)) p.push('verificação sem origem');
+      if (vazio(e.verificacao_variavel)) p.push('verificação sem variável');
+      const nomes = (e.variaveis ?? []).map((v) => String(v).split(':')[0].trim());
+      if (e.verificacao_variavel && !nomes.includes(e.verificacao_variavel))
+        p.push(`variável da verificação ("${e.verificacao_variavel}") não está em variaveis`);
+    }
+    naoDeveTer('alternativas', e.alternativas?.length, 'alternativas');
+    naoDeveTer('testes', e.testes?.length, 'testes');
+    naoDeveTer('itens', e.itens?.length, 'itens');
+    naoDeveTer('pares', e.pares?.length, 'pares');
   } else if (e.tipo === 'associacao') {
     const n = e.pares?.length ?? 0;
     if (n < 4) p.push(`associacao com ${n} pares (mínimo 4)`);
@@ -249,6 +301,7 @@ export function conferir(e, { alternativas }) {
   }
 
   if (e.tipo !== 'associacao' && e.pares?.length) p.push(`${e.tipo} com pares preenchido`);
+  if (e.tipo !== 'resposta-expressao' && !vazio(e.expressao_gabarito)) p.push(`${e.tipo} com expressao_gabarito preenchido`);
 
   return p;
 }
@@ -262,6 +315,7 @@ export function resumo(e) {
   if (e.tipo === 'codigo') return `${e.testes?.length ?? 0} casos`;
   if (e.tipo === 'ordenacao') return `${e.itens?.length ?? 0} passos`;
   if (e.tipo === 'associacao') return `${e.pares?.length ?? 0} pares`;
+  if (e.tipo === 'resposta-expressao') return e.verificacao_operacao ?? '';
   if (e.tipo === 'saida-esperada') return e.linguagem;
   return '';
 }

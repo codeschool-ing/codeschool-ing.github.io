@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 import { acharCurso, carregar } from './lib/catalogo.mjs';
 import { relatorio } from './lib/claude.mjs';
 import { gerar, contagemPorTipo } from './lib/gerar.mjs';
-import { validar, conferirInterpretadores, linguagensUsadas } from './lib/validar.mjs';
+import { validar, conferirInterpretadores, linguagensUsadas, conferirCAS, precisaCAS } from './lib/validar.mjs';
 import { criticar } from './lib/criticar.mjs';
 import { TIPOS } from './lib/tipos.mjs';
 
@@ -136,6 +136,14 @@ async function etapaValidar({ caminho, dados }) {
       for (const f of faltando) console.error(`  · ${f}`);
       console.error('\nInstale o que falta, ou use --so-estrutura.');
       process.exit(2);
+    }
+    if (precisaCAS(exercicios)) {
+      const semCAS = conferirCAS();
+      if (semCAS) {
+        console.error(`\nNão dá para verificar expressões: ${semCAS}`);
+        console.error('Instale, ou use --so-estrutura.');
+        process.exit(2);
+      }
     }
   }
 

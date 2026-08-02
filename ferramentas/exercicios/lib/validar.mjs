@@ -6,6 +6,8 @@
  *                    interpretador. Pega precedência errada, formatação errada, \n faltando.
  */
 import { execFileSync } from 'node:child_process';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { perguntar } from './claude.mjs';
 import { conferir } from './tipos.mjs';
 
@@ -15,6 +17,38 @@ const EXECUTORES = {
 };
 
 const RESOLVIDO = {};
+const VERIFICADOR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'verificar_expressao.py');
+
+/* Confere que dá para verificar expressão: precisa de python com sympy. */
+export function conferirCAS() {
+  const cmd = RESOLVIDO.python;
+  if (!cmd) return 'python não está no PATH (necessário para resposta-expressao)';
+  try {
+    execFileSync(cmd, ['-c', 'import sympy'], { encoding: 'utf8', timeout: 20000, stdio: ['pipe', 'pipe', 'pipe'] });
+    return null;
+  } catch {
+    return `sympy não instalado — rode: ${cmd} -m pip install sympy`;
+  }
+}
+
+/* Recalcula o gabarito com sympy e compara. Não é opinião: se a conta não bate, o gabarito
+ * está errado. */
+function verificarExpressao(e, timeout) {
+  const cmd = RESOLVIDO.python;
+  const entrada = JSON.stringify({
+    gabarito: e.expressao_gabarito,
+    variaveis: e.variaveis ?? [],
+    verificacao: { origem: e.verificacao_origem, operacao: e.verificacao_operacao, variavel: e.verificacao_variavel },
+  });
+  try {
+    const saida = execFileSync(cmd, [VERIFICADOR], { input: entrada, encoding: 'utf8', timeout, stdio: ['pipe', 'pipe', 'pipe'] });
+    return JSON.parse(saida);
+  } catch (err) {
+    if (err.code === 'ETIMEDOUT') return { erro: `a verificação estourou ${timeout / 1000}s` };
+    const stderr = (err.stderr ?? '').toString().trim();
+    return { erro: stderr ? stderr.split('\n').pop() : `${err.code ?? 'erro'}: ${err.message.split('\n')[0]}` };
+  }
+}
 
 export function conferirInterpretadores(linguagens) {
   const faltando = [];
@@ -95,6 +129,28 @@ export async function validar({ exercicios, opcoes, timeout, aoProgredir }) {
       continue;
     }
 
+    if (e.tipo === 'resposta-expressao') {
+      const r = verificarExpressao(e, timeout);
+      if (r.erro) {
+        aoProgredir?.(e, 'REPROVA', r.erro);
+        reprovados.push({ ...e, _motivo: [r.erro] });
+      } else if (r.pulou) {
+        // Sem verificação, o gabarito não foi conferido por ninguém: aprovar seria dar
+        // selo de qualidade a algo não checado.
+        const m = 'sem verificação (verificacao_operacao: nenhuma) — gabarito não conferido';
+        aoProgredir?.(e, 'REPROVA', m);
+        reprovados.push({ ...e, _motivo: [m] });
+      } else if (!r.ok) {
+        const det = `gabarito "${r.gabarito}", mas a verificação calcula "${r.calculado}"`;
+        aoProgredir?.(e, 'REPROVA', det);
+        reprovados.push({ ...e, _motivo: [det] });
+      } else {
+        aoProgredir?.(e, 'ok', `sympy recalcula e confere: ${r.calculado}`);
+        aprovados.push(e);
+      }
+      continue;
+    }
+
     if (e.tipo === 'saida-esperada') {
       const r = rodar(e.linguagem, e.codigo_dado, '', timeout);
       if (r.erro) {
@@ -145,5 +201,14 @@ export async function validar({ exercicios, opcoes, timeout, aoProgredir }) {
 }
 
 export function linguagensUsadas(exercicios) {
-  return [...new Set(exercicios.filter((e) => e.tipo === 'codigo' || e.tipo === 'saida-esperada').map((e) => e.linguagem).filter(Boolean))];
+  const langs = new Set(
+    exercicios.filter((e) => e.tipo === 'codigo' || e.tipo === 'saida-esperada').map((e) => e.linguagem).filter(Boolean),
+  );
+  // resposta-expressao roda sympy, que é python — mesmo num curso sem exercício de código.
+  if (exercicios.some((e) => e.tipo === 'resposta-expressao')) langs.add('python');
+  return [...langs];
+}
+
+export function precisaCAS(exercicios) {
+  return exercicios.some((e) => e.tipo === 'resposta-expressao');
 }
