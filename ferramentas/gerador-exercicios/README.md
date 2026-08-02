@@ -63,6 +63,22 @@ de outro modo ficariam sem forma de validação.
 **Todos os tópicos do curso vão no prompt**, não só os do lote, para o modelo saber o que
 pertence ao tópico vizinho e não invadir.
 
+## Custo medido
+
+Primeira rodada completa do ciclo, em `python`, 3 tópicos, `claude-opus-5`:
+
+| | |
+| --- | --- |
+| exercícios gerados | 13 (8 código, 5 quiz) |
+| gerar | US$ 0,3628 — **US$ 0,0279 por exercício** |
+| validar | US$ 0,0448 — 12% do custo de gerar |
+| aprovados pelo validador | 13 de 13 |
+| **extrapolado para os 1.503 tópicos** | **~US$ 204**, gerando e validando |
+
+**96% do custo é token de saída**, não de entrada — otimizar contexto ou caching aqui
+rende quase nada. Quem quiser gastar menos mexe no volume de exercícios por tópico, não
+no prompt.
+
 ## Custo
 
 Roda em `claude-opus-5`, com as regras e o contexto do curso marcados para
