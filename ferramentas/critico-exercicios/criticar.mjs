@@ -127,14 +127,29 @@ async function sondaCego(e) {
 
 /* ---- sonda 2: a dica entrega a resposta? --------------------------------- */
 
-const SYS_DICA = `Você recebe um exercício e uma dica de estudo. Responda com o que dá para \
-extrair da dica.
+const SYS_DICA_CODIGO = `Você recebe um exercício de programação e uma dica de estudo. \
+Julgue se a dica entrega a solução.
 
-Se a dica praticamente contiver a resposta — o nome exato da função a usar, o valor de \
-saída, a alternativa certa —, marque "entrega" como verdadeiro. Se ela só aponta a direção, \
-faz uma pergunta ou nomeia o conceito a revisar sem resolver, marque falso.
+Marque "entrega" como verdadeiro se ela contiver o nome exato da função ou método a chamar, \
+o algoritmo pronto, ou o valor de saída. Marque falso se ela apenas aponta a direção, faz uma \
+pergunta ou nomeia o conceito a revisar.
 
-O critério é: alguém que só lesse a dica, sem saber o assunto, conseguiria acertar?`;
+Critério: alguém que só lesse a dica, sem saber o assunto, conseguiria escrever a solução?`;
+
+const SYS_DICA_QUIZ = `Você recebe uma questão de múltipla escolha e uma dica de estudo. \
+Julgue se a dica torna o exercício inútil.
+
+**Cuidado com o falso positivo aqui.** Numa questão de quatro alternativas, qualquer dica \
+útil estreita o campo — é para isso que ela existe. Estreitar não é defeito. O defeito é a \
+dica **substituir o entendimento**: quem a lê marca a alternativa certa sem conseguir \
+explicar por que ela está certa e as outras não.
+
+Marque "entrega" como verdadeiro só quando a dica praticamente reproduz o texto da \
+alternativa correta, ou enuncia o critério de decisão inteiro, pronto para aplicar.
+
+Marque falso quando ela indica o que examinar, propõe um teste mental que o aluno ainda \
+precisa executar, ou nomeia o conceito sem resolvê-lo — mesmo que isso reduza bastante as \
+opções plausíveis.`;
 
 const ESQ_DICA = {
   type: 'object',
@@ -147,8 +162,10 @@ const ESQ_DICA = {
 };
 
 async function sondaDica(e) {
+  // O padrão difere por tipo: num quiz de 4 opções qualquer dica boa estreita o campo,
+  // então cobrar "não estreitar" reprovaria dica legítima.
   return perguntar({
-    system: SYS_DICA,
+    system: e.tipo === 'quiz' ? SYS_DICA_QUIZ : SYS_DICA_CODIGO,
     esquema: ESQ_DICA,
     maxTokens: 2000,
     pergunta: `## Exercício\n${e.enunciado}\n\n## Dica\n${e.dica_socratica}`,

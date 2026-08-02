@@ -59,9 +59,37 @@ possível. As sondas reduzem isso porque medem comportamento; o julgamento não.
 Se um dia a taxa de reprovação do crítico ficar suspeita de baixa, o teste é plantar
 defeito conhecido num lote e conferir se ele pega.
 
-## Custo
+## Custo medido
 
-Uma chamada por sonda mais uma de julgamento: quiz custa três, exercício de código custa
-duas (a sonda cega não se aplica — o validador já fez a prova equivalente com a solução de
-referência). As respostas são curtas, então o custo por exercício fica bem abaixo do de
-gerar. O número real sai no fim da execução.
+**Criticar custa mais que gerar** — cerca de 2,5x:
+
+| passo | por exercício |
+| --- | --- |
+| gerar | US$ 0,028 |
+| validar | US$ 0,003 |
+| **criticar** | **US$ 0,067 – 0,077** |
+
+São até três chamadas por exercício (quiz: sonda cega, sonda da dica, julgamento; código:
+duas — a sonda cega não se aplica, o validador já fez a prova equivalente), e cada uma paga
+raciocínio sobre o exercício inteiro.
+
+Isso muda a conta do catálogo: com ~6.300 exercícios, o ciclo completo fica na casa de
+**US$ 650**, não dos US$ 200 que gerar sozinho sugeria. O `--so-sondas` corta o julgamento
+e fica bem mais barato, mantendo as duas checagens comportamentais.
+
+## Calibração observada
+
+Primeira rodada, dois cursos:
+
+| curso | aprovados | dimensão que mais reprovou |
+| --- | --- | --- |
+| arquitetura-papel (12 quiz) | 6/12 | dica, depois distratores |
+| python (13, 8 de código) | 11/13 | alvo e dica |
+
+Reprovar metade de um lote é sinal de que o passe não está apenas concordando — a
+preocupação que motivou o desenho das sondas.
+
+Duas correções saíram dessa rodada: a sonda da dica passou a usar critério diferente para
+quiz (numa questão de quatro opções, qualquer dica útil estreita o campo — cobrar o
+contrário reprovava dica legítima), e o gerador passou a tratar a ordem dos tópicos como
+restrição.
