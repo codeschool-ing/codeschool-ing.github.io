@@ -72,9 +72,9 @@
     {
       "topico": "Instalação, interpretador e o primeiro script",
       "tipo": "ordenacao",
-      "dificuldade": "facil",
-      "enunciado": "Coloque em ordem os passos para executar seu primeiro script a partir de uma máquina sem Python instalado.",
-      "dica_socratica": "Pense no que precisa existir antes de cada passo poder acontecer. O que o comando de execução exige que já esteja pronto?",
+      "dificuldade": "medio",
+      "enunciado": "Coloque em ordem o que acontece desde o instante em que você aperta Enter no comando `python ola.py` até a palavra aparecer na tela.",
+      "dica_socratica": "Cada etapa só pode começar com aquilo que a anterior produziu. Comece perguntando o que o sistema precisa encontrar antes de qualquer arquivo `.py` ser aberto.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -82,11 +82,11 @@
       "resposta": "",
       "alternativas": [],
       "itens": [
-        "Instalar o interpretador Python na máquina",
-        "Conferir no terminal que o comando responde, com `python --version`",
-        "Criar um arquivo de texto chamado `ola.py`",
-        "Escrever no arquivo a linha `print(\"olá\")`",
-        "Executar `python ola.py` no terminal"
+        "O sistema operacional localiza o executável `python` no `PATH`",
+        "O interpretador lê o arquivo `ola.py` e o converte em bytecode",
+        "A máquina virtual do Python executa esse bytecode, instrução a instrução",
+        "A chamada `print` escreve o texto na saída padrão do processo",
+        "O terminal exibe na tela o que recebeu pela saída padrão"
       ],
       "pares": [],
       "expressao_gabarito": "",
