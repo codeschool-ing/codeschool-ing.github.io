@@ -199,8 +199,23 @@ unário. O aluno conclui que o exercício está quebrado.
 saber o assunto; ou alternativa certa mais longa e detalhada que as outras, o que entrega \
 a resposta pelo formato.
 
-Gravidade **alta** reprova o exercício: erro factual, ambiguidade que muda a resposta, alvo \
-errado. Gravidade **baixa** é ajuste de redação que não impede o uso.`;
+**A régua da gravidade é uma pergunta só: isso muda quem passa?**
+
+Marque **alta** quando o defeito faz o exercício aprovar quem não sabe, ou reprovar quem
+sabe. Sem exceção, mesmo que o conserto seja fácil:
+
+- dá para acertar por eliminação, pelo formato, pelo tamanho da alternativa ou por
+  heurística de prova, sem entender o tópico — o exercício não mede nada;
+- exige conteúdo que só é ensinado num tópico posterior — reprova quem domina o assunto
+  avaliado;
+- erro factual, ou ambiguidade que muda qual resposta está certa;
+- a saída exigida não está especificada no enunciado, e a correção é por comparação exata.
+
+Marque **baixa** só para o que não altera o resultado de ninguém: redação que dá para
+melhorar, exemplo que ficaria mais claro, justificativa que podia estar mais precisa.
+
+Não use "baixa" como meio-termo educado. Um exercício que qualquer aluno acerta sem estudar
+é defeituoso mesmo que esteja bem escrito.`;
 
 const ESQ_JULGA = {
   type: 'object',
@@ -283,8 +298,18 @@ for (const [i, e] of exercicios.entries()) {
     achados.push({ dimensao: 'dica', gravidade: 'alta', explicacao: `a dica entrega a resposta: ${dica.explicacao}`, sugestao: 'apontar o conceito sem resolver' });
 
   if (!soSondas) {
-    const j = await julgar(e);
-    if (j.erro) achados.push({ dimensao: 'julgamento', gravidade: 'baixa', explicacao: j.erro, sugestao: 'rodar de novo' });
+    // Uma tentativa de repetição; se ainda assim falhar, o exercício NÃO foi julgado —
+    // e não julgado não pode virar aprovado, senão a falha do passe vira selo de
+    // qualidade em silêncio.
+    let j = await julgar(e);
+    if (j.erro) j = await julgar(e);
+    if (j.erro)
+      achados.push({
+        dimensao: 'julgamento',
+        gravidade: 'alta',
+        explicacao: `o julgamento não completou (${j.erro}) — este exercício não foi avaliado`,
+        sugestao: 'rodar o crítico de novo neste exercício',
+      });
     else achados.push(...(j.problemas ?? []));
   }
 
