@@ -118,7 +118,7 @@ async function solucaoDeReferencia(e) {
   });
 }
 
-export async function validar({ exercicios, opcoes, timeout, paralelo, aoProgredir }) {
+export async function validar({ exercicios, opcoes, timeout, paralelo, soEstrutura, aoProgredir }) {
   const veredictos = await mapaConcorrente(exercicios, paralelo, async (e, _i, concluir) => {
     const aprovados = [];
     const reprovados = [];
@@ -128,6 +128,15 @@ export async function validar({ exercicios, opcoes, timeout, paralelo, aoProgred
     if (problemas.length) {
       aoProgredirLocal(e, 'ESTRUTURA', problemas.join('; '));
       reprovados.push({ ...e, _motivo: problemas });
+      return { aprovados, reprovados };
+    }
+
+    // --so-estrutura promete "sem API nem execução". Sem esta saída, o executor roda com
+    // RESOLVIDO vazio e devolve "linguagem não suportada" para todo mundo — o flag
+    // reprovava exatamente o que dizia não conferir.
+    if (soEstrutura) {
+      aoProgredirLocal(e, 'ok', 'só estrutura');
+      aprovados.push(e);
       return { aprovados, reprovados };
     }
 

@@ -157,6 +157,7 @@ async function etapaValidar({ caminho, dados }) {
     opcoes: { ...opcoes, alternativas: dados.alternativas ?? opcoes.alternativas },
     timeout: TIMEOUT,
     paralelo: PARALELO,
+    soEstrutura: tem('so-estrutura'),
     aoProgredir: (e, estado, detalhe, falhas, feitos, total) => {
       console.log(`[${String(feitos).padStart(3)}/${total}] ${rot(e)} ${estado}${detalhe ? '  ' + detalhe : ''}`);
       for (const f of (falhas ?? []).slice(0, 2)) {
