@@ -125,8 +125,17 @@ const CONTEXTO = `# Curso: ${curso.nome}
 
 ${curso.requisitos ? `**Pré-requisitos:** ${curso.requisitos}` : ''}
 
-**Todos os tópicos do curso** (para você saber o que pertence a outro tópico e não invadir):
-${curso.topicos.map((t, i) => `${i + 1}. ${t}`).join('\n')}`;
+**Todos os tópicos do curso, na ordem em que são ensinados** (para você saber o que pertence
+a outro tópico e não invadir):
+${curso.topicos.map((t, i) => `${i + 1}. ${t}`).join('\n')}
+
+**A ordem acima é uma restrição, não só contexto.** Um exercício do tópico N só pode exigir
+o que os tópicos 1 a N já ensinaram. Usar recurso de tópico posterior reprova quem domina
+o assunto avaliado e ainda não chegou lá — e a correção automática não distingue as duas
+coisas. Antes de fixar o exercício, liste o que ele exige e confira cada item contra a
+posição do tópico: método de string, condicional, laço, estrutura de dados, biblioteca.
+Se algo vier depois, troque a tarefa; não é o aluno que está atrasado, é o exercício que
+está fora de lugar.`;
 
 const ESQUEMA = {
   type: 'object',
