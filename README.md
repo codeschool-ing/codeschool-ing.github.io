@@ -31,6 +31,7 @@ ferramentas/          → utilitários, fora do site; uma pasta por ferramenta
   valida-catalogo/    → confere depende: ids inexistentes e ciclos
   gerador-exercicios/ → gera exercícios auto-corrigíveis a partir dos tópicos
   validador-exercicios/ → reprova exercício cuja solução não passa nos próprios casos
+  critico-exercicios/ → julga alvo, ambiguidade, gabarito e distratores
 ```
 
 ## Componentes que trocam de forma conforme a largura
