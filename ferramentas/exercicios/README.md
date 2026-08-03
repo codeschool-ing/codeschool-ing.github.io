@@ -59,6 +59,7 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 | `--seco` | gerar sem chamar a API |
 | `--cursos` | lista os ids do catálogo |
 | `--ver [N]` | lê os exercícios de um `.json` em forma humana |
+| `--prompts` | grava `prompts.md` com todos os prompts na íntegra |
 
 O custo sai por etapa e somado, numa conta só.
 

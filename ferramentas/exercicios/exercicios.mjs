@@ -24,6 +24,7 @@ import { criticar } from './lib/criticar.mjs';
 import { refazer } from './lib/refazer.mjs';
 import { funil } from './lib/funil.mjs';
 import { comparar, dimensoesDe, registrar } from './lib/historico.mjs';
+import { montar } from './lib/prompts.mjs';
 import { TIPOS, renderizar } from './lib/tipos.mjs';
 
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
@@ -80,6 +81,7 @@ opções
   --seco             gerar sem chamar a API
   --cursos           lista os ids do catálogo
   --ver [N]          lê os exercícios de um .json em forma humana (N = só o de número N)
+  --prompts          grava prompts.md com todos os prompts na íntegra
 
 tipos: ${TIPOS.join(', ')}`;
 
@@ -262,6 +264,12 @@ try {
       console.log(renderizar(e, i + 1));
     }
     console.log(`${'─'.repeat(78)}\n${lista.length} exercícios em ${path.basename(alvo)}`);
+  } else if (tem('prompts')) {
+    // Os prompts são o ativo mais caro daqui e moram espalhados por quatro arquivos. Este
+    // comando os junta num arquivo legível e anexável; um teste confere que ele não envelhece.
+    const destino = path.join(AQUI, 'prompts.md');
+    fs.writeFileSync(destino, montar(opcoes), 'utf8');
+    console.log(`${path.basename(destino)} gravado (${montar(opcoes).split(/\s+/).length} palavras)`);
   } else if (tem('cursos')) {
     for (const c of carregar().CURSOS) console.log(`${c.id.padEnd(24)} ${String(c.topicos?.length ?? 0).padStart(2)} tópicos  ${c.nome}`);
   } else if (!alvo || tem('help') || tem('ajuda')) {

@@ -14,11 +14,16 @@ que a reconstrução repague o que este projeto já pagou.
 
 ### Os três anexos, e o que acontece sem cada um
 
-| anexo | papel | sem ele |
-| --- | --- | --- |
-| **os exercícios revisados à mão** (aqui, os 48 de Python) | corpo de prova de calibração | as conferências mecânicas nascem barulhentas, quem implementa afrouxa os limiares para calar o barulho, e a camada de graça passa a existir sem acusar nada — o pior desfecho possível |
-| **os prompts na íntegra**: regras por tipo (~2.800 palavras) e o do juiz (~700) | texto acumulado de autoria | a seção "O que o prompt de autoria precisa exigir" tem ~490 palavras e é um resumo. O que some no resumo são os casos trabalhados, e regra abstrata é obedecida às vezes enquanto caso concreto é obedecido |
-| **o histórico de rodadas** | linha de base do veredito | as primeiras rodadas imprimem "primeira rodada deste curso" e não respondem se a ferramenta evoluiu, que é a pergunta que o veredito existe para responder |
+| anexo | arquivo | papel | sem ele |
+| --- | --- | --- | --- |
+| corpo de prova | `exercicios-python.json` (48 exercícios, 81 KB) | calibração das conferências mecânicas | elas nascem barulhentas, quem implementa afrouxa os limiares para calar o barulho, e a camada de graça passa a existir sem acusar nada — o pior desfecho possível |
+| prompts na íntegra | `prompts.md` (8 prompts, ~4.300 palavras) | texto acumulado de autoria e crítica | a seção "O que o prompt de autoria precisa exigir" tem ~490 palavras e é um resumo. O que some no resumo são os casos trabalhados, e regra abstrata é obedecida às vezes enquanto caso concreto é obedecido |
+| histórico de rodadas | `historico.json` | linha de base do veredito | as primeiras rodadas imprimem "primeira rodada deste curso" e não respondem se a ferramenta evoluiu, que é a pergunta que o veredito existe para responder |
+
+`prompts.md` é gerado por `node exercicios.mjs --prompts` e versionado. Dois testes o mantêm
+honesto: um confere que o arquivo bate com os prompts do código, e outro varre o código atrás
+de prompt exportado que não esteja no anexo — a falha que importa não é o arquivo velho, é o
+prompt novo que o pipeline passa a usar sem ninguém lembrar de registrar.
 
 Sobre o primeiro: os exercícios têm **dois papéis**, e só um deles é desta instância. Como
 *conteúdo*, são de um curso específico e não interessam a mais ninguém. Como *corpo de prova*,

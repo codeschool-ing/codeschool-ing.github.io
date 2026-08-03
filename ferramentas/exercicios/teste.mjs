@@ -18,6 +18,7 @@ import { conferir, pistasDeForma } from './lib/tipos.mjs';
 import { aceitar, laudo } from './lib/refazer.mjs';
 import { comparar } from './lib/historico.mjs';
 import { funil } from './lib/funil.mjs';
+import { montar } from './lib/prompts.mjs';
 
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
 let falhas = 0;
@@ -256,7 +257,32 @@ await grupo('o funil conta certo o que passou, o que caiu e o que foi resgatado'
   ok(r.validados.length === 4, 'e `validados` acumula as duas voltas', `${r.validados.length}`);
 });
 
-/* ---- 6. veredito de progresso -------------------------------------------- */
+/* ---- 6. o anexo de prompts não pode envelhecer --------------------------- */
+
+await grupo('prompts.md bate com os prompts do código', async () => {
+  const caminho = path.join(AQUI, 'prompts.md');
+  const gravado = fs.existsSync(caminho) ? fs.readFileSync(caminho, 'utf8') : '';
+  ok(gravado === montar({ alternativas: 5 }), 'prompts.md está atualizado — se falhou, rode `node exercicios.mjs --prompts`');
+
+  // A falha real desta parte não é o arquivo velho, é o prompt esquecido: alguém acrescenta
+  // um system prompt novo, o pipeline passa a usá-lo, e o anexo sai incompleto sem avisar.
+  // Então o teste procura no código, não na lista.
+  const fonte = fs.readdirSync(path.join(AQUI, 'lib'))
+    .filter((f) => f.endsWith('.mjs'))
+    .flatMap((f) => [...fs.readFileSync(path.join(AQUI, 'lib', f), 'utf8').matchAll(/^export const (SYS_\w+|REGRAS\w*|INSTRUCOES)\b/gm)].map((m) => `${f}:${m[1]}`));
+  const registrados = montar({ alternativas: 5 });
+  for (const achado of fonte) {
+    const [arquivo, nome] = achado.split(':');
+    // `REGRAS_POR_TIPO` e `REGRAS` entram pelo texto, não pelo nome; confere-se por amostra.
+    const mod = await import(`./lib/${arquivo}`);
+    const texto = typeof mod[nome] === 'function' ? mod[nome]({ alternativas: 5 }) : mod[nome];
+    const amostra = texto.trim().split('\n')[0].slice(0, 60);
+    ok(registrados.includes(amostra), `${nome} (${arquivo}) está no anexo`, 'prompt exportado que não aparece em prompts.md — registre-o em lib/prompts.mjs');
+  }
+  ok(fonte.length >= 7, 'o varredor achou os prompts do código', `achou ${fonte.length}`);
+});
+
+/* ---- 7. veredito de progresso -------------------------------------------- */
 
 await grupo('o veredito responde "evoluiu ou não"', () => {
   const base = { quando: '2026-01-01T00:00:00.000Z', curso: 'x', topicos: 6, gerados: 20, estrutura: 0, execucao: 0, api: 10, aprovados: 10, dimensoes: {} };

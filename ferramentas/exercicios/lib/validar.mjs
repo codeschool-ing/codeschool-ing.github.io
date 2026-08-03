@@ -89,7 +89,7 @@ function rodar(linguagem, src, entrada, timeout) {
   }
 }
 
-const SYS_SOLUCAO = `Você recebe o enunciado de um exercício de programação e o esqueleto que
+export const SYS_SOLUCAO = `Você recebe o enunciado de um exercício de programação e o esqueleto que
 o aluno completa. Escreva a solução de referência completa: o arquivo inteiro, pronto para
 executar, não só a parte que falta.
 

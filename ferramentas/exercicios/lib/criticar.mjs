@@ -10,7 +10,7 @@ import { mapaConcorrente } from './paralelo.mjs';
 
 /* ---- sonda: responder às cegas -------------------------------------------- */
 
-const SYS_CEGO = `Você responde questões de múltipla escolha. Não sabe quais alternativas
+export const SYS_CEGO = `Você responde questões de múltipla escolha. Não sabe quais alternativas
 estão marcadas como corretas — escolha pelo mérito.
 
 Se mais de uma leitura for defensável, diga em "ambigua" e explique. Uma questão bem escrita
@@ -59,7 +59,7 @@ async function sondaCego(e) {
 
 /* ---- sonda: a dica entrega a resposta? ------------------------------------ */
 
-const SYS_DICA_ABERTA = `Você recebe um exercício e uma dica de estudo. Julgue se a dica
+export const SYS_DICA_ABERTA = `Você recebe um exercício e uma dica de estudo. Julgue se a dica
 entrega a solução.
 
 Marque "entrega" como verdadeiro se ela contiver o nome exato da função a chamar, o
@@ -68,7 +68,7 @@ pergunta ou nomeia o conceito a revisar.
 
 Critério: alguém que só lesse a dica, sem saber o assunto, produziria a resposta?`;
 
-const SYS_DICA_ALTERNATIVAS = `Você recebe uma questão de alternativas e uma dica de estudo.
+export const SYS_DICA_ALTERNATIVAS = `Você recebe uma questão de alternativas e uma dica de estudo.
 Julgue se a dica torna o exercício inútil.
 
 **Cuidado com o falso positivo.** Numa questão de alternativas, qualquer dica útil estreita o
@@ -121,7 +121,7 @@ async function sondaDica(e) {
 
 /* ---- julgamento ----------------------------------------------------------- */
 
-const SYS_JULGA = `Você revisa exercícios de uma escola de programação onde a correção é toda
+export const SYS_JULGA = `Você revisa exercícios de uma escola de programação onde a correção é toda
 automática — não há professor para desfazer mal-entendido. Um exercício ambíguo ou fora do
 alvo reprova aluno que entendeu o assunto.
 

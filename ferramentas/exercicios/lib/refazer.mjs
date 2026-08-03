@@ -48,7 +48,7 @@ export function aceitar(velho, novo, erro) {
   return null;
 }
 
-const INSTRUCOES = `Este exercício foi reprovado. Reescreva-o corrigindo o defeito apontado.
+export const INSTRUCOES = `Este exercício foi reprovado. Reescreva-o corrigindo o defeito apontado.
 
 **O defeito é fato; a sugestão de conserto é palpite.** Quem apontou o defeito não escreveu o
 exercício e pode ter proposto a saída errada. Corrija a causa do jeito que você julgar melhor
