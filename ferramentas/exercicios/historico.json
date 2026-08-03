@@ -52,6 +52,85 @@
       },
       "custo": 2.8667,
       "nota": "primeira rodada com a volta de conserto ligada; registrada à mão porque o veredito da época somava resgatados na taxa"
+    },
+    {
+      "quando": "2026-08-03T06:05:14.445Z",
+      "gerados": 9,
+      "estrutura": 4,
+      "execucao": 0,
+      "api": 5,
+      "aprovados": 6,
+      "aprovados_primeira": 3,
+      "refeitos": 6,
+      "resgatados": 3,
+      "dimensoes": {
+        "distratores": 3,
+        "gabarito": 1,
+        "alvo": 1
+      },
+      "curso": "docker",
+      "topicos": 3,
+      "custo": 2.3683
+    },
+    {
+      "quando": "2026-08-03T06:39:48.408Z",
+      "gerados": 9,
+      "estrutura": 0,
+      "execucao": 0,
+      "api": 7,
+      "aprovados": 8,
+      "aprovados_primeira": 3,
+      "refeitos": 6,
+      "resgatados": 5,
+      "dimensoes": {
+        "distratores": 4,
+        "alvo": 3,
+        "dica": 1
+      },
+      "cegas": true,
+      "curso": "docker",
+      "topicos": 3,
+      "custo": 4.193
+    },
+    {
+      "quando": "2026-08-03T06:58:34.657Z",
+      "gerados": 10,
+      "estrutura": 3,
+      "execucao": 0,
+      "api": 6,
+      "aprovados": 6,
+      "aprovados_primeira": 5,
+      "refeitos": 5,
+      "resgatados": 1,
+      "dimensoes": {
+        "gabarito": 5,
+        "distratores": 2,
+        "alvo": 1
+      },
+      "cegas": false,
+      "curso": "docker",
+      "topicos": 3,
+      "custo": 2.7427
+    },
+    {
+      "quando": "2026-08-03T07:38:13.692Z",
+      "gerados": 7,
+      "estrutura": 0,
+      "execucao": 0,
+      "api": 3,
+      "aprovados": 4,
+      "aprovados_primeira": 4,
+      "refeitos": 0,
+      "resgatados": 0,
+      "dimensoes": {
+        "enunciado": 1,
+        "distratores": 2,
+        "gabarito": 1
+      },
+      "cegas": false,
+      "curso": "docker",
+      "topicos": 2,
+      "custo": 1.3102
     }
   ]
 }
