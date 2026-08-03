@@ -12,7 +12,7 @@ Alternativas por questão: 5.
 | # | prompt | etapa | palavras |
 | --- | --- | --- | --- |
 | 1 | Autoria — moldura | `gerar` | 256 |
-| 2 | Autoria — regras por tipo | `gerar` | 2842 |
+| 2 | Autoria — regras por tipo | `gerar` | 2944 |
 | 3 | Autoria cega — escrever as afirmações | `cegas` | 270 |
 | 4 | Autoria cega — julgar cada afirmação | `cegas` | 162 |
 | 5 | Solução de referência às cegas | `validar` | 93 |
@@ -22,7 +22,7 @@ Alternativas por questão: 5.
 | 9 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
 | 10 | Juiz | `criticar` | 691 |
 | 11 | Reescrita | `refazer` | 200 |
-| | **total** | | **4971** |
+| | **total** | | **5073** |
 
 ---
 
@@ -68,7 +68,7 @@ descobrir o contrato pelos casos de teste — ele não os vê.
 
 ## 2. Autoria — regras por tipo
 
-**Etapa:** `gerar` · **2842 palavras**
+**Etapa:** `gerar` · **2944 palavras**
 
 O maior de todos e o que mais rende. Descreve os sete tipos e, para cada um, os defeitos que já apareceram e como não repeti-los. É o texto que uma reconstrução não consegue derivar do resumo.
 
@@ -127,6 +127,14 @@ com 5 opções e **duas ou três** corretas, nunca todas. O enunciado avisa que
 há mais de uma ("marque todas que se aplicam"). Some com o chute: acertar exige avaliar
 cada item, não escolher o melhor. Prefira este ao quiz quando o tópico tem vários aspectos
 igualmente verdadeiros e o erro comum é conhecer só um deles.
+
+**O enunciado precisa dizer qual lado marcar, e só um lado.** "Sobre o que a adoção de
+containers resolve **e o que não resolve**, marque todas que se aplicam" tem duas leituras
+opostas: marcar as verdadeiras, ou marcar os limites. Como as erradas costumam ser exatamente
+afirmações sobre o que a tecnologia *não* faz, as duas leituras produzem conjuntos opostos — e
+com correção por conjunto exato a ambiguidade reprova quem entendeu o tópico. Peça uma
+polaridade só: "marque todas as afirmações verdadeiras sobre X". Isto é conferido
+mecanicamente: enunciado com "o que X e o que não X" reprova na estrutura.
 
 **Regra da dica em `saida-esperada`: nunca mande executar o trecho.** Em todo outro tipo,
 "rode e observe" é uma boa dica socrática, porque o aluno ainda precisa interpretar o que

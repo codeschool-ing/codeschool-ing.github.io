@@ -203,6 +203,25 @@ await grupo('as pistas de forma não disparam em prosa normal', () => {
   }));
 });
 
+/* ---- 3a2. enunciado de multipla-escolha com polaridade misturada --------- */
+
+await grupo('o enunciado precisa dizer qual lado marcar', () => {
+  const mult = (enunciado) => ({
+    tipo: 'multipla-escolha', topico: 't', dificuldade: 'medio', enunciado,
+    dica_socratica: 'Uma dica qualquer.',
+    alternativas: [alt('a', true), alt('b', true), alt('c', false), alt('d', false), alt('e', false)],
+  });
+  // Caso real: as duas erradas eram justamente afirmações sobre o que o container NÃO faz,
+  // então marcar "os limites" dava o conjunto oposto ao gabarito.
+  ok(conferir(mult('Sobre o que a adoção de containers resolve e o que não resolve, marque todas as afirmações que se aplicam.'), { alternativas: 5 })
+    .some((x) => x.includes('polaridades')), 'acusa "o que X e o que não X"');
+  for (const bom of [
+    'Sobre o que a adoção de containers efetivamente muda na entrega de uma aplicação, marque todas as afirmações que se aplicam.',
+    'Marque todas as afirmações que se sustentam sobre namespaces, cgroups e sistemas de arquivos em união.',
+    'Marque todas as consequências práticas que decorrem dessa conformidade.',
+  ]) ok(!conferir(mult(bom), { alternativas: 5 }).length, `não acusa enunciado de polaridade única: "${bom.slice(0, 45)}…"`);
+});
+
 /* ---- 3b. eco entre as colunas de uma associação -------------------------- */
 
 await grupo('a associação que fecha por casamento de palavra', () => {

@@ -87,6 +87,14 @@ há mais de uma ("marque todas que se aplicam"). Some com o chute: acertar exige
 cada item, não escolher o melhor. Prefira este ao quiz quando o tópico tem vários aspectos
 igualmente verdadeiros e o erro comum é conhecer só um deles.
 
+**O enunciado precisa dizer qual lado marcar, e só um lado.** "Sobre o que a adoção de
+containers resolve **e o que não resolve**, marque todas que se aplicam" tem duas leituras
+opostas: marcar as verdadeiras, ou marcar os limites. Como as erradas costumam ser exatamente
+afirmações sobre o que a tecnologia *não* faz, as duas leituras produzem conjuntos opostos — e
+com correção por conjunto exato a ambiguidade reprova quem entendeu o tópico. Peça uma
+polaridade só: "marque todas as afirmações verdadeiras sobre X". Isto é conferido
+mecanicamente: enunciado com "o que X e o que não X" reprova na estrutura.
+
 **Regra da dica em \`saida-esperada\`: nunca mande executar o trecho.** Em todo outro tipo,
 "rode e observe" é uma boa dica socrática, porque o aluno ainda precisa interpretar o que
 viu. Aqui a resposta pedida **é** a saída do programa, então "rode o trecho" equivale a
@@ -432,6 +440,11 @@ const PODE = /(\bpode\b|\bpodem\b|é possível|são possíveis|consegue|consegue
 const DEVE = /(obriga|obrigam|garante|garantem|assegura|exige|exigem|\bdeve\b|\bdevem\b|\bfaz\b|\bfazem\b|força|sem exceção|impede que|elimina a necessidade)/i;
 const NUMERO = /\b(uma|duas|tr[êe]s|quatro|cinco|[1-9])\b/i;
 const VERACIDADE = /\b(falsas?|verdadeiras?|corretas?|erradas?)\b/i;
+// Enunciado de multipla-escolha que mistura as duas polaridades: "sobre o que X resolve **e
+// o que não resolve**, marque todas que se aplicam". O aluno não sabe se deve marcar as
+// verdadeiras ou os limites, e as duas leituras dão conjuntos opostos — com correção por
+// conjunto exato, a ambiguidade reprova exatamente quem entendeu o tópico.
+const POLARIDADE = /\b(?:o que|as que|aquilo que)\b[^.?]{0,60}\be\b[^.?]{0,25}\b(?:o que |as que |quais )?(?:não|nao)\b/i;
 const AVISA_SOBRA = /(sobra|não correspond|nao correspond|não emparelh|nao emparelh|a mais|nem toda|nem todas|extras?)/i;
 const IRRELEVANTES = new Set(['para', 'como', 'quando', 'porque', 'entre', 'sobre', 'depois', 'antes', 'mesmo', 'mesma', 'pode', 'podem', 'ser', 'seu', 'sua', 'que', 'com', 'dos', 'das', 'uma', 'este', 'esta', 'esse', 'essa', 'pelo', 'pela', 'mais', 'menos']);
 
@@ -655,6 +668,8 @@ export function conferir(e, { alternativas }) {
     const certas = (e.alternativas ?? []).filter((a) => a.correta).length;
     if (e.tipo === 'quiz' && certas !== 1) p.push(`quiz com ${certas} corretas (esperado 1)`);
     if (e.tipo === 'multipla-escolha') {
+      if (POLARIDADE.test(e.enunciado ?? ''))
+        p.push('multipla-escolha cujo enunciado mistura as duas polaridades ("o que X e o que não X") — não diz qual lado marcar');
       if (certas < 2) p.push(`multipla-escolha com ${certas} correta(s) (mínimo 2)`);
       if (certas >= n) p.push('multipla-escolha com todas as alternativas corretas');
     }
