@@ -109,6 +109,13 @@ Aplicada em `lib/criticar.mjs`.
 escrito por outro modelo convida à concordância. Sonda observa comportamento.
 
 - **Sonda cega** responde a questão sem ver qual alternativa está marcada.
+- **Sonda do chute** responde **proibida de usar o assunto**, só com heurística de prova:
+  comprimento, absolutos, categoria, plausibilidade, molde sintático, eco de palavra. Se ela
+  acerta, a forma entrega o gabarito. Origem: dos 12 primeiros exercícios gerados pela IA,
+  seis reprovaram e cinco eram o mesmo defeito em fantasias diferentes — e a sonda cega
+  aprovou todos, porque ela responde *pelo mérito* e acertar pelo mérito nada diz sobre ser
+  chutável. Regra em prosa contra isso já existia e o gerador não obedeceu; medir foi a
+  única saída.
 - **Sonda da dica** tenta resolver vendo o enunciado, **o que o aluno vê** e a dica — nunca o
   gabarito. Origem: a sonda recebia só enunciado e dica, então num `saida-esperada` recebia
   "o que este trecho imprime?" **sem o trecho**; cega, aprovava tudo.
@@ -158,6 +165,10 @@ Sabido, ainda não resolvido:
 - **Realimentar a crítica no gerador.** Hoje o exercício rejeitado é descartado; refazer com a
   crítica em mãos sai mais barato que gerar do zero.
 - **Deduplicação entre tópicos vizinhos.**
-- **Nenhum exercício gerado pela IA passou por estas regras ainda.** Os 48 do Python foram
-  escritos à mão. O teste que falta é rodar o gerador num curso que depende de `ordenacao` e
-  `associacao` — os dois tipos mais frágeis.
+- **A sonda do chute nunca rodou.** Foi escrita a partir de seis rejeições reais, mas ainda
+  não se sabe a taxa de falso positivo dela: uma sonda que "acerta pela forma" toda vez
+  reprovaria tudo. Primeira rodada com ela é medição da própria sonda.
+- **O gerador ignora regra em prosa quando ela é longa.** As regras de distrator existiam e
+  foram desobedecidas em 2 dos 12 exercícios do Docker. O padrão até aqui: regra que vira
+  conferência mecânica ou sonda passa a ser respeitada; regra que fica só no prompt é
+  respeitada às vezes. Considerar isso antes de acrescentar prosa.

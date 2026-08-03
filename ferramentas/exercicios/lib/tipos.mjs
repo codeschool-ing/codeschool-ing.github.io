@@ -103,6 +103,14 @@ palpite. Duas coisas decorrem disso:
    cada uma dessas amarras entrega a posição pelo texto. Escreva cada passo de modo que ele
    faça sentido sozinho, fora de ordem.
 
+3. **Nenhum passo pode justificar a própria posição.** Esta é mais sutil que a anáfora e
+   anula a armadilha por dentro. Caso real: a armadilha declarada era inverter o sistema
+   operacional hospedeiro e o hipervisor tipo 2 — e o item do hipervisor dizia "executado
+   como um programa comum", o que já entrega que existe um SO embaixo dele. O autor nomeou a
+   armadilha e a desarmou na mesma frase. Depois de escrever os itens, releia cada um
+   perguntando: **este texto diria a alguém que ignora o assunto onde ele vai?** Se disser,
+   corte a parte que diz.
+
 **associacao** — o tópico tem itens que se emparelham um a um. Preencha \`pares\` com 4 a 6
 duplas \`{esquerda, direita}\`; o portal embaralha a coluna da direita. Serve para comando e
 efeito, erro e causa, conceito e definição, padrão e problema que ele resolve, campo do
@@ -131,6 +139,21 @@ continua sobrando por eliminação. Caso real: numa associação de operadores a
 que disputam com as **duas** expressões de resultado inteiro, o exercício passou a exigir o
 que dizia avaliar. Pergunta a fazer: depois de resolver os pares fáceis, o difícil ainda tem
 concorrente?
+
+**Os distratores têm de ser indistinguíveis das corretas pela forma.** De nada adianta o
+distrator ser plausível se ele se denuncia pelo molde. Caso real: as quatro direitas corretas
+descreviam efeitos observados pela equipe ("os dois continuam no ar", "o artefato volta a ser
+executado") e os dois distratores começavam com sujeito de mecanismo interno ("um tradutor
+converte…", "cada processo recebe uma cópia dedicada do kernel…"). Categoria diferente, e o
+aluno descarta os dois sem saber nada do assunto. Mesmo sujeito, mesmo tempo verbal, mesmo
+comprimento, mesmo nível de abstração — em corretas e distratores.
+
+**Nenhuma direita pode ecoar palavra da esquerda.** Isto é parente da regra da tradução, mas
+o eco vem do enunciado e não do nome. Caso real: a situação dizia "o roteiro tem 40 passos
+manuais" e a direita certa dizia "os passos passam a ser um arquivo de texto"; "exige a versão
+3.8 e outro a 3.12" casava com "os dois continuam no ar lado a lado". Quatro pares fechados só
+casando palavra, sem saber o que a tecnologia faz. Descreva o efeito com vocabulário que não
+apareça na coluna oposta.
 
 **A direita não pode ser a tradução do nome da esquerda.** \`pip list --outdated\` → "mostra o
 que está desatualizado", \`df.head(3)\` → "as três primeiras linhas", \`deactivate\` → "desativa
@@ -183,13 +206,33 @@ uma antes de fechar a questão:
 4. **Categoria destoante.** Erradas todas de um assunto e a correta de outro deixam achar a
    diferente sem entender nada. Todas devem pertencer ao mesmo campo.
 
+5. **Plausibilidade destoante.** Parente do absurdo óbvio, mas por mecanismo: se as erradas
+   inventam comportamento mágico ("traduz chamadas em tempo de execução", "obriga o servidor
+   a trocar de distribuição") e a correta é a única afirmação sóbria, quem não estudou marca
+   a sóbria. Cada errada precisa descrever algo que **existe** em algum lugar, aplicado ao
+   caso errado.
+6. **Molde sintático.** Se três erradas seguem a mesma fôrma ("X, para que Y") e a correta
+   não, a diferente se destaca sem mérito. Idem quando a pergunta é plural e a correta é a
+   única que enumera vários itens: o aluno escolhe a mais abrangente por hábito. Varie a
+   fôrma entre as erradas, ou aplique a mesma à correta.
+
 O teste final: um aluno esperto que **não estudou o tópico** consegue eliminar as erradas só
-pela forma? Se consegue, refaça.
+pela forma? Se consegue, refaça. **Esta pergunta é medida, não confiada:** uma sonda tenta
+responder cada questão proibida de usar conhecimento do assunto, só com heurística de prova.
+Se ela acerta, o exercício reprova com gravidade alta.
 
 ## A dica socrática, em qualquer tipo
 
 Aponta o que examinar; não resolve. Se lida sozinha, não pode permitir acertar. Numa questão
 de alternativas, ela não deve descartar o distrator mais forte — isso reduz a escolha a duas.
+
+**A dica não pode oferecer um critério que contradiga o gabarito.** É o defeito mais caro do
+conjunto, porque reprova exatamente quem domina o assunto e confia na orientação da escola.
+Caso real: a dica mandava "verifique se a afirmação promete algo entre ferramentas ou entre
+hardwares", sugerindo que promessa entre ferramentas é verdadeira — e uma das alternativas
+marcadas como errada era precisamente uma promessa entre ferramentas. Quem aplicasse a
+heurística oferecida erraria o conjunto. Depois de escrever a dica, aplique-a a **cada**
+alternativa e confira se o resultado bate com o gabarito.
 `;
 
 /* Esquema único para todos os tipos. Campos que não valem para o tipo vêm vazios: saída
