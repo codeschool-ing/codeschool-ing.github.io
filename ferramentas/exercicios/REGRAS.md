@@ -18,8 +18,18 @@ o que exigir, por que (o defeito real), e em que camada a exigência mora — co
 mecânica, prompt de geração, ou passe de crítica. Uma regra sem o "por que" não sobrevive à
 tradução, porque quem reimplementa não sabe o que pode negociar.
 
-O que **não** deve entrar num prompt de reconstrução: os exercícios de Python, os números de
+O que **não** deve entrar num prompt de reconstrução: o catálogo desta escola, os números de
 custo desta conta de API, e os nomes de arquivo. São desta instância, não do problema.
+
+**Correção de uma exclusão que estava errada pela metade.** Este parágrafo dizia também "os
+exercícios de Python". Vale para o papel deles de *conteúdo* — são de um curso específico e não
+interessam a mais ninguém. Mas eles têm um segundo papel, **corpo de prova de calibração**, e
+esse é do problema. Sem ele, as conferências mecânicas de uma reconstrução nascem sem limiar
+aferido; a camada barulhenta incomoda, alguém afrouxa os limiares para calar o barulho, e a
+camada de graça passa a existir sem acusar nada. Um prompt de reconstrução **anexa** um corpo
+de prova revisado por pessoa, junto com os prompts na íntegra e o histórico de rodadas — ver
+[`RECONSTRUIR.md`](RECONSTRUIR.md). Regra geral: o que evita repagar um aprendizado é do
+problema, mesmo quando o arquivo em que ele mora é desta instância.
 
 ---
 

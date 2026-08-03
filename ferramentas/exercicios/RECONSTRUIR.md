@@ -4,11 +4,27 @@ Rascunho do prompt único que reconstrói esta ferramenta do zero, em Go, sem he
 Escrito a partir de [`REGRAS.md`](REGRAS.md), que continua sendo a fonte: se os dois
 divergirem, aquele manda e este se atualiza.
 
-**Não entrou aqui, de propósito:** o catálogo de cursos desta escola, os exercícios de Python
-que servem de corpo de prova, os números de custo desta conta de API e os nomes de arquivo da
-implementação em JavaScript. São desta instância, não do problema.
+**Não entrou aqui, de propósito:** o catálogo de cursos desta escola, os números de custo
+desta conta de API e os nomes de arquivo da implementação em JavaScript. São desta instância,
+não do problema.
 
-**Como usar:** copie tudo abaixo da linha para uma sessão nova. Ele é autossuficiente.
+**Como usar:** anexe os três arquivos da lista abaixo e copie tudo abaixo da linha para uma
+sessão nova. O texto sozinho reconstrói a arquitetura e o processo; os anexos são o que evita
+que a reconstrução repague o que este projeto já pagou.
+
+### Os três anexos, e o que acontece sem cada um
+
+| anexo | papel | sem ele |
+| --- | --- | --- |
+| **os exercícios revisados à mão** (aqui, os 48 de Python) | corpo de prova de calibração | as conferências mecânicas nascem barulhentas, quem implementa afrouxa os limiares para calar o barulho, e a camada de graça passa a existir sem acusar nada — o pior desfecho possível |
+| **os prompts na íntegra**: regras por tipo (~2.800 palavras) e o do juiz (~700) | texto acumulado de autoria | a seção "O que o prompt de autoria precisa exigir" tem ~490 palavras e é um resumo. O que some no resumo são os casos trabalhados, e regra abstrata é obedecida às vezes enquanto caso concreto é obedecido |
+| **o histórico de rodadas** | linha de base do veredito | as primeiras rodadas imprimem "primeira rodada deste curso" e não respondem se a ferramenta evoluiu, que é a pergunta que o veredito existe para responder |
+
+Sobre o primeiro: os exercícios têm **dois papéis**, e só um deles é desta instância. Como
+*conteúdo*, são de um curso específico e não interessam a mais ninguém. Como *corpo de prova*,
+são a única defesa contra falso positivo em conferência mecânica, e isso é do problema. Anexe
+qualquer conjunto de exercícios que uma pessoa tenha revisado e considerado bons — os desta
+base servem, os seus servem melhor. O que não serve é nenhum.
 
 ---
 
@@ -138,6 +154,26 @@ que permite a você negociar limiares sem destruir a regra.
 | a dica informando **quantas** alternativas são falsas | vira triagem de rótulos: o aluno procura as duas da categoria citada e marca o resto |
 | duas ou mais palavras da dica presentes em exatamente uma alternativa, a correta | a dica virou seta; casamento textual, não conceitual |
 
+**Limiares já calibrados.** Todos foram ajustados contra um corpo de prova revisado à mão até
+não acusarem nenhum exercício bom. Cada um tem um valor óbvio que **está errado** — se você
+escolher o óbvio, vai colher o falso positivo que já foi pago aqui.
+
+| conferência | limiar | o óbvio, e por que erra |
+| --- | --- | --- |
+| comprimento | menor correta > maior errada × 1,25 | sem margem, qualquer variação natural de redação acusa |
+| eco léxico do enunciado | menor correta ≥ 3 palavras **e** ≥ maior errada **+ 3** | o óbvio é +1, e +1 acusou dois exercícios bons — vantagem de uma palavra é ruído |
+| identificador técnico | só sigla (duas maiúsculas ou mais) ou termo com dígito | aceitar qualquer palavra acusa verbos comuns: "executar", "marca", "repetir" |
+| palavras da dica | feixe de **2 ou mais** apontando para a mesma alternativa | uma palavra é coincidência: "outro", "valor" e "saída" caíram numa alternativa só, por acaso, em 3 de 48 |
+| absoluto / ressalva por grupo | separação **estrita**: todas de um lado, nenhuma do outro, com ≥2 de cada lado | maioria não basta; acusa prosa normal |
+| heurística de prova simulada | só com **2 corretas ou mais** | com uma correta só, o conjunto simulado bate por acaso com facilidade |
+| advérbio de incerteza | exatamente 1 alternativa protegida, ≥4 alternativas no total | vocabulário largo demais derruba exercício bom — ver o cuidado 3 abaixo |
+| molde sintático | ≥3 erradas com as mesmas **duas primeiras palavras**, e nenhuma correta assim | — |
+| dica que conta quantas erram | número e palavra de veracidade a menos de ~60 caracteres um do outro | procurar os dois no texto inteiro acusa frase sem relação |
+
+Calibre nos **dois sentidos**: nenhum falso positivo no corpo de prova, e um teste por regra
+provando que ela ainda dispara no caso real que a motivou. Calibrar num sentido só produz uma
+regra que não acusa nada, e ninguém percebe.
+
 Quatro cuidados de calibração, cada um pago com um falso positivo real:
 
 1. **Exija separação estrita** nas conferências de grupo (todas de um lado, nenhuma do outro).
@@ -261,6 +297,13 @@ numa linha que dá para não ler.
 
 ## O que o prompt de autoria precisa exigir
 
+**Esta seção é um resumo, e o prompt verdadeiro está anexado.** São ~490 palavras aqui contra
+~2.800 lá, e a diferença não é enchimento: são os casos trabalhados. "A dica não pode oferecer
+critério que contradiga o gabarito" é obedecido às vezes; o mesmo com o caso junto — *a dica
+mandava verificar se a afirmação promete algo entre ferramentas, sugerindo que promessa entre
+ferramentas é verdadeira, e uma das erradas era precisamente uma promessa entre ferramentas* —
+é obedecido. **Use o anexo como texto e esta seção como índice do que não pode faltar nele.**
+
 Além das regras já citadas:
 
 - **Ordem dos tópicos é restrição.** Antes de fechar um exercício, liste o que ele exige e
@@ -329,10 +372,11 @@ parágrafo.
 
 Um alvo de teste que roda em segundos e **não toca a rede**:
 
-- **Um corpo de prova de exercícios revisados por uma pessoa**, dos quais **nenhuma conferência
-  mecânica pode reclamar**. É a defesa contra falso positivo, e ela é essencial: quase toda
-  conferência da camada 1 nasceu boa demais e precisou de limiar. Sem corpo de prova você
-  descobre isso pagando.
+- **O corpo de prova anexado** — exercícios revisados por uma pessoa, dos quais **nenhuma
+  conferência mecânica pode reclamar**. É a defesa contra falso positivo, e ela é essencial:
+  quase toda conferência da camada 1 nasceu boa demais e precisou de limiar. Sem corpo de prova
+  você descobre isso pagando, e o jeito como se descobre é ruim — a camada barulhenta incomoda,
+  alguém afrouxa os limiares, e ela passa a existir sem acusar nada.
 - **Cada conferência guarda também o caso real que a motivou** e um teste de que ela ainda
   dispara nele. Calibrar num sentido só produz uma regra que não acusa nada.
 - **A contabilidade do funil em voltas roda inteira contra funções de mentira.** É o ponto onde
