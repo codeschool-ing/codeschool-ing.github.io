@@ -163,6 +163,19 @@ escrito por outro modelo convida à concordância. Sonda observa comportamento.
   relatório não distingue isso de aprovado. É o mesmo princípio de "não julgado nunca vira
   aprovado", que já estava escrito e não tinha sido aplicado às sondas.
 
+  **Terceira rodada, US$ 0,17: aprovada.** #1 passou, #2 e #3 reprovaram — os dois que o juiz
+  já havia reprovado, e o controle intacto. **Especificidade importa tanto quanto sensibilidade:**
+  um instrumento que acusasse os três não provaria nada, porque acusar tudo é gratuito. Foi por
+  isso que o conjunto de prova trouxe um caso que devia passar.
+
+  Mais forte que o placar: a explicação do #3 reconstruiu sozinha o achado do juiz — o distrator
+  do fuso horário descreve `/etc/localtime` e `TZ`, comportamento real de container **e** de
+  máquina virtual — e ainda anotou que ele é "defensável, não obrigatório". Dois instrumentos
+  independentes chegando ao mesmo defeito é a evidência mais forte que este funil produz.
+
+  Reconferir custa ~US$ 0,17 (`prova-sonda-pares.json`): não entra no `npm test`, mas roda
+  sempre que a sonda mudar.
+
   **A regra que isto acrescenta ao método:** *só peça a uma sonda aquilo que ela possa recusar*
   não basta. Falta a metade seguinte — **o formato da resposta não pode destruir a informação
   procurada.** Perguntar "qual" quando a pergunta é "quantos" devolve sempre um, e o instrumento
