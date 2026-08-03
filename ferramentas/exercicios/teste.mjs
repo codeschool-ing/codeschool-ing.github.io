@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { conferir, ecoDePares, pistasDeForma } from './lib/tipos.mjs';
 import { aceitar, laudo } from './lib/refazer.mjs';
 import { comparar } from './lib/historico.mjs';
+import { contexto } from './lib/catalogo.mjs';
 import { funil } from './lib/funil.mjs';
 import { montarAlternativas, quantasVerdadeiras } from './lib/cegas.mjs';
 import { montar } from './lib/prompts.mjs';
@@ -255,6 +256,18 @@ await grupo('a autoria cega monta o gabarito a partir do juízo, não do autor',
     'multipla-escolha mantém a contagem que o gerador escolheu — ela veio do tópico');
   ok(quantasVerdadeiras({ tipo: 'multipla-escolha', alternativas: [{ correta: true }] }) === 2,
     'e nunca desce abaixo de duas, que é o mínimo do tipo');
+});
+
+/* ---- 3d. o gerador não pode ver o que vem depois -------------------------- */
+
+await grupo('a ementa é cortada para quem escreve e inteira para quem critica', () => {
+  const curso = { nome: 'C', categoria: 'x', nivel: 'y', horas: 1, resumo: 'r', ementa: 'e', topicos: ['um', 'dois', 'três', 'quatro'] };
+  const cortado = contexto(curso, { ate: 2 });
+  ok(cortado.includes('dois') && !cortado.includes('três'), 'cortado em 2 mostra os dois primeiros e esconde os seguintes');
+  ok(/de propósito/.test(cortado), 'e diz que o resto está escondido de propósito, para o autor não supor que já foi ensinado');
+  ok(contexto(curso).includes('quatro'), 'sem corte, a ementa vem inteira — é o que o crítico precisa para reconhecer referência adiante');
+  ok(contexto(curso, { ate: 9 }).includes('quatro'), 'corte além do fim não esconde nada');
+  ok(contexto(curso, { ate: undefined }).includes('quatro'), 'tópico não encontrado na ementa não pode cegar o autor por acidente');
 });
 
 /* ---- 4. guardas da reescrita --------------------------------------------- */

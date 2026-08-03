@@ -601,6 +601,17 @@ export function ecoDePares(pares) {
     : [];
 }
 
+/* NÃO existe conferência mecânica de "exige tópico posterior", e a tentativa está registrada
+ * para não ser refeita. A ideia era comparar o texto do exercício com o vocabulário dos
+ * títulos dos tópicos seguintes. Acusou 5 dos 48 exercícios bons: "biblioteca", "padrão",
+ * "objetos" e "arquivos" aparecem em título de tópico posterior E em prosa normal, e não há
+ * como distinguir lexicalmente "menciona a palavra" de "exige o conceito". Exigir duas
+ * palavras do mesmo tópico posterior não salvou — "biblioteca padrão" caiu igual.
+ *
+ * O defeito é real e caro, mas a solução não é detectá-lo: é não deixar acontecer. O gerador
+ * recebia a ementa INTEIRA e alcançava adiante porque podia ver adiante. Ver `contexto()` em
+ * catalogo.mjs, que agora corta a lista no último tópico do lote. */
+
 /* Conferência estrutural: de graça, sem API e sem executar nada. */
 export function conferir(e, { alternativas }) {
   const p = [];

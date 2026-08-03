@@ -130,7 +130,8 @@ export function montarAlternativas(afirmacoes, juizos, esperadas) {
 }
 
 export async function autoriaCega({ exercicios, curso, opcoes, paralelo, aoProgredir }) {
-  const ctx = contexto(curso);
+  // Também escreve às cegas quanto à ementa: só o que já foi ensinado até o tópico.
+  const ctx = (e) => contexto(curso, { ate: (curso.topicos.indexOf(e.topico) + 1) || undefined });
   const alvos = exercicios.filter((e) => COM_ALTERNATIVAS.has(e.tipo));
   if (!alvos.length) return exercicios;
 
@@ -141,7 +142,7 @@ export async function autoriaCega({ exercicios, curso, opcoes, paralelo, aoProgr
 
     const escrita = await perguntar({
       etapa: 'cegas',
-      system: `${SYS_ESCREVER}\n\n---\n\n${ctx}`,
+      system: `${SYS_ESCREVER}\n\n---\n\n${ctx(e)}`,
       esquema: ESQ_ESCREVER,
       maxTokens: 8000,
       pergunta: `## Tópico\n${e.topico}\n\n## Enunciado\n${e.enunciado}\n\nEscreva ${n} afirmações. **${verdadeiras} delas será(ão) verdadeira(s)** — mas não decida quais, e não indique nada: outra pessoa vai julgar cada uma depois de você.`,
@@ -154,7 +155,7 @@ export async function autoriaCega({ exercicios, curso, opcoes, paralelo, aoProgr
     // Chamada nova, sem memória da anterior: é o que torna o juízo independente da escrita.
     const juizo = await perguntar({
       etapa: 'cegas',
-      system: `${SYS_JULGAR}\n\n---\n\n${ctx}`,
+      system: `${SYS_JULGAR}\n\n---\n\n${ctx(e)}`,
       esquema: ESQ_JULGAR,
       maxTokens: 8000,
       pergunta: `## Tópico\n${e.topico}\n\n## Contexto da pergunta\n${e.enunciado}\n\n## Afirmações a julgar\n${escrita.afirmacoes.map((t, k) => `${k + 1}. ${t}`).join('\n')}`,

@@ -56,6 +56,7 @@ Aplicada em `conferir()`, `lib/tipos.mjs`. É de graça, então roda sempre e pr
 | `quiz`/`multipla-escolha`: molde sintático baixou de 3 erradas para **2** | as duas únicas alternativas abrindo com "A conformidade …" eram exatamente as duas erradas. Duas fórmulas iguais num conjunto de cinco revelam tanto quanto três; zero falso positivo nos 48 com o limiar novo |
 | `associacao`: as esquerdas ecoam a própria direita | a regra "nenhuma direita pode ecoar palavra da esquerda" existia só em prosa e foi desobedecida. Mecanizada comparando, por par, o vocabulário dividido com a **própria** direita contra o dividido com as outras. Tolera **um** par de folga: exigir todos derrubava a conferência por um empate de vocabulário |
 | `quiz`: duas ou mais palavras da dica numa alternativa só, a correta | "conte quantos **kernel** de **sistema operacional** estão carregados" com uma única opção que fala em kernel: casamento textual, não conceitual. Uma palavra não basta — `outro`, `valor` e `saída` caíram numa alternativa só por acaso em 3 dos 48. O enunciado não serve de fonte: divide vocabulário com todas as alternativas por construção |
+| **não existe** conferência de "exige tópico posterior" | tentada e descartada: comparar o texto do exercício com o vocabulário dos títulos seguintes acusou 5 dos 48 bons — "biblioteca", "padrão", "objetos" e "arquivos" aparecem em título posterior **e** em prosa normal, e não há como distinguir lexicalmente "menciona a palavra" de "exige o conceito". Exigir duas palavras do mesmo tópico não salvou. O defeito é real; a resposta está na autoria, não na detecção — ver seção 3 |
 | `associacao`: enunciado tem de avisar que sobram itens | quem não sabe tenta encaixar todos e força associação errada; pegou 3 dos 7 exercícios escritos à mão |
 | `resposta-expressao`: variável da verificação tem de estar em `variaveis` | — |
 | tipo X não pode trazer campos de tipo Y | — |
@@ -85,7 +86,16 @@ Aplicada em `lib/validar.mjs`.
 
 Aplicada no prompt de `lib/tipos.mjs`.
 
-**Ordem dos tópicos.** Exercício do tópico N só pode exigir o que os tópicos 1..N ensinaram.
+**Ordem dos tópicos — agora imposta pela cegueira, não pela regra.** Exercício do tópico N só
+pode exigir o que os tópicos 1..N ensinaram. A regra existia em prosa desde o começo e era
+desobedecida: numa rodada, "exige conteúdo de tópico posterior" foi a segunda maior causa de
+rejeição paga, com exercícios do tópico 1 pedindo namespaces, cgroups e limites de recurso.
+**O gerador alcançava adiante porque podia ver adiante** — recebia a ementa inteira. Agora a
+lista é cortada no último tópico do lote, para gerar, reescrever e escrever alternativas; o
+crítico continua recebendo inteira, porque precisa reconhecer a referência para reprová-la.
+Não se pede a alguém que ignore o que está lendo: tira-se da vista.
+
+
 Origem: exercício de "instalação e primeiro script" exigindo `strip()`, condicional e
 f-string — passou 4/4 na validação, que é precisamente por que o crítico existe.
 
@@ -353,11 +363,44 @@ cuida dela. Nenhuma quantidade de detector conserta isso; só um desenho de auto
 essa informação ao autor no momento em que ela importa. Está registrado como a próxima
 mudança estrutural a testar, na seção 8.
 
+## 7d. A autoria cega foi medida e reprovada — mas não pelo motivo esperado
+
+Critério declarado antes de rodar: a taxa de primeira passada tinha de sair dos ~40%. Deu
+**33%, exatamente a mesma da rodada anterior**. A hipótese caiu, e o flag `--cegas` fica
+desligado. Mas os outros dois números explicam o quê, exatamente, caiu.
+
+| | rodada C | rodada D, `--cegas` |
+| --- | --- | --- |
+| 1ª passada | 3/9 (33%) | 3/9 (33%) |
+| pegos de graça pela estrutura | **4 de 9** | **0 de 7** |
+| custo por aprovado | US$ 0,395 | US$ 0,524 |
+
+**O mecanismo funcionou: as pistas de forma foram a zero.** Nenhuma conferência mecânica
+disparou — a lista de seis eixos de uniformidade no prompt fez o gerador produzir alternativas
+formalmente indistinguíveis. E a taxa não se mexeu um ponto. Isso é quase uma prova de que
+**forma nunca foi a restrição que limitava**, e é o resultado mais útil que a rodada deu.
+
+**A cegueira era teatral, e o erro de projeto é meu.** Pedir "escreva cinco afirmações, uma
+delas verdadeira, mas não decida qual" é incoerente: para garantir a contagem, o autor precisa
+decidir. Ele decidiu e não contou. Sobrou a assimetria semântica, que é a que o crítico passou
+a apontar: as erradas ficam falsas de um jeito reconhecível — mecanismo exótico, domínio
+trocado, falsidade grosseira — e as certas são as afirmações canônicas do tópico.
+
+**Consequência para o método:** a restrição de "não saber" só vale quando **não é preciso
+saber para cumprir a tarefa**. A solução de referência às cegas funciona porque escrever a
+solução não exige ver os casos. Escrever um conjunto com contagem de verdadeiras fixa exige
+saber quais são. Antes de projetar a próxima cegueira, perguntar: a tarefa é executável sem a
+informação que estou escondendo? Se não for, a cegueira é encenação.
+
+**E, pela promessa feita antes de rodar: acabou a caça a pista de forma.** As conferências já
+existentes ficam — são baratas e pegam defeito real de graça —, mas nenhuma nova entra sem que
+a taxa de primeira passada mostre que forma voltou a ser o gargalo.
+
 ## 8. O que ainda não é regra
 
 Sabido, ainda não resolvido:
 
-- **Autoria cega das alternativas — implementada em `--cegas`, ainda não medida.** Hoje o gerador
+- ~~**Autoria cega das alternativas.**~~ **Medida e reprovada — ver 7d.**  Registro original: Hoje o gerador
   escreve cinco alternativas já sabendo quais marcará como corretas, e cuida das corretas. Daí
   toda a família de pistas de forma. A proposta é aplicar à autoria o mesmo princípio que já
   governa a verificação: **escrever primeiro cinco afirmações defensáveis sobre o tópico, sem

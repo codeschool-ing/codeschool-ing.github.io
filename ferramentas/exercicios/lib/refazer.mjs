@@ -68,9 +68,10 @@ resposta certa e refaça o que for preciso para que ela seja a única.
 continuam valendo; corrigir o defeito apontado e quebrar outra regra não adianta nada.`;
 
 export async function refazer({ exercicios, curso, opcoes, paralelo, aoProgredir }) {
-  const system = `${REGRAS(opcoes)}\n\n---\n\n${contexto(curso)}`;
-
   const saidas = await mapaConcorrente(exercicios, paralelo, async (e, i) => {
+    // Quem reescreve é autor, então enxerga tanto quanto o autor: até o tópico do exercício.
+    const ate = curso.topicos.indexOf(e.topico) + 1;
+    const system = `${REGRAS(opcoes)}\n\n---\n\n${contexto(curso, { ate: ate || undefined })}`;
     const problemas = laudo(e);
     const r = await perguntar({
       etapa: 'refazer',

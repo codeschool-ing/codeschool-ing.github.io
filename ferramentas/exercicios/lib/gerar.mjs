@@ -36,17 +36,19 @@ export async function gerar({ curso, topicos, tamLote, paralelo, opcoes, aoProgr
   const lotes = [];
   for (let i = 0; i < topicos.length; i += tamLote) lotes.push(topicos.slice(i, i + tamLote));
 
-  const system = `${REGRAS(opcoes)}\n\n---\n\n${contexto(curso)}`;
-
   // `max_tokens` limita pensamento + resposta juntos, e o modelo entrega 128k. Com
   // thinking adaptativo em effort alto, 6 tópicos não cabiam em 32k: o lote inteiro
   // truncava e os 6 tópicos saíam sem exercício nenhum.
   const TETO_SAIDA = 64000;
 
   async function escrever(lote, rotulo) {
+    // A ementa é cortada no último tópico do lote: o gerador não vê o que vem depois, e por
+    // isso não tem como exigir. O prefixo grande (REGRAS) continua idêntico entre os lotes,
+    // então o cache de prompt segue valendo.
+    const ate = topicos.indexOf(lote[lote.length - 1]) + 1;
     const r = await perguntar({
       etapa: 'gerar',
-      system,
+      system: `${REGRAS(opcoes)}\n\n---\n\n${contexto(curso, { ate })}`,
       esquema: esquema(opcoes),
       maxTokens: TETO_SAIDA,
       pergunta: `Escreva os exercícios para estes tópicos:\n\n${lote.map((t, i) => `${i + 1}. ${t}`).join('\n')}`,

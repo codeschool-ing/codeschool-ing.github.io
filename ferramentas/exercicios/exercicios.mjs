@@ -197,7 +197,7 @@ async function etapaValidar(exercicios, dados) {
   console.log('');
   const { aprovados, reprovados } = await validar({
     exercicios,
-    opcoes: { ...opcoes, alternativas: dados.alternativas ?? opcoes.alternativas },
+    opcoes: { ...opcoes, alternativas: dados.alternativas ?? opcoes.alternativas, topicos: acharCurso(dados.curso).topicos },
     timeout: TIMEOUT,
     paralelo: PARALELO,
     soEstrutura: tem('so-estrutura'),
