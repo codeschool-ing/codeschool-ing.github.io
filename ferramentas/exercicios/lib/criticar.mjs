@@ -184,11 +184,15 @@ function corpo(e) {
     // string, com aspas e \n escapado". O crítico estava julgando a formatação do prompt:
     // o dado armazenado são bytes com quebra de linha de verdade. Mostrar o texto real.
     return `Linguagem: ${e.linguagem}\nTrecho:\n${e.codigo_dado}\nSaída esperada — é este texto que o aluno digita, não uma representação dele:\n<<<INÍCIO\n${e.resposta}FIM>>>\n(termina com quebra de linha: ${e.resposta.endsWith('\n') ? 'sim' : 'não'})`;
-  if (e.tipo === 'ordenacao') return `Ordem correta:\n${e.itens.map((t, i) => `${i + 1}. ${t}`).join('\n')}`;
+  if (e.tipo === 'ordenacao')
+    return `Ordem correta:\n${e.itens.map((t, i) => `${i + 1}. ${t}`).join('\n')}\n\nArmadilha declarada pelo autor: ${e.armadilha}\n(o portal embaralha os passos; julgue se a ordem é dedutível do texto sem saber o tópico)`;
   if (e.tipo === 'resposta-expressao')
     return `Variáveis: ${(e.variaveis ?? []).join(', ')}\nGabarito: ${e.expressao_gabarito}\nVerificação: ${e.verificacao_operacao}(${e.verificacao_origem}, ${e.verificacao_variavel})`;
   if (e.tipo === 'associacao')
-    return `Pares corretos:\n${e.pares.map((p, i) => `${i + 1}. ${p.esquerda}  ↔  ${p.direita}`).join('\n')}`;
+    return `Pares corretos:\n${e.pares.map((p, i) => `${i + 1}. ${p.esquerda}  ↔  ${p.direita}`).join('\n')}
+\nDistratores na coluna da direita (não emparelham com nada, e o aluno não sabe quais são):
+${(e.distratores_direita ?? []).map((t) => `  · ${t}`).join('\n')}
+(o portal embaralha a direita inteira, corretas e distratores juntos)`;
   return '';
 }
 
