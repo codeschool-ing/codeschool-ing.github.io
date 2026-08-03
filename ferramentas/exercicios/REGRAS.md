@@ -282,11 +282,23 @@ mesmas quatro dimensões, na mesma ordem de frequência. O funil produziu exerc�
 estruturados num curso onde três dos sete tipos são inaplicáveis, e o crítico achou defeitos
 reais, não artefatos.
 
-**A hipótese para a queda, e ela tem consequência de produto:** o assunto deste curso *é*
-julgamento — "o que é escrever com clareza" não tem resposta executável. Quando a matéria em
-si é opinativa, "alternativa defensável" fica mais difícil de tornar inequívoca, e é
-exatamente aí que a correção por conjunto exato castiga. Espere custo por aprovado ~35% maior
-nos cerca de dez cursos de `gestao` e `arquitetura`. Não é impedimento; é orçamento.
+**Correção, feita uma rodada depois.** O parágrafo original atribuía a queda ao assunto do
+curso ser opinativo e mandava orçar +35% para `gestao` e `arquitetura`. Um terceiro curso —
+`bancos-sql`, técnico — deu **3/8, idêntico**. Três cursos: 4/7, 3/8, 3/8, ou **10/23 (43%)
+juntos**. A diferença entre 4/7 e 3/8 é **um exercício**, e eu tratei um exercício como sinal.
+Não há efeito de tipo de curso detectável nesta amostra, e a regra de orçamento estava errada.
+Fica o que a amostra sustenta: **as regras transferem, e a taxa fica na faixa de 40%.**
+
+**O que essas três rodadas realmente têm em comum, e é o achado grande:** todas cobriram os
+**dois ou três primeiros tópicos**, que em qualquer curso são conceituais. Resultado: quinze
+rodadas geraram **zero `codigo` e zero `saida-esperada`**. A camada de execução — a mais forte
+do funil, a única determinística — **nunca rodou em conteúdo gerado**. Só existe nos 48 de
+Python, escritos à mão.
+
+Ou seja: tudo o que este arquivo afirma sobre taxa e custo vale para o **terço mais difícil**
+do problema, aquele em que a aprovação depende de julgamento. `bancos-sql` a partir do tópico
+4 (`SELECT, WHERE, ORDER BY`) é território de execução, e ninguém sabe qual é a taxa lá.
+Medir isso é a próxima rodada que vale dinheiro.
 
 **Ganho colateral da mesma rodada: a sonda cega de pares fez a primeira captura em produção**
 ("a esquerda 2 aceita 2 pares defensáveis"), em conteúdo novo e em outro curso. Validada em
