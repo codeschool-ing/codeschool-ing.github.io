@@ -441,6 +441,38 @@ informação que estou escondendo? Se não for, a cegueira é encenação.
 existentes ficam — são baratas e pegam defeito real de graça —, mas nenhuma nova entra sem que
 a taxa de primeira passada mostre que forma voltou a ser o gargalo.
 
+## 7f. A camada mecânica está perto do teto, e isso é medido
+
+Com o corpo de rejeições em mãos, **onze candidatas a conferência nova foram testadas de
+graça** contra os dois corpos ao mesmo tempo. Resultado: uma só passou — afrouxar a ressalva
+das corretas de "todas" para "todas menos uma", que levou o alcance de 13% para **19%**. As
+outras dez ou não pegaram nada ou acusaram exercício bom.
+
+**A dica está provadamente esgotada.** As quatro rejeições por dica que sobraram têm
+**sobreposição lexical zero ou um** com a alternativa correta — o mesmo que as erradas. Não é
+que falte uma regra melhor: **não existe sinal lexical**. São paráfrases:
+
+> "Conte quantas vezes um sistema operacional inteiro precisa estar carregado" ↔ a alternativa
+> fala em *kernel por VM*. Nenhuma palavra em comum, e a dica entrega a questão.
+
+A conferência que existe pega o subconjunto **literal** (duas ou mais palavras da dica numa
+alternativa só). O subconjunto **parafrástico** é da sonda, e continuará sendo.
+
+**O que sobra na coluna paga, por natureza:**
+
+| dimensão | o que é | mecanizável? |
+| --- | --- | --- |
+| distratores | "as erradas são falsas de um jeito reconhecível", "as certas são o clichê do tópico" | não — é plausibilidade, não forma |
+| gabarito | a afirmação marcada como certa é factualmente discutível | não — é verdade, não texto |
+| dica (paráfrase) | entrega o critério com outras palavras | não — sem sinal lexical |
+| alvo | exige o que não foi ensinado | resolvido na autoria, não na detecção (7e) |
+
+**Consequência estratégica, e é a razão de este parágrafo existir:** acrescentar conferência
+mecânica passou a render ~1 caso por tentativa, com risco crescente de falso positivo. O
+gargalo migrou para os instrumentos que julgam sentido — sondas — e para a autoria. Regra
+nova de forma só volta a valer a pena se o alcance parar de subir por outro caminho e a taxa
+de primeira passada mostrar que forma voltou a ser o problema.
+
 ## 8. O que ainda não é regra
 
 Sabido, ainda não resolvido:

@@ -496,8 +496,13 @@ export function pistasDeForma(e) {
   // prova tão boa quanto "absoluta = errada".
   const cHedge = certas.filter((a) => HEDGE.test(a.texto)).length;
   const eHedge = erradas.filter((a) => HEDGE.test(a.texto)).length;
-  if (certas.length >= 2 && erradas.length >= 2 && cHedge === certas.length && eHedge === 0)
-    p.push('pista de forma: todas as corretas trazem ressalva ("desde que", "comparável"…) e nenhuma errada traz');
+  // Uma correta de folga. A separação estrita perdia o caso em que duas de três corretas vêm
+  // ressalvadas e a terceira é curta demais para caber uma ressalva — o aluno enxerga o padrão
+  // do mesmo jeito. Medido contra os dois corpos de prova ao mesmo tempo: nenhum falso
+  // positivo nos 48 bons, uma rejeição paga a mais pega de graça. O lado das erradas continua
+  // exigindo zero, porque afrouxar ali acusou exercício bom.
+  if (certas.length >= 2 && erradas.length >= 2 && cHedge >= certas.length - 1 && cHedge >= 2 && eHedge === 0)
+    p.push(`pista de forma: ${cHedge} de ${certas.length} corretas trazem ressalva ("desde que", "comparável"…) e nenhuma errada traz`);
 
   // 3e. Eixo modal: corretas dizem o que PODE acontecer, erradas dizem o que a coisa OBRIGA
   // ou GARANTE. Quem faz prova descarta "obriga" e marca o que vem em tom de possibilidade,
