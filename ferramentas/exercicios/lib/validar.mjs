@@ -127,7 +127,9 @@ export async function validar({ exercicios, opcoes, timeout, paralelo, soEstrutu
     const problemas = conferir(e, opcoes);
     if (problemas.length) {
       aoProgredirLocal(e, 'ESTRUTURA', problemas.join('; '));
-      reprovados.push({ ...e, _motivo: problemas });
+      // A camada fica gravada: é ela que diz, no fim da rodada, quanto do defeito foi
+      // pego por cálculo e quanto precisou de API.
+      reprovados.push({ ...e, _camada: 'estrutura', _motivo: problemas });
       return { aprovados, reprovados };
     }
 

@@ -252,16 +252,34 @@ uma antes de fechar a questão:
    fôrma entre as erradas, ou aplique a mesma à correta.
 
 O teste final: um aluno esperto que **não estudou o tópico** consegue eliminar as erradas só
-pela forma? Se consegue, refaça. **Quatro destes traços são conferidos por cálculo, de graça,
-antes de qualquer chamada:** correta destacadamente mais longa que toda errada; absoluto
-presente só de um lado; correta ecoando muito mais vocabulário do enunciado que qualquer
-errada; erradas todas começando com a mesma fórmula e a correta não. Separação estrita em
-qualquer um dos quatro reprova na estrutura.
+pela forma? Se consegue, refaça. **Estes traços são conferidos por cálculo, de graça, antes
+de qualquer chamada:** correta destacadamente mais longa que toda errada; absoluto presente
+só de um lado; correta ecoando muito mais vocabulário do enunciado que qualquer errada;
+erradas todas começando com a mesma fórmula e a correta não; e mais dois sobre ressalva —
+uma única alternativa protegida por advérbio de incerteza ("provavelmente", "em geral",
+"tende a") sendo a correta, e, no \`multipla-escolha\`, o conjunto das ressalvadas coincidindo
+exatamente com o gabarito. Este último é o mais fácil de cometer sem perceber: ao escrever
+uma correta você quer ser exato, e exatidão soa como ressalva; ao escrever uma errada você
+quer que ela seja falsa, e falsidade soa categórica. **Se as suas corretas saíram todas
+matizadas e as erradas todas taxativas, o aluno acerta o conjunto pelo tom.** Iguale o tom
+antes de fechar: ou ressalve também alguma errada, ou afirme a correta sem amortecer.
 
 ## A dica socrática, em qualquer tipo
 
 Aponta o que examinar; não resolve. Se lida sozinha, não pode permitir acertar. Numa questão
 de alternativas, ela não deve descartar o distrator mais forte — isso reduz a escolha a duas.
+
+**Ela aponta onde olhar, não como decidir.** A diferença é a única que importa e é fácil de
+errar: "considere o que uma especificação padroniza e o que não padroniza" aponta; "veja se
+a promessa é sobre o artefato ou sobre a ferramenta com que a pessoa digita" decide — as duas
+categorias nomeadas são as duas categorias em disputa, e sobra ao aluno casar vocabulário.
+Numa rodada inteira este foi o defeito mais caro: a maior causa de rejeição paga, sempre da
+mesma forma — a dica formulava o critério já aplicado ao caso.
+
+Parte disso é conferida de graça: **duas ou mais palavras da dica que apareçam numa única
+alternativa, a correta, reprovam na estrutura.** Se a sua dica fala em "kernel" e "sistema
+operacional" e só uma alternativa usa essas palavras, ela não é dica, é seta. Escreva a dica
+com vocabulário que não esteja em alternativa nenhuma, ou que esteja em várias.
 
 **A dica não pode informar quantas alternativas são falsas ou verdadeiras.** Num
 \`multipla-escolha\` de cinco itens, dizer "duas delas erram" transforma a questão numa
@@ -401,7 +419,11 @@ const ABSOLUTOS = /\b(sempre|nunca|jamais|somente|apenas|qualquer|nenhum[a]?|tod
 // Vocabulário anterior perdia dois casos reais numa rodada só: as corretas eram ressalvadas
 // com "enquanto", "mas faz todos dependerem", "não contém X: ela traz Y" — nenhum estava na
 // lista. Ressalva é estrutura (contraste, concessão, qualificação), não um punhado de termos.
-const HEDGE = /(desde que|a menos que|salvo que|em geral|geralmente|normalmente|costuma|costumam|comparável|aproximadamente|na maioria|quando possível|tende a|enquanto|embora|ainda que|apesar de|porém|contudo|entretanto|no entanto|mas |exceto|em vez de|ao contrário|na prática|tipicamente|pode variar|depende d)/i;
+// Faltavam os advérbios de probabilidade: numa rodada o crítico reprovou uma questão em que
+// a correta era "a única que se protege com um advérbio de incerteza" — "provavelmente" —,
+// e nenhum deles estava aqui.
+const HEDGE = /(desde que|a menos que|salvo que|em geral|geralmente|normalmente|costuma|costumam|comparável|aproximadamente|na maioria|quando possível|tende a|enquanto|embora|ainda que|apesar de|porém|contudo|entretanto|no entanto|mas |exceto|em vez de|ao contrário|na prática|tipicamente|pode variar|depende d|provavelmente|possivelmente|talvez|eventualmente|potencialmente|frequentemente|raramente|costumeiramente)/i;
+const INCERTEZA = /(provavelmente|possivelmente|talvez|eventualmente|potencialmente|em geral|geralmente|normalmente|costuma|costumam|tende a|tendem a|na maioria|tipicamente|pode variar|quase sempre)/i;
 const NUMERO = /\b(uma|duas|tr[êe]s|quatro|cinco|[1-9])\b/i;
 const VERACIDADE = /\b(falsas?|verdadeiras?|corretas?|erradas?)\b/i;
 const AVISA_SOBRA = /(sobra|não correspond|nao correspond|não emparelh|nao emparelh|a mais|nem toda|nem todas|extras?)/i;
@@ -477,8 +499,53 @@ export function pistasDeForma(e) {
   if (erradas.length >= 3 && moldes.size === 1 && !certas.some((a) => inicio(a) === [...moldes][0]))
     p.push(`pista de forma: as ${erradas.length} erradas começam todas com "${[...moldes][0]}" e nenhuma correta começa assim`);
 
+  // 3c. A heurística de prova, simulada. Os testes acima perguntam se um traço separa os dois
+  // grupos; este pergunta a coisa que de fato decide a nota: aplicando a regra de quem faz
+  // prova sem ler o conteúdo — marque a ressalvada, descarte a absoluta —, sai o gabarito
+  // exato? Se sai, a questão é respondível pela forma, e a correção por conjunto exato torna
+  // isso pior no `multipla-escolha`, onde acertar o conjunto vale tudo.
+  //
+  // Só vale para conjunto de duas corretas ou mais. Com uma correta só, acertar a simulação
+  // é fácil demais por acaso: "enquanto" é ressalva numa frase e conjunção comum noutra, e
+  // uma questão boa dos 48 caiu por usar "olha só ali, enquanto a lista compara".
+  const cauteloso = (a) => HEDGE.test(a.texto) && !ABSOLUTOS.test(a.texto);
+  const marcadas = e.alternativas.filter(cauteloso);
+  if (certas.length >= 2 && marcadas.length === certas.length && marcadas.every((a) => a.correta) && marcadas.length < e.alternativas.length)
+    p.push(`pista de forma: marcar as ${marcadas.length} ressalvadas e descartar as absolutas dá o gabarito exato`);
+
+  // 3d. O caso de uma correta só, que a simulação acima não cobre: uma única alternativa se
+  // protege com advérbio de incerteza e é justamente a certa. Aqui o vocabulário é mais
+  // estreito que o de HEDGE de propósito — só o que suaviza uma AFIRMAÇÃO. Conectivo de
+  // contraste ("enquanto", "mas") é prosa normal numa alternativa explicativa e derrubava
+  // exercício bom.
+  const protegidas = e.alternativas.filter((a) => INCERTEZA.test(a.texto));
+  if (e.alternativas.length >= 4 && protegidas.length === 1 && protegidas[0].correta)
+    p.push('pista de forma: uma única alternativa se ressalva com advérbio de incerteza, e é a correta');
+
   // 5. A dica que conta quantas são falsas transforma o exercício numa triagem de rótulos.
   const dica = e.dica_socratica ?? '';
+
+  // 5b. A dica que nomeia um termo presente em uma alternativa só. "a dica entrega a
+  // resposta" foi a maior causa de rejeição paga de uma rodada inteira, e uma parte dela é
+  // calculável: se a dica diz "conte quantos sistemas operacionais estão carregados" e
+  // exatamente uma alternativa fala em kernel, o casamento é textual, não conceitual.
+  // O enunciado não serve de fonte para este teste — ele divide vocabulário com todas as
+  // alternativas por construção. A dica é curta e escolhida a dedo: cada palavra pesa.
+  //
+  // Uma palavra só não basta: "outro", "valor" e "saída" caíram numa alternativa só por
+  // acaso em três dos 48 exercícios bons. Exige-se um feixe — duas ou mais palavras da dica
+  // apontando todas para a MESMA alternativa, e ela a correta. Coincidência não se repete
+  // três vezes no mesmo alvo.
+  if (certas.length === 1) {
+    const feixe = [];
+    for (const termo of [...palavras(dica)].filter((w) => !IRRELEVANTES.has(w))) {
+      const onde = e.alternativas.filter((a) => palavras(a.texto).has(termo));
+      if (onde.length === 1 && onde[0].correta) feixe.push(termo);
+    }
+    if (feixe.length >= 2)
+      p.push(`pista de forma: ${feixe.length} palavras da dica (${feixe.join(', ')}) aparecem numa alternativa só, a correta`);
+  }
+
   if (NUMERO.test(dica) && VERACIDADE.test(dica)) {
     const iN = dica.search(NUMERO);
     const iV = dica.search(VERACIDADE);

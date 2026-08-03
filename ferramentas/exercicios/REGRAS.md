@@ -39,7 +39,10 @@ Aplicada em `conferir()`, `lib/tipos.mjs`. É de graça, então roda sempre e pr
 | `quiz`/`multipla-escolha`: quatro pistas de forma, por cálculo | correta destacadamente mais longa; absoluto só de um lado; correta ecoando o enunciado muito mais que as erradas; erradas todas com a mesma fórmula inicial. Calibrado contra 48 exercícios escritos à mão: zero falso positivo |
 | `quiz`/`multipla-escolha`: termo técnico do enunciado numa só alternativa | "o back-end **WSL2** falhou" com a única opção que diz WSL2: casamento de palavra fecha a questão. Só conta identificador (sigla ou termo com dígito) — a versão que aceitava qualquer palavra acusou "executar" e "marca" em exercícios bons |
 | `quiz`/`multipla-escolha`: hedge só nas corretas | as 3 corretas todas ressalvadas e as 2 erradas categóricas: "qualificada = certa" fecha o conjunto exato |
+| `quiz`/`multipla-escolha`: advérbio de incerteza numa só alternativa, a correta | "a única que se protege com um advérbio de incerteza (*provavelmente* precisam ser reescritos)" — o teste de hedge acima não pegou, porque exige duas corretas e esta questão tinha uma. Vocabulário mais estreito de propósito: só o que suaviza uma **afirmação**. Conectivo de contraste (`enquanto`, `mas`) é prosa normal e derrubava exercício bom dos 48 |
+| `multipla-escolha`: marcar as ressalvadas e descartar as absolutas dá o gabarito exato | a heurística de prova simulada. Os outros testes perguntam se um traço separa os grupos; este pergunta o que decide a nota — a regra de quem não estudou produz o **conjunto exato**? Só vale de 2 corretas para cima: com uma só, acertar por acaso é fácil demais |
 | `quiz`/`multipla-escolha`: dica que conta quantas são falsas | "duas delas erram" vira triagem de rótulos, sem avaliar item algum |
+| `quiz`: duas ou mais palavras da dica numa alternativa só, a correta | "conte quantos **kernel** de **sistema operacional** estão carregados" com uma única opção que fala em kernel: casamento textual, não conceitual. Uma palavra não basta — `outro`, `valor` e `saída` caíram numa alternativa só por acaso em 3 dos 48. O enunciado não serve de fonte: divide vocabulário com todas as alternativas por construção |
 | `associacao`: enunciado tem de avisar que sobram itens | quem não sabe tenta encaixar todos e força associação errada; pegou 3 dos 7 exercícios escritos à mão |
 | `resposta-expressao`: variável da verificação tem de estar em `variaveis` | — |
 | tipo X não pode trazer campos de tipo Y | — |
@@ -211,6 +214,19 @@ precisão.
 - **Uma dependência não declarada é falha de ambiente disfarçada de defeito de conteúdo.** Por
   isso nenhum exercício importa `pandas` ou usa rede: reprovaria numa máquina limpa por
   motivo que não tem nada a ver com o exercício.
+- **A rodada tem de dizer sozinha se evoluiu.** Antes disso, responder "melhorou ou não?"
+  exigia reler a saída inteira e comparar de cabeça com a rodada anterior — trabalho que se
+  repetia a cada execução e que ninguém faz com honestidade quando está cansado. Agora cada
+  ciclo completo grava uma linha em `historico.json` e imprime um veredito de três estados.
+
+  O número do veredito **não é a taxa de aprovação**. Taxa muda com o curso, com o tópico e
+  com a dificuldade sorteada, e sobe sozinha se o gerador ficar tímido. O que mede a
+  ferramenta é a **divisão do trabalho**: quantos defeitos foram pegos por cálculo, de graça,
+  contra quantos só apareceram depois de pagar a API. Cada regra que vira conta empurra
+  defeito de uma coluna para a outra. Se essa proporção não anda ao longo das rodadas, as
+  rodadas estão consertando conteúdo — que é o que a regra de ouro proíbe.
+
+  Comparação só contra rodada do **mesmo curso**: docker contra python mediria o assunto.
 
 ## 7. Tipos: um retirado, um em observação
 
@@ -251,3 +267,11 @@ Sabido, ainda não resolvido:
   foram desobedecidas em 2 dos 12 exercícios do Docker. O padrão até aqui: regra que vira
   conferência mecânica ou sonda passa a ser respeitada; regra que fica só no prompt é
   respeitada às vezes. Considerar isso antes de acrescentar prosa.
+
+  **A rodada de 18 do Docker confirmou isto de forma incômoda: das 9 rejeições, quase nenhuma
+  trouxe causa nova.** Distrator que se denuncia pela forma, errada com mecanismo exótico,
+  distrator de associação plausível para mais de uma esquerda, dica que entrega o critério —
+  as quatro já estavam escritas no prompt. O gargalo deixou de ser *descobrir a regra* e
+  passou a ser *fazê-la valer*. Isso muda o que conta como progresso: acrescentar prosa nova
+  ao prompt tende a não mover nada, e as duas saídas que sobram são converter a regra em
+  conta (feito para ressalva e para a dica) ou realimentar a crítica na regeneração.

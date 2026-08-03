@@ -1,0 +1,28 @@
+{
+  "rodadas": [
+    {
+      "quando": "2026-08-03T03:40:00.000Z",
+      "curso": "docker",
+      "topicos": 6,
+      "gerados": 18,
+      "estrutura": 0,
+      "execucao": 0,
+      "api": 10,
+      "aprovados": 8,
+      "dimensoes": {},
+      "nota": "reconstruída da saída da execução, antes de o histórico existir; as dimensões não foram tabuladas"
+    },
+    {
+      "quando": "2026-08-03T04:20:00.000Z",
+      "curso": "docker",
+      "topicos": 6,
+      "gerados": 18,
+      "estrutura": 1,
+      "execucao": 0,
+      "api": 9,
+      "aprovados": 8,
+      "dimensoes": { "distratores": 6, "dica": 5, "gabarito": 1 },
+      "nota": "reconstruída da saída da execução, antes de o histórico existir"
+    }
+  ]
+}

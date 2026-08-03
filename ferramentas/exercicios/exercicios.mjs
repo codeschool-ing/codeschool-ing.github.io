@@ -18,6 +18,7 @@ import { relatorio } from './lib/claude.mjs';
 import { gerar, contagemPorTipo } from './lib/gerar.mjs';
 import { validar, conferirInterpretadores, linguagensUsadas, conferirCAS, precisaCAS } from './lib/validar.mjs';
 import { criticar } from './lib/criticar.mjs';
+import { comparar, dimensoesDe, registrar } from './lib/historico.mjs';
 import { TIPOS, renderizar } from './lib/tipos.mjs';
 
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
@@ -77,6 +78,10 @@ tipos: ${TIPOS.join(', ')}`;
 
 /* ---- utilidades ---------------------------------------------------------- */
 
+// Placar da rodada: cada etapa deposita o que só ela sabe, e o fim da execução responde
+// "evoluiu ou não" sem que ninguém precise reler a saída inteira.
+const placar = { gerados: 0, estrutura: 0, execucao: 0, api: 0, aprovados: 0, dimensoes: {} };
+
 const rot = (e) => `${e.tipo.padEnd(16)} ${(e.topico ?? '').slice(0, 38).padEnd(38)}`;
 const indice = (etapa) => ETAPAS.indexOf(etapa);
 const rodar = (etapa) => indice(etapa) >= indice(de) && indice(etapa) <= indice(ate);
@@ -134,6 +139,9 @@ async function etapaGerar(cursoId) {
 
   console.log('');
   console.log(`gerados ...... ${exercicios.length} (${contagemPorTipo(exercicios)})`);
+  placar.gerados = exercicios.length;
+  placar.curso = curso.id;
+  placar.topicos = topicos.length;
   return { caminho: destino, dados };
 }
 
@@ -183,6 +191,8 @@ async function etapaValidar({ caminho, dados }) {
 
   console.log('');
   console.log(`validados .... ${aprovados.length}/${exercicios.length}  (${reprovados.length} reprovados)`);
+  placar.estrutura = reprovados.filter((e) => e._camada === 'estrutura').length;
+  placar.execucao = reprovados.length - placar.estrutura;
   return { caminho: `${base}.validado.json`, dados: { ...dados, exercicios: aprovados } };
 }
 
@@ -209,6 +219,9 @@ async function etapaCriticar({ caminho, dados }) {
 
   console.log('');
   console.log(`aprovados .... ${aprovados.length}/${exercicios.length}  (${reprovados.length} rejeitados)`);
+  placar.api = reprovados.length;
+  placar.aprovados = aprovados.length;
+  placar.dimensoes = dimensoesDe(reprovados);
   return { reprovados: reprovados.length };
 }
 
@@ -256,6 +269,13 @@ try {
     if (rodar('criticar')) ({ reprovados } = await etapaCriticar(estado));
 
     imprimirCusto();
+    // Só o ciclo inteiro entra no histórico. Uma retomada de arquivo não gerou nada, e o
+    // denominador seria outro — comparar as duas mediria o comando, não a ferramenta.
+    if (rodar('gerar') && rodar('criticar') && placar.gerados) {
+      const rodada = { quando: new Date().toISOString(), ...placar };
+      for (const l of comparar(rodada)) console.log(l);
+      registrar(rodada);
+    }
     process.exit(reprovados ? 1 : 0);
   }
 } catch (err) {
