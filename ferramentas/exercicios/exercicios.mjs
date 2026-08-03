@@ -49,6 +49,14 @@ const tem = (nome) => argv.includes('--' + nome);
 const opcoes = { alternativas: num('alternativas', 5) };
 const TAM_LOTE = num('lote', 6);
 const MAX_TOPICOS = num('max', Infinity);
+// `--max N` sempre pegava os N PRIMEIROS tópicos, então todas as rodadas cobriram os mesmos.
+// Para produzir um curso inteiro é preciso avançar: `--topicos 7-12` faz a faixa.
+const FAIXA = (() => {
+  const v = txt('topicos', null);
+  if (!v) return null;
+  const [a, b] = v.split('-').map(Number);
+  return Number.isInteger(a) && a >= 1 ? { de: a, ate: Number.isInteger(b) ? b : a } : null;
+})();
 const TIMEOUT = num('timeout', 10) * 1000;
 const PARALELO = num('paralelo', 4);
 const REFAZER = num('refazer', 1);
@@ -73,6 +81,7 @@ etapas
 
 opções
   --max N            só os N primeiros tópicos — use na primeira vez, custa centavos
+  --topicos A-B      a faixa de tópicos A até B (1-based) — para avançar num curso longo
   --lote N           tópicos por chamada (padrão 6)
   --alternativas N   alternativas por questão (padrão 5)
   --timeout N        segundos por caso de teste (padrão 10)
@@ -116,10 +125,10 @@ function preservar(caminho) {
 
 async function etapaGerar(cursoId) {
   const curso = acharCurso(cursoId);
-  const topicos = curso.topicos.slice(0, MAX_TOPICOS);
+  const topicos = FAIXA ? curso.topicos.slice(FAIXA.de - 1, FAIXA.ate) : curso.topicos.slice(0, MAX_TOPICOS);
 
   console.log(`curso ........ ${curso.nome} (${curso.id})`);
-  console.log(`tópicos ...... ${topicos.length} de ${curso.topicos.length}`);
+  console.log(`tópicos ...... ${topicos.length} de ${curso.topicos.length}${FAIXA ? ` (do ${FAIXA.de} ao ${FAIXA.de + topicos.length - 1})` : ''}`);
   console.log(`alternativas . ${opcoes.alternativas} por questão`);
   console.log(`paralelo ..... ${PARALELO} chamadas simultâneas`);
   console.log(`refazer ...... ${REFAZER} volta(s) de conserto do que reprovar`);
@@ -162,9 +171,19 @@ async function etapaGerar(cursoId) {
     });
   }
 
+  // Gerar por faixa PRODUZ um curso em pedaços, então não pode apagar os pedaços anteriores:
+  // o arquivo acumula, e só os tópicos desta faixa são substituídos. Sem isso, `--topicos 7-9`
+  // depois de `--topicos 1-6` deixaria o curso com 3 tópicos em vez de 9.
+  let anteriores = [];
+  if (FAIXA && fs.existsSync(destino)) {
+    const naFaixa = new Set(topicos);
+    anteriores = (JSON.parse(fs.readFileSync(destino, 'utf8')).exercicios ?? []).filter((e) => !naFaixa.has(e.topico));
+    if (anteriores.length) console.log(`(mantendo ${anteriores.length} exercícios de tópicos fora da faixa)`);
+  }
   preservar(destino);
-  const dados = { curso: curso.id, gerado_em: new Date().toISOString(), alternativas: opcoes.alternativas, cegas: tem('cegas'), exercicios: saida };
-  gravar(destino, dados, saida);
+  const juntos = [...anteriores, ...saida];
+  const dados = { curso: curso.id, gerado_em: new Date().toISOString(), alternativas: opcoes.alternativas, cegas: tem('cegas'), exercicios: juntos };
+  gravar(destino, dados, juntos);
 
   console.log('');
   console.log(`gerados ...... ${saida.length} (${contagemPorTipo(saida)})`);

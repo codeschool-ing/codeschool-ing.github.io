@@ -45,7 +45,9 @@ export async function gerar({ curso, topicos, tamLote, paralelo, opcoes, aoProgr
     // A ementa é cortada no último tópico do lote: o gerador não vê o que vem depois, e por
     // isso não tem como exigir. O prefixo grande (REGRAS) continua idêntico entre os lotes,
     // então o cache de prompt segue valendo.
-    const ate = topicos.indexOf(lote[lote.length - 1]) + 1;
+    // Posição no CURSO, não no lote: com `--topicos 7-12` o índice dentro do recorte é 0..5,
+    // e cortar a ementa por ele esconderia justamente o que já foi ensinado.
+    const ate = curso.topicos.indexOf(lote[lote.length - 1]) + 1;
     const r = await perguntar({
       etapa: 'gerar',
       system: `${REGRAS(opcoes)}\n\n---\n\n${contexto(curso, { ate })}`,

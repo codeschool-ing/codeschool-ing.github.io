@@ -283,6 +283,11 @@ precisão.
   relatório de custo saiu vazio — gasto silencioso é pior que gasto alto.
 - **`max_tokens` limita pensamento e resposta juntos.** Com thinking adaptativo, um lote que
   cabia em 3 tópicos não cabe em 6. Ao estourar, divida o lote e refaça em vez de perder tudo.
+- **Gerar por faixa acumula, nunca substitui.** `--max N` sempre pegava os N primeiros
+  tópicos, então treze rodadas cobriram os mesmos três — não havia como produzir um curso
+  inteiro. Com `--topicos A-B` há, e a gravação passou a preservar os exercícios de tópicos
+  fora da faixa: rodar 7-9 depois de 1-6 tem de deixar nove tópicos no arquivo, não três. É a
+  mesma regra de "falha nunca sobrescreve o que deu certo", aplicada a sucesso parcial.
 - **Falha nunca sobrescreve o que deu certo.** Gerar zero exercícios chegou a renomear o
   arquivo bom e gravar um vazio por cima.
 - **Resultado não pode depender de quem respondeu primeiro.** As chamadas concorrentes voltam
