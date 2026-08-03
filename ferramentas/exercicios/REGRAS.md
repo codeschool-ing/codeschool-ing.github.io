@@ -275,7 +275,14 @@ autor pode provar que a armadilha existe. O que saiu é a geração automática,
 `TIPOS_GERAVEIS`. Critério para voltar: uma `ordenacao` escrita à mão passar pelo crítico
 duas vezes seguidas.
 
-**`multipla-escolha` entra em observação: 1 de 6 aprovadas** na rodada de 18, contra 6 de 8
+**Atualização, rodada C: a observação não se confirmou.** Na primeira passada, `quiz` fez 1 de
+5 (20%) e `multipla-escolha` fez 1 de 3 (33%) — o tipo em observação saiu **acima** do tipo de
+referência, e o critério de saída ("abaixo da metade do quiz por mais duas rodadas") deixou de
+correr. O que a rodada C sugere é outra coisa: a fraqueza não era do tipo, era da autoria das
+alternativas, que atinge os dois igualmente. Fica em observação por mais uma rodada, agora
+como controle da mudança de autoria cega, não como candidato a sair.
+
+**Registro original — `multipla-escolha` entra em observação: 1 de 6 aprovadas** na rodada de 18, contra 6 de 8
 do `quiz` no mesmo lote. A causa é estrutural, não de redação: com correção por conjunto
 exato, **cinco alternativas são cinco chances de errar em vez de uma**, e basta um item
 discutível para reprovar o exercício inteiro. Metade das rejeições daquela rodada foi disso —
@@ -316,10 +323,51 @@ se paga. Se `resgatados` for alto e o custo por aprovado subir, a etapa está co
 aprovação cara — e vale conferir à mão se os resgatados são mesmo bons, porque é exatamente a
 forma que "ensinar para a prova" teria.
 
+## 7c. O defeito se desloca — a pista de forma é um sintoma, não a doença
+
+Três rodadas do mesmo curso, com as mesmas conferências sendo endurecidas a cada uma:
+
+| causa da rejeição paga | rodada A | B | C |
+| --- | --- | --- | --- |
+| distratores (respondível pela forma) | 6 | 5 | 3 |
+| dica entrega a resposta | 5 | 2 | **0** |
+| pegos de graça pela estrutura | 0 de 18 | 1 de 9 | **4 de 9** |
+
+**A dica foi resolvida.** Duas conferências mecânicas mais um parágrafo no prompt levaram a
+causa dominante de uma rodada a zero em duas. É o melhor resultado que este pipeline já teve,
+e é o modelo do que funciona: converter a regra em conta.
+
+**Os distratores não.** E a rodada C mostrou por quê. A conferência de comprimento existe
+desde o começo e **nunca havia disparado no Docker** — zero em 18, zero em 9. Na rodada C
+disparou **três vezes**, logo depois de o prompt ganhar o parágrafo mandando igualar o tom
+entre corretas e erradas. O gerador obedeceu: parou de ressalvar só as corretas e passou a
+**explicá-las mais**. O canal fechou e o vazamento saiu por outro furo.
+
+A conclusão desconfortável: **o gerador tem uma tendência estrutural a deixar a correta
+identificável, e as pistas de forma medem por onde ela está vazando, não se ela existe.**
+Cada conferência nova converte uma rejeição paga em gratuita — o que é progresso real e é o
+que o veredito mede — mas a taxa de primeira passada não sobe: 44% → 44% → 33%.
+
+A causa é a assimetria de quem escreve: o autor **sabe** qual é a correta enquanto a redige, e
+cuida dela. Nenhuma quantidade de detector conserta isso; só um desenho de autoria que negue
+essa informação ao autor no momento em que ela importa. Está registrado como a próxima
+mudança estrutural a testar, na seção 8.
+
 ## 8. O que ainda não é regra
 
 Sabido, ainda não resolvido:
 
+- **Autoria cega das alternativas — a próxima mudança estrutural a testar.** Hoje o gerador
+  escreve cinco alternativas já sabendo quais marcará como corretas, e cuida das corretas. Daí
+  toda a família de pistas de forma. A proposta é aplicar à autoria o mesmo princípio que já
+  governa a verificação: **escrever primeiro cinco afirmações defensáveis sobre o tópico, sem
+  decidir quais são verdadeiras, e só depois julgar cada uma.** A assimetria some na origem
+  porque, no momento da redação, não existe "a correta" para privilegiar.
+
+  Custa uma chamada a mais por questão e precisa ser medido contra a taxa de primeira passada,
+  não contra o total de aprovados. Critério de sucesso: a taxa de primeira passada sair dos
+  ~40% em que está travada há três rodadas. Se não sair, a hipótese está errada e a assimetria
+  vem de outro lugar.
 - **Deduplicação entre tópicos vizinhos.**
 - **As pistas de forma cobrem quatro traços, e o juiz aponta outros.** Categoria destoante e
   plausibilidade exótica ainda são só prosa e julgamento; mecanizá-las exige medir semântica,
