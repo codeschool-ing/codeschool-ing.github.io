@@ -37,6 +37,7 @@ Aplicada em `conferir()`, `lib/tipos.mjs`. É de graça, então roda sempre e pr
 | `ordenacao`: `armadilha` obrigatória | 3 de 3 ordenações reprovaram por medir cronologia de senso comum |
 | `ordenacao`: nenhum item pode conter anáfora (`esse`, `esta`, `anterior`…) | "executa **esse** bytecode" fixa a posição pelo texto |
 | `quiz`/`multipla-escolha`: quatro pistas de forma, por cálculo | correta destacadamente mais longa; absoluto só de um lado; correta ecoando o enunciado muito mais que as erradas; erradas todas com a mesma fórmula inicial. Calibrado contra 48 exercícios escritos à mão: zero falso positivo |
+| `quiz`/`multipla-escolha`: termo técnico do enunciado numa só alternativa | "o back-end **WSL2** falhou" com a única opção que diz WSL2: casamento de palavra fecha a questão. Só conta identificador (sigla ou termo com dígito) — a versão que aceitava qualquer palavra acusou "executar" e "marca" em exercícios bons |
 | `quiz`/`multipla-escolha`: hedge só nas corretas | as 3 corretas todas ressalvadas e as 2 erradas categóricas: "qualificada = certa" fecha o conjunto exato |
 | `quiz`/`multipla-escolha`: dica que conta quantas são falsas | "duas delas erram" vira triagem de rótulos, sem avaliar item algum |
 | `associacao`: enunciado tem de avisar que sobram itens | quem não sabe tenta encaixar todos e força associação errada; pegou 3 dos 7 exercícios escritos à mão |
@@ -211,20 +212,30 @@ precisão.
   isso nenhum exercício importa `pandas` ou usa rede: reprovaria numa máquina limpa por
   motivo que não tem nada a ver com o exercício.
 
-## 7. `ordenacao` está em observação
+## 7. Tipos: um retirado, um em observação
 
-É o tipo mais fraco do conjunto e o único cuja regra falha de forma repetida: **nenhuma
-`ordenacao` gerada foi aprovada até hoje**, em cinco tentativas. Os motivos mudaram — ordem
-ambígua, anáfora entre passos, passo que justifica a própria posição, e agora cronologia
-narrativa apesar de a armadilha estar declarada.
+**`ordenacao` saiu do gerador.** Seis geradas em quatro rodadas, **zero aprovadas**. Os
+motivos mudaram todas as vezes — ordem ambígua, anáfora entre passos, passo que justifica a
+própria posição, cronologia narrativa, e por fim dois passos independentes com armadilha
+declarada factualmente errada. A regra foi endurecida três vezes sem mover o resultado, o
+que era o critério de parada registrado aqui: **dimensão já codificada que reaparece é girar,
+não evoluir.**
 
-A causa raiz é uma tensão do tipo: o que remove ambiguidade tende a criar pista textual, e um
-processo real quase sempre tem ordem intuitiva. A regra foi endurecida mais uma vez — a
-armadilha precisa ser **contraintuitiva**, não apenas nomeável.
+O tipo continua em `TIPOS` e continua validado — serve para conteúdo escrito à mão, onde um
+autor pode provar que a armadilha existe. O que saiu é a geração automática, via
+`TIPOS_GERAVEIS`. Critério para voltar: uma `ordenacao` escrita à mão passar pelo crítico
+duas vezes seguidas.
 
-**Critério de decisão:** se a próxima `ordenacao` gerada também reprovar, o tipo sai do
-gerador e passa a ser escrito à mão apenas onde houver armadilha comprovada. O custo dessa
-saída são os 24 cursos de infra, que dependem dele — por isso ainda não foi tomada.
+**`multipla-escolha` entra em observação: 1 de 6 aprovadas** na rodada de 18, contra 6 de 8
+do `quiz` no mesmo lote. A causa é estrutural, não de redação: com correção por conjunto
+exato, **cinco alternativas são cinco chances de errar em vez de uma**, e basta um item
+discutível para reprovar o exercício inteiro. Metade das rejeições daquela rodada foi disso —
+alternativa que mistura conclusão verdadeira com mecanismo falso, gabarito verdadeiro só em
+algumas distribuições, escopo do enunciado que não bate com o de uma alternativa.
+
+Critério de decisão: se a taxa continuar abaixo da metade do `quiz` em mais duas rodadas, o
+tipo passa a exigir que **cada alternativa seja verificável**, não apenas julgada — ou sai do
+gerador como a `ordenacao`.
 
 ## 8. O que ainda não é regra
 

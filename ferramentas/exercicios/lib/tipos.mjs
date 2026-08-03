@@ -19,6 +19,18 @@ export const TIPOS = ['codigo', 'saida-esperada', 'quiz', 'multipla-escolha', 'o
  * interpretador; os outros quatro servem a qualquer disciplina. */
 export const TIPOS_NEUTROS = ['quiz', 'multipla-escolha', 'ordenacao', 'associacao', 'resposta-expressao'];
 
+/* O que o GERADOR pode emitir. `ordenacao` saiu: 6 geradas em quatro rodadas, 0 aprovadas.
+ * Os motivos mudaram todas as vezes — ordem ambígua, anáfora entre passos, passo que
+ * justifica a própria posição, cronologia narrativa, e por fim dois passos independentes
+ * com armadilha declarada factualmente errada. A regra foi endurecida três vezes e o
+ * resultado não mudou, o que é a definição de girar em vez de evoluir.
+ *
+ * O tipo continua em TIPOS e continua validado: serve para conteúdo escrito à mão, onde
+ * um autor humano pode provar que a armadilha existe. O que sai é a geração automática.
+ * Critério para voltar: uma ordenacao escrita à mão passar pelo crítico duas vezes
+ * seguidas, mostrando que o tipo é viável quando a armadilha é real. */
+export const TIPOS_GERAVEIS = TIPOS.filter((t) => t !== 'ordenacao');
+
 export const REGRAS_POR_TIPO = ({ alternativas }) => `
 **codigo** — quando **o próprio tópico** é algo que se escreve e executa. Preencha
 \`linguagem\`, \`esqueleto\` e \`testes\` com 3 a 6 casos.
@@ -278,7 +290,7 @@ export function esquema({ alternativas }) {
           type: 'object',
           properties: {
             topico: { type: 'string', description: 'o tópico exato que este exercício valida' },
-            tipo: { type: 'string', enum: TIPOS },
+            tipo: { type: 'string', enum: TIPOS_GERAVEIS },
             dificuldade: { type: 'string', enum: ['facil', 'medio', 'dificil'] },
             enunciado: { type: 'string' },
             linguagem: { type: 'string', description: 'codigo e saida-esperada; vazio nos demais' },
@@ -386,7 +398,10 @@ export function esquema({ alternativas }) {
  * SEPARAÇÃO ESTRITA entre corretas e erradas — o tell só existe quando dá para separar os
  * dois grupos por aquele traço sozinho. */
 const ABSOLUTOS = /\b(sempre|nunca|jamais|somente|apenas|qualquer|nenhum[a]?|todo[as]?|impossível|garante|garantem|dispensa|elimina|impede|obriga|abstrai)\b/i;
-const HEDGE = /(desde que|a menos que|salvo|em geral|geralmente|normalmente|costuma|costumam|comparável|aproximadamente|na maioria|quando possível|tende a)/i;
+// Vocabulário anterior perdia dois casos reais numa rodada só: as corretas eram ressalvadas
+// com "enquanto", "mas faz todos dependerem", "não contém X: ela traz Y" — nenhum estava na
+// lista. Ressalva é estrutura (contraste, concessão, qualificação), não um punhado de termos.
+const HEDGE = /(desde que|a menos que|salvo que|em geral|geralmente|normalmente|costuma|costumam|comparável|aproximadamente|na maioria|quando possível|tende a|enquanto|embora|ainda que|apesar de|porém|contudo|entretanto|no entanto|mas |exceto|em vez de|ao contrário|na prática|tipicamente|pode variar|depende d)/i;
 const NUMERO = /\b(uma|duas|tr[êe]s|quatro|cinco|[1-9])\b/i;
 const VERACIDADE = /\b(falsas?|verdadeiras?|corretas?|erradas?)\b/i;
 const AVISA_SOBRA = /(sobra|não correspond|nao correspond|não emparelh|nao emparelh|a mais|nem toda|nem todas|extras?)/i;
@@ -432,6 +447,21 @@ export function pistasDeForma(e) {
   // de +1 acusava 2 questões que o crítico havia aprovado. Exige-se vantagem de 3.
   if (Math.min(...cEco) >= 3 && Math.min(...cEco) >= Math.max(...eEco) + 3)
     p.push(`pista de forma: toda correta ecoa muito mais palavras do enunciado que qualquer errada (${Math.min(...cEco)} vs ${Math.max(...eEco)})`);
+
+  // Contagem não pega o caso mais forte: um termo TÉCNICO do enunciado que aparece em UMA
+  // alternativa só. "o back-end WSL2 falhou" com a única opção que diz WSL2 se resolve por
+  // casamento de palavra, e o eco somava 1 — abaixo de qualquer limiar de contagem.
+  //
+  // Só vale identificador: sigla ou termo com dígito. A primeira versão aceitava qualquer
+  // palavra e acusou "executar", "marca" e "repetir" em dois exercícios bons — verbo comum
+  // aparecer no enunciado e numa alternativa é coincidência, não pista.
+  const IDENTIFICADOR = /\b(?=[\p{Lu}\d]*\p{Lu})(?=[\p{L}\d]*\d|[\p{Lu}]{2,})[\p{L}\d]{2,}\b/gu;
+  const tecnicos = new Set([...(e.enunciado.match(IDENTIFICADOR) ?? [])].map((s) => s.toLowerCase()));
+  for (const termo of tecnicos) {
+    const onde = e.alternativas.filter((a) => new RegExp(`\\b${termo}\\b`, 'i').test(a.texto));
+    if (onde.length === 1 && onde[0].correta)
+      p.push(`pista de forma: o termo técnico "${termo}" está no enunciado e em exatamente uma alternativa, a correta`);
+  }
 
   // 3b. Hedge: as corretas todas ressalvadas, as erradas todas categóricas. É o espelho do
   // teste de absolutos e pega o caso que ele perde — "qualificada = certa" é heurística de
