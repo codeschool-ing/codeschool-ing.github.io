@@ -36,22 +36,45 @@ export async function gerar({ curso, topicos, tamLote, paralelo, opcoes, aoProgr
 
   const system = `${REGRAS(opcoes)}\n\n---\n\n${contexto(curso)}`;
 
-  const porLote = await mapaConcorrente(lotes, paralelo, async (lote, n, concluir) => {
+  // `max_tokens` limita pensamento + resposta juntos, e o modelo entrega 128k. Com
+  // thinking adaptativo em effort alto, 6 tópicos não cabiam em 32k: o lote inteiro
+  // truncava e os 6 tópicos saíam sem exercício nenhum.
+  const TETO_SAIDA = 64000;
+
+  async function escrever(lote, rotulo) {
     const r = await perguntar({
       etapa: 'gerar',
       system,
       esquema: esquema(opcoes),
-      maxTokens: 32000,
+      maxTokens: TETO_SAIDA,
       pergunta: `Escreva os exercícios para estes tópicos:\n\n${lote.map((t, i) => `${i + 1}. ${t}`).join('\n')}`,
     });
+    if (!r.erro) return { exercicios: r.exercicios ?? [] };
+
+    // Truncar não é motivo para perder o lote inteiro: metade dos tópicos cabe na metade
+    // do orçamento. Só desiste quando já é um tópico sozinho.
+    if (r.truncou && lote.length > 1) {
+      const meio = Math.ceil(lote.length / 2);
+      aoProgredir?.(`  ${rotulo}: truncou com ${lote.length} tópicos, dividindo em dois`, 0, 0);
+      const [a, b] = await Promise.all([
+        escrever(lote.slice(0, meio), `${rotulo}a`),
+        escrever(lote.slice(meio), `${rotulo}b`),
+      ]);
+      return { exercicios: [...a.exercicios, ...b.exercicios] };
+    }
+    return { exercicios: [], erro: r.erro };
+  }
+
+  const porLote = await mapaConcorrente(lotes, paralelo, async (lote, n, concluir) => {
+    const rotulo = `lote ${n + 1}`;
+    const { exercicios, erro } = await escrever(lote, rotulo);
     const feitos = concluir();
-    if (r.erro) {
-      aoProgredir?.(`  lote ${n + 1} falhou: ${r.erro}`, feitos, lotes.length);
+    if (erro && !exercicios.length) {
+      aoProgredir?.(`  ${rotulo} falhou: ${erro}`, feitos, lotes.length);
       return [];
     }
-    const lidos = r.exercicios ?? [];
-    aoProgredir?.(`  lote ${n + 1}: ${lidos.length} exercícios`, feitos, lotes.length);
-    return lidos;
+    aoProgredir?.(`  ${rotulo}: ${exercicios.length} exercícios`, feitos, lotes.length);
+    return exercicios;
   });
 
   return porLote.flat();

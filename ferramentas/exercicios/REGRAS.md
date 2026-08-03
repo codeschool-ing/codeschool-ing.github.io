@@ -196,6 +196,13 @@ precisão.
 - **O que a saída identifica tem de ser o exercício, não o progresso.** Com paralelismo os
   resultados terminam fora de ordem; um contador de conclusão impede cruzar um achado da
   crítica com a linha do arquivo, que é exatamente o trabalho da triagem.
+- **Contabilize o custo antes de sair por erro.** Chamada truncada ou recusada é cobrada
+  igual. Uma geração de 6 tópicos estourou `max_tokens`, produziu zero exercícios, e o
+  relatório de custo saiu vazio — gasto silencioso é pior que gasto alto.
+- **`max_tokens` limita pensamento e resposta juntos.** Com thinking adaptativo, um lote que
+  cabia em 3 tópicos não cabe em 6. Ao estourar, divida o lote e refaça em vez de perder tudo.
+- **Falha nunca sobrescreve o que deu certo.** Gerar zero exercícios chegou a renomear o
+  arquivo bom e gravar um vazio por cima.
 - **Resultado não pode depender de quem respondeu primeiro.** As chamadas concorrentes voltam
   na ordem da entrada; conferido que `--paralelo 1` e `--paralelo 8` produzem JSON idêntico.
 - **Conteúdo é versionado; derivado de rodada, não.** `exercicios-<curso>.json` custou revisão

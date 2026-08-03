@@ -122,6 +122,12 @@ async function etapaGerar(cursoId) {
   });
 
   const destino = path.join(AQUI, `exercicios-${curso.id}.json`);
+  // Zero exercício não pode apagar a rodada anterior: uma geração que falhou renomeou o
+  // arquivo bom e gravou um vazio por cima.
+  if (!exercicios.length) {
+    console.error('\nA geração não produziu exercício algum — o arquivo anterior fica como está.');
+    process.exit(1);
+  }
   preservar(destino);
   const dados = { curso: curso.id, gerado_em: new Date().toISOString(), alternativas: opcoes.alternativas, exercicios };
   gravar(destino, dados, exercicios);

@@ -37,14 +37,17 @@ export async function perguntar({ etapa, system, pergunta, esquema, maxTokens = 
     })
     .finalMessage();
 
-  if (r.stop_reason === 'refusal') return { erro: 'recusado pelos classificadores' };
-  if (r.stop_reason === 'max_tokens') return { erro: 'truncado em max_tokens' };
-
+  // A contabilidade vem ANTES de qualquer saída por erro: chamada truncada ou recusada é
+  // cobrada igual. Contabilizar depois fazia a rodada gastar sem aparecer no relatório —
+  // uma geração de 6 tópicos estourou o limite e o custo apareceu como zero.
   porEtapa[etapa] = porEtapa[etapa] ?? { input_tokens: 0, output_tokens: 0, cache_read_input_tokens: 0, cache_creation_input_tokens: 0 };
   for (const k of Object.keys(uso)) {
-    uso[k] += r.usage[k] ?? 0;
-    porEtapa[etapa][k] += r.usage[k] ?? 0;
+    uso[k] += r.usage?.[k] ?? 0;
+    porEtapa[etapa][k] += r.usage?.[k] ?? 0;
   }
+
+  if (r.stop_reason === 'refusal') return { erro: 'recusado pelos classificadores' };
+  if (r.stop_reason === 'max_tokens') return { erro: 'truncado em max_tokens', truncou: true };
 
   const texto = r.content.find((b) => b.type === 'text')?.text ?? '';
   try {
