@@ -3,6 +3,11 @@
 Gera, valida e critica exercícios auto-corrigíveis a partir dos tópicos do catálogo.
 Substitui as três ferramentas separadas que existiam antes.
 
+**As regras que este pipeline aplica, e o defeito que originou cada uma, estão em
+[`REGRAS.md`](REGRAS.md).** Os prompts no código são a implementação; aquele arquivo é a
+fonte. Regra nova entra lá primeiro — ver a regra de ouro no [`CLAUDE.md`](../../CLAUDE.md)
+da raiz.
+
 ```
 gerar  →  validar  →  criticar
 escreve   executa     julga
