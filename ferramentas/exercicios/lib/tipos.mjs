@@ -33,6 +33,30 @@ solução termina em \`print(x)\`, o gabarito termina em \`\\n\`. Gabarito sem o
 solução correta. Casos determinísticos: sem relógio, sem aleatoriedade, sem rede, sem ordem
 de dicionário. Pelo menos um caso de borda.
 
+**Quatro regras dos casos de teste, cada uma vinda de um exercício que passou na validação
+e mediu a coisa errada. Antes de fechar, responda as quatro por escrito:**
+
+1. **Existe solução que ignora o tópico e passa em todos os casos?** Se existe, o exercício
+   não mede o tópico. Um exercício sobre argumento com valor padrão em que todos os casos
+   usam o padrão é resolvido cravando o valor: passou 5 de 5 sem que o parâmetro existisse.
+   Pelo menos um caso precisa forçar o mecanismo que dá nome ao tópico.
+
+2. **A ferramenta natural do tópico produz o seu gabarito?** Se o recurso óbvio da biblioteca
+   dá resultado diferente do que você espera, o exercício pune justamente quem estudou.
+   Caso real: exigir desempate alfabético num tópico de \`collections\`, quando
+   \`Counter.most_common\` desempata por ordem de inserção. Ajuste a especificação para
+   coincidir com a ferramenta, ou escolha outra tarefa.
+
+3. **Se o tópico é desempenho ou complexidade, algum caso separa as classes?** Casos com três
+   elementos aprovam o laço aninhado igual à solução linear. Inclua uma entrada grande o
+   bastante para a solução ingênua estourar o tempo — aí a complexidade vira critério
+   executável em vez de assunto de redação.
+
+4. **A dificuldade está no tópico ou em ler a entrada?** \`"valores separados por espaço"\`
+   convida a \`split(" ")\`, e numa linha vazia isso devolve \`[""]\` em vez de \`[]\` — o aluno
+   reprova por fatiamento de string num exercício sobre exceções. Ou o esqueleto já entrega
+   a entrada já convertida, ou o enunciado diz exatamente o que fazer com campo vazio.
+
 **saida-esperada** — mostra um trecho pronto em \`codigo_dado\` e pede o que ele imprime;
 o aluno digita a saída, comparada byte a byte com \`resposta\`. É o tipo mais barato de
 corrigir e o melhor para semântica: precedência, conversão de tipo, avaliação preguiçosa,
@@ -97,8 +121,16 @@ entrega pelo formato, do mesmo jeito que a alternativa longa num quiz.
 
 **Preencha \`distratores_direita\`** com 1 ou 2 itens da direita que não emparelham com nada.
 Sem eles, N esquerdas contra N direitas fazem o último par sair de graça, por eliminação, e
-o aluno acerta um item que nunca avaliou. O distrator precisa ser plausível: a versão quase
-certa do efeito, o valor que sairia de um erro comum.
+o aluno acerta um item que nunca avaliou.
+
+O distrator só cumpre essa função se **disputar com o par mais difícil**. Um distrator
+descartável de imediato não muda nada: o aluno resolve os pares triviais, e o difícil
+continua sobrando por eliminação. Caso real: numa associação de operadores aritméticos,
+\`"ababab"\` era visivelmente \`"ab" * 3\` e saía na hora, então o par entre \`9 // 2\` e \`9 / 2\`
+— o único que exigia saber os tipos — continuava saindo de graça. Trocado por \`4.0\` e \`1.0\`,
+que disputam com as **duas** expressões de resultado inteiro, o exercício passou a exigir o
+que dizia avaliar. Pergunta a fazer: depois de resolver os pares fáceis, o difícil ainda tem
+concorrente?
 
 **A direita não pode ser a tradução do nome da esquerda.** \`pip list --outdated\` → "mostra o
 que está desatualizado", \`df.head(3)\` → "as três primeiras linhas", \`deactivate\` → "desativa
