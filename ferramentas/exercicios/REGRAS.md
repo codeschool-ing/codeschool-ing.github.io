@@ -168,12 +168,17 @@ de uma conversa.
 O que isso estabelece: **quando o crítico aprova, o resultado é enviável.** O risco de aprovar
 lixo está baixo nesta amostra.
 
-O que isso **não** estabelece, e é hoje a pergunta mais cara: se o crítico **rejeita** bem. Uma
-rodada gerada deu 0 de 11 e outra 6 de 12; se parte dessas rejeições for injusta, o pipeline
-queima dinheiro e descarta conteúdo bom, e nenhuma sonda avisaria. O teste espelho — revisar
-rejeitados e perguntar se a rejeição se sustenta — é grátis e ainda não foi feito.
+**2026-08-03 — o mesmo revisor leu rejeitados do curso de Docker** e concordou com as
+críticas.
 
-Amostra de 3 é pequena, e os três eram escritos à mão, não gerados.
+O que isso estabelece: o crítico **rejeita por motivo que se sustenta**. Somado ao item
+anterior, a régua está calibrada nas duas direções — aprova o que é enviável e reprova o que
+não é. Era o que faltava para escalar com alguma confiança.
+
+**Limites destes dois registros.** Amostras pequenas. Os aprovados revisados eram escritos à
+mão, não gerados. E concordar com uma crítica é mais fácil que discordar: quem lê o defeito
+apontado tende a enxergá-lo. A calibração vale como ausência de desastre, não como prova de
+precisão.
 
 ## 6. Processo
 
