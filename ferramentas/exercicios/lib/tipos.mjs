@@ -282,7 +282,13 @@ export function esquema({ alternativas }) {
           },
           required: [
             'topico', 'tipo', 'dificuldade', 'enunciado', 'linguagem', 'esqueleto',
-            'testes', 'codigo_dado', 'resposta', 'alternativas', 'itens', 'pares', 'expressao_gabarito', 'variaveis',
+            // Todo campo é obrigatório, com valor vazio quando não se aplica ao tipo. Campo
+            // opcional aqui vira campo omitido na resposta, e `conferir` exige `armadilha`
+            // em ordenacao e `distratores_direita` em associacao — os dois ficaram de fora
+            // ao serem acrescentados, o que reprovaria na estrutura todo exercício desses
+            // dois tipos, justamente os que sustentam os 24 cursos de infra.
+            'testes', 'codigo_dado', 'resposta', 'alternativas', 'itens', 'armadilha', 'pares',
+            'distratores_direita', 'expressao_gabarito', 'variaveis',
             'verificacao_origem', 'verificacao_operacao', 'verificacao_variavel', 'dica_socratica',
           ],
           additionalProperties: false,
