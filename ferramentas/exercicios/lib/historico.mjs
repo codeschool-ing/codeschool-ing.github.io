@@ -64,7 +64,7 @@ export function comparar(atual, rodadas = ler()) {
   const delta = (x, y) => (x - y > 0 ? `+${x - y}` : `${x - y}`);
   if (anterior) {
     const b = medir(anterior);
-    L.push(`  1ª passada ...... ${a.primeira}/${atual.gerados} (${a.taxa}%)   antes ${b.primeira}/${anterior.gerados} (${b.taxa}%)   ${delta(a.taxa, b.taxa)} pp`);
+    L.push(`  1ª passada ...... ${a.primeira}/${atual.gerados}${atual.novos && atual.novos !== atual.gerados ? ` (${atual.novos} novos)` : ''} (${a.taxa}%)   antes ${b.primeira}/${anterior.gerados} (${b.taxa}%)   ${delta(a.taxa, b.taxa)} pp`);
     if (atual.refeitos) L.push(`  + resgatados .... ${atual.resgatados} de ${atual.refeitos} reescritos → ${atual.aprovados} aprovados  (aprovação comprada, não conta no veredito)`);
     L.push(`  pegos de graça .. ${a.graca} de ${a.graca + a.pagos} (${a.gracaPct}%)   antes ${b.graca} de ${b.graca + b.pagos} (${b.gracaPct}%)   ${delta(a.gracaPct, b.gracaPct)} pp`);
     if (a.unitario && b.unitario)

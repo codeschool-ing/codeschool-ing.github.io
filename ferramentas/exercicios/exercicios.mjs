@@ -187,7 +187,7 @@ async function etapaGerar(cursoId) {
 
   console.log('');
   console.log(`gerados ...... ${saida.length} (${contagemPorTipo(saida)})`);
-  placar.gerados = saida.length;
+  placar.novos = saida.length;
   placar.cegas = tem('cegas');
   placar.curso = curso.id;
   placar.topicos = topicos.length;
@@ -336,6 +336,11 @@ try {
 
       // O funil roda em voltas: o que cai numa volta pode voltar consertado na seguinte.
       // Refazer só faz sentido com a crítica ligada — é ela que produz o laudo caro.
+      // O denominador é o que ENTROU no funil, não o que acabou de ser gerado. Com faixa
+      // acumulando, `--topicos 4-5` num arquivo de 16 dividia 7 aprovados por 8 novos e
+      // imprimia 88% onde a taxa era 44%. Métrica inflada é pior que métrica ausente: ela
+      // é lida como boa notícia.
+      placar.gerados = (dados.exercicios ?? []).length;
       const { aprovados: passaram, validados, rejeitados: finais } = await funil({
         exercicios: dados.exercicios ?? [],
         voltas: rodar('criticar') ? REFAZER : 0,

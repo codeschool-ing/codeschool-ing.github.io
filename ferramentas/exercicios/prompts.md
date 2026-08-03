@@ -12,7 +12,7 @@ Alternativas por questão: 5.
 | # | prompt | etapa | palavras |
 | --- | --- | --- | --- |
 | 1 | Autoria — moldura | `gerar` | 256 |
-| 2 | Autoria — regras por tipo | `gerar` | 3334 |
+| 2 | Autoria — regras por tipo | `gerar` | 3452 |
 | 3 | Autoria cega — escrever as afirmações | `cegas` | 270 |
 | 4 | Autoria cega — julgar cada afirmação | `cegas` | 162 |
 | 5 | Solução de referência às cegas | `validar` | 93 |
@@ -22,7 +22,7 @@ Alternativas por questão: 5.
 | 9 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
 | 10 | Juiz | `criticar` | 691 |
 | 11 | Reescrita | `refazer` | 200 |
-| | **total** | | **5463** |
+| | **total** | | **5581** |
 
 ---
 
@@ -68,7 +68,7 @@ descobrir o contrato pelos casos de teste — ele não os vê.
 
 ## 2. Autoria — regras por tipo
 
-**Etapa:** `gerar` · **3334 palavras**
+**Etapa:** `gerar` · **3452 palavras**
 
 O maior de todos e o que mais rende. Descreve os sete tipos e, para cada um, os defeitos que já apareceram e como não repeti-los. É o texto que uma reconstrução não consegue derivar do resumo.
 
@@ -153,6 +153,17 @@ A saída é comparada byte a byte, então o gabarito precisa seguir exatamente i
 quiser, e o gabarito passa a depender de detalhe de implementação — o exercício reprovaria
 aluno certo em outro banco. Toda consulta de exercício termina com `ORDER BY` explícito, ou
 devolve uma linha só.
+
+**NULL não pode participar da ordenação.** `ORDER BY` com nulos é **dependente de motor**:
+SQLite e MySQL colocam NULL primeiro, PostgreSQL e Oracle colocam por último. Um exercício
+assim tem dois gabaritos defensáveis e reprova o aluno que raciocina com o banco da ementa —
+foi o que o crítico pegou na primeira leva de SQL que passou pela execução. Ou a coluna
+ordenada não admite NULL, ou o `WHERE` os exclui, ou a ordenação é por outra coluna.
+
+**Fique no SQL portátil.** O exercício roda em SQLite, mas o aluno estuda o motor da ementa;
+tudo que dependa de dialeto — função de string própria, sintaxe de limite, tipo exótico —
+transforma conhecimento correto em resposta errada.
+
 
 **Chave estrangeira está ligada** (`PRAGMA foreign_keys = ON`), ao contrário do padrão do
 SQLite: um exercício sobre integridade referencial precisa que o `INSERT` inválido seja de

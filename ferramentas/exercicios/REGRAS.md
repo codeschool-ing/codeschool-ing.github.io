@@ -98,6 +98,11 @@ Aplicada em `lib/validar.mjs`.
   SQLite, senão um exercício sobre integridade referencial aprova um `INSERT` que qualquer
   banco de verdade recusa; e **toda consulta precisa de `ORDER BY`**, senão o gabarito depende
   da ordem que o motor escolheu devolver e reprova aluno certo noutro banco.
+- **Denominador tem de ser o que entrou no funil, não o que acabou de ser gerado.** Com faixa
+  acumulando, `--topicos 4-5` num arquivo de 16 dividia 7 aprovados por 8 recém-gerados e
+  imprimia **88%** onde a taxa era **44%**. O defeito nasceu do acúmulo por faixa, que é
+  recente, e quase virou notícia boa num relatório. **Métrica inflada é pior que métrica
+  ausente:** a ausente ninguém usa, a inflada todo mundo acredita.
 - **A execução custa 50 vezes menos que o julgamento, e pega o que ele não pega.** Primeira
   medição da camada em conteúdo gerado, mesma rodada: **validar US$ 0,02 · criticar US$ 0,98**.
   A execução reprovou dois `saida-esperada` cujo gabarito simplesmente **não era o que o banco
@@ -301,6 +306,27 @@ não é. Era o que faltava para escalar com alguma confiança.
 mão, não gerados. E concordar com uma crítica é mais fácil que discordar: quem lê o defeito
 apontado tende a enxergá-lo. A calibração vale como ausência de desastre, não como prova de
 precisão.
+
+## 5c. Tópico que executa aprova o dobro
+
+Primeira comparação dentro do **mesmo curso**, entre tópicos conceituais e tópicos executáveis:
+
+| `bancos-sql` | validados | aprovados na 1ª passada |
+| --- | --- | --- |
+| tópicos 1–2 (modelo relacional, normalização) | 7 | **2 (29%)** |
+| tópicos 4–5 (SELECT/WHERE/ORDER BY, JOINs) | 6 | **5 (83%)** |
+
+Mesmo curso, mesmo gerador, mesmos prompts, mesma rodada. O que muda é a existência de uma
+resposta executável — e os quatro exercícios de `codigo` e `saida-esperada` **passaram todos
+pela execução**, com 4/4 e 4/4 nos casos de teste.
+
+Isto refaz a conta do catálogo para baixo. As estimativas anteriores saíram todas de tópicos
+introdutórios, que são o pior caso: só tipos que dependem de julgamento. A maior parte dos 76
+cursos técnicos, depois da introdução, é território de execução.
+
+**A ressalva que impede exagero:** um único curso, uma rodada, seis exercícios de um lado e
+sete do outro. É indicação forte, não medida firme — e a conta anterior foi retirada
+justamente por eu ter lido diferença de um exercício como sinal.
 
 ## 5b. Generalidade: medida, não suposta
 
