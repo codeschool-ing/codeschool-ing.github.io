@@ -24,6 +24,7 @@ import { criticar } from './lib/criticar.mjs';
 import { refazer } from './lib/refazer.mjs';
 import { autoriaCega } from './lib/cegas.mjs';
 import { funil } from './lib/funil.mjs';
+import { acumular, relatorio as alcance } from './lib/corpo.mjs';
 import { comparar, dimensoesDe, registrar } from './lib/historico.mjs';
 import { montar } from './lib/prompts.mjs';
 import { TIPOS, renderizar } from './lib/tipos.mjs';
@@ -84,6 +85,7 @@ opções
   --cursos           lista os ids do catálogo
   --ver [N]          lê os exercícios de um .json em forma humana (N = só o de número N)
   --prompts          grava prompts.md com todos os prompts na íntegra
+  --alcance          quanto das rejeições já pagas as conferências pegariam de graça
 
 tipos: ${TIPOS.join(', ')}`;
 
@@ -282,6 +284,8 @@ try {
       console.log(renderizar(e, i + 1));
     }
     console.log(`${'─'.repeat(78)}\n${lista.length} exercícios em ${path.basename(alvo)}`);
+  } else if (tem('alcance')) {
+    console.log(alcance());
   } else if (tem('prompts')) {
     // Os prompts são o ativo mais caro daqui e moram espalhados por quatro arquivos. Este
     // comando os junta num arquivo legível e anexável; um teste confere que ele não envelhece.
@@ -331,6 +335,11 @@ try {
       if (rodar('validar')) gravar(`${base}.validado.json`, dados, validados);
       if (rodar('criticar')) gravar(`${base}.criticado.json`, dados, passaram);
       if (finais.length) gravar(`${base}.rejeitado.json`, dados, finais);
+      // Rejeição custou uma chamada para ser descoberta: guardar é o que permite testar a
+      // próxima regra de graça. Os arquivos por rodada se sobrescrevem — de doze rodadas
+      // pagas sobraram as rejeições de uma antes disto existir.
+      const novas = acumular(finais, dados.curso);
+      if (novas) console.log(`corpo de prova  +${novas} rejeição(ões) guardada(s) para conferir regra nova sem gastar`);
 
       if (placar.refeitos) {
         console.log('');

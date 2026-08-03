@@ -273,6 +273,25 @@ precisão.
   custo. Comparação sem linha de base agora imprime o número e diz que não há com o que
   comparar — e o veredito carrega a ressalva. Um instrumento que se cala quando falta dado é
   pior que um instrumento ausente: ele passa por funcionando.
+- **Dois corpos de prova, com papéis opostos, e os dois são necessários.** Os exercícios
+  revisados à mão medem **falso positivo**: nenhuma conferência pode acusá-los, e é o que
+  impede uma regra nova de derrubar exercício bom. As rejeições já pagas medem **alcance**:
+  quanto mais conferência acusar, melhor, e é o que responde "essa regra teria pego o defeito
+  que pagamos?".
+
+  Faltava o segundo, e a falta custou caro em dois sentidos. Rodadas pagas existiram só para
+  testar uma regra em conteúdo novo quando o conteúdo velho serviria. E os arquivos de rejeição
+  eram **sobrescritos a cada execução**: de doze rodadas pagas, sobreviveram as rejeições de
+  uma. O que custa dinheiro para ser descoberto tem de sobreviver à rodada seguinte.
+
+  A medida de entrada foi **13%** — 2 de 16 rejeições pagas seriam pegas de graça hoje, e uma
+  delas já era mecânica antes. A taxa não precisa chegar a 100%: gabarito discutível e
+  distrator implausível são semânticos. Precisa **não cair**, e é `npm test` que garante isso
+  contra um piso registrado. Afrouxar um limiar para calar um falso positivo tira alcance sem
+  que ninguém veja; este é o único lugar onde isso aparece, e aparece de graça.
+
+  `--alcance` quebra o número por dimensão, e a coluna "ainda pago" é a fila de trabalho: é
+  onde uma regra nova converte gasto em cálculo.
 - **Calibração é regressão, não script descartável.** Cada conferência mecânica foi ajustada
   contra os 48 exercícios revisados à mão, num script escrito e jogado fora a cada rodada.
   Agora isso é `npm test`: os 48 não podem acusar nada, e cada regra guarda também o caso real

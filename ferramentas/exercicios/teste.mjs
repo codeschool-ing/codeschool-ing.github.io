@@ -21,6 +21,7 @@ import { contexto } from './lib/catalogo.mjs';
 import { funil } from './lib/funil.mjs';
 import { montarAlternativas, quantasVerdadeiras } from './lib/cegas.mjs';
 import { montar } from './lib/prompts.mjs';
+import { medirAlcance } from './lib/corpo.mjs';
 
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
 let falhas = 0;
@@ -268,6 +269,18 @@ await grupo('a ementa é cortada para quem escreve e inteira para quem critica',
   ok(contexto(curso).includes('quatro'), 'sem corte, a ementa vem inteira — é o que o crítico precisa para reconhecer referência adiante');
   ok(contexto(curso, { ate: 9 }).includes('quatro'), 'corte além do fim não esconde nada');
   ok(contexto(curso, { ate: undefined }).includes('quatro'), 'tópico não encontrado na ementa não pode cegar o autor por acidente');
+});
+
+/* ---- 3e. alcance contra as rejeições já pagas ---------------------------- */
+
+await grupo('as conferências mecânicas não podem perder alcance', () => {
+  const m = medirAlcance();
+  ok(m.total >= 16, 'o corpo de rejeições está carregado', `${m.total} rejeições`);
+  // Não é para chegar a 100%: gabarito discutível e distrator implausível são semânticos.
+  // O que não pode é CAIR — afrouxar um limiar para calar um falso positivo tira alcance
+  // sem que ninguém veja, e este é o único lugar onde isso aparece de graça.
+  ok(m.pct >= m.piso, `alcance de ${m.pct}% não caiu do piso de ${m.piso}%`,
+    'se a queda é intencional, baixe `piso` em corpo-rejeitado.json e diga por quê no commit');
 });
 
 /* ---- 4. guardas da reescrita --------------------------------------------- */

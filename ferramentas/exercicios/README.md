@@ -61,6 +61,7 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 | `--cursos` | lista os ids do catálogo |
 | `--ver [N]` | lê os exercícios de um `.json` em forma humana |
 | `--prompts` | grava `prompts.md` com todos os prompts na íntegra |
+| `--alcance` | quanto das rejeições já pagas as conferências pegariam de graça |
 
 O custo sai por etapa e somado, numa conta só.
 

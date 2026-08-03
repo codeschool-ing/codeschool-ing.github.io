@@ -1,0 +1,1007 @@
+{
+  "piso": 13,
+  "exercicios": [
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Sobre a comparação entre instalação direta no hardware, máquina virtual e container, marque todas as afirmações que se sustentam (há mais de uma).",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Subir um container leva o tempo de iniciar um processo, enquanto subir uma máquina virtual inclui a partida de um sistema operacional convidado.",
+          "correta": true,
+          "porque": "A máquina virtual precisa inicializar o seu próprio sistema antes de o serviço passar a existir."
+        },
+        {
+          "texto": "Numa mesma máquina física cabem mais containers que máquinas virtuais equivalentes, porque não se repete um sistema operacional por instância.",
+          "correta": true,
+          "porque": "A memória e o disco gastos com o sistema convidado de cada máquina virtual ficam livres no arranjo com containers."
+        },
+        {
+          "texto": "Uma máquina virtual roda um sistema operacional de família diferente da máquina física; o container depende de compatibilidade com o núcleo em uso.",
+          "correta": true,
+          "porque": "O núcleo próprio da máquina virtual é o que permite trocar de família; o container é atendido pelo núcleo do hospedeiro."
+        },
+        {
+          "texto": "Cada container recebe uma cópia do núcleo do hospedeiro, e isso mantém uma falha de núcleo restrita ao container em que ela aconteceu.",
+          "correta": false,
+          "porque": "Os containers de uma mesma máquina são atendidos pelo mesmo núcleo, sem cópias individuais dele."
+        },
+        {
+          "texto": "Na instalação direta o serviço conversa com o hardware sem sistema operacional no caminho, e essa ausência responde pela vantagem de desempenho.",
+          "correta": false,
+          "porque": "A instalação direta continua tendo um sistema operacional; o que ela dispensa são as camadas de virtualização acima dele."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Item por item, vale localizar quantas cópias de cada camada existem na mesma máquina e quais delas são reaproveitadas entre as instâncias.",
+      "_refeito": 1,
+      "_critica": [
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "A alternativa 2, marcada como CORRETA, faz uma afirmação categórica falsa: 'Uma máquina virtual roda um sistema operacional de família diferente da máquina física'. Máquina virtual não roda necessariamente OS de outra família — o caso esmagadoramente comum é Linux sobre Linux ou Windows sobre Windows. O que se sustenta é que ela *pode* rodar outra família, por ter núcleo próprio. Como a correção é por conjunto exato, o aluno que domina o tópico e reconhece a afirmação como generalização indevida deixa o item desmarcado e é reprovado; o aluno que marca tudo que 'soa técnico' acerta. O defeito muda quem passa.",
+          "sugestao": "Reescrever a alternativa 2 com o modalizador correto: 'Uma máquina virtual pode rodar um sistema operacional de família diferente da do hospedeiro, porque traz seu próprio núcleo; o container depende de compatibilidade com o núcleo em uso na máquina.' Ajustar o 'porque' para explicitar que a possibilidade vem do núcleo próprio, não que isso sempre ocorra."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa 4 se descarta por hábito de prova, sem conhecimento do tópico: 'o serviço conversa com o hardware sem sistema operacional no caminho' é um absoluto implausível para qualquer aluno de um curso de infraestrutura, que sabe que instalação direta ainda tem SO. Ela não testa a distinção real entre bare metal e virtualização.",
+          "sugestao": "Trocar por um erro plausível de fato, por exemplo: 'Na instalação direta o serviço tem acesso exclusivo ao hardware, de modo que a máquina não pode hospedar mais de um serviço concorrendo por CPU e disco.'"
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações que se aplicam ao efeito de existir uma especificação aberta para o formato e a execução de containers.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Um artefato gerado hoje roda num programa lançado anos depois, desde que ele siga o documento.",
+          "correta": true,
+          "porque": "A compatibilidade vale para frente: o artefato não fica preso à ferramenta que o produziu."
+        },
+        {
+          "texto": "A equipe troca o programa que executa os containers no servidor sem gerar de novo o que já entregou.",
+          "correta": true,
+          "porque": "O formato do artefato é comum às implementações aderentes, então não é preciso reconstruir nada."
+        },
+        {
+          "texto": "Fornecedores concorrentes disputam desempenho e ferramental sem que o artefato deixe de ser aceito.",
+          "correta": true,
+          "porque": "O contrato fica fixo no documento e a implementação permanece livre para variar."
+        },
+        {
+          "texto": "Um roteiro de implantação cheio de comandos e opções continua valendo ao trocar o programa de execução.",
+          "correta": false,
+          "porque": "A interface de linha de comando é decisão de cada projeto e fica fora do que o documento fixa."
+        },
+        {
+          "texto": "O mesmo artefato roda sobre núcleos de qualquer família de sistema operacional, desde que o programa seja aderente.",
+          "correta": false,
+          "porque": "Padronizar formato e execução não apaga a dependência do artefato em relação ao núcleo que o hospeda."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "O documento delimita como o artefato é empacotado e como sua execução é iniciada; para cada item, pergunte se a promessa cabe nesse recorte ou se depende de decisões tomadas fora dele.",
+      "_refeito": 1,
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "O conjunto correto pode ser identificado por heurística de prova, sem qualquer conhecimento de Docker ou da especificação OCI. As três corretas são clichês genéricos de qualquer padrão aberto (compatibilidade futura, troca de fornecedor, concorrência entre implementações), enquanto as duas erradas se denunciam pelo excesso: a 4 traz o absoluto 'núcleos de qualquer família de sistema operacional' (que todo aluno de prova descarta por hábito) e a 3 promete que 'um roteiro cheio de comandos e opções continua valendo', afirmação notoriamente forte demais. Ou seja, marcar 0-1-2 é a jogada padrão de quem nunca estudou o tópico.",
+          "sugestao": "Reescrever os distratores para que exijam saber o recorte real da especificação: por exemplo, afirmações plausíveis sobre o que a OCI cobre (image-spec, runtime-spec, distribution-spec) contra o que ela não cobre (orquestração, política de tags, ferramentas de build, rede), sem marcadores absolutos. Considere também um distrator quase-verdadeiro do tipo 'a compatibilidade vale entre versões diferentes do próprio documento' e uma correta que dependa de conhecimento específico (ex.: o mesmo artefato ser consumido por containerd/CRI-O sem reconstrução)."
+        },
+        {
+          "dimensao": "enunciado",
+          "gravidade": "baixa",
+          "explicacao": "O enunciado e as alternativas evitam sistematicamente o vocabulário do tópico ('imagem', 'runtime', 'especificação OCI', 'kernel'), substituindo por perífrases genéricas ('artefato', 'programa que executa os containers', 'documento', 'núcleo'). Isso aumenta a carga de decodificação e, na alternativa 0, o pronome 'ele' em 'desde que ele siga o documento' pode ser lido como o artefato ou como o programa. Nenhuma dessas leituras altera qual conjunto é correto, mas prejudica a clareza.",
+          "sugestao": "Usar os termos do tópico ao menos uma vez para ancorar a leitura (ex.: 'imagem de container', 'runtime aderente à OCI', 'kernel do hospedeiro') e explicitar o sujeito em 'desde que o runtime siga a especificação'."
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "associacao",
+      "dificuldade": "dificil",
+      "enunciado": "Cada situação vivida por uma equipe de operação casa com um efeito observado depois de os serviços passarem a rodar em containers. Faça a correspondência um a um; sobram itens na coluna da direita que não correspondem a nenhuma situação.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "Duas aplicações no mesmo servidor pedem versões diferentes do mesmo interpretador, e ajustar a instalação para uma delas quebra a outra.",
+          "direita": "As duas voltam a conviver na mesma máquina, cada qual carregando o próprio conjunto de bibliotecas e binários."
+        },
+        {
+          "esquerda": "Um dos serviços tem vazamento de memória, esgota a RAM da máquina e leva os vizinhos junto na queda.",
+          "direita": "Passa a valer um teto declarado por peça: quem excede é derrubado sozinho e os demais seguem atendendo."
+        },
+        {
+          "esquerda": "Um teste de carga precisa de dez cópias do serviço em pé em poucos segundos, e cada máquina virtual do parque demora minutos para ficar pronta.",
+          "direita": "Todas as réplicas pedidas ficam disponíveis quase de imediato, dividindo o mesmo núcleo de sistema já carregado no hospedeiro."
+        },
+        {
+          "esquerda": "Uma falha explorada em um dos serviços daria ao invasor acesso de leitura a todo o disco do servidor.",
+          "direita": "O intruso fica limitado ao recorte de arquivos e aos processos entregues àquela peça, sem alcançar o resto do hospedeiro."
+        },
+        {
+          "esquerda": "Depois de uma atualização mal-sucedida, retornar ao estado que funcionava exige refazer à mão uma sequência de comandos e ajustes de configuração.",
+          "direita": "Basta pôr no ar de novo o artefato imutável da revisão que funcionava, sem desfazer peça por peça o que foi aplicado."
+        }
+      ],
+      "distratores_direita": [
+        "Cada réplica ganha um núcleo de sistema operacional próprio, e o tempo de subida passa a incluir a partida desse núcleo.",
+        "O consumo de memória de cada serviço cai pela metade sem que uma linha do código seja alterada."
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Para cada situação, pergunte primeiro o que exatamente impedia a equipe de seguir; depois confira se o efeito descrito remove aquele impedimento ou apenas algum outro que soa parecido.",
+      "_refeito": 1,
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "Os dois únicos itens sobrantes da direita se autodenunciam sem exigir nenhum conhecimento de container. O primeiro ('cada réplica ganha um núcleo de sistema operacional próprio, e o tempo de subida passa a incluir a partida desse núcleo') descreve explicitamente o problema que o enunciado já apresentou como sendo o da máquina virtual no item 3 — é a categoria oposta à pedida ('efeito observado depois de passarem a rodar em containers'), portanto descartável de imediato. O segundo ('o consumo de memória cai pela metade sem alterar uma linha de código') é uma promessa numérica mágica que qualquer aluno de prova descarta por hábito. Com só cinco pares e dois sobrantes triviais, o aluno chega ao conjunto correto por eliminação, sem decidir nada sobre o tópico.",
+          "sugestao": "Trocar os sobrantes por efeitos plausíveis e tematicamente vizinhos, que possam ser confundidos com um dos cinco pares — por exemplo 'os dados gravados pelo serviço passam a sobreviver a qualquer recriação da peça, sem configuração extra' (falso, e concorre com o item 5) ou 'o serviço passa a rodar mesmo em hospedeiro com núcleo de sistema de outra família' (falso, e concorre com o item 1). Aumentar para três ou quatro sobrantes desse calibre."
+        },
+        {
+          "dimensao": "alvo",
+          "gravidade": "alta",
+          "explicacao": "Cada item da direita repete o vocabulário-chave do seu par da esquerda, de modo que a associação se resolve por casamento lexical e não por entendimento de containers: 'versões diferentes do mesmo interpretador' → 'próprio conjunto de bibliotecas e binários'; 'esgota a RAM' → 'teto declarado por peça'; 'dez cópias em poucos segundos' → 'todas as réplicas quase de imediato'; 'invasor' → 'o intruso'; 'retornar ao estado que funcionava' → 'a revisão que funcionava'. Um leitor sem nenhuma noção do tópico 1 fecha os cinco pares só por correspondência de palavras, e o exercício, declarado difícil, não mede o que promete.",
+          "sugestao": "Reescrever a coluna da direita descrevendo o efeito pelo mecanismo, sem reaproveitar os substantivos da situação — ex.: para o item 2, 'a peça que estoura o valor configurado é encerrada e recriada isoladamente, sem afetar as vizinhas'; para o item 4, 'o alcance da falha fica restrito ao recorte de sistema de arquivos e de processos entregue àquela peça'. Garantir que ao menos dois itens da direita compitam de forma plausível com mais de uma situação, exigindo desempate conceitual."
+        },
+        {
+          "dimensao": "alvo",
+          "gravidade": "baixa",
+          "explicacao": "Dois pares dependem de conteúdo que só é ensinado bem depois: 'teto declarado por peça' é limite de recurso do `docker run` (tópico 17) e o par 4 é isolamento de privilégios e sistema de arquivos (tópico 21), além de o par 3 apoiar-se em compartilhamento de núcleo (tópicos 2 e 4). No tópico 1 esses efeitos ainda não foram apresentados como característicos de container. Não muda quem passa porque o casamento lexical já resolve os pares, mas o exercício está apoiado fora do tópico declarado.",
+          "sugestao": "Manter no tópico 1 apenas efeitos discutidos ali (conflito de dependências, paridade entre notebook e produção, artefato imutável, subida rápida) e mover os pares de limite de recurso e de isolamento de privilégio para exercícios dos tópicos 17 e 21."
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "associacao",
+      "dificuldade": "dificil",
+      "enunciado": "Cada situação abaixo casa com um resultado que a adesão às especificações abertas produz nela. Faça a correspondência um a um; sobram resultados na coluna da direita que não correspondem a nenhuma situação.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "A montagem do pacote usou o produto de um fornecedor e a máquina de destino executa o de outro, os dois aderentes às especificações.",
+          "direita": "O conteúdo entregue entra em execução no destino sem passar por nenhuma conversão de formato."
+        },
+        {
+          "esquerda": "O roteiro de implantação da equipe recorre a uma opção de conveniência que existe só no produto usado no desenvolvimento.",
+          "direita": "O pacote continua sendo aceito na outra ponta, e as linhas digitadas pela equipe precisam ser reescritas."
+        },
+        {
+          "esquerda": "Um projeto novo pretende lançar seu próprio programa de execução de containers e ganhar espaço entre os já usados.",
+          "direita": "A construção se apoia em um texto de leitura livre, sem precisar deduzir por fora o funcionamento interno alheio."
+        },
+        {
+          "esquerda": "Um comprador quer registrar em contrato que aquilo que ele adquire tem de ser substituível por algo equivalente.",
+          "direita": "A cláusula pode apontar um documento mantido em conjunto pelo setor, em vez de enumerar comportamentos um a um."
+        }
+      ],
+      "distratores_direita": [
+        "As linhas digitadas pela equipe seguem valendo, e o pacote precisa ser remontado antes de ser enviado.",
+        "A entrega chega ao destino, onde é convertida para o formato que o programa instalado ali aceita."
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Em cada situação, pergunte qual das duas coisas está em jogo: aquilo que ficou acordado por escrito entre partes independentes, ou aquilo que cada fabricante resolve por conta própria.",
+      "_refeito": 1,
+      "_critica": [
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "O resultado do par 2 (\"O pacote continua sendo aceito na outra ponta, e as linhas digitadas pela equipe precisam ser reescritas\") também casa de forma defensável com a situação 1. Na situação 1 há dois produtos diferentes em jogo (um monta o pacote, outro executa no destino), de modo que é razoável concluir que a imagem segue aceita e que os comandos usados de um lado não valem do outro — exatamente o que esse resultado descreve. Como a situação 1 não diz nada que exclua comandos/roteiros, o aluno que domina OCI pode emparelhar 1 com esse resultado e, pela restrição um-a-um, errar o conjunto inteiro (a correção é por conjunto exato). Ou seja, o defeito reprova quem sabe.",
+          "sugestao": "Desambiguar as duas situações: na 1, deixar explícito que só o artefato viaja (\"ninguém executa comandos na máquina de destino; apenas o pacote é enviado e posto em execução por lá\"); na 2, deixar explícito que o artefato produzido é idêntico e que o problema está apenas nas linhas de comando do roteiro (\"o pacote gerado é o mesmo; o que muda é a linha usada para gerá-lo\")."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "Os dois distratores são inversões lógicas apenas dos resultados dos pares 1 e 2. Para os pares 3 e 4 não existe nenhum concorrente plausível na coluna da direita, e o casamento se resolve por sobreposição de vocabulário: \"comprador/contrato/registrar\" ↔ \"A cláusula pode apontar um documento...\", e \"lançar seu próprio programa de execução\" ↔ \"A construção se apoia em um texto...\". Metade do exercício é acertável sem qualquer conhecimento de OCI, por leitura de palavras-chave. Não muda quem passa (o conjunto exato ainda exige acertar 1 e 2, que dependem de saber que o formato de imagem é padronizado e a CLI não), mas esvazia dois dos quatro itens.",
+          "sugestao": "Acrescentar distratores que compitam com os pares 3 e 4 — por exemplo, um resultado sobre contrato que afirme algo falso (\"a cláusula precisa listar comportamento por comportamento, pois não há documento comum ao setor\") e um sobre implementação (\"o projeto novo precisa observar o comportamento do produto dominante para reproduzi-lo\") — e remover as pistas lexicais que hoje ligam situação e resultado."
+        },
+        {
+          "dimensao": "enunciado",
+          "gravidade": "baixa",
+          "explicacao": "O enunciado afirma que cada situação casa com \"um resultado que a adesão às especificações abertas produz nela\", mas o resultado do par 2 descreve justamente o efeito da AUSÊNCIA de padronização (a CLI é decisão de cada fabricante, por isso as linhas precisam ser reescritas). O aluno atento à moldura do enunciado pode descartar esse resultado por não ser \"produto da adesão\". Além disso, todo o vocabulário é perifrástico (\"o produto de um fornecedor\", \"as linhas digitadas pela equipe\", \"programa de execução de containers\", \"montagem do pacote\") e nunca é ancorado nos termos do tópico (imagem, runtime, CLI), o que aproxima o exercício de uma prova de interpretação de texto cifrado.",
+          "sugestao": "Reescrever a moldura como \"cada situação casa com o resultado que a existência (ou a falta) de especificação aberta produz nela\" e ancorar ao menos uma vez os termos no vocabulário do tópico (imagem/artefato, programa que executa o container, comandos da ferramenta), mantendo os cenários sem citar marcas."
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Sobre o que a adoção de containers efetivamente muda na entrega de uma aplicação, marque todas as afirmações que se sustentam.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Duas aplicações que exigem versões diferentes da mesma biblioteca convivem na mesma máquina sem conflito entre as instalações.",
+          "correta": true,
+          "porque": "Cada container traz sua própria árvore de bibliotecas, então versões incompatíveis deixam de disputar o mesmo lugar no host."
+        },
+        {
+          "texto": "O artefato que a equipe de operação recebe é o mesmo que passou pelos testes, sem etapa de instalação de dependências no destino.",
+          "correta": true,
+          "porque": "A imagem é o artefato imutável que atravessa os ambientes; não há preparação manual da máquina de destino."
+        },
+        {
+          "texto": "A subida costuma levar segundos, porque não há um sistema operacional completo para inicializar antes do processo da aplicação.",
+          "correta": true,
+          "porque": "O container é processo do host: sobe sem passar por inicialização de um sistema operacional inteiro."
+        },
+        {
+          "texto": "Código escrito para Windows passa a executar em host Linux sem alteração, desde que a imagem seja construída no Windows.",
+          "correta": false,
+          "porque": "Container não converte plataforma: binário de Windows exige kernel Windows, independentemente de onde a imagem foi construída."
+        },
+        {
+          "texto": "Erros de lógica da aplicação tendem a desaparecer em produção, porque o ambiente de execução passa a ser o mesmo do teste.",
+          "correta": false,
+          "porque": "Padronizar o ambiente elimina divergência de ambiente, não defeito no comportamento programado."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Distinga ambiente de execução de comportamento do programa; o container atua sobre apenas um dos dois.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "As duas alternativas erradas se denunciam pelo formato, não pelo conteúdo de containers: ambas são exageros absolutos e reconhecíveis ('passa a executar em host Linux sem alteração', 'erros de lógica tendem a desaparecer em produção'), enquanto as três corretas são afirmações medidas e com ressalva ('costuma levar segundos', 'sem etapa de instalação de dependências'). Um aluno que nunca usou Docker, aplicando a heurística usual de prova — descartar a opção que promete milagre —, monta o conjunto exato correto sem entender namespaces, imagem ou isolamento de dependências. O exercício deixa de medir o tópico.",
+          "sugestao": "Substituir pelo menos um dos distratores por um erro conceitual plausível e sóbrio, do tipo que aluno de verdade comete, por exemplo: 'Cada container executa seu próprio kernel, por isso o isolamento é equivalente ao de uma máquina virtual' ou 'A imagem inclui o kernel do sistema em que foi construída, garantindo comportamento idêntico em qualquer host'. Ambos exigem entender a diferença container/VM para descartar, e não são descartáveis por tom exagerado."
+        },
+        {
+          "dimensao": "dica",
+          "gravidade": "baixa",
+          "explicacao": "A dica cobre apenas um dos dois distratores (o de erro de lógica versus ambiente) e, ao afirmar que 'o container atua sobre apenas um dos dois', reforça a leitura de que tudo o que é 'ambiente de execução' é resolvido pelo container — o que pode levar o aluno a aceitar a alternativa 3, que também fala de ambiente/plataforma e é errada. A dica não é falsa, mas orienta só metade do descarte.",
+          "sugestao": "Ampliar para as duas frentes, por exemplo: 'Duas coisas o container não faz: não corrige o comportamento programado da aplicação e não troca o kernel de que o binário depende.'"
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "associacao",
+      "dificuldade": "medio",
+      "enunciado": "Associe cada arranjo de execução ao efeito que a equipe observa ao usá-lo. Sobram descrições na coluna da direita que não correspondem a nenhum dos arranjos.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "Bare metal",
+          "direita": "Duas aplicações que pedem versões incompatíveis da mesma biblioteca de sistema obrigam a escolher uma delas ou a usar outra máquina."
+        },
+        {
+          "esquerda": "Hipervisor tipo 1",
+          "direita": "A inicialização da máquina entrega apenas a camada de gerência das instâncias, sem área de trabalho nem gerenciador de pacotes de uso geral."
+        },
+        {
+          "esquerda": "Hipervisor tipo 2",
+          "direita": "As instâncias caem quando o usuário encerra a sessão em que foram abertas e disputam recurso com o navegador aberto ao lado."
+        },
+        {
+          "esquerda": "Container em host Linux",
+          "direita": "Cada aplicação leva a própria árvore de arquivos de sistema, mas todas informam a mesma versão de kernel quando consultadas."
+        }
+      ],
+      "distratores_direita": [
+        "A aplicação passa a ver um relógio com fuso próprio, ajustado no momento em que ela é iniciada.",
+        "Cada gravação em disco é replicada para uma segunda máquina antes de ser confirmada à aplicação."
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Em cada arranjo, identifique o que está imediatamente abaixo da instância: o hardware, um sistema operacional de uso geral ou um kernel já em execução.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "O enunciado afirma que as descrições sobrando \"não correspondem a nenhum dos arranjos\", mas o distrator \"A aplicação passa a ver um relógio com fuso próprio, ajustado no momento em que ela é iniciada\" é justamente um comportamento real de container (o clássico `-e TZ=America/Sao_Paulo` ou o /etc/localtime da imagem, definido no start) e também de máquina virtual (cada guest tem seu próprio fuso). Ou seja, esse item casa plausivelmente com dois dos arranjos da esquerda (container e hipervisor tipo 1/2), o que abre um conjunto de pares alternativo defensável: quem conhece bem containers pode legitimamente ligar 'Container em host Linux' ao fuso próprio e travar no item da árvore de arquivos/kernel. Em associação com correção por conjunto exato, isso reprova aluno que domina o tópico.",
+          "sugestao": "Trocar o distrator por algo que não seja efeito de nenhum dos quatro arranjos (ex.: \"a aplicação passa a receber atualizações de segurança automaticamente do fornecedor do software\") ou reescrevê-lo de forma inequivocamente falsa para containers e VMs (ex.: \"cada instância recebe um kernel compilado sob demanda para o hardware do host\")."
+        },
+        {
+          "dimensao": "alvo",
+          "gravidade": "baixa",
+          "explicacao": "O tópico declarado é \"Bare metal, máquina virtual e container: o que muda em cada um\", e nem o título nem a ementa mencionam a taxonomia hipervisor tipo 1 x tipo 2. Metade dos pares (itens 2 e 3) depende exclusivamente dessa distinção, que é conteúdo de virtualização fora do escopo anunciado do curso de Docker. As pistas textuais (\"sem área de trabalho\" / \"encerra a sessão... navegador ao lado\") permitem inferir, o que evita o dano maior, mas o exercício mede mais taxonomia de hipervisor do que o contraste ensinado.",
+          "sugestao": "Reduzir a um único item \"máquina virtual\" ou explicitar no enunciado/corpo o que caracteriza tipo 1 e tipo 2 antes de pedir a associação."
+        },
+        {
+          "dimensao": "gabarito",
+          "gravidade": "baixa",
+          "explicacao": "A descrição do hipervisor tipo 1 (\"a inicialização da máquina entrega apenas a camada de gerência das instâncias, sem área de trabalho nem gerenciador de pacotes de uso geral\") só é verdadeira para hipervisores dedicados tipo ESXi/Hyper-V Server. KVM, classificado como tipo 1 na literatura corrente, roda dentro de um Linux de uso geral com apt/dnf e eventualmente ambiente gráfico. Aluno que conhece KVM pode considerar o par falso e hesitar entre os itens 2 e 3.",
+          "sugestao": "Reformular para algo que valha para qualquer tipo 1, por exemplo: \"o hipervisor é a primeira coisa a subir após o firmware; não existe outro sistema operacional entre ele e o hardware\"."
+        },
+        {
+          "dimensao": "dica",
+          "gravidade": "baixa",
+          "explicacao": "A dica oferece três camadas possíveis abaixo da \"instância\" (hardware, SO de uso geral, kernel em execução) para quatro arranjos, e a taxonomia não separa bare metal de hipervisor tipo 2: em ambos há um sistema operacional de uso geral logo abaixo do que executa. Além disso, em bare metal não há \"instância\" alguma, então aplicar a dica ao item 1 pode levar o aluno a classificá-lo como \"hardware imediatamente abaixo\" e confundi-lo com o hipervisor tipo 1.",
+          "sugestao": "Ajustar a dica para cobrir os quatro casos sem colisão, por exemplo: \"pergunte-se quantos kernels existem na máquina, quem os inicia (firmware ou um SO já rodando) e se a aplicação tem uma árvore de arquivos só sua\"."
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "quiz",
+      "dificuldade": "medio",
+      "enunciado": "Quarenta cópias da mesma aplicação em containers ocupam bem menos memória em um servidor que quarenta máquinas virtuais com a mesma aplicação. Qual explicação sustenta essa diferença?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Cada máquina virtual carrega um kernel e serviços de sistema próprios; os containers usam o kernel já em execução no host.",
+          "correta": true,
+          "porque": "O custo fixo da máquina virtual é um sistema operacional inteiro por instância, que o container não paga."
+        },
+        {
+          "texto": "O hipervisor mantém em memória uma cópia comprimida do disco de cada máquina virtual, coisa que o runtime de container dispensa.",
+          "correta": false,
+          "porque": "Hipervisor não guarda o disco da instância comprimido em memória; o custo vem do sistema convidado em execução."
+        },
+        {
+          "texto": "As camadas da imagem ficam comprimidas em memória e são descomprimidas apenas quando o processo lê um arquivo delas.",
+          "correta": false,
+          "porque": "Camadas são comprimidas para transporte, não mantidas comprimidas em memória durante a execução."
+        },
+        {
+          "texto": "O container não carrega bibliotecas em memória: cada chamada busca o código diretamente no disco do host, sem manter cópia.",
+          "correta": false,
+          "porque": "Bibliotecas usadas por container são carregadas em memória como em qualquer processo do host."
+        },
+        {
+          "texto": "O hipervisor duplica as páginas de memória da aplicação para poder migrá-la, enquanto o container mantém apenas uma via.",
+          "correta": false,
+          "porque": "Duplicação de páginas não é o funcionamento normal do hipervisor nem explica a diferença de consumo."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Conte, nos dois cenários, quantas vezes um sistema operacional inteiro precisa estar carregado ao mesmo tempo.",
+      "_critica": [
+        {
+          "dimensao": "dica",
+          "gravidade": "alta",
+          "explicacao": "a dica entrega a resposta: A dica manda contar quantas vezes um sistema operacional inteiro está carregado em cada cenário — que é exatamente o mecanismo enunciado pela alternativa 0 (um kernel por VM contra um kernel compartilhado do host). Como nenhuma outra opção menciona kernel ou sistema operacional, o casamento é puramente textual: basta procurar a alternativa que fala disso. A dica não propõe um teste a executar nem apenas nomeia o conceito; ela entrega o critério de decisão já formulado, e o aluno pode marcar a certa sem saber por que um kernel próprio custa memória ou por que as opções sobre compressão de imagem e duplicação de páginas pelo hipervisor são falsas.",
+          "sugestao": "apontar o conceito sem resolver"
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "As quatro erradas pertencem todas à mesma categoria retórica — mecanismos internos exóticos e inventados de memória (cópia comprimida do disco em memória, camadas descomprimidas sob demanda, bibliotecas nunca carregadas em memória, duplicação de páginas para migração) — enquanto a correta é a explicação padrão e sóbria. A alternativa 3 ('o container não carrega bibliotecas em memória: cada chamada busca o código diretamente no disco') é absurda para qualquer pessoa com noção de processo em Linux, e a 2 e a 4 soam como invenções. Isso permite que um aluno com bom traquejo de prova, mas sem domínio do contraste VM/container, descarte as quatro por 'estranheza' e marque a única frase plausível, restando na prática só a disputa 0 vs 1. Não chega a esvaziar a medição porque distinguir 0 de 1 ainda exige entender de onde vem o custo fixo da VM.",
+          "sugestao": "Reescrever ao menos dois distratores como confusões reais que alunos cometem nesse tópico, em vez de mecanismos fictícios — por exemplo: 'a diferença vem do tamanho da imagem em disco, muito menor que o de um disco virtual' (confunde disco com memória), ou 'o container é um processo com prioridade menor, então o kernel lhe dá menos memória residente' (confunde isolamento com escalonamento). Assim as erradas passam a competir no mesmo registro da correta."
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "O que as especificações da OCI padronizam?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "O formato da imagem e o contrato de execução, de modo que uma imagem construída por uma ferramenta seja executada por outra.",
+          "correta": true,
+          "porque": "São exatamente os objetos das especificações: como a imagem é estruturada e como um runtime deve executá-la."
+        },
+        {
+          "texto": "O conjunto de subcomandos da linha de comando, de modo que qualquer implementação aceite os mesmos comandos que o Docker.",
+          "correta": false,
+          "porque": "A ergonomia da linha de comando fica a cargo de cada projeto; nada obriga a repetir os subcomandos do Docker."
+        },
+        {
+          "texto": "O formato do arquivo de receita de construção, de modo que qualquer ferramenta de build aceite o mesmo arquivo de instruções.",
+          "correta": false,
+          "porque": "A especificação trata do artefato produzido, não da linguagem em que a receita de construção é escrita."
+        },
+        {
+          "texto": "Os mecanismos de isolamento do kernel, definindo quais namespaces e controles de recurso o host precisa oferecer.",
+          "correta": false,
+          "porque": "Os mecanismos são do kernel e variam por sistema; a especificação descreve o contrato, não obriga um conjunto de recursos do kernel."
+        },
+        {
+          "texto": "O protocolo de rede entre containers, definindo como cada runtime resolve nomes de serviço e roteia o tráfego interno.",
+          "correta": false,
+          "porque": "Rede entre containers é resolvida por cada plataforma, fora do escopo do formato de imagem e do contrato de execução."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Pense no que precisa ser combinado entre quem produz um artefato e quem o executa, e no que fica livre para cada ferramenta decidir.",
+      "_critica": [
+        {
+          "dimensao": "dica",
+          "gravidade": "alta",
+          "explicacao": "a dica entrega a resposta: A dica formula justamente o par 'quem produz o artefato / quem o executa', que é a paráfrase quase literal da justificativa da alternativa 0 ('imagem construída por uma ferramenta seja executada por outra'). Com isso, o aluno faz o casamento verbal direto sem precisar saber o que a OCI é ou faz. Pior: a segunda metade ('o que fica livre para cada ferramenta decidir') já sinaliza que receita de build e subcomandos de CLI não entram, derrubando de antemão o distrator mais forte (o formato do Dockerfile, alternativa 2) e também a alternativa 1. Restam eliminadas por consequência as opções 3 e 4, que não tratam da relação produtor-executor. A dica não propõe um teste a ser executado nem apenas nomeia o conceito: entrega o critério inteiro já aplicado, substituindo o entendimento sobre o escopo real das especificações (image-spec e runtime-spec).",
+          "sugestao": "apontar o conceito sem resolver"
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa 3 é a única com risco de ser defendida por aluno bem informado: a OCI Runtime Specification, na seção Linux do config.json, efetivamente descreve namespaces e limites de cgroups que o runtime deve configurar. O texto do distrator se salva por dizer 'quais ... o host precisa oferecer' (a spec não impõe recursos ao host), mas quem lembra do schema do config.json pode hesitar entre 0 e 3. Como o gabarito 0 continua sendo claramente o mais completo e o único que cobre formato de imagem + contrato de execução, não deve mudar quem passa.",
+          "sugestao": "Reformular o distrator 3 para deixar o erro inequívoco, por exemplo: 'Os mecanismos de isolamento do kernel, obrigando todo sistema operacional hospedeiro a implementar namespaces e cgroups do Linux para ser compatível.'"
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Uma imagem e um runtime declaram conformidade com a OCI. Marque todas as consequências práticas que decorrem dessa conformidade.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "A imagem já publicada pode ser executada por outro runtime conforme, sem que ninguém precise reconstruí-la.",
+          "correta": true,
+          "porque": "Formato de imagem e contrato de execução comuns permitem trocar de runtime mantendo o artefato."
+        },
+        {
+          "texto": "Um registry de outro fornecedor recebe e serve a mesma imagem, porque a forma de distribuir também é especificada.",
+          "correta": true,
+          "porque": "A especificação de distribuição padroniza a conversa com o registry, o que torna os fornecedores intercambiáveis."
+        },
+        {
+          "texto": "Os comandos aprendidos com o Docker funcionam sem tradução em qualquer ferramenta conforme, pois a interface é especificada.",
+          "correta": false,
+          "porque": "Semelhança de linha de comando é decisão de cada projeto, não obrigação da especificação."
+        },
+        {
+          "texto": "Uma imagem construída em host Linux passa a ser executada em host Windows, pois a conformidade cobre os dois kernels.",
+          "correta": false,
+          "porque": "A imagem declara plataforma; padronizar formato não faz um binário rodar sobre kernel de outra família."
+        },
+        {
+          "texto": "As instruções aceitas no arquivo de construção passam a ser as mesmas em toda ferramenta que declare conformidade.",
+          "correta": false,
+          "porque": "O que é padronizado é o resultado da construção, não a sintaxe da receita usada para chegar nele."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Verifique, em cada item, se a promessa é sobre o artefato e a maneira de executá-lo ou sobre a ferramenta com que a pessoa digita.",
+      "_critica": [
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "O enunciado estabelece que 'uma imagem e um runtime declaram conformidade com a OCI' — isto é, image-spec e runtime-spec. A alternativa 1, marcada como correta, depende de uma terceira especificação (distribution-spec) e, principalmente, da conformidade de um registry, que não é nenhum dos dois artefatos citados na premissa. Um aluno que domine exatamente o tópico (a OCI é composta por três especificações distintas e independentes) tem razão para rejeitar o item, pois a interoperabilidade de registry não 'decorre' da conformidade de imagem+runtime. Como a correção é por conjunto exato, esse aluno é reprovado por saber mais.",
+          "sugestao": "Ajustar a premissa para 'Uma imagem, um runtime e um registry declaram conformidade com as especificações da OCI', ou reformular a alternativa 1 para tratar apenas do formato do artefato distribuído sem depender da conformidade do registry."
+        },
+        {
+          "dimensao": "dica",
+          "gravidade": "alta",
+          "explicacao": "A dica oferece um critério de decisão que classifica erradamente a alternativa 3. Ela manda verificar 'se a promessa é sobre o artefato e a maneira de executá-lo ou sobre a ferramenta com que a pessoa digita'. A alternativa 3 ('imagem construída em host Linux passa a ser executada em host Windows') é justamente uma promessa sobre o artefato e sua execução — logo, pelo critério da dica, deveria ser marcada como correta, quando o gabarito a considera errada (a imagem declara plataforma e o kernel não muda). A dica induz ao erro quem a seguir.",
+          "sugestao": "Reescrever a dica para cobrir também o limite de plataforma, por exemplo: 'Separe três coisas: o que a especificação padroniza (formato e contrato de execução), o que fica a critério de cada ferramenta (comandos e sintaxe de build) e o que nenhuma especificação pode mudar (o kernel sobre o qual o binário roda).'"
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "quiz",
+      "dificuldade": "dificil",
+      "enunciado": "Uma equipe quer trocar o Docker por outra ferramenta conforme à OCI na esteira de integração, mantendo as imagens já publicadas. O que a conformidade garante nessa troca?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "As imagens continuam válidas e executáveis, mas os comandos do roteiro da esteira provavelmente precisam ser reescritos.",
+          "correta": true,
+          "porque": "A garantia recai sobre o artefato e sua execução; a sintaxe da ferramenta não é objeto da especificação."
+        },
+        {
+          "texto": "Os comandos do roteiro continuam válidos, mas as imagens precisam ser reconstruídas pela ferramenta que entra no lugar.",
+          "correta": false,
+          "porque": "Inverte o que é padronizado: a imagem atravessa a troca, e é a linha de comando que pode mudar."
+        },
+        {
+          "texto": "Tanto as imagens quanto os comandos continuam válidos, bastando que a ferramenta nova declare a mesma conformidade.",
+          "correta": false,
+          "porque": "Conformidade não obriga compatibilidade de linha de comando entre implementações."
+        },
+        {
+          "texto": "As imagens continuam válidas depois de republicadas em um registry da mesma implementação da ferramenta nova.",
+          "correta": false,
+          "porque": "A distribuição também é especificada, então não é preciso um registry da mesma implementação."
+        },
+        {
+          "texto": "Os comandos continuam válidos dentro de um mesmo sistema operacional, e as imagens passam por conversão de formato.",
+          "correta": false,
+          "porque": "Não existe etapa de conversão de formato entre implementações conformes, e os comandos não são garantidos."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Uma especificação obriga formatos; ela não obriga ergonomia de ferramenta. Aplique essa distinção aos dois itens em jogo na troca.",
+      "_critica": [
+        {
+          "dimensao": "dica",
+          "gravidade": "alta",
+          "explicacao": "a dica entrega a resposta: A dica fornece o critério de decisão completo e já mapeado aos dois itens da questão: formato (imagem) é padronizado pela especificação, ergonomia de ferramenta (comandos/CLI) não é. Basta combinar as duas metades para obter literalmente a alternativa 0 — imagens válidas, roteiro provavelmente reescrito — e, de passagem, o distrator mais forte (opção 2, 'tudo continua válido') cai sozinho, pois a dica afirma explicitamente que a conformidade não cobre a interface da ferramenta. O aluno não precisa executar nenhum raciocínio adicional nem entender o que a OCI especifica (image-spec, runtime-spec, distribution-spec): a dica substitui esse entendimento por uma regra pronta. Seria falso se a dica apenas dissesse 'considere o que uma especificação padroniza e o que não padroniza' sem nomear as duas categorias correspondentes aos itens em jogo.",
+          "sugestao": "apontar o conceito sem resolver"
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "A alternativa correta é a única que se protege com um advérbio de incerteza (\"provavelmente precisam ser reescritos\"), enquanto todas as erradas fazem afirmações fechadas (\"continuam válidos\", \"bastando que\", \"não é preciso\", \"passam por conversão\"). Quem faz prova acerta por hábito escolhendo a opção matizada, sem precisar saber o que a OCI especifica.",
+          "sugestao": "Nivelar o registro: escrever a correta de forma igualmente assertiva (\"...mas os comandos do roteiro da esteira não são garantidos e precisam ser revistos\") e introduzir hedge em pelo menos dois distratores (ex.: \"os comandos costumam continuar válidos, embora as imagens tenham de ser reconstruídas\")."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "Há um padrão de categoria: três dos quatro distratores (1, 2 e 4) afirmam que os comandos continuam válidos, e a correta é a única que nega isso. O aluno identifica a resposta como o \"item ímpar\" do conjunto, por simetria, sem raciocinar sobre imagem versus CLI. O par 0/1 é ainda um espelho literal um do outro, o que reforça que a decisão se reduz a escolher um dos dois.",
+          "sugestao": "Diversificar os eixos dos distratores para que a validade dos comandos não seja o único divisor: incluir erradas que também neguem a compatibilidade de comandos mas errem em outro ponto (ex.: \"nem imagens nem comandos atravessam a troca: a OCI padroniza apenas o runtime, não o formato de imagem\")."
+        },
+        {
+          "dimensao": "enunciado",
+          "gravidade": "baixa",
+          "explicacao": "Erro de redação em \"outra ferramenta conforme à OCI\" (regência incorreta: conforme *à*), e \"esteira de integração\" aparece sem que o termo tenha sido apresentado neste ponto do curso (integração contínua é o tópico 26). Não muda qual alternativa está certa, mas atrapalha a leitura.",
+          "sugestao": "Reescrever: \"Uma equipe quer substituir o Docker por outra ferramenta conforme à especificação OCI no seu pipeline de integração contínua, mantendo as imagens já publicadas.\" ou usar \"em conformidade com a OCI\"."
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "tipo": "quiz",
+      "dificuldade": "medio",
+      "enunciado": "Um container executa um servidor web em um host Linux. Ao listar os processos no host, o que se observa sobre esse servidor?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Aparece como um processo comum do host, com número diferente daquele que ele vê para si mesmo por dentro.",
+          "correta": true,
+          "porque": "O container é processo do host com visão restrita; a numeração interna é própria do isolamento e não coincide com a do host."
+        },
+        {
+          "texto": "Não aparece, porque cada container carrega um kernel próprio, com uma tabela de processos separada da do host.",
+          "correta": false,
+          "porque": "Não há kernel próprio por container; o kernel é um só e mantém uma única tabela real de processos."
+        },
+        {
+          "texto": "Não aparece, porque a tabela do host lista somente o serviço do Docker, e não os processos internos do container.",
+          "correta": false,
+          "porque": "Os processos internos são visíveis no host: o isolamento restringe a visão de dentro para fora, não o contrário."
+        },
+        {
+          "texto": "Aparece com o mesmo número que ele vê para si mesmo por dentro, já que a numeração é única na máquina.",
+          "correta": false,
+          "porque": "Dentro do isolamento a numeração recomeça, então o número visto por dentro difere do número real no host."
+        },
+        {
+          "texto": "Aparece enquanto não houver teto de memória configurado; com o teto, a contabilidade passa para uma tabela separada.",
+          "correta": false,
+          "porque": "Limite de recurso apenas contabiliza e restringe consumo; não muda onde o processo é listado."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Isolamento de visão não é o mesmo que existência separada: pergunte quem, afinal, agenda esse processo na CPU.",
+      "_critica": [
+        {
+          "dimensao": "dica",
+          "gravidade": "alta",
+          "explicacao": "a dica entrega a resposta: A dica entrega os dois componentes da alternativa correta em forma abstrata. A pergunta final ('quem agenda esse processo na CPU') conduz diretamente à conclusão de que é o kernel do host, o que sozinho derruba as opções 1, 2 e 4 (as três que negam a aparição, incluindo a do 'kernel próprio', explicitamente contrariada por 'existência separada'). E a primeira metade — 'isolamento de visão' — afirma que o que o processo enxerga de si não coincide com o que o host enxerga, resolvendo o único par que restaria (0 vs. 3) em favor da numeração diferente. Sobra ao aluno apenas mapear vocabulário abstrato para a alternativa, não raciocinar sobre namespaces de PID: dá para marcar a 0 sem saber explicar o mecanismo.",
+          "sugestao": "apontar o conceito sem resolver"
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa 4 ('aparece enquanto não houver teto de memória configurado; com o teto, a contabilidade passa para uma tabela separada') inventa um mecanismo que não existe em nenhum modelo mental plausível de cgroup: nenhum aluno, mesmo desinformado, associa limite de memória a mudança de tabela de processos. Ela funciona como enchimento e reduz o campo real a quatro opções. O mesmo vale, em menor grau, para a 2, que separa 'serviço do Docker' de 'processos internos' de forma difícil de sustentar. A decisão do exercício continua, ainda assim, entre 0 e 3, que exigem entender namespace de PID — por isso o defeito não altera quem passa.",
+          "sugestao": "Trocar a alternativa 4 por um erro conceitual que alguém realmente comete, por exemplo: 'Aparece apenas o processo de PID 1 do container; os processos filhos ficam ocultos ao host, pois pertencem ao namespace interno.' Isso mantém quatro distratores disputáveis e obriga o aluno a raciocinar sobre a direção do isolamento de visão."
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "tipo": "multipla-escolha",
+      "dificuldade": "dificil",
+      "enunciado": "Marque todas as afirmações que se sustentam sobre namespaces, cgroups e sistemas de arquivos em união.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Namespaces tratam do que o processo consegue enxergar; cgroups tratam de quanto recurso ele consegue consumir.",
+          "correta": true,
+          "porque": "É a divisão de papéis entre os dois mecanismos: visibilidade de um lado, contabilidade e teto do outro."
+        },
+        {
+          "texto": "Sem limite de recurso configurado, um processo isolado ainda pode tomar toda a CPU e afetar os vizinhos da máquina.",
+          "correta": true,
+          "porque": "Isolamento de visão não impõe teto: sem cgroups configurado, a disputa por CPU continua livre."
+        },
+        {
+          "texto": "Várias instâncias podem partir do mesmo conteúdo em disco, sem que ele seja copiado inteiro para cada uma delas.",
+          "correta": true,
+          "porque": "Camadas compartilhadas em leitura, com gravação em camada própria, evitam duplicar o conteúdo comum."
+        },
+        {
+          "texto": "Cada namespace criado corresponde a um kernel adicional carregado em memória pelo runtime de container.",
+          "correta": false,
+          "porque": "Namespace é recurso do mesmo kernel; não existe kernel adicional para cada isolamento criado."
+        },
+        {
+          "texto": "Ao atingir o teto de memória, o kernel comprime as páginas do processo em vez de interromper sua execução.",
+          "correta": false,
+          "porque": "Ao estourar o teto, o processo é encerrado; compressão de memória é outro recurso, não a resposta ao limite."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Ver, consumir e armazenar são três eixos distintos: confira em qual deles cada afirmação se apoia e se a peça citada faz aquilo.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "As duas erradas formam uma categoria única e reconhecível: ambas inventam um mecanismo exótico e concreto ('um kernel adicional carregado em memória por namespace', 'o kernel comprime as páginas em vez de interromper'). As três corretas são afirmações sóbrias e genéricas sobre ver/consumir/armazenar. Isso permite acertar o conjunto exato por heurística de prova — marcar as frases plausíveis e descartar as que citam mecanismos estranhos — sem entender namespaces, cgroups ou union FS. Agrava o caso a alternativa 3: 'um kernel por namespace' é eliminável só com o tópico 2 (container compartilha o kernel do host), que vem antes, e a 4 depende de saber que compressão de memória é zswap/zram, não resposta a limite. Para um exercício marcado como 'difícil', nenhuma das duas erradas exige raciocínio sobre o tópico declarado.",
+          "sugestao": "Substituir as erradas por confusões plausíveis e internas ao tópico, do mesmo registro sóbrio das corretas — por exemplo: 'cgroups isolam a árvore de processos que o container enxerga' (troca de papéis entre namespace PID e cgroup), 'o namespace de rede garante que o tráfego entre containers seja cifrado' ou 'gravar em um arquivo da camada base altera a imagem para todos os containers que a compartilham' (nega o copy-on-write). Assim as cinco afirmações ficam indistinguíveis pelo formato e só o entendimento dos três eixos separa certas de erradas."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "O feedback da alternativa 4 afirma sem ressalva que 'ao estourar o teto, o processo é encerrado'. No cgroup de memória o kernel primeiro tenta recuperar páginas (reclaim/swap) e só mata quando não consegue; com swap disponível o processo pode continuar rodando. Como é feedback pós-resposta, não muda quem passa, mas ensina uma simplificação imprecisa.",
+          "sugestao": "Reescrever o 'porque' como: 'ao encostar no teto o kernel tenta recuperar páginas e, se não conseguir, encerra o processo (OOM kill); compressão de memória é outro recurso, não a resposta ao limite'."
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as consequências de usar o Docker Desktop com camada virtualizada no Windows ou no macOS.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Pastas do disco do usuário montadas dentro do container podem ficar sensivelmente mais lentas que no Linux.",
+          "correta": true,
+          "porque": "O acesso atravessa a fronteira entre o sistema hospedeiro e a camada virtualizada, com custo perceptível de desempenho."
+        },
+        {
+          "texto": "A memória e a CPU disponíveis aos containers ficam limitadas ao que foi atribuído à camada virtualizada.",
+          "correta": true,
+          "porque": "Os containers vivem dentro dessa camada, então o teto dela é o teto deles."
+        },
+        {
+          "texto": "Imagens construídas nessas estações não podem ser executadas em servidor Linux, por diferença de formato de disco.",
+          "correta": false,
+          "porque": "A imagem produzida é a mesma de qualquer host Linux, respeitada a arquitetura; não há formato de disco em jogo."
+        },
+        {
+          "texto": "Os processos de dentro do container aparecem na lista de processos do sistema hospedeiro com o nome da imagem.",
+          "correta": false,
+          "porque": "Esses processos vivem dentro da camada virtualizada, e não na tabela de processos do Windows ou do macOS."
+        },
+        {
+          "texto": "Containers Linux e containers Windows executam ao mesmo tempo, sem que a ferramenta precise trocar de modo.",
+          "correta": false,
+          "porque": "Cada família de container exige seu próprio kernel, e a ferramenta opera em um modo por vez."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Pense em onde os arquivos e os recursos realmente moram quando existe uma camada virtualizada entre a estação e o container.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "O conjunto exato {0,1} é dedutível por formato, sem conhecimento de Docker Desktop. As duas corretas são as únicas afirmações moderadas/hedged (\"podem ficar sensivelmente mais lentas\", \"ficam limitadas ao que foi atribuído\"), enquanto as três erradas são todas afirmações categóricas e surpreendentes (\"não podem ser executadas\", \"aparecem ... com o nome da imagem\", \"sem que a ferramenta precise trocar de modo\"). Além disso, a alternativa 2 é descartável só pelo discurso de venda do curso (\"rode em qualquer lugar\", tópico 1), sem nada de instalação. Quem faz prova por hábito marca as duas cautelosas e acerta o conjunto inteiro.",
+          "sugestao": "Reescrever para quebrar o padrão: dar às erradas a mesma cautela verbal das corretas (ex.: \"o desempenho de rede entre containers pode cair porque o tráfego atravessa a camada virtualizada\", \"a CPU do hospedeiro pode ser usada integralmente pelos containers sem limite configurado\") e tornar ao menos uma correta categórica (ex.: \"o kernel que executa os containers é o da camada virtualizada, não o do Windows/macOS\"). Substituir a alternativa 2 por um erro plausível ligado à instalação (ex.: escolha de backend WSL2 vs Hyper-V, ou compartilhamento de pasta que precisa ser autorizado nas configurações)."
+        },
+        {
+          "dimensao": "alvo",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa correta 0 depende de saber que se montam pastas do host dentro do container (bind mounts), assunto dos tópicos 7 e 8, posteriores ao tópico declarado (5). No ponto do curso em que o exercício aparece, o aluno pode dominar instalação e configuração do Docker Desktop e ainda não ter visto montagem de pastas do hospedeiro.",
+          "sugestao": "Reformular a alternativa 0 em termos de configuração do próprio Docker Desktop, que é conteúdo do tópico 5 (ex.: \"o compartilhamento de arquivos entre a estação e a camada virtualizada precisa ser habilitado nas configurações e tem custo de desempenho\"), ou mover o exercício para depois do tópico 8."
+        }
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Docker Engine no Linux e quando ele basta",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações que se sustentam sobre usar apenas o Docker Engine no Linux, sem o Docker Desktop.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Em servidor sem ambiente gráfico, ele cobre construir, executar e enviar imagens para um registry.",
+          "correta": true,
+          "porque": "Todo o ciclo de trabalho com imagens e containers é do Engine; a interface gráfica é dispensável."
+        },
+        {
+          "texto": "Numa estação Linux, arquivos montados do disco local chegam ao container sem a perda da camada virtualizada.",
+          "correta": true,
+          "porque": "No Linux não há máquina virtual intermediária, então o acesso ao disco não paga esse pedágio."
+        },
+        {
+          "texto": "Não incide a exigência de assinatura paga que a Docker aplica ao Desktop em organizações grandes.",
+          "correta": true,
+          "porque": "A condição comercial do Desktop não se estende ao Engine, distribuído sob licença livre."
+        },
+        {
+          "texto": "O Compose fica de fora, porque ele é distribuído somente junto com a interface gráfica do Desktop.",
+          "correta": false,
+          "porque": "O Compose está disponível como plugin do próprio Engine, sem depender do Desktop."
+        },
+        {
+          "texto": "A construção de imagens fica de fora: o Engine apenas executa imagens construídas por outra ferramenta.",
+          "correta": false,
+          "porque": "Construir imagens é função do Engine; não é preciso outra ferramenta para isso."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Divida os itens entre capacidade técnica e condição de uso; depois confira se a capacidade citada mora de fato no Desktop.",
+      "_motivo": [
+        "pista de forma: todas as 2 erradas têm absoluto (\"sempre\", \"nunca\", \"só\"…) e nenhuma correta tem"
+      ],
+      "_curso": "docker"
+    },
+    {
+      "topico": "Instalação, interpretador e o primeiro script",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque **todas** as afirmações verdadeiras sobre executar um script com `python arquivo.py`.",
+      "dica_socratica": "Monte um arquivo com duas linhas: um `print` na primeira e um erro de digitação na segunda. Rode. O que apareceu na tela responde mais de uma destas afirmações.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Um erro de sintaxe na última linha impede que a primeira linha chegue a executar.",
+          "correta": true,
+          "porque": "O arquivo inteiro é convertido em bytecode antes de qualquer execução, então erro de sintaxe aborta tudo."
+        },
+        {
+          "texto": "A extensão do arquivo não altera o resultado: `python ola.txt` executa o conteúdo igual.",
+          "correta": true,
+          "porque": "A extensão é convenção para humanos e ferramentas; o interpretador lê o arquivo que você apontar."
+        },
+        {
+          "texto": "Um caminho relativo ou absoluto funciona como argumento, de qualquer pasta.",
+          "correta": true,
+          "porque": "O argumento é um caminho de arquivo comum, resolvido como qualquer outro."
+        },
+        {
+          "texto": "Um erro de digitação numa linha nunca alcançada em tempo de execução passa despercebido.",
+          "correta": false,
+          "porque": "Erro de sintaxe é detectado na compilação do arquivo, mesmo em linha que jamais executaria."
+        },
+        {
+          "texto": "A linha `#!/usr/bin/env python3` no topo muda qual interpretador roda o arquivo.",
+          "correta": false,
+          "porque": "Passando o arquivo para `python`, quem executa é esse interpretador; o shebang vale ao rodar o arquivo como programa."
+        }
+      ],
+      "itens": [],
+      "pares": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": [],
+      "_motivo": [
+        "pista de forma: \"executar\" aparece no enunciado e em exatamente uma alternativa, a correta"
+      ],
+      "_curso": "python"
+    },
+    {
+      "topico": "Funções: argumentos, retorno, escopo e lambdas",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Dado `def marcar(item, marca=\"*\", repetir=1)` que devolve `marca * repetir + item`, marque **todas** as chamadas que produzem exatamente a string `\"--fim\"`.",
+      "dica_socratica": "Para cada chamada, escreva primeiro a que parâmetro cada argumento ficou ligado, e só então avalie `marca * repetir + item` com esses valores. Uma das chamadas liga um inteiro onde você esperava texto: avalie mesmo assim, em vez de presumir que dá erro.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "`marcar(\"fim\", \"-\", 2)`",
+          "correta": true,
+          "porque": "Por posição: item=\"fim\", marca=\"-\", repetir=2, e \"-\" * 2 + \"fim\" dá \"--fim\"."
+        },
+        {
+          "texto": "`marcar(\"fim\", 2, \"-\")`",
+          "correta": true,
+          "porque": "Liga marca=2 e repetir=\"-\", mas 2 * \"-\" também é \"--\": inteiro vezes texto vale nas duas ordens."
+        },
+        {
+          "texto": "`marcar(repetir=2, marca=\"-\", item=\"fim\")`",
+          "correta": true,
+          "porque": "Com todos os argumentos nomeados, a ordem em que aparecem não importa."
+        },
+        {
+          "texto": "`marcar(\"fim\", \"-\", 3)`",
+          "correta": false,
+          "porque": "A ligação está certa, mas repetir=3 produz \"---fim\", com uma marca a mais."
+        },
+        {
+          "texto": "`marcar(\"-\", 2, \"fim\")`",
+          "correta": false,
+          "porque": "Liga item=\"-\", marca=2 e repetir=\"fim\", devolvendo \"fimfim-\" em vez de \"--fim\"."
+        }
+      ],
+      "itens": [],
+      "pares": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": [],
+      "_motivo": [
+        "pista de forma: \"marca\" aparece no enunciado e em exatamente uma alternativa, a correta",
+        "pista de forma: \"repetir\" aparece no enunciado e em exatamente uma alternativa, a correta"
+      ],
+      "_curso": "python"
+    }
+  ]
+}
