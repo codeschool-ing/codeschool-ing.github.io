@@ -47,13 +47,15 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Instalação, interpretador e o primeiro script",
       "tipo": "saida-esperada",
       "dificuldade": "facil",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "`print` recebe vários valores separados por vírgula. O que ele coloca entre eles por padrão?",
       "linguagem": "python",
       "esqueleto": "",
@@ -67,33 +69,57 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Instalação, interpretador e o primeiro script",
-      "tipo": "ordenacao",
+      "tipo": "multipla-escolha",
       "dificuldade": "medio",
-      "enunciado": "Coloque em ordem o que acontece desde o instante em que você aperta Enter no comando `python ola.py` até a palavra aparecer na tela.",
-      "dica_socratica": "Cada etapa só pode começar com aquilo que a anterior produziu. Comece perguntando o que o sistema precisa encontrar antes de qualquer arquivo `.py` ser aberto.",
+      "enunciado": "Marque **todas** as afirmações verdadeiras sobre executar um script com `python arquivo.py`.",
+      "dica_socratica": "Três destas você resolve em dois minutos no terminal: crie um arquivo, rode, e olhe o que aconteceu na pasta. Comece pelas que dá para testar antes de opinar sobre as outras.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
       "codigo_dado": "",
       "resposta": "",
-      "alternativas": [],
-      "itens": [
-        "O sistema operacional localiza o executável `python` no `PATH`",
-        "O interpretador lê o arquivo `ola.py` e o converte em bytecode",
-        "A máquina virtual do Python executa esse bytecode, instrução a instrução",
-        "A chamada `print` escreve o texto na saída padrão do processo",
-        "O terminal exibe na tela o que recebeu pela saída padrão"
+      "alternativas": [
+        {
+          "texto": "O interpretador executa o arquivo mesmo que a extensão não seja `.py`.",
+          "correta": true,
+          "porque": "A extensão é convenção para humanos e ferramentas; `python ola.txt` roda o conteúdo normalmente."
+        },
+        {
+          "texto": "Um erro de sintaxe na última linha impede que a primeira linha chegue a executar.",
+          "correta": true,
+          "porque": "O arquivo inteiro é compilado antes de qualquer execução, então erro de sintaxe aborta tudo."
+        },
+        {
+          "texto": "Rodar `python ola.py` não cria `__pycache__` para o próprio `ola.py`.",
+          "correta": true,
+          "porque": "O cache de bytecode é gravado para módulos importados, não para o arquivo executado direto."
+        },
+        {
+          "texto": "O arquivo precisa começar com `#!/usr/bin/env python3` para `python ola.py` funcionar.",
+          "correta": false,
+          "porque": "A linha shebang só importa ao executar o arquivo como programa; passando-o ao interpretador, ela é comentário."
+        },
+        {
+          "texto": "O arquivo precisa estar na pasta atual, porque `python` não aceita caminho para o script.",
+          "correta": false,
+          "porque": "Caminho relativo ou absoluto funciona: `python /tmp/t1/ola.py` executa de qualquer lugar."
+        }
       ],
+      "itens": [],
       "pares": [],
       "expressao_gabarito": "",
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Instalação, interpretador e o primeiro script",
@@ -139,13 +165,15 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Tipos, variáveis, operadores e formatação de strings",
       "tipo": "saida-esperada",
       "dificuldade": "medio",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "Compare o que você escreveria à mão com a regra de precedência da linguagem. Qual operador é aplicado primeiro quando o menos aparece antes da potência?",
       "linguagem": "python",
       "esqueleto": "",
@@ -159,13 +187,15 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Tipos, variáveis, operadores e formatação de strings",
       "tipo": "saida-esperada",
       "dificuldade": "medio",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "Três operadores diferentes, três tipos possíveis de resultado. Qual deles nunca devolve um inteiro, mesmo quando a divisão é exata?",
       "linguagem": "python",
       "esqueleto": "",
@@ -179,7 +209,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Tipos, variáveis, operadores e formatação de strings",
@@ -225,14 +257,16 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Tipos, variáveis, operadores e formatação de strings",
       "tipo": "associacao",
       "dificuldade": "medio",
-      "enunciado": "Associe cada expressão ao valor que ela produz em Python.",
-      "dica_socratica": "Duas destas envolvem divisão e devolvem tipos diferentes. Repare também em qual operador atua sobre texto em vez de números.",
+      "enunciado": "Associe cada expressão ao valor que ela produz em Python. Sobram valores na coluna da direita que não correspondem a expressão alguma.",
+      "dica_socratica": "Não basta acertar o número: repare em quais valores aparecem com ponto decimal e quais não. Que operador devolve inteiro mesmo quando a conta não é exata?",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -266,13 +300,18 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": [
+        "`4.0`",
+        "`\"ababab\"`"
+      ]
     },
     {
       "topico": "Coleções: listas, tuplas, dicionários e conjuntos",
       "tipo": "saida-esperada",
       "dificuldade": "medio",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "Depois das duas primeiras linhas, quantos objetos lista existem na memória? Desenhe as caixas antes de responder.",
       "linguagem": "python",
       "esqueleto": "",
@@ -286,41 +325,43 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Coleções: listas, tuplas, dicionários e conjuntos",
       "tipo": "codigo",
       "dificuldade": "facil",
-      "enunciado": "Leia uma linha com números inteiros separados por espaço e imprima os valores distintos em ordem crescente, separados por vírgula e um espaço. Se a linha não contiver número algum, imprima `vazio`. Não imprima nada além dessa linha.",
-      "dica_socratica": "Uma das coleções da linguagem descarta repetição sozinha, mas não guarda ordem nenhuma. O que você precisa fazer depois dela?",
+      "enunciado": "A variável `numeros` já vem preenchida com os inteiros da entrada. Imprima a lista dos valores distintos em ordem crescente, no formato com que o Python exibe listas — o resultado de `print` sobre uma lista. Não imprima nada além dessa linha.",
+      "dica_socratica": "Uma das coleções da linguagem descarta repetição sozinha, mas não guarda ordem nenhuma. O que você precisa aplicar depois dela para recuperar a ordem?",
       "linguagem": "python",
-      "esqueleto": "linha = input()\n# complete: imprima os distintos em ordem crescente\n",
+      "esqueleto": "numeros = [int(x) for x in input().split()]\n# complete: imprima a lista dos distintos em ordem crescente\n",
       "testes": [
         {
           "descricao": "com repetições",
           "entrada": "3 1 2 3 1\n",
-          "saida_esperada": "1, 2, 3\n"
+          "saida_esperada": "[1, 2, 3]\n"
         },
         {
           "descricao": "todos iguais",
           "entrada": "5 5 5\n",
-          "saida_esperada": "5\n"
+          "saida_esperada": "[5]\n"
         },
         {
           "descricao": "negativos e zero",
           "entrada": "-2 10 -2 0\n",
-          "saida_esperada": "-2, 0, 10\n"
+          "saida_esperada": "[-2, 0, 10]\n"
+        },
+        {
+          "descricao": "um número só",
+          "entrada": "7\n",
+          "saida_esperada": "[7]\n"
         },
         {
           "descricao": "borda: linha vazia",
           "entrada": "\n",
-          "saida_esperada": "vazio\n"
-        },
-        {
-          "descricao": "borda: só espaços",
-          "entrada": "   \n",
-          "saida_esperada": "vazio\n"
+          "saida_esperada": "[]\n"
         }
       ],
       "codigo_dado": "",
@@ -332,7 +373,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Coleções: listas, tuplas, dicionários e conjuntos",
@@ -378,14 +421,16 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Coleções: listas, tuplas, dicionários e conjuntos",
       "tipo": "associacao",
       "dificuldade": "medio",
-      "enunciado": "Associe cada coleção à característica que a distingue das outras.",
-      "dica_socratica": "Separe primeiro as que guardam valores soltos das que guardam pares. Depois pergunte, entre as de valores soltos, qual recusa alteração e qual recusa repetição.",
+      "enunciado": "Cada linha da direita descreve o que acontece ao usar uma coleção chamada `c` no interpretador. Associe cada coleção ao seu comportamento. Sobram descrições que não correspondem a coleção alguma.",
+      "dica_socratica": "Duas perguntas resolvem: `c[0]` funciona? E existe método para acrescentar um elemento? Responda as duas para cada uma das quatro antes de emparelhar.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -396,32 +441,37 @@
       "pares": [
         {
           "esquerda": "lista",
-          "direita": "Sequência ordenada que aceita alteração depois de criada"
+          "direita": "`c[0]` devolve o primeiro elemento, e `c.append(9)` acrescenta ao fim"
         },
         {
           "esquerda": "tupla",
-          "direita": "Sequência ordenada que não aceita alteração depois de criada"
+          "direita": "`c[0]` devolve o primeiro elemento, e não existe método para acrescentar"
         },
         {
           "esquerda": "dicionário",
-          "direita": "Guarda pares de chave e valor, com acesso pela chave"
+          "direita": "`c[0]` levanta `KeyError` quando `0` não é uma das chaves"
         },
         {
           "esquerda": "conjunto",
-          "direita": "Guarda valores únicos e descarta repetições automaticamente"
+          "direita": "`c[0]` levanta `TypeError`, e `c.add(9)` duas vezes deixa um elemento só"
         }
       ],
       "expressao_gabarito": "",
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": [
+        "`c[0]` devolve o primeiro elemento, e `c.add(9)` recusa valores repetidos",
+        "`c[0]` levanta `TypeError`, e a ordem de inserção é preservada e garantida"
+      ]
     },
     {
       "topico": "Condições, laços e compreensões (list/dict comprehensions)",
       "tipo": "saida-esperada",
       "dificuldade": "medio",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "Escreva à mão os valores que o `range` percorre antes de aplicar a condição. Onde exatamente ele começa e onde para?",
       "linguagem": "python",
       "esqueleto": "",
@@ -435,7 +485,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Condições, laços e compreensões (list/dict comprehensions)",
@@ -481,7 +533,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Condições, laços e compreensões (list/dict comprehensions)",
@@ -527,13 +581,15 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Condições, laços e compreensões (list/dict comprehensions)",
       "tipo": "saida-esperada",
       "dificuldade": "dificil",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "O bloco `else` de um laço não é o par do `if`. Sob que condição exata ele executa, e o que impede isso de acontecer?",
       "linguagem": "python",
       "esqueleto": "",
@@ -547,14 +603,16 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Funções: argumentos, retorno, escopo e lambdas",
       "tipo": "saida-esperada",
       "dificuldade": "dificil",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
-      "dica_socratica": "O valor padrão de um argumento é criado uma vez só, quando a função é definida. Quantas listas diferentes existem aqui?",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
+      "dica_socratica": "Rode o trecho, acrescente uma terceira chamada e rode de novo. A saída acumula ou recomeça? Isso responde onde a lista do argumento padrão está guardada.",
       "linguagem": "python",
       "esqueleto": "",
       "testes": [],
@@ -567,36 +625,38 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Funções: argumentos, retorno, escopo e lambdas",
       "tipo": "codigo",
       "dificuldade": "medio",
-      "enunciado": "Escreva a função `resumo(valores, casas=2)` que recebe uma lista de números e devolve uma string no formato `min=<menor> max=<maior> media=<média>`, com cada número formatado com `casas` casas decimais. Para lista vazia, devolva a string `sem dados`. O programa principal já está escrito no esqueleto.",
-      "dica_socratica": "A média precisa dos mesmos valores que o mínimo e o máximo. E o caso da lista vazia: qual das três contas quebraria primeiro se você não tratasse antes?",
+      "enunciado": "Escreva a função `resumo(valores, casas=2)` que recebe uma lista de números e devolve uma string no formato `min=<menor> max=<maior> media=<média>`, com cada número formatado com `casas` casas decimais. Para lista vazia, devolva a string `sem dados`. O programa principal já está escrito no esqueleto: ele chama a função com o segundo argumento quando a entrada traz uma segunda linha, e sem ele quando não traz.",
+      "dica_socratica": "A média precisa dos mesmos valores que o mínimo e o máximo. Repare que o número de casas não é sempre o mesmo: como se escreve uma formatação cuja precisão vem de uma variável?",
       "linguagem": "python",
-      "esqueleto": "import sys\n\n\ndef resumo(valores, casas=2):\n    # complete\n    pass\n\n\nlinha = sys.stdin.readline().strip()\nvalores = [float(x) for x in linha.split()] if linha else []\nprint(resumo(valores))\n",
+      "esqueleto": "import sys\n\n\ndef resumo(valores, casas=2):\n    # complete\n    pass\n\n\nlinhas = sys.stdin.read().split(\"\\n\")\nvalores = [float(x) for x in linhas[0].split()]\nif len(linhas) > 1 and linhas[1].strip():\n    print(resumo(valores, int(linhas[1])))\nelse:\n    print(resumo(valores))\n",
       "testes": [
         {
-          "descricao": "três valores",
+          "descricao": "sem segunda linha: usa o padrão de duas casas",
           "entrada": "1 2 3\n",
           "saida_esperada": "min=1.00 max=3.00 media=2.00\n"
         },
         {
-          "descricao": "um valor só",
-          "entrada": "7\n",
-          "saida_esperada": "min=7.00 max=7.00 media=7.00\n"
+          "descricao": "quatro casas",
+          "entrada": "1 2 3\n4\n",
+          "saida_esperada": "min=1.0000 max=3.0000 media=2.0000\n"
         },
         {
-          "descricao": "média com dízima",
-          "entrada": "1 2\n",
-          "saida_esperada": "min=1.00 max=2.00 media=1.50\n"
+          "descricao": "uma casa",
+          "entrada": "7\n1\n",
+          "saida_esperada": "min=7.0 max=7.0 media=7.0\n"
         },
         {
-          "descricao": "negativos",
-          "entrada": "-5 0 5\n",
-          "saida_esperada": "min=-5.00 max=5.00 media=0.00\n"
+          "descricao": "zero casas arredonda",
+          "entrada": "1 2\n0\n",
+          "saida_esperada": "min=1 max=2 media=2\n"
         },
         {
           "descricao": "borda: lista vazia",
@@ -613,7 +673,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Funções: argumentos, retorno, escopo e lambdas",
@@ -633,24 +695,24 @@
           "porque": "Por posição: item=\"ok\", marca=\"#\", repetir=2, e \"#\" * 2 + \"ok\" dá \"##ok\"."
         },
         {
-          "texto": "`marcar(\"ok\", repetir=2, marca=\"#\")`",
-          "correta": true,
-          "porque": "Nomeados podem vir em qualquer ordem depois do posicional, e a ligação é a mesma."
-        },
-        {
           "texto": "`marcar(\"ok\", 2, \"#\")`",
           "correta": true,
           "porque": "Liga marca=2 e repetir=\"#\", mas 2 * \"#\" também é \"##\": inteiro vezes string vale nas duas ordens."
         },
         {
+          "texto": "`marcar(repetir=2, marca=\"#\", item=\"ok\")`",
+          "correta": true,
+          "porque": "Com todos os argumentos nomeados, a ordem em que aparecem não importa."
+        },
+        {
+          "texto": "`marcar(\"ok\", \"#\", 3)`",
+          "correta": false,
+          "porque": "A ligação está certa, mas repetir=3 produz \"###ok\", com uma marca a mais."
+        },
+        {
           "texto": "`marcar(\"#\", 2, \"ok\")`",
           "correta": false,
           "porque": "Liga item=\"#\", marca=2 e repetir=\"ok\", devolvendo \"okok#\" em vez de \"##ok\"."
-        },
-        {
-          "texto": "`marcar(marca=\"#\", repetir=2)`",
-          "correta": false,
-          "porque": "Levanta TypeError: `item` não tem valor padrão e nenhum argumento o preenche."
         }
       ],
       "itens": [],
@@ -659,7 +721,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Funções: argumentos, retorno, escopo e lambdas",
@@ -696,13 +760,18 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": [
+        "`[1, 3]`",
+        "`[True, False, True, False]`"
+      ]
     },
     {
       "topico": "Orientação a objetos: classes, herança e métodos especiais",
       "tipo": "saida-esperada",
       "dificuldade": "medio",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "Duas funções especiais podem descrever um objeto como texto. Qual delas o `print` procura primeiro, e o que acontece quando ela não existe?",
       "linguagem": "python",
       "esqueleto": "",
@@ -716,7 +785,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Orientação a objetos: classes, herança e métodos especiais",
@@ -757,7 +828,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Orientação a objetos: classes, herança e métodos especiais",
@@ -803,7 +876,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Orientação a objetos: classes, herança e métodos especiais",
@@ -849,13 +924,15 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Módulos, pacotes e a biblioteca padrão",
       "tipo": "saida-esperada",
       "dificuldade": "medio",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "Repare que uma das consultas pede uma chave que nunca foi contada. `Counter` se comporta como dicionário comum nesse caso, ou faz outra coisa?",
       "linguagem": "python",
       "esqueleto": "",
@@ -869,41 +946,43 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Módulos, pacotes e a biblioteca padrão",
       "tipo": "codigo",
       "dificuldade": "medio",
-      "enunciado": "Leia uma linha com palavras separadas por espaço e imprima a palavra mais frequente e a sua contagem, separadas por um espaço, no formato `<palavra> <contagem>`. Havendo empate na contagem, imprima a que vier antes em ordem alfabética. Se a linha não contiver palavra alguma, imprima `vazio`. Não imprima nada além dessa linha.",
-      "dica_socratica": "A contagem por si só não resolve o empate. Que ordem você precisa impor aos candidatos empatados antes de escolher o primeiro?",
+      "enunciado": "Leia uma data no formato `AAAA-MM-DD` e imprima o dia da semana correspondente, em minúsculas e em português, exatamente como nesta lista: `segunda-feira`, `terça-feira`, `quarta-feira`, `quinta-feira`, `sexta-feira`, `sábado`, `domingo`. Não imprima nada além dessa linha.",
+      "dica_socratica": "Calcular dia da semana à mão exige uma fórmula de calendário. A biblioteca padrão já traz um módulo de datas: o que ele oferece para converter texto em data, e que número ele devolve para o dia da semana?",
       "linguagem": "python",
-      "esqueleto": "linha = input()\n# complete: imprima a palavra mais frequente e a contagem\n",
+      "esqueleto": "linha = input()\n# complete: imprima o dia da semana em português\n",
       "testes": [
         {
-          "descricao": "uma vencedora clara",
-          "entrada": "sol mar sol\n",
-          "saida_esperada": "sol 2\n"
+          "descricao": "um domingo",
+          "entrada": "2026-08-02\n",
+          "saida_esperada": "domingo\n"
         },
         {
-          "descricao": "empate resolvido pela ordem alfabética",
-          "entrada": "b a b a c\n",
-          "saida_esperada": "a 2\n"
+          "descricao": "ano de século bissexto, por ser divisível por 400",
+          "entrada": "2000-02-29\n",
+          "saida_esperada": "terça-feira\n"
         },
         {
-          "descricao": "todas com contagem 1",
-          "entrada": "pe ma\n",
-          "saida_esperada": "ma 1\n"
+          "descricao": "início da era Unix",
+          "entrada": "1970-01-01\n",
+          "saida_esperada": "quinta-feira\n"
         },
         {
-          "descricao": "borda: linha vazia",
-          "entrada": "\n",
-          "saida_esperada": "vazio\n"
+          "descricao": "uma sexta-feira",
+          "entrada": "2026-12-25\n",
+          "saida_esperada": "sexta-feira\n"
         },
         {
-          "descricao": "borda: só espaços",
-          "entrada": "   \n",
-          "saida_esperada": "vazio\n"
+          "descricao": "bissexto comum",
+          "entrada": "2024-02-29\n",
+          "saida_esperada": "quinta-feira\n"
         }
       ],
       "codigo_dado": "",
@@ -915,7 +994,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Módulos, pacotes e a biblioteca padrão",
@@ -961,7 +1042,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Módulos, pacotes e a biblioteca padrão",
@@ -998,14 +1081,19 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": [
+        "Serializar objetos Python para trocar com outros sistemas",
+        "Medir quanto tempo um trecho de código leva para rodar"
+      ]
     },
     {
       "topico": "Erros e exceções: try, except, else e finally",
       "tipo": "saida-esperada",
       "dificuldade": "dificil",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
-      "dica_socratica": "Há um `return` dentro do `try` e outro dentro do `except`. Antes de decidir a ordem das linhas, pergunte se o `finally` chega a rodar quando a função já decidiu o que devolver.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
+      "dica_socratica": "Repare em qual bloco cada `return` está — não é no `try`. Depois pergunte se o `finally` chega a rodar quando a função já decidiu o que devolver.",
       "linguagem": "python",
       "esqueleto": "",
       "testes": [],
@@ -1018,13 +1106,15 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Erros e exceções: try, except, else e finally",
       "tipo": "saida-esperada",
       "dificuldade": "medio",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "Cada volta do laço levanta um erro diferente, ou nenhum. Percorra os três valores um a um e pergunte, para cada um, em que ponto exatamente a execução sai do `try`.",
       "linguagem": "python",
       "esqueleto": "",
@@ -1038,7 +1128,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Erros e exceções: try, except, else e finally",
@@ -1084,7 +1176,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Erros e exceções: try, except, else e finally",
@@ -1130,13 +1224,15 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Arquivos, JSON e CSV",
       "tipo": "saida-esperada",
       "dificuldade": "dificil",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "O dicionário original tem uma tupla e um booleano. Nem todo tipo de Python existe do outro lado: pergunte, para cada valor, o que o formato de destino tem de mais parecido.",
       "linguagem": "python",
       "esqueleto": "",
@@ -1150,7 +1246,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Arquivos, JSON e CSV",
@@ -1196,14 +1294,16 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Arquivos, JSON e CSV",
       "tipo": "multipla-escolha",
       "dificuldade": "medio",
       "enunciado": "Marque **todas** as afirmações verdadeiras sobre ler e escrever JSON e CSV em Python.",
-      "dica_socratica": "Para cada afirmação, pergunte se o formato de arquivo carrega aquela informação, ou se é o seu código que precisa colocá-la de volta depois de ler.",
+      "dica_socratica": "Cada afirmação vira duas linhas no interpretador: escreva um valor, leia de volta, e confira o tipo com `type(...)`. Duas delas mudam de resposta conforme você use `reader` ou `DictReader`, e conforme o valor esteja num arquivo JSON ou num CSV.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1226,14 +1326,14 @@
           "porque": "`json.dumps({1: \"a\"})` produz `{\"1\": \"a\"}`: a chave é convertida para string."
         },
         {
-          "texto": "Um arquivo CSV guarda o tipo de cada coluna, então as notas voltam da leitura como `float`.",
+          "texto": "Um número escrito sem aspas num arquivo JSON volta da leitura como `str`, cabendo a você convertê-lo.",
           "correta": false,
-          "porque": "O CSV é texto puro sem esquema; toda célula volta como `str` e a conversão é sua."
+          "porque": "JSON tem tipo numérico próprio: `json.loads('{\"n\": 7}')` devolve um `int`, não texto."
         },
         {
-          "texto": "O módulo `csv` só interpreta arquivos separados por vírgula; outro separador exige fatiar o texto à mão.",
+          "texto": "`csv.reader` devolve cada linha como dicionário, usando o cabeçalho como chave.",
           "correta": false,
-          "porque": "O parâmetro `delimiter` aceita qualquer separador, como ponto e vírgula ou tabulação."
+          "porque": "`csv.reader` devolve listas; quem usa o cabeçalho como chave é `csv.DictReader`."
         }
       ],
       "itens": [],
@@ -1242,7 +1342,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Arquivos, JSON e CSV",
@@ -1288,14 +1390,16 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Ambientes virtuais (venv), pip e requirements",
       "tipo": "ordenacao",
-      "dificuldade": "facil",
-      "enunciado": "Coloque em ordem os passos para preparar um projeto novo com ambiente virtual e deixá-lo pronto para outra pessoa reproduzir.",
-      "dica_socratica": "Cada passo produz alguma coisa que o passo seguinte consome. Comece perguntando o que precisa existir para o `pip` instalar no lugar certo.",
+      "dificuldade": "medio",
+      "enunciado": "Você começa um projeto novo e quer que as bibliotecas fiquem isoladas do Python do sistema. Coloque os quatro comandos na ordem em que precisam ser executados.",
+      "dica_socratica": "Um destes comandos muda para onde o `pip` aponta. Descubra qual, e o resto da ordem se resolve sozinho.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1305,16 +1409,17 @@
       "itens": [
         "Criar o ambiente com `python -m venv .venv`",
         "Ativar o ambiente na sessão atual do terminal",
-        "Instalar as dependências do projeto com `pip install`",
-        "Congelar as versões instaladas com `pip freeze > requirements.txt`",
-        "Versionar o `requirements.txt` e manter a pasta `.venv` fora do controle de versão"
+        "Rodar `pip install` para cada biblioteca que o projeto usa",
+        "Gerar o arquivo de dependências com `pip freeze`"
       ],
       "pares": [],
       "expressao_gabarito": "",
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "O par ativar–instalar. Quem não sabe que a ativação é o que redireciona o `pip` roda `pip install` logo depois de criar a pasta, e os pacotes vão parar no Python do sistema — o comando funciona, não dá erro nenhum, e o isolamento simplesmente não acontece. É o erro que motiva o tópico inteiro.",
+      "distratores_direita": []
     },
     {
       "topico": "Ambientes virtuais (venv), pip e requirements",
@@ -1360,14 +1465,16 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Ambientes virtuais (venv), pip e requirements",
       "tipo": "associacao",
-      "dificuldade": "medio",
-      "enunciado": "Associe cada comando ao efeito que ele produz.",
-      "dica_socratica": "Um deles não muda nada, apenas informa. Encontre esse primeiro; os outros três se distinguem pelo momento em que fazem sentido ser usados.",
+      "dificuldade": "dificil",
+      "enunciado": "Associe cada comando ao que se observa **depois** de executá-lo. Sobram observações que não correspondem a comando algum.",
+      "dica_socratica": "Em vez de traduzir o nome do comando, imagine rodar `which pip` e `pip list` antes e depois de cada um. O que mudou, e o que continuou igual?",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1378,33 +1485,38 @@
       "pares": [
         {
           "esquerda": "`python -m venv .venv`",
-          "direita": "Cria a pasta do ambiente, com um interpretador próprio dentro"
+          "direita": "Passa a existir uma pasta nova, mas `which pip` continua apontando para fora dela"
+        },
+        {
+          "esquerda": "`source .venv/bin/activate`",
+          "direita": "`which pip` passa a apontar para dentro da pasta do projeto, sem instalar nada"
         },
         {
           "esquerda": "`pip install -r requirements.txt`",
-          "direita": "Instala no ambiente ativo tudo o que está listado no arquivo"
-        },
-        {
-          "esquerda": "`pip list --outdated`",
-          "direita": "Mostra quais pacotes instalados já têm versão mais nova disponível"
+          "direita": "`pip list` passa a mostrar pacotes que antes não estavam lá"
         },
         {
           "esquerda": "`deactivate`",
-          "direita": "Devolve o terminal ao interpretador que ele usava antes"
+          "direita": "`which pip` volta a apontar para fora do projeto, e os pacotes continuam instalados"
         }
       ],
       "expressao_gabarito": "",
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": [
+        "A pasta do ambiente é apagada, junto com tudo o que havia sido instalado nela",
+        "`pip list` continua idêntico, e a saída é vazia quando tudo já está na última versão"
+      ]
     },
     {
       "topico": "Ambientes virtuais (venv), pip e requirements",
       "tipo": "multipla-escolha",
       "dificuldade": "medio",
       "enunciado": "Marque **todas** as afirmações verdadeiras sobre ambientes virtuais.",
-      "dica_socratica": "O ambiente virtual é uma pasta com um interpretador e os pacotes dele. Para cada afirmação, pergunte se o efeito descrito cabe dentro de uma pasta ou exigiria mexer na máquina inteira.",
+      "dica_socratica": "Experimente: crie um ambiente, não ative, e rode `.venv/bin/pip install alguma-coisa`. Depois confira com `.venv/bin/pip list` onde o pacote foi parar. O resultado decide mais de uma destas afirmações.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1422,9 +1534,9 @@
           "porque": "A pasta é grande, específica da máquina e reconstruível a partir da lista de dependências."
         },
         {
-          "texto": "Sem ativar o ambiente, o `pip install` instala fora dele, no interpretador que o terminal estiver usando.",
+          "texto": "Ativar é conveniência de `PATH`: dá para instalar no ambiente chamando `.venv/bin/pip` diretamente.",
           "correta": true,
-          "porque": "A ativação é o que coloca o `pip` do ambiente à frente no `PATH` da sessão."
+          "porque": "A ativação só põe a pasta `bin` do ambiente à frente no `PATH`; chamar o binário pelo caminho dispensa isso."
         },
         {
           "texto": "O ambiente isola também a versão do Python, permitindo rodar 3.9 num sistema que só tem 3.12 instalado.",
@@ -1443,7 +1555,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Estruturas de dados e noção de complexidade (Big-O)",
@@ -1480,7 +1594,12 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": [
+        "O(log n)",
+        "O(n!)"
+      ]
     },
     {
       "topico": "Estruturas de dados e noção de complexidade (Big-O)",
@@ -1526,41 +1645,38 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Estruturas de dados e noção de complexidade (Big-O)",
       "tipo": "codigo",
-      "dificuldade": "medio",
-      "enunciado": "A entrada tem duas linhas, cada uma com inteiros separados por espaço. Imprima, em ordem crescente e separados por um espaço, os valores que aparecem nas duas linhas, sem repetir nenhum. Se não houver valor em comum, imprima `nenhum`. Não imprima nada além dessa linha.",
-      "dica_socratica": "Testar cada valor da primeira linha contra toda a segunda funciona, mas custa o produto dos tamanhos. Que coleção responde \"esse valor está aqui?\" sem percorrer tudo?",
+      "dificuldade": "dificil",
+      "enunciado": "As listas `a` e `b` já vêm preenchidas pelo esqueleto, a partir de um `n` lido da entrada. Imprima quantos valores distintos aparecem nas duas. Não imprima nada além desse número.\n\nO último caso de teste usa `n` na casa das centenas de milhares e há limite de tempo por caso: uma solução que, para cada valor de `a`, percorre `b` inteira não termina a tempo.",
+      "dica_socratica": "Percorrer `b` para cada valor de `a` custa o produto dos tamanhos. Que coleção responde \"este valor está aqui?\" sem percorrer nada, e o que ela exige dos elementos em troca?",
       "linguagem": "python",
-      "esqueleto": "import sys\n\na = [int(x) for x in sys.stdin.readline().split()]\nb = [int(x) for x in sys.stdin.readline().split()]\n# complete: imprima os valores em comum, em ordem crescente\n",
+      "esqueleto": "import sys\n\nn = int(sys.stdin.readline())\na = [i * 2 for i in range(n)]\nb = [i * 3 for i in range(n)]\n# complete: imprima quantos valores distintos aparecem nas duas listas\n",
       "testes": [
         {
-          "descricao": "dois valores em comum",
-          "entrada": "1 2 3\n2 3 4\n",
-          "saida_esperada": "2 3\n"
+          "descricao": "n pequeno, dá para conferir na mão",
+          "entrada": "6\n",
+          "saida_esperada": "2\n"
         },
         {
-          "descricao": "nada em comum",
-          "entrada": "1 2\n3 4\n",
-          "saida_esperada": "nenhum\n"
+          "descricao": "n=100",
+          "entrada": "100\n",
+          "saida_esperada": "34\n"
         },
         {
-          "descricao": "repetidos não aparecem duas vezes",
-          "entrada": "5 5 1\n1 5\n",
-          "saida_esperada": "1 5\n"
+          "descricao": "n=5000",
+          "entrada": "5000\n",
+          "saida_esperada": "1667\n"
         },
         {
-          "descricao": "negativos ordenados corretamente",
-          "entrada": "-3 0 7\n7 -3\n",
-          "saida_esperada": "-3 7\n"
-        },
-        {
-          "descricao": "borda: primeira linha vazia",
-          "entrada": "\n1 2\n",
-          "saida_esperada": "nenhum\n"
+          "descricao": "n grande: reprova a solução quadrática por tempo",
+          "entrada": "200000\n",
+          "saida_esperada": "66667\n"
         }
       ],
       "codigo_dado": "",
@@ -1572,13 +1688,15 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "Estruturas de dados e noção de complexidade (Big-O)",
       "tipo": "saida-esperada",
       "dificuldade": "medio",
-      "enunciado": "O que este trecho imprime? Escreva a saída exatamente como aparece na tela, incluindo a quebra de linha final.",
+      "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
       "dica_socratica": "Duas inserções acontecem em pontas diferentes, e depois duas remoções também. Acompanhe a sequência passo a passo, anotando qual ponta cada chamada mexe.",
       "linguagem": "python",
       "esqueleto": "",
@@ -1592,14 +1710,16 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "pandas para tabelas e requests para consumir APIs",
       "tipo": "quiz",
       "dificuldade": "medio",
       "enunciado": "Num `DataFrame` cujo índice é `[\"a\", \"b\", \"c\"]`, o que distingue `df.loc[\"b\"]` de `df.iloc[1]`?",
-      "dica_socratica": "Imagine que você reordena as linhas do DataFrame e roda as duas chamadas de novo. Uma delas devolve a mesma linha de antes e a outra não. Qual é qual?",
+      "dica_socratica": "Monte esse DataFrame no interpretador, rode as duas chamadas, depois reordene as linhas com `df.loc[[\"b\", \"a\", \"c\"]]` e rode as duas de novo. Compare os quatro resultados.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1638,7 +1758,9 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "pandas para tabelas e requests para consumir APIs",
@@ -1668,14 +1790,14 @@
           "porque": "O método tenta interpretar o corpo e falha se ele não for JSON, independentemente do código."
         },
         {
-          "texto": "`requests.get` repete a chamada sozinho quando a resposta vem com código 500.",
+          "texto": "O parâmetro `timeout` limita o tempo total da requisição, do envio até o último byte do corpo.",
           "correta": false,
-          "porque": "Não há repetição automática; nova tentativa é código seu ou configuração explícita de adaptador."
+          "porque": "Ele limita a espera para conectar e o intervalo entre bytes recebidos; um corpo que chega devagar sem pausas pode levar muito mais que isso."
         },
         {
-          "texto": "Um `timeout` padrão é aplicado, então a chamada nunca fica pendurada indefinidamente.",
+          "texto": "Quando `requests.get` segue um redirecionamento, `resposta.status_code` traz o 301 da primeira resposta.",
           "correta": false,
-          "porque": "Sem `timeout` explícito a chamada pode esperar sem limite — é a causa clássica de processo travado."
+          "porque": "`status_code` reflete a resposta final; as intermediárias ficam em `resposta.history`."
         }
       ],
       "itens": [],
@@ -1684,14 +1806,16 @@
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": []
     },
     {
       "topico": "pandas para tabelas e requests para consumir APIs",
       "tipo": "associacao",
-      "dificuldade": "medio",
-      "enunciado": "Associe cada expressão de pandas ao que ela devolve, para um `DataFrame` chamado `df` com as colunas `turma` e `nota`.",
-      "dica_socratica": "Uma delas devolve um pedaço da tabela, duas devolvem um resumo do conjunto todo e uma devolve um resumo por grupo. Comece classificando nesses três casos.",
+      "dificuldade": "dificil",
+      "enunciado": "Para um `DataFrame` `df` com as colunas `turma` e `nota`, associe cada expressão ao que ela devolve. Sobram descrições que não correspondem a expressão alguma.",
+      "dica_socratica": "Duas perguntas separam as quatro: que tipo volta — `DataFrame`, `Series`, tupla ou escalar? E o que acontece se houver valor ausente na coluna `nota`?",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1702,33 +1826,38 @@
       "pares": [
         {
           "esquerda": "`df.head(3)`",
-          "direita": "As três primeiras linhas da tabela"
+          "direita": "Um `DataFrame`, ainda que a tabela tenha uma linha só"
         },
         {
           "esquerda": "`df.shape`",
-          "direita": "O par com o número de linhas e o número de colunas"
+          "direita": "Uma tupla — não é método, e chamá-la com parênteses levanta `TypeError`"
         },
         {
           "esquerda": "`df[\"nota\"].mean()`",
-          "direita": "A média dos valores de uma coluna"
+          "direita": "Um escalar, calculado ignorando os valores ausentes da coluna"
         },
         {
           "esquerda": "`df.groupby(\"turma\").size()`",
-          "direita": "A contagem de linhas para cada valor distinto de uma coluna"
+          "direita": "Uma `Series` indexada pelos valores distintos, contando linhas com ausente inclusive"
         }
       ],
       "expressao_gabarito": "",
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "",
+      "distratores_direita": [
+        "Um inteiro com o número total de células da tabela",
+        "Uma `Series` indexada pelos valores distintos, mas descartando as linhas com ausente"
+      ]
     },
     {
       "topico": "pandas para tabelas e requests para consumir APIs",
       "tipo": "ordenacao",
       "dificuldade": "medio",
-      "enunciado": "Coloque em ordem os passos para consumir uma API paginada e juntar todos os registros numa lista.",
-      "dica_socratica": "Cada passo depende de algo que só existe depois do anterior. Pergunte o que você precisa ter em mãos para decidir se vale a pena pedir a próxima página.",
+      "enunciado": "Coloque em ordem as quatro chamadas de um laço que consome uma página de uma API com `requests`.",
+      "dica_socratica": "Uma dessas chamadas existe para você descobrir cedo que a resposta não presta. Cedo em relação a quê? É essa relação que fixa a ordem.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1736,18 +1865,19 @@
       "resposta": "",
       "alternativas": [],
       "itens": [
-        "Montar a URL do primeiro lote, incluindo o parâmetro de página",
-        "Fazer a requisição e conferir o código de status da resposta",
-        "Converter o corpo da resposta em estrutura Python com `.json()`",
-        "Acumular os registros daquele lote na lista de resultados",
-        "Repetir com a página seguinte enquanto o lote vier cheio"
+        "`resposta = requests.get(url, params={\"page\": n}, timeout=10)`",
+        "`resposta.raise_for_status()`",
+        "`dados = resposta.json()`",
+        "`resultados.extend(dados[\"itens\"])`"
       ],
       "pares": [],
       "expressao_gabarito": "",
       "variaveis": [],
       "verificacao_origem": "",
       "verificacao_operacao": "nenhuma",
-      "verificacao_variavel": ""
+      "verificacao_variavel": "",
+      "armadilha": "O par raise_for_status–json. Quem chama `.json()` antes de checar o status recebe um `JSONDecodeError` sobre a página HTML de erro que o servidor devolveu, e vai caçar defeito no parsing em vez de ler o 500 que estava ali. Inverter esses dois troca uma mensagem clara por uma enganosa.",
+      "distratores_direita": []
     }
   ]
 }

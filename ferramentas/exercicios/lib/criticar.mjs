@@ -93,6 +93,21 @@ const SYS_JULGA = `Você revisa exercícios de uma escola de programação onde 
 automática — não há professor para desfazer mal-entendido. Um exercício ambíguo ou fora do
 alvo reprova aluno que entendeu o assunto.
 
+## Como esta escola funciona — não julgue estas decisões, elas já estão tomadas
+
+**\`quiz\` tem exatamente uma alternativa correta. \`multipla-escolha\` tem duas ou mais, e a
+interface marca várias.** Os dois nomes designam tipos diferentes aqui. Não aponte como
+defeito o fato de um \`multipla-escolha\` ter mais de uma correta, nem especule sobre o que
+aconteceria se a interface aceitasse só uma marcação: ela aceita várias. A correção é por
+conjunto exato.
+
+**Em \`saida-esperada\`, o aluno digita o texto que o programa imprime.** Não há notação, nem
+aspas, nem escapes: o campo recebe o texto e a comparação despreza espaço em branco no fim.
+Não aponte ambiguidade de representação de quebra de linha.
+
+**O campo "porque" de cada alternativa é feedback pós-resposta**, mostrado depois que o aluno
+responde. Ele não aparece junto das opções, então não conta como pista.
+
 Sua tarefa é **encontrar defeito**, não elogiar. A falha a evitar é aprovar um exercício com
 problema real; listar problema inexistente é menos grave. Se não houver defeito, devolva a
 lista vazia — mas procure de verdade antes.
@@ -164,12 +179,20 @@ function corpo(e) {
     return `Linguagem: ${e.linguagem}\nEsqueleto:\n${e.esqueleto}\nCasos:\n${e.testes
       .map((t) => `  ${t.descricao}: entrada ${JSON.stringify(t.entrada)} → ${JSON.stringify(t.saida_esperada)}`)
       .join('\n')}`;
-  if (e.tipo === 'saida-esperada') return `Linguagem: ${e.linguagem}\nTrecho:\n${e.codigo_dado}\nResposta: ${JSON.stringify(e.resposta)}`;
-  if (e.tipo === 'ordenacao') return `Ordem correta:\n${e.itens.map((t, i) => `${i + 1}. ${t}`).join('\n')}`;
+  if (e.tipo === 'saida-esperada')
+    // JSON.stringify aqui rendeu 9 rejeições idênticas acusando "gabarito em notação de
+    // string, com aspas e \n escapado". O crítico estava julgando a formatação do prompt:
+    // o dado armazenado são bytes com quebra de linha de verdade. Mostrar o texto real.
+    return `Linguagem: ${e.linguagem}\nTrecho:\n${e.codigo_dado}\nSaída esperada — é este texto que o aluno digita, não uma representação dele:\n<<<INÍCIO\n${e.resposta}FIM>>>\n(termina com quebra de linha: ${e.resposta.endsWith('\n') ? 'sim' : 'não'})`;
+  if (e.tipo === 'ordenacao')
+    return `Ordem correta:\n${e.itens.map((t, i) => `${i + 1}. ${t}`).join('\n')}\n\nArmadilha declarada pelo autor: ${e.armadilha}\n(o portal embaralha os passos; julgue se a ordem é dedutível do texto sem saber o tópico)`;
   if (e.tipo === 'resposta-expressao')
     return `Variáveis: ${(e.variaveis ?? []).join(', ')}\nGabarito: ${e.expressao_gabarito}\nVerificação: ${e.verificacao_operacao}(${e.verificacao_origem}, ${e.verificacao_variavel})`;
   if (e.tipo === 'associacao')
-    return `Pares corretos:\n${e.pares.map((p, i) => `${i + 1}. ${p.esquerda}  ↔  ${p.direita}`).join('\n')}`;
+    return `Pares corretos:\n${e.pares.map((p, i) => `${i + 1}. ${p.esquerda}  ↔  ${p.direita}`).join('\n')}
+\nDistratores na coluna da direita (não emparelham com nada, e o aluno não sabe quais são):
+${(e.distratores_direita ?? []).map((t) => `  · ${t}`).join('\n')}
+(o portal embaralha a direita inteira, corretas e distratores juntos)`;
   return '';
 }
 

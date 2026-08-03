@@ -59,6 +59,20 @@ que torna avaliável a parte do catálogo que não executa código.
 Cada passo precisa ter uma posição inequívoca: se dois passos puderem ser trocados sem
 prejuízo, o exercício tem duas respostas certas e não serve.
 
+**E há uma segunda exigência, que reprovou três de três ordenações na primeira rodada real.**
+Ordem inequívoca não basta, porque a cronologia narrativa costuma entregar a resposta: quem
+nunca estudou o assunto ordena "montar a URL, pedir, converter, guardar, repetir" no primeiro
+palpite. Duas coisas decorrem disso:
+
+1. **Preencha \`armadilha\`** com o par de passos vizinhos que um aluno desatento inverte, e
+   por que inverter dá errado. Se você não conseguir nomear esse par, o exercício mede senso
+   comum e não o tópico — escolha outro tipo. É campo obrigatório justamente para forçar essa
+   decisão antes de escrever os itens.
+2. **Nenhum passo pode referenciar o anterior.** "Executa **esse** bytecode", "congelar as
+   versões **instaladas**", "versionar o **requirements.txt**" logo depois do passo que o cria:
+   cada uma dessas amarras entrega a posição pelo texto. Escreva cada passo de modo que ele
+   faça sentido sozinho, fora de ordem.
+
 **associacao** — o tópico tem itens que se emparelham um a um. Preencha \`pares\` com 4 a 6
 duplas \`{esquerda, direita}\`; o portal embaralha a coluna da direita. Serve para comando e
 efeito, erro e causa, conceito e definição, padrão e problema que ele resolve, campo do
@@ -72,6 +86,20 @@ item da direita contra todas as esquerdas, não só contra a sua.
 Mantenha as duas colunas homogêneas: se as direitas forem definições, todas são definições,
 com comprimento parecido. Uma direita muito mais longa ou específica que as outras se
 entrega pelo formato, do mesmo jeito que a alternativa longa num quiz.
+
+**Duas regras que vieram de quatro associações reprovadas numa rodada real:**
+
+**Preencha \`distratores_direita\`** com 1 ou 2 itens da direita que não emparelham com nada.
+Sem eles, N esquerdas contra N direitas fazem o último par sair de graça, por eliminação, e
+o aluno acerta um item que nunca avaliou. O distrator precisa ser plausível: a versão quase
+certa do efeito, o valor que sairia de um erro comum.
+
+**A direita não pode ser a tradução do nome da esquerda.** \`pip list --outdated\` → "mostra o
+que está desatualizado", \`df.head(3)\` → "as três primeiras linhas", \`deactivate\` → "desativa
+o ambiente": nesses casos o exercício mede inglês, não o tópico. Descreva o **comportamento
+observável** — o que muda depois de rodar, que tipo volta, o que acontece no caso de borda.
+"Depois dele, \`pip list\` mostra pacotes que não estavam lá" exige ter usado a ferramenta;
+"instala as dependências" exige ler a palavra install.
 
 **resposta-expressao** — o aluno escreve uma expressão matemática e a correção compara por
 **equivalência simbólica**, não por texto: \`2*x\`, \`x*2\` e \`x+x\` são a mesma resposta.
@@ -179,6 +207,11 @@ export function esquema({ alternativas }) {
               description: 'só ordenacao: os passos NA ORDEM CORRETA',
               items: { type: 'string' },
             },
+            armadilha: {
+              type: 'string',
+              description:
+                'só ordenacao: qual par de passos vizinhos o aluno desatento inverte, e por que inverter dá errado. Sem isso o exercício mede cronologia de senso comum.',
+            },
             pares: {
               type: 'array',
               description: 'só associacao: duplas que se emparelham um a um',
@@ -191,6 +224,12 @@ export function esquema({ alternativas }) {
                 required: ['esquerda', 'direita'],
                 additionalProperties: false,
               },
+            },
+            distratores_direita: {
+              type: 'array',
+              description:
+                'só associacao: 1 ou 2 itens da coluna da direita que não emparelham com nada, para o último par não sair por eliminação',
+              items: { type: 'string' },
             },
             expressao_gabarito: { type: 'string', description: 'só resposta-expressao: a resposta em sintaxe sympy' },
             variaveis: {
@@ -286,6 +325,14 @@ export function conferir(e, { alternativas }) {
     if (new Set(esq).size !== n) p.push('associacao com item repetido na esquerda');
     if (new Set(dir).size !== n) p.push('associacao com item repetido na direita');
     if ([...esq, ...dir].some(vazio)) p.push('associacao com item vazio');
+    // Sem distrator, N contra N faz o último par sair por eliminação: o aluno acerta um
+    // item que nunca avaliou.
+    const dist = e.distratores_direita ?? [];
+    if (dist.length < 1) p.push('associacao sem distrator na coluna da direita (mínimo 1)');
+    if (dist.length > 2) p.push(`associacao com ${dist.length} distratores (máximo 2)`);
+    if (dist.some(vazio)) p.push('associacao com distrator vazio');
+    if (dist.some((x) => dir.includes(x))) p.push('associacao com distrator igual a uma direita correta');
+    if (new Set(dist).size !== dist.length) p.push('associacao com distrator repetido');
     naoDeveTer('alternativas', e.alternativas?.length, 'alternativas');
     naoDeveTer('testes', e.testes?.length, 'testes');
     naoDeveTer('itens', e.itens?.length, 'itens');
@@ -295,12 +342,22 @@ export function conferir(e, { alternativas }) {
     if (n > 7) p.push(`ordenacao com ${n} itens (máximo 7)`);
     if (new Set(e.itens ?? []).size !== n) p.push('ordenacao com itens repetidos');
     if ((e.itens ?? []).some(vazio)) p.push('ordenacao com item vazio');
+    // Sem armadilha nomeada, o exercício mede cronologia de senso comum: 3 de 3 reprovaram
+    // assim na primeira rodada real.
+    if (vazio(e.armadilha)) p.push('ordenacao sem armadilha declarada (qual par vizinho o aluno inverte, e por quê)');
+    // Referência ao passo anterior entrega a posição pelo texto, fora de qualquer ordem.
+    const ANAFORA = /\b(esse|essa|esses|essas|este|esta|estes|estas|isso|nele|nela|dele|dela|o mesmo|a mesma|anterior)\b/i;
+    for (const [i, item] of (e.itens ?? []).entries()) {
+      if (ANAFORA.test(item)) p.push(`ordenacao: o passo ${i + 1} referencia outro ("${item.match(ANAFORA)[0]}") e entrega a posição`);
+    }
     naoDeveTer('alternativas', e.alternativas?.length, 'alternativas');
     naoDeveTer('testes', e.testes?.length, 'testes');
     naoDeveTer('pares', e.pares?.length, 'pares');
   }
 
   if (e.tipo !== 'associacao' && e.pares?.length) p.push(`${e.tipo} com pares preenchido`);
+  if (e.tipo !== 'associacao' && e.distratores_direita?.length) p.push(`${e.tipo} com distratores_direita preenchido`);
+  if (e.tipo !== 'ordenacao' && !vazio(e.armadilha)) p.push(`${e.tipo} com armadilha preenchida`);
   if (e.tipo !== 'resposta-expressao' && !vazio(e.expressao_gabarito)) p.push(`${e.tipo} com expressao_gabarito preenchido`);
 
   return p;
