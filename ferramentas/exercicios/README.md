@@ -65,6 +65,11 @@ As três etapas rodam com **4 chamadas simultâneas** por padrão (`--paralelo N
 passa quase todo o relógio esperando rede: um curso de 48 tópicos são ~200 exercícios, cada
 um com até quatro chamadas em série. Em sequência isso são horas de espera.
 
+O número entre colchetes é o **índice do exercício no arquivo**, não o progresso: com
+paralelismo os resultados chegam fora de ordem, e um contador de conclusão não permitia achar
+a linha correspondente no JSON. Por isso as linhas saem embaralhadas — é identidade, não
+contagem. Vale para cruzar um achado da crítica com o exercício que o produziu.
+
 **Os resultados voltam na ordem da entrada**, mesmo terminando fora de ordem — o arquivo
 gerado não pode depender de quem respondeu primeiro, senão duas rodadas iguais produzem
 arquivos diferentes. Conferido: `--paralelo 1` e `--paralelo 8` produzem JSON byte a byte

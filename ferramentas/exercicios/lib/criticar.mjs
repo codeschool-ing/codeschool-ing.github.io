@@ -262,7 +262,7 @@ ${e.dica_socratica}`,
 /* ---- passada -------------------------------------------------------------- */
 
 export async function criticar({ exercicios, curso, soSondas, paralelo, aoProgredir }) {
-  const veredictos = await mapaConcorrente(exercicios, paralelo, async (e, _i, concluir) => {
+  const veredictos = await mapaConcorrente(exercicios, paralelo, async (e, i) => {
     const achados = [];
 
     if (COM_ALTERNATIVAS.has(e.tipo)) {
@@ -297,12 +297,13 @@ export async function criticar({ exercicios, curso, soSondas, paralelo, aoProgre
     }
 
     const graves = achados.filter((a) => a.gravidade === 'alta');
-    const feitos = concluir();
+    // Identificar o exercício vale mais que contar progresso: com paralelismo os resultados
+    // chegam fora de ordem, e um contador de conclusão não permite achar a linha no arquivo.
     if (graves.length) {
-      aoProgredir?.(e, 'REPROVA', graves, feitos, exercicios.length);
+      aoProgredir?.(e, 'REPROVA', graves, i + 1, exercicios.length);
       return { reprovado: { ...e, _critica: achados } };
     }
-    aoProgredir?.(e, 'ok', achados, feitos, exercicios.length);
+    aoProgredir?.(e, 'ok', achados, i + 1, exercicios.length);
     return { aprovado: achados.length ? { ...e, _critica: achados } : e };
   });
 

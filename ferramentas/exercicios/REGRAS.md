@@ -159,6 +159,13 @@ pista visível.
 - **Classifique cada achado** em artefato de ferramenta, defeito repetível ou defeito
   irrepetível, antes de corrigir qualquer coisa.
 - **Confira por execução antes de aceitar.** Achado de agente não é verdade por decreto.
+- **Instrumento novo se calibra contra corpo de prova conhecido antes de rodar em conteúdo
+  novo.** A sonda do chute custou US$ 1,81 para revelar um defeito que os 48 exercícios já
+  revisados teriam mostrado de graça. Quando as pistas de forma a substituíram, calibrar
+  contra esses mesmos 48 custou zero e ajustou o limiar do eco léxico de +1 para +3.
+- **O que a saída identifica tem de ser o exercício, não o progresso.** Com paralelismo os
+  resultados terminam fora de ordem; um contador de conclusão impede cruzar um achado da
+  crítica com a linha do arquivo, que é exatamente o trabalho da triagem.
 - **Resultado não pode depender de quem respondeu primeiro.** As chamadas concorrentes voltam
   na ordem da entrada; conferido que `--paralelo 1` e `--paralelo 8` produzem JSON idêntico.
 - **Conteúdo é versionado; derivado de rodada, não.** `exercicios-<curso>.json` custou revisão

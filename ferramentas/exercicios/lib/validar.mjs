@@ -119,10 +119,10 @@ async function solucaoDeReferencia(e) {
 }
 
 export async function validar({ exercicios, opcoes, timeout, paralelo, soEstrutura, aoProgredir }) {
-  const veredictos = await mapaConcorrente(exercicios, paralelo, async (e, _i, concluir) => {
+  const veredictos = await mapaConcorrente(exercicios, paralelo, async (e, i) => {
     const aprovados = [];
     const reprovados = [];
-    const aoProgredirLocal = (ex, estado, detalhe, falhas) => aoProgredir?.(ex, estado, detalhe, falhas, concluir(), exercicios.length);
+    const aoProgredirLocal = (ex, estado, detalhe, falhas) => aoProgredir?.(ex, estado, detalhe, falhas, i + 1, exercicios.length);
     {
     const problemas = conferir(e, opcoes);
     if (problemas.length) {

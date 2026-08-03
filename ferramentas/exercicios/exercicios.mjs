@@ -159,7 +159,7 @@ async function etapaValidar({ caminho, dados }) {
     paralelo: PARALELO,
     soEstrutura: tem('so-estrutura'),
     aoProgredir: (e, estado, detalhe, falhas, feitos, total) => {
-      console.log(`[${String(feitos).padStart(3)}/${total}] ${rot(e)} ${estado}${detalhe ? '  ' + detalhe : ''}`);
+      console.log(`[#${String(feitos).padStart(3)}/${total}] ${rot(e)} ${estado}${detalhe ? '  ' + detalhe : ''}`);
       for (const f of (falhas ?? []).slice(0, 2)) {
         console.log(`     caso ${f.caso} (${f.descricao}): ${f.motivo}`);
         if (f.esperado !== undefined) {
@@ -191,7 +191,7 @@ async function etapaCriticar({ caminho, dados }) {
     paralelo: PARALELO,
     aoProgredir: (e, estado, achados, feitos, total) => {
       const n = Array.isArray(achados) ? achados.length : 0;
-      console.log(`[${String(feitos).padStart(3)}/${total}] ${rot(e)} ${estado}${estado === 'ok' && n ? `  (${n} ressalva menor)` : ''}`);
+      console.log(`[#${String(feitos).padStart(3)}/${total}] ${rot(e)} ${estado}${estado === 'ok' && n ? `  (${n} ressalva menor)` : ''}`);
       if (estado === 'REPROVA') for (const a of achados) console.log(`     [${a.dimensao}] ${a.explicacao}`);
     },
   });
