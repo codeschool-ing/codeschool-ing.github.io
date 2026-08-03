@@ -131,6 +131,66 @@
       "curso": "docker",
       "topicos": 2,
       "custo": 1.3102
+    },
+    {
+      "quando": "2026-08-03T08:04:02.787Z",
+      "gerados": 8,
+      "estrutura": 0,
+      "execucao": 0,
+      "api": 5,
+      "aprovados": 3,
+      "aprovados_primeira": 3,
+      "refeitos": 0,
+      "resgatados": 0,
+      "dimensoes": {
+        "dica": 1,
+        "distratores": 4,
+        "enunciado": 1,
+        "gabarito": 2
+      },
+      "cegas": false,
+      "curso": "arquiteto-comunicacao",
+      "topicos": 2,
+      "custo": 1.3333
+    },
+    {
+      "quando": "2026-08-03T08:16:00.358Z",
+      "gerados": 8,
+      "estrutura": 1,
+      "execucao": 0,
+      "api": 4,
+      "aprovados": 3,
+      "aprovados_primeira": 3,
+      "refeitos": 0,
+      "resgatados": 0,
+      "dimensoes": {
+        "distratores": 3,
+        "gabarito": 4
+      },
+      "cegas": false,
+      "curso": "bancos-sql",
+      "topicos": 2,
+      "custo": 1.4175
+    },
+    {
+      "quando": "2026-08-03T09:11:29.426Z",
+      "gerados": 8,
+      "estrutura": 3,
+      "execucao": 0,
+      "api": 6,
+      "aprovados": 7,
+      "aprovados_primeira": 7,
+      "refeitos": 0,
+      "resgatados": 0,
+      "dimensoes": {
+        "distratores": 4,
+        "gabarito": 3,
+        "enunciado": 1
+      },
+      "cegas": false,
+      "curso": "bancos-sql",
+      "topicos": 2,
+      "custo": 1.9926
     }
   ]
 }

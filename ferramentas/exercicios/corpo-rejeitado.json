@@ -1185,6 +1185,1224 @@
         }
       ],
       "_curso": "docker"
+    },
+    {
+      "topico": "Escrever com clareza: estrutura, precisão e economia de palavras",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações verdadeiras sobre a estrutura de um texto técnico escrito para leitores ocupados.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Colocar a conclusão e o pedido nos primeiros parágrafos deixa a decisão nas mãos de quem interrompe a leitura na metade.",
+          "correta": true,
+          "porque": "É o efeito prático de começar pelo resultado: a parte mais útil não depende de o leitor chegar ao fim."
+        },
+        {
+          "texto": "Um parágrafo que sustenta uma ideia só pode ser cortado ou movido sem obrigar a reescrever os parágrafos vizinhos.",
+          "correta": true,
+          "porque": "É o teste operacional de uma ideia por parágrafo: se mexer em um exige refazer os outros, as ideias estão embaralhadas."
+        },
+        {
+          "texto": "Títulos que anunciam a conclusão da seção, e não o assunto dela, tornam o texto compreensível pela leitura apenas dos títulos.",
+          "correta": true,
+          "porque": "Título-conclusão cria um resumo navegável, útil para quem passa os olhos antes de decidir se lê o corpo."
+        },
+        {
+          "texto": "Reconstituir a história completa do problema antes da recomendação leva o leitor a chegar à mesma conclusão de quem escreveu.",
+          "correta": false,
+          "porque": "Histórico longo antes do ponto adia a informação que o leitor procura e não produz convergência de conclusão."
+        },
+        {
+          "texto": "Detalhar longamente cada alternativa descartada demonstra rigor e reduz o número de perguntas na revisão.",
+          "correta": false,
+          "porque": "O volume de detalhe sobre o que foi descartado dilui o texto; basta registrar o motivo do descarte."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Separe, em cada item, o que ele promete a quem lê do que ele exige de quem escreve; só o primeiro lado é argumento de estrutura.",
+      "_critica": [
+        {
+          "dimensao": "dica",
+          "gravidade": "alta",
+          "explicacao": "A dica propõe um critério que contradiz o gabarito. Ela manda separar 'o que o item promete a quem lê' de 'o que ele exige de quem escreve', afirmando que só o primeiro lado é argumento de estrutura. Aplicando isso: o item 1 (CORRETA) fala de cortar ou mover parágrafo sem reescrever os vizinhos — um benefício de manutenção para quem escreve, logo o aluno o descartaria; e o item 3 (errada) promete explicitamente um efeito no leitor ('leva o leitor a chegar à mesma conclusão'), logo o aluno o marcaria. A dica inverte dois dos cinco itens e reprova exatamente quem confia nela.",
+          "sugestao": "Reescrever a dica em torno do critério que de fato separa os itens: se a afirmação antecipa a informação decisiva para o leitor (conclusão, pedido, título-conclusão, uma ideia por parágrafo) ou se apenas adia o ponto acumulando histórico e detalhe do que foi descartado."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "As duas erradas são da mesma categoria e sinalizam-se pelo vocabulário de excesso ('história completa', 'detalhar longamente'), enquanto as três corretas descrevem ganhos de estrutura. Qualquer aluno que aplique a heurística genérica 'texto longo/exaustivo é ruim' — que não exige nenhum conhecimento do tópico — monta o conjunto exato sem avaliar o mérito de cada afirmação.",
+          "sugestao": "Trocar pelo menos uma das erradas por uma afirmação enxuta e plausível (ex.: 'Abrir com o contexto em duas linhas antes da recomendação garante que o leitor não interprete o pedido fora de propósito') e incluir entre as corretas uma que envolva algum grau de detalhamento, para que a extensão deixe de ser o critério de triagem."
+        },
+        {
+          "dimensao": "enunciado",
+          "gravidade": "alta",
+          "explicacao": "O item 1 é sintaticamente ambíguo por causa da posição do 'só': 'Um parágrafo que sustenta uma ideia só pode ser cortado ou movido sem obrigar a reescrever os parágrafos vizinhos' pode ser lido como 'uma ideia só' (uma única ideia — leitura pretendida) ou como 'só pode ser cortado ou movido' (restrição modal), que muda o sentido da afirmação e pode levar o aluno a classificá-la como falsa. Como a correção é por conjunto exato, errar esse item reprova quem domina o princípio.",
+          "sugestao": "Reescrever sem ambiguidade: 'Um parágrafo que sustenta uma única ideia pode ser cortado ou movido sem obrigar a reescrever os parágrafos vizinhos.'"
+        },
+        {
+          "dimensao": "gabarito",
+          "gravidade": "baixa",
+          "explicacao": "O item 2 marcado como correto afirma que títulos-conclusão 'tornam o texto compreensível pela leitura apenas dos títulos' — uma formulação absoluta e mais forte do que o princípio real (os títulos dão um resumo navegável, não a compreensão completa). Um aluno criterioso pode rejeitá-la justamente por saber a versão precisa do princípio.",
+          "sugestao": "Moderar a afirmação: 'Títulos que anunciam a conclusão da seção, e não apenas o assunto, permitem captar o essencial do texto lendo só os títulos.'"
+        }
+      ],
+      "_curso": "arquiteto-comunicacao"
+    },
+    {
+      "topico": "Escrever com clareza: estrutura, precisão e economia de palavras",
+      "tipo": "associacao",
+      "dificuldade": "dificil",
+      "enunciado": "Cada trecho da esquerda falha por imprecisão. Ligue-o à consequência que essa falha específica tem para quem lê. Duas consequências da direita não correspondem a nenhum trecho.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "O deploy será feito em breve.",
+          "direita": "não é possível reservar uma data no calendário para acompanhar o que foi descrito"
+        },
+        {
+          "esquerda": "O sistema ficou muito mais rápido depois da mudança.",
+          "direita": "não se distingue um ganho de milissegundos de um ganho de minutos"
+        },
+        {
+          "esquerda": "Decidiu-se adiar a migração.",
+          "direita": "não se sabe a quem procurar para reabrir o assunto"
+        },
+        {
+          "esquerda": "O erro aparece em alguns casos, quando o volume aumenta.",
+          "direita": "não se consegue reproduzir a situação para conferir se ela persiste"
+        },
+        {
+          "esquerda": "A solução proposta é a mais adequada ao nosso contexto.",
+          "direita": "não se descobre com o que a escolha foi comparada"
+        }
+      ],
+      "distratores_direita": [
+        "não fica claro quanto do orçamento aprovado ainda resta",
+        "não se sabe quantas horas de trabalho a mudança consumiu"
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Para cada trecho, formule a pergunta que o leitor teria de devolver ao autor antes de conseguir fazer qualquer coisa com a frase.",
+      "_critica": [
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "a esquerda 2 aceita 2 pares defensáveis: O par central é 5: a voz passiva sintética ('decidiu-se') apaga o agente da decisão, logo o leitor não sabe a quem recorrer para reabrir o assunto. Mas 0 também se defende com mecanismo correto: 'adiar' é um verbo que exige um novo termo, e a frase omite o para-quando; sem nova data, o leitor não consegue marcar no calendário o acompanhamento da migração adiada. São duas imprecisões distintas na mesma frase (agente oculto e prazo oculto), cada uma com sua consequência.",
+          "sugestao": "reescrever a esquerda ou o concorrente até sobrar um par defensável"
+        },
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "Os trechos 1 e 3 casam plausivelmente com as MESMAS duas consequências, e o gabarito escolhe um cruzamento arbitrário. 'O deploy será feito em breve' é uma passiva sem agente ('será feito' por quem?), logo também produz 'não se sabe a quem procurar para reabrir o assunto'. E 'Decidiu-se adiar a migração' não informa nova data, logo também produz 'não é possível reservar uma data no calendário para acompanhar o que foi descrito' — a pergunta mais óbvia diante de 'adiar' é 'até quando?'. Como a correção é por conjunto exato, o aluno que entendeu perfeitamente as duas falhas (vagueza temporal e agente oculto) pode inverter os dois pares e ser reprovado.",
+          "sugestao": "Elimine a sobreposição: dê data implícita ou agente explícito a um dos trechos. Ex.: trocar o item 3 por 'Decidiu-se adiar a migração para o próximo trimestre' (resta só o agente oculto) e o item 1 por 'Vamos fazer o deploy em breve' (resta só a vagueza temporal), ou reformular as consequências para citar o defeito específico ('não se identifica o responsável pela decisão' vs. 'não se consegue marcar a data no calendário')."
+        },
+        {
+          "dimensao": "gabarito",
+          "gravidade": "baixa",
+          "explicacao": "Há sobreposição menor entre os itens 2 e 5: 'ficou muito mais rápido' é um comparativo que o leitor também pode questionar com 'não se descobre com o que a escolha foi comparada' (mais rápido em relação a que medida/cenário?), consequência reservada ao item 5. O item 2 dá a referência ('depois da mudança'), o que resolve, mas exige uma leitura fina que não está sinalizada.",
+          "sugestao": "Reforçar a especificidade da consequência do item 5, por exemplo 'não se sabe quais alternativas foram descartadas nem por quê', que só se aplica a uma afirmação de escolha entre opções."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "Os dois distratores pertencem a uma categoria única e estranha ao conjunto (custo/esforço: orçamento restante e horas consumidas), enquanto todas as consequências corretas tratam de informação factual ausente no texto. Isso permite descartá-los sem analisar nenhum trecho, reduzindo a tarefa a um emparelhamento 5x5.",
+          "sugestao": "Trocar os distratores por consequências do mesmo gênero das corretas, mas que não decorram de nenhum trecho dado — ex.: 'não se sabe qual ambiente foi afetado' ou 'não se identifica qual versão do serviço foi medida'."
+        }
+      ],
+      "_curso": "arquiteto-comunicacao"
+    },
+    {
+      "topico": "Escrever com clareza: estrutura, precisão e economia de palavras",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "Um trecho de 180 palavras foi revisado e ficou com 110. O revisor afirma que nada de conteúdo foi perdido. Qual constatação sustenta essa afirmação?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Nenhuma pergunta que o leitor conseguia responder com a versão longa ficou sem resposta na versão curta.",
+          "correta": true,
+          "porque": "Economia de palavras se verifica pelo que continua recuperável no texto, não pela contagem nem pelo estilo das frases."
+        },
+        {
+          "texto": "A versão curta tem frases mais curtas e nenhuma oração subordinada longa.",
+          "correta": false,
+          "porque": "Descreve a forma das frases; frases curtas podem ter deixado dados de fora sem que isso apareça na medida."
+        },
+        {
+          "texto": "A versão curta usa termos técnicos no lugar das explicações longas que ocupavam vários períodos.",
+          "correta": false,
+          "porque": "Substituir explicação por jargão reduz palavras transferindo conhecimento ao leitor, que pode não tê-lo."
+        },
+        {
+          "texto": "O revisor trocou construções impessoais por sujeito explícito, e isso encurtou o texto naturalmente.",
+          "correta": false,
+          "porque": "É um mecanismo de corte plausível, mas dizer como se cortou não demonstra que nada se perdeu."
+        },
+        {
+          "texto": "A versão curta cabe em uma tela sem rolagem, que era o limite pedido pelo formato.",
+          "correta": false,
+          "porque": "Cumprir um limite de espaço é outro assunto; o limite pode ter sido atingido justamente removendo informação."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Contagem de palavras mede o encolhimento, não a perda; procure a constatação que fala do conteúdo recuperável e não da forma das frases.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "Os quatro distratores pertencem todos à mesma categoria — descrevem a FORMA do texto ou o MECANISMO do corte (frases curtas, jargão, sujeito explícito, caber em uma tela) — enquanto a única alternativa que fala do CONTEÚDO recuperável é justamente a correta. Isso cria um 'odd one out' categórico: o aluno acerta pela assimetria de categoria ('a única que fala de significado'), sem precisar entender que economia de palavras se verifica pela informação preservada. Some-se a isso que a alternativa 4 (caber em uma tela sem rolagem) é descartável de imediato por qualquer aluno, reduzindo o campo real a heurística de eliminação.",
+          "sugestao": "Reescrever ao menos dois distratores para que também apelem a conteúdo/recuperabilidade, mas com critério insuficiente — por exemplo: 'todos os números e nomes próprios da versão longa aparecem na versão curta' (verifica dados, mas não as relações entre eles) ou 'o resumo executivo continua respondendo à pergunta central do documento' (verifica só a pergunta principal, não as demais). Assim a distinção passa a exigir julgamento sobre o que 'nada perdido' significa, e não apenas identificar a alternativa fora da categoria."
+        }
+      ],
+      "_curso": "arquiteto-comunicacao"
+    },
+    {
+      "topico": "Documento de uma página, proposta técnica e RFC interna",
+      "tipo": "multipla-escolha",
+      "dificuldade": "dificil",
+      "enunciado": "Marque todas as afirmações verdadeiras sobre o uso do documento de uma página, da proposta técnica e da RFC interna.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Um documento de uma página traz o pedido explícito ao leitor: aprovar, revisar ou apenas tomar conhecimento.",
+          "correta": true,
+          "porque": "Sem o pedido declarado, o leitor termina a leitura sem saber o que se espera dele, e o documento volta como pergunta."
+        },
+        {
+          "texto": "Uma proposta técnica sem números de custo e prazo transfere ao leitor o trabalho de estimar, e a decisão demora mais um ciclo.",
+          "correta": true,
+          "porque": "A proposta serve para decidir; quem decide precisa dos valores no texto, não de uma conta a ser feita depois."
+        },
+        {
+          "texto": "Uma RFC interna registra as objeções levantadas na discussão, e não apenas o desenho que acabou aprovado.",
+          "correta": true,
+          "porque": "O valor duradouro da RFC está em mostrar o que foi contestado e como aquilo foi respondido."
+        },
+        {
+          "texto": "O documento de uma página substitui a proposta técnica quando o valor envolvido é alto, porque decisão caraexige leitura rápida.",
+          "correta": false,
+          "porque": "Valor alto costuma exigir mais detalhe de custo, risco e alternativas, e não a compressão do texto em uma página."
+        },
+        {
+          "texto": "A RFC interna é publicada depois do início da implementação, para que o texto descreva o sistema como ele realmente ficou.",
+          "correta": false,
+          "porque": "Descrever o sistema pronto é documentação; a RFC circula enquanto a escolha ainda pode mudar por efeito dos comentários."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Para cada item, pergunte em que momento do assunto o texto circula e o que se espera que ocorra imediatamente após a leitura.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "As duas alternativas erradas se entregam sem que o aluno precise dominar o tópico. A 3 é autocontraditória no próprio texto ('valor envolvido é alto' + 'decisão cara exige leitura rápida' → comprimir em uma página), justificativa que qualquer aluno descarta por implausibilidade retórica, sem saber o que é documento de uma página. Sobrando isso, o conjunto se resolve por heurística de prova: as três corretas são enunciados de boa prática genérica ('declarar o pedido', 'dar números', 'registrar objeções') e as duas erradas são as únicas que afirmam substituição/inversão de etapa. Quem nunca leu sobre RFC interna marca 0, 1 e 2 apenas por soarem sensatas.",
+          "sugestao": "Reescrever os distratores como práticas plausíveis e defensáveis à primeira vista, que só se revelem falsas pela função do artefato: por exemplo, 'a proposta técnica deve apresentar apenas a alternativa recomendada, para não dispersar o decisor' ou 'a RFC interna encerra-se quando a maioria dos comentários é favorável, dispensando resposta às objeções minoritárias'. Evitar distratores cuja própria justificativa embutida se contradiz."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "Erro de digitação na alternativa 3: 'decisão caraexige leitura rápida' (falta espaço entre 'cara' e 'exige'). Não muda o julgamento do item, mas atrapalha a leitura de um texto que já é confuso.",
+          "sugestao": "Corrigir para 'decisão cara exige leitura rápida'."
+        }
+      ],
+      "_curso": "arquiteto-comunicacao"
+    },
+    {
+      "topico": "Documento de uma página, proposta técnica e RFC interna",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "Um documento de uma página pede aprovação para mover os relatórios para outro banco de dados. Qual das aberturas abaixo cumpre a função do primeiro parágrafo desse formato?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Pedimos aprovação até 30/04 para mover os relatórios para o banco X; o custo é de R$ 4 mil por mês e a migração leva três semanas.",
+          "correta": true,
+          "porque": "Entrega o pedido, o prazo, o custo e a duração já no primeiro parágrafo, que é o que o formato exige de quem só lê o começo."
+        },
+        {
+          "texto": "Nos últimos dois anos o volume de relatórios cresceu com a base de clientes, e a arquitetura atual foi desenhada em um cenário bem diferente.",
+          "correta": false,
+          "porque": "Começa pelo histórico, empurrando para o fim a informação de que alguém precisa para responder."
+        },
+        {
+          "texto": "Este documento apresenta uma análise das opções de banco de dados disponíveis no mercado para cargas de leitura intensiva.",
+          "correta": false,
+          "porque": "Anuncia o que o texto contém em vez de dizer o que se pede, e o leitor precisa continuar lendo para descobrir a conclusão."
+        },
+        {
+          "texto": "O banco atual fica lento nos relatórios mensais, sobretudo no fechamento, quando várias áreas fazem consultas ao mesmo tempo.",
+          "correta": false,
+          "porque": "Apresenta apenas o problema; sem pedido, prazo e custo o leitor não tem o que aprovar."
+        },
+        {
+          "texto": "A equipe de dados discute há algumas semanas alternativas ao banco atual e gostaria de compartilhar o resultado com as áreas envolvidas.",
+          "correta": false,
+          "porque": "Descreve o processo interno da equipe e não indica qual decisão está sendo solicitada nem a que preço."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Compare o que cada abertura coloca nas mãos de alguém que vai ler esse trecho e nada mais, e precisa devolver uma resposta a quem escreveu.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "O enunciado diz explicitamente que o documento \"pede aprovação\" e apenas uma alternativa contém um pedido de aprovação — e ela abre com as palavras \"Pedimos aprovação\", ecoando literalmente o enunciado. As outras quatro são todas de uma categoria só (contexto histórico, sumário do texto, descrição do problema, relato do processo do time), nenhuma pedindo nada. Um aluno que nunca ouviu falar de one-pager, BLUF ou RFC acerta por casamento lexical com o enunciado e por ser a única opção que responde à pergunta feita, sem entender a convenção do formato. O item também é o único com números concretos (data, custo, duração), reforçando o destaque de formato.",
+          "sugestao": "Reescreva o enunciado sem revelar a função do primeiro parágrafo (ex.: \"Qual abertura serve melhor a um documento de uma página destinado a quem vai decidir?\") e inclua ao menos dois distratores que também contenham pedido/decisão, mas errando o formato — por exemplo, um que peça aprovação sem custo nem prazo, e outro que apresente pedido só depois de dois parágrafos de contexto (ou que peça aprovação de algo diferente do que o documento discute). Assim a escolha passa a depender de saber o que o primeiro parágrafo deve entregar, e não de identificar a única opção que pede algo."
+        }
+      ],
+      "_curso": "arquiteto-comunicacao"
+    },
+    {
+      "topico": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "tipo": "quiz",
+      "dificuldade": "medio",
+      "enunciado": "As tabelas clientes (chave primária cliente_id) e pedidos (chave primária pedido_id, coluna cliente_id como chave estrangeira para clientes) estão carregadas, e todo pedido aponta para um cliente existente. O banco recusa qualquer operação que deixe uma chave estrangeira sem destino. Uma equipe precisa remover o cliente 7 e os três pedidos dele. Qual descrição das operações o banco aceita?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Apagar as três linhas de pedidos e depois a linha do cliente 7.",
+          "correta": true,
+          "porque": "Enquanto os pedidos existirem, remover o cliente deixaria cliente_id apontando para linha inexistente; retirando primeiro quem aponta, as duas operações passam."
+        },
+        {
+          "texto": "Apagar a linha do cliente 7 e depois as três linhas de pedidos, que ficam sem destino no intervalo.",
+          "correta": false,
+          "porque": "A primeira operação já é recusada: o banco não aceita deixar pedidos apontando para um cliente que não existe mais, nem por um intervalo."
+        },
+        {
+          "texto": "Apagar a linha do cliente 7; as três linhas de pedidos deixam de existir na mesma operação.",
+          "correta": false,
+          "porque": "Remoção em cascata é um comportamento que precisa ser declarado no esquema, e não o efeito padrão de uma chave estrangeira."
+        },
+        {
+          "texto": "Apagar a linha do cliente 7 primeiro, porque a tabela de pedidos é conferida apenas quando recebe gravações novas.",
+          "correta": false,
+          "porque": "A verificação vale para qualquer operação que rompa a ligação, inclusive remoção do lado apontado."
+        },
+        {
+          "texto": "Qualquer das duas ordens é aceita, desde que nenhuma gravação nova ocorra no intervalo entre elas.",
+          "correta": false,
+          "porque": "A ausência de gravações no intervalo não muda nada: uma das ordens rompe a ligação já na primeira operação."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Examine como fica a linha que guarda o identificador do outro lado no instante seguinte a cada remoção.",
+      "_camada": "estrutura",
+      "_motivo": [
+        "pista de forma: toda correta é bem mais curta que toda errada (63 vs 91)"
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "tipo": "multipla-escolha",
+      "dificuldade": "facil",
+      "enunciado": "Marque todas as afirmações verdadeiras sobre chaves primárias em tabelas relacionais.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Uma chave primária pode reunir duas colunas, e a exigência de não repetição recai sobre o par de valores.",
+          "correta": true,
+          "porque": "Chaves compostas são válidas e a unicidade é da combinação, não de cada coluna isoladamente."
+        },
+        {
+          "texto": "Nenhuma das colunas que compõem a chave primária pode ficar sem valor.",
+          "correta": true,
+          "porque": "A chave primária identifica a linha, e valor ausente em qualquer de suas colunas impede essa identificação."
+        },
+        {
+          "texto": "Outras colunas da tabela podem exigir valores não repetidos sem que isso as torne a chave primária.",
+          "correta": true,
+          "porque": "Uma tabela pode ter várias chaves candidatas; apenas uma é escolhida como primária, as demais seguem com unicidade própria."
+        },
+        {
+          "texto": "Uma tabela declara duas chaves primárias quando há dois modos igualmente bons de identificar a linha.",
+          "correta": false,
+          "porque": "Só uma chave primária é declarada por tabela; as outras identificações ficam como chaves alternativas."
+        },
+        {
+          "texto": "A chave primária costuma precisar de um número gerado pelo banco, porque dados do mundo real não servem para identificar linhas.",
+          "correta": false,
+          "porque": "Um atributo do mundo real com valor único e estável pode ser chave primária; a escolha por número gerado é decisão de projeto, não exigência."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Revise quantas colunas uma chave pode envolver, quantas chaves desse tipo cabem numa mesma tabela e o que acontece quando um valor falta.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "As duas erradas se identificam pela forma, sem exigir conhecimento do modelo relacional. A alternativa 3 é o mito de manual mais batido do tópico ('duas chaves primárias na mesma tabela'), descartado por qualquer aluno que já ouviu a expressão 'chave primária'; a alternativa 4 fecha com um absoluto categórico ('dados do mundo real não servem para identificar linhas'), exatamente o tipo de afirmação que quem faz prova risca por hábito. As três corretas, em contraste, são todas formuladas em tom permissivo e qualificado ('pode reunir', 'podem exigir', 'sem que isso as torne'). Marcar tudo que é hedge e descartar tudo que é categórico entrega o conjunto exato 0-1-2 sem entender chave composta, chave candidata ou NOT NULL.",
+          "sugestao": "Reescrever os distratores para que sejam erros plausíveis e enunciados no mesmo registro cauteloso das corretas — por exemplo: 'Numa chave composta, cada coluna isoladamente também precisa ter valores não repetidos' ou 'Uma coluna com restrição de unicidade e sem valores ausentes passa a funcionar como chave primária da tabela'. Evitar que o gabarito seja recuperável só pela oposição hedge/absoluto."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa 4 mistura uma observação defensável com uma justificativa falsa: 'costuma precisar de um número gerado pelo banco' descreve uma prática de projeto que de fato é comum (chaves substitutas), e a falsidade está apenas na causa alegada. O aluno que lê a primeira metade como descrição de prática corrente pode hesitar em classificá-la como falsa.",
+          "sugestao": "Separar as duas ideias, deixando apenas a parte falsa: 'A chave primária precisa obrigatoriamente ser um número gerado pelo banco, pois atributos do mundo real não podem identificar linhas.'"
+        }
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "tipo": "associacao",
+      "dificuldade": "medio",
+      "enunciado": "Associe cada situação ao efeito que o banco produz. Sobram itens na coluna da direita que não correspondem a nenhuma situação.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "Chave primária formada por uma única coluna",
+          "direita": "a segunda gravação que repetir esse conteúdo é recusada, e deixá-lo em branco também é recusado"
+        },
+        {
+          "esquerda": "Chave primária formada por duas colunas",
+          "direita": "um mesmo conteúdo reaparece em várias linhas de uma delas, desde que a combinação não se repita"
+        },
+        {
+          "esquerda": "Coluna de chave estrangeira que recebe um valor",
+          "direita": "a gravação só passa se esse conteúdo já constar na tabela de destino"
+        },
+        {
+          "esquerda": "Coluna de chave estrangeira que aceita ficar em branco",
+          "direita": "a linha entra na tabela sem apontar para nenhuma outra"
+        },
+        {
+          "esquerda": "Tentativa de apagar uma linha à qual outra tabela se refere",
+          "direita": "a operação é barrada enquanto existirem linhas dependentes"
+        }
+      ],
+      "distratores_direita": [
+        "as linhas passam a ser devolvidas em ordem crescente do conteúdo guardado nessa coluna",
+        "linhas idênticas em todas as colunas convivem na mesma tabela sem nenhuma recusa"
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Imagine duas linhas concretas para cada situação e pergunte o que o banco faria na hora de gravar ou de remover.",
+      "_critica": [
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "a esquerda 1 aceita 2 pares defensáveis: O par natural é o 6: em chave composta a restrição incide sobre a combinação, então um mesmo valor pode reaparecer em várias linhas de uma das colunas desde que o par (col1,col2) não se repita. Mas o 3 também se sustenta se 'esse conteúdo' for lido como o valor da chave (a combinação): a segunda gravação que repetir a mesma combinação é de fato recusada, e em chave composta nenhuma das colunas participantes pode ficar nula — as duas metades do enunciado 3 são verdadeiras para PK composta, o que torna o pareamento defensável com mecanismo correto.",
+          "sugestao": "reescrever a esquerda ou o concorrente até sobrar um par defensável"
+        },
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "O item da direita 'a segunda gravação que repetir esse conteúdo é recusada, e deixá-lo em branco também é recusado' descreve corretamente TAMBÉM a chave primária composta (situação 2): em uma PK de duas colunas, repetir a combinação é recusado e nenhuma das colunas pode ficar nula. Como 'esse conteúdo' não diz 'o valor da única coluna', esse item casa plausivelmente com as situações 1 e 2. O aluno que sabe que PK composta também é NOT NULL e única pode emparelhar 2 com esse item e sobrar sem par plausível para a situação 1 (ou cair no distrator de ordenação), sendo reprovado por saber demais.",
+          "sugestao": "Tornar o item exclusivo da situação 1, por exemplo: 'o valor dessa única coluna não pode se repetir em outra linha nem ficar em branco' — e, no item da situação 2, manter a menção explícita à combinação das duas colunas."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "O distrator 'as linhas passam a ser devolvidas em ordem crescente do conteúdo guardado nessa coluna' não é claramente falso nos bancos do próprio curso: em MySQL/InnoDB a tabela é organizada pelo índice agrupado da PK e no SQLite a INTEGER PRIMARY KEY é o rowid, de modo que um SELECT sem ORDER BY costuma devolver as linhas nessa ordem. Um aluno bem informado pode considerá-lo verdadeiro e emparelhá-lo com a situação 1 (chave primária de coluna única), o que combinado com a ambiguidade do par 1/2 produz uma segunda montagem defensável do conjunto.",
+          "sugestao": "Trocar por um distrator inequivocamente falso e sem relação com PK/FK, por exemplo: 'o banco cria automaticamente uma cópia da linha em uma tabela de histórico' ou 'o conteúdo dessa coluna passa a ser convertido para letras maiúsculas na gravação'."
+        },
+        {
+          "dimensao": "enunciado",
+          "gravidade": "baixa",
+          "explicacao": "A situação 5 ('Tentativa de apagar uma linha à qual outra tabela se refere ↔ a operação é barrada enquanto existirem linhas dependentes') só vale com a ação referencial padrão (NO ACTION/RESTRICT). Se a FK tiver ON DELETE CASCADE ou SET NULL, o efeito é outro. O enunciado não fixa essa condição, embora nenhum outro item da direita descreva cascata, o que impede erro de emparelhamento.",
+          "sugestao": "Escrever a situação como 'Tentativa de apagar uma linha referenciada por outra tabela, com a chave estrangeira sem regra de cascata'."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "Os pares se resolvem em grande parte por pistas lexicais em vez de compreensão do modelo relacional: 'duas colunas' → 'uma delas'; 'chave estrangeira que recebe um valor' → 'tabela de destino'; 'aceita ficar em branco' → 'sem apontar para nenhuma outra'; 'apagar' → 'linhas dependentes'. Além disso, o segundo distrator ('linhas idênticas convivem sem nenhuma recusa') é descartável por qualquer aluno, reduzindo a triagem real a poucas decisões.",
+          "sugestao": "Reescrever os efeitos com vocabulário mais neutro (evitando repetir os termos-chave das situações) e acrescentar um distrator próximo do conteúdo, por exemplo 'a gravação é aceita e o valor inexistente na tabela de destino é gravado como nulo'."
+        }
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "Normalização até a terceira forma normal e quando desnormalizar",
+      "tipo": "associacao",
+      "dificuldade": "dificil",
+      "enunciado": "Associe cada característica de esquema ao incômodo que ela provoca no dia a dia da base. Sobram itens na coluna da direita que não correspondem a nenhuma característica.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "Célula que guarda vários telefones separados por vírgula",
+          "direita": "filtrar por um deles obriga a percorrer o texto de cada linha procurando pedaços"
+        },
+        {
+          "esquerda": "Valor que depende de apenas uma das duas colunas que formam a chave",
+          "direita": "o mesmo texto fica repetido em muitas linhas, e uma correção precisa alcançar todas"
+        },
+        {
+          "esquerda": "Coluna preenchida com o resultado da multiplicação de outras duas da mesma linha",
+          "direita": "alterar um dos números de origem sem refazer a conta deixa a linha se contradizendo"
+        },
+        {
+          "esquerda": "Esquema em terceira forma normal, sem nenhum dado repetido entre as tabelas",
+          "direita": "responder a uma pergunta simples depende de reunir informações de mais de um lugar"
+        }
+      ],
+      "distratores_direita": [
+        "corrigir um conteúdo numa linha altera automaticamente o mesmo conteúdo nas demais",
+        "duas linhas com o mesmo identificador passam a conviver sem que a gravação seja recusada"
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Para cada característica, simule mentalmente uma inserção, uma correção e uma busca, e observe qual das três fica desconfortável.",
+      "_critica": [
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "a esquerda 3 aceita 2 pares defensáveis: O custo clássico da 3NF é a necessidade de junções para responder perguntas simples (5). Mas também se defende (1): como cada fato passa a existir num único lugar, editar essa única linha propaga a mudança para todas as que a referenciam, impedindo correção local e podendo alterar registros históricos que se queria preservar — é o outro lado da eliminação de redundância.",
+          "sugestao": "reescrever a esquerda ou o concorrente até sobrar um par defensável"
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "O distrator 'corrigir um conteúdo numa linha altera automaticamente o mesmo conteúdo nas demais' é exatamente a consequência real de um esquema em 3FN com dado único numa tabela de referência (a correção na tabela-mãe reflete em todas as consultas). Ou seja, ele casa de forma defensável com a característica 4 ('Esquema em terceira forma normal, sem nenhum dado repetido entre as tabelas'), competindo com o par oficial. O único filtro que o descarta é a palavra 'incômodo' no enunciado — filtro frágil, já que o aluno não sabe quantos itens sobram nem que a propagação automática deveria ser lida como vantagem. Quem entende normalização pode marcar esse par e ser reprovado pela correção por conjunto exato.",
+          "sugestao": "Reescrever o distrator para que não descreva propriedade verdadeira de esquema normalizado, por exemplo: 'a mesma consulta devolve resultados diferentes conforme a ordem em que as linhas foram inseridas' — algo que não seja consequência de nenhuma das quatro características listadas."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "Dois dos quatro pares se resolvem por eco lexical, sem qualquer raciocínio de normalização: 'telefones separados por vírgula' ↔ 'percorrer o texto de cada linha procurando pedaços' (texto/vírgula) e 'resultado da multiplicação de outras duas colunas' ↔ 'alterar um dos números de origem sem refazer a conta' (multiplicação/conta). Metade do exercício, declarado difícil, cai por pareamento de vocabulário.",
+          "sugestao": "Reformular os lados direitos desses dois pares em linguagem de anomalia, sem repetir os substantivos do lado esquerdo (ex.: para o multivalorado, 'não existe forma de garantir que cada entrada seja um valor válido nem de indexá-la')."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "A característica 4 traz a única pista de formato: é a única do lado esquerdo redigida como esquema saudável ('sem nenhum dado repetido'), e o lado direito tem um único item que descreve um custo de consulta em vez de anomalia de dado ('reunir informações de mais de um lugar'). O par se fecha por contraste de categoria, não por conteúdo.",
+          "sugestao": "Incluir entre os distratores da direita outro custo de consulta plausível (ex.: 'a consulta fica mais lenta porque nenhuma coluna filtrada tem índice') para que o contraste de categoria não entregue o par."
+        }
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "Normalização até a terceira forma normal e quando desnormalizar",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações verdadeiras sobre desnormalizar um esquema de propósito.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Gravar na tabela de pedidos um total que sai da soma dos itens obriga quem altera um item a atualizar dois lugares.",
+          "correta": true,
+          "porque": "O valor derivado passa a ser uma segunda cópia da informação, e cópias exigem manutenção conjunta."
+        },
+        {
+          "texto": "Copiar uma coluna de outra tabela tende a acelerar as consultas que hoje precisam alcançar as duas tabelas.",
+          "correta": true,
+          "porque": "É justamente o ganho buscado: menos tabelas envolvidas por leitura."
+        },
+        {
+          "texto": "As chaves estrangeiras entre as tabelas envolvidas continuam necessárias depois da mudança.",
+          "correta": true,
+          "porque": "A cópia de um valor não substitui a ligação entre as tabelas nem a garantia de que o destino existe."
+        },
+        {
+          "texto": "A mudança consiste em separar as colunas repetidas numa tabela nova ligada por chave estrangeira.",
+          "correta": false,
+          "porque": "Essa é a descrição de normalizar; desnormalizar caminha na direção oposta."
+        },
+        {
+          "texto": "Com a repetição passando a ser esperada, o esquema em geral dispensa a exigência de valores não repetidos na chave primária.",
+          "correta": false,
+          "porque": "A identificação única das linhas segue valendo; a repetição admitida é de dados descritivos, não do identificador."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Para cada afirmação, identifique qual operação ficaria mais barata e o que passaria a exigir manutenção extra por parte de quem grava.",
+      "_critica": [
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "A alternativa 2 ('As chaves estrangeiras entre as tabelas envolvidas continuam necessárias depois da mudança') é apresentada como verdade geral sobre desnormalizar, mas o enunciado não restringe a desnormalização ao caso de 'copiar uma coluna'. Em desnormalizações igualmente clássicas — fundir duas tabelas 1:1 ou absorver uma tabela de lookup dentro da tabela principal — a tabela referenciada deixa de existir e a chave estrangeira desaparece justamente por não ser mais necessária. Um aluno que domina o tópico pode legitimamente deixar de marcar a 2 por esse motivo e, como a correção é por conjunto exato, é reprovado por saber mais do que o gabarito assume.",
+          "sugestao": "Reescrever a alternativa 2 amarrando-a ao caso da cópia, por exemplo: 'Quando a desnormalização consiste em copiar uma coluna de outra tabela, a chave estrangeira entre elas continua necessária.' Assim a afirmação fica verdadeira sem depender de interpretação do escopo."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa 4 nega a unicidade da chave primária, algo que qualquer aluno descarta por reflexo, sem precisar entender nada de normalização — funciona como enchimento e não discrimina quem estudou. Ela não muda o resultado porque a alternativa 3 ainda exige distinguir normalizar de desnormalizar, mas reduz o poder do item.",
+          "sugestao": "Substituir por um erro plausível do tópico, como 'Desnormalizar dispensa a definição de índices, já que os dados passam a estar na mesma tabela' ou 'A desnormalização elimina anomalias de atualização, pois reduz o número de tabelas'."
+        },
+        {
+          "dimensao": "dica",
+          "gravidade": "baixa",
+          "explicacao": "A dica manda avaliar cada afirmação pela pergunta 'qual operação fica mais barata e o que exige manutenção extra'. Esse critério só se aplica às alternativas 0 e 1; aplicá-lo às alternativas 2, 3 e 4 (que tratam de necessidade de FK, definição de normalizar e unicidade de chave primária) não ajuda a decidir e pode levar o aluno a concluir que essas afirmações estão fora do escopo do que deve marcar, descrevendo o exercício de forma incorreta.",
+          "sugestao": "Ampliar a dica para cobrir os eixos realmente presentes, por exemplo: 'Verifique, em cada afirmação, se ela descreve a direção correta (normalizar x desnormalizar), qual leitura fica mais barata, que gravação passa a exigir manutenção extra e o que continua obrigatório no esquema.'"
+        }
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "SELECT, WHERE, ORDER BY e LIMIT",
+      "tipo": "codigo",
+      "dificuldade": "medio",
+      "enunciado": "A tabela `produto` já está criada no esqueleto. Escreva uma única instrução SELECT que devolva as colunas `nome` e `preco_centavos`, nessa ordem, apenas dos produtos com `estoque` maior que zero e `preco_centavos` de no máximo 10000. Ordene do maior preço para o menor e, em caso de empate no preço, pelo `nome` em ordem alfabética crescente. Devolva no máximo 3 linhas. Não escreva INSERTs: a correção carrega dados diferentes em cada caso antes de executar a sua consulta e imprime o resultado no formato padrão do sqlite3 em modo lista — uma linha por registro, colunas separadas por `|`, sem cabeçalho. Se nenhuma linha satisfizer as condições, a saída fica vazia.",
+      "linguagem": "sql",
+      "esqueleto": "CREATE TABLE produto (\n  id INTEGER PRIMARY KEY,\n  nome TEXT NOT NULL,\n  preco_centavos INTEGER NOT NULL,\n  estoque INTEGER NOT NULL\n);\n\n-- Escreva abaixo a sua consulta, terminada em ponto e vírgula.\n",
+      "testes": [
+        {
+          "descricao": "Mais de três produtos qualificados: o corte precisa acontecer",
+          "entrada": "INSERT INTO produto (id, nome, preco_centavos, estoque) VALUES (1,'Caneta',250,10),(2,'Caderno',9900,3),(3,'Mochila',15000,5),(4,'Borracha',150,0),(5,'Lapis',300,7),(6,'Estojo',4500,2);",
+          "saida_esperada": "Caderno|9900\nEstojo|4500\nLapis|300\n"
+        },
+        {
+          "descricao": "Empate de preço resolvido pelo nome",
+          "entrada": "INSERT INTO produto (id, nome, preco_centavos, estoque) VALUES (1,'Zinco',500,1),(2,'Alfa',500,2),(3,'Meio',500,4),(4,'Beta',700,1);",
+          "saida_esperada": "Beta|700\nAlfa|500\nMeio|500\n"
+        },
+        {
+          "descricao": "Borda: nenhum produto com estoque disponível",
+          "entrada": "INSERT INTO produto (id, nome, preco_centavos, estoque) VALUES (1,'Grampo',100,0),(2,'Clipe',200,0);",
+          "saida_esperada": ""
+        },
+        {
+          "descricao": "Menos de três qualificados: o limite não pode inventar linhas",
+          "entrada": "INSERT INTO produto (id, nome, preco_centavos, estoque) VALUES (1,'Fita',1200,5),(2,'Cola',800,2),(3,'Regua',20000,9);",
+          "saida_esperada": "Fita|1200\nCola|800\n"
+        },
+        {
+          "descricao": "Borda do preço: 10000 entra, 10001 não",
+          "entrada": "INSERT INTO produto (id, nome, preco_centavos, estoque) VALUES (1,'Tinta',10000,1),(2,'Pincel',10001,3),(3,'Tela',9999,0),(4,'Papel',9999,1);",
+          "saida_esperada": "Tinta|10000\nPapel|9999\n"
+        }
+      ],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Confira separadamente cada exigência do enunciado: quais linhas entram, em que sequência saem e quantas permanecem. Repare também que o desempate pede um segundo critério de ordenação, com sentido próprio.",
+      "_motivo": [
+        {
+          "caso": 1,
+          "descricao": "Mais de três produtos qualificados: o corte precisa acontecer",
+          "motivo": "OperationalError: no such table: produto"
+        },
+        {
+          "caso": 2,
+          "descricao": "Empate de preço resolvido pelo nome",
+          "motivo": "OperationalError: no such table: produto"
+        },
+        {
+          "caso": 3,
+          "descricao": "Borda: nenhum produto com estoque disponível",
+          "motivo": "OperationalError: no such table: produto"
+        },
+        {
+          "caso": 4,
+          "descricao": "Menos de três qualificados: o limite não pode inventar linhas",
+          "motivo": "OperationalError: no such table: produto"
+        },
+        {
+          "caso": 5,
+          "descricao": "Borda do preço: 10000 entra, 10001 não",
+          "motivo": "OperationalError: no such table: produto"
+        }
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "SELECT, WHERE, ORDER BY e LIMIT",
+      "tipo": "saida-esperada",
+      "dificuldade": "dificil",
+      "enunciado": "O trecho abaixo é executado no sqlite3 em modo lista (uma linha por registro, colunas separadas por `|`, sem cabeçalho). Informe exatamente o que é impresso, na ordem em que aparece.",
+      "linguagem": "sql",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "CREATE TABLE pedido (id INTEGER PRIMARY KEY, cliente TEXT, desconto INTEGER);\nINSERT INTO pedido VALUES (1,'Ana',10),(2,'Bruno',NULL),(3,'Carla',0),(4,'Diego',5);\n\nSELECT cliente FROM pedido WHERE desconto <> 0 ORDER BY cliente;\nSELECT cliente FROM pedido WHERE desconto IS NULL OR desconto = 0 ORDER BY id;",
+      "resposta": "Ana\nDiego\nBruno\nCarla\n",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Uma das quatro linhas tem desconto desconhecido. Pergunte que resposta o banco dá a uma comparação cujo operando é desconhecido, e em qual das duas consultas essa linha acaba entrando.",
+      "_motivo": [
+        "gabarito \"Ana\\nDiego\\nBruno\\nCarla\\n\", o interpretador produz \"cliente\\nBruno\\nCarla\\n\""
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "SELECT, WHERE, ORDER BY e LIMIT",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "A consulta `SELECT nome FROM produto LIMIT 5;` é executada sobre uma tabela com milhares de linhas. O que se pode garantir sobre o resultado?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Devolve cinco linhas quaisquer da tabela: sem ORDER BY, nenhuma escolha específica de linhas está assegurada.",
+          "correta": true,
+          "porque": "LIMIT recorta o resultado, mas sem uma ordenação declarada o conjunto de linhas devolvido fica a critério do plano de execução."
+        },
+        {
+          "texto": "Devolve, em geral, as cinco linhas de menor chave primária, já que a leitura costuma seguir a ordem do índice da chave.",
+          "correta": false,
+          "porque": "Isso pode acontecer num caso concreto, mas é comportamento do plano escolhido, não algo que a consulta assegure."
+        },
+        {
+          "texto": "Devolve as cinco linhas gravadas mais recentemente, porque a leitura parte do fim do arquivo de dados.",
+          "correta": false,
+          "porque": "Não existe essa regra: a consulta não faz nenhuma referência a data ou ordem de gravação."
+        },
+        {
+          "texto": "É rejeitada pelo banco, porque LIMIT exige uma cláusula ORDER BY que defina o corte.",
+          "correta": false,
+          "porque": "A consulta é válida e executa normalmente; a ausência de ORDER BY é legal, apenas deixa o conjunto indefinido."
+        },
+        {
+          "texto": "Devolve uma amostra sorteada de cinco linhas, diferente a cada execução da consulta.",
+          "correta": false,
+          "porque": "Não há sorteio envolvido; repetições sucessivas costumam até devolver as mesmas linhas, sem que isso seja garantido."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Separe o que o motor costuma fazer numa tabela específica daquilo que o texto escrito obriga o motor a fazer em qualquer situação.",
+      "_camada": "estrutura",
+      "_motivo": [
+        "pista de forma: 2 palavras da dica (tabela, especifica) aparecem numa alternativa só, a correta"
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "SELECT, WHERE, ORDER BY e LIMIT",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Sobre a consulta `SELECT nome FROM aluno WHERE nota >= 7 ORDER BY nota DESC LIMIT 3;`, marque todas as afirmações verdadeiras.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Se apenas duas linhas tiverem nota 7 ou mais, o resultado terá duas linhas.",
+          "correta": true,
+          "porque": "LIMIT estabelece um teto, não uma quantidade obrigatória de linhas."
+        },
+        {
+          "texto": "Trocar DESC por ASC pode alterar quais nomes aparecem, e não apenas a sequência em que saem.",
+          "correta": true,
+          "porque": "Com o corte em três linhas, inverter a ordenação muda quais linhas ficam dentro do recorte."
+        },
+        {
+          "texto": "A coluna nota pode ser usada na ordenação mesmo sem constar na lista de colunas devolvidas.",
+          "correta": true,
+          "porque": "A ordenação enxerga as colunas da tabela consultada, não apenas as projetadas."
+        },
+        {
+          "texto": "O corte de três linhas é aplicado à tabela antes do filtro, de modo que linhas com nota abaixo de 7 podem ocupar as vagas.",
+          "correta": false,
+          "porque": "O filtro decide quais linhas existem no resultado; o corte age sobre o que sobrou depois dele."
+        },
+        {
+          "texto": "Remover a cláusula de ordenação mantém o mesmo resultado, já que o corte devolve as três maiores notas de todo modo.",
+          "correta": false,
+          "porque": "Sem ordenação declarada, as três linhas devolvidas podem ser quaisquer entre as que passaram no filtro."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Imagine uma tabela concreta com cinco alunos e notas variadas, algumas abaixo do corte de valor, e teste cada afirmação contra esse exemplo.",
+      "_camada": "estrutura",
+      "_motivo": [
+        "pista de forma: toda correta é bem mais curta que toda errada (92 vs 116)",
+        "pista de forma: o termo técnico \"desc\" está no enunciado e em exatamente uma alternativa, a correta"
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "JOINs: inner, left, right e full",
+      "tipo": "codigo",
+      "dificuldade": "dificil",
+      "enunciado": "As tabelas `autor` e `livro` já estão criadas no esqueleto (não há restrição de chave estrangeira: pode haver `livro.autor_id` sem autor correspondente). Escreva uma única instrução SELECT que devolva `autor.nome` e `livro.titulo`, nessa ordem, para todos os autores — inclusive os que não têm nenhum livro, que devem aparecer com a coluna do título vazia (NULL é impresso como texto vazio). Livros cujo `autor_id` não corresponda a nenhum autor não devem aparecer. Ordene por nome do autor e, dentro de cada autor, por título, ambos em ordem alfabética crescente. Não escreva INSERTs: a correção carrega dados diferentes em cada caso antes de executar a sua consulta e imprime o resultado no formato padrão do sqlite3 em modo lista — uma linha por registro, colunas separadas por `|`, sem cabeçalho.",
+      "linguagem": "sql",
+      "esqueleto": "CREATE TABLE autor (\n  id INTEGER PRIMARY KEY,\n  nome TEXT NOT NULL\n);\n\nCREATE TABLE livro (\n  id INTEGER PRIMARY KEY,\n  autor_id INTEGER,\n  titulo TEXT NOT NULL\n);\n\n-- Escreva abaixo a sua consulta, terminada em ponto e vírgula.\n",
+      "testes": [
+        {
+          "descricao": "Todo autor tem livro",
+          "entrada": "INSERT INTO autor (id, nome) VALUES (1,'Ana'),(2,'Bruno');\nINSERT INTO livro (id, autor_id, titulo) VALUES (10,1,'Raizes'),(11,2,'Vento');",
+          "saida_esperada": "Ana|Raizes\nBruno|Vento\n"
+        },
+        {
+          "descricao": "Dois autores sem livro precisam aparecer com título vazio",
+          "entrada": "INSERT INTO autor (id, nome) VALUES (1,'Ana'),(2,'Bruno'),(3,'Carla');\nINSERT INTO livro (id, autor_id, titulo) VALUES (10,1,'Raizes');",
+          "saida_esperada": "Ana|Raizes\nBruno|\nCarla|\n"
+        },
+        {
+          "descricao": "Autor com três livros: repetição e ordenação por título",
+          "entrada": "INSERT INTO autor (id, nome) VALUES (1,'Ana');\nINSERT INTO livro (id, autor_id, titulo) VALUES (10,1,'Zumbi'),(11,1,'Areia'),(12,1,'Mar');",
+          "saida_esperada": "Ana|Areia\nAna|Mar\nAna|Zumbi\n"
+        },
+        {
+          "descricao": "Borda: nenhum livro cadastrado",
+          "entrada": "INSERT INTO autor (id, nome) VALUES (1,'Ana'),(2,'Bruno');",
+          "saida_esperada": "Ana|\nBruno|\n"
+        },
+        {
+          "descricao": "Livro órfão não pode aparecer",
+          "entrada": "INSERT INTO autor (id, nome) VALUES (1,'Ana');\nINSERT INTO livro (id, autor_id, titulo) VALUES (10,1,'Sol'),(11,99,'Orfao');",
+          "saida_esperada": "Ana|Sol\n"
+        }
+      ],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Duas exigências puxam para lados opostos: linhas sem par de um dos lados precisam sobreviver, e do outro lado precisam desaparecer. Decida qual tabela ocupa cada posição na cláusula antes de escolher o tipo de junção.",
+      "_motivo": [
+        {
+          "caso": 1,
+          "descricao": "Todo autor tem livro",
+          "motivo": "OperationalError: no such table: autor"
+        },
+        {
+          "caso": 2,
+          "descricao": "Dois autores sem livro precisam aparecer com título vazio",
+          "motivo": "OperationalError: no such table: autor"
+        },
+        {
+          "caso": 3,
+          "descricao": "Autor com três livros: repetição e ordenação por título",
+          "motivo": "OperationalError: no such table: autor"
+        },
+        {
+          "caso": 4,
+          "descricao": "Borda: nenhum livro cadastrado",
+          "motivo": "OperationalError: no such table: autor"
+        },
+        {
+          "caso": 5,
+          "descricao": "Livro órfão não pode aparecer",
+          "motivo": "OperationalError: no such table: autor"
+        }
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "JOINs: inner, left, right e full",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações verdadeiras sobre junções entre duas tabelas.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Um INNER JOIN e um LEFT JOIN devolvem o mesmo conjunto de linhas quando toda linha da tabela à esquerda tem ao menos um par do outro lado.",
+          "correta": true,
+          "porque": "A diferença entre os dois está justamente nas linhas sem par; sem elas, os resultados coincidem."
+        },
+        {
+          "texto": "Uma linha que satisfaz a condição com três linhas da outra tabela aparece três vezes no resultado.",
+          "correta": true,
+          "porque": "A junção emparelha cada combinação que satisfaz a condição, e isso multiplica as ocorrências."
+        },
+        {
+          "texto": "Escrever `A RIGHT JOIN B` produz as mesmas combinações que `B LEFT JOIN A`, mudando a ordem em que as colunas saem.",
+          "correta": true,
+          "porque": "Os dois preservam as linhas sem par da mesma tabela; muda apenas qual tabela é citada primeiro."
+        },
+        {
+          "texto": "Em um FULL JOIN, as linhas sem par das duas tabelas são combinadas entre si numa mesma linha do resultado.",
+          "correta": false,
+          "porque": "Cada linha sem par ocupa uma linha própria, com as colunas da outra tabela em nulo."
+        },
+        {
+          "texto": "A condição do ON precisa ligar uma chave primária a uma chave estrangeira, e o banco recusa comparações entre colunas comuns.",
+          "correta": false,
+          "porque": "A condição pode comparar quaisquer colunas compatíveis; ligar chaves é a prática usual, não uma exigência."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Monte um exemplo minúsculo, com duas linhas de um lado e três do outro, incluindo um valor sem correspondente em cada tabela, e confira cada afirmação contra ele.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "As duas alternativas erradas são reconhecíveis sem qualquer conhecimento de JOIN. A 4 é um absoluto proibitivo ('precisa ligar chave primária a estrangeira, e o banco recusa comparações entre colunas comuns') — exatamente o tipo de afirmação que quem faz prova descarta por hábito. A 3 descreve algo estruturalmente esquisito ('as linhas sem par das duas tabelas são combinadas entre si numa mesma linha'), que soa implausível mesmo para quem nunca escreveu um FULL JOIN. Já as três corretas são todas afirmações moderadas e bem qualificadas ('quando toda linha...', 'mudando a ordem em que as colunas saem'). O conjunto exato pode ser montado por plausibilidade retórica, sem entender inner/left/right/full.",
+          "sugestao": "Reescrever as duas erradas como equívocos plausíveis e específicos, sem absolutos: por exemplo, 'em um LEFT JOIN, as linhas da tabela da esquerda sem par aparecem com as colunas da direita repetindo o último valor encontrado' ou 'aplicar no WHERE uma condição sobre coluna da tabela da direita não altera o resultado de um LEFT JOIN'. E aparar as qualificações das corretas para que não sejam as únicas frases cautelosas do conjunto."
+        },
+        {
+          "dimensao": "dica",
+          "gravidade": "baixa",
+          "explicacao": "O exemplo sugerido pela dica ('duas linhas de um lado e três do outro, incluindo um valor sem correspondente em cada tabela') não permite verificar a afirmação 1: com uma das três linhas sem par, nenhuma linha consegue casar com três linhas da outra tabela. A dica manda 'conferir cada afirmação contra ele', mas o exemplo proposto é insuficiente para uma delas e pode levar o aluno a concluir que a multiplicação por três não ocorre.",
+          "sugestao": "Ajustar o exemplo: sugerir uma tabela com três linhas que casam com a mesma linha da outra, mais uma linha sem par em cada lado (por exemplo, 3 linhas casando + 1 órfã de cada lado), para que todas as afirmações sejam testáveis no mesmo exemplo."
+        }
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "SELECT, WHERE, ORDER BY e LIMIT",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações verdadeiras sobre consultas com SELECT, WHERE, ORDER BY e LIMIT. Há mais de uma.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Trocar a ordem das colunas listadas depois de SELECT muda a ordem das colunas exibidas no resultado.",
+          "correta": true,
+          "porque": "A lista de seleção define a sequência das colunas devolvidas."
+        },
+        {
+          "texto": "Uma linha cujo preco é NULL não entra no resultado de WHERE preco > 100.",
+          "correta": true,
+          "porque": "A comparação com NULL não resulta em verdadeiro, então a linha é descartada pelo filtro."
+        },
+        {
+          "texto": "LIMIT 3 devolve as três primeiras linhas do resultado já ordenado por ORDER BY.",
+          "correta": true,
+          "porque": "O recorte de quantidade é aplicado depois da ordenação."
+        },
+        {
+          "texto": "Sem ORDER BY, o banco devolve as linhas na ordem em que foram inseridas na tabela.",
+          "correta": false,
+          "porque": "Sem ORDER BY a ordem não é garantida; depende de detalhes internos de execução e armazenamento."
+        },
+        {
+          "texto": "Uma coluna usada em WHERE precisa aparecer também na lista depois de SELECT.",
+          "correta": false,
+          "porque": "O filtro pode usar qualquer coluna da tabela, esteja ela projetada ou não."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Para cada item, imagine uma tabelinha de quatro registros e teste a afirmação nela; inclua um registro com célula sem valor preenchido.",
+      "_camada": "estrutura",
+      "_motivo": [
+        "pista de forma: o termo técnico \"limit\" está no enunciado e em exatamente uma alternativa, a correta"
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "JOINs: inner, left, right e full",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Considere consultas da forma SELECT ... FROM a LEFT JOIN b ON b.a_id = a.id, sem WHERE. Marque todas as afirmações verdadeiras. Há mais de uma.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Uma linha de a sem par em b aparece no resultado com as colunas vindas de b preenchidas com NULL.",
+          "correta": true,
+          "porque": "É exatamente o comportamento da junção externa pela esquerda."
+        },
+        {
+          "texto": "Uma linha de a cujo a_id correspondente em b nunca é encontrado por causa de valor ausente também aparece no resultado, sem par.",
+          "correta": true,
+          "porque": "A linha da esquerda é preservada independentemente do motivo da ausência de par."
+        },
+        {
+          "texto": "Se cada linha de a tem exatamente um par em b, o resultado tem o mesmo número de linhas que a mesma consulta escrita com INNER JOIN.",
+          "correta": true,
+          "porque": "Sem linhas órfãs na esquerda, as duas junções coincidem."
+        },
+        {
+          "texto": "O resultado tem no máximo tantas linhas quanto a tabela a.",
+          "correta": false,
+          "porque": "Uma linha de a com vários pares em b gera uma linha por par, então o resultado pode ser maior que a."
+        },
+        {
+          "texto": "Uma linha de b sem par em a aparece no resultado com as colunas vindas de a preenchidas com NULL.",
+          "correta": false,
+          "porque": "Linhas sem par da tabela da direita são descartadas nessa junção."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Desenhe dois cenários no papel: um em que cada registro da primeira tabela tem um único correspondente, e outro em que um deles tem dois; depois repita o exercício olhando para os registros da segunda tabela que ninguém referencia.",
+      "_camada": "estrutura",
+      "_motivo": [
+        "pista de forma: o termo técnico \"join\" está no enunciado e em exatamente uma alternativa, a correta"
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "Normalização até a terceira forma normal e quando desnormalizar",
+      "tipo": "quiz",
+      "dificuldade": "dificil",
+      "enunciado": "A tabela funcionarios tem chave primária matricula e as colunas nome, setor_id e nome_do_setor, sendo nome_do_setor determinado por setor_id. Qual mudança coloca o esquema na terceira forma normal?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Deixar em funcionarios apenas setor_id e guardar o nome numa tabela de setores identificada por setor_id.",
+          "correta": true,
+          "porque": "Remove a dependência transitiva: o nome passa a depender diretamente da chave primária da tabela onde está."
+        },
+        {
+          "texto": "Acrescentar setor_id à chave primária de funcionarios, formando uma chave de duas colunas.",
+          "correta": false,
+          "porque": "Ampliar a chave não elimina a dependência entre setor_id e nome_do_setor, e ainda torna a identificação da linha redundante."
+        },
+        {
+          "texto": "Trocar a chave primária de funcionarios por nome_do_setor, que já determina o setor da linha.",
+          "correta": false,
+          "porque": "Vários funcionários compartilham o mesmo setor, então esse valor não identifica a linha."
+        },
+        {
+          "texto": "Criar uma tabela com matricula e nome_do_setor, tendo as duas colunas como chave primária.",
+          "correta": false,
+          "porque": "O nome do setor continua repetido para cada funcionário, mantendo a mesma redundância em outra tabela."
+        },
+        {
+          "texto": "Repetir cada funcionário em uma linha por setor, para que nome_do_setor não se repita na mesma linha.",
+          "correta": false,
+          "porque": "Multiplicar linhas aumenta a repetição em vez de eliminar a dependência que a causa."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Localize de qual coluna o valor repetido depende diretamente e pergunte se essa coluna identifica a linha da tabela em que ela está.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "alta",
+          "explicacao": "Três das quatro erradas são absurdas para qualquer leitor, mesmo sem saber o que é dependência transitiva: trocar a chave primária por nome_do_setor (que obviamente repete), criar uma tabela matricula+nome_do_setor (que só move a repetição) e duplicar o funcionário em uma linha por setor (que aumenta linhas sem motivo, e a justificativa 'para que nome_do_setor não se repita na mesma linha' não faz sentido nem gramaticalmente). Sobram a opção 1, que não faz nada visível ao problema descrito, e a única alternativa que fala em criar uma tabela de setores — o padrão que todo aluno associa a 'normalizar', mesmo sem entender 3FN. Num quiz marcado como difícil, a resposta sai por eliminação e por reconhecimento de forma, não por raciocínio sobre dependência transitiva.",
+          "sugestao": "Substituir as erradas absurdas por decomposições que soam corretas mas falham por motivo técnico preciso: por exemplo, criar a tabela setores mas manter nome_do_setor duplicado em funcionarios 'para leitura rápida' (desnormalização deliberada, não 3FN); criar tabela setores identificada por nome_do_setor em vez de setor_id; ou separar (setor_id, nome_do_setor) numa tabela sem chave primária declarada. Assim distinguir a correta exige localizar de que coluna o atributo depende e se ela é chave na tabela onde está."
+        },
+        {
+          "dimensao": "gabarito",
+          "gravidade": "baixa",
+          "explicacao": "A redação da alternativa correta é ambígua em dois pontos: 'Deixar em funcionarios apenas setor_id' pode ser lido como remover também a coluna nome do funcionário (o enunciado lista nome, setor_id e nome_do_setor), e 'guardar o nome numa tabela de setores' não deixa explícito que 'o nome' é nome_do_setor, e não nome do funcionário. Um aluno rigoroso hesita, embora ainda não tenha outra opção defensável.",
+          "sugestao": "Reescrever: 'Manter em funcionarios as colunas matricula, nome e setor_id, e mover nome_do_setor para uma tabela setores cuja chave primária é setor_id.'"
+        }
+      ],
+      "_curso": "bancos-sql"
+    },
+    {
+      "topico": "SELECT, WHERE, ORDER BY e LIMIT",
+      "tipo": "saida-esperada",
+      "dificuldade": "medio",
+      "enunciado": "Informe exatamente o que a instrução SELECT abaixo imprime, incluindo a linha de cabeçalho. Colunas separadas por ' | ' e valores ausentes escritos como NULL.",
+      "linguagem": "sql",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "CREATE TABLE aluno (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, nota REAL);\nINSERT INTO aluno VALUES (1,'Ana',8.5),(2,'Bruno',NULL),(3,'Clara',6.5),(4,'Davi',9.25),(5,'Eva',NULL);\n\nSELECT nome, nota\nFROM aluno\nORDER BY nota, nome\nLIMIT 3;",
+      "resposta": "nome | nota\nBruno | NULL\nEva | NULL\nClara | 6.5\n",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Antes de contar as três linhas, decida em que ponto de uma ordenação crescente ficam as notas ausentes; o segundo critério de ordenação só entra em cena entre linhas de nota igual.",
+      "_critica": [
+        {
+          "dimensao": "enunciado",
+          "gravidade": "alta",
+          "explicacao": "O enunciado não informa em qual SGBD a consulta é executada, e a posição dos NULLs em ORDER BY ... ASC é dependente de implementação: SQLite e MySQL colocam NULL primeiro, mas PostgreSQL e Oracle usam NULLS LAST por padrão em ordenação crescente. Como a correção é por comparação exata de texto, o aluno que domina o tópico mas raciocina com PostgreSQL (que está na ementa e no título do curso) responde 'Clara | 6.5 / Ana | 8.5 / Davi | 9.25' e é reprovado por um detalhe que o enunciado não fixou.",
+          "sugestao": "Declarar explicitamente o motor no enunciado ('executado em SQLite') ou, melhor, tornar a consulta determinística escrevendo 'ORDER BY nota NULLS FIRST, nome' — ou eliminar o problema usando 'WHERE nota IS NOT NULL' e ordenando apenas valores presentes."
+        },
+        {
+          "dimensao": "gabarito",
+          "gravidade": "alta",
+          "explicacao": "A saída marcada como única correta é válida apenas sob a convenção NULLs-primeiro. Uma segunda resposta (Clara/Ana/Davi) se defende igualmente bem pela semântica padrão de PostgreSQL, que é o primeiro SGBD citado na ementa do curso. Há, portanto, dois gabaritos plausíveis para o mesmo texto de exercício.",
+          "sugestao": "Fixar o dialeto ou a cláusula NULLS FIRST/LAST no corpo, e então recalcular a saída esperada de forma que exista apenas uma resposta correta."
+        },
+        {
+          "dimensao": "alvo",
+          "gravidade": "baixa",
+          "explicacao": "O que o exercício realmente discrimina não é o entendimento de SELECT/ORDER BY/LIMIT (tópico 4), mas o conhecimento de uma divergência de dialeto entre SGBDs quanto ao tratamento de NULL na ordenação — assunto do tópico 12 ('PostgreSQL, MySQL, MariaDB e SQLite: quando escolher cada um'). Quem já dominou o tópico 4 acerta a contagem, o LIMIT e o segundo critério, e ainda assim pode errar.",
+          "sugestao": "Mover a discussão de posição de NULLs para o tópico de comparação entre bancos, e neste exercício avaliar ORDER BY com dois critérios e LIMIT sobre colunas sem valores ausentes (ou com NULLs filtrados por WHERE)."
+        }
+      ],
+      "_curso": "bancos-sql"
     }
   ]
 }
