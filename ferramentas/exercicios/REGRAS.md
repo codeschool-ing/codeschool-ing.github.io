@@ -78,6 +78,26 @@ Aplicada em `lib/validar.mjs`.
 - **Ambiente ausente sai com código 2, nunca reprova conteúdo.** Origem: `python3` fora do
   PATH virou "8 exercícios reprovados" e mandou caçar defeito no conteúdo. `ENOENT` chega com
   stderr vazio: nunca engolir a causa.
+- **SQL executa como qualquer outra linguagem, e o formato da saída é contrato.** Quinze
+  rodadas cobriram só tópicos conceituais e a camada de execução nunca rodou em conteúdo
+  gerado; na primeira vez que rodou, o gerador emitiu `linguagem: "sql"` e o validador não
+  sabia executar. Saiu com código 2 sem reprovar nada — a regra do ambiente ausente funcionou.
+
+  Roda num SQLite em memória, pelo módulo do próprio Python, que já era dependência: nada novo
+  para instalar. Em `codigo`, a `entrada` do caso é a preparação e a solução é a consulta. Em
+  `saida-esperada`, o aluno lê o **script inteiro**, então tudo menos a última instrução é
+  preparo e a última é o que se avalia.
+
+  **O formato é declarado, não deduzido:** cabeçalho com os nomes das colunas, ` | ` como
+  separador, `NULL` por extenso, e o número escrito como o tipo da coluna manda — `INTEGER`
+  com 120 sai `120`, `REAL` com o mesmo 120 sai `120.0`. Sem um formato fixado no prompt, o
+  gerador inventa um por exercício e a comparação byte a byte reprova gabarito certo. É o
+  mesmo defeito do `\n` final, que já custou seis casos.
+
+  Duas decisões que não são detalhe: **`PRAGMA foreign_keys = ON`**, ao contrário do padrão do
+  SQLite, senão um exercício sobre integridade referencial aprova um `INSERT` que qualquer
+  banco de verdade recusa; e **toda consulta precisa de `ORDER BY`**, senão o gabarito depende
+  da ordem que o motor escolheu devolver e reprova aluno certo noutro banco.
 - **Nunca gravar solução de referência escrita por quem viu os casos de teste.** O campo
   `_solucao_referencia` é reaproveitado pelo validador; preenchê-lo com a solução do autor
   converte verificação independente em autoverificação, e o pipeline reporta "ok" sem nada

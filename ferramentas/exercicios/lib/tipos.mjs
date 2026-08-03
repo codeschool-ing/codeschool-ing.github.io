@@ -78,6 +78,32 @@ Cuidado: o gabarito precisa ser o que o interpretador realmente produz, não o q
 óbvio. Antes de fixar, releia o trecho como se estivesse digitando no interpretador. Se o
 texto exibido tiver leitura diferente do valor calculado, troque o exemplo.
 
+### SQL: o formato da saída é contrato, não escolha sua
+
+Em \`codigo\` e \`saida-esperada\` com \`linguagem: "sql"\`, o exercício roda num SQLite em
+memória. O campo \`entrada\` (ou \`codigo_dado\` inicial) traz o roteiro de preparação —
+\`CREATE TABLE\` e \`INSERT\` — e o que está sendo avaliado é **uma** instrução SQL.
+
+A saída é comparada byte a byte, então o gabarito precisa seguir exatamente isto:
+
+- **primeira linha: os nomes das colunas**, separados por \` | \` (espaço, barra, espaço);
+- **uma linha por registro**, colunas separadas pelo mesmo \` | \`;
+- **NULL** aparece como a palavra \`NULL\`, sem aspas;
+- número inteiro sem ponto decimal; \`3.5\` e não \`3.50\`; texto sem aspas;
+- consulta sem registro nenhum imprime **só o cabeçalho**;
+- instrução que não devolve linhas (\`INSERT\`, \`UPDATE\`, \`CREATE\`) imprime
+  \`N linha(s) afetada(s)\`;
+- cada linha termina em \`\\n\`, inclusive a última, e não há linha em branco no fim.
+
+**A ordem das linhas só é garantida com \`ORDER BY\`.** Sem ele o SQLite devolve na ordem que
+quiser, e o gabarito passa a depender de detalhe de implementação — o exercício reprovaria
+aluno certo em outro banco. Toda consulta de exercício termina com \`ORDER BY\` explícito, ou
+devolve uma linha só.
+
+**Chave estrangeira está ligada** (\`PRAGMA foreign_keys = ON\`), ao contrário do padrão do
+SQLite: um exercício sobre integridade referencial precisa que o \`INSERT\` inválido seja de
+fato recusado.
+
 **quiz** — conceito com uma resposta defensável só. \`alternativas\` com exatamente
 ${alternativas} opções e **uma** correta.
 

@@ -12,7 +12,7 @@ Alternativas por questão: 5.
 | # | prompt | etapa | palavras |
 | --- | --- | --- | --- |
 | 1 | Autoria — moldura | `gerar` | 256 |
-| 2 | Autoria — regras por tipo | `gerar` | 2944 |
+| 2 | Autoria — regras por tipo | `gerar` | 3178 |
 | 3 | Autoria cega — escrever as afirmações | `cegas` | 270 |
 | 4 | Autoria cega — julgar cada afirmação | `cegas` | 162 |
 | 5 | Solução de referência às cegas | `validar` | 93 |
@@ -22,7 +22,7 @@ Alternativas por questão: 5.
 | 9 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
 | 10 | Juiz | `criticar` | 691 |
 | 11 | Reescrita | `refazer` | 200 |
-| | **total** | | **5073** |
+| | **total** | | **5307** |
 
 ---
 
@@ -68,7 +68,7 @@ descobrir o contrato pelos casos de teste — ele não os vê.
 
 ## 2. Autoria — regras por tipo
 
-**Etapa:** `gerar` · **2944 palavras**
+**Etapa:** `gerar` · **3178 palavras**
 
 O maior de todos e o que mais rende. Descreve os sete tipos e, para cada um, os defeitos que já apareceram e como não repeti-los. É o texto que uma reconstrução não consegue derivar do resumo.
 
@@ -118,6 +118,32 @@ mutabilidade. Use quando o valor de entender está em *prever*, não em escrever
 Cuidado: o gabarito precisa ser o que o interpretador realmente produz, não o que parece
 óbvio. Antes de fixar, releia o trecho como se estivesse digitando no interpretador. Se o
 texto exibido tiver leitura diferente do valor calculado, troque o exemplo.
+
+### SQL: o formato da saída é contrato, não escolha sua
+
+Em `codigo` e `saida-esperada` com `linguagem: "sql"`, o exercício roda num SQLite em
+memória. O campo `entrada` (ou `codigo_dado` inicial) traz o roteiro de preparação —
+`CREATE TABLE` e `INSERT` — e o que está sendo avaliado é **uma** instrução SQL.
+
+A saída é comparada byte a byte, então o gabarito precisa seguir exatamente isto:
+
+- **primeira linha: os nomes das colunas**, separados por ` | ` (espaço, barra, espaço);
+- **uma linha por registro**, colunas separadas pelo mesmo ` | `;
+- **NULL** aparece como a palavra `NULL`, sem aspas;
+- número inteiro sem ponto decimal; `3.5` e não `3.50`; texto sem aspas;
+- consulta sem registro nenhum imprime **só o cabeçalho**;
+- instrução que não devolve linhas (`INSERT`, `UPDATE`, `CREATE`) imprime
+  `N linha(s) afetada(s)`;
+- cada linha termina em `\n`, inclusive a última, e não há linha em branco no fim.
+
+**A ordem das linhas só é garantida com `ORDER BY`.** Sem ele o SQLite devolve na ordem que
+quiser, e o gabarito passa a depender de detalhe de implementação — o exercício reprovaria
+aluno certo em outro banco. Toda consulta de exercício termina com `ORDER BY` explícito, ou
+devolve uma linha só.
+
+**Chave estrangeira está ligada** (`PRAGMA foreign_keys = ON`), ao contrário do padrão do
+SQLite: um exercício sobre integridade referencial precisa que o `INSERT` inválido seja de
+fato recusado.
 
 **quiz** — conceito com uma resposta defensável só. `alternativas` com exatamente
 5 opções e **uma** correta.

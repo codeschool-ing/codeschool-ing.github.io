@@ -52,6 +52,8 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 | `--lote N` | 6 tópicos por chamada |
 | `--alternativas N` | 5 |
 | `--timeout N` | 10 s por caso de teste |
+
+Linguagens que o validador executa: **python**, **javascript** e **sql** (SQLite em memória).
 | `--paralelo N` | 4 chamadas simultâneas |
 | `--refazer N` | 1 volta de conserto do que reprovar (`0` desliga) |
 | `--cegas` | escreve as alternativas sem saber quais são as corretas (**experimental**) |

@@ -12,6 +12,7 @@
  * Barato de rodar, então rode antes de qualquer coisa que custe dinheiro.
  */
 import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { conferir, ecoDePares, pistasDeForma } from './lib/tipos.mjs';
@@ -300,6 +301,41 @@ await grupo('as conferências mecânicas não podem perder alcance', () => {
   // sem que ninguém veja, e este é o único lugar onde isso aparece de graça.
   ok(m.pct >= m.piso, `alcance de ${m.pct}% não caiu do piso de ${m.piso}%`,
     'se a queda é intencional, baixe `piso` em corpo-rejeitado.json e diga por quê no commit');
+});
+
+/* ---- 3f. o executor de SQL ----------------------------------------------- */
+
+await grupo('SQL executa e respeita o formato declarado', () => {
+  const rodar = (sql, entrada = '') => {
+    const r = spawnSync('python3', [path.join(AQUI, 'lib', 'executar_sql.py')],
+      { input: JSON.stringify({ sql, entrada }), encoding: 'utf8', timeout: 10000 });
+    return r.status === 0 ? r.stdout : `ERRO: ${(r.stderr || '').trim()}`;
+  };
+
+  // O aluno vê o script inteiro; tudo menos a última instrução é preparo.
+  ok(rodar(`CREATE TABLE p (nome TEXT, qtd INTEGER);
+INSERT INTO p VALUES ('a', 2), ('b', 1);
+SELECT nome, qtd FROM p ORDER BY qtd;`) === 'nome | qtd\nb | 1\na | 2\n',
+    'script embutido: preparo separado da consulta, cabeçalho e " | " como separador');
+
+  ok(rodar('SELECT nome FROM p ORDER BY nome', "CREATE TABLE p (nome TEXT); INSERT INTO p VALUES ('x');") === 'nome\nx\n',
+    'preparo separado pela entrada, que é como o tipo `codigo` roda');
+
+  // O tipo da coluna decide a grafia do número, e isso reprova gabarito desatento.
+  ok(rodar('CREATE TABLE n (i INTEGER, r REAL); INSERT INTO n VALUES (120, 120); SELECT i, r FROM n;') === 'i | r\n120 | 120.0\n',
+    'INTEGER imprime 120 e REAL imprime 120.0 — o tipo da coluna manda');
+
+  ok(rodar('CREATE TABLE v (a TEXT); INSERT INTO v VALUES (NULL); SELECT a FROM v;') === 'a\nNULL\n', 'NULL sai como a palavra NULL');
+  ok(rodar("CREATE TABLE z (a INTEGER); SELECT a FROM z WHERE a > 1;") === 'a\n', 'consulta sem registro imprime só o cabeçalho');
+  ok(rodar("CREATE TABLE w (a INTEGER); INSERT INTO w VALUES (1), (2);") === '2 linha(s) afetada(s)\n', 'instrução sem resultado informa as linhas afetadas');
+
+  // Sem isto, exercício sobre integridade referencial aprovaria um INSERT que qualquer
+  // banco de verdade recusa: o SQLite vem com a checagem desligada.
+  ok(rodar(`CREATE TABLE mae (id INTEGER PRIMARY KEY);
+CREATE TABLE filha (mae_id INTEGER REFERENCES mae(id));
+INSERT INTO filha VALUES (99);`).startsWith('ERRO'), 'chave estrangeira está ligada e o INSERT órfão é recusado');
+
+  ok(rodar('SELECT * FROM nao_existe').startsWith('ERRO'), 'erro de SQL vira erro, não saída vazia');
 });
 
 /* ---- 4. guardas da reescrita --------------------------------------------- */

@@ -15,10 +15,17 @@ import { mapaConcorrente } from './paralelo.mjs';
 const EXECUTORES = {
   python: { candidatos: ['python3', 'python', 'python3.12', 'python3.11'], args: (src) => ['-c', src] },
   javascript: { candidatos: ['node', 'nodejs'], args: (src) => ['-e', src] },
+  // SQL não roda como programa: o "código" é uma consulta, e a entrada é o roteiro de
+  // preparação. Vai por um envelope JSON para um script que usa o sqlite3 do próprio python,
+  // que já é dependência — nada novo para instalar. Ver executar_sql.py: o formato da saída é
+  // o contrato, e está documentado lá e no prompt de autoria.
+  sql: { candidatos: ['python3', 'python', 'python3.12', 'python3.11'], sql: true, args: () => [RODAR_SQL] },
 };
 
 const RESOLVIDO = {};
-const VERIFICADOR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'verificar_expressao.py');
+const AQUI = path.dirname(fileURLToPath(import.meta.url));
+const VERIFICADOR = path.join(AQUI, 'verificar_expressao.py');
+const RODAR_SQL = path.join(AQUI, 'executar_sql.py');
 
 /* Confere que dá para verificar expressão: precisa de python com sympy. */
 export function conferirCAS() {
@@ -63,7 +70,8 @@ export function conferirInterpretadores(linguagens) {
     const tentado = [];
     for (const cmd of exec.candidatos) {
       try {
-        execFileSync(cmd, exec.args(lang === 'python' ? 'pass' : ';'), { input: '', encoding: 'utf8', timeout: 10000, stdio: ['pipe', 'pipe', 'pipe'] });
+        const teste = lang === 'sql' ? JSON.stringify({ sql: 'SELECT 1', entrada: '' }) : '';
+        execFileSync(cmd, exec.args(lang === 'python' ? 'pass' : ';'), { input: teste, encoding: 'utf8', timeout: 10000, stdio: ['pipe', 'pipe', 'pipe'] });
         RESOLVIDO[lang] = cmd;
         break;
       } catch {
@@ -79,8 +87,11 @@ function rodar(linguagem, src, entrada, timeout) {
   const exec = EXECUTORES[linguagem];
   const cmd = RESOLVIDO[linguagem];
   if (!exec || !cmd) return { erro: `linguagem "${linguagem}" não suportada` };
+  // Em SQL o par (consulta, preparação) viaja junto pelo stdin; nas demais linguagens o
+  // código vai por argumento e a entrada é o stdin do programa.
+  const dados = exec.sql ? JSON.stringify({ sql: src, entrada: entrada ?? '' }) : (entrada ?? '');
   try {
-    return { saida: execFileSync(cmd, exec.args(src), { input: entrada ?? '', encoding: 'utf8', timeout, stdio: ['pipe', 'pipe', 'pipe'] }) };
+    return { saida: execFileSync(cmd, exec.args(src), { input: dados, encoding: 'utf8', timeout, stdio: ['pipe', 'pipe', 'pipe'] }) };
   } catch (err) {
     if (err.code === 'ETIMEDOUT') return { erro: `estourou ${timeout / 1000}s` };
     // Interpretador ausente dá ENOENT com stderr vazio: nunca engolir a causa.
