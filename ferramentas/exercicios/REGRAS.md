@@ -357,17 +357,26 @@ mudança estrutural a testar, na seção 8.
 
 Sabido, ainda não resolvido:
 
-- **Autoria cega das alternativas — a próxima mudança estrutural a testar.** Hoje o gerador
+- **Autoria cega das alternativas — implementada em `--cegas`, ainda não medida.** Hoje o gerador
   escreve cinco alternativas já sabendo quais marcará como corretas, e cuida das corretas. Daí
   toda a família de pistas de forma. A proposta é aplicar à autoria o mesmo princípio que já
   governa a verificação: **escrever primeiro cinco afirmações defensáveis sobre o tópico, sem
   decidir quais são verdadeiras, e só depois julgar cada uma.** A assimetria some na origem
   porque, no momento da redação, não existe "a correta" para privilegiar.
 
-  Custa uma chamada a mais por questão e precisa ser medido contra a taxa de primeira passada,
-  não contra o total de aprovados. Critério de sucesso: a taxa de primeira passada sair dos
-  ~40% em que está travada há três rodadas. Se não sair, a hipótese está errada e a assimetria
-  vem de outro lugar.
+  São **duas** chamadas a mais por questão de alternativas: uma escreve as N afirmações sabendo
+  quantas serão verdadeiras e nunca quais, outra — separada, sem memória da primeira — julga
+  cada uma. É o juízo que vira gabarito.
+
+  Ganho colateral já previsto: a contagem de verdadeiras deixa de ser decretada pelo autor e
+  passa a ser apurada. Se o juízo devolver duas verdadeiras num `quiz`, a conferência mecânica
+  reprova **de graça** — e o que ela pega é um conjunto de afirmações que não sustenta o
+  gabarito pretendido, defeito que antes só o crítico via, pagando.
+
+  **Critério de sucesso, declarado antes de rodar:** a taxa de primeira passada tem de sair dos
+  ~40% em que está travada há três rodadas. Se não sair, a hipótese está errada, a assimetria
+  vem de outro lugar, e para-se de perseguir pista de forma. Fica atrás de um flag até ser
+  medida contra os mesmos três tópicos do Docker.
 - **Deduplicação entre tópicos vizinhos.**
 - **As pistas de forma cobrem quatro traços, e o juiz aponta outros.** Categoria destoante e
   plausibilidade exótica ainda são só prosa e julgamento; mecanizá-las exige medir semântica,

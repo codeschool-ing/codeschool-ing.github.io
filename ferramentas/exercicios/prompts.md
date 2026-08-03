@@ -13,13 +13,15 @@ Alternativas por questão: 5.
 | --- | --- | --- | --- |
 | 1 | Autoria — moldura | `gerar` | 256 |
 | 2 | Autoria — regras por tipo | `gerar` | 2842 |
-| 3 | Solução de referência às cegas | `validar` | 93 |
-| 4 | Sonda cega | `criticar` | 41 |
-| 5 | Sonda da dica — tipos sem alternativas | `criticar` | 68 |
-| 6 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
-| 7 | Juiz | `criticar` | 691 |
-| 8 | Reescrita | `refazer` | 200 |
-| | **total** | | **4304** |
+| 3 | Autoria cega — escrever as afirmações | `cegas` | 270 |
+| 4 | Autoria cega — julgar cada afirmação | `cegas` | 162 |
+| 5 | Solução de referência às cegas | `validar` | 93 |
+| 6 | Sonda cega | `criticar` | 41 |
+| 7 | Sonda da dica — tipos sem alternativas | `criticar` | 68 |
+| 8 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
+| 9 | Juiz | `criticar` | 691 |
+| 10 | Reescrita | `refazer` | 200 |
+| | **total** | | **4736** |
 
 ---
 
@@ -335,7 +337,73 @@ alternativa e confira se o resultado bate com o gabarito.
 
 ---
 
-## 3. Solução de referência às cegas
+## 3. Autoria cega — escrever as afirmações
+
+**Etapa:** `cegas` · **270 palavras**
+
+Experimental. Escreve as N alternativas sabendo quantas serão verdadeiras e nunca quais. Ataca na origem a família inteira de pistas de forma: quando quem escreve sabe qual é a correta, ela sai melhor, e o aluno acerta pela forma.
+
+````
+Você escreve as alternativas de uma questão para uma escola de
+programação, e trabalha **sem saber quais serão as corretas**.
+
+Recebe o tópico, o enunciado e quantas afirmações verdadeiras o conjunto precisa conter. Não
+recebe, e não deve decidir, **quais** são elas. Escreva o conjunto inteiro com o mesmo cuidado.
+
+**Por que este trabalho é assim.** Quando quem escreve sabe qual é a correta, ela sai melhor:
+mais longa, mais precisa, mais ressalvada, mais parecida com o enunciado. O aluno então acerta
+pela forma, sem saber o assunto, e a questão deixa de medir o que promete. Escrevendo às cegas,
+não existe alternativa a privilegiar.
+
+**Cada afirmação precisa ser defensável à primeira vista.** Nada de absurdo evidente, nada de
+enchimento. Uma afirmação falsa boa é a que um aluno de verdade responderia num dia ruim: erro
+de escala, mecanismo trocado por outro que existe, conclusão certa por motivo errado, confusão
+entre dois conceitos vizinhos do mesmo campo.
+
+**Uniformidade é o critério pelo qual você está sendo medido.** Entre as N afirmações:
+
+- mesmo comprimento aproximado — nenhuma destacadamente mais longa ou mais curta;
+- mesmo grau de ressalva — ou todas ressalvam, ou nenhuma ressalva;
+- mesma modalidade — não misture "pode acontecer" com "obriga a acontecer";
+- mesma fórmula de abertura evitada: não comece três iguais e uma diferente;
+- mesma distância do enunciado — nenhuma repetindo o vocabulário dele mais que as outras;
+- mesmo nível de abstração e mesmo tempo verbal.
+
+Teste antes de entregar: **lidas sem gabarito, dá para adivinhar quais são as verdadeiras só
+pelo jeito como estão escritas?** Se dá, reescreva até não dar.
+````
+
+---
+
+## 4. Autoria cega — julgar cada afirmação
+
+**Etapa:** `cegas` · **162 palavras**
+
+Chamada separada, sem memória da anterior. É este juízo que vira o gabarito — e a contagem de verdadeiras deixa de ser decretada pelo autor para ser apurada por um leitor.
+
+````
+Você julga afirmações técnicas, uma a uma, e nada mais.
+
+Recebe o tópico de um curso e uma lista de afirmações escritas por outra pessoa, sem gabarito.
+Para cada uma, decida se é **verdadeira** no contexto do tópico e escreva a justificativa que
+o aluno lerá **depois** de responder.
+
+Julgue pelo mérito técnico, não pela forma. Frase cuidadosa não é mais verdadeira que frase
+seca; frase com absoluto não é mais falsa que frase com ressalva. Você é a única defesa contra
+um conjunto em que a verdade se adivinha pelo estilo — se você julgar pelo estilo, não há
+defesa nenhuma.
+
+Se uma afirmação for verdadeira só sob uma leitura e falsa sob outra igualmente razoável,
+marque `ambigua`. Ela não serve para nenhum dos dois lados.
+
+A justificativa diz **por que** é verdadeira ou falsa, em uma ou duas frases, com o mecanismo.
+"Está errado" não ensina nada; "a imagem declara a plataforma, e o kernel do host não muda"
+ensina.
+````
+
+---
+
+## 5. Solução de referência às cegas
 
 **Etapa:** `validar` · **93 palavras**
 
@@ -356,7 +424,7 @@ enunciado não descreve.
 
 ---
 
-## 4. Sonda cega
+## 6. Sonda cega
 
 **Etapa:** `criticar` · **41 palavras**
 
@@ -372,7 +440,7 @@ tem exatamente um conjunto de respostas defensável.
 
 ---
 
-## 5. Sonda da dica — tipos sem alternativas
+## 7. Sonda da dica — tipos sem alternativas
 
 **Etapa:** `criticar` · **68 palavras**
 
@@ -391,7 +459,7 @@ Critério: alguém que só lesse a dica, sem saber o assunto, produziria a respo
 
 ---
 
-## 6. Sonda da dica — tipos com alternativas
+## 8. Sonda da dica — tipos com alternativas
 
 **Etapa:** `criticar` · **113 palavras**
 
@@ -413,7 +481,7 @@ nomeia o conceito sem resolvê-lo.
 
 ---
 
-## 7. Juiz
+## 9. Juiz
 
 **Etapa:** `criticar` · **691 palavras**
 
@@ -496,7 +564,7 @@ defeituoso mesmo que esteja bem escrito.
 
 ---
 
-## 8. Reescrita
+## 10. Reescrita
 
 **Etapa:** `refazer` · **200 palavras**
 

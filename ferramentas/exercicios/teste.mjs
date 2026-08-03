@@ -18,6 +18,7 @@ import { conferir, ecoDePares, pistasDeForma } from './lib/tipos.mjs';
 import { aceitar, laudo } from './lib/refazer.mjs';
 import { comparar } from './lib/historico.mjs';
 import { funil } from './lib/funil.mjs';
+import { montarAlternativas, quantasVerdadeiras } from './lib/cegas.mjs';
 import { montar } from './lib/prompts.mjs';
 
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
@@ -222,6 +223,38 @@ await grupo('a associação que fecha por casamento de palavra', () => {
 
   ok(ecoDePares([{ esquerda: 'a', direita: 'a' }, { esquerda: 'b', direita: 'b' }]).length === 0,
     'com menos de três pares não opina — amostra pequena demais para separar método de acaso');
+});
+
+/* ---- 3c. autoria cega: montagem e divergência ---------------------------- */
+
+await grupo('a autoria cega monta o gabarito a partir do juízo, não do autor', () => {
+  const afirm = ['primeira', 'segunda', 'terceira', 'quarta', 'quinta'];
+  const j = (v, amb = false) => ({ verdadeira: v, ambigua: amb, porque: 'porque sim' });
+
+  const r = montarAlternativas(afirm, [j(false), j(true), j(false), j(false), j(false)], 1);
+  ok(!r.erro && !r.divergiu, 'conjunto que bate com o tipo passa limpo', r.erro ?? r.divergiu);
+  ok(r.alternativas[1].correta && r.alternativas.filter((a) => a.correta).length === 1,
+    'a correta é a que o juízo apontou, na posição em que foi escrita');
+  ok(r.alternativas.map((a) => a.texto).join() === afirm.join(),
+    'a ordem das afirmações é preservada — reordenar poria a correta num lugar previsível');
+
+  // Divergir não é erro: é o autor cego produzindo um conjunto que não sustenta o gabarito
+  // pretendido. Segue para a conferência mecânica, que reprova de graça.
+  const d = montarAlternativas(afirm, [j(true), j(true), j(false), j(false), j(false)], 1);
+  ok(!d.erro && d.divergiu, 'duas verdadeiras num quiz vira divergência anotada, não erro', JSON.stringify(d.divergiu));
+  ok(d.alternativas.filter((a) => a.correta).length === 2,
+    'e o conjunto sai como o juízo decidiu, para a estrutura reprovar — não se maquia a contagem');
+
+  ok(montarAlternativas(afirm, [j(false), j(true, true), j(false), j(false), j(false)], 1).erro,
+    'afirmação ambígua invalida o conjunto: não serve para verdadeira nem para falsa');
+  ok(montarAlternativas(afirm, [j(true), j(false)], 1).erro, 'contagem desencontrada entre afirmações e juízos é erro');
+  ok(montarAlternativas(null, [], 1).erro, 'resposta sem lista é erro, não exceção');
+
+  ok(quantasVerdadeiras({ tipo: 'quiz' }) === 1, 'quiz pede exatamente uma verdadeira');
+  ok(quantasVerdadeiras({ tipo: 'multipla-escolha', alternativas: [{ correta: true }, { correta: true }, { correta: true }, { correta: false }] }) === 3,
+    'multipla-escolha mantém a contagem que o gerador escolheu — ela veio do tópico');
+  ok(quantasVerdadeiras({ tipo: 'multipla-escolha', alternativas: [{ correta: true }] }) === 2,
+    'e nunca desce abaixo de duas, que é o mínimo do tipo');
 });
 
 /* ---- 4. guardas da reescrita --------------------------------------------- */

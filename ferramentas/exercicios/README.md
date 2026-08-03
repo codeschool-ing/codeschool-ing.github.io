@@ -54,6 +54,7 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 | `--timeout N` | 10 s por caso de teste |
 | `--paralelo N` | 4 chamadas simultâneas |
 | `--refazer N` | 1 volta de conserto do que reprovar (`0` desliga) |
+| `--cegas` | escreve as alternativas sem saber quais são as corretas (**experimental**) |
 | `--so-estrutura` | validar sem API nem execução (grátis) |
 | `--so-sondas` | criticar sem o julgamento (mais barato) |
 | `--seco` | gerar sem chamar a API |

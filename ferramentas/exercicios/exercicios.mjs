@@ -22,6 +22,7 @@ import { gerar, contagemPorTipo } from './lib/gerar.mjs';
 import { validar, conferirInterpretadores, linguagensUsadas, conferirCAS, precisaCAS } from './lib/validar.mjs';
 import { criticar } from './lib/criticar.mjs';
 import { refazer } from './lib/refazer.mjs';
+import { autoriaCega } from './lib/cegas.mjs';
 import { funil } from './lib/funil.mjs';
 import { comparar, dimensoesDe, registrar } from './lib/historico.mjs';
 import { montar } from './lib/prompts.mjs';
@@ -76,6 +77,7 @@ opções
   --timeout N        segundos por caso de teste (padrão 10)
   --paralelo N       chamadas simultâneas (padrão 4; suba se não bater rate limit)
   --refazer N        voltas de conserto do que reprovar (padrão 1; 0 desliga)
+  --cegas            escreve as alternativas sem saber quais são as corretas (experimental)
   --so-estrutura     validar sem API nem execução
   --so-sondas        criticar sem o julgamento
   --seco             gerar sem chamar a API
@@ -143,13 +145,29 @@ async function etapaGerar(cursoId) {
     console.error('\nA geração não produziu exercício algum — o arquivo anterior fica como está.');
     process.exit(1);
   }
+  // A autoria cega vem ANTES de gravar: o arquivo tem de conter o que o funil vai julgar.
+  let saida = exercicios;
+  if (tem('cegas')) {
+    console.log('');
+    console.log('autoria cega . reescrevendo as alternativas sem gabarito');
+    saida = await autoriaCega({
+      exercicios,
+      curso,
+      opcoes,
+      paralelo: PARALELO,
+      aoProgredir: (e, estado, detalhe, feitos, total) =>
+        console.log(`[#${String(feitos).padStart(3)}/${total}] ${rot(e)} ${estado}${detalhe ? '  ' + detalhe : ''}`),
+    });
+  }
+
   preservar(destino);
-  const dados = { curso: curso.id, gerado_em: new Date().toISOString(), alternativas: opcoes.alternativas, exercicios };
-  gravar(destino, dados, exercicios);
+  const dados = { curso: curso.id, gerado_em: new Date().toISOString(), alternativas: opcoes.alternativas, cegas: tem('cegas'), exercicios: saida };
+  gravar(destino, dados, saida);
 
   console.log('');
-  console.log(`gerados ...... ${exercicios.length} (${contagemPorTipo(exercicios)})`);
-  placar.gerados = exercicios.length;
+  console.log(`gerados ...... ${saida.length} (${contagemPorTipo(saida)})`);
+  placar.gerados = saida.length;
+  placar.cegas = tem('cegas');
   placar.curso = curso.id;
   placar.topicos = topicos.length;
   return { caminho: destino, dados };
