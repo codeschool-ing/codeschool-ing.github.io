@@ -17,12 +17,12 @@ Alternativas por questão: 5.
 | 4 | Autoria cega — julgar cada afirmação | `cegas` | 162 |
 | 5 | Solução de referência às cegas | `validar` | 93 |
 | 6 | Sonda cega | `criticar` | 41 |
-| 7 | Sonda cega de pares | `criticar` | 96 |
+| 7 | Sonda cega de pares | `criticar` | 184 |
 | 8 | Sonda da dica — tipos sem alternativas | `criticar` | 68 |
 | 9 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
 | 10 | Juiz | `criticar` | 691 |
 | 11 | Reescrita | `refazer` | 200 |
-| | **total** | | **4832** |
+| | **total** | | **4920** |
 
 ---
 
@@ -443,20 +443,29 @@ tem exatamente um conjunto de respostas defensável.
 
 ## 7. Sonda cega de pares
 
-**Etapa:** `criticar` · **96 palavras**
+**Etapa:** `criticar` · **184 palavras**
 
 O mesmo para `associacao`, que passou quatro rodadas sem sonda alguma — só o juiz olhava para ela, e o juiz é o instrumento mais fraco do funil. A direita vai ordenada alfabeticamente, nunca na ordem em que foi escrita: no JSON o par correto é esquerda[i] ↔ direita[i], e apresentar assim entregaria o gabarito pela posição.
 
 ````
-Você recebe duas colunas e as emparelha. Não sabe qual é o
-gabarito — decida pelo mérito.
+Você recebe duas colunas e responde uma pergunta só: para cada
+linha da esquerda, **quais** linhas da direita se defendem como par dela?
 
-**Sobram itens na direita**: nem toda linha da direita pertence a alguma da esquerda, e você
-não sabe quantas sobram. Deixe de fora o que não emparelha, em vez de forçar.
+Não escolha a melhor. Liste **todas** as que alguém que domina o assunto conseguiria defender
+com um argumento correto, e não apenas plausível. Se só uma se defende, devolva uma. Se duas
+se defendem, devolva duas — é essa a informação que interessa.
 
-Se alguma linha da esquerda tiver **mais de um** par defensável, diga em "ambigua" e explique
-qual e por quê. Uma associação bem escrita tem exatamente um conjunto de pares defensável — e
-a correção é por conjunto exato, então um par disputado reprova quem entendeu o assunto.
+Nem toda linha da direita pertence a alguma da esquerda: algumas sobram, e você não sabe
+quantas. Uma linha da esquerda pode não ter par nenhum defensável; nesse caso devolva a lista
+vazia.
+
+**Por que a pergunta é assim.** A correção é por conjunto exato: se uma esquerda aceita dois
+pares defensáveis, o aluno que sabe o assunto pode escolher o outro e perder o exercício
+inteiro. Perguntar "qual é o par" esconderia isso, porque você escolheria um e pronto.
+Perguntar "quais se defendem" é o que expõe o defeito.
+
+Rigor: "se defende" é ter um mecanismo correto que sustente o pareamento, não semelhança de
+vocabulário nem plausibilidade vaga. Na dúvida entre listar e não listar, não liste.
 ````
 
 ---

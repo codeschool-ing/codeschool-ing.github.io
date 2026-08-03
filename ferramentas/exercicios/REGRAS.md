@@ -140,7 +140,25 @@ Aplicada em `lib/criticar.mjs`.
 escrito por outro modelo convida à concordância. Sonda observa comportamento.
 
 - **Sonda cega** responde a questão sem ver qual alternativa está marcada.
-- **Sonda cega de pares** faz o mesmo com `associacao`. Origem: o tipo passou quatro rodadas
+- **Sonda cega de pares** — e a primeira versão dela falhou de um jeito que merece registro.
+  Ela pedia *"emparelhe"* e comparava com o gabarito. Contra três associações que o juiz já
+  havia reprovado, **aprovou as três, por US$ 0,08**: um modelo competente, obrigado a escolher
+  um pareamento, escolhe o pretendido. Divergência mede **gabarito errado**, não **ambiguidade**
+  — e o defeito procurado era o segundo. O campo `ambigua`, oferecido de lado, veio falso: quem
+  resolve para a melhor resposta não volunta a dúvida.
+
+  A versão atual pergunta outra coisa: **para cada esquerda, quais direitas se defendem como
+  par?** A multiplicidade passa a ser a resposta pedida, não uma ressalva. Duas leituras saem
+  da mesma chamada: esquerda com dois pares defensáveis é ambiguidade; par do gabarito fora da
+  lista é gabarito que não se sustenta.
+
+  **A regra que isto acrescenta ao método:** *só peça a uma sonda aquilo que ela possa recusar*
+  não basta. Falta a metade seguinte — **o formato da resposta não pode destruir a informação
+  procurada.** Perguntar "qual" quando a pergunta é "quantos" devolve sempre um, e o instrumento
+  passa por funcionando. Antes de escrever uma sonda: se o defeito estiver presente, o formato
+  que estou pedindo consegue expressá-lo?
+
+  Registro original da sonda: Origem: o tipo passou quatro rodadas
   **sem sonda alguma** — só o juiz olhava para ele, e o juiz é o instrumento mais fraco do
   funil. Numa rodada em que 2 de 2 associações reprovaram, as cinco rejeições foram todas da
   mesma família: "a situação 1 casa igualmente bem com dois efeitos da direita". Ambiguidade

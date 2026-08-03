@@ -54,47 +54,71 @@ async function sondaCego(e) {
  *
  * A direita vai ordenada alfabeticamente, nunca na ordem em que foi escrita: no JSON o par
  * correto é esquerda[i] ↔ direita[i], e apresentar assim entregaria o gabarito pela posição. */
-export const SYS_CEGO_PARES = `Você recebe duas colunas e as emparelha. Não sabe qual é o
-gabarito — decida pelo mérito.
+export const SYS_CEGO_PARES = `Você recebe duas colunas e responde uma pergunta só: para cada
+linha da esquerda, **quais** linhas da direita se defendem como par dela?
 
-**Sobram itens na direita**: nem toda linha da direita pertence a alguma da esquerda, e você
-não sabe quantas sobram. Deixe de fora o que não emparelha, em vez de forçar.
+Não escolha a melhor. Liste **todas** as que alguém que domina o assunto conseguiria defender
+com um argumento correto, e não apenas plausível. Se só uma se defende, devolva uma. Se duas
+se defendem, devolva duas — é essa a informação que interessa.
 
-Se alguma linha da esquerda tiver **mais de um** par defensável, diga em "ambigua" e explique
-qual e por quê. Uma associação bem escrita tem exatamente um conjunto de pares defensável — e
-a correção é por conjunto exato, então um par disputado reprova quem entendeu o assunto.`;
+Nem toda linha da direita pertence a alguma da esquerda: algumas sobram, e você não sabe
+quantas. Uma linha da esquerda pode não ter par nenhum defensável; nesse caso devolva a lista
+vazia.
+
+**Por que a pergunta é assim.** A correção é por conjunto exato: se uma esquerda aceita dois
+pares defensáveis, o aluno que sabe o assunto pode escolher o outro e perder o exercício
+inteiro. Perguntar "qual é o par" esconderia isso, porque você escolheria um e pronto.
+Perguntar "quais se defendem" é o que expõe o defeito.
+
+Rigor: "se defende" é ter um mecanismo correto que sustente o pareamento, não semelhança de
+vocabulário nem plausibilidade vaga. Na dúvida entre listar e não listar, não liste.`;
 
 const ESQ_CEGO_PARES = {
   type: 'object',
   properties: {
-    escolhas: {
+    defensaveis: {
       type: 'array',
-      description: 'para cada linha da esquerda, na ordem, o índice da direita escolhida — ou -1 se nenhuma serve',
-      items: { type: 'integer' },
+      description: 'uma entrada por linha da esquerda, na mesma ordem',
+      items: {
+        type: 'object',
+        properties: {
+          direitas: { type: 'array', items: { type: 'integer' }, description: 'índices da direita que se defendem como par' },
+          porque: { type: 'string', description: 'se houver mais de uma, o argumento que sustenta a segunda' },
+        },
+        required: ['direitas', 'porque'],
+        additionalProperties: false,
+      },
     },
-    ambigua: { type: 'boolean' },
-    explicacao: { type: 'string' },
   },
-  required: ['escolhas', 'ambigua', 'explicacao'],
+  required: ['defensaveis'],
   additionalProperties: false,
 };
 
+/* Duas leituras saem da mesma resposta, e são defeitos diferentes:
+ *   · uma esquerda com dois pares defensáveis  → ambiguidade, reprova quem sabe;
+ *   · o par do gabarito fora da lista da sua esquerda → o gabarito é que não se defende. */
 async function sondaCegoPares(e) {
   const direita = [...e.pares.map((p) => p.direita), ...(e.distratores_direita ?? [])].sort((a, b) => a.localeCompare(b, 'pt'));
   const r = await perguntar({
     etapa: 'criticar',
     system: SYS_CEGO_PARES,
     esquema: ESQ_CEGO_PARES,
-    maxTokens: 4000,
+    maxTokens: 6000,
     pergunta: `## Contexto\n${e.enunciado}\n\n## Esquerda\n${e.pares
       .map((p, i) => `${i}. ${p.esquerda}`)
       .join('\n')}\n\n## Direita\n${direita.map((t, i) => `${i}. ${t}`).join('\n')}`,
   });
   if (r.erro) return { erro: r.erro };
-  const gabarito = e.pares.map((p) => direita.indexOf(p.direita));
-  const escolhas = r.escolhas ?? [];
-  const erradas = gabarito.map((g, i) => (escolhas[i] === g ? null : i)).filter((i) => i !== null);
-  return { erradas, bateu: erradas.length === 0, ambigua: r.ambigua, explicacao: r.explicacao };
+
+  const disputadas = [];
+  const semApoio = [];
+  for (const [i, p] of e.pares.entries()) {
+    const lista = r.defensaveis?.[i]?.direitas ?? [];
+    const esperado = direita.indexOf(p.direita);
+    if (lista.length > 1) disputadas.push({ i, n: lista.length, porque: r.defensaveis[i].porque });
+    if (lista.length && !lista.includes(esperado)) semApoio.push(i);
+  }
+  return { disputadas, semApoio };
 }
 
 /* A sonda do chute foi removida. Ela pedia a um modelo que respondesse "proibido usar
@@ -335,19 +359,24 @@ export async function criticar({ exercicios, curso, soSondas, paralelo, aoProgre
     }
 
     if (e.tipo === 'associacao' && (e.pares?.length ?? 0) > 0) {
-      const pares = await sondaCegoPares(e);
-      if (pares.erro)
-        achados.push({ dimensao: 'gabarito', gravidade: 'alta', explicacao: `sonda de pares falhou: ${pares.erro}`, sugestao: 'rodar de novo' });
+      const r = await sondaCegoPares(e);
+      if (r.erro)
+        achados.push({ dimensao: 'gabarito', gravidade: 'alta', explicacao: `sonda de pares falhou: ${r.erro}`, sugestao: 'rodar de novo' });
       else {
-        if (!pares.bateu)
+        for (const d of r.disputadas ?? [])
           achados.push({
             dimensao: 'gabarito',
             gravidade: 'alta',
-            explicacao: `às cegas emparelhei diferente nas esquerdas [${pares.erradas.join(', ')}]. ${pares.explicacao}`,
-            sugestao: 'conferir qual leitura se sustenta; se as duas, reescrever o par disputado',
+            explicacao: `a esquerda ${d.i} aceita ${d.n} pares defensáveis: ${d.porque}`,
+            sugestao: 'reescrever a esquerda ou o concorrente até sobrar um par defensável',
           });
-        if (pares.ambigua)
-          achados.push({ dimensao: 'gabarito', gravidade: 'alta', explicacao: `par disputado às cegas: ${pares.explicacao}`, sugestao: 'deixar um par defensável só' });
+        for (const i of r.semApoio ?? [])
+          achados.push({
+            dimensao: 'gabarito',
+            gravidade: 'alta',
+            explicacao: `às cegas, o par previsto para a esquerda ${i} não se defende`,
+            sugestao: 'conferir o gabarito deste par',
+          });
       }
     }
 
