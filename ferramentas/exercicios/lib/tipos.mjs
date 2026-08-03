@@ -98,6 +98,16 @@ palpite. Duas coisas decorrem disso:
    por que inverter dá errado. Se você não conseguir nomear esse par, o exercício mede senso
    comum e não o tópico — escolha outro tipo. É campo obrigatório justamente para forçar essa
    decisão antes de escrever os itens.
+
+   **E a armadilha precisa ser contraintuitiva: a ordem correta tem de ser a que o leigo NÃO
+   escolheria.** É aqui que quase toda \`ordenacao\` deste catálogo morreu. Declarar como
+   armadilha "extrair as camadas antes de dar partida no programa" não vale nada, porque
+   desempacotar antes de executar é o palpite de qualquer pessoa. Se a ordem certa coincide
+   com a intuição, não há armadilha — há uma narrativa cronológica, e "constrói → publica →
+   baixa → desempacota → executa" se ordena sem nunca ter ouvido falar do assunto.
+
+   Teste: descreva a armadilha para alguém que ignora o tópico e pergunte qual ordem ela
+   escolheria. Se acertar, jogue o exercício fora.
 2. **Nenhum passo pode referenciar o anterior.** "Executa **esse** bytecode", "congelar as
    versões **instaladas**", "versionar o **requirements.txt**" logo depois do passo que o cria:
    cada uma dessas amarras entrega a posição pelo texto. Escreva cada passo de modo que ele
@@ -130,6 +140,19 @@ entrega pelo formato, do mesmo jeito que a alternativa longa num quiz.
 **Preencha \`distratores_direita\`** com 1 ou 2 itens da direita que não emparelham com nada.
 Sem eles, N esquerdas contra N direitas fazem o último par sair de graça, por eliminação, e
 o aluno acerta um item que nunca avaliou.
+
+**O distrator não pode ser defensável para nenhuma esquerda.** Ele é plausível como
+descrição, não como resposta — e a diferença decide quem passa. Caso real: numa associação de
+virtualização, o distrator "intercepta e reescreve as chamadas de sistema antes de repassá-las
+ao hardware" descreve corretamente um hipervisor **e** o kernel do host, ambos presentes na
+esquerda. Como o aluno não sabe quais itens sobram, quem entendeu o tópico ligava o distrator
+a uma peça real e era reprovado por saber. Antes de fechar, teste cada distrator contra
+**todas** as esquerdas, com o mesmo rigor com que testa os pares certos.
+
+**O enunciado precisa avisar que sobram itens na direita.** Quem não sabe disso tenta encaixar
+todos e força associação errada, e a correção é por conjunto exato. Isto é conferido
+mecanicamente: enunciado sem marca de sobra ("sobram", "não correspondem"…) reprova na
+estrutura. A dica não serve para esse aviso — nem todo aluno a abre.
 
 O distrator só cumpre essa função se **disputar com o par mais difícil**. Um distrator
 descartável de imediato não muda nada: o aluno resolve os pares triviais, e o difícil
@@ -227,6 +250,11 @@ qualquer um dos quatro reprova na estrutura.
 
 Aponta o que examinar; não resolve. Se lida sozinha, não pode permitir acertar. Numa questão
 de alternativas, ela não deve descartar o distrator mais forte — isso reduz a escolha a duas.
+
+**A dica não pode informar quantas alternativas são falsas ou verdadeiras.** Num
+\`multipla-escolha\` de cinco itens, dizer "duas delas erram" transforma a questão numa
+triagem de rótulos: o aluno procura as duas que se encaixam na categoria citada e marca o
+resto. Isto é conferido mecanicamente — número perto de "falsas"/"corretas" na dica reprova.
 
 **A dica não pode oferecer um critério que contradiga o gabarito.** É o defeito mais caro do
 conjunto, porque reprova exatamente quem domina o assunto e confia na orientação da escola.
@@ -357,7 +385,11 @@ export function esquema({ alternativas }) {
  * As heurísticas que ela listava são computáveis, e computadas não confabulam. Todas exigem
  * SEPARAÇÃO ESTRITA entre corretas e erradas — o tell só existe quando dá para separar os
  * dois grupos por aquele traço sozinho. */
-const ABSOLUTOS = /\b(sempre|nunca|jamais|somente|apenas|qualquer|nenhum[a]?|todo[as]?|impossível|garante|garantem|dispensa|elimina|impede|obriga)\b/i;
+const ABSOLUTOS = /\b(sempre|nunca|jamais|somente|apenas|qualquer|nenhum[a]?|todo[as]?|impossível|garante|garantem|dispensa|elimina|impede|obriga|abstrai)\b/i;
+const HEDGE = /(desde que|a menos que|salvo|em geral|geralmente|normalmente|costuma|costumam|comparável|aproximadamente|na maioria|quando possível|tende a)/i;
+const NUMERO = /\b(uma|duas|tr[êe]s|quatro|cinco|[1-9])\b/i;
+const VERACIDADE = /\b(falsas?|verdadeiras?|corretas?|erradas?)\b/i;
+const AVISA_SOBRA = /(sobra|não correspond|nao correspond|não emparelh|nao emparelh|a mais|nem toda|nem todas|extras?)/i;
 const IRRELEVANTES = new Set(['para', 'como', 'quando', 'porque', 'entre', 'sobre', 'depois', 'antes', 'mesmo', 'mesma', 'pode', 'podem', 'ser', 'seu', 'sua', 'que', 'com', 'dos', 'das', 'uma', 'este', 'esta', 'esse', 'essa', 'pelo', 'pela', 'mais', 'menos']);
 
 const palavras = (s) =>
@@ -401,11 +433,28 @@ export function pistasDeForma(e) {
   if (Math.min(...cEco) >= 3 && Math.min(...cEco) >= Math.max(...eEco) + 3)
     p.push(`pista de forma: toda correta ecoa muito mais palavras do enunciado que qualquer errada (${Math.min(...cEco)} vs ${Math.max(...eEco)})`);
 
+  // 3b. Hedge: as corretas todas ressalvadas, as erradas todas categóricas. É o espelho do
+  // teste de absolutos e pega o caso que ele perde — "qualificada = certa" é heurística de
+  // prova tão boa quanto "absoluta = errada".
+  const cHedge = certas.filter((a) => HEDGE.test(a.texto)).length;
+  const eHedge = erradas.filter((a) => HEDGE.test(a.texto)).length;
+  if (certas.length >= 2 && erradas.length >= 2 && cHedge === certas.length && eHedge === 0)
+    p.push('pista de forma: todas as corretas trazem ressalva ("desde que", "comparável"…) e nenhuma errada traz');
+
   // 4. Molde sintático: as erradas começam todas igual e a correta não.
   const inicio = (a) => a.texto.toLowerCase().replace(/[`*]/g, '').trim().split(/\s+/).slice(0, 2).join(' ');
   const moldes = new Set(erradas.map(inicio));
   if (erradas.length >= 3 && moldes.size === 1 && !certas.some((a) => inicio(a) === [...moldes][0]))
     p.push(`pista de forma: as ${erradas.length} erradas começam todas com "${[...moldes][0]}" e nenhuma correta começa assim`);
+
+  // 5. A dica que conta quantas são falsas transforma o exercício numa triagem de rótulos.
+  const dica = e.dica_socratica ?? '';
+  if (NUMERO.test(dica) && VERACIDADE.test(dica)) {
+    const iN = dica.search(NUMERO);
+    const iV = dica.search(VERACIDADE);
+    if (Math.abs(iN - iV) < 60)
+      p.push('pista de forma: a dica informa quantas alternativas são falsas ou verdadeiras');
+  }
 
   return p;
 }
@@ -488,6 +537,10 @@ export function conferir(e, { alternativas }) {
     if (dist.length > 2) p.push(`associacao com ${dist.length} distratores (máximo 2)`);
     if (dist.some(vazio)) p.push('associacao com distrator vazio');
     if (dist.some((x) => dir.includes(x))) p.push('associacao com distrator igual a uma direita correta');
+    // Quem não sabe que sobram itens tenta encaixar todos, e a correção é por conjunto
+    // exato. Exigir o distrator sem exigir o aviso troca um defeito por outro.
+    if (dist.length && !AVISA_SOBRA.test(e.enunciado ?? ''))
+      p.push('associacao com distratores mas o enunciado não avisa que sobram itens na direita');
     if (new Set(dist).size !== dist.length) p.push('associacao com distrator repetido');
     naoDeveTer('alternativas', e.alternativas?.length, 'alternativas');
     naoDeveTer('testes', e.testes?.length, 'testes');

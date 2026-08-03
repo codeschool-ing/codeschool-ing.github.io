@@ -37,6 +37,9 @@ Aplicada em `conferir()`, `lib/tipos.mjs`. É de graça, então roda sempre e pr
 | `ordenacao`: `armadilha` obrigatória | 3 de 3 ordenações reprovaram por medir cronologia de senso comum |
 | `ordenacao`: nenhum item pode conter anáfora (`esse`, `esta`, `anterior`…) | "executa **esse** bytecode" fixa a posição pelo texto |
 | `quiz`/`multipla-escolha`: quatro pistas de forma, por cálculo | correta destacadamente mais longa; absoluto só de um lado; correta ecoando o enunciado muito mais que as erradas; erradas todas com a mesma fórmula inicial. Calibrado contra 48 exercícios escritos à mão: zero falso positivo |
+| `quiz`/`multipla-escolha`: hedge só nas corretas | as 3 corretas todas ressalvadas e as 2 erradas categóricas: "qualificada = certa" fecha o conjunto exato |
+| `quiz`/`multipla-escolha`: dica que conta quantas são falsas | "duas delas erram" vira triagem de rótulos, sem avaliar item algum |
+| `associacao`: enunciado tem de avisar que sobram itens | quem não sabe tenta encaixar todos e força associação errada; pegou 3 dos 7 exercícios escritos à mão |
 | `resposta-expressao`: variável da verificação tem de estar em `variaveis` | — |
 | tipo X não pode trazer campos de tipo Y | — |
 
@@ -201,7 +204,22 @@ precisão.
   isso nenhum exercício importa `pandas` ou usa rede: reprovaria numa máquina limpa por
   motivo que não tem nada a ver com o exercício.
 
-## 7. O que ainda não é regra
+## 7. `ordenacao` está em observação
+
+É o tipo mais fraco do conjunto e o único cuja regra falha de forma repetida: **nenhuma
+`ordenacao` gerada foi aprovada até hoje**, em cinco tentativas. Os motivos mudaram — ordem
+ambígua, anáfora entre passos, passo que justifica a própria posição, e agora cronologia
+narrativa apesar de a armadilha estar declarada.
+
+A causa raiz é uma tensão do tipo: o que remove ambiguidade tende a criar pista textual, e um
+processo real quase sempre tem ordem intuitiva. A regra foi endurecida mais uma vez — a
+armadilha precisa ser **contraintuitiva**, não apenas nomeável.
+
+**Critério de decisão:** se a próxima `ordenacao` gerada também reprovar, o tipo sai do
+gerador e passa a ser escrito à mão apenas onde houver armadilha comprovada. O custo dessa
+saída são os 24 cursos de infra, que dependem dele — por isso ainda não foi tomada.
+
+## 8. O que ainda não é regra
 
 Sabido, ainda não resolvido:
 
