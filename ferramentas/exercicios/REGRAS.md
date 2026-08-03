@@ -98,6 +98,23 @@ Aplicada em `lib/validar.mjs`.
   SQLite, senão um exercício sobre integridade referencial aprova um `INSERT` que qualquer
   banco de verdade recusa; e **toda consulta precisa de `ORDER BY`**, senão o gabarito depende
   da ordem que o motor escolheu devolver e reprova aluno certo noutro banco.
+- **A execução custa 50 vezes menos que o julgamento, e pega o que ele não pega.** Primeira
+  medição da camada em conteúdo gerado, mesma rodada: **validar US$ 0,02 · criticar US$ 0,98**.
+  A execução reprovou dois `saida-esperada` cujo gabarito simplesmente **não era o que o banco
+  devolve** — um dizia quatro nomes onde a consulta traz dois. Nenhum passe de opinião pega
+  isso com confiança; o interpretador pega sempre, por dois centavos.
+
+  Consequência para o catálogo: **tópico que executa é ordens de grandeza mais barato de
+  validar que tópico conceitual.** Os cursos técnicos, a partir do momento em que saem da
+  introdução, deveriam custar bem menos por exercício aprovado — e é a primeira notícia
+  econômica boa desde que a conta começou a subir.
+
+- **Contrato novo reprova conteúdo velho, e isso não é defeito do conteúdo.** Das 5 rejeições
+  por execução, **3 eram descompasso de contrato**: os exercícios foram gerados antes de o
+  formato de saída SQL existir no prompt, então não traziam cabeçalho e não criavam as tabelas.
+  Ao acrescentar contrato de execução, ou se regenera o conteúdo anterior ou se aceita que ele
+  reprove — o que não se pode é ler descompasso de versão como defeito de autoria e sair
+  "consertando" exercício que estava certo para as regras da época.
 - **Nunca gravar solução de referência escrita por quem viu os casos de teste.** O campo
   `_solucao_referencia` é reaproveitado pelo validador; preenchê-lo com a solução do autor
   converte verificação independente em autoverificação, e o pipeline reporta "ok" sem nada
