@@ -153,7 +153,29 @@ defeito: que `multipla-escolha` tem várias corretas de propósito, que a compar
 espaço em branco no fim, e que o `porque` de cada alternativa é feedback pós-resposta e não
 pista visível.
 
-## 5. Processo
+## 5. Calibração externa
+
+Todo o resto deste pipeline é o mesmo modelo julgando a si mesmo. A execução ancora o que é
+determinístico e as sondas medem comportamento, mas **"este exercício vale o tempo de um
+aluno?" não tem resposta automática** — o crítico herda a noção de qualidade de quem escreve.
+
+Por isso a revisão humana é registrada aqui, com data e escopo, em vez de ficar no histórico
+de uma conversa.
+
+**2026-08-03 — o dono do catálogo revisou 3 aprovados** (`codigo` de biblioteca padrão,
+`associacao` de coleções, `saida-esperada` de deque) e os considerou publicáveis.
+
+O que isso estabelece: **quando o crítico aprova, o resultado é enviável.** O risco de aprovar
+lixo está baixo nesta amostra.
+
+O que isso **não** estabelece, e é hoje a pergunta mais cara: se o crítico **rejeita** bem. Uma
+rodada gerada deu 0 de 11 e outra 6 de 12; se parte dessas rejeições for injusta, o pipeline
+queima dinheiro e descarta conteúdo bom, e nenhuma sonda avisaria. O teste espelho — revisar
+rejeitados e perguntar se a rejeição se sustenta — é grátis e ainda não foi feito.
+
+Amostra de 3 é pequena, e os três eram escritos à mão, não gerados.
+
+## 6. Processo
 
 - **Toda iteração melhora a ferramenta.** Ver a regra de ouro.
 - **Classifique cada achado** em artefato de ferramenta, defeito repetível ou defeito
@@ -174,7 +196,7 @@ pista visível.
   isso nenhum exercício importa `pandas` ou usa rede: reprovaria numa máquina limpa por
   motivo que não tem nada a ver com o exercício.
 
-## 6. O que ainda não é regra
+## 7. O que ainda não é regra
 
 Sabido, ainda não resolvido:
 
