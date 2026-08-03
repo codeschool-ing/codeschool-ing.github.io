@@ -40,13 +40,19 @@ export function comparar(atual, rodadas = ler()) {
 
   const medir = (r) => {
     const graca = r.estrutura + r.execucao;
-    // Custo por exercício aprovado, não custo da rodada: é o único jeito de saber se uma
-    // etapa que gasta mais — a reescrita — se paga entregando mais aprovados.
+    // A taxa do veredito é a da PRIMEIRA passada, sem os resgatados. Resgate é aprovação
+    // comprada: mede quanto se pagou para consertar, não quanto o gerador melhorou. Somar os
+    // dois faz uma rodada parada parecer um salto — aconteceu, com +34 pp aparentes sobre um
+    // gerador que não tinha se movido um ponto.
+    const primeira = r.aprovados_primeira ?? r.aprovados;
     return {
-      taxa: pct(r.aprovados, r.gerados),
+      taxa: pct(primeira, r.gerados),
+      primeira,
       graca,
       pagos: r.api,
       gracaPct: pct(graca, graca + r.api),
+      // Custo por exercício aprovado, não custo da rodada: é o único jeito de saber se uma
+      // etapa que gasta mais — a reescrita — se paga entregando mais aprovados.
       unitario: r.aprovados && r.custo ? r.custo / r.aprovados : 0,
     };
   };
@@ -58,11 +64,14 @@ export function comparar(atual, rodadas = ler()) {
   const delta = (x, y) => (x - y > 0 ? `+${x - y}` : `${x - y}`);
   if (anterior) {
     const b = medir(anterior);
-    L.push(`  aprovados ....... ${atual.aprovados}/${atual.gerados} (${a.taxa}%)   antes ${anterior.aprovados}/${anterior.gerados} (${b.taxa}%)   ${delta(a.taxa, b.taxa)} pp`);
+    L.push(`  1ª passada ...... ${a.primeira}/${atual.gerados} (${a.taxa}%)   antes ${b.primeira}/${anterior.gerados} (${b.taxa}%)   ${delta(a.taxa, b.taxa)} pp`);
+    if (atual.refeitos) L.push(`  + resgatados .... ${atual.resgatados} de ${atual.refeitos} reescritos → ${atual.aprovados} aprovados  (aprovação comprada, não conta no veredito)`);
     L.push(`  pegos de graça .. ${a.graca} de ${a.graca + a.pagos} (${a.gracaPct}%)   antes ${b.graca} de ${b.graca + b.pagos} (${b.gracaPct}%)   ${delta(a.gracaPct, b.gracaPct)} pp`);
     if (a.unitario && b.unitario)
       L.push(`  custo/aprovado .. US$ ${a.unitario.toFixed(3)}   antes US$ ${b.unitario.toFixed(3)}   ${delta(pct(a.unitario, b.unitario), 100)}%`);
-    if (atual.refeitos) L.push(`  resgatados ...... ${atual.resgatados} de ${atual.refeitos} reescritos`);
+    // Falta de dado não pode virar silêncio: a rodada que estreou uma etapa PAGA foi comparada
+    // sem a dimensão de custo, porque a linha de base não tinha o campo, e ninguém percebeu.
+    else if (a.unitario) L.push(`  custo/aprovado .. US$ ${a.unitario.toFixed(3)}   sem comparação: a rodada anterior não registrou custo`);
     L.push(`  causas pagas .... ${causas(atual)}`);
     L.push('');
     L.push(`  ${veredito(a, b)}`);
@@ -90,13 +99,14 @@ function veredito(a, b) {
   // A ressalva do preço vem colada no veredito, e não numa linha que dá para não ler: uma
   // etapa que aprova mais gastando o dobro por exercício não é evolução, é troca.
   let caro = '';
-  if (a.unitario && b.unitario && a.unitario > b.unitario * 1.25)
+  if (a.unitario && b.unitario && a.unitario > b.unitario * 1.15)
     caro = ` Mas cada aprovado saiu ${Math.round(pct(a.unitario, b.unitario) - 100)}% mais caro — veja se compensa.`;
+  else if (a.unitario && !b.unitario) caro = ' Sem custo na linha de base, o preço desta rodada não foi comparado com nada.';
 
   if (dGraca >= 5) return `EVOLUIU — a ferramenta pega ${dGraca} pp a mais dos defeitos sozinha, sem pagar API.${caro}`;
-  if (dTaxa >= 5) return `EVOLUIU — sai mais exercício bom (${dTaxa} pp), e a divisão de trabalho não piorou.${caro}`;
-  if (dTaxa <= -5) return `PIOROU — ${-dTaxa} pp a menos de aprovação e nada novo pego de graça.`;
-  return `PAROU — mesma taxa, mesma divisão de trabalho. Esta rodada só valeu se saiu regra nova dela.${caro}`;
+  if (dTaxa >= 5) return `EVOLUIU — o gerador acerta ${dTaxa} pp a mais de primeira, e a divisão de trabalho não piorou.${caro}`;
+  if (dTaxa <= -5) return `PIOROU — o gerador acerta ${-dTaxa} pp a menos de primeira e nada novo foi pego de graça.`;
+  return `PAROU — gerador na mesma taxa de primeira passada, mesma divisão de trabalho. Esta rodada só valeu se saiu regra nova dela.${caro}`;
 }
 
 /* Conta as dimensões que o crítico cobrou. Uma rejeição pode ter mais de um achado grave;

@@ -89,7 +89,7 @@ tipos: ${TIPOS.join(', ')}`;
 
 // Placar da rodada: cada etapa deposita o que só ela sabe, e o fim da execução responde
 // "evoluiu ou não" sem que ninguém precise reler a saída inteira.
-const placar = { gerados: 0, estrutura: 0, execucao: 0, api: 0, aprovados: 0, refeitos: 0, resgatados: 0, dimensoes: {} };
+const placar = { gerados: 0, estrutura: 0, execucao: 0, api: 0, aprovados: 0, aprovados_primeira: 0, refeitos: 0, resgatados: 0, dimensoes: {} };
 
 const rot = (e) => `${e.tipo.padEnd(16)} ${(e.topico ?? '').slice(0, 38).padEnd(38)}`;
 const indice = (etapa) => ETAPAS.indexOf(etapa);
@@ -306,6 +306,8 @@ try {
       reprovados = finais.length;
       placar.aprovados = passaram.length;
       placar.resgatados = passaram.filter((e) => e._refeito).length;
+      // Sem separar a primeira passada, resgate vira taxa e uma rodada parada parece um salto.
+      placar.aprovados_primeira = passaram.filter((e) => !e._refeito).length;
 
       const base = caminho.replace(/\.json$/, '');
       if (rodar('validar')) gravar(`${base}.validado.json`, dados, validados);

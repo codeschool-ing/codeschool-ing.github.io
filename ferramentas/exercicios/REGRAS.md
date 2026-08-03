@@ -52,6 +52,9 @@ Aplicada em `conferir()`, `lib/tipos.mjs`. É de graça, então roda sempre e pr
 | `quiz`/`multipla-escolha`: advérbio de incerteza numa só alternativa, a correta | "a única que se protege com um advérbio de incerteza (*provavelmente* precisam ser reescritos)" — o teste de hedge acima não pegou, porque exige duas corretas e esta questão tinha uma. Vocabulário mais estreito de propósito: só o que suaviza uma **afirmação**. Conectivo de contraste (`enquanto`, `mas`) é prosa normal e derrubava exercício bom dos 48 |
 | `multipla-escolha`: marcar as ressalvadas e descartar as absolutas dá o gabarito exato | a heurística de prova simulada. Os outros testes perguntam se um traço separa os grupos; este pergunta o que decide a nota — a regra de quem não estudou produz o **conjunto exato**? Só vale de 2 corretas para cima: com uma só, acertar por acaso é fácil demais |
 | `quiz`/`multipla-escolha`: dica que conta quantas são falsas | "duas delas erram" vira triagem de rótulos, sem avaliar item algum |
+| `quiz`/`multipla-escolha`: eixo modal — corretas dizem o que **pode**, erradas o que **obriga** ou **garante** | "as três corretas são afirmações de possibilidade e as duas erradas de obrigação ou garantia total". Não é o teste de absolutos: `faz`, `atende`, `pode ser executada` não são absolutos e mesmo assim separam os grupos perfeitamente |
+| `quiz`/`multipla-escolha`: molde sintático baixou de 3 erradas para **2** | as duas únicas alternativas abrindo com "A conformidade …" eram exatamente as duas erradas. Duas fórmulas iguais num conjunto de cinco revelam tanto quanto três; zero falso positivo nos 48 com o limiar novo |
+| `associacao`: as esquerdas ecoam a própria direita | a regra "nenhuma direita pode ecoar palavra da esquerda" existia só em prosa e foi desobedecida. Mecanizada comparando, por par, o vocabulário dividido com a **própria** direita contra o dividido com as outras. Tolera **um** par de folga: exigir todos derrubava a conferência por um empate de vocabulário |
 | `quiz`: duas ou mais palavras da dica numa alternativa só, a correta | "conte quantos **kernel** de **sistema operacional** estão carregados" com uma única opção que fala em kernel: casamento textual, não conceitual. Uma palavra não basta — `outro`, `valor` e `saída` caíram numa alternativa só por acaso em 3 dos 48. O enunciado não serve de fonte: divide vocabulário com todas as alternativas por construção |
 | `associacao`: enunciado tem de avisar que sobram itens | quem não sabe tenta encaixar todos e força associação errada; pegou 3 dos 7 exercícios escritos à mão |
 | `resposta-expressao`: variável da verificação tem de estar em `variaveis` | — |
@@ -237,6 +240,17 @@ precisão.
   rodadas estão consertando conteúdo — que é o que a regra de ouro proíbe.
 
   Comparação só contra rodada do **mesmo curso**: docker contra python mediria o assunto.
+- **Resgate não entra na taxa do veredito.** A primeira rodada com a volta de conserto ligada
+  imprimiu `EVOLUIU — +34 pp`, e o gerador não tinha se movido um ponto: 4 de 9 de primeira
+  passada contra 8 de 18, os dois 44%. Os 34 pp eram três exercícios comprados na reescrita.
+  O veredito passou a medir a **primeira passada**; os resgatados aparecem numa linha separada,
+  rotulados como aprovação comprada. Regra geral: **métrica que soma o que se pagou para
+  consertar não mede a ferramenta, mede a fatura.**
+- **Falta de dado não pode virar silêncio.** Na mesma rodada, o custo por aprovado subiu 25% e
+  a linha nem apareceu, porque a rodada de referência fora registrada à mão sem o campo de
+  custo. Comparação sem linha de base agora imprime o número e diz que não há com o que
+  comparar — e o veredito carrega a ressalva. Um instrumento que se cala quando falta dado é
+  pior que um instrumento ausente: ele passa por funcionando.
 - **Calibração é regressão, não script descartável.** Cada conferência mecânica foi ajustada
   contra os 48 exercícios revisados à mão, num script escrito e jogado fora a cada rodada.
   Agora isso é `npm test`: os 48 não podem acusar nada, e cada regra guarda também o caso real

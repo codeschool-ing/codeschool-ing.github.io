@@ -10,7 +10,9 @@
       "api": 10,
       "aprovados": 8,
       "dimensoes": {},
-      "nota": "reconstruída da saída da execução, antes de o histórico existir; as dimensões não foram tabuladas"
+      "nota": "reconstruída da saída da execução, antes de o histórico existir; as dimensões não foram tabuladas",
+      "custo": null,
+      "aprovados_primeira": 8
     },
     {
       "quando": "2026-08-03T04:20:00.000Z",
@@ -21,8 +23,35 @@
       "execucao": 0,
       "api": 9,
       "aprovados": 8,
-      "dimensoes": { "distratores": 6, "dica": 5, "gabarito": 1 },
-      "nota": "reconstruída da saída da execução, antes de o histórico existir"
+      "dimensoes": {
+        "distratores": 6,
+        "dica": 5,
+        "gabarito": 1
+      },
+      "nota": "reconstruída da saída da execução; custo e 1ª passada preenchidos depois, quando o veredito passou a usá-los",
+      "custo": 2.6186,
+      "aprovados_primeira": 8
+    },
+    {
+      "quando": "2026-08-03T05:40:00.000Z",
+      "curso": "docker",
+      "topicos": 3,
+      "gerados": 9,
+      "estrutura": 1,
+      "execucao": 0,
+      "api": 6,
+      "aprovados": 7,
+      "aprovados_primeira": 4,
+      "refeitos": 5,
+      "resgatados": 3,
+      "dimensoes": {
+        "distratores": 5,
+        "alvo": 2,
+        "dica": 2,
+        "enunciado": 1
+      },
+      "custo": 2.8667,
+      "nota": "primeira rodada com a volta de conserto ligada; registrada à mão porque o veredito da época somava resgatados na taxa"
     }
   ]
 }

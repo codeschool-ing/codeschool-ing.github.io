@@ -54,8 +54,10 @@ export const INSTRUCOES = `Este exercício foi reprovado. Reescreva-o corrigindo
 exercício e pode ter proposto a saída errada. Corrija a causa do jeito que você julgar melhor
 — inclusive de um jeito que ninguém sugeriu.
 
-**Mantenha o tópico e o tipo.** Não é permitido escapar de um tipo difícil trocando por um
-fácil: o exercício precisa continuar validando o mesmo tópico pelo mesmo meio.
+**Mantenha o tópico, o tipo e a quantidade de alternativas.** Não é permitido escapar de um
+tipo difícil trocando por um fácil: o exercício precisa continuar validando o mesmo tópico
+pelo mesmo meio. E uma reescrita já voltou com seis alternativas onde a escola usa cinco —
+reprovou na estrutura sem sequer chegar à crítica, e o conserto foi jogado fora.
 
 **Conserto cosmético não vale.** Se o defeito é "as erradas se denunciam pela forma", trocar
 duas palavras não resolve — reescreva as alternativas. Se é "a dica entrega a resposta",

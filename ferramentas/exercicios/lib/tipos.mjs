@@ -424,6 +424,12 @@ const ABSOLUTOS = /\b(sempre|nunca|jamais|somente|apenas|qualquer|nenhum[a]?|tod
 // e nenhum deles estava aqui.
 const HEDGE = /(desde que|a menos que|salvo que|em geral|geralmente|normalmente|costuma|costumam|comparável|aproximadamente|na maioria|quando possível|tende a|enquanto|embora|ainda que|apesar de|porém|contudo|entretanto|no entanto|mas |exceto|em vez de|ao contrário|na prática|tipicamente|pode variar|depende d|provavelmente|possivelmente|talvez|eventualmente|potencialmente|frequentemente|raramente|costumeiramente)/i;
 const INCERTEZA = /(provavelmente|possivelmente|talvez|eventualmente|potencialmente|em geral|geralmente|normalmente|costuma|costumam|tende a|tendem a|na maioria|tipicamente|pode variar|quase sempre)/i;
+// Eixo modal. O crítico nomeou este exato defeito: "as três corretas são afirmações de
+// possibilidade e as duas erradas são afirmações de obrigação ou garantia total". Não é o
+// mesmo que o teste de absolutos — "faz com que", "atende", "pode ser executada" não são
+// absolutos, e mesmo assim separam os dois grupos perfeitamente.
+const PODE = /(\bpode\b|\bpodem\b|é possível|são possíveis|consegue|conseguem|permite|permitem|passa a poder|nada impede)/i;
+const DEVE = /(obriga|obrigam|garante|garantem|assegura|exige|exigem|\bdeve\b|\bdevem\b|\bfaz\b|\bfazem\b|força|sem exceção|impede que|elimina a necessidade)/i;
 const NUMERO = /\b(uma|duas|tr[êe]s|quatro|cinco|[1-9])\b/i;
 const VERACIDADE = /\b(falsas?|verdadeiras?|corretas?|erradas?)\b/i;
 const AVISA_SOBRA = /(sobra|não correspond|nao correspond|não emparelh|nao emparelh|a mais|nem toda|nem todas|extras?)/i;
@@ -493,10 +499,20 @@ export function pistasDeForma(e) {
   if (certas.length >= 2 && erradas.length >= 2 && cHedge === certas.length && eHedge === 0)
     p.push('pista de forma: todas as corretas trazem ressalva ("desde que", "comparável"…) e nenhuma errada traz');
 
-  // 4. Molde sintático: as erradas começam todas igual e a correta não.
+  // 3e. Eixo modal: corretas dizem o que PODE acontecer, erradas dizem o que a coisa OBRIGA
+  // ou GARANTE. Quem faz prova descarta "obriga" e marca o que vem em tom de possibilidade,
+  // e acerta o conjunto exato sem saber nada do assunto.
+  const cPode = certas.filter((a) => PODE.test(a.texto) && !DEVE.test(a.texto)).length;
+  const eDeve = erradas.filter((a) => DEVE.test(a.texto) && !PODE.test(a.texto)).length;
+  if (certas.length >= 2 && erradas.length >= 2 && cPode === certas.length && eDeve === erradas.length)
+    p.push('pista de forma: todas as corretas falam do que é possível e todas as erradas do que é obrigatório ou garantido');
+
+  // 4. Molde sintático: as erradas começam todas igual e a correta não. Duas bastam quando o
+  // molde tem duas palavras — "A conformidade …" abrindo exatamente as duas erradas de um
+  // conjunto de cinco é tão revelador quanto três, e o crítico pegou esse caso.
   const inicio = (a) => a.texto.toLowerCase().replace(/[`*]/g, '').trim().split(/\s+/).slice(0, 2).join(' ');
   const moldes = new Set(erradas.map(inicio));
-  if (erradas.length >= 3 && moldes.size === 1 && !certas.some((a) => inicio(a) === [...moldes][0]))
+  if (erradas.length >= 2 && moldes.size === 1 && !certas.some((a) => inicio(a) === [...moldes][0]))
     p.push(`pista de forma: as ${erradas.length} erradas começam todas com "${[...moldes][0]}" e nenhuma correta começa assim`);
 
   // 3c. A heurística de prova, simulada. Os testes acima perguntam se um traço separa os dois
@@ -554,6 +570,35 @@ export function pistasDeForma(e) {
   }
 
   return p;
+}
+
+/* A regra "nenhuma direita pode ecoar palavra da esquerda" existia só em prosa no prompt, e
+ * foi desobedecida num exercício em que as quatro esquerdas espelhavam lexicalmente as suas
+ * direitas: "dez containers" ↔ "todas as instâncias", "uma das máquinas virtuais" ↔ "só aquela
+ * instância", "instaladas direto no sistema" ↔ "o gerenciador de pacotes". Quatro pares
+ * fechados por casamento de palavra, sem saber o que é kernel compartilhado.
+ *
+ * Mecanizável: para cada par, o vocabulário que ele divide com a PRÓPRIA direita contra o que
+ * divide com as outras. Se toda esquerda prefere a sua, o exercício se resolve por eco. Exige
+ * vantagem em todos os pares — um par que ecoa é redação infeliz, todos ecoarem é o método. */
+export function ecoDePares(pares) {
+  if (pares.length < 3) return [];
+  const comuns = (a, b) => {
+    const A = palavras(a);
+    return [...palavras(b)].filter((w) => A.has(w) && !IRRELEVANTES.has(w)).length;
+  };
+  let ecoam = 0;
+  for (const par of pares) {
+    const propria = comuns(par.esquerda, par.direita);
+    const outras = pares.filter((o) => o !== par).map((o) => comuns(par.esquerda, o.direita));
+    if (propria >= 1 && propria > Math.max(0, ...outras)) ecoam++;
+  }
+  // Todos os pares é exigente demais: um empate — a mesma palavra aparecendo em duas direitas
+  // — derruba a conferência inteira, e foi o que aconteceu no caso real que a motivou. Um par
+  // de folga mantém o rigor sem depender de sorte no vocabulário.
+  return ecoam >= pares.length - 1
+    ? [`associacao em que ${ecoam} das ${pares.length} esquerdas ecoam a própria direita — os pares fecham por casamento de palavra`]
+    : [];
 }
 
 /* Conferência estrutural: de graça, sem API e sem executar nada. */
@@ -639,6 +684,7 @@ export function conferir(e, { alternativas }) {
     if (dist.length && !AVISA_SOBRA.test(e.enunciado ?? ''))
       p.push('associacao com distratores mas o enunciado não avisa que sobram itens na direita');
     if (new Set(dist).size !== dist.length) p.push('associacao com distrator repetido');
+    p.push(...ecoDePares(e.pares ?? []));
     naoDeveTer('alternativas', e.alternativas?.length, 'alternativas');
     naoDeveTer('testes', e.testes?.length, 'testes');
     naoDeveTer('itens', e.itens?.length, 'itens');

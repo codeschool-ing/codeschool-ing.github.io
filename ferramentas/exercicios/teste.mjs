@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { conferir, pistasDeForma } from './lib/tipos.mjs';
+import { conferir, ecoDePares, pistasDeForma } from './lib/tipos.mjs';
 import { aceitar, laudo } from './lib/refazer.mjs';
 import { comparar } from './lib/historico.mjs';
 import { funil } from './lib/funil.mjs';
@@ -134,6 +134,31 @@ await grupo('as pistas de forma ainda disparam nos casos que as motivaram', () =
       alt('A rede virtual exige uma negociação inicial demorada.', false)],
   }), 'palavras da dica');
 
+  // Caso real: "as três corretas são afirmações de possibilidade e as duas erradas de
+  // obrigação". Nenhuma das duas é absoluto no sentido do teste anterior.
+  pega('eixo modal separa corretas de erradas', questao({
+    tipo: 'multipla-escolha',
+    enunciado: 'Sobre a conformidade com a especificação.',
+    alternativas: [
+      alt('Uma imagem conforme pode ser baixada e executada por qualquer runtime que siga a mesma especificação.', true),
+      alt('Duas ferramentas podem ter subcomandos bem diferentes e ainda assim produzir o mesmo artefato.', true),
+      alt('Um registro conforme atende clientes de projetos diferentes, e nada impede a troca.', true),
+      alt('A norma faz uma imagem de outra arquitetura rodar sem camada de emulação.', false),
+      alt('A norma obriga as implementações a usar o mesmo serviço e o mesmo diretório.', false)],
+  }), 'obrigatório ou garantido');
+
+  // O molde sintático pedia 3 erradas; duas abrindo com a mesma fórmula, num conjunto de
+  // cinco, é igualmente revelador — e foi o caso que o crítico pegou.
+  pega('molde sintático com apenas duas erradas', questao({
+    tipo: 'multipla-escolha',
+    alternativas: [
+      alt('Uma imagem conforme roda em qualquer runtime que siga a especificação publicada.', true),
+      alt('Ferramentas distintas produzem artefatos intercambiáveis entre si.', true),
+      alt('Um registro conforme atende clientes de projetos diferentes sem adaptação.', true),
+      alt('A conformidade estende o alcance para arquiteturas que o processador não executa.', false),
+      alt('A conformidade determina o mesmo diretório de trabalho em toda implementação.', false)],
+  }), 'começam todas com');
+
   pega('a dica que conta quantas alternativas erram', questao({
     tipo: 'multipla-escolha',
     dica_socratica: 'Duas das afirmações são falsas: procure as que confundem imagem com container.',
@@ -173,6 +198,30 @@ await grupo('as pistas de forma não disparam em prosa normal', () => {
       alt('O interpretador muda a ordem em que procura os diretórios na hora da busca.', false),
       alt('A função chamada ali vira o ponto de entrada quando o módulo é importado.', false)],
   }));
+});
+
+/* ---- 3b. eco entre as colunas de uma associação -------------------------- */
+
+await grupo('a associação que fecha por casamento de palavra', () => {
+  const p = ecoDePares([
+    { esquerda: 'O roteiro de publicação tem 40 passos manuais', direita: 'Os passos manuais passam a ser um arquivo de texto versionado' },
+    { esquerda: 'Um serviço exige a versão 3.8 e outro a versão 3.12', direita: 'Os dois serviços continuam no ar lado a lado, cada um com sua versão' },
+    { esquerda: 'A máquina de quem desenvolve difere da de produção', direita: 'A máquina de produção passa a rodar a mesma imagem da máquina local' },
+    { esquerda: 'Cada implantação derruba o serviço por alguns minutos', direita: 'A implantação troca o serviço sem derrubar o que já atende' },
+  ]);
+  ok(p.length === 1, 'pega o eco lexical entre esquerda e a própria direita', p.join('; ') || 'não acusou nada');
+
+  // Descrever comportamento com vocabulário próprio é o que a regra pede, e não pode acusar.
+  const limpo = ecoDePares([
+    { esquerda: 'pip list --outdated', direita: 'Aparece uma coluna com o número mais novo publicado' },
+    { esquerda: 'deactivate', direita: 'O prefixo some do prompt e o python volta a ser o do sistema' },
+    { esquerda: 'df.head(3)', direita: 'Devolve um objeto do mesmo tipo, com três linhas' },
+    { esquerda: 'requests.get(url).json()', direita: 'Converte o corpo da resposta em dicionário ou lista' },
+  ]);
+  ok(limpo.length === 0, 'não acusa direita escrita com vocabulário próprio', limpo.join('; '));
+
+  ok(ecoDePares([{ esquerda: 'a', direita: 'a' }, { esquerda: 'b', direita: 'b' }]).length === 0,
+    'com menos de três pares não opina — amostra pequena demais para separar método de acaso');
 });
 
 /* ---- 4. guardas da reescrita --------------------------------------------- */
@@ -285,13 +334,22 @@ await grupo('prompts.md bate com os prompts do código', async () => {
 /* ---- 7. veredito de progresso -------------------------------------------- */
 
 await grupo('o veredito responde "evoluiu ou não"', () => {
-  const base = { quando: '2026-01-01T00:00:00.000Z', curso: 'x', topicos: 6, gerados: 20, estrutura: 0, execucao: 0, api: 10, aprovados: 10, dimensoes: {} };
+  const base = { quando: '2026-01-01T00:00:00.000Z', curso: 'x', topicos: 6, gerados: 20, estrutura: 0, execucao: 0, api: 10, aprovados: 10, aprovados_primeira: 10, custo: 3, dimensoes: {} };
   const diz = (atual, anterior) => comparar(atual, [anterior]).join('\n');
 
   ok(diz({ ...base, estrutura: 5, api: 5 }, base).includes('EVOLUIU'), 'pegar mais defeito de graça é evolução, mesmo com a taxa parada');
-  ok(diz({ ...base, aprovados: 15, api: 5 }, base).includes('EVOLUIU'), 'aprovar mais com a mesma divisão de trabalho é evolução');
+  ok(diz({ ...base, aprovados: 15, aprovados_primeira: 15, api: 5 }, base).includes('EVOLUIU'), 'aprovar mais com a mesma divisão de trabalho é evolução');
   ok(diz(base, base).includes('PAROU'), 'tudo igual é ter parado');
-  ok(diz({ ...base, aprovados: 4, api: 16 }, base).includes('PIOROU'), 'aprovar bem menos é piora');
+  ok(diz({ ...base, aprovados: 4, aprovados_primeira: 4, api: 16 }, base).includes('PIOROU'), 'aprovar bem menos é piora');
+
+  // O defeito que motivou a separação: 4 de 9 de primeira, 3 comprados na reescrita, e o
+  // veredito de então disse EVOLUIU com +34 pp sobre um gerador que não tinha se movido.
+  const comprada = { ...base, gerados: 9, aprovados: 7, aprovados_primeira: 4, refeitos: 5, resgatados: 3, api: 6, custo: 2.87 };
+  const antes = { ...base, gerados: 18, aprovados: 8, aprovados_primeira: 8, api: 9, estrutura: 1, custo: 2.62 };
+  ok(diz(comprada, antes).includes('PAROU'), 'resgate não vira evolução: taxa de 1ª passada igual é PAROU', diz(comprada, antes).split('\n').pop());
+  ok(diz(comprada, antes).includes('mais caro'), 'e o veredito avisa que cada aprovado saiu mais caro');
+  ok(diz({ ...comprada, custo: 2.87 }, { ...antes, custo: undefined }).includes('não foi comparado'),
+    'linha de base sem custo vira aviso, não silêncio — foi assim que a alta de 25% passou batida');
   ok(comparar(base, []).join('\n').includes('PRIMEIRA RODADA'), 'sem rodada anterior, o veredito diz isso em vez de inventar');
   ok(!diz(base, { ...base, curso: 'outro' }).includes('antes'), 'não compara com rodada de outro curso — mediria o assunto');
 });
