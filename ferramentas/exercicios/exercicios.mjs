@@ -18,7 +18,7 @@ import { relatorio } from './lib/claude.mjs';
 import { gerar, contagemPorTipo } from './lib/gerar.mjs';
 import { validar, conferirInterpretadores, linguagensUsadas, conferirCAS, precisaCAS } from './lib/validar.mjs';
 import { criticar } from './lib/criticar.mjs';
-import { TIPOS } from './lib/tipos.mjs';
+import { TIPOS, renderizar } from './lib/tipos.mjs';
 
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
 const ETAPAS = ['gerar', 'validar', 'criticar'];
@@ -71,6 +71,7 @@ opções
   --so-sondas        criticar sem o julgamento
   --seco             gerar sem chamar a API
   --cursos           lista os ids do catálogo
+  --ver [N]          lê os exercícios de um .json em forma humana (N = só o de número N)
 
 tipos: ${TIPOS.join(', ')}`;
 
@@ -217,7 +218,17 @@ function imprimirCusto() {
 /* ---- despacho ------------------------------------------------------------ */
 
 try {
-  if (tem('cursos')) {
+  if (tem('ver') && ehArquivo) {
+    // Revisão por uma pessoa é o único sinal externo deste pipeline; JSON não se lê.
+    const d = JSON.parse(fs.readFileSync(alvo, 'utf8'));
+    const so = Number(txt('ver', ''));
+    const lista = d.exercicios ?? [];
+    for (const [i, e] of lista.entries()) {
+      if (Number.isInteger(so) && so > 0 && so !== i + 1) continue;
+      console.log(renderizar(e, i + 1));
+    }
+    console.log(`${'─'.repeat(78)}\n${lista.length} exercícios em ${path.basename(alvo)}`);
+  } else if (tem('cursos')) {
     for (const c of carregar().CURSOS) console.log(`${c.id.padEnd(24)} ${String(c.topicos?.length ?? 0).padStart(2)} tópicos  ${c.nome}`);
   } else if (!alvo || tem('help') || tem('ajuda')) {
     console.log(AJUDA);

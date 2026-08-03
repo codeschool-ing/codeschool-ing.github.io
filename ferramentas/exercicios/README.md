@@ -48,8 +48,25 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 | `--so-sondas` | criticar sem o julgamento (mais barato) |
 | `--seco` | gerar sem chamar a API |
 | `--cursos` | lista os ids do catálogo |
+| `--ver [N]` | lê os exercícios de um `.json` em forma humana |
 
 O custo sai por etapa e somado, numa conta só.
+
+### Ler o que saiu
+
+```sh
+node exercicios.mjs exercicios-python.json --ver      # todos
+node exercicios.mjs exercicios-python.json --ver 26   # só o de número 26
+```
+
+Mostra enunciado, corpo com o gabarito marcado, dica e — se o arquivo for um `.criticado` ou
+`.rejeitado` — os achados da crítica.
+
+**Isto existe porque a revisão por uma pessoa é o único sinal externo do pipeline.** Todo o
+resto é o mesmo modelo julgando a si mesmo: as sondas ancoram parte, a execução prova outra
+parte, mas "este exercício vale o tempo de um aluno?" não tem resposta automática. Enquanto o
+conteúdo só existia como JSON, esse sinal ficava bloqueado por atrito de formato — e sinal que
+custa esforço não é coletado.
 
 ### O que é versionado
 

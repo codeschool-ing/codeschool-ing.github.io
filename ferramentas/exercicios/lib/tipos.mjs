@@ -532,3 +532,54 @@ export function resumo(e) {
   if (e.tipo === 'saida-esperada') return e.linguagem;
   return '';
 }
+
+/* Leitura humana de um exercício.
+ *
+ * A revisão por uma pessoa é o único sinal externo deste pipeline — todo o resto é o mesmo
+ * modelo julgando a si mesmo. Enquanto o conteúdo só existisse como JSON, esse sinal ficava
+ * bloqueado por atrito de formato.
+ */
+export function renderizar(e, n) {
+  const L = [];
+  L.push(`${'─'.repeat(78)}`);
+  L.push(`#${n}  ${e.tipo}  ·  ${e.dificuldade}  ·  ${e.topico}`);
+  L.push('');
+  L.push(e.enunciado);
+  L.push('');
+  const marca = (c) => (c ? '  [X] ' : '  [ ] ');
+  if (e.tipo === 'quiz' || e.tipo === 'multipla-escolha') {
+    for (const a of e.alternativas) {
+      L.push(marca(a.correta) + a.texto);
+      L.push(`        ↳ ${a.porque}`);
+    }
+  } else if (e.tipo === 'saida-esperada') {
+    L.push(`  código (${e.linguagem}):`);
+    for (const l of e.codigo_dado.split('\n')) L.push('    ' + l);
+    L.push(`  resposta esperada:`);
+    for (const l of e.resposta.replace(/\n$/, '').split('\n')) L.push('    ' + l);
+  } else if (e.tipo === 'codigo') {
+    L.push(`  esqueleto (${e.linguagem}):`);
+    for (const l of e.esqueleto.split('\n')) L.push('    ' + l);
+    L.push(`  casos de teste:`);
+    for (const t of e.testes) L.push(`    ${t.descricao}: ${JSON.stringify(t.entrada)} → ${JSON.stringify(t.saida_esperada)}`);
+  } else if (e.tipo === 'ordenacao') {
+    L.push('  ordem correta (o portal embaralha):');
+    for (const [i, t] of e.itens.entries()) L.push(`    ${i + 1}. ${t}`);
+    L.push(`  armadilha: ${e.armadilha}`);
+  } else if (e.tipo === 'associacao') {
+    L.push('  pares corretos:');
+    for (const p of e.pares) L.push(`    ${p.esquerda}  ↔  ${p.direita}`);
+    L.push('  distratores na direita (não emparelham com nada):');
+    for (const d of e.distratores_direita ?? []) L.push(`    · ${d}`);
+  } else if (e.tipo === 'resposta-expressao') {
+    L.push(`  gabarito: ${e.expressao_gabarito}`);
+    L.push(`  conferido por: ${e.verificacao_operacao}(${e.verificacao_origem}, ${e.verificacao_variavel})`);
+  }
+  L.push('');
+  L.push(`  dica: ${e.dica_socratica}`);
+  if (e._critica?.length) {
+    L.push('');
+    for (const c of e._critica) L.push(`  [${c.gravidade}/${c.dimensao}] ${c.explicacao}`);
+  }
+  return L.join('\n');
+}
