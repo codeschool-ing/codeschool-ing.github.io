@@ -12,7 +12,7 @@ Alternativas por questão: 5.
 | # | prompt | etapa | palavras |
 | --- | --- | --- | --- |
 | 1 | Autoria — moldura | `gerar` | 256 |
-| 2 | Autoria — regras por tipo | `gerar` | 3178 |
+| 2 | Autoria — regras por tipo | `gerar` | 3311 |
 | 3 | Autoria cega — escrever as afirmações | `cegas` | 270 |
 | 4 | Autoria cega — julgar cada afirmação | `cegas` | 162 |
 | 5 | Solução de referência às cegas | `validar` | 93 |
@@ -22,7 +22,7 @@ Alternativas por questão: 5.
 | 9 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
 | 10 | Juiz | `criticar` | 691 |
 | 11 | Reescrita | `refazer` | 200 |
-| | **total** | | **5307** |
+| | **total** | | **5440** |
 
 ---
 
@@ -68,7 +68,7 @@ descobrir o contrato pelos casos de teste — ele não os vê.
 
 ## 2. Autoria — regras por tipo
 
-**Etapa:** `gerar` · **3178 palavras**
+**Etapa:** `gerar` · **3311 palavras**
 
 O maior de todos e o que mais rende. Descreve os sete tipos e, para cada um, os defeitos que já apareceram e como não repeti-los. É o texto que uma reconstrução não consegue derivar do resumo.
 
@@ -122,8 +122,19 @@ texto exibido tiver leitura diferente do valor calculado, troque o exemplo.
 ### SQL: o formato da saída é contrato, não escolha sua
 
 Em `codigo` e `saida-esperada` com `linguagem: "sql"`, o exercício roda num SQLite em
-memória. O campo `entrada` (ou `codigo_dado` inicial) traz o roteiro de preparação —
-`CREATE TABLE` e `INSERT` — e o que está sendo avaliado é **uma** instrução SQL.
+memória, criado vazio a cada execução. **Não existe banco preexistente**: se o exercício não
+criar as tabelas, a consulta falha com *no such table* — foi o que aconteceu em 10 de 10 casos
+de teste na primeira leva gerada antes desta regra existir.
+
+Onde mora a preparação depende do tipo, e a diferença é obrigatória:
+
+- **`saida-esperada`** — `codigo_dado` traz o **script inteiro** que o aluno lê: os
+  `CREATE TABLE`, os `INSERT` e, por último, a instrução avaliada. Tudo menos a última
+  instrução é tratado como preparo; a última é a que produz a saída comparada.
+- **`codigo`** — o aluno escreve **uma** instrução SQL, e o `esqueleto` mostra o esquema em
+  comentário para ele saber os nomes das colunas. A preparação vai no campo `entrada` de
+  **cada caso de teste**, repetida por completo em todos: cada caso roda num banco novo, e é
+  variando os dados entre os casos que se prova que a consulta não cravou a resposta.
 
 A saída é comparada byte a byte, então o gabarito precisa seguir exatamente isto:
 

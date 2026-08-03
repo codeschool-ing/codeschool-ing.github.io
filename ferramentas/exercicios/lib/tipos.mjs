@@ -81,8 +81,19 @@ texto exibido tiver leitura diferente do valor calculado, troque o exemplo.
 ### SQL: o formato da saída é contrato, não escolha sua
 
 Em \`codigo\` e \`saida-esperada\` com \`linguagem: "sql"\`, o exercício roda num SQLite em
-memória. O campo \`entrada\` (ou \`codigo_dado\` inicial) traz o roteiro de preparação —
-\`CREATE TABLE\` e \`INSERT\` — e o que está sendo avaliado é **uma** instrução SQL.
+memória, criado vazio a cada execução. **Não existe banco preexistente**: se o exercício não
+criar as tabelas, a consulta falha com *no such table* — foi o que aconteceu em 10 de 10 casos
+de teste na primeira leva gerada antes desta regra existir.
+
+Onde mora a preparação depende do tipo, e a diferença é obrigatória:
+
+- **\`saida-esperada\`** — \`codigo_dado\` traz o **script inteiro** que o aluno lê: os
+  \`CREATE TABLE\`, os \`INSERT\` e, por último, a instrução avaliada. Tudo menos a última
+  instrução é tratado como preparo; a última é a que produz a saída comparada.
+- **\`codigo\`** — o aluno escreve **uma** instrução SQL, e o \`esqueleto\` mostra o esquema em
+  comentário para ele saber os nomes das colunas. A preparação vai no campo \`entrada\` de
+  **cada caso de teste**, repetida por completo em todos: cada caso roda num banco novo, e é
+  variando os dados entre os casos que se prova que a consulta não cravou a resposta.
 
 A saída é comparada byte a byte, então o gabarito precisa seguir exatamente isto:
 
