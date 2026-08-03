@@ -12,7 +12,7 @@ Alternativas por questão: 5.
 | # | prompt | etapa | palavras |
 | --- | --- | --- | --- |
 | 1 | Autoria — moldura | `gerar` | 256 |
-| 2 | Autoria — regras por tipo | `gerar` | 3311 |
+| 2 | Autoria — regras por tipo | `gerar` | 3334 |
 | 3 | Autoria cega — escrever as afirmações | `cegas` | 270 |
 | 4 | Autoria cega — julgar cada afirmação | `cegas` | 162 |
 | 5 | Solução de referência às cegas | `validar` | 93 |
@@ -22,7 +22,7 @@ Alternativas por questão: 5.
 | 9 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
 | 10 | Juiz | `criticar` | 691 |
 | 11 | Reescrita | `refazer` | 200 |
-| | **total** | | **5440** |
+| | **total** | | **5463** |
 
 ---
 
@@ -68,7 +68,7 @@ descobrir o contrato pelos casos de teste — ele não os vê.
 
 ## 2. Autoria — regras por tipo
 
-**Etapa:** `gerar` · **3311 palavras**
+**Etapa:** `gerar` · **3334 palavras**
 
 O maior de todos e o que mais rende. Descreve os sete tipos e, para cada um, os defeitos que já apareceram e como não repeti-los. É o texto que uma reconstrução não consegue derivar do resumo.
 
@@ -141,7 +141,9 @@ A saída é comparada byte a byte, então o gabarito precisa seguir exatamente i
 - **primeira linha: os nomes das colunas**, separados por ` | ` (espaço, barra, espaço);
 - **uma linha por registro**, colunas separadas pelo mesmo ` | `;
 - **NULL** aparece como a palavra `NULL`, sem aspas;
-- número inteiro sem ponto decimal; `3.5` e não `3.50`; texto sem aspas;
+- o valor sai como o Python o escreve, e **o tipo da coluna manda**: coluna `INTEGER` com 120
+  imprime `120`, coluna `REAL` com o mesmo 120 imprime `120.0`. Não existe `120.00`;
+- texto sem aspas;
 - consulta sem registro nenhum imprime **só o cabeçalho**;
 - instrução que não devolve linhas (`INSERT`, `UPDATE`, `CREATE`) imprime
   `N linha(s) afetada(s)`;

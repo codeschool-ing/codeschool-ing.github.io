@@ -100,7 +100,9 @@ A saída é comparada byte a byte, então o gabarito precisa seguir exatamente i
 - **primeira linha: os nomes das colunas**, separados por \` | \` (espaço, barra, espaço);
 - **uma linha por registro**, colunas separadas pelo mesmo \` | \`;
 - **NULL** aparece como a palavra \`NULL\`, sem aspas;
-- número inteiro sem ponto decimal; \`3.5\` e não \`3.50\`; texto sem aspas;
+- o valor sai como o Python o escreve, e **o tipo da coluna manda**: coluna \`INTEGER\` com 120
+  imprime \`120\`, coluna \`REAL\` com o mesmo 120 imprime \`120.0\`. Não existe \`120.00\`;
+- texto sem aspas;
 - consulta sem registro nenhum imprime **só o cabeçalho**;
 - instrução que não devolve linhas (\`INSERT\`, \`UPDATE\`, \`CREATE\`) imprime
   \`N linha(s) afetada(s)\`;
