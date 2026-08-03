@@ -78,7 +78,7 @@
       "tipo": "multipla-escolha",
       "dificuldade": "medio",
       "enunciado": "Marque **todas** as afirmações verdadeiras sobre executar um script com `python arquivo.py`.",
-      "dica_socratica": "Três destas você resolve em dois minutos no terminal: crie um arquivo, rode, e olhe o que aconteceu na pasta. Comece pelas que dá para testar antes de opinar sobre as outras.",
+      "dica_socratica": "Monte um arquivo com duas linhas: um `print` na primeira e um erro de digitação na segunda. Rode. O que apareceu na tela responde mais de uma destas afirmações.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -86,29 +86,29 @@
       "resposta": "",
       "alternativas": [
         {
-          "texto": "O interpretador executa o arquivo mesmo que a extensão não seja `.py`.",
-          "correta": true,
-          "porque": "A extensão é convenção para humanos e ferramentas; `python ola.txt` roda o conteúdo normalmente."
-        },
-        {
           "texto": "Um erro de sintaxe na última linha impede que a primeira linha chegue a executar.",
           "correta": true,
-          "porque": "O arquivo inteiro é compilado antes de qualquer execução, então erro de sintaxe aborta tudo."
+          "porque": "O arquivo inteiro é convertido em bytecode antes de qualquer execução, então erro de sintaxe aborta tudo."
         },
         {
-          "texto": "Rodar `python ola.py` não cria `__pycache__` para o próprio `ola.py`.",
+          "texto": "A extensão do arquivo não altera o resultado: `python ola.txt` executa o conteúdo igual.",
           "correta": true,
-          "porque": "O cache de bytecode é gravado para módulos importados, não para o arquivo executado direto."
+          "porque": "A extensão é convenção para humanos e ferramentas; o interpretador lê o arquivo que você apontar."
         },
         {
-          "texto": "O arquivo precisa começar com `#!/usr/bin/env python3` para `python ola.py` funcionar.",
-          "correta": false,
-          "porque": "A linha shebang só importa ao executar o arquivo como programa; passando-o ao interpretador, ela é comentário."
+          "texto": "Um caminho relativo ou absoluto funciona como argumento, de qualquer pasta.",
+          "correta": true,
+          "porque": "O argumento é um caminho de arquivo comum, resolvido como qualquer outro."
         },
         {
-          "texto": "O arquivo precisa estar na pasta atual, porque `python` não aceita caminho para o script.",
+          "texto": "Um erro de digitação numa linha nunca alcançada em tempo de execução passa despercebido.",
           "correta": false,
-          "porque": "Caminho relativo ou absoluto funciona: `python /tmp/t1/ola.py` executa de qualquer lugar."
+          "porque": "Erro de sintaxe é detectado na compilação do arquivo, mesmo em linha que jamais executaria."
+        },
+        {
+          "texto": "A linha `#!/usr/bin/env python3` no topo muda qual interpretador roda o arquivo.",
+          "correta": false,
+          "porque": "Passando o arquivo para `python`, quem executa é esse interpretador; o shebang vale ao rodar o arquivo como programa."
         }
       ],
       "itens": [],
@@ -125,8 +125,8 @@
       "topico": "Instalação, interpretador e o primeiro script",
       "tipo": "quiz",
       "dificuldade": "medio",
-      "enunciado": "No terminal, qual comando imprime a versão do interpretador e encerra imediatamente, sem abrir o modo interativo?",
-      "dica_socratica": "Algumas opções de linha de comando ligam um modo de execução; outras apenas informam algo e saem. Qual das duas coisas você quer aqui?",
+      "enunciado": "Você quer rodar o módulo `http.server` da biblioteca padrão a partir do terminal. Qual comando faz isso, e por quê?",
+      "dica_socratica": "Uma das opções trata o texto como nome de arquivo e a outra como nome de módulo. Existe um arquivo chamado `http.server` na sua pasta?",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -134,29 +134,29 @@
       "resposta": "",
       "alternativas": [
         {
-          "texto": "`python --version`",
+          "texto": "`python -m http.server`, porque `-m` procura o módulo em `sys.path` e o executa como programa.",
           "correta": true,
-          "porque": "É a opção que imprime a versão e encerra."
+          "porque": "É para isso que `-m` existe: localizar pelo nome de módulo, não pelo caminho de arquivo."
         },
         {
-          "texto": "`python -v`",
+          "texto": "`python http.server`, porque o interpretador aceita o nome do módulo diretamente.",
           "correta": false,
-          "porque": "`-v` liga o modo verboso e abre o interpretador, despejando mensagens de importação."
+          "porque": "Sem `-m`, o argumento é tratado como caminho de arquivo, e não existe arquivo `http.server` na pasta."
         },
         {
-          "texto": "`python -i`",
+          "texto": "`python -c http.server`, porque `-c` executa o que vem depois como código.",
           "correta": false,
-          "porque": "`-i` força o modo interativo depois de executar, que é o oposto do pedido."
+          "porque": "`-c` avalia o texto como expressão Python, e `http.server` sozinho não importa nem executa nada."
         },
         {
-          "texto": "`python -m version`",
+          "texto": "`python -i http.server`, porque o módulo precisa do modo interativo para ficar servindo.",
           "correta": false,
-          "porque": "`-m` executa um módulo pelo nome, e não existe módulo chamado `version`."
+          "porque": "`-i` abre o interativo depois de executar, e continua tratando o argumento como arquivo."
         },
         {
-          "texto": "`python --info`",
+          "texto": "`import http.server` no terminal, porque o import já dispara o servidor.",
           "correta": false,
-          "porque": "Não é uma opção reconhecida pelo interpretador."
+          "porque": "`import` é sintaxe de Python, não comando de shell; e importar não executa o bloco `__main__` do módulo."
         }
       ],
       "itens": [],
@@ -196,7 +196,7 @@
       "tipo": "saida-esperada",
       "dificuldade": "medio",
       "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
-      "dica_socratica": "Três operadores diferentes, três tipos possíveis de resultado. Qual deles nunca devolve um inteiro, mesmo quando a divisão é exata?",
+      "dica_socratica": "Três operadores de divisão, e o tipo do resultado não é o mesmo nos três. Antes de escrever, decida para cada linha se a saída leva ponto decimal.",
       "linguagem": "python",
       "esqueleto": "",
       "testes": [],
@@ -266,7 +266,7 @@
       "tipo": "associacao",
       "dificuldade": "medio",
       "enunciado": "Associe cada expressão ao valor que ela produz em Python. Sobram valores na coluna da direita que não correspondem a expressão alguma.",
-      "dica_socratica": "Não basta acertar o número: repare em quais valores aparecem com ponto decimal e quais não. Que operador devolve inteiro mesmo quando a conta não é exata?",
+      "dica_socratica": "Vários valores da direita diferem entre si só pelo tipo, não pela grandeza. Para cada expressão, decida o valor e o tipo antes de procurar o par.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -304,7 +304,7 @@
       "armadilha": "",
       "distratores_direita": [
         "`4.0`",
-        "`\"ababab\"`"
+        "`1.0`"
       ]
     },
     {
@@ -382,7 +382,7 @@
       "tipo": "multipla-escolha",
       "dificuldade": "dificil",
       "enunciado": "Marque todas as afirmações verdadeiras sobre coleções em Python.",
-      "dica_socratica": "O critério que separa o que pode ser chave de dicionário não é o tamanho nem o tipo declarado. Que propriedade um objeto precisa ter para o dicionário calcular onde guardá-lo?",
+      "dica_socratica": "Teste cada afirmação no interpretador: construa a coleção descrita e tente usá-la como a afirmação diz. O erro que aparece, ou a ausência dele, decide.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -612,7 +612,7 @@
       "tipo": "saida-esperada",
       "dificuldade": "dificil",
       "enunciado": "O que este trecho imprime? Escreva o texto que aparece na tela.",
-      "dica_socratica": "Rode o trecho, acrescente uma terceira chamada e rode de novo. A saída acumula ou recomeça? Isso responde onde a lista do argumento padrão está guardada.",
+      "dica_socratica": "A lista que serve de valor padrão nasce junto com a definição da função, não a cada chamada. Quantos objetos lista existem aqui ao todo?",
       "linguagem": "python",
       "esqueleto": "",
       "testes": [],
@@ -681,8 +681,8 @@
       "topico": "Funções: argumentos, retorno, escopo e lambdas",
       "tipo": "multipla-escolha",
       "dificuldade": "medio",
-      "enunciado": "Dado `def marcar(item, marca=\"*\", repetir=1)` que devolve `marca * repetir + item`, marque **todas** as chamadas que produzem exatamente a string `\"##ok\"`.",
-      "dica_socratica": "Ligue cada argumento ao parâmetro que ele ocupa e só então avalie a expressão. Lembre que a multiplicação entre inteiro e string não se importa com qual dos dois vem primeiro.",
+      "enunciado": "Dado `def marcar(item, marca=\"*\", repetir=1)` que devolve `marca * repetir + item`, marque **todas** as chamadas que produzem exatamente a string `\"--fim\"`.",
+      "dica_socratica": "Para cada chamada, escreva primeiro a que parâmetro cada argumento ficou ligado, e só então avalie `marca * repetir + item` com esses valores. Uma das chamadas liga um inteiro onde você esperava texto: avalie mesmo assim, em vez de presumir que dá erro.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -690,29 +690,29 @@
       "resposta": "",
       "alternativas": [
         {
-          "texto": "`marcar(\"ok\", \"#\", 2)`",
+          "texto": "`marcar(\"fim\", \"-\", 2)`",
           "correta": true,
-          "porque": "Por posição: item=\"ok\", marca=\"#\", repetir=2, e \"#\" * 2 + \"ok\" dá \"##ok\"."
+          "porque": "Por posição: item=\"fim\", marca=\"-\", repetir=2, e \"-\" * 2 + \"fim\" dá \"--fim\"."
         },
         {
-          "texto": "`marcar(\"ok\", 2, \"#\")`",
+          "texto": "`marcar(\"fim\", 2, \"-\")`",
           "correta": true,
-          "porque": "Liga marca=2 e repetir=\"#\", mas 2 * \"#\" também é \"##\": inteiro vezes string vale nas duas ordens."
+          "porque": "Liga marca=2 e repetir=\"-\", mas 2 * \"-\" também é \"--\": inteiro vezes texto vale nas duas ordens."
         },
         {
-          "texto": "`marcar(repetir=2, marca=\"#\", item=\"ok\")`",
+          "texto": "`marcar(repetir=2, marca=\"-\", item=\"fim\")`",
           "correta": true,
           "porque": "Com todos os argumentos nomeados, a ordem em que aparecem não importa."
         },
         {
-          "texto": "`marcar(\"ok\", \"#\", 3)`",
+          "texto": "`marcar(\"fim\", \"-\", 3)`",
           "correta": false,
-          "porque": "A ligação está certa, mas repetir=3 produz \"###ok\", com uma marca a mais."
+          "porque": "A ligação está certa, mas repetir=3 produz \"---fim\", com uma marca a mais."
         },
         {
-          "texto": "`marcar(\"#\", 2, \"ok\")`",
+          "texto": "`marcar(\"-\", 2, \"fim\")`",
           "correta": false,
-          "porque": "Liga item=\"#\", marca=2 e repetir=\"ok\", devolvendo \"okok#\" em vez de \"##ok\"."
+          "porque": "Liga item=\"-\", marca=2 e repetir=\"fim\", devolvendo \"fimfim-\" em vez de \"--fim\"."
         }
       ],
       "itens": [],
@@ -850,24 +850,24 @@
           "porque": "`super()` resolve para a próxima classe na ordem de resolução e executa seu `__init__` sobre `self`."
         },
         {
-          "texto": "Cria uma segunda instância, da classe base, e a guarda como atributo interno da instância atual.",
+          "texto": "Cria uma segunda instância, da classe base, e a devolve para ser guardada pela filha.",
           "correta": false,
-          "porque": "Não há criação de objeto novo: o construtor da base atua sobre a instância já existente."
+          "porque": "Não há objeto novo: o construtor da base recebe o `self` que já existe."
         },
         {
-          "texto": "Copia para a classe filha os atributos definidos na base, sem executar código algum da base.",
+          "texto": "Executa o construtor da base e, em seguida, encerra o `__init__` da filha.",
           "correta": false,
-          "porque": "Atributos de instância são criados pela execução do construtor, não copiados na definição."
+          "porque": "A chamada devolve o controle normalmente; o que vem depois dela no corpo da filha continua executando."
         },
         {
-          "texto": "Substitui o construtor da filha pelo da base, ignorando o restante do corpo da filha.",
+          "texto": "Chama o construtor da classe escrita entre parênteses em `class Filha(Mae)`, mesmo com herança múltipla.",
           "correta": false,
-          "porque": "O corpo da filha continua executando normalmente antes e depois da chamada."
+          "porque": "Com herança múltipla, `super()` segue a ordem de resolução (MRO), que pode não ser a primeira base escrita."
         },
         {
-          "texto": "Impede que a classe filha defina atributos com nome igual aos da base.",
+          "texto": "Precisa ser a primeira linha de `__init__`, senão os atributos da base sobrescrevem os da filha.",
           "correta": false,
-          "porque": "Nada impede a filha de redefinir esses atributos depois da chamada."
+          "porque": "A posição é livre; o que ela muda é apenas a ordem em que os atributos são atribuídos."
         }
       ],
       "itens": [],
@@ -1051,7 +1051,7 @@
       "tipo": "associacao",
       "dificuldade": "medio",
       "enunciado": "Associe cada módulo da biblioteca padrão ao problema que ele resolve.",
-      "dica_socratica": "Duas destas resolvem problema de quem escreve programa de terminal, e duas resolvem problema de quem manipula sequências. Separe nesses dois grupos antes de decidir cada par.",
+      "dica_socratica": "Para cada descrição, pergunte de que módulo você importaria a função que a realiza. Se não souber dizer o nome do módulo, é sinal de que aquela descrição pode não ter par.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1136,10 +1136,10 @@
       "topico": "Erros e exceções: try, except, else e finally",
       "tipo": "codigo",
       "dificuldade": "medio",
-      "enunciado": "Leia uma linha com valores separados por espaço. Some os valores que forem inteiros válidos e conte os que não forem. Imprima uma única linha no formato `total=<soma> invalidos=<quantidade>`. Não imprima nada além dessa linha.",
+      "enunciado": "A lista `valores` já vem preenchida pelo esqueleto com os campos da linha lida. Some os que forem inteiros válidos e conte os que não forem. Imprima uma única linha no formato `total=<soma> invalidos=<quantidade>`. Uma linha sem campo algum produz `total=0 invalidos=0`. Não imprima nada além dessa linha.",
       "dica_socratica": "Você não sabe de antemão quais valores convertem. Em vez de tentar prever, o que a linguagem oferece para reagir à conversão que falha sem interromper o laço?",
       "linguagem": "python",
-      "esqueleto": "linha = input()\n# complete: some os inteiros válidos e conte os inválidos\n",
+      "esqueleto": "valores = input().split()\n# complete: some os inteiros válidos e conte os inválidos\n",
       "testes": [
         {
           "descricao": "todos válidos",
@@ -1303,7 +1303,7 @@
       "tipo": "multipla-escolha",
       "dificuldade": "medio",
       "enunciado": "Marque **todas** as afirmações verdadeiras sobre ler e escrever JSON e CSV em Python.",
-      "dica_socratica": "Cada afirmação vira duas linhas no interpretador: escreva um valor, leia de volta, e confira o tipo com `type(...)`. Duas delas mudam de resposta conforme você use `reader` ou `DictReader`, e conforme o valor esteja num arquivo JSON ou num CSV.",
+      "dica_socratica": "Cada afirmação vira duas linhas no interpretador: escreva o valor num arquivo, leia de volta e imprima `type(...)` do que voltou. Faça isso para as cinco antes de marcar.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1399,7 +1399,7 @@
       "tipo": "ordenacao",
       "dificuldade": "medio",
       "enunciado": "Você começa um projeto novo e quer que as bibliotecas fiquem isoladas do Python do sistema. Coloque os quatro comandos na ordem em que precisam ser executados.",
-      "dica_socratica": "Um destes comandos muda para onde o `pip` aponta. Descubra qual, e o resto da ordem se resolve sozinho.",
+      "dica_socratica": "Rode `which pip` depois de cada comando desta lista, numa ordem qualquer, e anote o que ele responde. O comando cujo resultado depende de outro ter rodado antes é o que fixa a ordem.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1516,7 +1516,7 @@
       "tipo": "multipla-escolha",
       "dificuldade": "medio",
       "enunciado": "Marque **todas** as afirmações verdadeiras sobre ambientes virtuais.",
-      "dica_socratica": "Experimente: crie um ambiente, não ative, e rode `.venv/bin/pip install alguma-coisa`. Depois confira com `.venv/bin/pip list` onde o pacote foi parar. O resultado decide mais de uma destas afirmações.",
+      "dica_socratica": "O ambiente virtual é uma pasta com um interpretador e uma pasta `bin` dentro. Para cada afirmação, pergunte se o efeito descrito precisaria de algo além dessa pasta — e o que exatamente a ativação acrescenta que chamar o binário pelo caminho não teria.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1653,7 +1653,7 @@
       "topico": "Estruturas de dados e noção de complexidade (Big-O)",
       "tipo": "codigo",
       "dificuldade": "dificil",
-      "enunciado": "As listas `a` e `b` já vêm preenchidas pelo esqueleto, a partir de um `n` lido da entrada. Imprima quantos valores distintos aparecem nas duas. Não imprima nada além desse número.\n\nO último caso de teste usa `n` na casa das centenas de milhares e há limite de tempo por caso: uma solução que, para cada valor de `a`, percorre `b` inteira não termina a tempo.",
+      "enunciado": "As listas `a` e `b` já vêm preenchidas pelo esqueleto, a partir de um `n` lido da entrada. Imprima quantos valores distintos aparecem em **ambas** as listas ao mesmo tempo — ou seja, o tamanho da interseção, sem contar repetições. Não imprima nada além desse número.\n\nO último caso de teste usa `n` na casa das centenas de milhares e há limite de tempo por caso: uma solução que, para cada valor de `a`, percorre `b` inteira não termina a tempo.",
       "dica_socratica": "Percorrer `b` para cada valor de `a` custa o produto dos tamanhos. Que coleção responde \"este valor está aqui?\" sem percorrer nada, e o que ela exige dos elementos em troca?",
       "linguagem": "python",
       "esqueleto": "import sys\n\nn = int(sys.stdin.readline())\na = [i * 2 for i in range(n)]\nb = [i * 3 for i in range(n)]\n# complete: imprima quantos valores distintos aparecem nas duas listas\n",
@@ -1815,7 +1815,7 @@
       "tipo": "associacao",
       "dificuldade": "dificil",
       "enunciado": "Para um `DataFrame` `df` com as colunas `turma` e `nota`, associe cada expressão ao que ela devolve. Sobram descrições que não correspondem a expressão alguma.",
-      "dica_socratica": "Duas perguntas separam as quatro: que tipo volta — `DataFrame`, `Series`, tupla ou escalar? E o que acontece se houver valor ausente na coluna `nota`?",
+      "dica_socratica": "Comece pelo tipo que cada expressão devolve — `DataFrame`, `Series`, tupla ou escalar. Duas das descrições anunciam um tipo que nenhuma das quatro expressões produz.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],
@@ -1838,7 +1838,7 @@
         },
         {
           "esquerda": "`df.groupby(\"turma\").size()`",
-          "direita": "Uma `Series` indexada pelos valores distintos, contando linhas com ausente inclusive"
+          "direita": "Uma `Series` cujo índice são os valores distintos de `turma`, ignorando as linhas em que `turma` é ausente"
         }
       ],
       "expressao_gabarito": "",
@@ -1849,7 +1849,7 @@
       "armadilha": "",
       "distratores_direita": [
         "Um inteiro com o número total de células da tabela",
-        "Uma `Series` indexada pelos valores distintos, mas descartando as linhas com ausente"
+        "Um `DataFrame` com uma linha por valor distinto e as demais colunas preservadas"
       ]
     },
     {
@@ -1857,7 +1857,7 @@
       "tipo": "ordenacao",
       "dificuldade": "medio",
       "enunciado": "Coloque em ordem as quatro chamadas de um laço que consome uma página de uma API com `requests`.",
-      "dica_socratica": "Uma dessas chamadas existe para você descobrir cedo que a resposta não presta. Cedo em relação a quê? É essa relação que fixa a ordem.",
+      "dica_socratica": "Três das quatro posições já estão fixadas por quais variáveis existem em cada momento. Para a que sobra, pergunte o que o servidor devolve no corpo quando responde 500, e o que acontece ao entregar esse corpo para um analisador de JSON.",
       "linguagem": "",
       "esqueleto": "",
       "testes": [],

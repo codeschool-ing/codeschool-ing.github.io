@@ -77,13 +77,33 @@ const ESQ_DICA = {
 
 const COM_ALTERNATIVAS = new Set(['quiz', 'multipla-escolha']);
 
+/* O que o ALUNO vê: corpo do exercício sem nada que revele o gabarito.
+ *
+ * A sonda recebia só enunciado + dica. Para `saida-esperada` o enunciado é "o que este
+ * trecho imprime?" — sem o trecho, então não havia o que julgar; para quiz, ela nunca via
+ * as alternativas. Cega assim, ela aprovava tudo, e o juiz (sem calibração para dica)
+ * acabava decidindo sozinho. */
+function corpoParaSonda(e) {
+  if (COM_ALTERNATIVAS.has(e.tipo)) return e.alternativas.map((a, i) => `${i}. ${a.texto}`).join('\n');
+  if (e.tipo === 'saida-esperada') return `Trecho mostrado (${e.linguagem}):\n${e.codigo_dado}`;
+  if (e.tipo === 'codigo') return `Linguagem: ${e.linguagem}\nEsqueleto:\n${e.esqueleto}`;
+  if (e.tipo === 'ordenacao') return `Passos, embaralhados como o aluno os vê:\n${[...e.itens].sort().map((t) => `· ${t}`).join('\n')}`;
+  if (e.tipo === 'associacao')
+    return `Coluna da esquerda:\n${e.pares.map((p) => `· ${p.esquerda}`).join('\n')}\n\nColuna da direita, embaralhada:\n${[
+      ...e.pares.map((p) => p.direita),
+      ...(e.distratores_direita ?? []),
+    ].sort().map((t) => `· ${t}`).join('\n')}`;
+  if (e.tipo === 'resposta-expressao') return `Variáveis: ${(e.variaveis ?? []).join(', ')}`;
+  return '';
+}
+
 async function sondaDica(e) {
   return perguntar({
     etapa: 'criticar',
     system: COM_ALTERNATIVAS.has(e.tipo) ? SYS_DICA_ALTERNATIVAS : SYS_DICA_ABERTA,
     esquema: ESQ_DICA,
     maxTokens: 3000,
-    pergunta: `## Exercício\n${e.enunciado}\n\n## Dica\n${e.dica_socratica}`,
+    pergunta: `## Exercício\n${e.enunciado}\n\n## O que o aluno vê\n${corpoParaSonda(e)}\n\n## Dica\n${e.dica_socratica}`,
   });
 }
 
@@ -107,6 +127,18 @@ Não aponte ambiguidade de representação de quebra de linha.
 
 **O campo "porque" de cada alternativa é feedback pós-resposta**, mostrado depois que o aluno
 responde. Ele não aparece junto das opções, então não conta como pista.
+
+**Não julgue se a dica entrega demais. Isso já foi medido por outra via.** Antes de você, uma
+sonda comportamental tentou resolver o exercício vendo só o enunciado, o corpo e a dica; o
+resultado dela entra no veredicto junto com o seu. Sonda observa comportamento, você opina —
+e opinião sobre dica erra sempre para o mesmo lado, porque **toda dica útil estreita o campo**.
+Se a régua for "informou algo que ajuda a decidir", nenhuma dica sobrevive, e o exercício
+passa a ser reprovado pelo que tem de melhor.
+
+Use a dimensão \`dica\` só quando ela estiver **errada**: afirma algo falso, descreve o
+exercício de forma incorreta, aponta para o bloco errado do código, contradiz o enunciado ou
+o gabarito. Uma dica que induz ao erro reprova quem sabe — isso é seu. O quanto ela facilita,
+não é.
 
 Sua tarefa é **encontrar defeito**, não elogiar. A falha a evitar é aprovar um exercício com
 problema real; listar problema inexistente é menos grave. Se não houver defeito, devolva a

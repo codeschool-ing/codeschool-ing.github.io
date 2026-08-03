@@ -51,6 +51,12 @@ há mais de uma ("marque todas que se aplicam"). Some com o chute: acertar exige
 cada item, não escolher o melhor. Prefira este ao quiz quando o tópico tem vários aspectos
 igualmente verdadeiros e o erro comum é conhecer só um deles.
 
+**Regra da dica em \`saida-esperada\`: nunca mande executar o trecho.** Em todo outro tipo,
+"rode e observe" é uma boa dica socrática, porque o aluno ainda precisa interpretar o que
+viu. Aqui a resposta pedida **é** a saída do programa, então "rode o trecho" equivale a
+"copie o gabarito do terminal". Aponte o conceito, a linha suspeita ou a comparação a fazer
+— nunca a execução.
+
 **ordenacao** — o tópico é uma sequência que só funciona numa ordem. Preencha \`itens\` com
 4 a 7 passos **na ordem correta**; o portal embaralha na hora de mostrar. Serve para
 processo de deploy, ciclo de requisição, resposta a incidente, etapas de análise. É o tipo
