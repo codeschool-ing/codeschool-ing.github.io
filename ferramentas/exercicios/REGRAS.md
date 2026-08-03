@@ -227,6 +227,15 @@ precisão.
   rodadas estão consertando conteúdo — que é o que a regra de ouro proíbe.
 
   Comparação só contra rodada do **mesmo curso**: docker contra python mediria o assunto.
+- **Calibração é regressão, não script descartável.** Cada conferência mecânica foi ajustada
+  contra os 48 exercícios revisados à mão, num script escrito e jogado fora a cada rodada.
+  Agora isso é `npm test`: os 48 não podem acusar nada, e cada regra guarda também o caso real
+  que a motivou, nos dois sentidos. Afrouxar um limiar sem perceber quebra um teste em vez de
+  passar despercebido — que foi como o eco léxico quase entrou com margem de +1.
+- **Contabilidade de rodada se testa com função de mentira.** O funil em voltas é o ponto onde
+  um erro não aparece na saída: resgatado contado como rejeitado, ou rejeitado contado duas
+  vezes, produz um relatório plausível e falso ao fim de uma rodada que custou dólares. Por
+  isso ele mora sozinho em `lib/funil.mjs` e roda inteiro sem tocar na API.
 
 ## 7. Tipos: um retirado, um em observação
 
@@ -253,12 +262,40 @@ Critério de decisão: se a taxa continuar abaixo da metade do `quiz` em mais du
 tipo passa a exigir que **cada alternativa seja verificável**, não apenas julgada — ou sai do
 gerador como a `ordenacao`.
 
+## 7b. Refazer o que caiu, sem ensinar para a prova
+
+O exercício rejeitado deixou de ser descartado: volta ao gerador com o laudo em mãos e passa
+pelo funil inteiro de novo. Ele já custou uma geração e uma crítica, e o defeito veio nomeado
+— refazer é mais barato que gerar outro às cegas e torcer.
+
+**O risco desta etapa é ensinar para a prova.** Reescrever até o juiz aprovar otimiza contra o
+juiz, e juiz tem vício. Quatro coisas seguram isso, e nenhuma pode ser afrouxada sem substituir
+por outra:
+
+- **A reescrita volta pelo funil inteiro**, não só pela crítica. A conferência mecânica não
+  muda de opinião nem se cansa, e a execução tampouco.
+- **A sonda cega não lê a crítica.** Não há como agradá-la com redação: ou o gabarito é
+  dedutível sem saber o assunto, ou não é.
+- **Uma volta por padrão.** Subir `--refazer` é escolha explícita, e o custo por aprovado no
+  veredito mostra se pagou.
+- **Tipo e tópico ficam presos.** Trocar um `multipla-escolha` difícil por um `quiz` fácil
+  resolveria a rejeição e falsificaria as duas medidas que mantêm o gerador honesto: cobertura
+  do tópico e taxa por tipo. Reescrita que muda um dos dois é recusada sem entrar no funil.
+
+Também recusadas: reescrita idêntica à original (gastar de novo para reprovar de novo) e
+resposta vazia. E **o laudo diz que o defeito é fato e a sugestão de conserto é palpite** —
+quem apontou o defeito não escreveu o exercício, e já aconteceu de a sugestão do crítico estar
+errada enquanto o defeito estava certo.
+
+**O que julgar depois de rodar:** se `resgatados` for alto e o custo por aprovado cair, a etapa
+se paga. Se `resgatados` for alto e o custo por aprovado subir, a etapa está comprando
+aprovação cara — e vale conferir à mão se os resgatados são mesmo bons, porque é exatamente a
+forma que "ensinar para a prova" teria.
+
 ## 8. O que ainda não é regra
 
 Sabido, ainda não resolvido:
 
-- **Realimentar a crítica no gerador.** Hoje o exercício rejeitado é descartado; refazer com a
-  crítica em mãos sai mais barato que gerar do zero.
 - **Deduplicação entre tópicos vizinhos.**
 - **As pistas de forma cobrem quatro traços, e o juiz aponta outros.** Categoria destoante e
   plausibilidade exótica ainda são só prosa e julgamento; mecanizá-las exige medir semântica,

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Pipeline de exercícios do catálogo: gerar → validar → criticar.
+/* Pipeline de exercícios do catálogo: gerar → validar → criticar → refazer o que caiu.
  *
  *   node exercicios.mjs python --max 3          o ciclo inteiro (padrão)
  *   node exercicios.mjs python --ate gerar      para depois de gerar
@@ -9,15 +9,20 @@
  *
  * O alvo é um id de curso ou um arquivo .json — o script distingue pelo sufixo. Retomar de
  * um arquivo é o que torna barato corrigir um gabarito à mão e reconferir sem regerar.
+ *
+ * O funil roda em voltas: o que reprova volta para o gerador com o laudo em mãos e passa pelo
+ * funil de novo. No fim, a execução diz sozinha se a rodada evoluiu — ver lib/historico.mjs.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { acharCurso, carregar } from './lib/catalogo.mjs';
-import { relatorio } from './lib/claude.mjs';
+import { custoTotal, relatorio } from './lib/claude.mjs';
 import { gerar, contagemPorTipo } from './lib/gerar.mjs';
 import { validar, conferirInterpretadores, linguagensUsadas, conferirCAS, precisaCAS } from './lib/validar.mjs';
 import { criticar } from './lib/criticar.mjs';
+import { refazer } from './lib/refazer.mjs';
+import { funil } from './lib/funil.mjs';
 import { comparar, dimensoesDe, registrar } from './lib/historico.mjs';
 import { TIPOS, renderizar } from './lib/tipos.mjs';
 
@@ -43,6 +48,7 @@ const TAM_LOTE = num('lote', 6);
 const MAX_TOPICOS = num('max', Infinity);
 const TIMEOUT = num('timeout', 10) * 1000;
 const PARALELO = num('paralelo', 4);
+const REFAZER = num('refazer', 1);
 
 const ehArquivo = alvo?.endsWith('.json');
 const de = txt('de', ehArquivo ? 'validar' : 'gerar');
@@ -68,6 +74,7 @@ opções
   --alternativas N   alternativas por questão (padrão 5)
   --timeout N        segundos por caso de teste (padrão 10)
   --paralelo N       chamadas simultâneas (padrão 4; suba se não bater rate limit)
+  --refazer N        voltas de conserto do que reprovar (padrão 1; 0 desliga)
   --so-estrutura     validar sem API nem execução
   --so-sondas        criticar sem o julgamento
   --seco             gerar sem chamar a API
@@ -80,7 +87,7 @@ tipos: ${TIPOS.join(', ')}`;
 
 // Placar da rodada: cada etapa deposita o que só ela sabe, e o fim da execução responde
 // "evoluiu ou não" sem que ninguém precise reler a saída inteira.
-const placar = { gerados: 0, estrutura: 0, execucao: 0, api: 0, aprovados: 0, dimensoes: {} };
+const placar = { gerados: 0, estrutura: 0, execucao: 0, api: 0, aprovados: 0, refeitos: 0, resgatados: 0, dimensoes: {} };
 
 const rot = (e) => `${e.tipo.padEnd(16)} ${(e.topico ?? '').slice(0, 38).padEnd(38)}`;
 const indice = (etapa) => ETAPAS.indexOf(etapa);
@@ -109,6 +116,7 @@ async function etapaGerar(cursoId) {
   console.log(`tópicos ...... ${topicos.length} de ${curso.topicos.length}`);
   console.log(`alternativas . ${opcoes.alternativas} por questão`);
   console.log(`paralelo ..... ${PARALELO} chamadas simultâneas`);
+  console.log(`refazer ...... ${REFAZER} volta(s) de conserto do que reprovar`);
   console.log('');
 
   if (tem('seco')) {
@@ -145,9 +153,7 @@ async function etapaGerar(cursoId) {
   return { caminho: destino, dados };
 }
 
-async function etapaValidar({ caminho, dados }) {
-  const exercicios = dados.exercicios ?? [];
-
+function conferirAmbiente(exercicios) {
   if (!tem('so-estrutura')) {
     const faltando = conferirInterpretadores(linguagensUsadas(exercicios));
     if (faltando.length) {
@@ -165,7 +171,9 @@ async function etapaValidar({ caminho, dados }) {
       }
     }
   }
+}
 
+async function etapaValidar(exercicios, dados) {
   console.log('');
   const { aprovados, reprovados } = await validar({
     exercicios,
@@ -185,21 +193,16 @@ async function etapaValidar({ caminho, dados }) {
     },
   });
 
-  const base = caminho.replace(/\.json$/, '');
-  gravar(`${base}.validado.json`, dados, aprovados);
-  if (reprovados.length) gravar(`${base}.reprovado.json`, dados, reprovados);
-
   console.log('');
   console.log(`validados .... ${aprovados.length}/${exercicios.length}  (${reprovados.length} reprovados)`);
-  placar.estrutura = reprovados.filter((e) => e._camada === 'estrutura').length;
-  placar.execucao = reprovados.length - placar.estrutura;
-  return { caminho: `${base}.validado.json`, dados: { ...dados, exercicios: aprovados } };
+  // Somado entre as voltas: o que interessa é quantos defeitos cada camada pegou, não em
+  // que passagem os pegou.
+  placar.estrutura += reprovados.filter((e) => e._camada === 'estrutura').length;
+  placar.execucao += reprovados.filter((e) => e._camada !== 'estrutura').length;
+  return { aprovados, reprovados };
 }
 
-async function etapaCriticar({ caminho, dados }) {
-  const exercicios = dados.exercicios ?? [];
-  const curso = acharCurso(dados.curso);
-
+async function etapaCriticar(exercicios, curso) {
   console.log('');
   const { aprovados, reprovados } = await criticar({
     exercicios,
@@ -213,16 +216,28 @@ async function etapaCriticar({ caminho, dados }) {
     },
   });
 
-  const base = caminho.replace(/\.json$/, '');
-  gravar(`${base}.criticado.json`, dados, aprovados);
-  if (reprovados.length) gravar(`${base}.rejeitado.json`, dados, reprovados);
-
   console.log('');
   console.log(`aprovados .... ${aprovados.length}/${exercicios.length}  (${reprovados.length} rejeitados)`);
-  placar.api = reprovados.length;
-  placar.aprovados = aprovados.length;
-  placar.dimensoes = dimensoesDe(reprovados);
-  return { reprovados: reprovados.length };
+  placar.api += reprovados.length;
+  for (const [d, n] of Object.entries(dimensoesDe(reprovados))) placar.dimensoes[d] = (placar.dimensoes[d] ?? 0) + n;
+  return { aprovados, reprovados };
+}
+
+/* Uma volta de conserto: o que foi reprovado volta com o laudo em mãos. O que não voltou
+ * — reescrita falhou, mudou de tipo, veio idêntica — é rejeição definitiva. */
+async function etapaRefazer(rejeitados, curso, volta) {
+  console.log('');
+  console.log(`refazendo .... ${rejeitados.length} reprovados, volta ${volta} de ${REFAZER}`);
+  const refeitos = await refazer({
+    exercicios: rejeitados,
+    curso,
+    opcoes,
+    paralelo: PARALELO,
+    aoProgredir: (e, estado, detalhe, feitos, total) =>
+      console.log(`[#${String(feitos).padStart(3)}/${total}] ${rot(e)} ${estado}${detalhe ? '  ' + detalhe.slice(0, 90) : ''}`),
+  });
+  placar.refeitos += refeitos.filter(Boolean).length;
+  return refeitos;
 }
 
 function imprimirCusto() {
@@ -265,14 +280,41 @@ try {
       estado = await etapaGerar(alvo);
       if (!estado) process.exit(0); // --seco
     }
-    if (rodar('validar')) estado = await etapaValidar(estado);
-    if (rodar('criticar')) ({ reprovados } = await etapaCriticar(estado));
+    if (rodar('validar') || rodar('criticar')) {
+      const { caminho, dados } = estado;
+      const curso = acharCurso(dados.curso);
+      conferirAmbiente(dados.exercicios ?? []);
+
+      // O funil roda em voltas: o que cai numa volta pode voltar consertado na seguinte.
+      // Refazer só faz sentido com a crítica ligada — é ela que produz o laudo caro.
+      const { aprovados: passaram, validados, rejeitados: finais } = await funil({
+        exercicios: dados.exercicios ?? [],
+        voltas: rodar('criticar') ? REFAZER : 0,
+        validar: rodar('validar') ? (lista) => etapaValidar(lista, dados) : null,
+        criticar: rodar('criticar') ? (lista) => etapaCriticar(lista, curso) : null,
+        refazer: (lista, volta) => etapaRefazer(lista, curso, volta),
+      });
+
+      reprovados = finais.length;
+      placar.aprovados = passaram.length;
+      placar.resgatados = passaram.filter((e) => e._refeito).length;
+
+      const base = caminho.replace(/\.json$/, '');
+      if (rodar('validar')) gravar(`${base}.validado.json`, dados, validados);
+      if (rodar('criticar')) gravar(`${base}.criticado.json`, dados, passaram);
+      if (finais.length) gravar(`${base}.rejeitado.json`, dados, finais);
+
+      if (placar.refeitos) {
+        console.log('');
+        console.log(`resgatados ... ${placar.resgatados} de ${placar.refeitos} reescritos  (${passaram.length} aprovados no total)`);
+      }
+    }
 
     imprimirCusto();
     // Só o ciclo inteiro entra no histórico. Uma retomada de arquivo não gerou nada, e o
     // denominador seria outro — comparar as duas mediria o comando, não a ferramenta.
     if (rodar('gerar') && rodar('criticar') && placar.gerados) {
-      const rodada = { quando: new Date().toISOString(), ...placar };
+      const rodada = { quando: new Date().toISOString(), ...placar, custo: Number(custoTotal().toFixed(4)) };
       for (const l of comparar(rodada)) console.log(l);
       registrar(rodada);
     }

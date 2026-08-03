@@ -6,5 +6,8 @@
   "description": "Pipeline de exercicios do catalogo: gerar, validar e criticar",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.70.0"
+  },
+  "scripts": {
+    "test": "node teste.mjs"
   }
 }

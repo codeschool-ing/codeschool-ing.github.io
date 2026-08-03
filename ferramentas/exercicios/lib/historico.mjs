@@ -40,7 +40,15 @@ export function comparar(atual, rodadas = ler()) {
 
   const medir = (r) => {
     const graca = r.estrutura + r.execucao;
-    return { taxa: pct(r.aprovados, r.gerados), graca, pagos: r.api, gracaPct: pct(graca, graca + r.api) };
+    // Custo por exercício aprovado, não custo da rodada: é o único jeito de saber se uma
+    // etapa que gasta mais — a reescrita — se paga entregando mais aprovados.
+    return {
+      taxa: pct(r.aprovados, r.gerados),
+      graca,
+      pagos: r.api,
+      gracaPct: pct(graca, graca + r.api),
+      unitario: r.aprovados && r.custo ? r.custo / r.aprovados : 0,
+    };
   };
   const a = medir(atual);
 
@@ -52,6 +60,9 @@ export function comparar(atual, rodadas = ler()) {
     const b = medir(anterior);
     L.push(`  aprovados ....... ${atual.aprovados}/${atual.gerados} (${a.taxa}%)   antes ${anterior.aprovados}/${anterior.gerados} (${b.taxa}%)   ${delta(a.taxa, b.taxa)} pp`);
     L.push(`  pegos de graça .. ${a.graca} de ${a.graca + a.pagos} (${a.gracaPct}%)   antes ${b.graca} de ${b.graca + b.pagos} (${b.gracaPct}%)   ${delta(a.gracaPct, b.gracaPct)} pp`);
+    if (a.unitario && b.unitario)
+      L.push(`  custo/aprovado .. US$ ${a.unitario.toFixed(3)}   antes US$ ${b.unitario.toFixed(3)}   ${delta(pct(a.unitario, b.unitario), 100)}%`);
+    if (atual.refeitos) L.push(`  resgatados ...... ${atual.resgatados} de ${atual.refeitos} reescritos`);
     L.push(`  causas pagas .... ${causas(atual)}`);
     L.push('');
     L.push(`  ${veredito(a, b)}`);
@@ -76,10 +87,16 @@ function causas(r) {
 function veredito(a, b) {
   const dGraca = a.gracaPct - b.gracaPct;
   const dTaxa = a.taxa - b.taxa;
-  if (dGraca >= 5) return `EVOLUIU — a ferramenta pega ${dGraca} pp a mais dos defeitos sozinha, sem pagar API.`;
-  if (dTaxa >= 5) return `EVOLUIU — sai mais exercício bom (${dTaxa} pp), e a divisão de trabalho não piorou.`;
+  // A ressalva do preço vem colada no veredito, e não numa linha que dá para não ler: uma
+  // etapa que aprova mais gastando o dobro por exercício não é evolução, é troca.
+  let caro = '';
+  if (a.unitario && b.unitario && a.unitario > b.unitario * 1.25)
+    caro = ` Mas cada aprovado saiu ${Math.round(pct(a.unitario, b.unitario) - 100)}% mais caro — veja se compensa.`;
+
+  if (dGraca >= 5) return `EVOLUIU — a ferramenta pega ${dGraca} pp a mais dos defeitos sozinha, sem pagar API.${caro}`;
+  if (dTaxa >= 5) return `EVOLUIU — sai mais exercício bom (${dTaxa} pp), e a divisão de trabalho não piorou.${caro}`;
   if (dTaxa <= -5) return `PIOROU — ${-dTaxa} pp a menos de aprovação e nada novo pego de graça.`;
-  return 'PAROU — mesma taxa, mesma divisão de trabalho. Esta rodada só valeu se saiu regra nova dela.';
+  return `PAROU — mesma taxa, mesma divisão de trabalho. Esta rodada só valeu se saiu regra nova dela.${caro}`;
 }
 
 /* Conta as dimensões que o crítico cobrou. Uma rejeição pode ter mais de um achado grave;

@@ -9,9 +9,18 @@ fonte. Regra nova entra lá primeiro — ver a regra de ouro no [`CLAUDE.md`](..
 da raiz.
 
 ```
-gerar  →  validar  →  criticar
-escreve   executa     julga
+gerar  →  validar  →  criticar  ─┐
+escreve   executa     julga      │
+   ▲                             │
+   └──────  refazer  ◀───────────┘
+            o que caiu, com o laudo em mãos
 ```
+
+O que reprova não é descartado: volta ao gerador com o defeito nomeado e passa pelo funil
+inteiro de novo. Uma volta por padrão (`--refazer N`, `0` desliga).
+
+No fim de cada ciclo completo a execução responde sozinha se a rodada evoluiu — ver
+[o veredito](#a-rodada-evoluiu-ou-não).
 
 ## Rodar
 
@@ -44,6 +53,7 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 | `--alternativas N` | 5 |
 | `--timeout N` | 10 s por caso de teste |
 | `--paralelo N` | 4 chamadas simultâneas |
+| `--refazer N` | 1 volta de conserto do que reprovar (`0` desliga) |
 | `--so-estrutura` | validar sem API nem execução (grátis) |
 | `--so-sondas` | criticar sem o julgamento (mais barato) |
 | `--seco` | gerar sem chamar a API |
@@ -51,6 +61,40 @@ regerar — e sem pagar de novo, porque a solução de referência fica salva no
 | `--ver [N]` | lê os exercícios de um `.json` em forma humana |
 
 O custo sai por etapa e somado, numa conta só.
+
+### Antes de gastar
+
+```sh
+npm test        # conferências mecânicas, guardas da reescrita, contabilidade do funil
+```
+
+Roda em um segundo e não chama a API. Os 48 exercícios revisados à mão são o corpo de prova
+permanente das conferências mecânicas: nenhuma pode acusar um deles, e cada uma guarda também
+o caso real que a motivou. Afrouxar uma regra sem perceber quebra um teste em vez de passar
+despercebido.
+
+### A rodada evoluiu ou não?
+
+Todo ciclo completo grava uma linha em `historico.json` e termina com um veredito de três
+estados — `EVOLUIU`, `PAROU` ou `PIOROU`:
+
+```
+progresso — docker, contra a rodada de 2026-08-03 03:40
+  aprovados ....... 8/18 (44%)   antes 8/18 (44%)   0 pp
+  pegos de graça .. 1 de 10 (10%)   antes 0 de 10 (0%)   +10 pp
+  custo/aprovado .. US$ 0.327   antes US$ 0.335   -2%
+  causas pagas .... distratores 6 · dica 5 · gabarito 1
+
+  EVOLUIU — a ferramenta pega 10 pp a mais dos defeitos sozinha, sem pagar API.
+```
+
+O número que decide **não é a taxa de aprovação**: ela muda com o curso e com o tópico, e sobe
+sozinha se o gerador ficar tímido. O que mede a ferramenta é a divisão do trabalho — quantos
+defeitos foram pegos por cálculo, de graça, contra quantos só apareceram depois de pagar a
+API. Cada regra que vira conta empurra defeito de uma coluna para a outra.
+
+A comparação é sempre com a rodada anterior **do mesmo curso**: docker contra python mediria
+o assunto, não a ferramenta.
 
 ### Ler o que saiu
 

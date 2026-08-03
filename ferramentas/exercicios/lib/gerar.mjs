@@ -4,7 +4,9 @@ import { perguntar } from './claude.mjs';
 import { esquema, REGRAS_POR_TIPO, resumo } from './tipos.mjs';
 import { mapaConcorrente } from './paralelo.mjs';
 
-const REGRAS = (opcoes) => `Você escreve exercícios para uma escola de programação online que
+// Exportado porque quem reescreve um exercício reprovado obedece às mesmas regras de quem o
+// escreveu: uma segunda lista de regras divergiria da primeira na primeira edição.
+export const REGRAS = (opcoes) => `Você escreve exercícios para uma escola de programação online que
 corrige tudo por máquina. Não existe professor do outro lado: um exercício que precise de
 julgamento humano para ser corrigido é inútil aqui.
 
