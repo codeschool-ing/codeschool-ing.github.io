@@ -1,0 +1,476 @@
+{
+  "curso": "docker",
+  "gerado_em": "2026-08-03T06:52:43.450Z",
+  "alternativas": 5,
+  "cegas": false,
+  "exercicios": [
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "Uma aplicação funciona no notebook da desenvolvedora e falha no servidor de testes com erro de biblioteca ausente. Qual característica do container ataca diretamente esse sintoma?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "A aplicação é entregue junto com as bibliotecas e arquivos de que depende, então o servidor não precisa tê-los instalados.",
+          "correta": true,
+          "porque": "O empacotamento leva as dependências junto com o programa, eliminando a diferença entre as duas máquinas."
+        },
+        {
+          "texto": "O container reserva uma fatia fixa de memória e de CPU no servidor, evitando que outro serviço ocupe esses recursos.",
+          "correta": false,
+          "porque": "Limitar recursos é possível, mas não tem relação com uma biblioteca que não existe na máquina."
+        },
+        {
+          "texto": "O container reinicia o processo automaticamente quando ele termina com erro no servidor de testes.",
+          "correta": false,
+          "porque": "Reiniciar processo é um recurso real de orquestração, mas apenas repetiria a mesma falha de biblioteca."
+        },
+        {
+          "texto": "O container obriga o servidor a usar a mesma distribuição Linux instalada no notebook da desenvolvedora.",
+          "correta": false,
+          "porque": "A máquina que executa mantém a sua própria instalação; nada nela é trocado para casar com a do desenvolvimento."
+        },
+        {
+          "texto": "O container substitui as bibliotecas de sistema do servidor pelas versões usadas no notebook durante a execução.",
+          "correta": false,
+          "porque": "Os arquivos empacotados são vistos pelo processo isolado, sem alterar a instalação da máquina."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Uma dessas promessas resolve o sintoma relatado; as outras descrevem efeitos reais de container aplicados a um problema diferente. Comece perguntando o que faltava do lado que quebrou."
+    },
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações que se aplicam a resultados obtidos ao trocar a instalação manual de uma aplicação pelo seu empacotamento em container.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Duas versões diferentes do mesmo interpretador convivem na mesma máquina, cada uma atendendo um serviço.",
+          "correta": true,
+          "porque": "Como cada pacote traz suas próprias dependências, versões conflitantes deixam de disputar o mesmo lugar."
+        },
+        {
+          "texto": "O artefato entregue à equipe de testes é o mesmo que vai para produção, com as dependências nas mesmas versões nos dois lugares.",
+          "correta": true,
+          "porque": "O conteúdo empacotado não muda de destino para destino, o que é a base da reprodutibilidade prometida."
+        },
+        {
+          "texto": "Um novo integrante deixa o ambiente pronto obtendo o pacote já montado, sem repetir uma lista de instalações manuais.",
+          "correta": true,
+          "porque": "O trabalho de montar o ambiente foi feito uma vez, no empacotamento, e é reaproveitado."
+        },
+        {
+          "texto": "Uma aplicação escrita para Windows passa a executar num servidor Linux sem alteração, por estar containerizada.",
+          "correta": false,
+          "porque": "O processo isolado continua sendo atendido pelo sistema da máquina que o executa; a família de sistema não é substituída pelo pacote."
+        },
+        {
+          "texto": "O consumo de CPU da aplicação cai, porque o container remove a camada de tradução que existia entre o processo e o hardware.",
+          "correta": false,
+          "porque": "Na instalação manual não havia camada de tradução alguma para ser removida."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Alguns desses efeitos dependem de peças que continuam vindo da máquina anfitriã. Verifique item por item de onde vem cada peça envolvida."
+    },
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "associacao",
+      "dificuldade": "dificil",
+      "enunciado": "Cada situação enfrentada por uma equipe casa com um efeito observado depois de empacotar os serviços em containers. Faça a correspondência; sobram itens na coluna da direita que não correspondem a nenhuma situação.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "Dois serviços exigem versões incompatíveis da mesma biblioteca de sistema e não convivem no mesmo servidor.",
+          "direita": "Cada um passa a carregar a sua própria cópia dos arquivos de que depende, e ambos ficam de pé ao mesmo tempo."
+        },
+        {
+          "esquerda": "Dois serviços gravam arquivos temporários com o mesmo nome no mesmo diretório e se corrompem.",
+          "direita": "Cada processo enxerga uma árvore de diretórios separada, e um deixa de sobrescrever o material do outro."
+        },
+        {
+          "esquerda": "Um teste de carga precisa de dez cópias do serviço no ar em segundos, e o orçamento não cobre dez servidores.",
+          "direita": "Várias instâncias isoladas entram em operação juntas no hardware que já existe."
+        },
+        {
+          "esquerda": "Uma correção validada em homologação volta a falhar em produção por diferença de versão de runtime.",
+          "direita": "O que foi verificado antes é exatamente o que entra em execução depois, sem reinstalação no destino."
+        }
+      ],
+      "distratores_direita": [
+        "O material é recompilado na máquina de destino para casar com as versões locais.",
+        "A mesma cópia do serviço passa a atender muito mais requisições com o mesmo consumo."
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Em cada situação, identifique qual restrição travava a equipe e verifique se o efeito descrito remove exatamente aquela restrição, sem prometer nada além."
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "Numa mesma máquina física, um serviço roda dentro de uma máquina virtual e outro roda em container. O que distingue esses dois arranjos?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "A máquina virtual executa um sistema operacional completo, com o seu próprio núcleo; o container usa o núcleo da máquina que o hospeda.",
+          "correta": true,
+          "porque": "A duplicação do núcleo é justamente a fronteira entre os dois arranjos."
+        },
+        {
+          "texto": "A máquina virtual usa o núcleo da máquina física; o container carrega um núcleo próprio dentro do pacote.",
+          "correta": false,
+          "porque": "A descrição está invertida em relação ao que cada arranjo faz."
+        },
+        {
+          "texto": "Os dois carregam núcleos próprios, e a diferença está no formato do disco virtual que cada um utiliza.",
+          "correta": false,
+          "porque": "Formatos de disco existem, mas o container não traz núcleo próprio."
+        },
+        {
+          "texto": "Nenhum dos dois tem núcleo próprio, e a diferença está no limite de memória que cada um permite configurar.",
+          "correta": false,
+          "porque": "A máquina virtual mantém um núcleo em execução dentro dela, além do da máquina física."
+        },
+        {
+          "texto": "A máquina virtual emula o processador instrução por instrução; o container executa direto, com tradução das chamadas de sistema.",
+          "correta": false,
+          "porque": "Emulação instrução por instrução é outra técnica, e o processo em container não passa por tradução de chamadas."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Conte quantos sistemas operacionais estão em execução ao mesmo tempo em cada arranjo, e de onde vem cada um deles."
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações que se aplicam à comparação entre instalação direta, máquina virtual e container.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Subir um container costuma levar o tempo de iniciar um processo, enquanto subir uma máquina virtual inclui a partida de um sistema operacional.",
+          "correta": true,
+          "porque": "A máquina virtual precisa inicializar o seu próprio sistema antes de o serviço existir."
+        },
+        {
+          "texto": "Numa mesma máquina física cabem mais containers que máquinas virtuais equivalentes, porque não se repete um sistema operacional por instância.",
+          "correta": true,
+          "porque": "A memória e o disco que a máquina virtual gasta com o sistema convidado ficam disponíveis no arranjo com containers."
+        },
+        {
+          "texto": "Uma máquina virtual pode executar um sistema operacional de outra família que a da máquina física; o container depende de compatibilidade com o núcleo em uso.",
+          "correta": true,
+          "porque": "O núcleo próprio da máquina virtual é o que permite mudar de família."
+        },
+        {
+          "texto": "Uma falha no núcleo tende a atingir apenas o container afetado, já que cada container recebe uma cópia própria do núcleo.",
+          "correta": false,
+          "porque": "Os containers da mesma máquina são atendidos pelo mesmo núcleo, e não por cópias individuais."
+        },
+        {
+          "texto": "Bare metal dispensa sistema operacional, e é isso que lhe dá vantagem de desempenho sobre os outros dois arranjos.",
+          "correta": false,
+          "porque": "Instalação direta continua tendo um sistema operacional; o que ela dispensa são as camadas acima dele."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Item por item, vale conferir o que é duplicado por instância em cada arranjo e o que é reaproveitado da máquina física."
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "quiz",
+      "dificuldade": "medio",
+      "enunciado": "Uma equipe precisa executar, num servidor Linux, uma aplicação que só funciona sobre Windows. Por que empacotá-la em container não resolve o caso?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Porque o processo em container é atendido pelo núcleo da máquina que o executa, e a aplicação exige outro.",
+          "correta": true,
+          "porque": "Sem núcleo próprio, o container não muda a família de sistema que atende o processo."
+        },
+        {
+          "texto": "Porque o container limita o processo a uma fatia de CPU menor do que a aplicação precisa para funcionar.",
+          "correta": false,
+          "porque": "Limites de CPU são configuráveis e não têm relação com a família do sistema exigida."
+        },
+        {
+          "texto": "Porque o processo em container não pode gravar em disco, e a aplicação depende de arquivos locais.",
+          "correta": false,
+          "porque": "Gravar arquivos é possível; o obstáculo aqui é de outra natureza."
+        },
+        {
+          "texto": "Porque o empacotamento exige recompilar a aplicação para a família de sistema do servidor, e o código-fonte não está disponível.",
+          "correta": false,
+          "porque": "Empacotar não recompila a aplicação; o binário segue como está."
+        },
+        {
+          "texto": "Porque o container executa um núcleo próprio, que não pode ser trocado depois de o pacote estar montado.",
+          "correta": false,
+          "porque": "O container não traz núcleo próprio para trocar."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Volte ao que cada arranjo duplica e ao que ele reaproveita da máquina física, e veja qual dessas peças a aplicação está exigindo."
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "quiz",
+      "dificuldade": "medio",
+      "enunciado": "Uma equipe empacotou o serviço com a ferramenta de um fornecedor, e o servidor de produção executa a ferramenta de outro. As duas seguem as especificações da OCI. O que isso garante?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Que o artefato produzido por uma é aceito e executado pela outra, sem novo empacotamento.",
+          "correta": true,
+          "porque": "Formato do artefato e comportamento de execução são exatamente o que a especificação descreve."
+        },
+        {
+          "texto": "Que os dois lados aceitam os mesmos comandos e as mesmas opções no roteiro de implantação.",
+          "correta": false,
+          "porque": "A interface digitada pela pessoa fica a cargo de cada projeto, fora do alcance do documento."
+        },
+        {
+          "texto": "Que o serviço passa a executar também em máquinas com sistema operacional de outra família.",
+          "correta": false,
+          "porque": "Compatibilidade de família de sistema não é criada por adesão a um documento comum."
+        },
+        {
+          "texto": "Que as duas ferramentas compartilham o mesmo código-fonte na parte que cria o processo isolado.",
+          "correta": false,
+          "porque": "Seguir a mesma descrição de comportamento não implica implementação idêntica."
+        },
+        {
+          "texto": "Que a versão do artefato em produção é conferida automaticamente contra a que a equipe testou.",
+          "correta": false,
+          "porque": "Conferência de procedência é outra preocupação, não uma consequência de aderência ao formato."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Duas ferramentas que respeitam o mesmo documento não se tornam a mesma ferramenta: pergunte-se o que o documento precisaria cobrir para cada promessa se sustentar."
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações que se aplicam ao efeito de existir uma especificação aberta para o formato e a execução de containers.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Um artefato criado hoje pode ser executado por um programa lançado depois, desde que ele siga a especificação.",
+          "correta": true,
+          "porque": "É a compatibilidade prometida pelo documento: o artefato não depende da ferramenta que o gerou."
+        },
+        {
+          "texto": "A equipe troca a ferramenta de execução no servidor sem reconstruir o que já foi empacotado.",
+          "correta": true,
+          "porque": "O formato do artefato é comum às ferramentas aderentes."
+        },
+        {
+          "texto": "Fornecedores diferentes competem em desempenho e ferramental sem quebrar a compatibilidade do artefato.",
+          "correta": true,
+          "porque": "A especificação fixa o contrato e deixa a implementação livre."
+        },
+        {
+          "texto": "A especificação descreve os comandos e as opções de linha de comando, de modo que um roteiro de implantação costuma continuar valendo ao trocar de ferramenta.",
+          "correta": false,
+          "porque": "A linha de comando de cada projeto está fora do que o documento padroniza."
+        },
+        {
+          "texto": "A especificação garante que o mesmo artefato execute sobre qualquer núcleo de sistema operacional, inclusive de outra família.",
+          "correta": false,
+          "porque": "Padronizar formato e execução não elimina a dependência de compatibilidade com o núcleo."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Compare o alcance daquilo que está escrito no documento com o alcance de cada promessa listada; algumas se estendem para além dele."
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "quiz",
+      "dificuldade": "dificil",
+      "enunciado": "Qual afirmação descreve corretamente a relação histórica entre Docker e OCI?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "A OCI padronizou formato e execução a partir de componentes doados pela Docker, e outras ferramentas passaram a implementar o mesmo documento.",
+          "correta": true,
+          "porque": "A especificação foi extraída de uma implementação já em uso e passou a ser mantida por um consórcio."
+        },
+        {
+          "texto": "A OCI escreveu a especificação antes de existir uma ferramenta popular, e a Docker foi a primeira a implementá-la.",
+          "correta": false,
+          "porque": "A ordem é a inversa: a ferramenta popularizou o formato, e o consórcio veio depois."
+        },
+        {
+          "texto": "A OCI é a área de padronização interna da Docker, e as versões da especificação acompanham as do produto.",
+          "correta": false,
+          "porque": "A especificação é mantida por um consórcio com vários fornecedores, com versionamento próprio."
+        },
+        {
+          "texto": "A OCI substituiu a Docker como fornecedora de ferramentas, e o produto de origem deixou de ser mantido.",
+          "correta": false,
+          "porque": "Um consórcio de padronização publica documentos, não substitui fornecedores de ferramentas."
+        },
+        {
+          "texto": "A OCI padroniza a interface de linha de comando das ferramentas, e o formato do artefato ficou com cada fornecedor.",
+          "correta": false,
+          "porque": "O alcance é o oposto: formato e execução são descritos, a linha de comando não."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Vale checar cronologia e autoria em cada afirmação: em que momento cada peça apareceu e quem responde por ela hoje."
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "associacao",
+      "dificuldade": "dificil",
+      "enunciado": "Cada situação abaixo casa com o resultado que a adesão às especificações abertas produz nela. Faça a correspondência; sobram itens na coluna da direita que não correspondem a nenhuma situação.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "O pacote foi construído com o produto de um fornecedor e o servidor executa o de outro, ambos aderentes ao padrão.",
+          "direita": "O que foi entregue entra em execução no destino sem passar por conversão de formato."
+        },
+        {
+          "esquerda": "O roteiro de implantação da equipe usa uma opção de conveniência que existe apenas no produto usado no desenvolvimento.",
+          "direita": "O material segue sendo aceito, mas as linhas digitadas pela equipe precisam ser refeitas."
+        },
+        {
+          "esquerda": "O pacote foi montado sobre uma base Linux e a máquina de destino roda um núcleo de outra família.",
+          "direita": "O destino recusa a execução, e a aderência ao padrão não altera esse resultado."
+        },
+        {
+          "esquerda": "Um projeto novo quer construir seu próprio programa de execução de containers para disputar mercado.",
+          "direita": "É possível chegar ao mercado lendo um texto público, sem recorrer a engenharia reversa."
+        }
+      ],
+      "distratores_direita": [
+        "O material é traduzido no destino para o formato aceito pelo programa instalado lá.",
+        "A execução ocorre no destino, porém com desempenho reduzido por uma camada de compatibilidade."
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Em cada caso, verifique o que precisa coincidir entre as duas pontas para o resultado descrito acontecer, e o que fica de fora do que foi acordado."
+    }
+  ]
+}

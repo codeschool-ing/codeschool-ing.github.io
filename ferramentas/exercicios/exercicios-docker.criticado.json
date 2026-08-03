@@ -1,0 +1,375 @@
+{
+  "curso": "docker",
+  "gerado_em": "2026-08-03T06:52:43.450Z",
+  "alternativas": 5,
+  "cegas": false,
+  "exercicios": [
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Marque todas as afirmações que se aplicam a resultados obtidos ao trocar a instalação manual de uma aplicação pelo seu empacotamento em container.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Duas versões diferentes do mesmo interpretador convivem na mesma máquina, cada uma atendendo um serviço.",
+          "correta": true,
+          "porque": "Como cada pacote traz suas próprias dependências, versões conflitantes deixam de disputar o mesmo lugar."
+        },
+        {
+          "texto": "O artefato entregue à equipe de testes é o mesmo que vai para produção, com as dependências nas mesmas versões nos dois lugares.",
+          "correta": true,
+          "porque": "O conteúdo empacotado não muda de destino para destino, o que é a base da reprodutibilidade prometida."
+        },
+        {
+          "texto": "Um novo integrante deixa o ambiente pronto obtendo o pacote já montado, sem repetir uma lista de instalações manuais.",
+          "correta": true,
+          "porque": "O trabalho de montar o ambiente foi feito uma vez, no empacotamento, e é reaproveitado."
+        },
+        {
+          "texto": "Uma aplicação escrita para Windows passa a executar num servidor Linux sem alteração, por estar containerizada.",
+          "correta": false,
+          "porque": "O processo isolado continua sendo atendido pelo sistema da máquina que o executa; a família de sistema não é substituída pelo pacote."
+        },
+        {
+          "texto": "O consumo de CPU da aplicação cai, porque o container remove a camada de tradução que existia entre o processo e o hardware.",
+          "correta": false,
+          "porque": "Na instalação manual não havia camada de tradução alguma para ser removida."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Alguns desses efeitos dependem de peças que continuam vindo da máquina anfitriã. Verifique item por item de onde vem cada peça envolvida.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa 4 ('o consumo de CPU cai porque o container remove a camada de tradução entre o processo e o hardware') é descartável sem qualquer conhecimento de containers: a premissa de que uma instalação manual teria uma 'camada de tradução' soa como jargão inventado e qualquer aluno de infra elimina por hábito. Com isso, a única discriminação real do exercício fica concentrada no item 3 (portabilidade entre famílias de sistema), o que reduz a granularidade da medida — embora, por a correção ser por conjunto exato, o aluno ainda precise acertar o item 3 para passar.",
+          "sugestao": "Substituir o item 4 por um erro que exija a distinção container/VM de fato, por exemplo: 'O container inicia mais rápido porque não precisa carregar um sistema operacional completo, e por isso também isola o kernel da máquina anfitriã' — verdadeiro na primeira metade e falso na segunda, forçando leitura técnica."
+        },
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "As três corretas descrevem cenários concretos e neutros, enquanto as duas erradas são as únicas que afirmam ganhos categóricos e chamativos ('passa a executar ... sem alteração', 'o consumo de CPU da aplicação cai'). Esse contraste de tom cria uma pista de formato: quem faz prova tende a marcar os relatos sóbrios e recusar as promessas fortes, sem avaliar o mérito técnico.",
+          "sugestao": "Uniformizar o tom: escrever pelo menos uma correta com formulação mais assertiva (ex.: 'a aplicação roda sem alteração em qualquer anfitriã Linux com o mesmo kernel disponível') e reescrever as erradas em linguagem descritiva e comedida."
+        }
+      ]
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "Numa mesma máquina física, um serviço roda dentro de uma máquina virtual e outro roda em container. O que distingue esses dois arranjos?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "A máquina virtual executa um sistema operacional completo, com o seu próprio núcleo; o container usa o núcleo da máquina que o hospeda.",
+          "correta": true,
+          "porque": "A duplicação do núcleo é justamente a fronteira entre os dois arranjos."
+        },
+        {
+          "texto": "A máquina virtual usa o núcleo da máquina física; o container carrega um núcleo próprio dentro do pacote.",
+          "correta": false,
+          "porque": "A descrição está invertida em relação ao que cada arranjo faz."
+        },
+        {
+          "texto": "Os dois carregam núcleos próprios, e a diferença está no formato do disco virtual que cada um utiliza.",
+          "correta": false,
+          "porque": "Formatos de disco existem, mas o container não traz núcleo próprio."
+        },
+        {
+          "texto": "Nenhum dos dois tem núcleo próprio, e a diferença está no limite de memória que cada um permite configurar.",
+          "correta": false,
+          "porque": "A máquina virtual mantém um núcleo em execução dentro dela, além do da máquina física."
+        },
+        {
+          "texto": "A máquina virtual emula o processador instrução por instrução; o container executa direto, com tradução das chamadas de sistema.",
+          "correta": false,
+          "porque": "Emulação instrução por instrução é outra técnica, e o processo em container não passa por tradução de chamadas."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Conte quantos sistemas operacionais estão em execução ao mesmo tempo em cada arranjo, e de onde vem cada um deles.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "Duas das quatro alternativas erradas se descartam por hábito de prova, sem conhecimento do tópico: a opção 2 começa com 'Os dois carregam núcleos próprios' e a 3 com 'Nenhum dos dois tem núcleo próprio' — generalizações absolutas que aluno experiente elimina de imediato. O campo real fica reduzido ao par espelhado 0/1 (mais a 4), o que aumenta bastante a chance de acerto por chute. Ainda exige saber a direção da relação (quem duplica o núcleo), por isso o defeito não decide sozinho quem passa.",
+          "sugestao": "Reescrever 2 e 3 como confusões conceituais plausíveis em vez de absolutos, por exemplo: 'Ambos compartilham o núcleo do hospedeiro, e a máquina virtual apenas reserva memória fixa antecipadamente' ou 'A máquina virtual compartilha o núcleo mas isola o sistema de arquivos, enquanto o container isola só a rede', mantendo todas as opções com a mesma estrutura de duas cláusulas."
+        }
+      ]
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "quiz",
+      "dificuldade": "medio",
+      "enunciado": "Uma equipe precisa executar, num servidor Linux, uma aplicação que só funciona sobre Windows. Por que empacotá-la em container não resolve o caso?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Porque o processo em container é atendido pelo núcleo da máquina que o executa, e a aplicação exige outro.",
+          "correta": true,
+          "porque": "Sem núcleo próprio, o container não muda a família de sistema que atende o processo."
+        },
+        {
+          "texto": "Porque o container limita o processo a uma fatia de CPU menor do que a aplicação precisa para funcionar.",
+          "correta": false,
+          "porque": "Limites de CPU são configuráveis e não têm relação com a família do sistema exigida."
+        },
+        {
+          "texto": "Porque o processo em container não pode gravar em disco, e a aplicação depende de arquivos locais.",
+          "correta": false,
+          "porque": "Gravar arquivos é possível; o obstáculo aqui é de outra natureza."
+        },
+        {
+          "texto": "Porque o empacotamento exige recompilar a aplicação para a família de sistema do servidor, e o código-fonte não está disponível.",
+          "correta": false,
+          "porque": "Empacotar não recompila a aplicação; o binário segue como está."
+        },
+        {
+          "texto": "Porque o container executa um núcleo próprio, que não pode ser trocado depois de o pacote estar montado.",
+          "correta": false,
+          "porque": "O container não traz núcleo próprio para trocar."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Volte ao que cada arranjo duplica e ao que ele reaproveita da máquina física, e veja qual dessas peças a aplicação está exigindo.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "Duas das quatro alternativas erradas (1 — 'fatia de CPU menor' e 2 — 'não pode gravar em disco') são descartáveis sem qualquer conhecimento do tópico: qualquer aluno sabe que container grava arquivos e que limite de CPU não impede um binário de rodar. Além disso, a alternativa 4 é a negação literal da correta ('o container executa um núcleo próprio' vs. 'é atendido pelo núcleo da máquina'), o que aciona a heurística de prova de que a resposta está nesse par e reduz o campo efetivo a duas opções. Ainda assim, escolher entre 0 e 4 exige entender o compartilhamento de núcleo, então o exercício continua medindo o tópico — o defeito reduz a dificuldade, mas não permite acertar sem saber.",
+          "sugestao": "Substituir as alternativas 1 e 2 por erros plausíveis e do mesmo campo conceitual, por exemplo: 'porque o container só isola processos, e o servidor precisaria de um hipervisor com uma VM Windows para atender essa aplicação' (parcialmente verdadeiro mas mal formulado como causa) ou 'porque a imagem base Windows não pode ser baixada de registries públicos'. E reescrever a 4 para não ser o espelho exato da correta, p.ex. 'porque o núcleo do host é substituído pelo da imagem apenas em modo privilegiado'."
+        }
+      ]
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "quiz",
+      "dificuldade": "medio",
+      "enunciado": "Uma equipe empacotou o serviço com a ferramenta de um fornecedor, e o servidor de produção executa a ferramenta de outro. As duas seguem as especificações da OCI. O que isso garante?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Que o artefato produzido por uma é aceito e executado pela outra, sem novo empacotamento.",
+          "correta": true,
+          "porque": "Formato do artefato e comportamento de execução são exatamente o que a especificação descreve."
+        },
+        {
+          "texto": "Que os dois lados aceitam os mesmos comandos e as mesmas opções no roteiro de implantação.",
+          "correta": false,
+          "porque": "A interface digitada pela pessoa fica a cargo de cada projeto, fora do alcance do documento."
+        },
+        {
+          "texto": "Que o serviço passa a executar também em máquinas com sistema operacional de outra família.",
+          "correta": false,
+          "porque": "Compatibilidade de família de sistema não é criada por adesão a um documento comum."
+        },
+        {
+          "texto": "Que as duas ferramentas compartilham o mesmo código-fonte na parte que cria o processo isolado.",
+          "correta": false,
+          "porque": "Seguir a mesma descrição de comportamento não implica implementação idêntica."
+        },
+        {
+          "texto": "Que a versão do artefato em produção é conferida automaticamente contra a que a equipe testou.",
+          "correta": false,
+          "porque": "Conferência de procedência é outra preocupação, não uma consequência de aderência ao formato."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Duas ferramentas que respeitam o mesmo documento não se tornam a mesma ferramenta: pergunte-se o que o documento precisaria cobrir para cada promessa se sustentar.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa 3 (\"compartilham o mesmo código-fonte na parte que cria o processo isolado\") é descartável sem nenhum conhecimento de OCI: ninguém supõe que uma especificação obrigue implementações a compartilhar código. Ela funciona como enchimento e reduz o campo real de escolha para três opções, num item de dificuldade média.",
+          "sugestao": "Substituir por um distrator que confunda de verdade as duas especificações da OCI, por exemplo: \"Que qualquer imagem construída por uma roda na outra independentemente da arquitetura de processador do servidor\" — erro comum e que exige entender o que o manifesto descreve (os/arch)."
+        },
+        {
+          "dimensao": "gabarito",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa correta afirma sem ressalva que o artefato \"é aceito e executado pela outra, sem novo empacotamento\", o que só vale para mesma plataforma (sistema/arquitetura). Como a alternativa 2 é dada como errada justamente por invocar outra família de sistema, um aluno atento pode considerar a 0 igualmente falsa por ausência dessa condição e hesitar entre marcar 0 ou nenhuma.",
+          "sugestao": "Qualificar o gabarito e/ou o enunciado, por exemplo: \"Que o artefato produzido por uma é aceito e executado pela outra na mesma plataforma, sem novo empacotamento\", ou informar no enunciado que ambas as máquinas usam o mesmo sistema e arquitetura."
+        }
+      ]
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "quiz",
+      "dificuldade": "dificil",
+      "enunciado": "Qual afirmação descreve corretamente a relação histórica entre Docker e OCI?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "A OCI padronizou formato e execução a partir de componentes doados pela Docker, e outras ferramentas passaram a implementar o mesmo documento.",
+          "correta": true,
+          "porque": "A especificação foi extraída de uma implementação já em uso e passou a ser mantida por um consórcio."
+        },
+        {
+          "texto": "A OCI escreveu a especificação antes de existir uma ferramenta popular, e a Docker foi a primeira a implementá-la.",
+          "correta": false,
+          "porque": "A ordem é a inversa: a ferramenta popularizou o formato, e o consórcio veio depois."
+        },
+        {
+          "texto": "A OCI é a área de padronização interna da Docker, e as versões da especificação acompanham as do produto.",
+          "correta": false,
+          "porque": "A especificação é mantida por um consórcio com vários fornecedores, com versionamento próprio."
+        },
+        {
+          "texto": "A OCI substituiu a Docker como fornecedora de ferramentas, e o produto de origem deixou de ser mantido.",
+          "correta": false,
+          "porque": "Um consórcio de padronização publica documentos, não substitui fornecedores de ferramentas."
+        },
+        {
+          "texto": "A OCI padroniza a interface de linha de comando das ferramentas, e o formato do artefato ficou com cada fornecedor.",
+          "correta": false,
+          "porque": "O alcance é o oposto: formato e execução são descritos, a linha de comando não."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Vale checar cronologia e autoria em cada afirmação: em que momento cada peça apareceu e quem responde por ela hoje.",
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "A alternativa 3 (\"a OCI substituiu a Docker como fornecedora de ferramentas, e o produto de origem deixou de ser mantido\") é descartável por qualquer aluno matriculado num curso de Docker, já que a própria existência do curso contradiz a afirmação. A alternativa 2 (\"a OCI é a área de padronização interna da Docker\") também cai por conhecimento geral de que OCI é consórcio. Isso reduz de fato o quiz a três opções (0, 1 e 4), embora ainda seja necessário conhecer cronologia e escopo da especificação para escolher entre elas — por isso não chega a permitir acerto sem estudo.",
+          "sugestao": "Substituir a alternativa 3 por um erro mais verossímil de escopo/autoria, por exemplo: \"A OCI só descreve o formato de imagem; a execução do container nunca foi padronizada e ficou a cargo de cada runtime\" — errado, mas plausível para quem não estudou o runtime-spec."
+        },
+        {
+          "dimensao": "dica",
+          "gravidade": "baixa",
+          "explicacao": "A dica orienta a checar apenas \"cronologia e autoria\" de cada afirmação, mas a alternativa 4 não erra em cronologia nem em autoria: ela erra em escopo (afirma que a OCI padroniza a CLI e deixa o formato do artefato com cada fornecedor). Quem seguir a dica ao pé da letra não encontra defeito nessa alternativa pelos critérios sugeridos e pode acabar retendo-a como candidata.",
+          "sugestao": "Ampliar a dica para cobrir o eixo que realmente distingue a alternativa 4, por exemplo: \"Verifique três coisas em cada afirmação: quando cada peça apareceu, quem responde por ela hoje e o que exatamente a especificação descreve.\""
+        },
+        {
+          "dimensao": "alvo",
+          "gravidade": "baixa",
+          "explicacao": "O tópico declarado é \"Docker e o padrão OCI: por que a especificação importa\", ou seja, a consequência prática de existir uma especificação (portabilidade, intercambialidade de runtimes, independência de fornecedor). O item cobra essencialmente cronologia e autoria institucional — quem doou o quê e quando o consórcio se formou — que é informação histórica, não o \"por que importa\". A aderência é parcial: mede memória de fato histórico em vez de compreensão do papel da especificação.",
+          "sugestao": "Reformular o enunciado para cobrar a consequência da padronização, mantendo a história como contexto. Ex.: \"Uma imagem construída com Docker roda sem alteração em Podman e em containerd. Qual afirmação explica corretamente por que isso é possível?\", com distratores que atribuam a portabilidade à CLI compatível, ao Docker Hub ou a uma camada de tradução."
+        }
+      ]
+    },
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "Uma aplicação funciona no notebook da desenvolvedora e falha no servidor de testes com erro de biblioteca ausente. Qual característica do container ataca diretamente esse sintoma?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "As bibliotecas de que o programa precisa viajam dentro do pacote executado, dispensando instalá-las na máquina de destino.",
+          "correta": true,
+          "porque": "O empacotamento leva as dependências junto com o programa, de modo que a ausência delas na máquina que executa deixa de importar."
+        },
+        {
+          "texto": "Uma fatia fixa de memória e de CPU é reservada na máquina de destino, impedindo que outro serviço ocupe esses recursos.",
+          "correta": false,
+          "porque": "Limitar recursos é possível, mas não faz aparecer um arquivo que não existe na máquina."
+        },
+        {
+          "texto": "O processo é reiniciado automaticamente quando termina com código de erro na máquina de destino.",
+          "correta": false,
+          "porque": "Reinício automático existe em ferramentas de execução, porém apenas repetiria a mesma falha de dependência."
+        },
+        {
+          "texto": "A distribuição Linux instalada na máquina de destino é trocada pela mesma usada durante o desenvolvimento.",
+          "correta": false,
+          "porque": "A máquina que executa mantém a sua própria instalação; nada nela é substituído para casar com o ambiente de desenvolvimento."
+        },
+        {
+          "texto": "As bibliotecas de sistema da máquina de destino são substituídas pelas versões do pacote enquanto o programa roda.",
+          "correta": false,
+          "porque": "Os arquivos empacotados são enxergados pelo processo isolado, sem alterar o que está instalado no sistema hospedeiro."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "O relato descreve algo que faltava de um dos lados. Em cada opção, repare se o efeito prometido acontece dentro do que foi empacotado ou modifica a instalação da máquina que executa.",
+      "_refeito": 1,
+      "_critica": [
+        {
+          "dimensao": "distratores",
+          "gravidade": "baixa",
+          "explicacao": "As alternativas 1 (reserva de memória/CPU) e 2 (reinício automático em caso de erro) falam de temas que nada têm a ver com o sintoma descrito (biblioteca ausente) e são descartáveis por leitura superficial, sem nenhum conhecimento de container. Restam efetivamente três opções em disputa (0, 3 e 4), o que reduz a discriminação do item — ainda assim 3 e 4 exigem entender empacotamento e isolamento, então o exercício continua medindo algo.",
+          "sugestao": "Substituir 1 e 2 por distratores ligados ao mesmo sintoma, por exemplo: 'o container baixa e instala automaticamente na máquina de destino as bibliotecas que estiverem faltando' ou 'o container compila o programa novamente na máquina de destino usando as bibliotecas encontradas lá'."
+        },
+        {
+          "dimensao": "dica",
+          "gravidade": "baixa",
+          "explicacao": "A dica propõe uma dicotomia ('o efeito acontece dentro do que foi empacotado ou modifica a instalação da máquina que executa') que não se aplica às alternativas 1 e 2 — nenhuma delas modifica a instalação do hospedeiro nem descreve algo contido no pacote. Um aluno que aplique o critério ao pé da letra pode classificar a alternativa 1 como 'dentro do que foi empacotado'. Não chega a apontar para a resposta errada, mas descreve o conjunto de opções de forma incompleta.",
+          "sugestao": "Reformular para um critério que valha para todas as opções, por exemplo: 'Pergunte-se, em cada opção, se o efeito prometido faz a biblioteca que faltava passar a existir para o processo — ou se apenas mexe em outra coisa (recursos, reinício, sistema do hospedeiro).'"
+        }
+      ]
+    }
+  ]
+}

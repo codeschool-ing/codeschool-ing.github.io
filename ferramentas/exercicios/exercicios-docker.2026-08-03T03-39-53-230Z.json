@@ -1,0 +1,411 @@
+{
+  "curso": "docker",
+  "gerado_em": "2026-08-03T02:55:28.621Z",
+  "alternativas": 5,
+  "exercicios": [
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "Uma equipe entrega um binário acompanhado de um README com a lista de dependências. Na estação de quem programou o sistema sobe; no servidor de produção ele quebra porque a versão de uma biblioteca do sistema é outra. Qual característica do empacotamento em container elimina essa classe de falha?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "A aplicação leva consigo as bibliotecas e a árvore de arquivos de que depende, e do host ela usa apenas o kernel.",
+          "correta": true,
+          "porque": "O que viaja no artefato é o espaço de usuário completo de que a aplicação precisa; o host contribui só com o kernel, e por isso a versão de biblioteca instalada no servidor deixa de participar da execução."
+        },
+        {
+          "texto": "O container traz o seu próprio kernel, de modo que diferenças entre as distribuições do host deixam de importar.",
+          "correta": false,
+          "porque": "Kernel próprio é característica de máquina virtual. O container executa sobre o kernel do host; o que ele isola é a árvore de arquivos e a visão dos recursos."
+        },
+        {
+          "texto": "O processo do container recebe fatia reservada de CPU e memória, o que evita falhas causadas por concorrência.",
+          "correta": false,
+          "porque": "Limites de recurso existem de fato, mas resolvem disputa por CPU e memória, não divergência de versão de biblioteca em disco."
+        },
+        {
+          "texto": "O conteúdo é recompilado no início da execução, ajustando-se às bibliotecas presentes na máquina de destino.",
+          "correta": false,
+          "porque": "Nada é recompilado ao iniciar; o artefato é imutável e justamente por isso não se ajusta ao que existe na máquina de destino."
+        },
+        {
+          "texto": "O registro guarda uma cópia da máquina de origem, inclusive o estado da memória, e a restaura no destino.",
+          "correta": false,
+          "porque": "Salvar e restaurar estado de memória é recurso de suspensão de máquina virtual; o artefato de container guarda arquivos, não memória."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "A falha nasceu de um arquivo em disco com versão diferente. Pergunte, em cada alternativa, o que ela promete transportar junto com o programa e o que ela deixa a cargo da máquina de destino."
+    },
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Sobre o que o empacotamento em container entrega e o que ele não entrega, marque todas as afirmações que se sustentam.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Duas aplicações que exigem versões incompatíveis da mesma biblioteca de sistema rodam lado a lado no mesmo host, cada uma com a sua.",
+          "correta": true,
+          "porque": "Cada processo empacotado enxerga a própria árvore de arquivos, então as duas versões não disputam o mesmo caminho no sistema."
+        },
+        {
+          "texto": "O intervalo entre iniciar e o serviço aceitar conexões é comparável ao de um processo comum, pois não há inicialização de sistema operacional.",
+          "correta": true,
+          "porque": "Não existe carregador de inicialização nem partida de serviços de sistema: o que sobe é o processo da aplicação."
+        },
+        {
+          "texto": "O mesmo artefato roda em máquinas diferentes desde que a arquitetura de processador seja compatível.",
+          "correta": true,
+          "porque": "A portabilidade é real, mas os binários dentro do artefato são de uma arquitetura específica, e essa condição continua valendo."
+        },
+        {
+          "texto": "Uma imagem construída em máquina ARM executa sem reconstrução em servidor x86, pois o empacotamento abstrai o processador.",
+          "correta": false,
+          "porque": "O empacotamento não traduz instruções de máquina; para outra arquitetura é preciso construir outro artefato."
+        },
+        {
+          "texto": "Endereços de banco e senhas gravados no artefato deixam de precisar de ajuste por ambiente, o que elimina a configuração externa.",
+          "correta": false,
+          "porque": "Valores que mudam entre ambientes continuam vindo de fora; gravá-los no artefato quebra a promessa de rodar o mesmo conteúdo em toda parte, além do risco de vazamento."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Duas dessas afirmações prometem que o empacotamento resolva algo que ele não toca. Comece perguntando o que precisa ser diferente entre desenvolvimento e produção, e o que precisa ser diferente entre dois modelos de processador."
+    },
+    {
+      "topico": "O que é um container e que problema ele resolve",
+      "tipo": "associacao",
+      "dificuldade": "medio",
+      "enunciado": "Cada situação relatada por uma equipe de operação corresponde a um efeito observado depois que a aplicação passou a ser entregue empacotada. Associe cada uma ao seu efeito.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "Duas aplicações no mesmo servidor exigem versões incompatíveis da mesma biblioteca de sistema.",
+          "direita": "Cada processo enxerga a sua própria árvore de arquivos, e as duas convivem na mesma máquina sem se atrapalhar."
+        },
+        {
+          "esquerda": "Um pacote existia por acaso na estação de quem programou e faltava no servidor de destino.",
+          "direita": "Tudo o que o programa lê em disco é declarado antes e segue dentro do artefato entregue."
+        },
+        {
+          "esquerda": "Aguentar o pico exige subir mais uma cópia do serviço, e esperar um sistema inicializar leva minutos.",
+          "direita": "A nova instância entra em operação em segundos, porque nada além do programa precisa ser iniciado."
+        },
+        {
+          "esquerda": "Desinstalar a aplicação deixa arquivos de configuração e pacotes soltos pelo servidor.",
+          "direita": "Remover a unidade em execução não altera nada fora do que a ferramenta administra."
+        }
+      ],
+      "distratores_direita": [
+        "O programa passa a ser recompilado a cada início, ajustando-se às bibliotecas encontradas no local.",
+        "As alterações feitas durante a execução são gravadas de volta no artefato de origem."
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Para cada situação, pergunte qual peça deixou de ser responsabilidade da máquina de destino. Duas das opções da direita descrevem comportamentos que nenhuma dessas situações produz."
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "quiz",
+      "dificuldade": "medio",
+      "enunciado": "No mesmo host, sobe-se uma máquina virtual com 2 vCPU e 2 GB e um container com limite de 2 CPUs e 2 GB. Nos dois casos a aplicação é a mesma e está ociosa. O que se observa no consumo de memória em repouso?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "A VM mantém na memória um kernel convidado e seus serviços de sistema; o container em repouso mantém só os processos da aplicação.",
+          "correta": true,
+          "porque": "A máquina virtual executa um sistema operacional inteiro dentro dela, e esse sistema ocupa memória mesmo sem carga; o container é um conjunto de processos sobre o kernel que já estava no ar."
+        },
+        {
+          "texto": "O consumo é praticamente o mesmo, porque o container reserva de antemão toda a memória fixada no limite configurado.",
+          "correta": false,
+          "porque": "Limite não é reserva: é teto. O container em repouso ocupa o que seus processos realmente usam."
+        },
+        {
+          "texto": "O container consome mais, porque mantém residente uma cópia reduzida do kernel para atender às suas chamadas de sistema.",
+          "correta": false,
+          "porque": "Não há cópia de kernel dentro do container; as chamadas de sistema vão para o kernel do host, que já estava carregado."
+        },
+        {
+          "texto": "O consumo é praticamente o mesmo, porque nos dois casos são os processos da aplicação que ocupam memória de fato.",
+          "correta": false,
+          "porque": "Ignora tudo que roda dentro do convidado além da aplicação: o kernel convidado e os serviços iniciados junto com ele."
+        },
+        {
+          "texto": "A VM consome menos, porque devolve ao host, assim que o convidado libera, a memória que ele deixa de usar.",
+          "correta": false,
+          "porque": "A devolução de memória ao host depende de mecanismos específicos e não é imediata; e mesmo assim o convidado continua com seu sistema residente."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Liste tudo que precisa estar rodando antes que o processo da aplicação apareça, em cada um dos dois casos, e compare as duas listas."
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Em quais dessas exigências a máquina virtual continua sendo a resposta, porque o container não a atende? Marque todas que se aplicam.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "O sistema a executar é Windows Server e o único host disponível roda Linux.",
+          "correta": true,
+          "porque": "O container usa o kernel do host; executar um sistema de outra família exige um kernel próprio, isto é, virtualização."
+        },
+        {
+          "texto": "A aplicação depende de um módulo de kernel carregado em uma versão de kernel diferente da que o host executa.",
+          "correta": true,
+          "porque": "Só há um kernel em jogo quando se usa containers, e é o do host; exigir outra versão obriga a virtualizar."
+        },
+        {
+          "texto": "Cargas de clientes distintos e mutuamente não confiáveis dividem o mesmo hardware e exige-se fronteira que não dependa de um kernel comum.",
+          "correta": true,
+          "porque": "Containers compartilham o kernel, que passa a ser superfície de ataque comum; a VM interpõe uma fronteira adicional entre os convidados."
+        },
+        {
+          "texto": "Cada serviço precisa de teto de CPU e memória para não prejudicar os vizinhos no mesmo host.",
+          "correta": false,
+          "porque": "Contabilidade e teto de recursos por grupo de processos é exatamente o que o container oferece, sem duplicar sistema operacional."
+        },
+        {
+          "texto": "Duas equipes precisam de versões diferentes do mesmo interpretador na mesma máquina.",
+          "correta": false,
+          "porque": "São dois espaços de usuário distintos sobre o mesmo kernel: caso típico resolvido por containers."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Pergunte de cada exigência qual peça teria de ser duplicada para atendê-la: um conjunto de arquivos, uma contabilidade de recursos ou o próprio kernel."
+    },
+    {
+      "topico": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "tipo": "associacao",
+      "dificuldade": "dificil",
+      "enunciado": "Associe cada peça das três abordagens ao papel que ela cumpre.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [],
+      "armadilha": "",
+      "pares": [
+        {
+          "esquerda": "Hipervisor tipo 1",
+          "direita": "Ocupa o ponto mais próximo do hardware e reparte processadores e memória entre sistemas convidados."
+        },
+        {
+          "esquerda": "Hipervisor tipo 2",
+          "direita": "Depende de um sistema já instalado para alcançar o hardware e disputa recursos com os demais programas dele."
+        },
+        {
+          "esquerda": "Kernel do host em uma máquina que executa containers",
+          "direita": "Atende diretamente as chamadas de sistema feitas pelos processos empacotados, sem intermediário."
+        },
+        {
+          "esquerda": "Disco virtual de uma máquina virtual",
+          "direita": "Guarda, em um arquivo único, uma instalação inteira de sistema, com carregador de inicialização."
+        },
+        {
+          "esquerda": "Imagem de container",
+          "direita": "Guarda, em camadas, a árvore de arquivos da aplicação, sem carregador de inicialização."
+        }
+      ],
+      "distratores_direita": [
+        "Intercepta e reescreve as chamadas de sistema dos processos antes de repassá-las ao hardware.",
+        "Mantém em disco uma cópia do estado da memória para retomar a execução mais tarde."
+      ],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Para cada peça, pergunte se ela é código em execução ou conteúdo em disco, e a quem ela precisa pedir licença para chegar ao processador. Duas descrições da direita não correspondem a nenhuma das peças listadas."
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "quiz",
+      "dificuldade": "facil",
+      "enunciado": "Dizer que uma imagem é conforme ao padrão OCI significa o quê, na prática?",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Que a imagem pode ser baixada e executada por qualquer ferramenta que implemente a especificação, sem exigir o Docker instalado.",
+          "correta": true,
+          "porque": "A conformidade é uma afirmação sobre interoperabilidade: o formato e o protocolo são públicos, então implementações independentes leem e executam o mesmo artefato."
+        },
+        {
+          "texto": "Que a imagem foi assinada por uma autoridade da Open Container Initiative e teve suas camadas varridas em busca de vulnerabilidades.",
+          "correta": false,
+          "porque": "Assinatura e varredura existem, mas são práticas de segurança de fornecedores e ferramentas; nada disso decorre de o formato seguir a especificação."
+        },
+        {
+          "texto": "Que a imagem usa um formato próprio da iniciativa, incompatível com registries que atendem clientes Docker mais antigos.",
+          "correta": false,
+          "porque": "Inverte o objetivo do padrão: ele nasceu para que o mesmo artefato circule entre ferramentas, e há compatibilidade preservada com o formato anterior."
+        },
+        {
+          "texto": "Que a imagem foi construída a partir de uma distribuição base homologada pela Open Container Initiative para uso em produção.",
+          "correta": false,
+          "porque": "A especificação descreve estrutura de camadas, manifesto e configuração; ela não homologa distribuições nem conteúdo base."
+        },
+        {
+          "texto": "Que a imagem embarca o runtime necessário para executar-se, dispensando qualquer serviço em execução no host.",
+          "correta": false,
+          "porque": "A imagem é conteúdo; alguém no host precisa desempacotá-la e criar o processo isolado."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Pergunte, em cada alternativa, o que passaria a ser impossível se a imagem deixasse de ser conforme — e se essa impossibilidade tem a ver com formato ou com política de quem publica."
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "multipla-escolha",
+      "dificuldade": "medio",
+      "enunciado": "Quais consequências decorrem, de fato, de o formato de imagem, o protocolo de distribuição e o comportamento do runtime estarem escritos em especificações públicas? Marque todas que se aplicam.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [
+        {
+          "texto": "Uma ferramenta de construção de um fornecedor e um runtime de outro trabalham com o mesmo artefato sem acordo bilateral entre os dois projetos.",
+          "correta": true,
+          "porque": "É o efeito central do padrão: as implementações concordam com o documento, não umas com as outras."
+        },
+        {
+          "texto": "Um repositório remoto de um fornecedor atende clientes de projetos diferentes, porque as rotas de envio e download são as mesmas para todos.",
+          "correta": true,
+          "porque": "O protocolo de distribuição é público, então qualquer cliente conforme conversa com qualquer servidor conforme."
+        },
+        {
+          "texto": "Trocar o runtime de baixo nível por outra implementação da mesma especificação não obriga a reconstruir as imagens já publicadas.",
+          "correta": true,
+          "porque": "O contrato entre o conteúdo em disco e o runtime é o descrito na especificação; qualquer implementação conforme aceita o mesmo conteúdo."
+        },
+        {
+          "texto": "Como o formato é padronizado, uma imagem construída para ARM passa a executar em x86 sem reconstrução.",
+          "correta": false,
+          "porque": "A especificação padroniza a embalagem, não os binários dentro dela; arquitetura continua fazendo parte da identidade do artefato."
+        },
+        {
+          "texto": "A especificação fixa o conteúdo do Dockerfile, garantindo que as mesmas instruções sejam aceitas por qualquer construtor.",
+          "correta": false,
+          "porque": "A linguagem de construção não faz parte do padrão; o que é padronizado é o artefato resultante."
+        }
+      ],
+      "itens": [],
+      "armadilha": "",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Verifique, em cada afirmação, se o que ela promete depende apenas de duas implementações concordarem sobre um formato — ou se depende de algo que nem o formato nem o protocolo controlam."
+    },
+    {
+      "topico": "Docker e o padrão OCI: por que a especificação importa",
+      "tipo": "ordenacao",
+      "dificuldade": "dificil",
+      "enunciado": "Ordene o caminho de uma aplicação empacotada, do artefato recém-construído até o processo no ar em outra máquina, conforme o que cada especificação da OCI cobre.",
+      "linguagem": "",
+      "esqueleto": "",
+      "testes": [],
+      "codigo_dado": "",
+      "resposta": "",
+      "alternativas": [],
+      "itens": [
+        "Uma ferramenta de construção grava as camadas como blobs e produz um documento de configuração no formato descrito pela especificação de imagem.",
+        "Um manifesto que lista os identificadores de conteúdo do conjunto é enviado a um repositório remoto e associado a uma tag.",
+        "Em outra máquina, um cliente resolve a tag, compara os identificadores com o que já existe em disco local e transfere apenas o que falta.",
+        "As camadas são extraídas e empilhadas em um diretório raiz, ao lado de um arquivo que declara programa inicial, montagens e limites.",
+        "O runtime de baixo nível isola o processo e dá partida no programa inicial da aplicação."
+      ],
+      "armadilha": "Inverter os dois últimos passos, supondo que o runtime de baixo nível saiba baixar e desempacotar a imagem sozinho. A especificação de runtime só descreve um diretório já montado com o arquivo de configuração ao lado; o runtime não conhece manifesto, camadas nem tags. Se ele for acionado antes da extração, não existe raiz de sistema de arquivos para o processo usar.",
+      "pares": [],
+      "distratores_direita": [],
+      "expressao_gabarito": "",
+      "variaveis": [],
+      "verificacao_origem": "",
+      "verificacao_operacao": "nenhuma",
+      "verificacao_variavel": "",
+      "dica_socratica": "Marque qual das três especificações cobre cada passo e observe que uma delas trata só de conteúdo em disco na máquina de destino. Pergunte o que precisa existir nesse disco antes que alguém consiga criar um processo."
+    }
+  ]
+}
