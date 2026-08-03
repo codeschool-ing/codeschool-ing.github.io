@@ -265,6 +265,34 @@ mão, não gerados. E concordar com uma crítica é mais fácil que discordar: q
 apontado tende a enxergá-lo. A calibração vale como ausência de desastre, não como prova de
 precisão.
 
+## 5b. Generalidade: medida, não suposta
+
+Treze rodadas aconteceram num curso só, e a pergunta legítima era se o aprendizado valia
+apenas para ele. Uma rodada de US$ 1,33 em **`arquiteto-comunicacao`** — 50h, avançado, sem
+uma linha de código, o caso mais hostil do catálogo — respondeu:
+
+| | docker (2 tóp.) | arquiteto-comunicacao (2 tóp.) |
+| --- | --- | --- |
+| 1ª passada | 4/7 (57%) | 3/8 (37%) |
+| custo por aprovado | US$ 0,328 | US$ 0,444 |
+| causas | distratores, gabarito, enunciado | distratores, gabarito, dica, enunciado |
+
+**As regras transferem; a taxa cai um terço.** Nenhuma família de defeito nova apareceu — as
+mesmas quatro dimensões, na mesma ordem de frequência. O funil produziu exercícios válidos e
+estruturados num curso onde três dos sete tipos são inaplicáveis, e o crítico achou defeitos
+reais, não artefatos.
+
+**A hipótese para a queda, e ela tem consequência de produto:** o assunto deste curso *é*
+julgamento — "o que é escrever com clareza" não tem resposta executável. Quando a matéria em
+si é opinativa, "alternativa defensável" fica mais difícil de tornar inequívoca, e é
+exatamente aí que a correção por conjunto exato castiga. Espere custo por aprovado ~35% maior
+nos cerca de dez cursos de `gestao` e `arquitetura`. Não é impedimento; é orçamento.
+
+**Ganho colateral da mesma rodada: a sonda cega de pares fez a primeira captura em produção**
+("a esquerda 2 aceita 2 pares defensáveis"), em conteúdo novo e em outro curso. Validada em
+três casos conhecidos, depois silenciosa numa associação do Docker, e agora acertando fora do
+domínio em que foi construída.
+
 ## 6. Processo
 
 - **Toda iteração melhora a ferramenta.** Ver a regra de ouro.
