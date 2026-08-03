@@ -78,6 +78,27 @@ permanente das conferências mecânicas: nenhuma pode acusar um deles, e cada um
 o caso real que a motivou. Afrouxar uma regra sem perceber quebra um teste em vez de passar
 despercebido.
 
+### Produção sem API
+
+Quando não há orçamento para a crítica, dá para produzir com as duas camadas grátis:
+conferência mecânica e **execução**. O tipo que se verifica por completo assim é
+`saida-esperada` — o interpretador roda o trecho e compara byte a byte, sem julgamento nenhum
+no meio.
+
+`codigo` **não** se verifica de graça: a solução de referência é escrita às cegas por uma
+chamada de API, e é essa cegueira que dá valor ao resultado. Quem escrever à mão pode rodar
+uma solução própria contra os casos, o que pega gabarito errado, mas não pega "existe atalho
+que ignora o tópico" — para isso o oráculo precisa não ter visto os casos.
+
+Cada exercício aprovado carrega `_verificacao`, e o portal deve usá-lo para decidir o que
+publica primeiro:
+
+| valor | o que garante |
+| --- | --- |
+| `criticado` | passou por sondas e juiz — a marca mais forte |
+| `execucao` | o interpretador confirmou o gabarito |
+| `estrutura` | só as conferências mecânicas; nada confirmou o gabarito |
+
 ### A rodada evoluiu ou não?
 
 Todo ciclo completo grava uma linha em `historico.json` e termina com um veredito de três

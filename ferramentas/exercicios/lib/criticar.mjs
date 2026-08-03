@@ -416,7 +416,8 @@ export async function criticar({ exercicios, curso, soSondas, paralelo, aoProgre
       return { reprovado: { ...e, _critica: achados } };
     }
     aoProgredir?.(e, 'ok', achados, i + 1, exercicios.length);
-    return { aprovado: achados.length ? { ...e, _critica: achados } : e };
+    // Passar pelo crítico é a marca mais forte: o portal pode publicar estes primeiro.
+    return { aprovado: { ...e, _verificacao: 'criticado', ...(achados.length ? { _critica: achados } : {}) } };
   });
 
   return {

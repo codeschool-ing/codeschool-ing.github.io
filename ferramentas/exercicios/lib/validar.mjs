@@ -149,7 +149,7 @@ export async function validar({ exercicios, opcoes, timeout, paralelo, soEstrutu
     // reprovava exatamente o que dizia não conferir.
     if (soEstrutura) {
       aoProgredirLocal(e, 'ok', 'só estrutura');
-      aprovados.push(e);
+      aprovados.push({ ...e, _verificacao: 'estrutura' });
       return { aprovados, reprovados };
     }
 
@@ -170,7 +170,7 @@ export async function validar({ exercicios, opcoes, timeout, paralelo, soEstrutu
         reprovados.push({ ...e, _motivo: [det] });
       } else {
         aoProgredirLocal(e, 'ok', `sympy recalcula e confere: ${r.calculado}`);
-        aprovados.push(e);
+        aprovados.push({ ...e, _verificacao: 'execucao' });
       }
       return { aprovados, reprovados };
     }
@@ -186,14 +186,15 @@ export async function validar({ exercicios, opcoes, timeout, paralelo, soEstrutu
         reprovados.push({ ...e, _motivo: [det] });
       } else {
         aoProgredirLocal(e, 'ok', 'saída confere com o interpretador');
-        aprovados.push(e);
+        aprovados.push({ ...e, _verificacao: 'execucao' });
       }
       return { aprovados, reprovados };
     }
 
     if (e.tipo !== 'codigo') {
+      // Tipo sem execução possível: passou na estrutura e nada mais. O portal precisa saber.
       aoProgredirLocal(e, 'ok', '');
-      aprovados.push(e);
+      aprovados.push({ ...e, _verificacao: 'estrutura' });
       return { aprovados, reprovados };
     }
 
@@ -217,7 +218,7 @@ export async function validar({ exercicios, opcoes, timeout, paralelo, soEstrutu
       reprovados.push({ ...e, _motivo: falhas, _solucao_referencia: ref.solucao });
     } else {
       aoProgredirLocal(e, 'ok', `${e.testes.length}/${e.testes.length} casos`);
-      aprovados.push({ ...e, _solucao_referencia: ref.solucao });
+      aprovados.push({ ...e, _verificacao: 'execucao', _solucao_referencia: ref.solucao });
     }
     }
     return { aprovados, reprovados };
