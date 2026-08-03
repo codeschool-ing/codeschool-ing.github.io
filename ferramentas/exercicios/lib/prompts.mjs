@@ -12,7 +12,7 @@
 import { REGRAS } from './gerar.mjs';
 import { REGRAS_POR_TIPO } from './tipos.mjs';
 import { SYS_SOLUCAO } from './validar.mjs';
-import { SYS_CEGO, SYS_DICA_ABERTA, SYS_DICA_ALTERNATIVAS, SYS_JULGA } from './criticar.mjs';
+import { SYS_CEGO, SYS_CEGO_PARES, SYS_DICA_ABERTA, SYS_DICA_ALTERNATIVAS, SYS_JULGA } from './criticar.mjs';
 import { INSTRUCOES } from './refazer.mjs';
 import { SYS_ESCREVER, SYS_JULGAR } from './cegas.mjs';
 
@@ -63,6 +63,12 @@ export const PROMPTS = ({ alternativas = 5 } = {}) => [
     etapa: 'criticar',
     papel: 'Responde a questão sem ver o que está marcado como correto. Divergiu do gabarito, alguém está errado — e ela também reporta ambiguidade, que é quando mais de uma leitura se defende.',
     texto: SYS_CEGO,
+  },
+  {
+    nome: 'Sonda cega de pares',
+    etapa: 'criticar',
+    papel: 'O mesmo para `associacao`, que passou quatro rodadas sem sonda alguma — só o juiz olhava para ela, e o juiz é o instrumento mais fraco do funil. A direita vai ordenada alfabeticamente, nunca na ordem em que foi escrita: no JSON o par correto é esquerda[i] ↔ direita[i], e apresentar assim entregaria o gabarito pela posição.',
+    texto: SYS_CEGO_PARES,
   },
   {
     nome: 'Sonda da dica — tipos sem alternativas',

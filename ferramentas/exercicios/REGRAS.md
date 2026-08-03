@@ -140,6 +140,18 @@ Aplicada em `lib/criticar.mjs`.
 escrito por outro modelo convida à concordância. Sonda observa comportamento.
 
 - **Sonda cega** responde a questão sem ver qual alternativa está marcada.
+- **Sonda cega de pares** faz o mesmo com `associacao`. Origem: o tipo passou quatro rodadas
+  **sem sonda alguma** — só o juiz olhava para ele, e o juiz é o instrumento mais fraco do
+  funil. Numa rodada em que 2 de 2 associações reprovaram, as cinco rejeições foram todas da
+  mesma família: "a situação 1 casa igualmente bem com dois efeitos da direita". Ambiguidade
+  de emparelhamento é exatamente o que uma sonda mede e uma opinião não. A coluna da direita
+  vai **ordenada alfabeticamente**: no JSON o par correto é `esquerda[i] ↔ direita[i]`, e
+  apresentá-la na ordem de escrita entregaria o gabarito pela posição.
+
+  Regra geral que faltava: **todo tipo com gabarito tem de ter uma sonda cega.** Cobertura
+  parcial de instrumento é pior que ausência, porque o relatório não distingue "passou" de
+  "não foi medido". `ordenacao` continua descoberto — sem urgência por estar fora do gerador,
+  mas é a mesma dívida.
 - **Sonda da dica** tenta resolver vendo o enunciado, **o que o aluno vê** e a dica — nunca o
   gabarito. Origem: a sonda recebia só enunciado e dica, então num `saida-esperada` recebia
   "o que este trecho imprime?" **sem o trecho**; cega, aprovava tudo.
@@ -332,6 +344,20 @@ errada enquanto o defeito estava certo.
 se paga. Se `resgatados` for alto e o custo por aprovado subir, a etapa está comprando
 aprovação cara — e vale conferir à mão se os resgatados são mesmo bons, porque é exatamente a
 forma que "ensinar para a prova" teria.
+
+## 7e. Cortar a ementa funcionou
+
+A rodada seguinte ao corte, nos mesmos três tópicos: `alvo` caiu de **3 para 1**, e a única
+restante estava mal rotulada pelo juiz (era eco léxico entre as colunas de uma associação,
+não referência adiante). Primeira passada subiu de 33% para **50%**, pegos de graça de 0 para
+3 de 9, custo por aprovado caiu 13%.
+
+Vale registrar o contraste com a autoria cega, que custou uma rodada e não moveu nada: as duas
+tentativas aplicavam o mesmo princípio — esconder informação —, e só uma funcionou. A diferença
+é a que ficou escrita em 7d: **a tarefa continua executável sem o que se escondeu?** Escrever
+exercícios do tópico 3 não exige conhecer o tópico 17; escrever um conjunto com contagem fixa
+de verdadeiras exige saber quais são. Cegueira que passa nesse teste é grátis e funciona;
+cegueira que não passa é encenação e custa.
 
 ## 7c. O defeito se desloca — a pista de forma é um sintoma, não a doença
 

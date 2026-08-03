@@ -45,6 +45,58 @@ async function sondaCego(e) {
   return { escolhas, gabarito, bateu, ambigua: r.ambigua, explicacao: r.explicacao };
 }
 
+/* ---- sonda: emparelhar às cegas ------------------------------------------- */
+
+/* A `associacao` passou quatro rodadas sem sonda alguma: só o juiz olhava para ela, e o juiz
+ * é o instrumento mais fraco do funil. Numa rodada em que 2 de 2 associações reprovaram, as
+ * cinco rejeições foram todas da mesma família — "a situação 1 casa igualmente bem com dois
+ * efeitos da direita" —, que é exatamente o que uma sonda mede e uma opinião não.
+ *
+ * A direita vai ordenada alfabeticamente, nunca na ordem em que foi escrita: no JSON o par
+ * correto é esquerda[i] ↔ direita[i], e apresentar assim entregaria o gabarito pela posição. */
+export const SYS_CEGO_PARES = `Você recebe duas colunas e as emparelha. Não sabe qual é o
+gabarito — decida pelo mérito.
+
+**Sobram itens na direita**: nem toda linha da direita pertence a alguma da esquerda, e você
+não sabe quantas sobram. Deixe de fora o que não emparelha, em vez de forçar.
+
+Se alguma linha da esquerda tiver **mais de um** par defensável, diga em "ambigua" e explique
+qual e por quê. Uma associação bem escrita tem exatamente um conjunto de pares defensável — e
+a correção é por conjunto exato, então um par disputado reprova quem entendeu o assunto.`;
+
+const ESQ_CEGO_PARES = {
+  type: 'object',
+  properties: {
+    escolhas: {
+      type: 'array',
+      description: 'para cada linha da esquerda, na ordem, o índice da direita escolhida — ou -1 se nenhuma serve',
+      items: { type: 'integer' },
+    },
+    ambigua: { type: 'boolean' },
+    explicacao: { type: 'string' },
+  },
+  required: ['escolhas', 'ambigua', 'explicacao'],
+  additionalProperties: false,
+};
+
+async function sondaCegoPares(e) {
+  const direita = [...e.pares.map((p) => p.direita), ...(e.distratores_direita ?? [])].sort((a, b) => a.localeCompare(b, 'pt'));
+  const r = await perguntar({
+    etapa: 'criticar',
+    system: SYS_CEGO_PARES,
+    esquema: ESQ_CEGO_PARES,
+    maxTokens: 4000,
+    pergunta: `## Contexto\n${e.enunciado}\n\n## Esquerda\n${e.pares
+      .map((p, i) => `${i}. ${p.esquerda}`)
+      .join('\n')}\n\n## Direita\n${direita.map((t, i) => `${i}. ${t}`).join('\n')}`,
+  });
+  if (r.erro) return { erro: r.erro };
+  const gabarito = e.pares.map((p) => direita.indexOf(p.direita));
+  const escolhas = r.escolhas ?? [];
+  const erradas = gabarito.map((g, i) => (escolhas[i] === g ? null : i)).filter((i) => i !== null);
+  return { erradas, bateu: erradas.length === 0, ambigua: r.ambigua, explicacao: r.explicacao };
+}
+
 /* A sonda do chute foi removida. Ela pedia a um modelo que respondesse "proibido usar
  * conhecimento do assunto", só com heurística de prova. Acertou o gabarito em 9 de 9 e
  * reprovou um curso inteiro: um modelo não suspende o que sabe, então fabrica uma
@@ -279,6 +331,23 @@ export async function criticar({ exercicios, curso, soSondas, paralelo, aoProgre
           });
         if (cego.ambigua)
           achados.push({ dimensao: 'enunciado', gravidade: 'alta', explicacao: `ambígua às cegas: ${cego.explicacao}`, sugestao: 'deixar uma leitura só' });
+      }
+    }
+
+    if (e.tipo === 'associacao' && (e.pares?.length ?? 0) > 0) {
+      const pares = await sondaCegoPares(e);
+      if (pares.erro)
+        achados.push({ dimensao: 'gabarito', gravidade: 'alta', explicacao: `sonda de pares falhou: ${pares.erro}`, sugestao: 'rodar de novo' });
+      else {
+        if (!pares.bateu)
+          achados.push({
+            dimensao: 'gabarito',
+            gravidade: 'alta',
+            explicacao: `às cegas emparelhei diferente nas esquerdas [${pares.erradas.join(', ')}]. ${pares.explicacao}`,
+            sugestao: 'conferir qual leitura se sustenta; se as duas, reescrever o par disputado',
+          });
+        if (pares.ambigua)
+          achados.push({ dimensao: 'gabarito', gravidade: 'alta', explicacao: `par disputado às cegas: ${pares.explicacao}`, sugestao: 'deixar um par defensável só' });
       }
     }
 

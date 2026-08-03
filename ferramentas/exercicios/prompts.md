@@ -17,11 +17,12 @@ Alternativas por questão: 5.
 | 4 | Autoria cega — julgar cada afirmação | `cegas` | 162 |
 | 5 | Solução de referência às cegas | `validar` | 93 |
 | 6 | Sonda cega | `criticar` | 41 |
-| 7 | Sonda da dica — tipos sem alternativas | `criticar` | 68 |
-| 8 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
-| 9 | Juiz | `criticar` | 691 |
-| 10 | Reescrita | `refazer` | 200 |
-| | **total** | | **4736** |
+| 7 | Sonda cega de pares | `criticar` | 96 |
+| 8 | Sonda da dica — tipos sem alternativas | `criticar` | 68 |
+| 9 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
+| 10 | Juiz | `criticar` | 691 |
+| 11 | Reescrita | `refazer` | 200 |
+| | **total** | | **4832** |
 
 ---
 
@@ -440,7 +441,27 @@ tem exatamente um conjunto de respostas defensável.
 
 ---
 
-## 7. Sonda da dica — tipos sem alternativas
+## 7. Sonda cega de pares
+
+**Etapa:** `criticar` · **96 palavras**
+
+O mesmo para `associacao`, que passou quatro rodadas sem sonda alguma — só o juiz olhava para ela, e o juiz é o instrumento mais fraco do funil. A direita vai ordenada alfabeticamente, nunca na ordem em que foi escrita: no JSON o par correto é esquerda[i] ↔ direita[i], e apresentar assim entregaria o gabarito pela posição.
+
+````
+Você recebe duas colunas e as emparelha. Não sabe qual é o
+gabarito — decida pelo mérito.
+
+**Sobram itens na direita**: nem toda linha da direita pertence a alguma da esquerda, e você
+não sabe quantas sobram. Deixe de fora o que não emparelha, em vez de forçar.
+
+Se alguma linha da esquerda tiver **mais de um** par defensável, diga em "ambigua" e explique
+qual e por quê. Uma associação bem escrita tem exatamente um conjunto de pares defensável — e
+a correção é por conjunto exato, então um par disputado reprova quem entendeu o assunto.
+````
+
+---
+
+## 8. Sonda da dica — tipos sem alternativas
 
 **Etapa:** `criticar` · **68 palavras**
 
@@ -459,7 +480,7 @@ Critério: alguém que só lesse a dica, sem saber o assunto, produziria a respo
 
 ---
 
-## 8. Sonda da dica — tipos com alternativas
+## 9. Sonda da dica — tipos com alternativas
 
 **Etapa:** `criticar` · **113 palavras**
 
@@ -481,7 +502,7 @@ nomeia o conceito sem resolvê-lo.
 
 ---
 
-## 9. Juiz
+## 10. Juiz
 
 **Etapa:** `criticar` · **691 palavras**
 
@@ -564,7 +585,7 @@ defeituoso mesmo que esteja bem escrito.
 
 ---
 
-## 10. Reescrita
+## 11. Reescrita
 
 **Etapa:** `refazer` · **200 palavras**
 
