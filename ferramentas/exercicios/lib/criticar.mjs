@@ -45,64 +45,17 @@ async function sondaCego(e) {
   return { escolhas, gabarito, bateu, ambigua: r.ambigua, explicacao: r.explicacao };
 }
 
-/* ---- sonda: dá para chutar pela forma? ------------------------------------
+/* A sonda do chute foi removida. Ela pedia a um modelo que respondesse "proibido usar
+ * conhecimento do assunto", só com heurística de prova. Acertou o gabarito em 9 de 9 e
+ * reprovou um curso inteiro: um modelo não suspende o que sabe, então fabrica uma
+ * justificativa de forma para a resposta em que já acredita — num caso notou um absoluto na
+ * alternativa correta e argumentou que "vinha qualificado" para poder incluí-la.
  *
- * A sonda cega responde PELO MÉRITO e acerta — o que não diz nada sobre o item ser
- * chutável. Numa rodada de 12 exercícios gerados, seis reprovaram e cinco eram a mesma
- * coisa em fantasias diferentes: distrator de categoria alheia, correta mais sóbria que as
- * erradas, correta a única composta, eco de palavra-chave entre enunciado e resposta, passo
- * de ordenação que carrega a própria posição. Regra em prosa contra isso já existia e o
- * gerador não obedeceu. Isto mede em vez de pedir.
- */
-const SYS_CHUTE = `Você faz uma prova sobre um assunto que **não conhece**. Não estudou, não
-tem como saber a resposta pelo conteúdo.
-
-Você só pode usar heurística de quem faz prova:
-
-- comprimento e nível de detalhe: a mais longa e qualificada costuma ser a certa;
-- absolutos ("sempre", "nunca", "só", "precisa") costumam marcar a errada;
-- categoria: se três opções falam de uma coisa e uma fala de outra, a diferente se destaca;
-- plausibilidade genérica: comportamento mágico ou exótico costuma ser invenção;
-- paralelismo sintático: a que foge do molde das outras se destaca;
-- eco de palavra: a resposta que repete termos do enunciado costuma ser a certa;
-- numa ordenação, o passo cujo texto já explica a própria posição vai onde o texto diz;
-- numa associação, casar palavras parecidas entre as duas colunas.
-
-**É proibido usar conhecimento do assunto.** Se você percebe a resposta certa por saber o
-tema, ignore isso — a pergunta é se a FORMA entrega.
-
-Responda o que essas heurísticas apontam. Se elas não apontarem nada, deixe "escolhas" vazio
-e diga em "explicacao" que a forma não entrega — essa é a resposta boa para um exercício bem
-feito.`;
-
-const ESQ_CHUTE = {
-  type: 'object',
-  properties: {
-    escolhas: { type: 'array', items: { type: 'integer' }, description: 'índices que a heurística aponta; vazio se ela não aponta nada' },
-    heuristica: { type: 'string', description: 'qual heurística foi usada, ou "nenhuma"' },
-    explicacao: { type: 'string' },
-  },
-  required: ['escolhas', 'heuristica', 'explicacao'],
-  additionalProperties: false,
-};
-
-async function sondaChute(e) {
-  const multi = e.tipo === 'multipla-escolha';
-  const r = await perguntar({
-    etapa: 'criticar',
-    system: SYS_CHUTE,
-    esquema: ESQ_CHUTE,
-    maxTokens: 3000,
-    pergunta: `${e.enunciado}${multi ? '\n\n(mais de uma alternativa pode estar correta)' : ''}\n\n${e.alternativas
-      .map((a, i) => `${i}. ${a.texto}`)
-      .join('\n')}`,
-  });
-  if (r.erro) return { erro: r.erro };
-  const gabarito = e.alternativas.map((a, i) => (a.correta ? i : -1)).filter((i) => i >= 0);
-  const escolhas = [...(r.escolhas ?? [])].sort();
-  const acertou = escolhas.length === gabarito.length && escolhas.length > 0 && escolhas.every((v, i) => v === gabarito[i]);
-  return { acertou, escolhas, gabarito, heuristica: r.heuristica, explicacao: r.explicacao };
-}
+ * Sonda que precisa responder sempre responde, e vira opinião com outro nome. As heurísticas
+ * que ela listava viraram `pistasDeForma` em tipos.mjs: computadas, de graça, e sem
+ * confabular. Calibradas contra 48 exercícios escritos à mão: zero falso positivo.
+ *
+ * Lição a não perder: só peça a uma sonda aquilo que ela possa recusar a responder. */
 
 /* ---- sonda: a dica entrega a resposta? ------------------------------------ */
 
@@ -327,16 +280,6 @@ export async function criticar({ exercicios, curso, soSondas, paralelo, aoProgre
         if (cego.ambigua)
           achados.push({ dimensao: 'enunciado', gravidade: 'alta', explicacao: `ambígua às cegas: ${cego.explicacao}`, sugestao: 'deixar uma leitura só' });
       }
-
-      // Acertar sem poder usar o assunto significa que a forma entrega o gabarito.
-      const chute = await sondaChute(e);
-      if (!chute.erro && chute.acertou)
-        achados.push({
-          dimensao: 'distratores',
-          gravidade: 'alta',
-          explicacao: `chutei [${chute.escolhas}] só pela forma, sem usar o assunto (${chute.heuristica}): ${chute.explicacao}`,
-          sugestao: 'igualar comprimento, categoria e molde sintático entre corretas e erradas, e cortar o eco de palavras do enunciado',
-        });
     }
 
     const dica = await sondaDica(e);

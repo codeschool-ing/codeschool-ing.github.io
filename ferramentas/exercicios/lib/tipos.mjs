@@ -217,9 +217,11 @@ uma antes de fechar a questão:
    fôrma entre as erradas, ou aplique a mesma à correta.
 
 O teste final: um aluno esperto que **não estudou o tópico** consegue eliminar as erradas só
-pela forma? Se consegue, refaça. **Esta pergunta é medida, não confiada:** uma sonda tenta
-responder cada questão proibida de usar conhecimento do assunto, só com heurística de prova.
-Se ela acerta, o exercício reprova com gravidade alta.
+pela forma? Se consegue, refaça. **Quatro destes traços são conferidos por cálculo, de graça,
+antes de qualquer chamada:** correta destacadamente mais longa que toda errada; absoluto
+presente só de um lado; correta ecoando muito mais vocabulário do enunciado que qualquer
+errada; erradas todas começando com a mesma fórmula e a correta não. Separação estrita em
+qualquer um dos quatro reprova na estrutura.
 
 ## A dica socrática, em qualquer tipo
 
@@ -343,6 +345,71 @@ export function esquema({ alternativas }) {
   };
 }
 
+/* Pistas de forma: o gabarito se denuncia sem que o aluno saiba o assunto.
+ *
+ * Isto substitui uma sonda que pedia a um modelo para "responder sem usar conhecimento do
+ * assunto". Ela acertou o gabarito em 9 de 9 e reprovou o curso inteiro: um modelo não
+ * consegue suspender o que sabe, então inventa uma justificativa de forma para a resposta
+ * em que já acredita — num caso chegou a notar um absoluto na alternativa correta e a
+ * argumentar que "vinha qualificado" para poder incluí-la. Sonda que precisa responder
+ * sempre responde, e vira opinião com outro nome.
+ *
+ * As heurísticas que ela listava são computáveis, e computadas não confabulam. Todas exigem
+ * SEPARAÇÃO ESTRITA entre corretas e erradas — o tell só existe quando dá para separar os
+ * dois grupos por aquele traço sozinho. */
+const ABSOLUTOS = /\b(sempre|nunca|jamais|somente|apenas|qualquer|nenhum[a]?|todo[as]?|impossível|garante|garantem|dispensa|elimina|impede|obriga)\b/i;
+const IRRELEVANTES = new Set(['para', 'como', 'quando', 'porque', 'entre', 'sobre', 'depois', 'antes', 'mesmo', 'mesma', 'pode', 'podem', 'ser', 'seu', 'sua', 'que', 'com', 'dos', 'das', 'uma', 'este', 'esta', 'esse', 'essa', 'pelo', 'pela', 'mais', 'menos']);
+
+const palavras = (s) =>
+  new Set(
+    String(s)
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .match(/[a-z_]{5,}/g) ?? [],
+  );
+
+export function pistasDeForma(e) {
+  const p = [];
+  const certas = (e.alternativas ?? []).filter((a) => a.correta);
+  const erradas = (e.alternativas ?? []).filter((a) => !a.correta);
+  if (!certas.length || !erradas.length) return p;
+
+  // 1. Comprimento: toda correta mais longa que toda errada (ou o contrário).
+  const cL = certas.map((a) => a.texto.length);
+  const eL = erradas.map((a) => a.texto.length);
+  if (Math.min(...cL) > Math.max(...eL) * 1.25)
+    p.push(`pista de forma: toda correta é >25% mais longa que toda errada (${Math.min(...cL)} vs ${Math.max(...eL)})`);
+  if (Math.max(...cL) * 1.25 < Math.min(...eL))
+    p.push(`pista de forma: toda correta é bem mais curta que toda errada (${Math.max(...cL)} vs ${Math.min(...eL)})`);
+
+  // 2. Absolutos: presentes só de um lado. Quem faz prova descarta por hábito.
+  const cAbs = certas.filter((a) => ABSOLUTOS.test(a.texto)).length;
+  const eAbs = erradas.filter((a) => ABSOLUTOS.test(a.texto)).length;
+  if (cAbs === 0 && eAbs === erradas.length && erradas.length >= 2)
+    p.push(`pista de forma: todas as ${erradas.length} erradas têm absoluto ("sempre", "nunca", "só"…) e nenhuma correta tem`);
+  if (eAbs === 0 && cAbs === certas.length && certas.length >= 2)
+    p.push('pista de forma: só as corretas têm absoluto');
+
+  // 3. Eco léxico: a correta repete o vocabulário do enunciado mais que qualquer errada.
+  const alvo = palavras(e.enunciado);
+  const eco = (a) => [...palavras(a.texto)].filter((w) => alvo.has(w) && !IRRELEVANTES.has(w)).length;
+  const cEco = certas.map(eco);
+  const eEco = erradas.map(eco);
+  // Margem de 1 palavra é ruído: calibrado contra os 48 exercícios escritos à mão, o limiar
+  // de +1 acusava 2 questões que o crítico havia aprovado. Exige-se vantagem de 3.
+  if (Math.min(...cEco) >= 3 && Math.min(...cEco) >= Math.max(...eEco) + 3)
+    p.push(`pista de forma: toda correta ecoa muito mais palavras do enunciado que qualquer errada (${Math.min(...cEco)} vs ${Math.max(...eEco)})`);
+
+  // 4. Molde sintático: as erradas começam todas igual e a correta não.
+  const inicio = (a) => a.texto.toLowerCase().replace(/[`*]/g, '').trim().split(/\s+/).slice(0, 2).join(' ');
+  const moldes = new Set(erradas.map(inicio));
+  if (erradas.length >= 3 && moldes.size === 1 && !certas.some((a) => inicio(a) === [...moldes][0]))
+    p.push(`pista de forma: as ${erradas.length} erradas começam todas com "${[...moldes][0]}" e nenhuma correta começa assim`);
+
+  return p;
+}
+
 /* Conferência estrutural: de graça, sem API e sem executar nada. */
 export function conferir(e, { alternativas }) {
   const p = [];
@@ -356,6 +423,8 @@ export function conferir(e, { alternativas }) {
   const naoDeveTer = (campo, cond, rotulo) => {
     if (cond) p.push(`${e.tipo} com ${rotulo} preenchido`);
   };
+
+  if (e.tipo === 'quiz' || e.tipo === 'multipla-escolha') p.push(...pistasDeForma(e));
 
   if (e.tipo === 'codigo') {
     if (vazio(e.linguagem)) p.push('código sem linguagem');

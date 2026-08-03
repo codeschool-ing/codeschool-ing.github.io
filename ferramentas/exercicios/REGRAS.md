@@ -36,6 +36,7 @@ Aplicada em `conferir()`, `lib/tipos.mjs`. É de graça, então roda sempre e pr
 | `ordenacao`: 4 a 7 itens, sem repetido | — |
 | `ordenacao`: `armadilha` obrigatória | 3 de 3 ordenações reprovaram por medir cronologia de senso comum |
 | `ordenacao`: nenhum item pode conter anáfora (`esse`, `esta`, `anterior`…) | "executa **esse** bytecode" fixa a posição pelo texto |
+| `quiz`/`multipla-escolha`: quatro pistas de forma, por cálculo | correta destacadamente mais longa; absoluto só de um lado; correta ecoando o enunciado muito mais que as erradas; erradas todas com a mesma fórmula inicial. Calibrado contra 48 exercícios escritos à mão: zero falso positivo |
 | `resposta-expressao`: variável da verificação tem de estar em `variaveis` | — |
 | tipo X não pode trazer campos de tipo Y | — |
 
@@ -109,16 +110,24 @@ Aplicada em `lib/criticar.mjs`.
 escrito por outro modelo convida à concordância. Sonda observa comportamento.
 
 - **Sonda cega** responde a questão sem ver qual alternativa está marcada.
-- **Sonda do chute** responde **proibida de usar o assunto**, só com heurística de prova:
-  comprimento, absolutos, categoria, plausibilidade, molde sintático, eco de palavra. Se ela
-  acerta, a forma entrega o gabarito. Origem: dos 12 primeiros exercícios gerados pela IA,
-  seis reprovaram e cinco eram o mesmo defeito em fantasias diferentes — e a sonda cega
-  aprovou todos, porque ela responde *pelo mérito* e acertar pelo mérito nada diz sobre ser
-  chutável. Regra em prosa contra isso já existia e o gerador não obedeceu; medir foi a
-  única saída.
 - **Sonda da dica** tenta resolver vendo o enunciado, **o que o aluno vê** e a dica — nunca o
   gabarito. Origem: a sonda recebia só enunciado e dica, então num `saida-esperada` recebia
   "o que este trecho imprime?" **sem o trecho**; cega, aprovava tudo.
+
+**Só peça a uma sonda aquilo que ela possa recusar a responder.** É a regra mais cara desta
+base. Houve uma terceira sonda, "do chute", que respondia proibida de usar conhecimento do
+assunto, só com heurística de prova. Ela acertou o gabarito em **9 de 9** e reprovou um curso
+inteiro — 0 de 11 aprovados.
+
+Um modelo não suspende o que sabe: ele fabrica uma justificativa de forma para a resposta em
+que já acredita. Num caso notou um absoluto na alternativa **correta**, argumentou que "vinha
+qualificado" e a incluiu mesmo assim — racionalização até o alvo, não previsão. Sonda obrigada
+a responder sempre responde, e vira opinião com outro nome, que é exatamente o que o desenho
+do pipeline existe para evitar.
+
+Foi removida, e as heurísticas que ela listava viraram cálculo em `pistasDeForma`. O contraste
+é o argumento: a mesma rodada em que ela reprovou tudo teve uma conferência mecânica pegando
+`"o mesmo"` num passo de ordenação, de graça e sem discussão.
 
 **Divisão de competência entre sonda e juiz.** O juiz **não** julga se a dica entrega demais —
 isso é da sonda. Opinião sobre dica erra sempre para o mesmo lado, porque toda dica útil
@@ -165,9 +174,9 @@ Sabido, ainda não resolvido:
 - **Realimentar a crítica no gerador.** Hoje o exercício rejeitado é descartado; refazer com a
   crítica em mãos sai mais barato que gerar do zero.
 - **Deduplicação entre tópicos vizinhos.**
-- **A sonda do chute nunca rodou.** Foi escrita a partir de seis rejeições reais, mas ainda
-  não se sabe a taxa de falso positivo dela: uma sonda que "acerta pela forma" toda vez
-  reprovaria tudo. Primeira rodada com ela é medição da própria sonda.
+- **As pistas de forma cobrem quatro traços, e o juiz aponta outros.** Categoria destoante e
+  plausibilidade exótica ainda são só prosa e julgamento; mecanizá-las exige medir semântica,
+  não texto.
 - **O gerador ignora regra em prosa quando ela é longa.** As regras de distrator existiam e
   foram desobedecidas em 2 dos 12 exercícios do Docker. O padrão até aqui: regra que vira
   conferência mecânica ou sonda passa a ser respeitada; regra que fica só no prompt é
