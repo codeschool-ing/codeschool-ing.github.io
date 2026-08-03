@@ -17,12 +17,12 @@ Alternativas por questão: 5.
 | 4 | Autoria cega — julgar cada afirmação | `cegas` | 162 |
 | 5 | Solução de referência às cegas | `validar` | 93 |
 | 6 | Sonda cega | `criticar` | 41 |
-| 7 | Sonda cega de pares | `criticar` | 184 |
+| 7 | Sonda cega de pares | `criticar` | 235 |
 | 8 | Sonda da dica — tipos sem alternativas | `criticar` | 68 |
 | 9 | Sonda da dica — tipos com alternativas | `criticar` | 113 |
 | 10 | Juiz | `criticar` | 691 |
 | 11 | Reescrita | `refazer` | 200 |
-| | **total** | | **4920** |
+| | **total** | | **4971** |
 
 ---
 
@@ -443,7 +443,7 @@ tem exatamente um conjunto de respostas defensável.
 
 ## 7. Sonda cega de pares
 
-**Etapa:** `criticar` · **184 palavras**
+**Etapa:** `criticar` · **235 palavras**
 
 O mesmo para `associacao`, que passou quatro rodadas sem sonda alguma — só o juiz olhava para ela, e o juiz é o instrumento mais fraco do funil. A direita vai ordenada alfabeticamente, nunca na ordem em que foi escrita: no JSON o par correto é esquerda[i] ↔ direita[i], e apresentar assim entregaria o gabarito pela posição.
 
@@ -465,7 +465,12 @@ inteiro. Perguntar "qual é o par" esconderia isso, porque você escolheria um e
 Perguntar "quais se defendem" é o que expõe o defeito.
 
 Rigor: "se defende" é ter um mecanismo correto que sustente o pareamento, não semelhança de
-vocabulário nem plausibilidade vaga. Na dúvida entre listar e não listar, não liste.
+vocabulário nem plausibilidade vaga.
+
+**Não seja econômico por prudência.** Deixar de listar uma segunda direita que se sustenta não
+é cautela: é apagar o defeito que esta pergunta existe para encontrar. O critério é o aluno
+que domina o assunto — se ele conseguiria defender o segundo pareamento numa conversa com o
+professor, ele entra na lista, mesmo que você ache o primeiro melhor.
 ````
 
 ---

@@ -152,6 +152,17 @@ escrito por outro modelo convida à concordância. Sonda observa comportamento.
   da mesma chamada: esquerda com dois pares defensáveis é ambiguidade; par do gabarito fora da
   lista é gabarito que não se sustenta.
 
+  **Segunda rodada de teste, US$ 0,08: um caso recusado pelos classificadores e um miss.** Duas
+  correções, e uma delas é de erro próprio — o prompt mandava *"na dúvida entre listar e não
+  listar, não liste"*, instrução que suprime exatamente o que a sonda mede. **Prudência escrita
+  dentro do instrumento vira cegueira do instrumento.** Ao pedir a alguém que procure um
+  defeito, não se pede também que erre para o lado de não achar.
+
+  A outra: recusa de classificador é transitória e **não pode virar "passou"** — as sondas
+  agora repetem uma vez, como o juiz já fazia. Sem isso, um exercício deixa de ser medido e o
+  relatório não distingue isso de aprovado. É o mesmo princípio de "não julgado nunca vira
+  aprovado", que já estava escrito e não tinha sido aplicado às sondas.
+
   **A regra que isto acrescenta ao método:** *só peça a uma sonda aquilo que ela possa recusar*
   não basta. Falta a metade seguinte — **o formato da resposta não pode destruir a informação
   procurada.** Perguntar "qual" quando a pergunta é "quantos" devolve sempre um, e o instrumento

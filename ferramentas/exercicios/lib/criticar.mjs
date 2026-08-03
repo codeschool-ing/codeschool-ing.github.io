@@ -71,7 +71,12 @@ inteiro. Perguntar "qual é o par" esconderia isso, porque você escolheria um e
 Perguntar "quais se defendem" é o que expõe o defeito.
 
 Rigor: "se defende" é ter um mecanismo correto que sustente o pareamento, não semelhança de
-vocabulário nem plausibilidade vaga. Na dúvida entre listar e não listar, não liste.`;
+vocabulário nem plausibilidade vaga.
+
+**Não seja econômico por prudência.** Deixar de listar uma segunda direita que se sustenta não
+é cautela: é apagar o defeito que esta pergunta existe para encontrar. O critério é o aluno
+que domina o assunto — se ele conseguiria defender o segundo pareamento numa conversa com o
+professor, ele entra na lista, mesmo que você ache o primeiro melhor.`;
 
 const ESQ_CEGO_PARES = {
   type: 'object',
@@ -98,6 +103,11 @@ const ESQ_CEGO_PARES = {
  *   · uma esquerda com dois pares defensáveis  → ambiguidade, reprova quem sabe;
  *   · o par do gabarito fora da lista da sua esquerda → o gabarito é que não se defende. */
 async function sondaCegoPares(e) {
+  const r0 = await perguntarPares(e);
+  return r0.erro ? avaliarPares(e, await perguntarPares(e)) : avaliarPares(e, r0);
+}
+
+async function perguntarPares(e) {
   const direita = [...e.pares.map((p) => p.direita), ...(e.distratores_direita ?? [])].sort((a, b) => a.localeCompare(b, 'pt'));
   const r = await perguntar({
     etapa: 'criticar',
@@ -108,6 +118,10 @@ async function sondaCegoPares(e) {
       .map((p, i) => `${i}. ${p.esquerda}`)
       .join('\n')}\n\n## Direita\n${direita.map((t, i) => `${i}. ${t}`).join('\n')}`,
   });
+  return { r, direita };
+}
+
+function avaliarPares(e, { r, direita }) {
   if (r.erro) return { erro: r.erro };
 
   const disputadas = [];
