@@ -1,666 +1,687 @@
-# Regras consolidadas
+# Consolidated rules
 
-Registro canônico do que este pipeline aprendeu. Cada regra traz **o defeito que a originou**
-e **onde ela é aplicada** — sem essas duas colunas a regra vira folclore, e a primeira pessoa
-que a achar inconveniente a remove.
+The canonical record of what this pipeline has learned. Every rule carries **the defect that
+caused it** and **where it is enforced** — without those two columns a rule becomes folklore,
+and the first person who finds it inconvenient removes it.
 
-Os prompts em `lib/tipos.mjs` e `lib/criticar.mjs` são a *implementação*. Este arquivo é a
-*fonte*: se os dois divergirem, este manda.
+The prompts in `lib/types.mjs` and `lib/critique.mjs` are the *implementation*. This file is
+the *source*: if the two diverge, this one wins.
 
-> **Regra de ouro:** toda iteração melhora a ferramenta, não só o conteúdo. Defeito que pode
-> se repetir noutro curso vira regra **antes** de o exercício ser corrigido.
+> **Golden rule:** every iteration improves the tool, not just the content. A defect that can
+> repeat in another course becomes a rule **before** the exercise is fixed.
 
-## Como usar isto para gerar o software do zero
+**On language.** The code, the comments and this file are in English; the exercises are in
+Brazilian Portuguese, because that is what the student reads. Worked examples quoted below
+stay in Portuguese on purpose: the defect lives in the Portuguese wording, and a translated
+example illustrates nothing. The mechanical checks' regular expressions analyse Portuguese for
+the same reason — translating them would switch the free layer off.
 
-Este arquivo foi escrito para ser o insumo de um prompt único que reconstrói o pipeline em
-qualquer linguagem. Para isso, ele precisa continuar respondendo três perguntas por regra:
-o que exigir, por que (o defeito real), e em que camada a exigência mora — conferência
-mecânica, prompt de geração, ou passe de crítica. Uma regra sem o "por que" não sobrevive à
-tradução, porque quem reimplementa não sabe o que pode negociar.
+## How to use this to generate the software from scratch
 
-O que **não** deve entrar num prompt de reconstrução: o catálogo desta escola, os números de
-custo desta conta de API, e os nomes de arquivo. São desta instância, não do problema.
+This file was written to be the input to a single prompt that rebuilds the pipeline in any
+language. For that, it has to go on answering three questions per rule: what to require, why
+(the real defect), and which layer the requirement lives in — mechanical check, generation
+prompt, or critique pass. A rule without the "why" does not survive translation, because
+whoever reimplements it does not know what is negotiable.
 
-**Correção de uma exclusão que estava errada pela metade.** Este parágrafo dizia também "os
-exercícios de Python". Vale para o papel deles de *conteúdo* — são de um curso específico e não
-interessam a mais ninguém. Mas eles têm um segundo papel, **corpo de prova de calibração**, e
-esse é do problema. Sem ele, as conferências mecânicas de uma reconstrução nascem sem limiar
-aferido; a camada barulhenta incomoda, alguém afrouxa os limiares para calar o barulho, e a
-camada de graça passa a existir sem acusar nada. Um prompt de reconstrução **anexa** um corpo
-de prova revisado por pessoa, junto com os prompts na íntegra e o histórico de rodadas — ver
-[`RECONSTRUIR.md`](RECONSTRUIR.md). Regra geral: o que evita repagar um aprendizado é do
-problema, mesmo quando o arquivo em que ele mora é desta instância.
+What should **not** go into a rebuild prompt: this school's catalogue, this API account's cost
+figures, and the file names. They belong to this instance, not to the problem.
+
+**A correction to an exclusion that was half wrong.** This paragraph also used to say "the
+Python exercises". That holds for their role as *content* — they belong to a specific course
+and are of no interest to anyone else. But they have a second role, **the calibration
+corpus**, and that one belongs to the problem. Without it, a rebuild's mechanical checks are
+born with unmeasured thresholds; the noisy layer annoys someone, they loosen the thresholds to
+silence the noise, and the free layer comes to exist while flagging nothing. A rebuild prompt
+**attaches** a human-reviewed corpus, along with the prompts in full and the round history —
+see [`REBUILD.md`](REBUILD.md). General rule: whatever stops a lesson being paid for twice
+belongs to the problem, even when the file it lives in belongs to this instance.
 
 ---
 
-## 1. Conferência mecânica — reprova sem gastar API
+## 1. Mechanical check — fails without spending on the API
 
-Aplicada em `conferir()`, `lib/tipos.mjs`. É de graça, então roda sempre e primeiro.
+Enforced in `check()`, `lib/types.mjs`. It is free, so it runs always and first.
 
-| regra | defeito de origem |
+| rule | originating defect |
 | --- | --- |
-| `quiz` tem exatamente 1 correta; `multipla-escolha` tem ≥2 e nunca todas | questão de ligação de argumentos tinha 3 corretas marcadas como 1 |
-| toda alternativa tem `texto` e `porque` | — |
-| `associacao`: 4 a 6 pares, sem item repetido em nenhuma coluna | coluna repetida significa mais de um gabarito |
-| `associacao`: 1 ou 2 `distratores_direita`, distintos das direitas corretas | N contra N faz o último par sair por eliminação |
-| `ordenacao`: 4 a 7 itens, sem repetido | — |
-| `ordenacao`: `armadilha` obrigatória | 3 de 3 ordenações reprovaram por medir cronologia de senso comum |
-| `ordenacao`: nenhum item pode conter anáfora (`esse`, `esta`, `anterior`…) | "executa **esse** bytecode" fixa a posição pelo texto |
-| `quiz`/`multipla-escolha`: quatro pistas de forma, por cálculo | correta destacadamente mais longa; absoluto só de um lado; correta ecoando o enunciado muito mais que as erradas; erradas todas com a mesma fórmula inicial. Calibrado contra 48 exercícios escritos à mão: zero falso positivo |
-| `quiz`/`multipla-escolha`: termo técnico do enunciado numa só alternativa | "o back-end **WSL2** falhou" com a única opção que diz WSL2: casamento de palavra fecha a questão. Só conta identificador (sigla ou termo com dígito) — a versão que aceitava qualquer palavra acusou "executar" e "marca" em exercícios bons |
-| `quiz`/`multipla-escolha`: hedge só nas corretas | as 3 corretas todas ressalvadas e as 2 erradas categóricas: "qualificada = certa" fecha o conjunto exato |
-| `quiz`/`multipla-escolha`: advérbio de incerteza numa só alternativa, a correta | "a única que se protege com um advérbio de incerteza (*provavelmente* precisam ser reescritos)" — o teste de hedge acima não pegou, porque exige duas corretas e esta questão tinha uma. Vocabulário mais estreito de propósito: só o que suaviza uma **afirmação**. Conectivo de contraste (`enquanto`, `mas`) é prosa normal e derrubava exercício bom dos 48 |
-| `multipla-escolha`: marcar as ressalvadas e descartar as absolutas dá o gabarito exato | a heurística de prova simulada. Os outros testes perguntam se um traço separa os grupos; este pergunta o que decide a nota — a regra de quem não estudou produz o **conjunto exato**? Só vale de 2 corretas para cima: com uma só, acertar por acaso é fácil demais |
-| `quiz`/`multipla-escolha`: dica que conta quantas são falsas | "duas delas erram" vira triagem de rótulos, sem avaliar item algum |
-| `quiz`/`multipla-escolha`: eixo modal — corretas dizem o que **pode**, erradas o que **obriga** ou **garante** | "as três corretas são afirmações de possibilidade e as duas erradas de obrigação ou garantia total". Não é o teste de absolutos: `faz`, `atende`, `pode ser executada` não são absolutos e mesmo assim separam os grupos perfeitamente |
-| `quiz`/`multipla-escolha`: molde sintático baixou de 3 erradas para **2** | as duas únicas alternativas abrindo com "A conformidade …" eram exatamente as duas erradas. Duas fórmulas iguais num conjunto de cinco revelam tanto quanto três; zero falso positivo nos 48 com o limiar novo |
-| `associacao`: as esquerdas ecoam a própria direita | a regra "nenhuma direita pode ecoar palavra da esquerda" existia só em prosa e foi desobedecida. Mecanizada comparando, por par, o vocabulário dividido com a **própria** direita contra o dividido com as outras. Tolera **um** par de folga: exigir todos derrubava a conferência por um empate de vocabulário |
-| `quiz`: duas ou mais palavras da dica numa alternativa só, a correta | "conte quantos **kernel** de **sistema operacional** estão carregados" com uma única opção que fala em kernel: casamento textual, não conceitual. Uma palavra não basta — `outro`, `valor` e `saída` caíram numa alternativa só por acaso em 3 dos 48. O enunciado não serve de fonte: divide vocabulário com todas as alternativas por construção |
-| **não existe** conferência de "exige tópico posterior" | tentada e descartada: comparar o texto do exercício com o vocabulário dos títulos seguintes acusou 5 dos 48 bons — "biblioteca", "padrão", "objetos" e "arquivos" aparecem em título posterior **e** em prosa normal, e não há como distinguir lexicalmente "menciona a palavra" de "exige o conceito". Exigir duas palavras do mesmo tópico não salvou. O defeito é real; a resposta está na autoria, não na detecção — ver seção 3 |
-| `multipla-escolha`: enunciado não pode misturar as duas polaridades | "sobre o que a adoção de containers resolve **e o que não resolve**, marque todas que se aplicam": marcar as verdadeiras ou marcar os limites dá conjuntos **opostos**, e as erradas costumam ser exatamente as afirmações sobre o que a tecnologia não faz. Com correção por conjunto exato, a ambiguidade reprova quem entendeu |
-| `associacao`: enunciado tem de avisar que sobram itens | quem não sabe tenta encaixar todos e força associação errada; pegou 3 dos 7 exercícios escritos à mão |
-| `resposta-expressao`: variável da verificação tem de estar em `variaveis` | — |
-| tipo X não pode trazer campos de tipo Y | — |
+| `quiz` has exactly 1 correct option; `multiple-choice` has ≥2 and never all of them | an argument-binding question had 3 correct options marked as 1 |
+| every option has `text` and `why` | — |
+| `matching`: 4 to 6 pairs, no repeated item in either column | a repeated column means more than one key |
+| `matching`: 1 or 2 `right_distractors`, distinct from the correct right-hand items | N against N makes the last pair come out by elimination |
+| `ordering`: 4 to 7 items, none repeated | — |
+| `ordering`: `trap` is mandatory | 3 of 3 orderings failed for measuring common-sense chronology |
+| `ordering`: no item may contain an anaphor (`esse`, `esta`, `anterior`…) | "executa **esse** bytecode" pins the position by the text |
+| `quiz`/`multiple-choice`: four form tells, by computation | the correct one noticeably longer; an absolute on one side only; the correct one echoing the statement far more than the wrong ones; the wrong ones all with the same opening formula. Calibrated against 48 hand-written exercises: zero false positives |
+| `quiz`/`multiple-choice`: a technical term from the statement in one option only | "o back-end **WSL2** falhou" with the single option that says WSL2: word matching settles the question. Only an identifier counts (an acronym or a term with a digit) — the version that accepted any word flagged "executar" and "marca" in good exercises |
+| `quiz`/`multiple-choice`: hedging in the correct ones only | all 3 correct options qualified and the 2 wrong ones categorical: "qualified = right" settles the exact set |
+| `quiz`/`multiple-choice`: an adverb of uncertainty in one option only, the correct one | "the only one protecting itself with an adverb of uncertainty (*provavelmente* precisam ser reescritos)" — the hedge test above did not catch it, because it demands two correct options and this question had one. A deliberately narrower vocabulary: only what softens a **claim**. A contrastive connective (`enquanto`, `mas`) is ordinary prose and was knocking out a good exercise from the 48 |
+| `multiple-choice`: marking the hedged ones and discarding the absolute ones gives the exact key | the exam heuristic, simulated. The other tests ask whether a trait separates the groups; this one asks what decides the grade — does the rule of someone who did not study produce the **exact set**? Only valid from 2 correct options up: with a single one, hitting it by chance is far too easy |
+| `quiz`/`multiple-choice`: a hint that counts how many are false | "duas delas erram" turns into label triage, with no item ever assessed |
+| `quiz`/`multiple-choice`: the modal axis — correct options say what **can** happen, wrong ones what **obliges** or **guarantees** | "the three correct ones are statements of possibility and the two wrong ones of obligation or total guarantee". It is not the absolutes test: `faz`, `atende`, `pode ser executada` are not absolutes and still separate the groups perfectly |
+| `quiz`/`multiple-choice`: the syntactic mould dropped from 3 wrong options to **2** | the only two options opening with "A conformidade …" were exactly the two wrong ones. Two identical formulas in a set of five reveal as much as three; zero false positives in the 48 with the new threshold |
+| `matching`: the left items echo their own right | the rule "no right item may echo a word from the left" existed only in prose and was disobeyed. Mechanised by comparing, per pair, the vocabulary shared with its **own** right against that shared with the others. It tolerates **one** pair of slack: demanding all of them knocked the check out over a vocabulary tie |
+| `quiz`: two or more hint words in a single option, the correct one | "conte quantos **kernel** de **sistema operacional** estão carregados" with a single option mentioning the kernel: a textual match, not a conceptual one. One word is not enough — `outro`, `valor` and `saída` landed in a single option by chance in 3 of the 48. The statement is no good as a source: it shares vocabulary with every option by construction |
+| there is **no** check for "requires a later topic" | tried and discarded: comparing the exercise's text against the vocabulary of the following titles flagged 5 of the 48 good ones — "biblioteca", "padrão", "objetos" and "arquivos" appear in a later title **and** in ordinary prose, and there is no lexical way to tell "mentions the word" from "requires the concept". Demanding two words from the same topic did not save it. The defect is real; the answer is in the authoring, not in the detection — see section 3 |
+| `multiple-choice`: the statement must not mix both polarities | "sobre o que a adoção de containers resolve **e o que não resolve**, marque todas que se aplicam": marking the true ones or marking the limits gives **opposite** sets, and the wrong options tend to be exactly the statements about what the technology does not do. With exact-set grading, the ambiguity fails whoever understood |
+| `matching`: the statement has to warn that items are left over | whoever does not know tries to fit them all and forces a wrong pairing; it caught 3 of the 7 hand-written exercises |
+| `expression-answer`: the check's variable has to be in `variables` | — |
+| a type X may not carry fields belonging to type Y | — |
 
-## 2. Execução — prova em vez de opinião
+## 2. Execution — proof instead of opinion
 
-Aplicada em `lib/validar.mjs`.
+Enforced in `lib/validate.mjs`.
 
-- **`saida-esperada` executa o trecho** e compara byte a byte. É o tipo mais forte: defeito de
-  semântica vira reprovação determinística. Origem: `-7 ** 2` exibido como `49`, correto para
-  a variável e errado para o literal.
-- **`codigo` escreve uma solução de referência às cegas**, sem ver os casos de teste, e roda
-  contra eles. Concordar às cegas é evidência; discordar significa que enunciado ou gabarito
-  erra, e o validador não adivinha qual. Origem: `\n` final faltando reprovava a solução
-  correta em 6 casos.
-- **`resposta-expressao` recalcula o gabarito com sympy** a partir de `verificacao_origem`.
-  `verificacao_operacao: nenhuma` **reprova** — sem recálculo, ninguém conferiu.
-- **Ambiente ausente sai com código 2, nunca reprova conteúdo.** Origem: `python3` fora do
-  PATH virou "8 exercícios reprovados" e mandou caçar defeito no conteúdo. `ENOENT` chega com
-  stderr vazio: nunca engolir a causa.
-- **SQL executa como qualquer outra linguagem, e o formato da saída é contrato.** Quinze
-  rodadas cobriram só tópicos conceituais e a camada de execução nunca rodou em conteúdo
-  gerado; na primeira vez que rodou, o gerador emitiu `linguagem: "sql"` e o validador não
-  sabia executar. Saiu com código 2 sem reprovar nada — a regra do ambiente ausente funcionou.
+- **`expected-output` runs the snippet** and compares byte for byte. It is the strongest type:
+  a semantic defect becomes a deterministic failure. Origin: `-7 ** 2` displayed as `49`,
+  right for the variable and wrong for the literal.
+- **`code` writes a reference solution blind**, without seeing the test cases, and runs it
+  against them. Agreeing blind is evidence; disagreeing means either the statement or the key
+  is wrong, and the validator does not guess which. Origin: a missing trailing `\n` failed the
+  correct solution in 6 cases.
+- **`expression-answer` recomputes the key with sympy** from `check_source`.
+  `check_operation: none` **fails** — with no recomputation, nobody verified anything.
+- **A missing environment exits with code 2, never fails content.** Origin: `python3` off the
+  PATH became "8 exercises failed" and sent us hunting for a defect in the content. `ENOENT`
+  arrives with an empty stderr: never swallow the cause.
+- **SQL runs like any other language, and the output format is a contract.** Fifteen rounds
+  covered conceptual topics only and the execution layer never ran on generated content; the
+  first time it did, the generator emitted `language: "sql"` and the validator did not know how
+  to run it. It exited with code 2 without failing anything — the missing-environment rule
+  worked.
 
-  Roda num SQLite em memória, pelo módulo do próprio Python, que já era dependência: nada novo
-  para instalar. Em `codigo`, a `entrada` do caso é a preparação e a solução é a consulta. Em
-  `saida-esperada`, o aluno lê o **script inteiro**, então tudo menos a última instrução é
-  preparo e a última é o que se avalia.
+  It runs on an in-memory SQLite, through Python's own module, which was already a dependency:
+  nothing new to install. In `code`, the case's `input` is the setup and the solution is the
+  query. In `expected-output`, the student reads the **whole script**, so everything but the
+  last statement is setup and the last one is what gets assessed.
 
-  **O formato é declarado, não deduzido:** cabeçalho com os nomes das colunas, ` | ` como
-  separador, `NULL` por extenso, e o número escrito como o tipo da coluna manda — `INTEGER`
-  com 120 sai `120`, `REAL` com o mesmo 120 sai `120.0`. Sem um formato fixado no prompt, o
-  gerador inventa um por exercício e a comparação byte a byte reprova gabarito certo. É o
-  mesmo defeito do `\n` final, que já custou seis casos.
+  **The format is declared, not deduced:** a header with the column names, ` | ` as separator,
+  `NULL` spelled out, and the number written the way the column type dictates — `INTEGER` with
+  120 prints `120`, `REAL` with the same 120 prints `120.0`. Without a format pinned in the
+  prompt, the generator invents one per exercise and the byte-for-byte comparison fails a
+  correct key. It is the same defect as the trailing `\n`, which has already cost six cases.
 
-  Duas decisões que não são detalhe: **`PRAGMA foreign_keys = ON`**, ao contrário do padrão do
-  SQLite, senão um exercício sobre integridade referencial aprova um `INSERT` que qualquer
-  banco de verdade recusa; e **toda consulta precisa de `ORDER BY`**, senão o gabarito depende
-  da ordem que o motor escolheu devolver e reprova aluno certo noutro banco.
-- **Denominador tem de ser o que entrou no funil, não o que acabou de ser gerado.** Com faixa
-  acumulando, `--topicos 4-5` num arquivo de 16 dividia 7 aprovados por 8 recém-gerados e
-  imprimia **88%** onde a taxa era **44%**. O defeito nasceu do acúmulo por faixa, que é
-  recente, e quase virou notícia boa num relatório. **Métrica inflada é pior que métrica
-  ausente:** a ausente ninguém usa, a inflada todo mundo acredita.
-- **A execução custa 50 vezes menos que o julgamento, e pega o que ele não pega.** Primeira
-  medição da camada em conteúdo gerado, mesma rodada: **validar US$ 0,02 · criticar US$ 0,98**.
-  A execução reprovou dois `saida-esperada` cujo gabarito simplesmente **não era o que o banco
-  devolve** — um dizia quatro nomes onde a consulta traz dois. Nenhum passe de opinião pega
-  isso com confiança; o interpretador pega sempre, por dois centavos.
+  Two decisions that are not details: **`PRAGMA foreign_keys = ON`**, contrary to SQLite's
+  default, or an exercise about referential integrity approves an `INSERT` that any real
+  database refuses; and **every query needs an `ORDER BY`**, or the key depends on the order
+  the engine happened to return and fails a correct student on another database.
 
-  Consequência para o catálogo: **tópico que executa é ordens de grandeza mais barato de
-  validar que tópico conceitual.** Os cursos técnicos, a partir do momento em que saem da
-  introdução, deveriam custar bem menos por exercício aprovado — e é a primeira notícia
-  econômica boa desde que a conta começou a subir.
+- **The denominator has to be what entered the funnel, not what has just been generated.** With
+  a range accumulating, `--topics 4-5` in a file of 16 divided 7 approvals by 8 freshly
+  generated ones and printed **88%** where the rate was **44%**. The defect was born of range
+  accumulation, which is recent, and nearly became good news in a report. **An inflated metric
+  is worse than a missing one:** nobody uses the missing one, everybody believes the inflated
+  one.
+- **Execution costs 50 times less than judgement, and catches what judgement does not.** First
+  measurement of the layer on generated content, same round: **validate US$ 0.02 · critique
+  US$ 0.98**. Execution failed two `expected-output` exercises whose key simply **was not what
+  the database returns** — one listed four names where the query brings back two. No opinion
+  pass catches that with confidence; the interpreter catches it every time, for two cents.
 
-- **Contrato novo reprova conteúdo velho, e isso não é defeito do conteúdo.** Das 5 rejeições
-  por execução, **3 eram descompasso de contrato**: os exercícios foram gerados antes de o
-  formato de saída SQL existir no prompt, então não traziam cabeçalho e não criavam as tabelas.
-  Ao acrescentar contrato de execução, ou se regenera o conteúdo anterior ou se aceita que ele
-  reprove — o que não se pode é ler descompasso de versão como defeito de autoria e sair
-  "consertando" exercício que estava certo para as regras da época.
-- **Nunca gravar solução de referência escrita por quem viu os casos de teste.** O campo
-  `_solucao_referencia` é reaproveitado pelo validador; preenchê-lo com a solução do autor
-  converte verificação independente em autoverificação, e o pipeline reporta "ok" sem nada
-  ter sido conferido.
+  Consequence for the catalogue: **a topic that executes is orders of magnitude cheaper to
+  validate than a conceptual topic.** The technical courses, from the moment they leave the
+  introduction, should cost far less per approved exercise — and it is the first good economic
+  news since the bill started climbing.
 
-## 3. Autoria — o que o gerador precisa respeitar
+- **A new contract fails old content, and that is not a defect of the content.** Of the 5
+  execution rejections, **3 were a contract mismatch**: the exercises were generated before the
+  SQL output format existed in the prompt, so they carried no header and did not create the
+  tables. When adding an execution contract, either the earlier content is regenerated or it is
+  accepted that it will fail — what must not happen is reading a version mismatch as an
+  authoring defect and going off "fixing" an exercise that was right by the rules of its time.
+- **Never store a reference solution written by someone who saw the test cases.** The
+  `_reference_solution` field is reused by the validator; filling it with the author's solution
+  converts independent verification into self-verification, and the pipeline reports "ok"
+  without anything having been checked.
 
-Aplicada no prompt de `lib/tipos.mjs`.
+## 3. Authoring — what the generator has to respect
 
-**Ordem dos tópicos — agora imposta pela cegueira, não pela regra.** Exercício do tópico N só
-pode exigir o que os tópicos 1..N ensinaram. A regra existia em prosa desde o começo e era
-desobedecida: numa rodada, "exige conteúdo de tópico posterior" foi a segunda maior causa de
-rejeição paga, com exercícios do tópico 1 pedindo namespaces, cgroups e limites de recurso.
-**O gerador alcançava adiante porque podia ver adiante** — recebia a ementa inteira. Agora a
-lista é cortada no último tópico do lote, para gerar, reescrever e escrever alternativas; o
-crítico continua recebendo inteira, porque precisa reconhecer a referência para reprová-la.
-Não se pede a alguém que ignore o que está lendo: tira-se da vista.
+Enforced in the prompt in `lib/types.mjs`.
 
+**Topic order — now imposed by blindness, not by the rule.** An exercise for topic N may only
+require what topics 1..N have taught. The rule existed in prose from the start and was
+disobeyed: in one round, "requires content from a later topic" was the second largest cause of
+paid rejection, with topic-1 exercises asking for namespaces, cgroups and resource limits.
+**The generator reached forward because it could see forward** — it received the whole
+syllabus. Now the list is cut at the batch's last topic, for generating, rewriting and writing
+options; the critic still receives it whole, because it has to recognise the reference in order
+to fail it. You do not ask someone to ignore what they are reading: you take it out of sight.
 
-Origem: exercício de "instalação e primeiro script" exigindo `strip()`, condicional e
-f-string — passou 4/4 na validação, que é precisamente por que o crítico existe.
+Origin: an "installation and first script" exercise requiring `strip()`, a conditional and an
+f-string — it passed 4/4 in validation, which is precisely why the critic exists.
 
-**Alternativas — quatro defeitos que apareceram em quase todo quiz gerado:** correta mais
-longa que as erradas, distrator de enchimento, absolutos que quem faz prova descarta por
-hábito, e erradas de uma categoria com a correta de outra.
+**Options — four defects that showed up in almost every generated quiz:** the correct one
+longer than the wrong ones, filler distractors, absolutes an exam-taker discards out of habit,
+and wrong ones from one category with the correct one from another.
 
-**`codigo` — quatro perguntas antes de fechar:**
+**`code` — four questions before closing it:**
 
-1. Existe solução que **ignora o tópico** e passa em todos os casos? Origem: exercício sobre
-   argumento com valor padrão em que cravar `.2f` passava 5 de 5.
-2. A **ferramenta natural do tópico** produz o seu gabarito? Origem: desempate alfabético num
-   tópico de `collections`, quando `Counter.most_common` desempata por inserção — punia quem
-   estudou.
-3. Se o tópico é desempenho, **algum caso separa as classes**? Origem: casos de 3 elementos
-   aprovavam o laço aninhado igual à solução linear num tópico de Big-O.
-4. A dificuldade está no tópico ou em **ler a entrada**? Origem: "valores separados por
-   espaço" convida a `split(" ")`, que devolve `[""]` em linha vazia e reprova quem dominava
-   exceções.
+1. Is there a solution that **ignores the topic** and passes every case? Origin: an exercise
+   about a default argument where hardcoding `.2f` passed 5 of 5.
+2. Does the topic's **natural tool** produce your key? Origin: an alphabetical tie-break in a
+   `collections` topic, when `Counter.most_common` breaks ties by insertion — it punished
+   whoever had studied.
+3. If the topic is performance, does **any case separate the classes**? Origin: three-element
+   cases approved the nested loop just like the linear solution in a Big-O topic.
+4. Is the difficulty in the topic or in **reading the input**? Origin: "valores separados por
+   espaço" invites `split(" ")`, which returns `[""]` on an empty line and fails whoever had
+   mastered exceptions.
 
-**`saida-esperada`:** a dica **nunca** manda executar o trecho. Em todo outro tipo "rode e
-observe" é boa dica socrática; aqui a resposta *é* a saída, então equivale a mandar copiar o
-gabarito do terminal.
+**`expected-output`:** the hint **never** tells the student to run the snippet. In every other
+type "run it and observe" is a good socratic hint; here the answer *is* the output, so it
+amounts to telling them to copy the key from the terminal.
 
-**`ordenacao`:** só existe quando há armadilha nomeável — qual par vizinho o aluno inverte e
-por que inverter quebra. Se o autor não consegue nomeá-la, o exercício mede senso comum e
-deve ser outro tipo.
+**`ordering`:** it only exists when there is a nameable trap — which neighbouring pair the
+student inverts and why inverting breaks it. If the author cannot name it, the exercise
+measures common sense and should be another type.
 
-**`associacao`:** a direita descreve **comportamento observável**, nunca traduz o nome da
-esquerda (`pip list --outdated` ↔ "mostra o que está desatualizado" mede inglês). E o
-distrator precisa **disputar com o par mais difícil** — um descartável de imediato não muda
-nada, porque o par difícil continua saindo por eliminação.
+**`matching`:** the right column describes **observable behaviour**, it never translates the
+name on the left (`pip list --outdated` ↔ "mostra o que está desatualizado" measures English).
+And the distractor has to **compete with the hardest pair** — one that is discarded at a glance
+changes nothing, because the hard pair still comes out by elimination.
 
-**`resposta-expressao`:** declare suposição de domínio. Sem `x:positive`, o sympy não
-simplifica `sqrt(x**2)` para `x` e reprova quem responder assim.
+**`expression-answer`:** declare the domain assumption. Without `x:positive`, sympy does not
+simplify `sqrt(x**2)` to `x` and fails whoever answers that way.
 
-## 4. Crítica — comportamento acima de opinião
+## 4. Critique — behaviour above opinion
 
-Aplicada em `lib/criticar.mjs`.
+Enforced in `lib/critique.mjs`.
 
-**Sonda vale mais que julgamento.** Pedir a um modelo que "avalie a qualidade" de um texto
-escrito por outro modelo convida à concordância. Sonda observa comportamento.
+**A probe is worth more than a judgement.** Asking a model to "assess the quality" of a text
+written by another model invites agreement. A probe observes behaviour.
 
-- **Sonda cega** responde a questão sem ver qual alternativa está marcada.
-- **Sonda cega de pares** — e a primeira versão dela falhou de um jeito que merece registro.
-  Ela pedia *"emparelhe"* e comparava com o gabarito. Contra três associações que o juiz já
-  havia reprovado, **aprovou as três, por US$ 0,08**: um modelo competente, obrigado a escolher
-  um pareamento, escolhe o pretendido. Divergência mede **gabarito errado**, não **ambiguidade**
-  — e o defeito procurado era o segundo. O campo `ambigua`, oferecido de lado, veio falso: quem
-  resolve para a melhor resposta não volunta a dúvida.
+- **The blind probe** answers the question without seeing which option is marked.
+- **The blind pair probe** — and its first version failed in a way worth recording. It asked
+  *"pair these up"* and compared with the key. Against three matchings the judge had already
+  failed, it **approved all three, for US$ 0.08**: a competent model, forced to choose one
+  pairing, chooses the intended one. Divergence measures **a wrong key**, not **ambiguity** —
+  and the defect being looked for was the second. The `ambiguous` field, offered on the side,
+  came back false: whoever resolves to the best answer does not volunteer the doubt.
 
-  A versão atual pergunta outra coisa: **para cada esquerda, quais direitas se defendem como
-  par?** A multiplicidade passa a ser a resposta pedida, não uma ressalva. Duas leituras saem
-  da mesma chamada: esquerda com dois pares defensáveis é ambiguidade; par do gabarito fora da
-  lista é gabarito que não se sustenta.
+  The current version asks something else: **for each left item, which right items defend
+  themselves as its pair?** The multiplicity becomes the answer being asked for, not a caveat.
+  Two readings come out of the same call: a left item with two defensible pairs is ambiguity; a
+  key's pair missing from the list is a key that does not hold up.
 
-  **Segunda rodada de teste, US$ 0,08: um caso recusado pelos classificadores e um miss.** Duas
-  correções, e uma delas é de erro próprio — o prompt mandava *"na dúvida entre listar e não
-  listar, não liste"*, instrução que suprime exatamente o que a sonda mede. **Prudência escrita
-  dentro do instrumento vira cegueira do instrumento.** Ao pedir a alguém que procure um
-  defeito, não se pede também que erre para o lado de não achar.
+  **Second test round, US$ 0.08: one case refused by the classifiers and one miss.** Two
+  corrections, and one of them is of my own error — the prompt said *"na dúvida entre listar e
+  não listar, não liste"*, an instruction that suppresses exactly what the probe measures.
+  **Caution written inside the instrument becomes blindness of the instrument.** When you ask
+  someone to look for a defect, you do not also ask them to err on the side of not finding one.
 
-  A outra: recusa de classificador é transitória e **não pode virar "passou"** — as sondas
-  agora repetem uma vez, como o juiz já fazia. Sem isso, um exercício deixa de ser medido e o
-  relatório não distingue isso de aprovado. É o mesmo princípio de "não julgado nunca vira
-  aprovado", que já estava escrito e não tinha sido aplicado às sondas.
+  The other: a classifier refusal is transient and **must not become "passed"** — the probes now
+  retry once, as the judge already did. Without that, an exercise stops being measured and the
+  report does not distinguish that from approved. It is the same principle as "unjudged never
+  becomes approved", which was already written and had not been applied to the probes.
 
-  **Terceira rodada, US$ 0,17: aprovada.** #1 passou, #2 e #3 reprovaram — os dois que o juiz
-  já havia reprovado, e o controle intacto. **Especificidade importa tanto quanto sensibilidade:**
-  um instrumento que acusasse os três não provaria nada, porque acusar tudo é gratuito. Foi por
-  isso que o conjunto de prova trouxe um caso que devia passar.
+  **Third round, US$ 0.17: approved.** #1 passed, #2 and #3 failed — the two the judge had
+  already failed, and the control intact. **Specificity matters as much as sensitivity:** an
+  instrument that flagged all three would prove nothing, because flagging everything is free.
+  That is why the test set included a case that was supposed to pass.
 
-  Mais forte que o placar: a explicação do #3 reconstruiu sozinha o achado do juiz — o distrator
-  do fuso horário descreve `/etc/localtime` e `TZ`, comportamento real de container **e** de
-  máquina virtual — e ainda anotou que ele é "defensável, não obrigatório". Dois instrumentos
-  independentes chegando ao mesmo defeito é a evidência mais forte que este funil produz.
+  Stronger than the score: the explanation for #3 reconstructed the judge's finding on its own
+  — the timezone distractor describes `/etc/localtime` and `TZ`, real behaviour of a container
+  **and** of a virtual machine — and even noted that it is "defensible, not obligatory". Two
+  independent instruments arriving at the same defect is the strongest evidence this funnel
+  produces.
 
-  Reconferir custa ~US$ 0,17 (`prova-sonda-pares.json`): não entra no `npm test`, mas roda
-  sempre que a sonda mudar.
+  Re-checking costs ~US$ 0.17 (`pair-probe-fixture.json`): it is not part of `npm test`, but it
+  runs whenever the probe changes.
 
-  **A regra que isto acrescenta ao método:** *só peça a uma sonda aquilo que ela possa recusar*
-  não basta. Falta a metade seguinte — **o formato da resposta não pode destruir a informação
-  procurada.** Perguntar "qual" quando a pergunta é "quantos" devolve sempre um, e o instrumento
-  passa por funcionando. Antes de escrever uma sonda: se o defeito estiver presente, o formato
-  que estou pedindo consegue expressá-lo?
+  **The rule this adds to the method:** *only ask a probe what it is able to refuse* is not
+  enough. The other half was missing — **the response format must not destroy the information
+  being sought.** Asking "which one" when the question is "how many" always returns one, and
+  the instrument passes for working. Before writing a probe: if the defect is present, can the
+  format I am asking for express it?
 
-  Registro original da sonda: Origem: o tipo passou quatro rodadas
-  **sem sonda alguma** — só o juiz olhava para ele, e o juiz é o instrumento mais fraco do
-  funil. Numa rodada em que 2 de 2 associações reprovaram, as cinco rejeições foram todas da
-  mesma família: "a situação 1 casa igualmente bem com dois efeitos da direita". Ambiguidade
-  de emparelhamento é exatamente o que uma sonda mede e uma opinião não. A coluna da direita
-  vai **ordenada alfabeticamente**: no JSON o par correto é `esquerda[i] ↔ direita[i]`, e
-  apresentá-la na ordem de escrita entregaria o gabarito pela posição.
+  Original record of the probe: the type went four rounds **with no probe at all** — only the
+  judge looked at it, and the judge is the weakest instrument in the funnel. In a round where 2
+  of 2 matchings failed, all five rejections were from the same family: "situation 1 fits two of
+  the effects on the right equally well". Pairing ambiguity is exactly what a probe measures and
+  an opinion does not. The right column goes **in alphabetical order**: in the JSON the correct
+  pair is `left[i] ↔ right[i]`, and presenting it in writing order would hand over the key by
+  position.
 
-  Regra geral que faltava: **todo tipo com gabarito tem de ter uma sonda cega.** Cobertura
-  parcial de instrumento é pior que ausência, porque o relatório não distingue "passou" de
-  "não foi medido". `ordenacao` continua descoberto — sem urgência por estar fora do gerador,
-  mas é a mesma dívida.
-- **Sonda da dica** tenta resolver vendo o enunciado, **o que o aluno vê** e a dica — nunca o
-  gabarito. Origem: a sonda recebia só enunciado e dica, então num `saida-esperada` recebia
-  "o que este trecho imprime?" **sem o trecho**; cega, aprovava tudo.
+  The general rule that was missing: **every type with a key has to have a blind probe.**
+  Partial instrument coverage is worse than none, because the report does not distinguish
+  "passed" from "was not measured". `ordering` is still uncovered — not urgent while it is out
+  of the generator, but it is the same debt.
+- **The hint probe** tries to solve the exercise seeing the statement, **what the student sees**
+  and the hint — never the key. Origin: the probe used to receive only the statement and the
+  hint, so on an `expected-output` it received "what does this snippet print?" **without the
+  snippet**; blind, it approved everything.
 
-**Só peça a uma sonda aquilo que ela possa recusar a responder.** É a regra mais cara desta
-base. Houve uma terceira sonda, "do chute", que respondia proibida de usar conhecimento do
-assunto, só com heurística de prova. Ela acertou o gabarito em **9 de 9** e reprovou um curso
-inteiro — 0 de 11 aprovados.
+**Only ask a probe what it is able to refuse to answer.** It is the most expensive rule in this
+codebase. There was a third probe, the "guessing" one, which answered forbidden to use
+knowledge of the subject, with exam heuristics only. It hit the key **9 times out of 9** and
+failed a whole course — 0 of 11 approved.
 
-Um modelo não suspende o que sabe: ele fabrica uma justificativa de forma para a resposta em
-que já acredita. Num caso notou um absoluto na alternativa **correta**, argumentou que "vinha
-qualificado" e a incluiu mesmo assim — racionalização até o alvo, não previsão. Sonda obrigada
-a responder sempre responde, e vira opinião com outro nome, que é exatamente o que o desenho
-do pipeline existe para evitar.
+A model does not suspend what it knows: it fabricates a form-based justification for the answer
+it already believes in. In one case it noticed an absolute in the **correct** option, argued
+that it "came qualified" and included it anyway — rationalisation towards the target, not
+prediction. A probe forced to answer always answers, and becomes opinion under another name,
+which is exactly what the pipeline's design exists to avoid.
 
-Foi removida, e as heurísticas que ela listava viraram cálculo em `pistasDeForma`. O contraste
-é o argumento: a mesma rodada em que ela reprovou tudo teve uma conferência mecânica pegando
-`"o mesmo"` num passo de ordenação, de graça e sem discussão.
+It was removed, and the heuristics it used to list became computation in `formTells`. The
+contrast is the argument: the same round in which it failed everything had a mechanical check
+catching `"o mesmo"` in an ordering step, for free and without discussion.
 
-**Divisão de competência entre sonda e juiz.** O juiz **não** julga se a dica entrega demais —
-isso é da sonda. Opinião sobre dica erra sempre para o mesmo lado, porque toda dica útil
-estreita o campo; sob a régua "isso muda quem passa?", nenhuma dica sobrevive. O juiz só
-reporta dica **errada**: afirmação falsa, aponta o bloco errado, contradiz o enunciado.
-Origem: 10 de 16 rejeições numa rodada eram o juiz achando dicas generosas, e nenhuma veio da
-sonda.
+**Division of competence between probe and judge.** The judge does **not** judge whether the
+hint gives too much away — that belongs to the probe. Opinion about hints always errs the same
+way, because every useful hint narrows the field; under the ruler "does this change who
+passes?", no hint survives. The judge only reports a **wrong** hint: a false statement, pointing
+at the wrong block, contradicting the statement. Origin: 10 of 16 rejections in one round were
+the judge finding hints generous, and not one came from the probe.
 
-**Régua da gravidade: "isso muda quem passa?"** Acertar por eliminação sem saber o assunto é
-gravidade alta, não ressalva de redação. `baixa` só para o que não altera o resultado de
-ninguém.
+**The severity ruler: "does this change who passes?"** Getting it right by elimination without
+knowing the subject is high severity, not a stylistic caveat. `low` only for what changes
+nobody's result.
 
-**Não julgado nunca vira aprovado.** Falha do passe de crítica reprova, depois de uma
-repetição. Origem: erro de parse virava `gravidade: baixa` e o exercício passava sem ter sido
-avaliado.
+**Unjudged never becomes approved.** A failure of the critique pass fails the exercise, after
+one retry. Origin: a parse error became `severity: low` and the exercise passed without having
+been assessed.
 
-**O crítico precisa ver o exercício, não a serialização dele.** Origem: `JSON.stringify` no
-gabarito rendeu 9 rejeições idênticas acusando "notação de string com aspas e `\n` escapado" —
-o crítico julgava a formatação do prompt.
+**The critic needs to see the exercise, not its serialisation.** Origin: `JSON.stringify` on
+the key produced 9 identical rejections complaining of "string notation with quotes and an
+escaped `\n`" — the critic was judging the prompt's formatting.
 
-**O crítico precisa conhecer as convenções da escola**, senão reporta as decisões como
-defeito: que `multipla-escolha` tem várias corretas de propósito, que a comparação despreza
-espaço em branco no fim, e que o `porque` de cada alternativa é feedback pós-resposta e não
-pista visível.
+**The critic needs to know the school's conventions**, or it reports design decisions as
+defects: that `multiple-choice` has several correct options on purpose, that the comparison
+ignores trailing whitespace, and that each option's `why` is post-answer feedback and not a
+visible tell.
 
-## 5. Calibração externa
+## 5. External calibration
 
-Todo o resto deste pipeline é o mesmo modelo julgando a si mesmo. A execução ancora o que é
-determinístico e as sondas medem comportamento, mas **"este exercício vale o tempo de um
-aluno?" não tem resposta automática** — o crítico herda a noção de qualidade de quem escreve.
+Everything else in this pipeline is the same model judging itself. Execution anchors what is
+deterministic and the probes measure behaviour, but **"is this exercise worth a student's
+time?" has no automatic answer** — the critic inherits its notion of quality from whoever
+writes.
 
-Por isso a revisão humana é registrada aqui, com data e escopo, em vez de ficar no histórico
-de uma conversa.
+That is why human review is recorded here, with a date and a scope, instead of living in a
+conversation's history.
 
-**2026-08-03 — o dono do catálogo revisou 3 aprovados** (`codigo` de biblioteca padrão,
-`associacao` de coleções, `saida-esperada` de deque) e os considerou publicáveis.
+**2026-08-03 — the catalogue's owner reviewed 3 approved exercises** (a standard-library
+`code`, a collections `matching`, a deque `expected-output`) and considered them publishable.
 
-O que isso estabelece: **quando o crítico aprova, o resultado é enviável.** O risco de aprovar
-lixo está baixo nesta amostra.
+What that establishes: **when the critic approves, the result is shippable.** The risk of
+approving rubbish is low in this sample.
 
-**2026-08-03 — o mesmo revisor leu rejeitados do curso de Docker** e concordou com as
-críticas.
+**2026-08-03 — the same reviewer read rejected exercises from the Docker course** and agreed
+with the critiques.
 
-O que isso estabelece: o crítico **rejeita por motivo que se sustenta**. Somado ao item
-anterior, a régua está calibrada nas duas direções — aprova o que é enviável e reprova o que
-não é. Era o que faltava para escalar com alguma confiança.
+What that establishes: the critic **rejects for a reason that holds up**. Added to the previous
+item, the ruler is calibrated in both directions — it approves what is shippable and fails what
+is not. That was what was missing in order to scale with some confidence.
 
-**Limites destes dois registros.** Amostras pequenas. Os aprovados revisados eram escritos à
-mão, não gerados. E concordar com uma crítica é mais fácil que discordar: quem lê o defeito
-apontado tende a enxergá-lo. A calibração vale como ausência de desastre, não como prova de
-precisão.
+**The limits of these two records.** Small samples. The approved ones reviewed were
+hand-written, not generated. And agreeing with a critique is easier than disagreeing: whoever
+reads the reported defect tends to see it. The calibration counts as an absence of disaster,
+not as proof of precision.
 
-## 5c. Tópico que executa aprova o dobro
+## 5c. A topic that executes approves twice as often
 
-Primeira comparação dentro do **mesmo curso**, entre tópicos conceituais e tópicos executáveis:
+The first comparison within the **same course**, between conceptual topics and executable
+topics:
 
-| `bancos-sql` | validados | aprovados na 1ª passada |
+| `bancos-sql` | validated | approved on the first pass |
 | --- | --- | --- |
-| tópicos 1–2 (modelo relacional, normalização) | 7 | **2 (29%)** |
-| tópicos 4–5 (SELECT/WHERE/ORDER BY, JOINs) | 6 | **5 (83%)** |
+| topics 1–2 (relational model, normalisation) | 7 | **2 (29%)** |
+| topics 4–5 (SELECT/WHERE/ORDER BY, JOINs) | 6 | **5 (83%)** |
 
-Mesmo curso, mesmo gerador, mesmos prompts, mesma rodada. O que muda é a existência de uma
-resposta executável — e os quatro exercícios de `codigo` e `saida-esperada` **passaram todos
-pela execução**, com 4/4 e 4/4 nos casos de teste.
+Same course, same generator, same prompts, same round. What changes is the existence of an
+executable answer — and the four `code` and `expected-output` exercises **all passed
+execution**, at 4/4 and 4/4 on the test cases.
 
-Isto refaz a conta do catálogo para baixo. As estimativas anteriores saíram todas de tópicos
-introdutórios, que são o pior caso: só tipos que dependem de julgamento. A maior parte dos 76
-cursos técnicos, depois da introdução, é território de execução.
+This revises the catalogue's arithmetic downwards. The earlier estimates all came from
+introductory topics, which are the worst case: only types that depend on judgement. Most of the
+76 technical courses, after the introduction, is execution territory.
 
-**A ressalva que impede exagero:** um único curso, uma rodada, seis exercícios de um lado e
-sete do outro. É indicação forte, não medida firme — e a conta anterior foi retirada
-justamente por eu ter lido diferença de um exercício como sinal.
+**The caveat that prevents overreach:** a single course, one round, six exercises on one side
+and seven on the other. It is a strong indication, not a firm measurement — and the earlier
+arithmetic was withdrawn precisely because I read a one-exercise difference as a signal.
 
-## 5b. Generalidade: medida, não suposta
+## 5b. Generality: measured, not assumed
 
-Treze rodadas aconteceram num curso só, e a pergunta legítima era se o aprendizado valia
-apenas para ele. Uma rodada de US$ 1,33 em **`arquiteto-comunicacao`** — 50h, avançado, sem
-uma linha de código, o caso mais hostil do catálogo — respondeu:
+Thirteen rounds happened in a single course, and the legitimate question was whether the
+learning applied only to it. A US$ 1.33 round in **`arquiteto-comunicacao`** — 50h, advanced,
+without a line of code, the most hostile case in the catalogue — answered it:
 
-| | docker (2 tóp.) | arquiteto-comunicacao (2 tóp.) |
+| | docker (2 topics) | arquiteto-comunicacao (2 topics) |
 | --- | --- | --- |
-| 1ª passada | 4/7 (57%) | 3/8 (37%) |
-| custo por aprovado | US$ 0,328 | US$ 0,444 |
-| causas | distratores, gabarito, enunciado | distratores, gabarito, dica, enunciado |
+| first pass | 4/7 (57%) | 3/8 (37%) |
+| cost per approval | US$ 0.328 | US$ 0.444 |
+| causes | distractors, key, statement | distractors, key, hint, statement |
 
-**As regras transferem; a taxa cai um terço.** Nenhuma família de defeito nova apareceu — as
-mesmas quatro dimensões, na mesma ordem de frequência. O funil produziu exercícios válidos e
-estruturados num curso onde três dos sete tipos são inaplicáveis, e o crítico achou defeitos
-reais, não artefatos.
+**The rules transfer; the rate drops by a third.** No new defect family appeared — the same
+four dimensions, in the same order of frequency. The funnel produced valid, structured
+exercises in a course where three of the seven types are inapplicable, and the critic found
+real defects, not artefacts.
 
-**Correção, feita uma rodada depois.** O parágrafo original atribuía a queda ao assunto do
-curso ser opinativo e mandava orçar +35% para `gestao` e `arquitetura`. Um terceiro curso —
-`bancos-sql`, técnico — deu **3/8, idêntico**. Três cursos: 4/7, 3/8, 3/8, ou **10/23 (43%)
-juntos**. A diferença entre 4/7 e 3/8 é **um exercício**, e eu tratei um exercício como sinal.
-Não há efeito de tipo de curso detectável nesta amostra, e a regra de orçamento estava errada.
-Fica o que a amostra sustenta: **as regras transferem, e a taxa fica na faixa de 40%.**
+**A correction, made one round later.** The original paragraph attributed the drop to the
+course's subject being a matter of judgement and said to budget +35% for `gestao` and
+`arquitetura`. A third course — `bancos-sql`, technical — gave **3/8, identical**. Three
+courses: 4/7, 3/8, 3/8, or **10/23 (43%) together**. The difference between 4/7 and 3/8 is
+**one exercise**, and I treated one exercise as a signal. There is no detectable
+course-type effect in this sample, and the budgeting rule was wrong. What the sample supports
+stands: **the rules transfer, and the rate sits in the 40% range.**
 
-**O que essas três rodadas realmente têm em comum, e é o achado grande:** todas cobriram os
-**dois ou três primeiros tópicos**, que em qualquer curso são conceituais. Resultado: quinze
-rodadas geraram **zero `codigo` e zero `saida-esperada`**. A camada de execução — a mais forte
-do funil, a única determinística — **nunca rodou em conteúdo gerado**. Só existe nos 48 de
-Python, escritos à mão.
+**What those three rounds really have in common, and it is the big finding:** they all covered
+the **first two or three topics**, which in any course are conceptual. Result: fifteen rounds
+generated **zero `code` and zero `expected-output`**. The execution layer — the funnel's
+strongest, the only deterministic one — **had never run on generated content**. It existed only
+in the 48 Python exercises, written by hand.
 
-Ou seja: tudo o que este arquivo afirma sobre taxa e custo vale para o **terço mais difícil**
-do problema, aquele em que a aprovação depende de julgamento. `bancos-sql` a partir do tópico
-4 (`SELECT, WHERE, ORDER BY`) é território de execução, e ninguém sabe qual é a taxa lá.
-Medir isso é a próxima rodada que vale dinheiro.
+In other words: everything this file claims about rate and cost holds for the **hardest third**
+of the problem, the one where approval depends on judgement. `bancos-sql` from topic 4
+(`SELECT, WHERE, ORDER BY`) is execution territory, and nobody knows what the rate is there.
+Measuring that is the next round worth paying for.
 
-**Ganho colateral da mesma rodada: a sonda cega de pares fez a primeira captura em produção**
-("a esquerda 2 aceita 2 pares defensáveis"), em conteúdo novo e em outro curso. Validada em
-três casos conhecidos, depois silenciosa numa associação do Docker, e agora acertando fora do
-domínio em que foi construída.
+**A side gain from the same round: the blind pair probe made its first capture in production**
+("left item 2 accepts 2 defensible pairs"), on new content and in another course. Validated on
+three known cases, then silent on a Docker matching, and now landing outside the domain it was
+built in.
 
-## 6. Processo
+## 6. Process
 
-- **Toda iteração melhora a ferramenta.** Ver a regra de ouro.
-- **Classifique cada achado** em artefato de ferramenta, defeito repetível ou defeito
-  irrepetível, antes de corrigir qualquer coisa.
-- **Confira por execução antes de aceitar.** Achado de agente não é verdade por decreto.
-- **Instrumento novo se calibra contra corpo de prova conhecido antes de rodar em conteúdo
-  novo.** A sonda do chute custou US$ 1,81 para revelar um defeito que os 48 exercícios já
-  revisados teriam mostrado de graça. Quando as pistas de forma a substituíram, calibrar
-  contra esses mesmos 48 custou zero e ajustou o limiar do eco léxico de +1 para +3.
-- **O que a saída identifica tem de ser o exercício, não o progresso.** Com paralelismo os
-  resultados terminam fora de ordem; um contador de conclusão impede cruzar um achado da
-  crítica com a linha do arquivo, que é exatamente o trabalho da triagem.
-- **Contabilize o custo antes de sair por erro.** Chamada truncada ou recusada é cobrada
-  igual. Uma geração de 6 tópicos estourou `max_tokens`, produziu zero exercícios, e o
-  relatório de custo saiu vazio — gasto silencioso é pior que gasto alto.
-- **`max_tokens` limita pensamento e resposta juntos.** Com thinking adaptativo, um lote que
-  cabia em 3 tópicos não cabe em 6. Ao estourar, divida o lote e refaça em vez de perder tudo.
-- **Gerar por faixa acumula, nunca substitui.** `--max N` sempre pegava os N primeiros
-  tópicos, então treze rodadas cobriram os mesmos três — não havia como produzir um curso
-  inteiro. Com `--topicos A-B` há, e a gravação passou a preservar os exercícios de tópicos
-  fora da faixa: rodar 7-9 depois de 1-6 tem de deixar nove tópicos no arquivo, não três. É a
-  mesma regra de "falha nunca sobrescreve o que deu certo", aplicada a sucesso parcial.
-- **Falha nunca sobrescreve o que deu certo.** Gerar zero exercícios chegou a renomear o
-  arquivo bom e gravar um vazio por cima.
-- **Resultado não pode depender de quem respondeu primeiro.** As chamadas concorrentes voltam
-  na ordem da entrada; conferido que `--paralelo 1` e `--paralelo 8` produzem JSON idêntico.
-- **Conteúdo é versionado; derivado de rodada, não.** `exercicios-<curso>.json` custou revisão
-  para existir; `.validado`, `.criticado` e afins se refazem rodando de novo.
-- **Uma dependência não declarada é falha de ambiente disfarçada de defeito de conteúdo.** Por
-  isso nenhum exercício importa `pandas` ou usa rede: reprovaria numa máquina limpa por
-  motivo que não tem nada a ver com o exercício.
-- **A rodada tem de dizer sozinha se evoluiu.** Antes disso, responder "melhorou ou não?"
-  exigia reler a saída inteira e comparar de cabeça com a rodada anterior — trabalho que se
-  repetia a cada execução e que ninguém faz com honestidade quando está cansado. Agora cada
-  ciclo completo grava uma linha em `historico.json` e imprime um veredito de três estados.
+- **Every iteration improves the tool.** See the golden rule.
+- **Classify every finding** as a tool artefact, a repeatable defect or a one-off defect,
+  before fixing anything.
+- **Check by execution before accepting.** An agent's finding is not true by decree.
+- **A new instrument is calibrated against a known corpus before running on new content.** The
+  guessing probe cost US$ 1.81 to reveal a defect the 48 already-reviewed exercises would have
+  shown for free. When the form tells replaced it, calibrating against those same 48 cost
+  nothing and moved the lexical-echo threshold from +1 to +3.
+- **What the output identifies has to be the exercise, not the progress.** With parallelism the
+  results finish out of order; a completion counter makes it impossible to cross a critique
+  finding with the line in the file, which is exactly the work of triage.
+- **Account for the cost before returning on an error.** A truncated or refused call is billed
+  all the same. A 6-topic generation blew `max_tokens`, produced zero exercises, and the cost
+  report came out empty — silent spending is worse than high spending.
+- **`max_tokens` limits thinking and answer together.** With adaptive thinking, a batch that
+  fitted at 3 topics does not fit at 6. On blowing the limit, split the batch and redo it
+  instead of losing everything.
+- **Generating by range accumulates, it never replaces.** `--max N` always took the first N
+  topics, so thirteen rounds covered the same three — there was no way to produce a whole
+  course. With `--topics A-B` there is, and saving now preserves the exercises of topics
+  outside the range: running 7-9 after 1-6 has to leave nine topics in the file, not three. It
+  is the same rule as "a failure never overwrites what worked", applied to partial success.
+- **A failure never overwrites what worked.** Generating zero exercises once renamed the good
+  file and wrote an empty one over it.
+- **The result must not depend on who answered first.** The concurrent calls come back in input
+  order; checked that `--parallel 1` and `--parallel 8` produce identical JSON.
+- **Content is versioned; a round's derivatives are not.** `exercises-<course>.json` cost review
+  to exist; `.validated`, `.critiqued` and the like are remade by running again.
+- **An undeclared dependency is an environment failure disguised as a content defect.** That is
+  why no exercise imports `pandas` or uses the network: it would fail on a clean machine for a
+  reason that has nothing to do with the exercise.
+- **The round has to say by itself whether it improved.** Before that, answering "better or
+  not?" meant rereading the whole output and comparing from memory with the previous round —
+  work that repeated on every run and that nobody does honestly when tired. Now every complete
+  cycle writes a line into `history.json` and prints a three-state verdict.
 
-  O número do veredito **não é a taxa de aprovação**. Taxa muda com o curso, com o tópico e
-  com a dificuldade sorteada, e sobe sozinha se o gerador ficar tímido. O que mede a
-  ferramenta é a **divisão do trabalho**: quantos defeitos foram pegos por cálculo, de graça,
-  contra quantos só apareceram depois de pagar a API. Cada regra que vira conta empurra
-  defeito de uma coluna para a outra. Se essa proporção não anda ao longo das rodadas, as
-  rodadas estão consertando conteúdo — que é o que a regra de ouro proíbe.
+  The verdict's number is **not the approval rate**. A rate moves with the course, with the
+  topic and with the difficulty that came up, and it rises by itself if the generator turns
+  timid. What measures the tool is the **division of labour**: how many defects were caught by
+  computation, for free, against how many only appeared after paying the API. Every rule that
+  becomes arithmetic pushes a defect from one column to the other. If that proportion does not
+  move across rounds, the rounds are fixing content — which is what the golden rule forbids.
 
-  Comparação só contra rodada do **mesmo curso**: docker contra python mediria o assunto.
-- **Resgate não entra na taxa do veredito.** A primeira rodada com a volta de conserto ligada
-  imprimiu `EVOLUIU — +34 pp`, e o gerador não tinha se movido um ponto: 4 de 9 de primeira
-  passada contra 8 de 18, os dois 44%. Os 34 pp eram três exercícios comprados na reescrita.
-  O veredito passou a medir a **primeira passada**; os resgatados aparecem numa linha separada,
-  rotulados como aprovação comprada. Regra geral: **métrica que soma o que se pagou para
-  consertar não mede a ferramenta, mede a fatura.**
-- **Falta de dado não pode virar silêncio.** Na mesma rodada, o custo por aprovado subiu 25% e
-  a linha nem apareceu, porque a rodada de referência fora registrada à mão sem o campo de
-  custo. Comparação sem linha de base agora imprime o número e diz que não há com o que
-  comparar — e o veredito carrega a ressalva. Um instrumento que se cala quando falta dado é
-  pior que um instrumento ausente: ele passa por funcionando.
-- **Dois corpos de prova, com papéis opostos, e os dois são necessários.** Os exercícios
-  revisados à mão medem **falso positivo**: nenhuma conferência pode acusá-los, e é o que
-  impede uma regra nova de derrubar exercício bom. As rejeições já pagas medem **alcance**:
-  quanto mais conferência acusar, melhor, e é o que responde "essa regra teria pego o defeito
-  que pagamos?".
+  Comparison only against a round of the **same course**: docker against python would measure
+  the subject.
+- **A rescue does not enter the verdict's rate.** The first round with the repair lap switched
+  on printed `IMPROVED — +34 pp`, and the generator had not moved a point: 4 of 9 on the first
+  pass against 8 of 18, both 44%. The 34 pp were three exercises bought in the rewrite. The
+  verdict came to measure the **first pass**; the rescued ones appear on a separate line,
+  labelled as bought approval. General rule: **a metric that adds in what was paid to fix
+  things does not measure the tool, it measures the invoice.**
+- **A missing datum must not turn into silence.** In the same round, the cost per approval rose
+  25% and the line did not even appear, because the reference round had been recorded by hand
+  without the cost field. A comparison with no baseline now prints the number and says there is
+  nothing to compare it with — and the verdict carries the caveat. An instrument that falls
+  silent when a datum is missing is worse than a missing instrument: it passes for working.
+- **Two corpora, with opposite roles, and both are necessary.** The hand-reviewed exercises
+  measure **false positives**: no check may flag them, and that is what stops a new rule from
+  knocking down a good exercise. The already-paid rejections measure **reach**: the more checks
+  fire, the better, and that is what answers "would this rule have caught the defect we paid
+  for?".
 
-  Faltava o segundo, e a falta custou caro em dois sentidos. Rodadas pagas existiram só para
-  testar uma regra em conteúdo novo quando o conteúdo velho serviria. E os arquivos de rejeição
-  eram **sobrescritos a cada execução**: de doze rodadas pagas, sobreviveram as rejeições de
-  uma. O que custa dinheiro para ser descoberto tem de sobreviver à rodada seguinte.
+  The second was missing, and the lack was expensive in two senses. Paid rounds existed only to
+  test a rule on new content when the old content would have served. And the rejection files
+  were **overwritten on every run**: of twelve paid rounds, the rejections of one survived.
+  Whatever costs money to be discovered has to survive the next round.
 
-  A medida de entrada foi **13%** — 2 de 16 rejeições pagas seriam pegas de graça hoje, e uma
-  delas já era mecânica antes. A taxa não precisa chegar a 100%: gabarito discutível e
-  distrator implausível são semânticos. Precisa **não cair**, e é `npm test` que garante isso
-  contra um piso registrado. Afrouxar um limiar para calar um falso positivo tira alcance sem
-  que ninguém veja; este é o único lugar onde isso aparece, e aparece de graça.
+  The entry measurement was **13%** — 2 of 16 paid rejections would be caught for free today,
+  and one of them was already mechanical before. The rate does not have to reach 100%: a
+  debatable key and an implausible distractor are semantic. It has to **not fall**, and it is
+  `npm test` that guarantees that against a recorded floor. Loosening a threshold to silence a
+  false positive takes reach away without anyone seeing; this is the only place where that
+  shows up, and it shows up for free.
 
-  `--alcance` quebra o número por dimensão, e a coluna "ainda pago" é a fila de trabalho: é
-  onde uma regra nova converte gasto em cálculo.
-- **Calibração é regressão, não script descartável.** Cada conferência mecânica foi ajustada
-  contra os 48 exercícios revisados à mão, num script escrito e jogado fora a cada rodada.
-  Agora isso é `npm test`: os 48 não podem acusar nada, e cada regra guarda também o caso real
-  que a motivou, nos dois sentidos. Afrouxar um limiar sem perceber quebra um teste em vez de
-  passar despercebido — que foi como o eco léxico quase entrou com margem de +1.
-- **Contabilidade de rodada se testa com função de mentira.** O funil em voltas é o ponto onde
-  um erro não aparece na saída: resgatado contado como rejeitado, ou rejeitado contado duas
-  vezes, produz um relatório plausível e falso ao fim de uma rodada que custou dólares. Por
-  isso ele mora sozinho em `lib/funil.mjs` e roda inteiro sem tocar na API.
+  `--reach` breaks the number down by dimension, and the "still paid" column is the work queue:
+  it is where a new rule converts spending into computation.
+- **Calibration is a regression suite, not a throwaway script.** Every mechanical check was
+  tuned against the 48 hand-reviewed exercises, in a script written and thrown away every
+  round. Now that is `npm test`: the 48 may flag nothing, and each rule also keeps the real
+  case that motivated it, in both directions. Loosening a threshold by accident breaks a test
+  instead of slipping past — which is how the lexical echo nearly went in with a +1 margin.
+- **Round bookkeeping is tested with fake functions.** The funnel in laps is the point where an
+  error does not show up in the output: a rescue counted as a rejection, or a rejection counted
+  twice, produces a plausible and false report at the end of a round that cost dollars. That is
+  why it lives alone in `lib/funnel.mjs` and runs end to end without touching the API.
 
-## 7. Tipos: um retirado, um em observação
+## 7. Types: one withdrawn, one under observation
 
-**`ordenacao` saiu do gerador.** Seis geradas em quatro rodadas, **zero aprovadas**. Os
-motivos mudaram todas as vezes — ordem ambígua, anáfora entre passos, passo que justifica a
-própria posição, cronologia narrativa, e por fim dois passos independentes com armadilha
-declarada factualmente errada. A regra foi endurecida três vezes sem mover o resultado, o
-que era o critério de parada registrado aqui: **dimensão já codificada que reaparece é girar,
-não evoluir.**
+**`ordering` left the generator.** Six generated across four rounds, **zero approved**. The
+reasons changed every time — ambiguous order, anaphora between steps, a step that justified its
+own position, narrative chronology, and finally two independent steps with a declared trap that
+was factually wrong. The rule was hardened three times without moving the result, which was the
+stopping criterion recorded here: **a dimension already encoded that reappears is spinning, not
+improving.**
 
-O tipo continua em `TIPOS` e continua validado — serve para conteúdo escrito à mão, onde um
-autor pode provar que a armadilha existe. O que saiu é a geração automática, via
-`TIPOS_GERAVEIS`. Critério para voltar: uma `ordenacao` escrita à mão passar pelo crítico
-duas vezes seguidas.
+The type stays in `TYPES` and stays validated — it serves hand-written content, where an author
+can prove the trap exists. What left is automatic generation, via `GENERATABLE_TYPES`. Criterion
+for coming back: a hand-written `ordering` passing the critic twice in a row.
 
-**Atualização, rodada C: a observação não se confirmou.** Na primeira passada, `quiz` fez 1 de
-5 (20%) e `multipla-escolha` fez 1 de 3 (33%) — o tipo em observação saiu **acima** do tipo de
-referência, e o critério de saída ("abaixo da metade do quiz por mais duas rodadas") deixou de
-correr. O que a rodada C sugere é outra coisa: a fraqueza não era do tipo, era da autoria das
-alternativas, que atinge os dois igualmente. Fica em observação por mais uma rodada, agora
-como controle da mudança de autoria cega, não como candidato a sair.
+**Update, round C: the observation was not confirmed.** On the first pass, `quiz` did 1 of 5
+(20%) and `multiple-choice` did 1 of 3 (33%) — the type under observation came out **above** the
+reference type, and the exit criterion ("below half of quiz for two more rounds") stopped
+running. What round C suggests is something else: the weakness was not the type's, it was the
+options' authoring, which affects both equally. It stays under observation for one more round,
+now as a control for the blind-authoring change, not as a candidate for removal.
 
-**Registro original — `multipla-escolha` entra em observação: 1 de 6 aprovadas** na rodada de 18, contra 6 de 8
-do `quiz` no mesmo lote. A causa é estrutural, não de redação: com correção por conjunto
-exato, **cinco alternativas são cinco chances de errar em vez de uma**, e basta um item
-discutível para reprovar o exercício inteiro. Metade das rejeições daquela rodada foi disso —
-alternativa que mistura conclusão verdadeira com mecanismo falso, gabarito verdadeiro só em
-algumas distribuições, escopo do enunciado que não bate com o de uma alternativa.
+**Original record — `multiple-choice` goes under observation: 1 of 6 approved** in the round of
+18, against 6 of 8 for `quiz` in the same batch. The cause is structural, not editorial: with
+exact-set grading, **five options are five chances to be wrong instead of one**, and a single
+debatable item fails the whole exercise. Half the rejections in that round were exactly this —
+an option mixing a true conclusion with a false mechanism, a key true only in some
+distributions, a statement whose scope does not match an option's.
 
-Critério de decisão: se a taxa continuar abaixo da metade do `quiz` em mais duas rodadas, o
-tipo passa a exigir que **cada alternativa seja verificável**, não apenas julgada — ou sai do
-gerador como a `ordenacao`.
+Decision criterion: if the rate stays below half of `quiz` for two more rounds, the type comes
+to require that **every option be verifiable**, not merely judged — or it leaves the generator
+like `ordering` did.
 
-## 7b. Refazer o que caiu, sem ensinar para a prova
+## 7b. Rewriting what fell, without teaching to the test
 
-O exercício rejeitado deixou de ser descartado: volta ao gerador com o laudo em mãos e passa
-pelo funil inteiro de novo. Ele já custou uma geração e uma crítica, e o defeito veio nomeado
-— refazer é mais barato que gerar outro às cegas e torcer.
+The rejected exercise stopped being discarded: it goes back to the generator with the report in
+hand and passes through the whole funnel again. It has already cost a generation and a
+critique, and the defect came named — rewriting is cheaper than generating another one blind
+and hoping.
 
-**O risco desta etapa é ensinar para a prova.** Reescrever até o juiz aprovar otimiza contra o
-juiz, e juiz tem vício. Quatro coisas seguram isso, e nenhuma pode ser afrouxada sem substituir
-por outra:
+**The risk of this stage is teaching to the test.** Rewriting until the judge approves optimises
+against the judge, and a judge has biases. Four things hold that down, and none can be loosened
+without being replaced by another:
 
-- **A reescrita volta pelo funil inteiro**, não só pela crítica. A conferência mecânica não
-  muda de opinião nem se cansa, e a execução tampouco.
-- **A sonda cega não lê a crítica.** Não há como agradá-la com redação: ou o gabarito é
-  dedutível sem saber o assunto, ou não é.
-- **Uma volta por padrão.** Subir `--refazer` é escolha explícita, e o custo por aprovado no
-  veredito mostra se pagou.
-- **Tipo e tópico ficam presos.** Trocar um `multipla-escolha` difícil por um `quiz` fácil
-  resolveria a rejeição e falsificaria as duas medidas que mantêm o gerador honesto: cobertura
-  do tópico e taxa por tipo. Reescrita que muda um dos dois é recusada sem entrar no funil.
+- **The rewrite goes back through the whole funnel**, not only through the critique. The
+  mechanical check does not change its mind or get tired, and neither does execution.
+- **The blind probe does not read the critique.** There is no pleasing it with wording: either
+  the key is deducible without knowing the subject, or it is not.
+- **One lap by default.** Raising `--rewrite` is an explicit choice, and the cost per approval
+  in the verdict shows whether it paid off.
+- **Type and topic are pinned.** Swapping a hard `multiple-choice` for an easy `quiz` would
+  solve the rejection and falsify the two measures that keep the generator honest: topic
+  coverage and rate by type. A rewrite that changes either is refused without entering the
+  funnel.
 
-Também recusadas: reescrita idêntica à original (gastar de novo para reprovar de novo) e
-resposta vazia. E **o laudo diz que o defeito é fato e a sugestão de conserto é palpite** —
-quem apontou o defeito não escreveu o exercício, e já aconteceu de a sugestão do crítico estar
-errada enquanto o defeito estava certo.
+Also refused: a rewrite identical to the original (spending again to fail again) and an empty
+answer. And **the report says the defect is fact and the suggested fix is a guess** — whoever
+reported the defect did not write the exercise, and it has already happened that the critic's
+suggestion was wrong while the defect was right.
 
-**O que julgar depois de rodar:** se `resgatados` for alto e o custo por aprovado cair, a etapa
-se paga. Se `resgatados` for alto e o custo por aprovado subir, a etapa está comprando
-aprovação cara — e vale conferir à mão se os resgatados são mesmo bons, porque é exatamente a
-forma que "ensinar para a prova" teria.
+**What to judge after running it:** if `rescued` is high and the cost per approval falls, the
+stage pays for itself. If `rescued` is high and the cost per approval rises, the stage is buying
+expensive approval — and it is worth checking by hand whether the rescued ones are really good,
+because that is exactly the shape "teaching to the test" would take.
 
-## 7e. Cortar a ementa funcionou
+## 7e. Cutting the syllabus worked
 
-A rodada seguinte ao corte, nos mesmos três tópicos: `alvo` caiu de **3 para 1**, e a única
-restante estava mal rotulada pelo juiz (era eco léxico entre as colunas de uma associação,
-não referência adiante). Primeira passada subiu de 33% para **50%**, pegos de graça de 0 para
-3 de 9, custo por aprovado caiu 13%.
+The round after the cut, on the same three topics: `target` fell from **3 to 1**, and the one
+remaining was mislabelled by the judge (it was a lexical echo between a matching's columns, not
+a forward reference). The first pass rose from 33% to **50%**, caught-for-free from 0 to 3 of 9,
+cost per approval fell 13%.
 
-Vale registrar o contraste com a autoria cega, que custou uma rodada e não moveu nada: as duas
-tentativas aplicavam o mesmo princípio — esconder informação —, e só uma funcionou. A diferença
-é a que ficou escrita em 7d: **a tarefa continua executável sem o que se escondeu?** Escrever
-exercícios do tópico 3 não exige conhecer o tópico 17; escrever um conjunto com contagem fixa
-de verdadeiras exige saber quais são. Cegueira que passa nesse teste é grátis e funciona;
-cegueira que não passa é encenação e custa.
+Worth recording the contrast with blind authoring, which cost a round and moved nothing: both
+attempts applied the same principle — hide information — and only one worked. The difference is
+the one written down in 7d: **is the task still executable without what was hidden?** Writing
+exercises for topic 3 does not require knowing topic 17; writing a set with a fixed count of
+true statements requires knowing which they are. Blindness that passes that test is free and
+works; blindness that does not is theatre, and costs.
 
-## 7c. O defeito se desloca — a pista de forma é um sintoma, não a doença
+## 7c. The defect displaces — a form tell is a symptom, not the disease
 
-Três rodadas do mesmo curso, com as mesmas conferências sendo endurecidas a cada uma:
+Three rounds of the same course, with the same checks being hardened on each one:
 
-| causa da rejeição paga | rodada A | B | C |
+| cause of the paid rejection | round A | B | C |
 | --- | --- | --- | --- |
-| distratores (respondível pela forma) | 6 | 5 | 3 |
-| dica entrega a resposta | 5 | 2 | **0** |
-| pegos de graça pela estrutura | 0 de 18 | 1 de 9 | **4 de 9** |
+| distractors (answerable by form) | 6 | 5 | 3 |
+| the hint gives away the answer | 5 | 2 | **0** |
+| caught free by the structure | 0 of 18 | 1 of 9 | **4 of 9** |
 
-**A dica foi resolvida.** Duas conferências mecânicas mais um parágrafo no prompt levaram a
-causa dominante de uma rodada a zero em duas. É o melhor resultado que este pipeline já teve,
-e é o modelo do que funciona: converter a regra em conta.
+**The hint was solved.** Two mechanical checks plus a paragraph in the prompt took a round's
+dominant cause to zero in two. It is the best result this pipeline has ever had, and it is the
+model of what works: converting a rule into arithmetic.
 
-**Os distratores não.** E a rodada C mostrou por quê. A conferência de comprimento existe
-desde o começo e **nunca havia disparado no Docker** — zero em 18, zero em 9. Na rodada C
-disparou **três vezes**, logo depois de o prompt ganhar o parágrafo mandando igualar o tom
-entre corretas e erradas. O gerador obedeceu: parou de ressalvar só as corretas e passou a
-**explicá-las mais**. O canal fechou e o vazamento saiu por outro furo.
+**The distractors were not.** And round C showed why. The length check has existed from the
+start and **had never fired on Docker** — zero in 18, zero in 9. In round C it fired **three
+times**, right after the prompt gained the paragraph telling it to level the tone between
+correct and wrong options. The generator obeyed: it stopped qualifying only the correct ones
+and started **explaining them more**. The channel closed and the leak came out of another hole.
 
-A conclusão desconfortável: **o gerador tem uma tendência estrutural a deixar a correta
-identificável, e as pistas de forma medem por onde ela está vazando, não se ela existe.**
-Cada conferência nova converte uma rejeição paga em gratuita — o que é progresso real e é o
-que o veredito mede — mas a taxa de primeira passada não sobe: 44% → 44% → 33%.
+The uncomfortable conclusion: **the generator has a structural tendency to leave the correct
+option identifiable, and the form tells measure where it is leaking, not whether it exists.**
+Each new check converts a paid rejection into a free one — which is real progress and is what
+the verdict measures — but the first-pass rate does not rise: 44% → 44% → 33%.
 
-A causa é a assimetria de quem escreve: o autor **sabe** qual é a correta enquanto a redige, e
-cuida dela. Nenhuma quantidade de detector conserta isso; só um desenho de autoria que negue
-essa informação ao autor no momento em que ela importa. Está registrado como a próxima
-mudança estrutural a testar, na seção 8.
+The cause is the asymmetry of whoever writes: the author **knows** which one is correct while
+drafting it, and looks after it. No quantity of detector fixes that; only an authoring design
+that denies the author that information at the moment it matters. It is recorded as the next
+structural change to test, in section 8.
 
-## 7d. A autoria cega foi medida e reprovada — mas não pelo motivo esperado
+## 7d. Blind authoring was measured and failed — but not for the expected reason
 
-Critério declarado antes de rodar: a taxa de primeira passada tinha de sair dos ~40%. Deu
-**33%, exatamente a mesma da rodada anterior**. A hipótese caiu, e o flag `--cegas` fica
-desligado. Mas os outros dois números explicam o quê, exatamente, caiu.
+Criterion declared before running: the first-pass rate had to move off the ~40%. It came out at
+**33%, exactly the same as the previous round**. The hypothesis fell, and the `--blind` flag
+stays off. But the other two numbers explain what, exactly, fell.
 
-| | rodada C | rodada D, `--cegas` |
+| | round C | round D, `--blind` |
 | --- | --- | --- |
-| 1ª passada | 3/9 (33%) | 3/9 (33%) |
-| pegos de graça pela estrutura | **4 de 9** | **0 de 7** |
-| custo por aprovado | US$ 0,395 | US$ 0,524 |
+| first pass | 3/9 (33%) | 3/9 (33%) |
+| caught free by the structure | **4 of 9** | **0 of 7** |
+| cost per approval | US$ 0.395 | US$ 0.524 |
 
-**O mecanismo funcionou: as pistas de forma foram a zero.** Nenhuma conferência mecânica
-disparou — a lista de seis eixos de uniformidade no prompt fez o gerador produzir alternativas
-formalmente indistinguíveis. E a taxa não se mexeu um ponto. Isso é quase uma prova de que
-**forma nunca foi a restrição que limitava**, e é o resultado mais útil que a rodada deu.
+**The mechanism worked: the form tells went to zero.** No mechanical check fired — the list of
+six uniformity axes in the prompt made the generator produce formally indistinguishable options.
+And the rate did not move a point. That is close to proof that **form was never the binding
+constraint**, and it is the most useful result the round gave.
 
-**A cegueira era teatral, e o erro de projeto é meu.** Pedir "escreva cinco afirmações, uma
-delas verdadeira, mas não decida qual" é incoerente: para garantir a contagem, o autor precisa
-decidir. Ele decidiu e não contou. Sobrou a assimetria semântica, que é a que o crítico passou
-a apontar: as erradas ficam falsas de um jeito reconhecível — mecanismo exótico, domínio
-trocado, falsidade grosseira — e as certas são as afirmações canônicas do tópico.
+**The blindness was theatrical, and the design error is mine.** Asking for "write five
+statements, one of them true, but do not decide which" is incoherent: to guarantee the count,
+the author has to decide. It decided and did not say. What was left is the semantic asymmetry,
+which is what the critic went on to report: the wrong ones are false in a recognisable way —
+exotic mechanism, wrong domain, coarse falsehood — and the right ones are the topic's canonical
+statements.
 
-**Consequência para o método:** a restrição de "não saber" só vale quando **não é preciso
-saber para cumprir a tarefa**. A solução de referência às cegas funciona porque escrever a
-solução não exige ver os casos. Escrever um conjunto com contagem de verdadeiras fixa exige
-saber quais são. Antes de projetar a próxima cegueira, perguntar: a tarefa é executável sem a
-informação que estou escondendo? Se não for, a cegueira é encenação.
+**Consequence for the method:** the constraint of "not knowing" only holds when **you do not
+need to know in order to carry out the task**. The blind reference solution works because
+writing the solution does not require seeing the cases. Writing a set with a fixed count of
+true statements requires knowing which they are. Before designing the next blindness, ask: is
+the task executable without the information I am hiding? If it is not, the blindness is
+theatre.
 
-**E, pela promessa feita antes de rodar: acabou a caça a pista de forma.** As conferências já
-existentes ficam — são baratas e pegam defeito real de graça —, mas nenhuma nova entra sem que
-a taxa de primeira passada mostre que forma voltou a ser o gargalo.
+**And, per the promise made before running: the hunt for form tells is over.** The checks that
+already exist stay — they are cheap and catch real defects for free — but no new one goes in
+unless the first-pass rate shows that form has become the bottleneck again.
 
-## 7f. A camada mecânica está perto do teto, e isso é medido
+## 7f. The mechanical layer is near its ceiling, and that is measured
 
-Com o corpo de rejeições em mãos, **onze candidatas a conferência nova foram testadas de
-graça** contra os dois corpos ao mesmo tempo. Resultado: uma só passou — afrouxar a ressalva
-das corretas de "todas" para "todas menos uma", que levou o alcance de 13% para **19%**. As
-outras dez ou não pegaram nada ou acusaram exercício bom.
+With the rejection corpus in hand, **eleven candidate new checks were tested for free** against
+both corpora at once. Result: only one passed — loosening the correct options' hedging from
+"all" to "all but one", which took the reach from 13% to **19%**. The other ten either caught
+nothing or flagged a good exercise.
 
-**A dica está provadamente esgotada.** As quatro rejeições por dica que sobraram têm
-**sobreposição lexical zero ou um** com a alternativa correta — o mesmo que as erradas. Não é
-que falte uma regra melhor: **não existe sinal lexical**. São paráfrases:
+**The hint is provably exhausted.** The four hint rejections that remain have **zero or one**
+word of lexical overlap with the correct option — the same as the wrong ones. It is not that a
+better rule is missing: **there is no lexical signal**. They are paraphrases:
 
-> "Conte quantas vezes um sistema operacional inteiro precisa estar carregado" ↔ a alternativa
-> fala em *kernel por VM*. Nenhuma palavra em comum, e a dica entrega a questão.
+> "Conte quantas vezes um sistema operacional inteiro precisa estar carregado" ↔ the option
+> talks about *kernel por VM*. Not one word in common, and the hint gives the question away.
 
-A conferência que existe pega o subconjunto **literal** (duas ou mais palavras da dica numa
-alternativa só). O subconjunto **parafrástico** é da sonda, e continuará sendo.
+The check that exists catches the **literal** subset (two or more hint words in a single
+option). The **paraphrastic** subset belongs to the probe, and will go on belonging to it.
 
-**O que sobra na coluna paga, por natureza:**
+**What remains in the paid column, by nature:**
 
-| dimensão | o que é | mecanizável? |
+| dimension | what it is | mechanisable? |
 | --- | --- | --- |
-| distratores | "as erradas são falsas de um jeito reconhecível", "as certas são o clichê do tópico" | não — é plausibilidade, não forma |
-| gabarito | a afirmação marcada como certa é factualmente discutível | não — é verdade, não texto |
-| dica (paráfrase) | entrega o critério com outras palavras | não — sem sinal lexical |
-| alvo | exige o que não foi ensinado | resolvido na autoria, não na detecção (7e) |
+| distractors | "the wrong ones are false in a recognisable way", "the right ones are the topic's cliché" | no — it is plausibility, not form |
+| key | the statement marked correct is factually debatable | no — it is truth, not text |
+| hint (paraphrase) | it gives the criterion away in other words | no — no lexical signal |
+| target | it requires what was not taught | solved in the authoring, not in the detection (7e) |
 
-**Consequência estratégica, e é a razão de este parágrafo existir:** acrescentar conferência
-mecânica passou a render ~1 caso por tentativa, com risco crescente de falso positivo. O
-gargalo migrou para os instrumentos que julgam sentido — sondas — e para a autoria. Regra
-nova de forma só volta a valer a pena se o alcance parar de subir por outro caminho e a taxa
-de primeira passada mostrar que forma voltou a ser o problema.
+**Strategic consequence, and it is the reason this paragraph exists:** adding a mechanical check
+has come to yield ~1 case per attempt, with a growing risk of false positives. The bottleneck
+migrated to the instruments that judge meaning — the probes — and to the authoring. A new form
+rule is only worth it again if the reach stops rising by another route and the first-pass rate
+shows that form has become the problem again.
 
-## 8. O que ainda não é regra
+## 8. What is not yet a rule
 
-Sabido, ainda não resolvido:
+Known, not yet solved:
 
-- ~~**Autoria cega das alternativas.**~~ **Medida e reprovada — ver 7d.**  Registro original: Hoje o gerador
-  escreve cinco alternativas já sabendo quais marcará como corretas, e cuida das corretas. Daí
-  toda a família de pistas de forma. A proposta é aplicar à autoria o mesmo princípio que já
-  governa a verificação: **escrever primeiro cinco afirmações defensáveis sobre o tópico, sem
-  decidir quais são verdadeiras, e só depois julgar cada uma.** A assimetria some na origem
-  porque, no momento da redação, não existe "a correta" para privilegiar.
+- ~~**Blind authoring of the options.**~~ **Measured and failed — see 7d.** Original record: the
+  generator writes five options already knowing which it will mark correct, and it looks after
+  the correct ones. Hence the whole family of form tells. The proposal was to apply to the
+  authoring the same principle that already governs verification: **first write five defensible
+  statements about the topic, without deciding which are true, and only then judge each one.**
+  The asymmetry disappears at its source because, at the moment of writing, there is no
+  "correct one" to privilege.
 
-  São **duas** chamadas a mais por questão de alternativas: uma escreve as N afirmações sabendo
-  quantas serão verdadeiras e nunca quais, outra — separada, sem memória da primeira — julga
-  cada uma. É o juízo que vira gabarito.
+  It is **two** extra calls per options question: one writes the N statements knowing how many
+  will be true and never which, another — separate, with no memory of the first — judges each
+  one. It is the judgement that becomes the key.
 
-  Ganho colateral já previsto: a contagem de verdadeiras deixa de ser decretada pelo autor e
-  passa a ser apurada. Se o juízo devolver duas verdadeiras num `quiz`, a conferência mecânica
-  reprova **de graça** — e o que ela pega é um conjunto de afirmações que não sustenta o
-  gabarito pretendido, defeito que antes só o crítico via, pagando.
+  A side gain already anticipated: the count of true statements stops being decreed by the
+  author and comes to be established. If the judgement returns two true ones in a `quiz`, the
+  mechanical check fails it **for free** — and what it catches is a set of statements that does
+  not sustain the intended key, a defect only the critic used to see, at a price.
 
-  **Critério de sucesso, declarado antes de rodar:** a taxa de primeira passada tem de sair dos
-  ~40% em que está travada há três rodadas. Se não sair, a hipótese está errada, a assimetria
-  vem de outro lugar, e para-se de perseguir pista de forma. Fica atrás de um flag até ser
-  medida contra os mesmos três tópicos do Docker.
-- **Deduplicação entre tópicos vizinhos.**
-- **As pistas de forma cobrem quatro traços, e o juiz aponta outros.** Categoria destoante e
-  plausibilidade exótica ainda são só prosa e julgamento; mecanizá-las exige medir semântica,
-  não texto.
-- **O gerador ignora regra em prosa quando ela é longa.** As regras de distrator existiam e
-  foram desobedecidas em 2 dos 12 exercícios do Docker. O padrão até aqui: regra que vira
-  conferência mecânica ou sonda passa a ser respeitada; regra que fica só no prompt é
-  respeitada às vezes. Considerar isso antes de acrescentar prosa.
+  **Success criterion, declared before running:** the first-pass rate has to move off the ~40%
+  it has been stuck at for three rounds. If it does not, the hypothesis is wrong, the asymmetry
+  comes from somewhere else, and the chase after form tells stops. It sits behind a flag until
+  it is measured against the same three Docker topics.
+- **Deduplication between neighbouring topics.**
+- **The form tells cover four traits, and the judge reports others.** An out-of-place category
+  and exotic plausibility are still prose and judgement; mechanising them requires measuring
+  semantics, not text.
+- **The generator ignores a rule in prose when the prose is long.** The distractor rules existed
+  and were disobeyed in 2 of the 12 Docker exercises. The pattern so far: a rule that becomes a
+  mechanical check or a probe starts being respected; a rule that stays only in the prompt is
+  respected sometimes. Consider that before adding more prose.
 
-  **A rodada de 18 do Docker confirmou isto de forma incômoda: das 9 rejeições, quase nenhuma
-  trouxe causa nova.** Distrator que se denuncia pela forma, errada com mecanismo exótico,
-  distrator de associação plausível para mais de uma esquerda, dica que entrega o critério —
-  as quatro já estavam escritas no prompt. O gargalo deixou de ser *descobrir a regra* e
-  passou a ser *fazê-la valer*. Isso muda o que conta como progresso: acrescentar prosa nova
-  ao prompt tende a não mover nada, e as duas saídas que sobram são converter a regra em
-  conta (feito para ressalva e para a dica) ou realimentar a crítica na regeneração.
+  **The Docker round of 18 confirmed this uncomfortably: of the 9 rejections, almost none
+  brought a new cause.** A distractor giving itself away by form, a wrong option with an exotic
+  mechanism, a matching distractor plausible for more than one left item, a hint that gives the
+  criterion away — all four were already written in the prompt. The bottleneck stopped being
+  *discovering the rule* and became *making it stick*. That changes what counts as progress:
+  adding new prose to the prompt tends to move nothing, and the two remaining ways out are
+  converting the rule into arithmetic (done for hedging and for the hint) or feeding the
+  critique back into regeneration.
