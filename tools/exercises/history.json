@@ -1,0 +1,196 @@
+{
+  "rounds": [
+    {
+      "when": "2026-08-03T03:40:00.000Z",
+      "course": "docker",
+      "topics": 6,
+      "generated": 18,
+      "structure": 0,
+      "execution": 0,
+      "api": 10,
+      "approved": 8,
+      "dimensions": {},
+      "note": "reconstruída da saída da execução, antes de o histórico existir; as dimensões não foram tabuladas",
+      "cost": null,
+      "approved_first_pass": 8
+    },
+    {
+      "when": "2026-08-03T04:20:00.000Z",
+      "course": "docker",
+      "topics": 6,
+      "generated": 18,
+      "structure": 1,
+      "execution": 0,
+      "api": 9,
+      "approved": 8,
+      "dimensions": {
+        "distractors": 6,
+        "hint": 5,
+        "key": 1
+      },
+      "note": "reconstruída da saída da execução; custo e 1ª passada preenchidos depois, quando o veredito passou a usá-los",
+      "cost": 2.6186,
+      "approved_first_pass": 8
+    },
+    {
+      "when": "2026-08-03T05:40:00.000Z",
+      "course": "docker",
+      "topics": 3,
+      "generated": 9,
+      "structure": 1,
+      "execution": 0,
+      "api": 6,
+      "approved": 7,
+      "approved_first_pass": 4,
+      "rewritten": 5,
+      "rescued": 3,
+      "dimensions": {
+        "distractors": 5,
+        "target": 2,
+        "hint": 2,
+        "statement": 1
+      },
+      "cost": 2.8667,
+      "note": "primeira rodada com a volta de conserto ligada; registrada à mão porque o veredito da época somava resgatados na taxa"
+    },
+    {
+      "when": "2026-08-03T06:05:14.445Z",
+      "generated": 9,
+      "structure": 4,
+      "execution": 0,
+      "api": 5,
+      "approved": 6,
+      "approved_first_pass": 3,
+      "rewritten": 6,
+      "rescued": 3,
+      "dimensions": {
+        "distractors": 3,
+        "key": 1,
+        "target": 1
+      },
+      "course": "docker",
+      "topics": 3,
+      "cost": 2.3683
+    },
+    {
+      "when": "2026-08-03T06:39:48.408Z",
+      "generated": 9,
+      "structure": 0,
+      "execution": 0,
+      "api": 7,
+      "approved": 8,
+      "approved_first_pass": 3,
+      "rewritten": 6,
+      "rescued": 5,
+      "dimensions": {
+        "distractors": 4,
+        "target": 3,
+        "hint": 1
+      },
+      "blind": true,
+      "course": "docker",
+      "topics": 3,
+      "cost": 4.193
+    },
+    {
+      "when": "2026-08-03T06:58:34.657Z",
+      "generated": 10,
+      "structure": 3,
+      "execution": 0,
+      "api": 6,
+      "approved": 6,
+      "approved_first_pass": 5,
+      "rewritten": 5,
+      "rescued": 1,
+      "dimensions": {
+        "key": 5,
+        "distractors": 2,
+        "target": 1
+      },
+      "blind": false,
+      "course": "docker",
+      "topics": 3,
+      "cost": 2.7427
+    },
+    {
+      "when": "2026-08-03T07:38:13.692Z",
+      "generated": 7,
+      "structure": 0,
+      "execution": 0,
+      "api": 3,
+      "approved": 4,
+      "approved_first_pass": 4,
+      "rewritten": 0,
+      "rescued": 0,
+      "dimensions": {
+        "statement": 1,
+        "distractors": 2,
+        "key": 1
+      },
+      "blind": false,
+      "course": "docker",
+      "topics": 2,
+      "cost": 1.3102
+    },
+    {
+      "when": "2026-08-03T08:04:02.787Z",
+      "generated": 8,
+      "structure": 0,
+      "execution": 0,
+      "api": 5,
+      "approved": 3,
+      "approved_first_pass": 3,
+      "rewritten": 0,
+      "rescued": 0,
+      "dimensions": {
+        "hint": 1,
+        "distractors": 4,
+        "statement": 1,
+        "key": 2
+      },
+      "blind": false,
+      "course": "arquiteto-comunicacao",
+      "topics": 2,
+      "cost": 1.3333
+    },
+    {
+      "when": "2026-08-03T08:16:00.358Z",
+      "generated": 8,
+      "structure": 1,
+      "execution": 0,
+      "api": 4,
+      "approved": 3,
+      "approved_first_pass": 3,
+      "rewritten": 0,
+      "rescued": 0,
+      "dimensions": {
+        "distractors": 3,
+        "key": 4
+      },
+      "blind": false,
+      "course": "bancos-sql",
+      "topics": 2,
+      "cost": 1.4175
+    },
+    {
+      "when": "2026-08-03T09:11:29.426Z",
+      "generated": 8,
+      "structure": 3,
+      "execution": 0,
+      "api": 6,
+      "approved": 7,
+      "approved_first_pass": 7,
+      "rewritten": 0,
+      "rescued": 0,
+      "dimensions": {
+        "distractors": 4,
+        "key": 3,
+        "statement": 1
+      },
+      "blind": false,
+      "course": "bancos-sql",
+      "topics": 2,
+      "cost": 1.9926
+    }
+  ]
+}

@@ -1,0 +1,433 @@
+{
+  "course": "docker",
+  "generated_at": "2026-08-03T06:00:11.187Z",
+  "options": 5,
+  "exercises": [
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "quiz",
+      "difficulty": "easy",
+      "statement": "Uma aplicação roda sem erros no notebook de quem a escreveu e falha no servidor de homologação com mensagem de biblioteca ausente. Qual afirmação descreve o problema que o empacotamento em container resolve nessa situação?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A aplicação passa a levar consigo as bibliotecas, as versões e a configuração de que depende, em vez de contar com o que já estava na máquina.",
+          "correct": true,
+          "why": "O ambiente de execução viaja junto com a aplicação, então deixa de variar de máquina para máquina."
+        },
+        {
+          "text": "O container converte as chamadas da aplicação para a versão de biblioteca que existe na máquina de destino.",
+          "correct": false,
+          "why": "Não há tradução de chamadas de biblioteca; o que muda é de onde vêm os arquivos que a aplicação usa."
+        },
+        {
+          "text": "O pacote é compilado novamente durante a partida, ajustando-se ao processador e às versões do servidor.",
+          "correct": false,
+          "why": "Não há recompilação na partida; a imagem é executada como foi montada."
+        },
+        {
+          "text": "Cada instância recebe uma cópia do kernel do host, o que a protege de mudanças no sistema.",
+          "correct": false,
+          "why": "O kernel não é copiado por instância; ele é o da máquina onde a instância executa."
+        },
+        {
+          "text": "O empacotamento remove as dependências externas da aplicação, que se torna um único binário estático.",
+          "correct": false,
+          "why": "As dependências continuam existindo; elas passam a ser distribuídas junto, não eliminadas."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Compare o que precisa estar previamente instalado na máquina de destino antes e depois de a aplicação ser distribuída dessa forma."
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Sobre o que um container entrega e sobre o que ele depende da máquina onde executa, marque todas as afirmações que se aplicam.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A imagem carrega as bibliotecas de sistema e os arquivos de configuração de que a aplicação precisa para subir.",
+          "correct": true,
+          "why": "É justamente esse conteúdo empacotado que torna a execução previsível em máquinas diferentes."
+        },
+        {
+          "text": "O container usa o kernel da máquina em que roda, em vez de trazer um kernel próprio.",
+          "correct": true,
+          "why": "O compartilhamento do kernel do host é a característica central do modelo."
+        },
+        {
+          "text": "O mesmo empacotamento serve para a máquina de quem desenvolve e para o servidor que atende usuários.",
+          "correct": true,
+          "why": "A mesma imagem é executada nos dois lugares, o que é o objetivo do empacotamento."
+        },
+        {
+          "text": "O empacotamento elimina as dependências da aplicação, resolvidas de vez em tempo de compilação.",
+          "correct": false,
+          "why": "As dependências não desaparecem: elas passam a ser transportadas junto com a aplicação."
+        },
+        {
+          "text": "Cada container reserva de antemão uma fatia fixa de memória e de CPU, indisponível para o resto da máquina.",
+          "correct": false,
+          "why": "Sem configuração explícita de limites, os containers concorrem pelos recursos do host como processos comuns."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Em cada item, decida se a frase fala de algo que viaja dentro do pacote ou de algo que a máquina de destino fornece na hora da execução."
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "quiz",
+      "difficulty": "hard",
+      "statement": "Uma equipe empacota em container uma API que exige uma versão específica de runtime e que se conecta a um banco de dados hospedado em outro servidor, cujo endereço e credenciais hoje ficam em variáveis de ambiente de cada máquina. Depois do empacotamento, qual afirmação descreve corretamente o resultado?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A versão do runtime deixa de variar entre máquinas, mas endereço e credenciais continuam vindo de fora e precisam ser fornecidos em cada ambiente.",
+          "correct": true,
+          "why": "O pacote fixa o que é interno à aplicação; dados que dependem do ambiente permanecem externos ao pacote."
+        },
+        {
+          "text": "A versão do runtime passa a ser escolhida pela máquina de destino, que impõe a que tem instalada.",
+          "correct": false,
+          "why": "O runtime empacotado é o usado na execução, independentemente do que existe no host."
+        },
+        {
+          "text": "O banco de dados hospedado no outro servidor passa a integrar o pacote e sobe junto com a API.",
+          "correct": false,
+          "why": "Empacotar a API não move um serviço externo para dentro dela."
+        },
+        {
+          "text": "As credenciais ficam gravadas na imagem no momento da execução, o que dispensa configuração por ambiente.",
+          "correct": false,
+          "why": "A imagem não é alterada durante a execução, e credenciais continuam sendo entregues por configuração."
+        },
+        {
+          "text": "O endereço do banco passa a ser resolvido pelo nome do serviço, sem nenhuma configuração adicional.",
+          "correct": false,
+          "why": "Um serviço fora do ambiente empacotado não ganha nome resolvível só porque a API virou container."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Separe as dependências que a equipe consegue congelar no momento de montar o pacote daquelas que só se conhecem quando ele sobe em determinado lugar."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada forma de executar aplicações ao efeito que a equipe observa na prática. Sobram itens na coluna da direita que não correspondem a nenhuma das formas listadas.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Bare metal",
+          "right": "duas aplicações que exigem a mesma biblioteca de sistema em versões distintas disputam o mesmo diretório"
+        },
+        {
+          "left": "Máquina virtual com hipervisor tipo 1",
+          "right": "a máquina liga direto na camada de virtualização, sem nenhuma distribuição instalada antes"
+        },
+        {
+          "left": "Máquina virtual com hipervisor tipo 2",
+          "right": "a instância aparece na lista de aplicativos abertos e pode ser encerrada por ali"
+        },
+        {
+          "left": "Container",
+          "right": "as instâncias respondem em fração de segundo, sem sequência de inicialização de sistema operacional"
+        }
+      ],
+      "right_distractors": [
+        "o mesmo executável roda em processadores de arquitetura distinta sem passar por nova compilação",
+        "cada aplicação recebe uma fatia de disco cifrada que o resto da máquina não consegue ler"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada forma, pergunte de onde parte a inicialização da máquina e quantas cópias de sistema operacional ficam ativas ao mesmo tempo."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "Um container fica pronto para atender em menos de um segundo, enquanto uma máquina virtual com a mesma aplicação leva dezenas de segundos. Qual é a razão dessa diferença?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "O container apenas inicia os processos da aplicação sobre um kernel que já está em execução.",
+          "correct": true,
+          "why": "Não há um segundo sistema operacional a levantar: a partida se limita aos processos da aplicação."
+        },
+        {
+          "text": "A imagem do container é descomprimida em memória, enquanto o disco da máquina virtual é lido do zero em cada partida.",
+          "correct": false,
+          "why": "A diferença de tempo não vem de compressão nem de leitura de disco, e sim do que precisa ser inicializado."
+        },
+        {
+          "text": "O hipervisor traduz cada instrução da máquina virtual, o que estende o tempo de inicialização.",
+          "correct": false,
+          "why": "Virtualização assistida por hardware executa as instruções nativamente; tradução completa é caso à parte e não explica a partida."
+        },
+        {
+          "text": "O container recebe prioridade máxima no escalonador do host enquanto está subindo.",
+          "correct": false,
+          "why": "Não há prioridade especial atribuída na partida; containers são escalonados como processos comuns."
+        },
+        {
+          "text": "A máquina virtual só passa a responder depois que o hipervisor copia a memória do hospedeiro para dentro dela.",
+          "correct": false,
+          "why": "Não existe cópia da memória do hospedeiro na partida de uma máquina virtual."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Liste tudo que precisa acontecer entre acionar a partida e a aplicação aceitar a primeira requisição em cada um dos dois arranjos, e compare as duas listas."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "statement": "Marque todas as afirmações verdadeiras sobre a comparação entre máquina virtual e container.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Um container Linux não executa em um host cujo kernel seja de outra família, mesmo que a imagem esteja íntegra.",
+          "correct": true,
+          "why": "O container depende do kernel do host, e a imagem foi montada para uma família de kernel específica."
+        },
+        {
+          "text": "Uma máquina virtual pode executar um sistema operacional diferente do da máquina hospedeira.",
+          "correct": true,
+          "why": "A máquina virtual traz o próprio sistema operacional, inclusive de outra família."
+        },
+        {
+          "text": "Atualizar o kernel do host e reiniciá-lo afeta de uma vez todos os containers daquela máquina.",
+          "correct": true,
+          "why": "Todos compartilham o mesmo kernel, então a manutenção dele alcança todos simultaneamente."
+        },
+        {
+          "text": "Cada container carrega o próprio kernel, e é isso que explica o tamanho das imagens.",
+          "correct": false,
+          "why": "O kernel não vai na imagem; o tamanho vem das bibliotecas e dos arquivos da aplicação."
+        },
+        {
+          "text": "Uma máquina virtual isola menos que um container, mesmo quando recebe CPU dedicada.",
+          "correct": false,
+          "why": "A máquina virtual apresenta fronteira de isolamento mais rígida, já que não compartilha kernel com o hospedeiro."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Em cada afirmação, identifique quantos kernels estão em jogo e a quem pertence cada um deles."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "Qual afirmação descreve corretamente o que o padrão OCI estabelece?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Descreve o formato da imagem e o comportamento esperado do runtime, de modo que uma imagem gerada por uma ferramenta execute em outra.",
+          "correct": true,
+          "why": "São exatamente as duas especificações centrais: formato de imagem e comportamento de execução."
+        },
+        {
+          "text": "Fixa a sintaxe do Dockerfile, de modo que qualquer construtor aceite as mesmas instruções.",
+          "correct": false,
+          "why": "O Dockerfile não faz parte das especificações; construtores podem aceitar sintaxes distintas."
+        },
+        {
+          "text": "Define qual sistema de arquivos em união o host deve usar para montar as camadas.",
+          "correct": false,
+          "why": "A escolha do driver de armazenamento é decisão de implementação, não de especificação."
+        },
+        {
+          "text": "Garante que uma imagem montada para uma arquitetura de processador execute em qualquer outra.",
+          "correct": false,
+          "why": "A especificação identifica a arquitetura da imagem; ela não torna binários portáveis entre arquiteturas."
+        },
+        {
+          "text": "Obriga o registry a exigir assinatura da imagem antes de aceitar o envio.",
+          "correct": false,
+          "why": "Assinatura e proveniência são recursos adicionais, não exigência para conformidade."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Repare em que ponto duas implementações rivais precisam concordar para que o mesmo material produzido por uma sirva à outra."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "As especificações mantidas pela OCI delimitam o que precisa ser igual entre implementações diferentes. Marque todos os itens que estão dentro desse escopo.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "O formato da imagem: como as camadas, o manifesto e a configuração são gravados e identificados.",
+          "correct": true,
+          "why": "O formato de imagem é uma das especificações e é o que permite que outra ferramenta leia o mesmo pacote."
+        },
+        {
+          "text": "O comportamento do runtime ao criar, iniciar e remover um container a partir de um pacote em disco.",
+          "correct": true,
+          "why": "O ciclo de vida da execução é especificado, e é o que faz um pacote rodar em runtimes distintos."
+        },
+        {
+          "text": "As instruções aceitas em um Dockerfile e a ordem em que podem aparecer no arquivo.",
+          "correct": false,
+          "why": "A linguagem de construção fica a cargo de cada ferramenta, fora do escopo especificado."
+        },
+        {
+          "text": "Os nomes e as opções dos subcomandos de linha de comando usados para subir um container.",
+          "correct": false,
+          "why": "A interface de uso é decisão de cada projeto e varia entre ferramentas compatíveis."
+        },
+        {
+          "text": "O tempo máximo de partida que uma implementação precisa alcançar para se declarar compatível.",
+          "correct": false,
+          "why": "Não há critério de desempenho definido para conformidade."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pergunte, item por item, se dois projetos concorrentes precisariam daquilo idêntico para trocar material entre si, ou se cada um pode resolver do seu jeito sem quebrar nada."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "quiz",
+      "difficulty": "hard",
+      "statement": "Uma equipe montou suas imagens com Docker e vai passar a executá-las em um servidor que usa outro runtime compatível com OCI, operado por outra ferramenta de linha de comando. Qual afirmação descreve o que acontece nessa troca?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "As imagens são lidas pelo novo runtime sem reconstrução, mas os comandos de operação usados pela equipe precisam ser revistos.",
+          "correct": true,
+          "why": "O formato da imagem e a execução são especificados; a interface de operação de cada ferramenta não é."
+        },
+        {
+          "text": "Nem as imagens nem os comandos de operação precisam mudar, porque a especificação também cobre a linha de comando.",
+          "correct": false,
+          "why": "A interface de linha de comando está fora do escopo especificado e varia entre projetos."
+        },
+        {
+          "text": "As imagens precisam ser reconstruídas com o construtor do novo runtime, e só então os comandos podem ser reaproveitados.",
+          "correct": false,
+          "why": "Uma imagem em formato OCI é consumida como está por qualquer runtime conforme."
+        },
+        {
+          "text": "As imagens só são aceitas se forem reenviadas a um registry mantido pelo mesmo fornecedor do novo runtime.",
+          "correct": false,
+          "why": "Não há vínculo entre runtime e fornecedor de registry para que a imagem seja aceita."
+        },
+        {
+          "text": "As imagens são lidas sem mudança, mas cada camada tem de ser reempacotada no formato de arquivos do servidor.",
+          "correct": false,
+          "why": "A montagem das camadas é detalhe interno do host e não exige reempacotamento pela equipe."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Releia o que a especificação enumera e verifique se a rotina de operação do dia a dia aparece nessa lista."
+    }
+  ]
+}

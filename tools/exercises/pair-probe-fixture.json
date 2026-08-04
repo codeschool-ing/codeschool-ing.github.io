@@ -1,0 +1,136 @@
+{
+  "course": "docker",
+  "options": 5,
+  "exercises": [
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "matching",
+      "difficulty": "hard",
+      "statement": "Cada situação vivida por uma equipe de operação casa com um efeito observado depois de os serviços passarem a rodar em containers. Faça a correspondência um a um; sobram itens na coluna da direita que não correspondem a nenhuma situação.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Duas aplicações no mesmo servidor pedem versões diferentes do mesmo interpretador, e ajustar a instalação para uma delas quebra a outra.",
+          "right": "As duas voltam a conviver na mesma máquina, cada qual carregando o próprio conjunto de bibliotecas e binários."
+        },
+        {
+          "left": "Um dos serviços tem vazamento de memória, esgota a RAM da máquina e leva os vizinhos junto na queda.",
+          "right": "Passa a valer um teto declarado por peça: quem excede é derrubado sozinho e os demais seguem atendendo."
+        },
+        {
+          "left": "Um teste de carga precisa de dez cópias do serviço em pé em poucos segundos, e cada máquina virtual do parque demora minutos para ficar pronta.",
+          "right": "Todas as réplicas pedidas ficam disponíveis quase de imediato, dividindo o mesmo núcleo de sistema já carregado no hospedeiro."
+        },
+        {
+          "left": "Uma falha explorada em um dos serviços daria ao invasor acesso de leitura a todo o disco do servidor.",
+          "right": "O intruso fica limitado ao recorte de arquivos e aos processos entregues àquela peça, sem alcançar o resto do hospedeiro."
+        },
+        {
+          "left": "Depois de uma atualização mal-sucedida, retornar ao estado que funcionava exige refazer à mão uma sequência de comandos e ajustes de configuração.",
+          "right": "Basta pôr no ar de novo o artefato imutável da revisão que funcionava, sem desfazer peça por peça o que foi aplicado."
+        }
+      ],
+      "right_distractors": [
+        "Cada réplica ganha um núcleo de sistema operacional próprio, e o tempo de subida passa a incluir a partida desse núcleo.",
+        "O consumo de memória de cada serviço cai pela metade sem que uma linha do código seja alterada."
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada situação, pergunte primeiro o que exatamente impedia a equipe de seguir; depois confira se o efeito descrito remove aquele impedimento ou apenas algum outro que soa parecido."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "matching",
+      "difficulty": "hard",
+      "statement": "Cada situação abaixo casa com um resultado que a adesão às especificações abertas produz nela. Faça a correspondência um a um; sobram resultados na coluna da direita que não correspondem a nenhuma situação.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "A montagem do pacote usou o produto de um fornecedor e a máquina de destino executa o de outro, os dois aderentes às especificações.",
+          "right": "O conteúdo entregue entra em execução no destino sem passar por nenhuma conversão de formato."
+        },
+        {
+          "left": "O roteiro de implantação da equipe recorre a uma opção de conveniência que existe só no produto usado no desenvolvimento.",
+          "right": "O pacote continua sendo aceito na outra ponta, e as linhas digitadas pela equipe precisam ser reescritas."
+        },
+        {
+          "left": "Um projeto novo pretende lançar seu próprio programa de execução de containers e ganhar espaço entre os já usados.",
+          "right": "A construção se apoia em um texto de leitura livre, sem precisar deduzir por fora o funcionamento interno alheio."
+        },
+        {
+          "left": "Um comprador quer registrar em contrato que aquilo que ele adquire tem de ser substituível por algo equivalente.",
+          "right": "A cláusula pode apontar um documento mantido em conjunto pelo setor, em vez de enumerar comportamentos um a um."
+        }
+      ],
+      "right_distractors": [
+        "As linhas digitadas pela equipe seguem valendo, e o pacote precisa ser remontado antes de ser enviado.",
+        "A entrega chega ao destino, onde é convertida para o formato que o programa instalado ali aceita."
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Em cada situação, pergunte qual das duas coisas está em jogo: aquilo que ficou acordado por escrito entre partes independentes, ou aquilo que cada fabricante resolve por conta própria."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada arranjo de execução ao efeito que a equipe observa ao usá-lo. Sobram descrições na coluna da direita que não correspondem a nenhum dos arranjos.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Bare metal",
+          "right": "Duas aplicações que pedem versões incompatíveis da mesma biblioteca de sistema obrigam a escolher uma delas ou a usar outra máquina."
+        },
+        {
+          "left": "Hipervisor tipo 1",
+          "right": "A inicialização da máquina entrega apenas a camada de gerência das instâncias, sem área de trabalho nem gerenciador de pacotes de uso geral."
+        },
+        {
+          "left": "Hipervisor tipo 2",
+          "right": "As instâncias caem quando o usuário encerra a sessão em que foram abertas e disputam recurso com o navegador aberto ao lado."
+        },
+        {
+          "left": "Container em host Linux",
+          "right": "Cada aplicação leva a própria árvore de arquivos de sistema, mas todas informam a mesma versão de kernel quando consultadas."
+        }
+      ],
+      "right_distractors": [
+        "A aplicação passa a ver um relógio com fuso próprio, ajustado no momento em que ela é iniciada.",
+        "Cada gravação em disco é replicada para uma segunda máquina antes de ser confirmada à aplicação."
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Em cada arranjo, identifique o que está imediatamente abaixo da instância: o hardware, um sistema operacional de uso geral ou um kernel já em execução."
+    }
+  ]
+}

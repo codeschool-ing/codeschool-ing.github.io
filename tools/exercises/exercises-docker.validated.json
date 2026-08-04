@@ -1,0 +1,332 @@
+{
+  "course": "docker",
+  "generated_at": "2026-08-03T07:35:38.758Z",
+  "options": 5,
+  "blind": false,
+  "exercises": [
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "quiz",
+      "difficulty": "easy",
+      "statement": "Entre as descrições abaixo, qual corresponde ao que é um container?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Um ou mais processos do próprio hospedeiro, com visão restrita de arquivos, processos e rede, acompanhados dos arquivos de que dependem.",
+          "correct": true,
+          "why": "Container é processo comum da máquina hospedeira com visão restrita do ambiente, entregue junto com as dependências que precisa encontrar."
+        },
+        {
+          "text": "Um pacote compactado com o código do serviço, que precisa ser extraído e instalado no sistema do servidor antes de cada execução.",
+          "correct": false,
+          "why": "Descreve distribuição por arquivo compactado: o serviço continua dependendo da instalação prévia do servidor, que é justamente o que o container evita."
+        },
+        {
+          "text": "Uma cópia completa de um sistema operacional, iniciada dentro de outro sistema operacional e com seu próprio processo de boot.",
+          "correct": false,
+          "why": "Essa é a descrição de uma máquina virtual: no container não há segundo sistema operacional sendo inicializado."
+        },
+        {
+          "text": "Um interpretador que executa o mesmo código em qualquer sistema, traduzindo as instruções do programa em tempo de execução.",
+          "correct": false,
+          "why": "Confunde container com máquina virtual de linguagem: o container não traduz instruções, o processo executa nativamente."
+        },
+        {
+          "text": "Uma partição de disco reservada no servidor, onde o serviço é instalado separado dos arquivos do restante do sistema.",
+          "correct": false,
+          "why": "Separar arquivos em outra partição não restringe o que o processo vê nem viaja com o serviço para outra máquina."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pergunte quem executa o programa e o que esse programa consegue ver enquanto está executando."
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "Uma aplicação sobe sem erro no notebook da desenvolvedora e falha no servidor de homologação com mensagem de arquivo ausente. A equipe passa a entregar a aplicação em container. O que muda na causa desse tipo de falha?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A aplicação passa a ser entregue junto com os arquivos de que depende, de modo que a instalação prévia de cada máquina deixa de influenciar a execução.",
+          "correct": true,
+          "why": "O container carrega as dependências consigo, então a divergência entre as instalações das duas máquinas para de afetar o resultado."
+        },
+        {
+          "text": "O servidor de homologação passa a receber as mesmas atualizações de pacote do notebook, mantendo as duas instalações sincronizadas entre si.",
+          "correct": false,
+          "why": "Sincronizar pacotes é trabalho de gerência de configuração; o container não altera o que está instalado no sistema hospedeiro."
+        },
+        {
+          "text": "A aplicação passa a executar sobre um kernel próprio, iniciado junto com ela e independente do kernel de cada máquina.",
+          "correct": false,
+          "why": "Kernel próprio é característica de máquina virtual; processos em container usam o kernel que já está em funcionamento."
+        },
+        {
+          "text": "A aplicação passa a ser compilada no momento da partida, ajustando-se ao que estiver instalado em cada máquina.",
+          "correct": false,
+          "why": "Compilar na partida existe em outros contextos, mas continuaria dependendo do que há em cada máquina, exatamente o que causava a falha."
+        },
+        {
+          "text": "O container reserva uma fatia fixa de memória e de processador em cada máquina, eliminando a variação de comportamento.",
+          "correct": false,
+          "why": "Limite de recursos é outro assunto e não tem relação com um arquivo que existe numa máquina e não na outra."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Identifique o que passou a viajar de uma máquina para a outra depois da mudança, e o que continua sendo característica de cada máquina."
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "statement": "Sobre o que a adoção de containers resolve e o que não resolve, marque todas as afirmações que se aplicam.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Dois serviços que exigem versões incompatíveis do mesmo interpretador convivem no mesmo servidor sem que um sobrescreva os arquivos do outro.",
+          "correct": true,
+          "why": "Cada container traz o próprio conjunto de arquivos, o que elimina o conflito de dependências no mesmo servidor."
+        },
+        {
+          "text": "A resolução das dependências deixa de ser um roteiro executado no servidor e passa a estar concluída antes da entrega.",
+          "correct": true,
+          "why": "O empacotamento é feito antes, e o que chega ao servidor já contém as dependências resolvidas."
+        },
+        {
+          "text": "O processo dentro do container vê um sistema de arquivos e uma lista de processos separados dos demais serviços da mesma máquina.",
+          "correct": true,
+          "why": "É exatamente a visão restrita que caracteriza o container e o mantém isolado dos vizinhos."
+        },
+        {
+          "text": "Um serviço compilado para Windows passa a executar em servidor Linux sem recompilar, porque o container carrega o sistema de origem.",
+          "correct": false,
+          "why": "O container não substitui o kernel do hospedeiro; binários de outro sistema operacional não passam a executar por isso."
+        },
+        {
+          "text": "O consumo de processador do serviço cai, porque o container descarta as partes do sistema que o processo não utiliza.",
+          "correct": false,
+          "why": "Menos arquivos empacotados não reduz o trabalho de processador do programa; a conta de CPU continua a mesma."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada afirmação, examine se o ganho descrito vem de onde os arquivos foram preparados e de quanto o processo consegue ver, ou de algo que o equipamento e o sistema hospedeiro teriam de passar a fornecer."
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada situação vivida pela equipe ao efeito observado depois de passar a executar o serviço em container. Sobram efeitos na coluna da direita que não correspondem a nenhuma situação.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "O banco de dados de teste foi instalado direto no sistema de cada notebook, e ninguém sabe mais o que foi acrescentado ali",
+          "right": "Descartar o serviço não deixa vestígio no hospedeiro: nada permanece espalhado pelos diretórios da máquina"
+        },
+        {
+          "left": "Dois serviços do mesmo servidor precisam de versões incompatíveis do mesmo interpretador",
+          "right": "Os dois ficam ativos ao mesmo tempo na máquina, cada um encontrando os arquivos que espera"
+        },
+        {
+          "left": "A ida para produção depende de uma sequência de comandos digitada à mão por quem estiver de plantão",
+          "right": "Duas entregas conduzidas em dias diferentes chegam ao servidor com conteúdo idêntico"
+        },
+        {
+          "left": "Um defeito relatado por cliente só se reproduz com o comportamento que o serviço tinha seis meses atrás",
+          "right": "O estado antigo do serviço volta a executar ao lado do atual, sem desfazer o que já está na máquina"
+        }
+      ],
+      "right_distractors": [
+        "O mesmo serviço passa a executar em máquinas de arquitetura de processador diferente, sem novo empacotamento",
+        "Um travamento do serviço deixa de alcançar o hospedeiro, que segue respondendo mesmo sem memória livre"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Leia cada situação perguntando qual incômodo concreto ela descreve, e procure o efeito que retira exatamente esse incômodo, sem prometer nada além dele."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "O mesmo serviço é preparado de duas formas: em uma máquina virtual e em um container. O container fica pronto para atender em poucos segundos, e a máquina virtual leva mais de um minuto. Qual explicação corresponde a essa diferença?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Nenhum sistema operacional adicional é inicializado: o processo passa a executar sobre o kernel já em funcionamento no hospedeiro.",
+          "correct": true,
+          "why": "A máquina virtual precisa cumprir o boot de um sistema hóspede inteiro; o container só inicia processos sobre o kernel que já está rodando."
+        },
+        {
+          "text": "O container mantém no hospedeiro uma cópia do serviço já em memória, restaurada a cada partida.",
+          "correct": false,
+          "why": "Restaurar estado de memória salvo é recurso de suspensão de máquina virtual, e não o que acontece ao iniciar um container."
+        },
+        {
+          "text": "O container executa instruções nativamente, enquanto a máquina virtual traduz cada instrução do hóspede antes de repassá-la.",
+          "correct": false,
+          "why": "Tradução instrução por instrução é emulação; máquinas virtuais atuais executam com apoio do processador, e a diferença de partida não vem daí."
+        },
+        {
+          "text": "O container reserva menos memória, e por isso o hospedeiro o escalona antes dos demais processos da máquina.",
+          "correct": false,
+          "why": "Reserva de memória não confere prioridade de escalonamento nem explica a diferença no tempo até a primeira resposta."
+        },
+        {
+          "text": "O sistema do hóspede é carregado em segundo plano, depois de o serviço já ter começado a responder.",
+          "correct": false,
+          "why": "O sistema hóspede tem que estar de pé antes do serviço; nada dele é postergado para depois do primeiro atendimento."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pense no que acontece entre o comando de partida e a primeira resposta em cada caso: parte desse tempo é gasta em algo que só um dos dois arranjos precisa fazer."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "statement": "Comparando execução direta no equipamento, máquina virtual e container, marque todas as afirmações corretas.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Containers de uma mesma máquina compartilham o kernel do hospedeiro, então um serviço que exija recurso ausente nesse kernel também não funciona em container.",
+          "correct": true,
+          "why": "O kernel é do hospedeiro; o que ele não oferece não passa a existir por causa do empacotamento."
+        },
+        {
+          "text": "Uma máquina virtual pode executar um sistema operacional de família diferente da do hospedeiro, com boot e drivers próprios.",
+          "correct": true,
+          "why": "O hóspede é um sistema completo e independente, por isso pode ser de outra família."
+        },
+        {
+          "text": "A separação entre container e hospedeiro é sustentada por recursos do kernel compartilhado, enquanto a de uma máquina virtual é sustentada por uma camada situada abaixo dos sistemas hóspedes.",
+          "correct": true,
+          "why": "São mecanismos de fronteira distintos: um dentro do kernel comum, outro sob os sistemas hóspedes."
+        },
+        {
+          "text": "Executar direto no equipamento perdeu utilidade prática: qualquer carga nessa condição pode ir para container sem perda.",
+          "correct": false,
+          "why": "Cargas que precisam de acesso direto ao hardware, kernel específico ou desempenho previsível continuam justificando execução direta."
+        },
+        {
+          "text": "Um container substitui a máquina virtual quando o requisito é executar um kernel com módulos próprios, sem afetar o hospedeiro.",
+          "correct": false,
+          "why": "Carregar kernel e módulos próprios é justamente o caso em que o container não serve, pois o kernel é o do hospedeiro."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Em cada afirmação, conte quantos kernels existem no arranjo descrito e quem os colocou em funcionamento."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada elemento ao comportamento observável que lhe corresponde. Sobram descrições na coluna da direita que não correspondem a nenhum elemento da esquerda.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Kernel usado pelos processos de um container",
+          "right": "É o mesmo que já estava em funcionamento na máquina; nenhum outro entra em atividade quando o serviço sobe"
+        },
+        {
+          "left": "Kernel usado pelos processos de uma máquina virtual",
+          "right": "É um segundo, posto em atividade do zero dentro do arranjo, com sua própria sequência de boot"
+        },
+        {
+          "left": "Armazenamento visto pelos processos de uma máquina virtual",
+          "right": "Aparece como dispositivo próprio, particionado e formatado pelo hóspede, e reside em um arquivo do hospedeiro"
+        },
+        {
+          "left": "Armazenamento visto pelos processos de um container",
+          "right": "Aparece montado a partir do conteúdo entregue junto com o serviço, sem particionamento nem formatação"
+        }
+      ],
+      "right_distractors": [
+        "É escolhido no momento da partida entre os que estiverem instalados na máquina, conforme o serviço pedir",
+        "Aparece como dispositivo próprio, com capacidade fixada na compra do equipamento e sem camada intermediária"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada linha, pergunte quantas inicializações de sistema acontecem no arranjo e onde o conteúdo fica guardado enquanto nada está executando."
+    }
+  ]
+}

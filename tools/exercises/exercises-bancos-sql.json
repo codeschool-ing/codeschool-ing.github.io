@@ -1,0 +1,698 @@
+{
+  "course": "bancos-sql",
+  "generated_at": "2026-08-03T09:08:04.839Z",
+  "options": 5,
+  "blind": false,
+  "exercises": [
+    {
+      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "A tabela funcionarios tem chave primária matricula e uma coluna gerente_matricula declarada como chave estrangeira para funcionarios.matricula. Qual afirmação sobre esse esquema é correta?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Cada valor gravado em gerente_matricula tem de existir na coluna matricula, mesmo estando na mesma tabela.",
+          "correct": true,
+          "why": "A restrição de chave estrangeira exige que o valor exista na coluna referenciada; nada impede que a coluna referenciada seja da própria tabela."
+        },
+        {
+          "text": "Uma chave estrangeira envolve duas tabelas distintas, então essa ligação precisa de uma cópia da tabela funcionarios.",
+          "correct": false,
+          "why": "A restrição é entre colunas, não entre tabelas diferentes; a autorreferência é válida e não exige cópia."
+        },
+        {
+          "text": "Por identificar outra linha, gerente_matricula passa a integrar a chave primária da tabela funcionarios.",
+          "correct": false,
+          "why": "Chave estrangeira e chave primária são declarações independentes; apontar para outra linha não muda a identificação da linha atual."
+        },
+        {
+          "text": "Os valores de gerente_matricula têm de ser distintos entre as linhas, por apontarem para uma chave primária.",
+          "correct": false,
+          "why": "O lado que aponta pode repetir valores livremente: vários funcionários podem ter o mesmo gerente."
+        },
+        {
+          "text": "A ligação entre as duas linhas só se sustenta com uma terceira tabela guardando os pares de matrículas.",
+          "correct": false,
+          "why": "Tabela intermediária é necessária em relações de muitos para muitos, não para uma ligação de um gerente por funcionário."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Duas coisas para checar em cada afirmação: quais valores a coluna de ligação pode receber, e o que muda quando as duas pontas da ligação ficam na mesma tabela."
+    },
+    {
+      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "statement": "Marque todas as afirmações verdadeiras sobre chaves primárias em tabelas relacionais.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Uma chave primária pode reunir duas colunas, e a exigência de não repetição recai sobre o par de valores.",
+          "correct": true,
+          "why": "Chaves compostas são válidas e a unicidade é da combinação, não de cada coluna isoladamente."
+        },
+        {
+          "text": "Nenhuma das colunas que compõem a chave primária pode ficar sem valor.",
+          "correct": true,
+          "why": "A chave primária identifica a linha, e valor ausente em qualquer de suas colunas impede essa identificação."
+        },
+        {
+          "text": "Outras colunas da tabela podem exigir valores não repetidos sem que isso as torne a chave primária.",
+          "correct": true,
+          "why": "Uma tabela pode ter várias chaves candidatas; apenas uma é escolhida como primária, as demais seguem com unicidade própria."
+        },
+        {
+          "text": "Uma tabela declara duas chaves primárias quando há dois modos igualmente bons de identificar a linha.",
+          "correct": false,
+          "why": "Só uma chave primária é declarada por tabela; as outras identificações ficam como chaves alternativas."
+        },
+        {
+          "text": "A chave primária costuma precisar de um número gerado pelo banco, porque dados do mundo real não servem para identificar linhas.",
+          "correct": false,
+          "why": "Um atributo do mundo real com valor único e estável pode ser chave primária; a escolha por número gerado é decisão de projeto, não exigência."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Revise quantas colunas uma chave pode envolver, quantas chaves desse tipo cabem numa mesma tabela e o que acontece quando um valor falta."
+    },
+    {
+      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada situação ao efeito que o banco produz. Sobram itens na coluna da direita que não correspondem a nenhuma situação.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Chave primária formada por uma única coluna",
+          "right": "a segunda gravação que repetir esse conteúdo é recusada, e deixá-lo em branco também é recusado"
+        },
+        {
+          "left": "Chave primária formada por duas colunas",
+          "right": "um mesmo conteúdo reaparece em várias linhas de uma delas, desde que a combinação não se repita"
+        },
+        {
+          "left": "Coluna de chave estrangeira que recebe um valor",
+          "right": "a gravação só passa se esse conteúdo já constar na tabela de destino"
+        },
+        {
+          "left": "Coluna de chave estrangeira que aceita ficar em branco",
+          "right": "a linha entra na tabela sem apontar para nenhuma outra"
+        },
+        {
+          "left": "Tentativa de apagar uma linha à qual outra tabela se refere",
+          "right": "a operação é barrada enquanto existirem linhas dependentes"
+        }
+      ],
+      "right_distractors": [
+        "as linhas passam a ser devolvidas em ordem crescente do conteúdo guardado nessa coluna",
+        "linhas idênticas em todas as colunas convivem na mesma tabela sem nenhuma recusa"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Imagine duas linhas concretas para cada situação e pergunte o que o banco faria na hora de gravar ou de remover."
+    },
+    {
+      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "As tabelas clientes (chave primária cliente_id) e pedidos (chave primária pedido_id, coluna cliente_id como chave estrangeira para clientes) estão carregadas, e todo pedido aponta para um cliente existente. O banco recusa qualquer operação que deixe uma chave estrangeira sem destino. Uma equipe precisa remover o cliente 7 e os três pedidos dele. Qual descrição das operações o banco aceita?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Apagar as três linhas de pedidos e depois a linha do cliente 7.",
+          "correct": true,
+          "why": "Enquanto os pedidos existirem, remover o cliente deixaria cliente_id apontando para linha inexistente; retirando primeiro quem aponta, as duas operações passam."
+        },
+        {
+          "text": "Apagar a linha do cliente 7 e depois as três linhas de pedidos, que ficam sem destino no intervalo.",
+          "correct": false,
+          "why": "A primeira operação já é recusada: o banco não aceita deixar pedidos apontando para um cliente que não existe mais, nem por um intervalo."
+        },
+        {
+          "text": "Apagar a linha do cliente 7; as três linhas de pedidos deixam de existir na mesma operação.",
+          "correct": false,
+          "why": "Remoção em cascata é um comportamento que precisa ser declarado no esquema, e não o efeito padrão de uma chave estrangeira."
+        },
+        {
+          "text": "Apagar a linha do cliente 7 primeiro, porque a tabela de pedidos é conferida apenas quando recebe gravações novas.",
+          "correct": false,
+          "why": "A verificação vale para qualquer operação que rompa a ligação, inclusive remoção do lado apontado."
+        },
+        {
+          "text": "Qualquer das duas ordens é aceita, desde que nenhuma gravação nova ocorra no intervalo entre elas.",
+          "correct": false,
+          "why": "A ausência de gravações no intervalo não muda nada: uma das ordens rompe a ligação já na primeira operação."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Examine como fica a linha que guarda o identificador do outro lado no instante seguinte a cada remoção."
+    },
+    {
+      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "A tabela matriculas tem chave primária formada por (aluno_id, curso_id) e as colunas nota e nome_do_curso. O conteúdo de nome_do_curso é sempre o mesmo para um dado curso_id, qualquer que seja o aluno. Qual afirmação descreve corretamente a situação?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "nome_do_curso depende de apenas uma das colunas identificadoras, uma dependência parcial que quebra a segunda forma normal.",
+          "correct": true,
+          "why": "Dependência de parte da chave composta é exatamente a violação de 2FN."
+        },
+        {
+          "text": "nome_do_curso depende de uma coluna que está fora da chave, uma dependência transitiva que quebra a terceira forma normal.",
+          "correct": false,
+          "why": "curso_id integra a chave primária; a dependência é de parte da chave, não de coluna não-chave."
+        },
+        {
+          "text": "A tabela quebra a primeira forma normal, porque duas entidades diferentes são descritas na mesma linha.",
+          "correct": false,
+          "why": "A 1FN trata de valores atômicos em cada célula; descrever duas entidades numa linha é problema de 2FN ou 3FN."
+        },
+        {
+          "text": "A tabela está na terceira forma normal, já que toda coluna depende da chave completa.",
+          "correct": false,
+          "why": "nome_do_curso não depende da chave completa, e por isso a tabela nem chega à segunda forma normal."
+        },
+        {
+          "text": "nota depende das duas colunas identificadoras ao mesmo tempo, e é isso que quebra a segunda forma normal.",
+          "correct": false,
+          "why": "Depender da chave inteira é justamente o que a 2FN exige; nota está em conformidade."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada coluna fora do identificador, verifique se o valor muda quando você altera apenas uma das colunas que o compõem."
+    },
+    {
+      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "type": "quiz",
+      "difficulty": "hard",
+      "statement": "A tabela funcionarios tem chave primária matricula e as colunas nome, setor_id e nome_do_setor, sendo nome_do_setor determinado por setor_id. Qual mudança coloca o esquema na terceira forma normal?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Deixar em funcionarios apenas setor_id e guardar o nome numa tabela de setores identificada por setor_id.",
+          "correct": true,
+          "why": "Remove a dependência transitiva: o nome passa a depender diretamente da chave primária da tabela onde está."
+        },
+        {
+          "text": "Acrescentar setor_id à chave primária de funcionarios, formando uma chave de duas colunas.",
+          "correct": false,
+          "why": "Ampliar a chave não elimina a dependência entre setor_id e nome_do_setor, e ainda torna a identificação da linha redundante."
+        },
+        {
+          "text": "Trocar a chave primária de funcionarios por nome_do_setor, que já determina o setor da linha.",
+          "correct": false,
+          "why": "Vários funcionários compartilham o mesmo setor, então esse valor não identifica a linha."
+        },
+        {
+          "text": "Criar uma tabela com matricula e nome_do_setor, tendo as duas colunas como chave primária.",
+          "correct": false,
+          "why": "O nome do setor continua repetido para cada funcionário, mantendo a mesma redundância em outra tabela."
+        },
+        {
+          "text": "Repetir cada funcionário em uma linha por setor, para que nome_do_setor não se repita na mesma linha.",
+          "correct": false,
+          "why": "Multiplicar linhas aumenta a repetição em vez de eliminar a dependência que a causa."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Localize de qual coluna o valor repetido depende diretamente e pergunte se essa coluna identifica a linha da tabela em que ela está."
+    },
+    {
+      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "type": "matching",
+      "difficulty": "hard",
+      "statement": "Associe cada característica de esquema ao incômodo que ela provoca no dia a dia da base. Sobram itens na coluna da direita que não correspondem a nenhuma característica.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Célula que guarda vários telefones separados por vírgula",
+          "right": "filtrar por um deles obriga a percorrer o texto de cada linha procurando pedaços"
+        },
+        {
+          "left": "Valor que depende de apenas uma das duas colunas que formam a chave",
+          "right": "o mesmo texto fica repetido em muitas linhas, e uma correção precisa alcançar todas"
+        },
+        {
+          "left": "Coluna preenchida com o resultado da multiplicação de outras duas da mesma linha",
+          "right": "alterar um dos números de origem sem refazer a conta deixa a linha se contradizendo"
+        },
+        {
+          "left": "Esquema em terceira forma normal, sem nenhum dado repetido entre as tabelas",
+          "right": "responder a uma pergunta simples depende de reunir informações de mais de um lugar"
+        }
+      ],
+      "right_distractors": [
+        "corrigir um conteúdo numa linha altera automaticamente o mesmo conteúdo nas demais",
+        "duas linhas com o mesmo identificador passam a conviver sem que a gravação seja recusada"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada característica, simule mentalmente uma inserção, uma correção e uma busca, e observe qual das três fica desconfortável."
+    },
+    {
+      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Marque todas as afirmações verdadeiras sobre desnormalizar um esquema de propósito.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Gravar na tabela de pedidos um total que sai da soma dos itens obriga quem altera um item a atualizar dois lugares.",
+          "correct": true,
+          "why": "O valor derivado passa a ser uma segunda cópia da informação, e cópias exigem manutenção conjunta."
+        },
+        {
+          "text": "Copiar uma coluna de outra tabela tende a acelerar as consultas que hoje precisam alcançar as duas tabelas.",
+          "correct": true,
+          "why": "É justamente o ganho buscado: menos tabelas envolvidas por leitura."
+        },
+        {
+          "text": "As chaves estrangeiras entre as tabelas envolvidas continuam necessárias depois da mudança.",
+          "correct": true,
+          "why": "A cópia de um valor não substitui a ligação entre as tabelas nem a garantia de que o destino existe."
+        },
+        {
+          "text": "A mudança consiste em separar as colunas repetidas numa tabela nova ligada por chave estrangeira.",
+          "correct": false,
+          "why": "Essa é a descrição de normalizar; desnormalizar caminha na direção oposta."
+        },
+        {
+          "text": "Com a repetição passando a ser esperada, o esquema em geral dispensa a exigência de valores não repetidos na chave primária.",
+          "correct": false,
+          "why": "A identificação única das linhas segue valendo; a repetição admitida é de dados descritivos, não do identificador."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada afirmação, identifique qual operação ficaria mais barata e o que passaria a exigir manutenção extra por parte de quem grava."
+    },
+    {
+      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "type": "code",
+      "difficulty": "easy",
+      "statement": "A tabela produto tem as colunas id, nome, preco e estoque. Escreva uma única instrução SELECT que devolva o nome e o preço dos produtos com estoque maior que zero, do mais caro para o mais barato, trazendo no máximo 3 linhas. As colunas devem sair na ordem nome, preco e com esses nomes. Entre os produtos de estoque positivo não há preços repetidos. Não acrescente nenhum texto além do resultado da consulta.",
+      "language": "sql",
+      "skeleton": "-- Complete a instrução abaixo (uma única instrução SELECT)\nSELECT nome, preco\nFROM produto\n;",
+      "tests": [
+        {
+          "description": "quatro produtos em estoque, resultado cortado em 3 linhas",
+          "input": "CREATE TABLE produto (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, preco REAL NOT NULL, estoque INTEGER NOT NULL);\nINSERT INTO produto VALUES (1,'cabo',12.5,4),(2,'fone',45.9,2),(3,'mouse',29.9,0),(4,'pilha',8.5,7),(5,'teclado',99.9,1);",
+          "expected_output": "nome | preco\nteclado | 99.9\nfone | 45.9\ncabo | 12.5\n"
+        },
+        {
+          "description": "menos produtos em estoque que o limite pedido",
+          "input": "CREATE TABLE produto (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, preco REAL NOT NULL, estoque INTEGER NOT NULL);\nINSERT INTO produto VALUES (1,'caderno',15.5,0),(2,'caneta',3.75,5),(3,'regua',7.25,2);",
+          "expected_output": "nome | preco\nregua | 7.25\ncaneta | 3.75\n"
+        },
+        {
+          "description": "borda: nenhum produto com estoque positivo",
+          "input": "CREATE TABLE produto (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, preco REAL NOT NULL, estoque INTEGER NOT NULL);\nINSERT INTO produto VALUES (1,'grampeador',22.9,0),(2,'clipe',2.25,0);",
+          "expected_output": "nome | preco\n"
+        },
+        {
+          "description": "cinco produtos em estoque: o limite tem de agir",
+          "input": "CREATE TABLE produto (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, preco REAL NOT NULL, estoque INTEGER NOT NULL);\nINSERT INTO produto VALUES (1,'a1',10.5,1),(2,'a2',20.5,1),(3,'a3',30.5,1),(4,'a4',40.5,1),(5,'a5',50.5,1);",
+          "expected_output": "nome | preco\na5 | 50.5\na4 | 40.5\na3 | 30.5\n"
+        }
+      ],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Três decisões cabem nesta consulta: quais linhas entram, em que sequência elas saem e quantas sobrevivem — e a última decisão trabalha sobre o resultado das outras duas."
+    },
+    {
+      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "type": "expected-output",
+      "difficulty": "medium",
+      "statement": "Informe exatamente o que a instrução SELECT abaixo imprime, incluindo a linha de cabeçalho. Colunas separadas por ' | ' e valores ausentes escritos como NULL.",
+      "language": "sql",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "CREATE TABLE aluno (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, nota REAL);\nINSERT INTO aluno VALUES (1,'Ana',8.5),(2,'Bruno',NULL),(3,'Clara',6.5),(4,'Davi',9.25),(5,'Eva',NULL);\n\nSELECT nome, nota\nFROM aluno\nORDER BY nota, nome\nLIMIT 3;",
+      "answer": "nome | nota\nBruno | NULL\nEva | NULL\nClara | 6.5\n",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Antes de contar as três linhas, decida em que ponto de uma ordenação crescente ficam as notas ausentes; o segundo critério de ordenação só entra em cena entre linhas de nota igual."
+    },
+    {
+      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Marque todas as afirmações verdadeiras sobre consultas com SELECT, WHERE, ORDER BY e LIMIT. Há mais de uma.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Trocar a ordem das colunas listadas depois de SELECT muda a ordem das colunas exibidas no resultado.",
+          "correct": true,
+          "why": "A lista de seleção define a sequência das colunas devolvidas."
+        },
+        {
+          "text": "Uma linha cujo preco é NULL não entra no resultado de WHERE preco > 100.",
+          "correct": true,
+          "why": "A comparação com NULL não resulta em verdadeiro, então a linha é descartada pelo filtro."
+        },
+        {
+          "text": "LIMIT 3 devolve as três primeiras linhas do resultado já ordenado por ORDER BY.",
+          "correct": true,
+          "why": "O recorte de quantidade é aplicado depois da ordenação."
+        },
+        {
+          "text": "Sem ORDER BY, o banco devolve as linhas na ordem em que foram inseridas na tabela.",
+          "correct": false,
+          "why": "Sem ORDER BY a ordem não é garantida; depende de detalhes internos de execução e armazenamento."
+        },
+        {
+          "text": "Uma coluna usada em WHERE precisa aparecer também na lista depois de SELECT.",
+          "correct": false,
+          "why": "O filtro pode usar qualquer coluna da tabela, esteja ela projetada ou não."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada item, imagine uma tabelinha de quatro registros e teste a afirmação nela; inclua um registro com célula sem valor preenchido."
+    },
+    {
+      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "type": "matching",
+      "difficulty": "hard",
+      "statement": "A tabela item contém exatamente estas quatro linhas (nome, preco, estoque): ('cabo', 12.5, 0), ('fone', 45.9, 3), ('mouse', 29.9, 7), ('pilha', 8.5, 0). Associe cada consulta à lista de nomes que ela devolve, na ordem em que as linhas saem. Sobram opções na coluna da direita que não correspondem a nenhuma das consultas.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "SELECT nome FROM item WHERE estoque > 0 ORDER BY nome",
+          "right": "fone, mouse"
+        },
+        {
+          "left": "SELECT nome FROM item WHERE preco < 20 ORDER BY preco",
+          "right": "pilha, cabo"
+        },
+        {
+          "left": "SELECT nome FROM item ORDER BY estoque DESC LIMIT 2",
+          "right": "mouse, fone"
+        },
+        {
+          "left": "SELECT nome FROM item WHERE preco > 10 ORDER BY nome DESC",
+          "right": "mouse, fone, cabo"
+        },
+        {
+          "left": "SELECT nome FROM item WHERE estoque = 0 ORDER BY preco DESC",
+          "right": "cabo, pilha"
+        }
+      ],
+      "right_distractors": [
+        "cabo, fone, mouse",
+        "pilha, fone"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Duas consultas selecionam o mesmo conjunto de linhas e ainda assim têm respostas diferentes: repare em qual coluna cada ordenação usa e para que lado ela cresce."
+    },
+    {
+      "topic": "JOINs: inner, left, right e full",
+      "type": "code",
+      "difficulty": "medium",
+      "statement": "As tabelas são cliente(id, nome) e pedido(id, cliente_id, valor), em que cliente_id referencia cliente(id) e pode ser NULL. Escreva uma única instrução SELECT que liste todos os clientes com o valor de cada pedido seu; um cliente sem pedido aparece uma vez, com valor NULL. As colunas devem se chamar cliente e valor, nessa ordem. Ordene por cliente em ordem crescente e, dentro do mesmo cliente, por valor em ordem crescente. Não acrescente nenhum texto além do resultado da consulta.",
+      "language": "sql",
+      "skeleton": "-- Complete a instrução abaixo (uma única instrução SELECT)\nSELECT c.nome AS cliente, p.valor AS valor\nFROM cliente c\n;",
+      "tests": [
+        {
+          "description": "um cliente com dois pedidos, um sem pedido",
+          "input": "CREATE TABLE cliente (id INTEGER PRIMARY KEY, nome TEXT NOT NULL);\nCREATE TABLE pedido (id INTEGER PRIMARY KEY, cliente_id INTEGER REFERENCES cliente(id), valor REAL NOT NULL);\nINSERT INTO cliente VALUES (1,'Ana'),(2,'Bruno'),(3,'Clara');\nINSERT INTO pedido VALUES (10,1,150.5),(11,1,80.25),(12,3,42.5);",
+          "expected_output": "cliente | valor\nAna | 80.25\nAna | 150.5\nBruno | NULL\nClara | 42.5\n"
+        },
+        {
+          "description": "borda: nenhum pedido cadastrado",
+          "input": "CREATE TABLE cliente (id INTEGER PRIMARY KEY, nome TEXT NOT NULL);\nCREATE TABLE pedido (id INTEGER PRIMARY KEY, cliente_id INTEGER REFERENCES cliente(id), valor REAL NOT NULL);\nINSERT INTO cliente VALUES (1,'Ana'),(2,'Bruno');",
+          "expected_output": "cliente | valor\nAna | NULL\nBruno | NULL\n"
+        },
+        {
+          "description": "pedido com cliente_id NULL não deve aparecer",
+          "input": "CREATE TABLE cliente (id INTEGER PRIMARY KEY, nome TEXT NOT NULL);\nCREATE TABLE pedido (id INTEGER PRIMARY KEY, cliente_id INTEGER REFERENCES cliente(id), valor REAL NOT NULL);\nINSERT INTO cliente VALUES (1,'Dora'),(2,'Elias'),(3,'Fabio');\nINSERT INTO pedido VALUES (10,2,19.9),(11,NULL,500.5),(12,2,7.25);",
+          "expected_output": "cliente | valor\nDora | NULL\nElias | 7.25\nElias | 19.9\nFabio | NULL\n"
+        },
+        {
+          "description": "borda: um cliente e um pedido",
+          "input": "CREATE TABLE cliente (id INTEGER PRIMARY KEY, nome TEXT NOT NULL);\nCREATE TABLE pedido (id INTEGER PRIMARY KEY, cliente_id INTEGER REFERENCES cliente(id), valor REAL NOT NULL);\nINSERT INTO cliente VALUES (1,'Zilda');\nINSERT INTO pedido VALUES (10,1,3.5);",
+          "expected_output": "cliente | valor\nZilda | 3.5\n"
+        }
+      ],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Decida qual das duas tabelas precisa ter todas as suas linhas preservadas no resultado, e confira se o pedido órfão (sem cliente_id) tem lugar nessa escolha."
+    },
+    {
+      "topic": "JOINs: inner, left, right e full",
+      "type": "expected-output",
+      "difficulty": "medium",
+      "statement": "Informe exatamente o que a instrução SELECT abaixo imprime, incluindo a linha de cabeçalho. Colunas separadas por ' | ' e valores ausentes escritos como NULL.",
+      "language": "sql",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "CREATE TABLE setor (id INTEGER PRIMARY KEY, nome TEXT NOT NULL);\nCREATE TABLE func (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, setor_id INTEGER REFERENCES setor(id));\nINSERT INTO setor VALUES (10,'Vendas'),(20,'TI'),(30,'RH');\nINSERT INTO func VALUES (1,'Ana',10),(2,'Bruno',NULL),(3,'Clara',20),(4,'Davi',10);\n\nSELECT s.nome AS setor, f.nome AS funcionario\nFROM setor s\nLEFT JOIN func f ON f.setor_id = s.id\nORDER BY setor, funcionario;",
+      "answer": "setor | funcionario\nRH | NULL\nTI | Clara\nVendas | Ana\nVendas | Davi\n",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Percorra cada linha das duas tabelas procurando par, e depois verifique qual das duas tem todas as suas linhas garantidas no resultado; a ordenação é alfabética sobre os nomes já emparelhados."
+    },
+    {
+      "topic": "JOINs: inner, left, right e full",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Considere consultas da forma SELECT ... FROM a LEFT JOIN b ON b.a_id = a.id, sem WHERE. Marque todas as afirmações verdadeiras. Há mais de uma.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Uma linha de a sem par em b aparece no resultado com as colunas vindas de b preenchidas com NULL.",
+          "correct": true,
+          "why": "É exatamente o comportamento da junção externa pela esquerda."
+        },
+        {
+          "text": "Uma linha de a cujo a_id correspondente em b nunca é encontrado por causa de valor ausente também aparece no resultado, sem par.",
+          "correct": true,
+          "why": "A linha da esquerda é preservada independentemente do motivo da ausência de par."
+        },
+        {
+          "text": "Se cada linha de a tem exatamente um par em b, o resultado tem o mesmo número de linhas que a mesma consulta escrita com INNER JOIN.",
+          "correct": true,
+          "why": "Sem linhas órfãs na esquerda, as duas junções coincidem."
+        },
+        {
+          "text": "O resultado tem no máximo tantas linhas quanto a tabela a.",
+          "correct": false,
+          "why": "Uma linha de a com vários pares em b gera uma linha por par, então o resultado pode ser maior que a."
+        },
+        {
+          "text": "Uma linha de b sem par em a aparece no resultado com as colunas vindas de a preenchidas com NULL.",
+          "correct": false,
+          "why": "Linhas sem par da tabela da direita são descartadas nessa junção."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Desenhe dois cenários no papel: um em que cada registro da primeira tabela tem um único correspondente, e outro em que um deles tem dois; depois repita o exercício olhando para os registros da segunda tabela que ninguém referencia."
+    },
+    {
+      "topic": "JOINs: inner, left, right e full",
+      "type": "matching",
+      "difficulty": "hard",
+      "statement": "A tabela aluno tem 7 linhas: 5 delas com turma_id apontando para turmas existentes (a turma A tem 3 desses alunos, a B tem 1 e a C tem 1) e 2 com turma_id NULL. A tabela turma tem 4 linhas — A, B, C e D — e D não tem nenhum aluno. Associe cada cláusula de junção, usada em uma consulta sem WHERE e com ON t.id = a.turma_id, ao número de linhas do resultado. Sobram opções na coluna da direita que não correspondem a nenhuma das cláusulas.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "FROM aluno a INNER JOIN turma t ON t.id = a.turma_id",
+          "right": "5 linhas"
+        },
+        {
+          "left": "FROM aluno a LEFT JOIN turma t ON t.id = a.turma_id",
+          "right": "7 linhas"
+        },
+        {
+          "left": "FROM aluno a RIGHT JOIN turma t ON t.id = a.turma_id",
+          "right": "6 linhas"
+        },
+        {
+          "left": "FROM aluno a FULL JOIN turma t ON t.id = a.turma_id",
+          "right": "8 linhas"
+        }
+      ],
+      "right_distractors": [
+        "4 linhas",
+        "11 linhas"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Comece contando quantos pares realmente se formam entre as duas tabelas; depois pergunte, para cada cláusula, quais registros sem par ainda assim ganham uma linha própria."
+    }
+  ]
+}
