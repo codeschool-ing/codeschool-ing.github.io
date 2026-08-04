@@ -1,511 +1,521 @@
 /* ==========================================================================
-   codeschool.ing — vitrine (dados em assets/dados.js)
+   codeschool.ing — showcase site (data in assets/dados.js)
+
+   ON LANGUAGE: comments and logic identifiers are in English. Three families of
+   name stay in Portuguese because they are contracts, not preferences:
+
+     · the catalogue's fields (`nome`, `horas`, `topicos`, `depende`, `opcoes`…),
+       which assets/dados.js and the four i18n-cursos-*.js files define;
+     · DOM ids, `data-*` attributes and CSS classes (`#trilha-painel`, `.curso-no`,
+       `.garfo-aba`), which index.html and style.css share with this file;
+     · the arguments to `txt()`, which ARE the translation keys — the Portuguese
+       sentence is the lookup key across all four translation files.
+
+   Text the visitor reads is Portuguese for the obvious reason.
    ========================================================================== */
 
 const $ = (sel) => document.querySelector(sel);
-const cursoPorId = (id) => CURSOS.find((c) => c.id === id);
+const courseById = (id) => CURSOS.find((c) => c.id === id);
 
-/* ---------- trilhas com bifurcação ----------
-   Um item de `cursos` é o id de um curso (string) ou uma etapa de escolha
-   (objeto com `opcoes`). Daí três leituras diferentes da mesma trilha:
-   todos os cursos possíveis, o caminho escolhido e as horas do caminho. */
-const ehEscolha = (item) => typeof item === 'object' && Array.isArray(item.opcoes);
+/* ---------- tracks with a fork ----------
+   An item of `cursos` is either a course id (a string) or a choice step (an
+   object with `opcoes`). Hence three different readings of the same track:
+   every possible course, the chosen path, and the hours of that path. */
+const isChoice = (item) => typeof item === 'object' && Array.isArray(item.opcoes);
 
-// todos os cursos que a trilha pode conter, somando todas as opções
-const todosOsCursos = (t) =>
-  t.cursos.flatMap((i) => (ehEscolha(i) ? i.opcoes.flatMap((o) => o.cursos) : [i]));
+// every course the track can contain, adding up all the options
+const allCourses = (t) =>
+  t.cursos.flatMap((i) => (isChoice(i) ? i.opcoes.flatMap((o) => o.cursos) : [i]));
 
-// a escolha atual de cada trilha, por índice de opção (a primeira é a sugerida)
-const escolhas = {};
-const opcaoAtiva = (idTrilha, idxEtapa) => (escolhas[idTrilha + ':' + idxEtapa] || 0);
+// each track's current choice, by option index (the first one is the suggested one)
+const choices = {};
+const activeOption = (trackId, stepIdx) => (choices[trackId + ':' + stepIdx] || 0);
 
-// o caminho que o aluno está vendo agora
-const caminhoDaTrilha = (t) =>
-  t.cursos.flatMap((i, idx) => (ehEscolha(i) ? i.opcoes[opcaoAtiva(t.id, idx)].cursos : [i]));
+// the path the student is looking at right now
+const trackPath = (t) =>
+  t.cursos.flatMap((i, idx) => (isChoice(i) ? i.opcoes[activeOption(t.id, idx)].cursos : [i]));
 
-const horasDe = (ids) => ids.reduce((s, id) => s + (cursoPorId(id)?.horas || 0), 0);
+const hoursOf = (ids) => ids.reduce((s, id) => s + (courseById(id)?.horas || 0), 0);
 
-/* ---------- o grafo de uma trilha ----------
-   Cada curso do caminho vira um nó; uma etapa de escolha vira um nó único
-   (o bloco), porque ela é uma decisão, não um curso. As arestas saem do
-   campo `depende` de cada curso, recortado ao que existe nesta trilha.
-   O nível de um nó é 1 + o maior nível entre os seus pré-requisitos, o que
-   coloca lado a lado tudo o que pode ser feito ao mesmo tempo. */
-function grafoDaTrilha(t) {
-  const nos = [];
-  const doCurso = {};   // id de curso -> id do nó que o contém
-  const membrosDoGarfo = {}; // id de curso (de qualquer opção) -> id do nó garfo
+/* ---------- a track's graph ----------
+   Each course on the path becomes a node; a choice step becomes a single node
+   (the block), because it is a decision, not a course. The edges come from each
+   course's `depende` field, clipped to what exists in this track. A node's level
+   is 1 + the highest level among its prerequisites, which puts side by side
+   everything that can be done at the same time. */
+function trackGraph(t) {
+  const nodes = [];
+  const ofCourse = {};   // course id -> id of the node containing it
+  const forkMembers = {}; // course id (from any option) -> fork node id
 
   t.cursos.forEach((item, idx) => {
-    if (!ehEscolha(item)) {
-      nos.push({ id: item, tipo: 'curso', cursos: [item] });
-      doCurso[item] = item;
+    if (!isChoice(item)) {
+      nodes.push({ id: item, kind: 'curso', courses: [item] });
+      ofCourse[item] = item;
       return;
     }
-    const idNo = 'garfo:' + idx;
-    nos.push({ id: idNo, tipo: 'garfo', etapa: item, idx: idx, cursos: item.opcoes[opcaoAtiva(t.id, idx)].cursos });
-    item.opcoes.forEach((o) => o.cursos.forEach((c) => { membrosDoGarfo[c] = idNo; }));
-    item.opcoes[opcaoAtiva(t.id, idx)].cursos.forEach((c) => { doCurso[c] = idNo; });
+    const nodeId = 'garfo:' + idx;
+    nodes.push({ id: nodeId, kind: 'garfo', step: item, idx: idx, courses: item.opcoes[activeOption(t.id, idx)].cursos });
+    item.opcoes.forEach((o) => o.cursos.forEach((c) => { forkMembers[c] = nodeId; }));
+    item.opcoes[activeOption(t.id, idx)].cursos.forEach((c) => { ofCourse[c] = nodeId; });
   });
 
-  // arestas: pré-requisito -> curso, resolvendo cursos internos para o bloco
-  const idDoItem = (v) => (typeof v === 'number' ? nos[v] && nos[v].id : doCurso[v] || membrosDoGarfo[v]);
-  nos.forEach((no, i) => {
+  // edges: prerequisite -> course, resolving inner courses to their block
+  const idOfItem = (v) => (typeof v === 'number' ? nodes[v] && nodes[v].id : ofCourse[v] || forkMembers[v]);
+  nodes.forEach((node, i) => {
     const deps = new Set();
-    no.cursos.forEach((id) => {
-      (cursoPorId(id)?.depende || []).forEach((d) => {
-        const alvo = doCurso[d] || membrosDoGarfo[d];
-        if (alvo && alvo !== no.id) deps.add(alvo);
+    node.courses.forEach((id) => {
+      (courseById(id)?.depende || []).forEach((d) => {
+        const target = ofCourse[d] || forkMembers[d];
+        if (target && target !== node.id) deps.add(target);
       });
-      // ligações que só existem nesta trilha (ordem de currículo, não de conteúdo)
+      // links that exist only in this track (curriculum order, not content order)
       ((t.ligacoes || {})[id] || []).forEach((v) => {
-        const alvo = idDoItem(v);
-        if (alvo && alvo !== no.id) deps.add(alvo);
+        const target = idOfItem(v);
+        if (target && target !== node.id) deps.add(target);
       });
     });
-    // sem nenhum pré-requisito dentro desta trilha: vale a ordem do currículo,
-    // senão cursos como `nuvem` e `testes-cicd` cairiam todos no primeiro nível
-    if (!deps.size && i > 0) deps.add(nos[i - 1].id);
-    no.deps = [...deps];
+    // no prerequisite at all inside this track: the curriculum order applies,
+    // otherwise courses like `nuvem` and `testes-cicd` would all land on level one
+    if (!deps.size && i > 0) deps.add(nodes[i - 1].id);
+    node.deps = [...deps];
   });
 
-  // nó de chegada: tudo o que não é pré-requisito de mais nada desemboca nele,
-  // para o grafo não terminar em cursos soltos sem seta de saída
-  const temSucessor = {};
-  nos.forEach((n) => n.deps.forEach((d) => { temSucessor[d] = true; }));
-  nos.push({ id: '@saida', tipo: 'saida', cursos: [], deps: nos.filter((n) => !temSucessor[n.id]).map((n) => n.id) });
+  // finish node: everything that is nobody's prerequisite flows into it, so the
+  // graph does not end in loose courses with no outgoing arrow
+  const hasSuccessor = {};
+  nodes.forEach((n) => n.deps.forEach((d) => { hasSuccessor[d] = true; }));
+  nodes.push({ id: '@saida', kind: 'saida', courses: [], deps: nodes.filter((n) => !hasSuccessor[n.id]).map((n) => n.id) });
 
-  const sucessores = {};
-  nos.forEach((n) => n.deps.forEach((d) => { (sucessores[d] = sucessores[d] || []).push(n.id); }));
+  const successors = {};
+  nodes.forEach((n) => n.deps.forEach((d) => { (successors[d] = successors[d] || []).push(n.id); }));
 
-  /* Níveis por ordenação topológica iterativa (Kahn). A versão recursiva
-     anterior tinha um teto de profundidade que estourava nas trilhas longas
-     — Engenharia de Dados e DevSecOps ficavam sem nível e não renderizavam. */
-  const nivel = {};
-  const restam = {};
-  nos.forEach((n) => { restam[n.id] = n.deps.length; });
-  const fila = nos.filter((n) => !n.deps.length).map((n) => n.id);
-  fila.forEach((id) => { nivel[id] = 0; });
-  for (let i = 0; i < fila.length; i += 1) {
-    const id = fila[i];
-    (sucessores[id] || []).forEach((s) => {
-      nivel[s] = Math.max(nivel[s] === undefined ? 0 : nivel[s], nivel[id] + 1);
-      restam[s] -= 1;
-      if (restam[s] <= 0) fila.push(s);
+  /* Levels by iterative topological sort (Kahn). The earlier recursive version
+     had a depth ceiling that blew up on the long tracks — Data Engineering and
+     DevSecOps ended up with no level and did not render. */
+  const level = {};
+  const remaining = {};
+  nodes.forEach((n) => { remaining[n.id] = n.deps.length; });
+  const queue = nodes.filter((n) => !n.deps.length).map((n) => n.id);
+  queue.forEach((id) => { level[id] = 0; });
+  for (let i = 0; i < queue.length; i += 1) {
+    const id = queue[i];
+    (successors[id] || []).forEach((s) => {
+      level[s] = Math.max(level[s] === undefined ? 0 : level[s], level[id] + 1);
+      remaining[s] -= 1;
+      if (remaining[s] <= 0) queue.push(s);
     });
   }
-  /* Rede de segurança: se um dado formar ciclo (curso que depende de outro
-     declarado depois dele na trilha), a fila do Kahn esgota antes do fim.
-     Em vez de deixar esses nós sem nível — o que fazia a trilha inteira
-     desaparecer —, eles entram depois do maior pré-requisito já resolvido. */
-  const presos = nos.filter((n) => nivel[n.id] === undefined);
-  presos.forEach((n) => {
-    const resolvidos = n.deps.map((d) => nivel[d]).filter((v) => v !== undefined);
-    nivel[n.id] = resolvidos.length ? Math.max(...resolvidos) + 1 : 0;
-    fila.push(n.id);
+  /* Safety net: if the data forms a cycle (a course depending on another one
+     declared after it in the track), Kahn's queue runs dry before the end.
+     Instead of leaving those nodes without a level — which made the whole track
+     disappear — they go in after the highest prerequisite already resolved. */
+  const stuck = nodes.filter((n) => level[n.id] === undefined);
+  stuck.forEach((n) => {
+    const resolved = n.deps.map((d) => level[d]).filter((v) => v !== undefined);
+    level[n.id] = resolved.length ? Math.max(...resolved) + 1 : 0;
+    queue.push(n.id);
   });
-  if (presos.length && window.console) {
-    console.warn('trilha "' + t.nome + '": dependência circular em ' + presos.map((n) => n.id).join(', '));
+  if (stuck.length && window.console) {
+    console.warn('track "' + t.nome + '": circular dependency in ' + stuck.map((n) => n.id).join(', '));
   }
 
-  // agrupa por nível, sem deixar buraco na sequência de colunas
-  const porNivel = {};
-  nos.forEach((n) => { (porNivel[nivel[n.id]] = porNivel[nivel[n.id]] || []).push(n); });
-  const colunas = Object.keys(porNivel)
+  // group by level, leaving no hole in the sequence of columns
+  const byLevel = {};
+  nodes.forEach((n) => { (byLevel[level[n.id]] = byLevel[level[n.id]] || []).push(n); });
+  const columns = Object.keys(byLevel)
     .map(Number)
     .sort((a, b) => a - b)
-    .map((v) => porNivel[v]);
-  colunas.forEach((col, i) => col.forEach((n) => { nivel[n.id] = i; }));
+    .map((v) => byLevel[v]);
+  columns.forEach((col, i) => col.forEach((n) => { level[n.id] = i; }));
 
-  /* ---------- ordenação dentro de cada nível ----------
-     Aqui mora a inteligência estrutural do grafo. NADA é fixado por trilha:
-     o algoritmo mede o desenho que vai sair e escolhe a ordem que produz
-     menos cruzamento de linhas. Trilha nova entra e é otimizada do mesmo
-     jeito, sem ninguém precisar arrumar a ordem na mão.
+  /* ---------- ordering within each level ----------
+     This is where the graph's structural intelligence lives. NOTHING is pinned
+     per track: the algorithm measures the drawing that will come out and picks
+     the order that produces the fewest line crossings. A new track comes in and
+     is optimised the same way, with nobody having to fix the order by hand.
 
-     São três peças, todas do método de Sugiyama:
+     Three pieces, all from Sugiyama's method:
 
-       1. baricentro — cada nó puxa para a altura média dos seus vizinhos
-          da coluna ao lado. Chega perto rápido, mas encalha em ótimos
-          locais: há casos que só melhoram mexendo em DUAS colunas, e
-          nenhuma troca isolada melhora sozinha;
-       2. transposição — troca pares vizinhos de uma mesma coluna enquanto
-          isso não piorar. Aceitar as trocas EMPATADAS destrava aqueles
-          casos de duas colunas: a primeira troca anda de lado, a segunda
-          colhe o ganho;
-       3. partidas múltiplas — as duas anteriores são guloso puro e o
-          resultado depende de onde se começa. Então recomeça-se de várias
-          ordens iniciais (a do currículo, a invertida e algumas
-          embaralhadas) e fica-se com a melhor de todas. O embaralhamento
-          usa um gerador com semente fixa: a saída é sempre a mesma, o
-          grafo não muda de forma a cada visita.
+       1. barycentre — each node is pulled towards the average height of its
+          neighbours in the next column. It gets close fast, but it gets stuck in
+          local optima: some cases only improve by moving TWO columns, and no
+          isolated swap improves anything on its own;
+       2. transposition — swap neighbouring pairs within a column as long as that
+          does not make things worse. Accepting the TIED swaps unlocks those
+          two-column cases: the first swap moves sideways, the second collects
+          the gain;
+       3. multiple starts — the two above are pure greedy and the result depends
+          on where you begin. So it restarts from several initial orders (the
+          curriculum's, the reverse, and a few shuffled ones) and keeps the best
+          of them all. The shuffle uses a fixed-seed generator: the output is
+          always the same, the graph does not change shape between visits.
 
-     Custa ~7 ms para as 16 trilhas inteiras, uma vez por abertura. */
+     It costs ~7 ms for all 16 tracks, once per page open. */
 
-  const posicao = {};
-  const indexar = () => colunas.forEach((col) => col.forEach((n, i) => {
-    posicao[n.id] = col.length > 1 ? i / (col.length - 1) : 0.5;
+  const position = {};
+  const reindex = () => columns.forEach((col) => col.forEach((n, i) => {
+    position[n.id] = col.length > 1 ? i / (col.length - 1) : 0.5;
   }));
 
-  /* As arestas, separadas pelo vão de níveis que cada uma atravessa. */
-  const arestas = [];
-  nos.forEach((n) => n.deps.forEach((d) => {
-    if (nivel[d] < nivel[n.id]) arestas.push({ de: d, para: n.id, vao: nivel[n.id] - nivel[d] });
+  /* The edges, separated by the level gap each one spans. */
+  const edges = [];
+  nodes.forEach((n) => n.deps.forEach((d) => {
+    if (level[d] < level[n.id]) edges.push({ from: d, to: n.id, span: level[n.id] - level[d] });
   }));
 
-  /* Custo de uma ordenação. São TRÊS critérios, em ordem de prioridade —
-     comparados um a um, não somados: o segundo só é consultado quando o
-     primeiro empata, e o terceiro quando os dois empatam. Assim nenhum
-     critério menor consegue comprar um cruzamento a mais.
+  /* The cost of an ordering. THREE criteria, in priority order — compared one by
+     one, not summed: the second is only consulted when the first ties, and the
+     third when both tie. That way no lesser criterion can buy an extra crossing.
 
-     1) CRUZAMENTOS — o que o desenho realmente mostra.
-        Aresta de um nível para o seguinte vira curva direta: duas se
-        cruzam quando a ordem vertical das pontas se inverte.
-        Aresta que pula níveis não é desenhada reta: `desenharArestas` a
-        desvia para uma faixa livre por fora do grafo (é a regra "se a
-        linha passaria por trás de um curso, leve a linha por fora"). Ela
-        então só cruza alguma coisa na saída e na chegada, ao subir ou
-        descer até essa faixa, cruzando as diretas que passam por cima (ou
-        por baixo) dela. O roteador escolhe o lado mais perto; aqui o
-        custo escolhe igual.
+     1) CROSSINGS — what the drawing actually shows.
+        An edge from one level to the next becomes a direct curve: two cross when
+        the vertical order of their endpoints inverts.
+        An edge that skips levels is not drawn straight: `drawEdges` diverts it to
+        a free lane outside the graph (that is the rule "if the line would pass
+        behind a course, take the line around the outside"). It then only crosses
+        anything on the way out and on the way in, going up or down to that lane,
+        crossing the direct edges that pass above (or below) it. The router picks
+        the nearer side; the cost function picks the same.
 
-     2) VIÉS PARA CIMA — empatados subir e descer, o desvio sobe. É
-        convenção, mas uniforme: com todos os atalhos saindo do mesmo
-        lado, o corpo principal da trilha fica contíguo, em vez de
-        partido por linhas passando dos dois lados.
+     2) UPWARD BIAS — with up and down tied, the diversion goes up. It is a
+        convention, but a uniform one: with every shortcut leaving the same side,
+        the track's main body stays contiguous instead of being split by lines
+        passing on both sides.
 
-     3) ORDEM DO CURRÍCULO — entre desenhos igualmente limpos, vence o
-        que mantém os cursos na sequência em que a trilha os declara.
-        Sem isto, cada partida do otimizador devolveria uma permutação
-        arbitrária entre as boas, e níveis como "Qualidade · Performance ·
-        Entrega" apareceriam fora de ordem sem nenhum ganho. */
-  const ordemCurriculo = {};
-  nos.forEach((n, i) => { ordemCurriculo[n.id] = i; });
-  const vaos = [];
-  const custo = () => {
-    for (let g = 0; g < colunas.length - 1; g += 1) vaos[g] = [];
-    arestas.forEach((e) => {
-      if (e.vao === 1) vaos[nivel[e.de]].push({ a: posicao[e.de], b: posicao[e.para] });
+     3) CURRICULUM ORDER — among equally clean drawings, the one that keeps the
+        courses in the sequence the track declares wins. Without this, each start
+        of the optimiser would return an arbitrary permutation among the good
+        ones, and levels like "Qualidade · Performance · Entrega" would show up out
+        of order for no gain at all. */
+  const curriculumOrder = {};
+  nodes.forEach((n, i) => { curriculumOrder[n.id] = i; });
+  const gaps = [];
+  const cost = () => {
+    for (let g = 0; g < columns.length - 1; g += 1) gaps[g] = [];
+    edges.forEach((e) => {
+      if (e.span === 1) gaps[level[e.from]].push({ a: position[e.from], b: position[e.to] });
     });
-    let cruz = 0;
-    vaos.forEach((lista) => {
-      for (let i = 0; i < lista.length; i += 1) {
-        for (let j = i + 1; j < lista.length; j += 1) {
-          if ((lista[i].a - lista[j].a) * (lista[i].b - lista[j].b) < 0) cruz += 1;
+    let crossings = 0;
+    gaps.forEach((list) => {
+      for (let i = 0; i < list.length; i += 1) {
+        for (let j = i + 1; j < list.length; j += 1) {
+          if ((list[i].a - list[j].a) * (list[i].b - list[j].b) < 0) crossings += 1;
         }
       }
     });
-    let vies = 0;
-    arestas.forEach((e) => {
-      if (e.vao === 1) return;
-      const pu = posicao[e.de], pv = posicao[e.para];
-      const saida = vaos[nivel[e.de]], chegada = vaos[nivel[e.para] - 1];
-      let cima = 0, baixo = 0;
-      saida.forEach((s) => { if (s.a < pu) cima += 1; else if (s.a > pu) baixo += 1; });
-      chegada.forEach((s) => { if (s.b < pv) cima += 1; else if (s.b > pv) baixo += 1; });
-      cruz += Math.min(cima, baixo);
-      vies += pu + pv;
+    let bias = 0;
+    edges.forEach((e) => {
+      if (e.span === 1) return;
+      const pu = position[e.from], pv = position[e.to];
+      const out = gaps[level[e.from]], into = gaps[level[e.to] - 1];
+      let above = 0, below = 0;
+      out.forEach((s) => { if (s.a < pu) above += 1; else if (s.a > pu) below += 1; });
+      into.forEach((s) => { if (s.b < pv) above += 1; else if (s.b > pv) below += 1; });
+      crossings += Math.min(above, below);
+      bias += pu + pv;
     });
-    let fora = 0;
-    colunas.forEach((col) => {
+    let outOfOrder = 0;
+    columns.forEach((col) => {
       for (let i = 0; i < col.length; i += 1) {
         for (let j = i + 1; j < col.length; j += 1) {
-          if (ordemCurriculo[col[i].id] > ordemCurriculo[col[j].id]) fora += 1;
+          if (curriculumOrder[col[i].id] > curriculumOrder[col[j].id]) outOfOrder += 1;
         }
       }
     });
-    return [cruz, vies, fora];
+    return [crossings, bias, outOfOrder];
   };
-  /* compara dois custos critério a critério (ordem lexicográfica) */
-  const pior = (a, b) => {
+  /* compares two costs criterion by criterion (lexicographic order) */
+  const worse = (a, b) => {
     for (let i = 0; i < a.length; i += 1) {
       if (a[i] !== b[i]) return a[i] > b[i];
     }
     return false;
   };
-  const igual = (a, b) => a.every((v, i) => v === b[i]);
+  const same = (a, b) => a.every((v, i) => v === b[i]);
 
-  /* média e mediana das alturas dos vizinhos — a mediana costuma se sair
-     melhor quando um nó tem poucos vizinhos muito espalhados, então as
-     duas se alternam nas passadas */
-  const MEDIA = (v) => v.reduce((a, b) => a + b, 0) / v.length;
-  const MEDIANA = (v) => {
+  /* mean and median of the neighbours' heights — the median usually does better
+     when a node has few, widely spread neighbours, so the two alternate between
+     passes */
+  const MEAN = (v) => v.reduce((a, b) => a + b, 0) / v.length;
+  const MEDIAN = (v) => {
     const s = v.slice().sort((a, b) => a - b);
     return s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2;
   };
-  const ordenar = (col, vizinhos, agregar) => {
-    const chave = col.map((n, i) => {
-      const v = vizinhos(n).map((id) => posicao[id]).filter((x) => x !== undefined);
-      return { n: n, b: v.length ? agregar(v) : null, i: i };
+  const sortColumn = (col, neighbours, aggregate) => {
+    const keys = col.map((n, i) => {
+      const v = neighbours(n).map((id) => position[id]).filter((x) => x !== undefined);
+      return { n: n, b: v.length ? aggregate(v) : null, i: i };
     });
-    chave.sort((a, b) => (a.b === null || b.b === null ? a.i - b.i : (a.b - b.b) || (a.i - b.i)));
-    return chave.map((x) => x.n);
+    keys.sort((a, b) => (a.b === null || b.b === null ? a.i - b.i : (a.b - b.b) || (a.i - b.i)));
+    return keys.map((x) => x.n);
   };
 
-  /* troca pares vizinhos enquanto compensar; `aceitarEmpate` deixa o
-     algoritmo andar de lado para sair de um ótimo local */
-  const transpor = (aceitarEmpate) => {
-    let melhorou = true;
-    let voltas = 0;
-    while (melhorou && voltas < 8) {
-      melhorou = false;
-      voltas += 1;
-      colunas.forEach((col) => {
+  /* swaps neighbouring pairs while it pays off; `acceptTies` lets the algorithm
+     move sideways to get out of a local optimum */
+  const transpose = (acceptTies) => {
+    let improved = true;
+    let laps = 0;
+    while (improved && laps < 8) {
+      improved = false;
+      laps += 1;
+      columns.forEach((col) => {
         for (let i = 0; i + 1 < col.length; i += 1) {
-          const antes = custo();
+          const before = cost();
           const tmp = col[i]; col[i] = col[i + 1]; col[i + 1] = tmp;
-          indexar();
-          const depois = custo();
-          if (pior(antes, depois) || (aceitarEmpate && igual(antes, depois))) {
-            if (pior(antes, depois)) melhorou = true;
+          reindex();
+          const after = cost();
+          if (worse(before, after) || (acceptTies && same(before, after))) {
+            if (worse(before, after)) improved = true;
           } else {
             const v = col[i]; col[i] = col[i + 1]; col[i + 1] = v;
-            indexar();
+            reindex();
           }
         }
       });
     }
   };
 
-  indexar();
-  let melhor = colunas.map((col) => col.slice());
-  let melhorCusto = custo();
-  const guardar = () => {
-    const c = custo();
-    if (pior(melhorCusto, c)) { melhorCusto = c; melhor = colunas.map((col) => col.slice()); }
+  reindex();
+  let best = columns.map((col) => col.slice());
+  let bestCost = cost();
+  const keep = () => {
+    const c = cost();
+    if (worse(bestCost, c)) { bestCost = c; best = columns.map((col) => col.slice()); }
   };
 
-  const inicial = colunas.map((col) => col.slice());
-  let semente = 1;   // gerador congruente linear: embaralha sempre igual
-  const sorteio = () => { semente = (semente * 1103515245 + 12345) & 0x7fffffff; return semente / 0x7fffffff; };
-  const PARTIDAS = ['curriculo', 'invertida', 'sorteio', 'sorteio', 'sorteio', 'sorteio'];
+  const initial = columns.map((col) => col.slice());
+  let seed = 1;   // linear congruential generator: always shuffles the same way
+  const random = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+  const STARTS = ['curriculum', 'reversed', 'random', 'random', 'random', 'random'];
 
-  PARTIDAS.forEach((partida) => {
-    colunas.length = 0;
-    inicial.forEach((col) => {
-      if (partida === 'curriculo') return colunas.push(col.slice());
-      if (partida === 'invertida') return colunas.push(col.slice().reverse());
+  STARTS.forEach((start) => {
+    columns.length = 0;
+    initial.forEach((col) => {
+      if (start === 'curriculum') return columns.push(col.slice());
+      if (start === 'reversed') return columns.push(col.slice().reverse());
       const a = col.slice();
       for (let i = a.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(sorteio() * (i + 1));
+        const j = Math.floor(random() * (i + 1));
         const t = a[i]; a[i] = a[j]; a[j] = t;
       }
-      return colunas.push(a);
+      return columns.push(a);
     });
-    indexar();
-    /* numa partida embaralhada, subir o morro ANTES do baricentro: se o
-       baricentro rodar primeiro ele reordena tudo pelos vizinhos e apaga
-       o sorteio, e a partida deixa de ser uma partida diferente */
-    if (partida === 'sorteio') { transpor(true); guardar(); }
-    for (let passo = 0; passo < 2; passo += 1) {
-      const agregar = passo % 2 ? MEDIANA : MEDIA;
-      for (let v = 1; v < colunas.length; v += 1) {
-        colunas[v] = ordenar(colunas[v], (n) => n.deps, agregar);
-        indexar();
+    reindex();
+    /* on a shuffled start, climb the hill BEFORE the barycentre: if the
+       barycentre runs first it reorders everything by neighbours and erases the
+       shuffle, and the start stops being a different start */
+    if (start === 'random') { transpose(true); keep(); }
+    for (let pass = 0; pass < 2; pass += 1) {
+      const aggregate = pass % 2 ? MEDIAN : MEAN;
+      for (let v = 1; v < columns.length; v += 1) {
+        columns[v] = sortColumn(columns[v], (n) => n.deps, aggregate);
+        reindex();
       }
-      for (let v = colunas.length - 2; v >= 0; v -= 1) {
-        colunas[v] = ordenar(colunas[v], (n) => sucessores[n.id] || [], agregar);
-        indexar();
+      for (let v = columns.length - 2; v >= 0; v -= 1) {
+        columns[v] = sortColumn(columns[v], (n) => successors[n.id] || [], aggregate);
+        reindex();
       }
-      guardar();
-      transpor(passo % 2 === 1);
-      guardar();
+      keep();
+      transpose(pass % 2 === 1);
+      keep();
     }
   });
 
-  colunas.length = 0;
-  melhor.forEach((col) => colunas.push(col));
-  colunas.forEach((col, i) => col.forEach((n) => { nivel[n.id] = i; }));
+  columns.length = 0;
+  best.forEach((col) => columns.push(col));
+  columns.forEach((col, i) => col.forEach((n) => { level[n.id] = i; }));
 
-  return { nos: nos, colunas: colunas, nivel: nivel, niveisReais: colunas.length - 1 };
+  return { nodes: nodes, columns: columns, level: level, realLevels: columns.length - 1 };
 }
 
-// faixa de carga horária: menor e maior caminho possível
-function faixaDeHoras(t) {
+// workload range: the shortest and the longest possible path
+function hoursRange(t) {
   let min = 0, max = 0;
   t.cursos.forEach((i) => {
-    if (!ehEscolha(i)) { const h = cursoPorId(i)?.horas || 0; min += h; max += h; return; }
-    const hs = i.opcoes.map((o) => horasDe(o.cursos));
+    if (!isChoice(i)) { const h = courseById(i)?.horas || 0; min += h; max += h; return; }
+    const hs = i.opcoes.map((o) => hoursOf(o.cursos));
     min += Math.min(...hs);
     max += Math.max(...hs);
   });
   return { min, max };
 }
 
-// em quantas trilhas um curso aparece (o mesmo curso pode servir a várias)
-const trilhasDoCurso = (id) => TRILHAS.filter((t) => todosOsCursos(t).includes(id));
-// o inverso de `depende`: que cursos este destrava
-const depoisDe = (id) => CURSOS.filter((c) => (c.depende || []).includes(id));
+// in how many tracks a course appears (the same course can serve several)
+const tracksOfCourse = (id) => TRILHAS.filter((t) => allCourses(t).includes(id));
+// the inverse of `depende`: which courses this one unlocks
+const unlockedBy = (id) => CURSOS.filter((c) => (c.depende || []).includes(id));
 
 document.getElementById('ano').textContent = new Date().getFullYear();
 $('#n-cursos').textContent = CURSOS.length;
 $('#n-trilhas').textContent = TRILHAS.length;
-/* soma real da carga horária do catálogo, no lugar do antigo "5.000+ alunos
-   formados" — número que uma escola nova não tem. Este cresce sozinho quando
-   entra curso novo, e é verdade no dia em que o site sobe. O separador de
-   milhar segue o idioma: 5.930 em português, 5,930 em inglês. */
-const TOTAL_HORAS = CURSOS.reduce((s, c) => s + (c.horas || 0), 0);
-const localeAtual = () => (IDIOMAS.find((i) => i.cod === IDIOMA) || {}).html || 'pt-BR';
-function mostrarHoras() {
-  $('#n-horas').textContent = TOTAL_HORAS.toLocaleString(localeAtual());
+/* the catalogue's real total workload, in place of the old "5,000+ students
+   graduated" — a number a new school does not have. This one grows by itself
+   when a course is added, and it is true on the day the site goes up. The
+   thousands separator follows the language: 5.930 in Portuguese, 5,930 in
+   English. */
+const TOTAL_HOURS = CURSOS.reduce((s, c) => s + (c.horas || 0), 0);
+const currentLocale = () => (LANGUAGES.find((i) => i.cod === LANG) || {}).html || 'pt-BR';
+function showHours() {
+  $('#n-horas').textContent = TOTAL_HOURS.toLocaleString(currentLocale());
 }
-mostrarHoras();
+showHours();
 
-/* ---------- terminal do hero ----------
-   Quatro comandos, e nenhuma resposta escrita à mão: os números, os nomes
-   das trilhas e a ficha do curso saem de CURSOS e TRILHAS. Assim o
-   terminal não envelhece — entra trilha nova, ele conta certo — e não há
-   como ele contradizer o resto da página.
+/* ---------- the hero terminal ----------
+   Four commands, and not one hand-written response: the numbers, the track names
+   and the course card all come out of CURSOS and TRILHAS. That way the terminal
+   does not go stale — a new track comes in and it counts right — and there is no
+   way for it to contradict the rest of the page.
 
-   Os comandos ficam em inglês porque são o nome de uma ferramenta; as
-   respostas seguem o idioma escolhido. */
-const CURSO_VITRINE = 'kubernetes';   // avançado e com pré-requisito: mostra as duas coisas
-function montarTerminal() {
-  const corpo = $('#term-body');
-  if (!corpo) return;
+   The commands stay in English because they are a tool's name; the responses
+   follow the chosen language. */
+const SHOWCASE_COURSE = 'kubernetes';   // advanced and with a prerequisite: shows both things
+function buildTerminal() {
+  const body = $('#term-body');
+  if (!body) return;
   const cmd = (s) => '<div class="term-line"><span class="pr">$</span> ' + s + '</div>';
-  const seta = (m, cls, s) => '<div class="term-line"><span class="' + cls + '">' + m + '</span> ' + s + '</div>';
-  const branco = '<div class="term-vao"></div>';
+  const arrow = (m, cls, s) => '<div class="term-line"><span class="' + cls + '">' + m + '</span> ' + s + '</div>';
+  const blank = '<div class="term-vao"></div>';
 
-  const status = seta('✓', 'ok',
+  const status = arrow('✓', 'ok',
     CURSOS.length + ' ' + txt('cursos ·') + ' ' + TRILHAS.length + ' ' + txt('trilhas ·') +
-    ' ' + TOTAL_HORAS.toLocaleString(localeAtual()) + ' ' + txt('horas de conteúdo'));
+    ' ' + TOTAL_HOURS.toLocaleString(currentLocale()) + ' ' + txt('horas de conteúdo'));
 
-  const carreira = TRILHAS.filter((t) => t.familia === 'carreira');
-  const lista = carreira.slice(0, 3).map((t) => {
-    const f = faixaDeHoras(t);
-    return seta('→', 'pr', t.nome + ' · ' + (f.min === f.max ? f.min : f.min + '–' + f.max) + 'h');
+  const career = TRILHAS.filter((t) => t.familia === 'carreira');
+  const list = career.slice(0, 3).map((t) => {
+    const f = hoursRange(t);
+    return arrow('→', 'pr', t.nome + ' · ' + (f.min === f.max ? f.min : f.min + '–' + f.max) + 'h');
   }).join('');
-  const resto = carreira.length - 3;
-  const maisTrilhas = resto > 0
+  const rest = career.length - 3;
+  const moreTracks = rest > 0
     ? '<div class="term-line"><span class="cm">  ' +
-      txt('… e mais {n} trilhas de carreira').replace('{n}', resto) + '</span></div>'
+      txt('… e mais {n} trilhas de carreira').replace('{n}', rest) + '</span></div>'
     : '';
 
-  const c = cursoPorId(CURSO_VITRINE) || CURSOS.find((x) => (x.depende || []).length);
-  const ficha = c
+  const c = courseById(SHOWCASE_COURSE) || CURSOS.find((x) => (x.depende || []).length);
+  const card = c
     ? cmd('codeschool course ' + c.id + ' --info') +
-      seta('→', 'pr', c.nome + ' · ' + c.horas + 'h · ' + txt(c.nivel)) +
+      arrow('→', 'pr', c.nome + ' · ' + c.horas + 'h · ' + txt(c.nivel)) +
       ((c.depende || []).length
-        ? seta('↳', 'cm', txt('precisa antes:') + ' ' +
-            c.depende.map((d) => cursoPorId(d)?.nome).filter(Boolean).join(', '))
+        ? arrow('↳', 'cm', txt('precisa antes:') + ' ' +
+            c.depende.map((d) => courseById(d)?.nome).filter(Boolean).join(', '))
         : '')
     : '';
 
-  corpo.innerHTML =
-    cmd('codeschool --status') + status + branco +
-    cmd('codeschool tracks --career') + lista + maisTrilhas + branco +
-    ficha + branco +
+  body.innerHTML =
+    cmd('codeschool --status') + status + blank +
+    cmd('codeschool tracks --career') + list + moreTracks + blank +
+    card + blank +
     cmd('codeschool start<span class="cursor"></span>');
-  // a posição de cada linha vira o atraso da animação
-  [...corpo.children].forEach((el, i) => el.style.setProperty('--i', i));
+  // each line's position becomes its animation delay
+  [...body.children].forEach((el, i) => el.style.setProperty('--i', i));
 }
-montarTerminal();
+buildTerminal();
 
-/* ---------- tema claro/escuro ---------- */
-const temaBtn = $('#tema-btn');
-function aplicarTema(tema) {
-  if (tema === 'claro') document.documentElement.dataset.tema = 'claro';
+/* ---------- light/dark theme ---------- */
+const themeBtn = $('#tema-btn');
+function applyTheme(theme) {
+  if (theme === 'claro') document.documentElement.dataset.tema = 'claro';
   else delete document.documentElement.dataset.tema;
-  temaBtn.setAttribute('aria-label', tema === 'claro' ? 'Mudar para tema escuro' : 'Mudar para tema claro');
+  themeBtn.setAttribute('aria-label', theme === 'claro' ? 'Mudar para tema escuro' : 'Mudar para tema claro');
 }
-temaBtn.addEventListener('click', () => {
-  const novo = document.documentElement.dataset.tema === 'claro' ? 'escuro' : 'claro';
-  try { localStorage.setItem('codeschool-tema', novo); } catch (e) {}
-  aplicarTema(novo);
+themeBtn.addEventListener('click', () => {
+  const next = document.documentElement.dataset.tema === 'claro' ? 'escuro' : 'claro';
+  try { localStorage.setItem('codeschool-tema', next); } catch (e) {}
+  applyTheme(next);
 });
-try { aplicarTema(localStorage.getItem('codeschool-tema') || 'escuro'); } catch (e) { aplicarTema('escuro'); }
+try { applyTheme(localStorage.getItem('codeschool-tema') || 'escuro'); } catch (e) { applyTheme('escuro'); }
 
-/* ---------- menu mobile ---------- */
+/* ---------- mobile menu ---------- */
 const menu = $('#menu');
 $('#burger').addEventListener('click', () => menu.classList.toggle('open'));
 
 /* ==========================================================
-   TRILHAS — sequência de cursos com setas
+   TRACKS — a sequence of courses with arrows
    ========================================================== */
-const painelEl = $('#trilha-painel');
-let trilhaAtual = 0;
-let trocaT = null;
+const panelEl = $('#trilha-painel');
+let currentTrack = 0;
+let swapT = null;
 
-/* Duas famílias de trilha: "carreira" responde que profissão o aluno quer,
-   "tecnologia" responde que ferramenta ele quer dominar. Cada uma tem sua
-   fileira de abas, com rótulo e setas próprias — como só existem duas, o
-   alternador que havia antes custava mais altura do que informava. O índice
-   usado em toda a seção continua sendo o de TRILHAS. */
-const FAMILIAS = ['carreira', 'tecnologia'];
-const familiaDe = (t) => t.familia || 'carreira';
-const indicesDaFamilia = (f) => TRILHAS.map((t, i) => (familiaDe(t) === f ? i : -1)).filter((i) => i >= 0);
-const caixaDaFamilia = (f) => document.querySelector('.abas-caixa[data-familia="' + f + '"]');
-const abasDaFamilia = (f) => $('#abas-' + f);
+/* Two families of track: "carreira" answers which profession the student wants,
+   "tecnologia" answers which tool they want to master. Each has its own row of
+   tabs, with its own label and arrows — since there are only two, the switcher
+   that used to be there cost more height than it conveyed. The index used
+   throughout this section is still the one into TRILHAS. */
+const FAMILIES = ['carreira', 'tecnologia'];
+const familyOf = (t) => t.familia || 'carreira';
+const indicesOfFamily = (f) => TRILHAS.map((t, i) => (familyOf(t) === f ? i : -1)).filter((i) => i >= 0);
+const familyBox = (f) => document.querySelector('.abas-caixa[data-familia="' + f + '"]');
+const familyTabs = (f) => $('#abas-' + f);
 
-/* Menu suspenso das trilhas (celular): as duas fileiras roláveis viram uma
-   lista só, agrupada por família. Mesma fonte de dados, mesma função de abrir. */
-const dropTrilhas = $('#drop-trilhas');
-function montarDropTrilhas() {
-  const lista = $('#drop-trilhas-lista');
-  lista.textContent = '';
-  FAMILIAS.forEach((f) => {
+/* The tracks dropdown (mobile): the two scrollable rows become a single list,
+   grouped by family. Same data source, same opening function. */
+const trackDrop = $('#drop-trilhas');
+function buildTrackDropdown() {
+  const list = $('#drop-trilhas-lista');
+  list.textContent = '';
+  FAMILIES.forEach((f) => {
     const h = document.createElement('div');
     h.className = 'drop-grupo';
     h.textContent = txt(f === 'carreira' ? 'trilhas por carreira' : 'trilhas por tecnologia');
-    lista.appendChild(h);
-    indicesDaFamilia(f).forEach((i) => {
+    list.appendChild(h);
+    indicesOfFamily(f).forEach((i) => {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'drop-op' + (i === trilhaAtual ? ' on' : '');
+      b.className = 'drop-op' + (i === currentTrack ? ' on' : '');
       b.textContent = TRILHAS[i].nome;
-      b.addEventListener('click', () => { abrirTrilha(i); fecharDrops(); });
-      lista.appendChild(b);
+      b.addEventListener('click', () => { openTrack(i); closeDropdowns(); });
+      list.appendChild(b);
     });
   });
-  dropTrilhas.querySelector('.drop-atual').textContent = TRILHAS[trilhaAtual].nome;
+  trackDrop.querySelector('.drop-atual').textContent = TRILHAS[currentTrack].nome;
 }
 
-function montarAbas() {
-  FAMILIAS.forEach((f) => {
-    const el = abasDaFamilia(f);
+function buildTabs() {
+  FAMILIES.forEach((f) => {
+    const el = familyTabs(f);
     el.textContent = '';
-    indicesDaFamilia(f).forEach((i) => {
+    indicesOfFamily(f).forEach((i) => {
       const b = document.createElement('button');
-      b.className = 'trilha-aba' + (i === trilhaAtual ? ' on' : '');
+      b.className = 'trilha-aba' + (i === currentTrack ? ' on' : '');
       b.type = 'button';
       b.dataset.idx = i;
       b.setAttribute('role', 'tab');
       b.textContent = TRILHAS[i].nome;
-      b.addEventListener('click', () => abrirTrilha(i));
+      b.addEventListener('click', () => openTrack(i));
       el.appendChild(b);
     });
   });
 }
 
-/* o cartão de um curso dentro do grafo */
-function cartaoCurso(id, ordem, deps) {
-  const c = cursoPorId(id);
+/* a course's card inside the graph */
+function courseCard(id, order, deps) {
+  const c = courseById(id);
   if (!c) return '';
-  const nT = trilhasDoCurso(id).length;
-  const requer = (deps || []).map((d) => cursoPorId(d)?.nome).filter(Boolean);
+  const nT = tracksOfCourse(id).length;
+  const requires = (deps || []).map((d) => courseById(d)?.nome).filter(Boolean);
   return (
     '<button class="curso-no" type="button" data-curso="' + c.id + '" data-no="' + c.id + '">' +
-      (ordem ? '<span class="ordem">' + txt('nível') + ' ' + ordem + '</span>' : '') +
+      (order ? '<span class="ordem">' + txt('nível') + ' ' + order + '</span>' : '') +
       '<span class="nome">' + c.nome + '</span>' +
       (nT > 1 ? '<span class="tag-compartilhado">' + txt('em') + ' ' + nT + ' ' + txt('trilhas') + '</span>' : '') +
       '<span class="meta">' + c.horas + 'h · ' + txt(c.nivel) + '</span>' +
-      (requer.length ? '<span class="requer">' + txt('depois de') + ' ' + requer.join(' + ') + '</span>' : '') +
+      (requires.length ? '<span class="requer">' + txt('depois de') + ' ' + requires.join(' + ') + '</span>' : '') +
     '</button>'
   );
 }
 
-function montarTrilha(t) {
-  const caminho = caminhoDaTrilha(t);
-  const horas = horasDe(caminho);
-  const { min, max } = faixaDeHoras(t);
-  const g = grafoDaTrilha(t);
+function buildTrack(t) {
+  const path = trackPath(t);
+  const hours = hoursOf(path);
+  const { min, max } = hoursRange(t);
+  const g = trackGraph(t);
 
-  const colunas = g.colunas
-    .map((nos, v) => {
-      const cartoes = nos
-        .map((no) => {
-          if (no.tipo === 'saida') {
+  const columns = g.columns
+    .map((nodes, v) => {
+      const cards = nodes
+        .map((node) => {
+          if (node.kind === 'saida') {
             return '<div class="no-saida" data-no="@saida">' +
               '<span class="saida-selo" aria-hidden="true">' +
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
@@ -517,43 +527,43 @@ function montarTrilha(t) {
               '</span>' +
             '</div>';
           }
-          if (no.tipo === 'curso') {
-            const nomes = (cursoPorId(no.id)?.depende || []).filter((d) => g.nos.some((x) => x.cursos.includes(d)));
-            return cartaoCurso(no.id, String(v + 1).padStart(2, '0'), nomes);
+          if (node.kind === 'curso') {
+            const names = (courseById(node.id)?.depende || []).filter((d) => g.nodes.some((x) => x.courses.includes(d)));
+            return courseCard(node.id, String(v + 1).padStart(2, '0'), names);
           }
-          // etapa de escolha: um bloco só, com as opções em abas
-          const item = no.etapa;
-          const sel = opcaoAtiva(t.id, no.idx);
-          const abas = item.opcoes
+          // choice step: a single block, with the options as tabs
+          const item = node.step;
+          const sel = activeOption(t.id, node.idx);
+          const tabs = item.opcoes
             .map((o, j) =>
               '<button class="garfo-aba' + (j === sel ? ' on' : '') + '" type="button" ' +
-              'data-garfo="' + no.idx + '" data-opcao="' + j + '">' + o.nome +
-              '<span class="garfo-h">' + horasDe(o.cursos) + 'h</span></button>')
+              'data-garfo="' + node.idx + '" data-opcao="' + j + '">' + o.nome +
+              '<span class="garfo-h">' + hoursOf(o.cursos) + 'h</span></button>')
             .join('');
-          const dentro = item.opcoes[sel].cursos.map((id) => cartaoCurso(id)).join('');
+          const inside = item.opcoes[sel].cursos.map((id) => courseCard(id)).join('');
           return (
-            '<div class="garfo" data-no="' + no.id + '">' +
+            '<div class="garfo" data-no="' + node.id + '">' +
               '<div class="garfo-topo">' +
                 '<span class="garfo-rotulo">' + txt('nível') + ' ' + String(v + 1).padStart(2, '0') +
                   ' · ' + txt('você escolhe') + ' ' + item.escolha + '</span>' +
-                '<div class="garfo-abas" role="tablist">' + abas + '</div>' +
+                '<div class="garfo-abas" role="tablist">' + tabs + '</div>' +
               '</div>' +
               (item.nota ? '<p class="garfo-nota">' + item.nota + '</p>' : '') +
-              '<div class="garfo-cursos">' + dentro + '</div>' +
+              '<div class="garfo-cursos">' + inside + '</div>' +
             '</div>'
           );
         })
         .join('');
-      // uma sub-coluna só; o script reparte depois de medir a altura real
-      return '<div class="nivel" data-nivel="' + v + '"><div class="subcol">' + cartoes + '</div></div>';
+      // one sub-column only; the script splits it after measuring the real height
+      return '<div class="nivel" data-nivel="' + v + '"><div class="subcol">' + cards + '</div></div>';
     })
     .join('');
 
-  const carga = min === max
-    ? '<span><b>' + horas + 'h</b>' + txt('de carga') + '</span>'
-    : '<span><b>' + horas + 'h</b>' + txt('neste caminho') + ' <i>(' + min + 'h ' + txt('a') + ' ' + max + 'h)</i></span>';
+  const workload = min === max
+    ? '<span><b>' + hours + 'h</b>' + txt('de carga') + '</span>'
+    : '<span><b>' + hours + 'h</b>' + txt('neste caminho') + ' <i>(' + min + 'h ' + txt('a') + ' ' + max + 'h)</i></span>';
 
-  const paralelo = g.colunas.slice(0, -1).filter((c) => c.length > 1).length;
+  const parallel = g.columns.slice(0, -1).filter((c) => c.length > 1).length;
 
   return (
     '<div class="trilha-topo">' +
@@ -562,10 +572,10 @@ function montarTrilha(t) {
         '<p>' + t.objetivo + '</p>' +
       '</div>' +
       '<div class="trilha-resumo">' +
-        '<span><b>' + caminho.length + '</b>' + txt('cursos') + '</span>' +
-        carga +
-        '<span><b>' + g.niveisReais + '</b>' + txt('níveis') +
-          (paralelo ? '<i>' + paralelo + ' ' + txt('deles com ordem livre') + '</i>' : '') +
+        '<span><b>' + path.length + '</b>' + txt('cursos') + '</span>' +
+        workload +
+        '<span><b>' + g.realLevels + '</b>' + txt('níveis') +
+          (parallel ? '<i>' + parallel + ' ' + txt('deles com ordem livre') + '</i>' : '') +
         '</span>' +
         '<span><b>→</b>' + t.saida + '</span>' +
       '</div>' +
@@ -573,100 +583,100 @@ function montarTrilha(t) {
     '<div class="grafo-caixa">' +
       '<button class="grafo-seta esq" type="button" data-rolar="-1" aria-label="Ver níveis anteriores">←</button>' +
       '<div class="trilha-grafo"><svg class="grafo-arestas" aria-hidden="true"></svg>' +
-        '<div class="grafo-niveis">' + colunas + '</div></div>' +
+        '<div class="grafo-niveis">' + columns + '</div></div>' +
       '<button class="grafo-seta dir" type="button" data-rolar="1" aria-label="Ver próximos níveis">→</button>' +
     '</div>'
   );
 }
 
-/* ---------- reparte cada nível em sub-colunas ----------
-   Um nível com muitos cursos não pode esticar para baixo da tela. Aqui se
-   mede a altura real de cada cartão e se enche uma sub-coluna até o limite
-   antes de abrir a seguinte, então o grafo cresce na horizontal — que é
-   onde existem as setas de navegação. */
-function repartirNiveis() {
-  const rol = painelEl.querySelector('.trilha-grafo');
-  const faixa = painelEl.querySelector('.grafo-niveis');
-  if (!rol || !faixa) return;
-  // volta ao tamanho cheio antes de medir: é a altura disponível que decide
-  // a repartição, não a que sobrou da trilha anterior
-  const caixaG = painelEl.querySelector('.grafo-caixa');
-  if (caixaG) caixaG.style.flex = '1 1 auto';
-  // em tela estreita o CSS empilha tudo numa coluna: nada a repartir, e o
-  // que sobrou de uma medição anterior volta para uma sub-coluna só
-  const emLista = getComputedStyle(faixa).flexDirection !== 'row';
+/* ---------- splits each level into sub-columns ----------
+   A level with many courses must not stretch below the screen. Here the real
+   height of each card is measured and a sub-column is filled up to the limit
+   before the next one opens, so the graph grows horizontally — which is where
+   the navigation arrows are. */
+function splitLevels() {
+  const scroller = panelEl.querySelector('.trilha-grafo');
+  const lane = panelEl.querySelector('.grafo-niveis');
+  if (!scroller || !lane) return;
+  // back to full size before measuring: it is the available height that decides
+  // the split, not whatever was left over from the previous track
+  const boxG = panelEl.querySelector('.grafo-caixa');
+  if (boxG) boxG.style.flex = '1 1 auto';
+  // on a narrow screen the CSS stacks everything into one column: nothing to
+  // split, and whatever an earlier measurement left goes back to one sub-column
+  const asList = getComputedStyle(lane).flexDirection !== 'row';
   const gap = 10;
-  // desconta o padding real da faixa em vez de uma constante: ele mudou junto
-  // com o cabeçalho da seção, e um número mágico aqui silenciaria o ganho
-  const cs = getComputedStyle(faixa);
-  const disponivel = rol.clientHeight -
+  // subtract the lane's real padding instead of a constant: it changed along with
+  // the section header, and a magic number here would silence the gain
+  const cs = getComputedStyle(lane);
+  const available = scroller.clientHeight -
     (parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)) - 4;
-  painelEl.querySelectorAll('.nivel').forEach((nv) => {
-    const itens = [];
-    nv.querySelectorAll(':scope > .subcol').forEach((sc) => {
-      Array.from(sc.children).forEach((el) => itens.push(el));
+  panelEl.querySelectorAll('.nivel').forEach((lvl) => {
+    const items = [];
+    lvl.querySelectorAll(':scope > .subcol').forEach((sc) => {
+      Array.from(sc.children).forEach((el) => items.push(el));
     });
-    if (itens.length < 2) return;
+    if (items.length < 2) return;
 
-    if (emLista) {
-      nv.textContent = '';
+    if (asList) {
+      lvl.textContent = '';
       const sc = document.createElement('div');
       sc.className = 'subcol';
-      itens.forEach((el) => sc.appendChild(el));
-      nv.appendChild(sc);
+      items.forEach((el) => sc.appendChild(el));
+      lvl.appendChild(sc);
       return;
     }
 
-    const colunas = [[]];
-    let usado = 0;
-    itens.forEach((el) => {
+    const cols = [[]];
+    let used = 0;
+    items.forEach((el) => {
       const h = el.offsetHeight;
-      const atual = colunas[colunas.length - 1];
-      if (atual.length && usado + gap + h > disponivel) { colunas.push([]); usado = 0; }
-      colunas[colunas.length - 1].push(el);
-      usado += (usado ? gap : 0) + h;
+      const current = cols[cols.length - 1];
+      if (current.length && used + gap + h > available) { cols.push([]); used = 0; }
+      cols[cols.length - 1].push(el);
+      used += (used ? gap : 0) + h;
     });
 
-    nv.textContent = '';
-    colunas.forEach((col) => {
+    lvl.textContent = '';
+    cols.forEach((col) => {
       const sc = document.createElement('div');
       sc.className = 'subcol';
       col.forEach((el) => sc.appendChild(el));
-      nv.appendChild(sc);
+      lvl.appendChild(sc);
     });
   });
 
-  /* A faixa abraça o grafo em vez de ocupar toda a altura que sobra. Sem
-     isso os cartões ficavam centrados numa faixa bem mais alta, e o bloco
-     nome+objetivo tinha 33px de folga para as abas acima contra 103px para
-     o primeiro cartão abaixo. A medição continua sendo feita com a altura
-     cheia — é ela que decide quantos cartões cabem numa coluna. */
-  if (!emLista) {
-    let alto = 0;
-    painelEl.querySelectorAll('.nivel > .subcol').forEach((sc) => {
-      alto = Math.max(alto, sc.offsetHeight);
+  /* The lane hugs the graph instead of taking up all the height left over.
+     Without this the cards sat centred in a much taller lane, and the
+     name+objective block had 33px of slack to the tabs above against 103px to
+     the first card below. The measuring is still done at full height — that is
+     what decides how many cards fit in a column. */
+  if (!asList) {
+    let tallest = 0;
+    panelEl.querySelectorAll('.nivel > .subcol').forEach((sc) => {
+      tallest = Math.max(tallest, sc.offsetHeight);
     });
-    const cheio = rol.clientHeight;
-    const cx = painelEl.querySelector('.grafo-caixa');
-    if (alto && cx) {
+    const full = scroller.clientHeight;
+    const cx = panelEl.querySelector('.grafo-caixa');
+    if (tallest && cx) {
       const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
-      cx.style.flex = '0 0 ' + Math.min(cheio, alto + pad) + 'px';
+      cx.style.flex = '0 0 ' + Math.min(full, tallest + pad) + 'px';
     }
   }
 }
 
-/* ---------- as arestas ----------
-   Desenhadas depois que o layout existe: mede-se cada nó e liga-se a borda
-   direita do pré-requisito à borda esquerda de quem depende dele. */
-function desenharArestas(t) {
-  repartirNiveis();
-  const cont = painelEl.querySelector('.trilha-grafo');
+/* ---------- the edges ----------
+   Drawn after the layout exists: each node is measured and the prerequisite's
+   right edge is joined to the left edge of whoever depends on it. */
+function drawEdges(t) {
+  splitLevels();
+  const cont = panelEl.querySelector('.trilha-grafo');
   const svg = cont && cont.querySelector('.grafo-arestas');
   if (!svg) return;
-  const g = grafoDaTrilha(t);
+  const g = trackGraph(t);
   const base = cont.getBoundingClientRect();
   const L = cont.scrollLeft, T = cont.scrollTop;
-  const caixa = (id) => {
+  const boxOf = (id) => {
     const el = cont.querySelector('[data-no="' + CSS.escape(id) + '"]');
     if (!el) return null;
     const r = el.getBoundingClientRect();
@@ -677,94 +687,93 @@ function desenharArestas(t) {
   svg.setAttribute('height', cont.scrollHeight);
   svg.setAttribute('viewBox', '0 0 ' + cont.scrollWidth + ' ' + cont.scrollHeight);
 
-  /* Distância que uma linha de contorno mantém do cartão que desvia. Era
-     11px e algumas passavam raspando; 16 dá respiro sem alongar a curva a
-     ponto de ela virar um arco. O `.subcol` abriu junto, senão o corredor
-     entre dois cartões empilhados não comportaria a folga maior. */
-  const FOLGA = 16;
-  // a faixa de desvio fica logo acima e logo abaixo dos cartões, não nas
-  // bordas do container: curvas curtas em vez de arcos atravessando a tela
-  let yTopo = Infinity, yBase = -Infinity;
-  g.nos.forEach((n) => {
-    const c = caixa(n.id);
+  /* The distance a detour line keeps from the card it goes around. It was 11px
+     and some of them passed within a hair; 16 gives room without stretching the
+     curve into an arc. The `.subcol` opened up alongside, otherwise the corridor
+     between two stacked cards would not fit the larger clearance. */
+  const CLEARANCE = 16;
+  // the detour lane sits just above and just below the cards, not at the
+  // container's edges: short curves instead of arcs crossing the screen
+  let yTop = Infinity, yBottom = -Infinity;
+  g.nodes.forEach((n) => {
+    const c = boxOf(n.id);
     if (!c) return;
-    yTopo = Math.min(yTopo, c.y);
-    yBase = Math.max(yBase, c.y + c.h);
+    yTop = Math.min(yTop, c.y);
+    yBottom = Math.max(yBottom, c.y + c.h);
   });
-  if (!isFinite(yTopo)) { yTopo = 0; yBase = cont.scrollHeight; }
-  const desvioCima = Math.max(6, yTopo - FOLGA);
-  const desvioBaixo = Math.min(cont.scrollHeight - 6, yBase + FOLGA);
+  if (!isFinite(yTop)) { yTop = 0; yBottom = cont.scrollHeight; }
+  const detourUp = Math.max(6, yTop - CLEARANCE);
+  const detourDown = Math.min(cont.scrollHeight - 6, yBottom + CLEARANCE);
 
-  /* Todas as caixas medidas de uma vez. O desvio não é decidido contando
-     níveis pulados — isso deixava passar o caso em que um nível é repartido
-     em sub-colunas e o cartão vizinho de coluna fica no corredor, mesmo com
-     a aresta ligando níveis adjacentes. Agora é geometria: se há cartão
-     entre as duas pontas, a linha passa por fora. */
-  const caixas = g.nos.map((n) => {
-    const c = caixa(n.id);
+  /* All the boxes measured at once. The detour is not decided by counting
+     skipped levels — that missed the case where a level is split into
+     sub-columns and the neighbouring card sits in the corridor, even with the
+     edge joining adjacent levels. Now it is geometry: if there is a card between
+     the two endpoints, the line goes around the outside. */
+  const boxes = g.nodes.map((n) => {
+    const c = boxOf(n.id);
     return c && { id: n.id, x: c.x, y: c.y, w: c.w, h: c.h };
   }).filter(Boolean);
-  const noCaminho = (xa, xb, ya, yb, ignora) => caixas.filter((c) =>
-    ignora.indexOf(c.id) < 0 &&
+  const inTheWay = (xa, xb, ya, yb, ignore) => boxes.filter((c) =>
+    ignore.indexOf(c.id) < 0 &&
     c.x + c.w > xa && c.x < xb &&
     c.y < yb && c.y + c.h > ya);
 
-  /* Folga horizontal livre a partir de um x, dentro da faixa vertical que a
-     curva percorre. É ela que limita a largura da subida: com sub-colunas o
-     vão ao lado do cartão cai de 48px para 14px, e uma subida de 26px passaria
-     por dentro do vizinho. */
-  const folga = (x, ya, yb, ignora, paraDireita) => {
+  /* Free horizontal clearance from an x, within the vertical band the curve
+     travels through. It is what limits the width of the rise: with sub-columns
+     the gap beside the card falls from 48px to 14px, and a 26px rise would pass
+     straight through the neighbour. */
+  const clearance = (x, ya, yb, ignore, rightwards) => {
     let lim = Infinity;
-    caixas.forEach((c) => {
-      if (ignora.indexOf(c.id) >= 0) return;
+    boxes.forEach((c) => {
+      if (ignore.indexOf(c.id) >= 0) return;
       if (c.y >= yb || c.y + c.h <= ya) return;
-      const d = paraDireita ? c.x - x : x - (c.x + c.w);
+      const d = rightwards ? c.x - x : x - (c.x + c.w);
       if (d >= 0) lim = Math.min(lim, d);
     });
     return lim;
   };
 
-  const linhas = [];
-  g.nos.forEach((no) => {
-    const b = caixa(no.id);
+  const lines = [];
+  g.nodes.forEach((node) => {
+    const b = boxOf(node.id);
     if (!b) return;
-    const salto = no.deps.length;
-    no.deps.forEach((d) => {
-      const a = caixa(d);
+    node.deps.forEach((d) => {
+      const a = boxOf(d);
       if (!a) return;
       const x1 = a.x + a.w, y1 = a.y + a.h / 2;
       const x2 = b.x, y2 = b.y + b.h / 2;
       let dd;
 
-      /* a curva simples tem os pontos de controle na altura das pontas, então
-         ela nunca sai da faixa entre y1 e y2: basta olhar esse retângulo */
-      const ignora = [d, no.id];
-      const obst = noCaminho(x1 + 2, x2 - 2, Math.min(y1, y2) - 4, Math.max(y1, y2) + 4, ignora);
+      /* the simple curve has its control points at the endpoints' height, so it
+         never leaves the band between y1 and y2: that rectangle is all we check */
+      const ignore = [d, node.id];
+      const obstacles = inTheWay(x1 + 2, x2 - 2, Math.min(y1, y2) - 4, Math.max(y1, y2) + 4, ignore);
 
-      if (obst.length) {
-        /* contorna por fora, pelo lado mais barato — acima do cartão mais alto
-           que atrapalha, ou abaixo do mais baixo. Fica um arco curto e local
-           em vez de um que atravessa o grafo inteiro. */
-        const topo = Math.min.apply(null, obst.map((c) => c.y));
-        const base = Math.max.apply(null, obst.map((c) => c.y + c.h));
-        const porCima = (y1 - topo) + (y2 - topo) <= (base - y1) + (base - y2);
-        let yD = porCima ? topo - FOLGA : base + FOLGA;
-        // o contorno local pode esbarrar noutro cartão: aí vale a faixa livre
-        // acima ou abaixo de todo o grafo, que é sempre limpa. O lado é
-        // reavaliado — o mais barato para o contorno curto raramente é o mesmo
-        if (noCaminho(x1 + 2, x2 - 2, yD - 3, yD + 3, ignora).length) {
-          yD = (y1 - desvioCima) + (y2 - desvioCima) <= (desvioBaixo - y1) + (desvioBaixo - y2)
-            ? desvioCima : desvioBaixo;
+      if (obstacles.length) {
+        /* go around the outside, on the cheaper side — above the highest card in
+           the way, or below the lowest. It stays a short, local arc instead of
+           one crossing the whole graph. */
+        const top = Math.min.apply(null, obstacles.map((c) => c.y));
+        const bottom = Math.max.apply(null, obstacles.map((c) => c.y + c.h));
+        const overTheTop = (y1 - top) + (y2 - top) <= (bottom - y1) + (bottom - y2);
+        let yD = overTheTop ? top - CLEARANCE : bottom + CLEARANCE;
+        // the local detour may bump into another card: then the free lane above
+        // or below the whole graph applies, which is always clear. The side is
+        // re-evaluated — the cheaper one for the short detour rarely is the same
+        if (inTheWay(x1 + 2, x2 - 2, yD - 3, yD + 3, ignore).length) {
+          yD = (y1 - detourUp) + (y2 - detourUp) <= (detourDown - y1) + (detourDown - y2)
+            ? detourUp : detourDown;
         }
         yD = Math.max(6, Math.min(cont.scrollHeight - 6, yD));
-        // cada ponta usa a folga que ela realmente tem: a subida da saída cabe
-        // no vão à direita do pré-requisito, a da chegada no vão à esquerda de
-        // quem depende dele
-        const larg = (x, paraDireita) => {
-          const ya = Math.min(paraDireita ? y1 : y2, yD), yb = Math.max(paraDireita ? y1 : y2, yD);
-          return Math.max(5, Math.min(26, folga(x, ya, yb, ignora, paraDireita) / 2));
+        // each endpoint uses the clearance it actually has: the rise out of the
+        // prerequisite fits the gap to its right, the one into the dependent
+        // fits the gap to its left
+        const width = (x, rightwards) => {
+          const ya = Math.min(rightwards ? y1 : y2, yD), yb = Math.max(rightwards ? y1 : y2, yD);
+          return Math.max(5, Math.min(26, clearance(x, ya, yb, ignore, rightwards) / 2));
         };
-        const eS = larg(x1, true), eE = larg(x2, false);
+        const eS = width(x1, true), eE = width(x2, false);
         dd = 'M' + x1 + ',' + y1 +
           ' C' + (x1 + eS) + ',' + y1 + ' ' + (x1 + eS) + ',' + yD + ' ' + (x1 + eS * 2) + ',' + yD +
           ' L' + (x2 - eE * 2) + ',' + yD +
@@ -775,188 +784,187 @@ function desenharArestas(t) {
           ' ' + (x2 - dx) + ',' + y2 + ' ' + x2 + ',' + y2;
       }
 
-      linhas.push(
-        '<g class="aresta" data-de="' + d + '" data-para="' + no.id + '">' +
-          '<title>' + rotuloNo(d, g) + ' → ' + rotuloNo(no.id, g) + '</title>' +
+      lines.push(
+        '<g class="aresta" data-de="' + d + '" data-para="' + node.id + '">' +
+          '<title>' + nodeLabel(d, g) + ' → ' + nodeLabel(node.id, g) + '</title>' +
           '<path class="hit" d="' + dd + '"/>' +
           '<path class="linha" d="' + dd + '"/>' +
           '<circle class="ponta" cx="' + x2 + '" cy="' + y2 + '" r="3"/>' +
         '</g>'
       );
-      void salto;
     });
   });
-  svg.innerHTML = linhas.join('');
-  ajustarSetasGrafo();
+  svg.innerHTML = lines.join('');
+  updateGraphArrows();
 }
 
-/* nome legível de um nó, para o rótulo da aresta */
-function rotuloNo(id, g) {
+/* a node's readable name, for the edge's tooltip */
+function nodeLabel(id, g) {
   if (id === '@saida') return txt('chegada');
-  const c = cursoPorId(id);
+  const c = courseById(id);
   if (c) return c.nome;
-  const no = g.nos.find((n) => n.id === id);
-  return no && no.etapa ? 'escolha ' + no.etapa.escolha : id;
+  const node = g.nodes.find((n) => n.id === id);
+  return node && node.step ? 'escolha ' + node.step.escolha : id;
 }
 
-/* o grafo rola por setas, sem barra de rolagem à mostra */
-function ajustarSetasGrafo() {
-  const cx = painelEl.querySelector('.grafo-caixa');
-  const rol = cx && cx.querySelector('.trilha-grafo');
-  if (!rol) return;
-  const sobra = rol.scrollWidth - rol.clientWidth;
-  cx.querySelector('.grafo-seta.esq').disabled = !(sobra > 4 && rol.scrollLeft > 4);
-  cx.querySelector('.grafo-seta.dir').disabled = !(sobra > 4 && rol.scrollLeft < sobra - 4);
-  cx.classList.toggle('sem-setas', sobra <= 4);
-  rol.classList.toggle('fade-dir', sobra > 4 && rol.scrollLeft < sobra - 4);
-  rol.classList.toggle('fade-esq', sobra > 4 && rol.scrollLeft > 4);
-  // em tela estreita o grafo é lista e rola para baixo: o fade avisa que há mais
-  const sobraY = rol.scrollHeight - rol.clientHeight;
-  rol.classList.toggle('fade-baixo', sobraY > 4 && rol.scrollTop < sobraY - 4);
+/* the graph scrolls by arrows, with no scrollbar on show */
+function updateGraphArrows() {
+  const cx = panelEl.querySelector('.grafo-caixa');
+  const scroller = cx && cx.querySelector('.trilha-grafo');
+  if (!scroller) return;
+  const overflow = scroller.scrollWidth - scroller.clientWidth;
+  cx.querySelector('.grafo-seta.esq').disabled = !(overflow > 4 && scroller.scrollLeft > 4);
+  cx.querySelector('.grafo-seta.dir').disabled = !(overflow > 4 && scroller.scrollLeft < overflow - 4);
+  cx.classList.toggle('sem-setas', overflow <= 4);
+  scroller.classList.toggle('fade-dir', overflow > 4 && scroller.scrollLeft < overflow - 4);
+  scroller.classList.toggle('fade-esq', overflow > 4 && scroller.scrollLeft > 4);
+  // on a narrow screen the graph is a list and scrolls downwards: the fade says there is more
+  const overflowY = scroller.scrollHeight - scroller.clientHeight;
+  scroller.classList.toggle('fade-baixo', overflowY > 4 && scroller.scrollTop < overflowY - 4);
 }
 
-/* Uma fileira rola quando as abas não cabem: setas nas pontas e um fade
-   indicando de que lado ainda há trilha. A mesma função serve às duas
-   famílias e à fileira de filtros do catálogo. */
-function ajustarFileira(caixa) {
-  const rol = caixa && caixa.querySelector('.trilha-abas, .chips');
-  if (!rol) return;
-  const sobra = rol.scrollWidth - rol.clientWidth;
-  const temEsq = sobra > 4 && rol.scrollLeft > 4;
-  const temDir = sobra > 4 && rol.scrollLeft < sobra - 4;
-  rol.classList.toggle('fade-esq', temEsq);
-  rol.classList.toggle('fade-dir', temDir);
-  const esq = caixa.querySelector('.abas-seta.esq');
-  const dir = caixa.querySelector('.abas-seta.dir');
-  if (esq) esq.disabled = !temEsq;
-  if (dir) dir.disabled = !temDir;
-  caixa.classList.toggle('sem-setas', sobra <= 4);
+/* A row scrolls when the tabs do not fit: arrows at the ends and a fade showing
+   which side still has track. The same function serves both families and the
+   catalogue's row of filters. */
+function updateRow(box) {
+  const scroller = box && box.querySelector('.trilha-abas, .chips');
+  if (!scroller) return;
+  const overflow = scroller.scrollWidth - scroller.clientWidth;
+  const hasLeft = overflow > 4 && scroller.scrollLeft > 4;
+  const hasRight = overflow > 4 && scroller.scrollLeft < overflow - 4;
+  scroller.classList.toggle('fade-esq', hasLeft);
+  scroller.classList.toggle('fade-dir', hasRight);
+  const left = box.querySelector('.abas-seta.esq');
+  const right = box.querySelector('.abas-seta.dir');
+  if (left) left.disabled = !hasLeft;
+  if (right) right.disabled = !hasRight;
+  box.classList.toggle('sem-setas', overflow <= 4);
 }
-function ajustarAbas() {
-  FAMILIAS.forEach((f) => ajustarFileira(caixaDaFamilia(f)));
-  ajustarFileira($('.chips-caixa'));
+function updateTabs() {
+  FAMILIES.forEach((f) => updateRow(familyBox(f)));
+  updateRow($('.chips-caixa'));
 }
 
-/* rola uma "tela" por clique, respeitando a largura disponível */
+/* scrolls one "screenful" per click, respecting the available width */
 document.addEventListener('click', (e) => {
   const b = e.target.closest('.abas-seta[data-rolar], #chips-esq, #chips-dir');
   if (!b) return;
-  const caixa = b.closest('.abas-caixa, .chips-caixa');
-  const rol = caixa.querySelector('.trilha-abas, .chips');
-  const passo = b.id === 'chips-esq' || b.dataset.rolar === '-1' ? -1 : 1;
-  rol.scrollBy({ left: passo * Math.max(160, rol.clientWidth - 80), behavior: reduzMovimento ? 'auto' : 'smooth' });
+  const box = b.closest('.abas-caixa, .chips-caixa');
+  const scroller = box.querySelector('.trilha-abas, .chips');
+  const step = b.id === 'chips-esq' || b.dataset.rolar === '-1' ? -1 : 1;
+  scroller.scrollBy({ left: step * Math.max(160, scroller.clientWidth - 80), behavior: reduceMotion ? 'auto' : 'smooth' });
 });
 document.addEventListener('scroll', (e) => {
-  const rol = e.target;
-  if (!rol.classList || !(rol.classList.contains('trilha-abas') || rol.classList.contains('chips'))) return;
-  ajustarFileira(rol.closest('.abas-caixa, .chips-caixa'));
+  const scroller = e.target;
+  if (!scroller.classList || !(scroller.classList.contains('trilha-abas') || scroller.classList.contains('chips'))) return;
+  updateRow(scroller.closest('.abas-caixa, .chips-caixa'));
 }, true);
 
-function abrirTrilha(i, semAnimacao) {
-  trilhaAtual = i;
-  // as duas fileiras estão sempre à mostra: basta marcar a aba certa e trazê-la
-  // para a vista dentro da fileira dela
-  let ativa = null;
+function openTrack(i, noAnimation) {
+  currentTrack = i;
+  // both rows are always on show: it is enough to mark the right tab and bring
+  // it into view inside its own row
+  let active = null;
   document.querySelectorAll('.trilha-aba').forEach((b) => {
-    const ehEsta = Number(b.dataset.idx) === i;
-    b.classList.toggle('on', ehEsta);
-    if (ehEsta) ativa = b;
+    const isThisOne = Number(b.dataset.idx) === i;
+    b.classList.toggle('on', isThisOne);
+    if (isThisOne) active = b;
   });
-  if (ativa) {
-    const rol = ativa.parentElement;
-    const dir = ativa.offsetLeft - rol.scrollLeft;
-    if (dir < 0) rol.scrollLeft = ativa.offsetLeft - 8;
-    else if (dir + ativa.offsetWidth > rol.clientWidth)
-      rol.scrollLeft = ativa.offsetLeft + ativa.offsetWidth - rol.clientWidth + 8;
+  if (active) {
+    const scroller = active.parentElement;
+    const dx = active.offsetLeft - scroller.scrollLeft;
+    if (dx < 0) scroller.scrollLeft = active.offsetLeft - 8;
+    else if (dx + active.offsetWidth > scroller.clientWidth)
+      scroller.scrollLeft = active.offsetLeft + active.offsetWidth - scroller.clientWidth + 8;
   }
-  ajustarAbas();
-  montarDropTrilhas();
-  // cancela sempre, inclusive na versão sem animação: uma troca pendente de
-  // 160ms atrás sobrescreveria o painel que acabou de ser montado
-  clearTimeout(trocaT);
-  if (semAnimacao) {
-    painelEl.classList.remove('trocando');
-    painelEl.innerHTML = montarTrilha(TRILHAS[i]);
-    desenharArestas(TRILHAS[i]);
+  updateTabs();
+  buildTrackDropdown();
+  // always cancel, including in the version with no animation: a swap pending
+  // from 160ms ago would overwrite the panel that has just been built
+  clearTimeout(swapT);
+  if (noAnimation) {
+    panelEl.classList.remove('trocando');
+    panelEl.innerHTML = buildTrack(TRILHAS[i]);
+    drawEdges(TRILHAS[i]);
     return;
   }
-  painelEl.classList.add('trocando');
-  trocaT = setTimeout(() => {
-    painelEl.innerHTML = montarTrilha(TRILHAS[i]);
-    painelEl.classList.remove('trocando');
-    desenharArestas(TRILHAS[i]);
+  panelEl.classList.add('trocando');
+  swapT = setTimeout(() => {
+    panelEl.innerHTML = buildTrack(TRILHAS[i]);
+    panelEl.classList.remove('trocando');
+    drawEdges(TRILHAS[i]);
   }, 160);
 }
-montarAbas();
-abrirTrilha(0, true);
-ajustarAbas();
-addEventListener('resize', ajustarAbas);
-// as arestas são desenhadas sobre medidas reais: refaz quando o layout muda
-let redesenhaT = null;
+buildTabs();
+openTrack(0, true);
+updateTabs();
+addEventListener('resize', updateTabs);
+// the edges are drawn on real measurements: redo them when the layout changes
+let redrawT = null;
 addEventListener('resize', () => {
-  clearTimeout(redesenhaT);
-  redesenhaT = setTimeout(() => desenharArestas(TRILHAS[trilhaAtual]), 120);
+  clearTimeout(redrawT);
+  redrawT = setTimeout(() => drawEdges(TRILHAS[currentTrack]), 120);
 });
 if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(() => desenharArestas(TRILHAS[trilhaAtual]));
+  document.fonts.ready.then(() => drawEdges(TRILHAS[currentTrack]));
 }
 
 /* ==========================================================
-   CATÁLOGO — busca + filtro por área
+   CATALOGUE — search + filter by area
    ========================================================== */
-const grade = $('#cursos-grade');
-const vazio = $('#cursos-vazio');
-const busca = $('#busca');
+const grid = $('#cursos-grade');
+const emptyEl = $('#cursos-vazio');
+const searchEl = $('#busca');
 const chipsEl = $('#chips-cat');
-let categoria = 'todas';
+let category = 'todas';
 
-const categorias = ['todas', ...new Set(CURSOS.map((c) => c.categoria))];
-function montarChips() {
+const categories = ['todas', ...new Set(CURSOS.map((c) => c.categoria))];
+function buildChips() {
   chipsEl.textContent = '';
-  categorias.forEach((cat) => {
+  categories.forEach((cat) => {
     const b = document.createElement('button');
-    b.className = 'chip' + (cat === categoria ? ' on' : '');
+    b.className = 'chip' + (cat === category ? ' on' : '');
     b.type = 'button';
-    const qtd = cat === 'todas' ? CURSOS.length : CURSOS.filter((c) => c.categoria === cat).length;
-    b.innerHTML = txt(cat) + '<span class="qtd">(' + qtd + ')</span>';
+    const n = cat === 'todas' ? CURSOS.length : CURSOS.filter((c) => c.categoria === cat).length;
+    b.innerHTML = txt(cat) + '<span class="qtd">(' + n + ')</span>';
     b.addEventListener('click', () => {
-      categoria = cat;
+      category = cat;
       chipsEl.querySelectorAll('.chip').forEach((c) => c.classList.toggle('on', c === b));
-      montarCatalogo();
-      montarDropFiltros();
+      buildCatalogue();
+      buildFilterDropdown();
     });
     chipsEl.appendChild(b);
   });
 }
-montarChips();
+buildChips();
 
-/* Menu suspenso dos filtros (celular), pelo mesmo motivo das trilhas */
-const dropFiltros = $('#drop-filtros');
-function montarDropFiltros() {
-  const lista = $('#drop-filtros-lista');
-  lista.textContent = '';
-  categorias.forEach((cat) => {
-    const qtd = cat === 'todas' ? CURSOS.length : CURSOS.filter((c) => c.categoria === cat).length;
+/* The filters dropdown (mobile), for the same reason as the tracks one */
+const filterDrop = $('#drop-filtros');
+function buildFilterDropdown() {
+  const list = $('#drop-filtros-lista');
+  list.textContent = '';
+  categories.forEach((cat) => {
+    const n = cat === 'todas' ? CURSOS.length : CURSOS.filter((c) => c.categoria === cat).length;
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'drop-op' + (cat === categoria ? ' on' : '');
-    b.textContent = txt(cat) + ' (' + qtd + ')';
+    b.className = 'drop-op' + (cat === category ? ' on' : '');
+    b.textContent = txt(cat) + ' (' + n + ')';
     b.addEventListener('click', () => {
-      categoria = cat;
-      montarChips();
-      montarCatalogo();
-      montarDropFiltros();
-      fecharDrops();
+      category = cat;
+      buildChips();
+      buildCatalogue();
+      buildFilterDropdown();
+      closeDropdowns();
     });
-    lista.appendChild(b);
+    list.appendChild(b);
   });
-  const qtdAtual = categoria === 'todas' ? CURSOS.length : CURSOS.filter((c) => c.categoria === categoria).length;
-  dropFiltros.querySelector('.drop-atual').textContent = txt(categoria) + ' (' + qtdAtual + ')';
+  const nCurrent = category === 'todas' ? CURSOS.length : CURSOS.filter((c) => c.categoria === category).length;
+  filterDrop.querySelector('.drop-atual').textContent = txt(category) + ' (' + nCurrent + ')';
 }
-montarDropFiltros();
+buildFilterDropdown();
 
-/* abre/fecha e fecha ao clicar fora — vale para os dois menus */
-function fecharDrops() {
+/* opens/closes, and closes on a click outside — applies to both menus */
+function closeDropdowns() {
   document.querySelectorAll('.drop.aberto').forEach((d) => {
     d.classList.remove('aberto');
     d.querySelector('.drop-btn').setAttribute('aria-expanded', 'false');
@@ -964,31 +972,31 @@ function fecharDrops() {
 }
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.drop-btn');
-  if (!btn) { if (!e.target.closest('.drop-lista')) fecharDrops(); return; }
+  if (!btn) { if (!e.target.closest('.drop-lista')) closeDropdowns(); return; }
   const d = btn.closest('.drop');
-  const abrindo = !d.classList.contains('aberto');
-  fecharDrops();
-  d.classList.toggle('aberto', abrindo);
-  btn.setAttribute('aria-expanded', abrindo ? 'true' : 'false');
+  const opening = !d.classList.contains('aberto');
+  closeDropdowns();
+  d.classList.toggle('aberto', opening);
+  btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
 });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharDrops(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDropdowns(); });
 
-function montarCatalogo() {
-  const termo = busca.value.trim().toLowerCase();
-  const lista = CURSOS.filter((c) => {
-    const okCat = categoria === 'todas' || c.categoria === categoria;
-    const okTermo =
-      !termo ||
-      c.nome.toLowerCase().includes(termo) ||
-      c.resumo.toLowerCase().includes(termo) ||
-      c.ementa.join(' ').toLowerCase().includes(termo) ||
-      (c.topicos || []).join(' ').toLowerCase().includes(termo);
-    return okCat && okTermo;
+function buildCatalogue() {
+  const term = searchEl.value.trim().toLowerCase();
+  const list = CURSOS.filter((c) => {
+    const okCat = category === 'todas' || c.categoria === category;
+    const okTerm =
+      !term ||
+      c.nome.toLowerCase().includes(term) ||
+      c.resumo.toLowerCase().includes(term) ||
+      c.ementa.join(' ').toLowerCase().includes(term) ||
+      (c.topicos || []).join(' ').toLowerCase().includes(term);
+    return okCat && okTerm;
   });
 
-  grade.innerHTML = lista
+  grid.innerHTML = list
     .map((c) => {
-      const nT = trilhasDoCurso(c.id).length;
+      const nT = tracksOfCourse(c.id).length;
       return (
         '<button class="curso-card" type="button" data-curso="' + c.id + '">' +
           '<span class="curso-topo"><span class="curso-cat">/' + txt(c.categoria) + '</span>' +
@@ -1001,33 +1009,32 @@ function montarCatalogo() {
       );
     })
     .join('');
-  vazio.hidden = lista.length > 0;
-  alinharBusca();
+  emptyEl.hidden = list.length > 0;
+  alignSearch();
 }
 
-/* A caixa de busca fica com a largura exata de um cartão do catálogo, para
-   as duas bordas esquerda e direita baterem. Não dá para acertar isso no
-   CSS: a grade é `auto-fill` (o número de colunas muda com a largura) e a
-   lista rolável ainda desconta a barra de rolagem. Então mede-se o cartão
-   de verdade. Sem cartão na tela (busca sem resultado), a última largura
-   boa continua valendo. */
-function alinharBusca() {
-  const caixa = document.querySelector('.busca');
-  if (!caixa) return;
-  /* no celular a busca ocupa a linha inteira e quem filtra é o menu
-     suspenso — nada a alinhar, e a largura inline atrapalharia */
-  if (matchMedia('(max-width:700px)').matches) { caixa.style.width = ''; return; }
-  const cartao = grade.querySelector('.curso-card');
-  if (cartao && cartao.offsetWidth) caixa.style.width = cartao.offsetWidth + 'px';
+/* The search box takes exactly the width of one catalogue card, so that the left
+   and right edges line up. This cannot be settled in CSS: the grid is
+   `auto-fill` (the number of columns changes with the width) and the scrollable
+   list also subtracts the scrollbar. So a real card gets measured. With no card
+   on screen (a search with no results), the last good width still applies. */
+function alignSearch() {
+  const box = document.querySelector('.busca');
+  if (!box) return;
+  /* on mobile the search takes the whole line and the dropdown does the
+     filtering — nothing to line up, and an inline width would get in the way */
+  if (matchMedia('(max-width:700px)').matches) { box.style.width = ''; return; }
+  const card = grid.querySelector('.curso-card');
+  if (card && card.offsetWidth) box.style.width = card.offsetWidth + 'px';
 }
-addEventListener('resize', alinharBusca);
-busca.addEventListener('input', montarCatalogo);
-montarCatalogo();
+addEventListener('resize', alignSearch);
+searchEl.addEventListener('input', buildCatalogue);
+buildCatalogue();
 
 /* ==========================================================
-   DEPOIMENTOS
+   TESTIMONIALS
    ========================================================== */
-function montarDepoimentos() {
+function buildTestimonials() {
   $('#depos').innerHTML = DEPOIMENTOS.map(
     (d) =>
       '<article class="depo"><span class="depo-aspas" aria-hidden="true">“</span>' +
@@ -1035,50 +1042,50 @@ function montarDepoimentos() {
       '<span class="depo-autor"><b>' + d.autor + '</b><span>' + d.contexto + '</span></span></article>'
   ).join('');
 }
-montarDepoimentos();
+buildTestimonials();
 
 /* ==========================================================
-   MODAL DE CURSO
+   COURSE MODAL
    ========================================================== */
 const modal = $('#modal');
-const modalCorpo = $('#modal-corpo');
-const modalArquivo = $('#modal-arquivo');
+const modalBody = $('#modal-corpo');
+const modalFile = $('#modal-arquivo');
 
-/* São dois modais — o do curso e o da inscrição — e a trava de rolagem, o
-   Esc e o encadeamento de toque precisam saber qual está aberto, não
-   presumir que é o do curso. `modalAberto()` é o que todos consultam. */
-const MODAIS = () => [modal, $('#modal-assinar')];
-const modalAberto = () => MODAIS().find((m) => m && !m.hidden) || null;
-function fecharModais() {
-  MODAIS().forEach((m) => { if (m) m.hidden = true; });
+/* There are two modals — the course one and the signup one — and the scroll
+   lock, the Esc key and touch chaining all need to know which one is open rather
+   than assume it is the course one. `openModal()` is what they all consult. */
+const MODALS = () => [modal, $('#modal-assinar')];
+const openModal = () => MODALS().find((m) => m && !m.hidden) || null;
+function closeModals() {
+  MODALS().forEach((m) => { if (m) m.hidden = true; });
   document.documentElement.classList.remove('modal-aberto');
 }
 
 /* "faz parte de 3 trilhas de carreira" + "e de 2 trilhas de tecnologia"
 
-   A frase inteira é UMA chave de tradução, com `{n}` no lugar do número —
-   não um prefixo, mais o substantivo, mais um sufixo. Montar por pedaços
-   funciona em português, onde o qualificador vem depois ("trilhas de
-   carreira"), e quebra em inglês, onde ele vem antes ("career tracks"):
-   saía "part of 2 tracks career tracks". Ordem de palavras é coisa que só
-   a frase inteira resolve. */
-function blocoDeTrilhas(lista, familia, continuacao) {
-  if (!lista.length) return '';
-  const n = lista.length;
-  const chave = (continuacao ? 'e de {n} ' : 'faz parte de {n} ') +
-    (n > 1 ? 'trilhas' : 'trilha') + ' de ' + familia;
-  return '<div class="modal-bloco"><h4>' + txt(chave).replace('{n}', n) +
+   The whole sentence is ONE translation key, with `{n}` in place of the number —
+   not a prefix plus the noun plus a suffix. Assembling it from pieces works in
+   Portuguese, where the qualifier comes after ("trilhas de carreira"), and breaks
+   in English, where it comes before ("career tracks"): out came "part of 2 tracks
+   career tracks". Word order is something only the whole sentence settles. */
+function trackBlock(list, family, continuation) {
+  if (!list.length) return '';
+  const n = list.length;
+  const key = (continuation ? 'e de {n} ' : 'faz parte de {n} ') +
+    (n > 1 ? 'trilhas' : 'trilha') + ' de ' + family;
+  return '<div class="modal-bloco"><h4>' + txt(key).replace('{n}', n) +
     '</h4><div class="modal-trilhas">' +
-    lista.map((t) => '<button type="button" data-trilha="' + t.id + '">' + t.nome + ' →</button>').join('') +
+    list.map((t) => '<button type="button" data-trilha="' + t.id + '">' + t.nome + ' →</button>').join('') +
     '</div></div>';
 }
 
-/* ---------- vídeo de apresentação do curso ----------
-   Fachada, não iframe: mostra a capa e um botão, e só troca pelo player do
-   YouTube quando alguém clica. Assim o modal abre leve, e quem não assiste
-   não recebe cookie nenhum do YouTube. Sem `video` no curso, o quadro fica
-   reservado — publicar o vídeo depois não reorganiza a tela. */
-function blocoDeVideo(c) {
+/* ---------- the course's introduction video ----------
+   A facade, not an iframe: it shows the thumbnail and a button, and only swaps in
+   the YouTube player when somebody clicks. That way the modal opens light, and
+   whoever does not watch receives no YouTube cookie at all. With no `video` on
+   the course, the frame stays reserved — publishing the video later does not
+   rearrange the screen. */
+function videoBlock(c) {
   if (!c.video) {
     return '<div class="modal-video vazio" aria-hidden="true">' +
       '<span class="video-play"></span><span class="video-aviso">' + txt('vídeo em breve') + '</span></div>';
@@ -1089,18 +1096,18 @@ function blocoDeVideo(c) {
     '<span class="video-play"></span></button>';
 }
 
-function abrirCurso(id) {
-  const c = cursoPorId(id);
+function openCourse(id) {
+  const c = courseById(id);
   if (!c) return;
-  const trilhas = trilhasDoCurso(id);
-  const deCarreira = trilhas.filter((t) => familiaDe(t) === 'carreira');
-  const deTecnologia = trilhas.filter((t) => familiaDe(t) === 'tecnologia');
-  modalArquivo.textContent = id + '.curso';
-  /* Duas colunas onde couber (ver style.css): à esquerda o que convence —
-     o que é o curso, quem fala nele e o botão; à direita o que detalha —
-     ementa, tópicos, pré-requisitos e trilhas. Numa coluna só, a ordem do
-     HTML já é a ordem certa de leitura. */
-  modalCorpo.innerHTML =
+  const tracks = tracksOfCourse(id);
+  const career = tracks.filter((t) => familyOf(t) === 'carreira');
+  const technology = tracks.filter((t) => familyOf(t) === 'tecnologia');
+  modalFile.textContent = id + '.curso';
+  /* Two columns wherever they fit (see style.css): on the left what convinces —
+     what the course is, who speaks about it and the button; on the right what
+     details it — syllabus, topics, prerequisites and tracks. In a single column,
+     the HTML order is already the right reading order. */
+  modalBody.innerHTML =
     '<div class="modal-col modal-col-apresenta">' +
     '<h3 id="modal-titulo">' + c.nome + '</h3>' +
     '<div class="modal-meta">' +
@@ -1108,7 +1115,7 @@ function abrirCurso(id) {
       '<span>' + txt('nível') + ': <b>' + txt(c.nivel) + '</b></span>' +
       '<span>' + txt('carga') + ': <b>' + c.horas + ' ' + txt('horas') + '</b></span>' +
     '</div>' +
-    blocoDeVideo(c) +
+    videoBlock(c) +
     '<p>' + c.resumo + '</p>' +
     '<div class="modal-acoes"><button type="button" class="btn btn-primary" data-matricular="' + c.id + '">' +
       txt('Comece agora →') + '</button></div>' +
@@ -1117,7 +1124,7 @@ function abrirCurso(id) {
     '<div class="modal-bloco"><h4>' + txt('o que você aprende') + '</h4><ul>' +
       c.ementa.map((e) => '<li>' + e + '</li>').join('') +
     '</ul></div>' +
-    // lista técnica completa — recolhida, para quem quer conferir tópico a tópico
+    // the full technical list — collapsed, for whoever wants to check it topic by topic
     (c.topicos && c.topicos.length
       ? '<details class="modal-topicos"><summary>' + txt('conteúdo detalhado') +
         '<span class="qtd">' + c.topicos.length + ' ' + txt('tópicos') + '</span></summary><ul>' +
@@ -1128,303 +1135,304 @@ function abrirCurso(id) {
       ((c.depende || []).length
         ? '<div class="modal-trilhas pre-req">' +
           c.depende.map((d) => {
-            const p = cursoPorId(d);
+            const p = courseById(d);
             return p ? '<button type="button" data-curso="' + p.id + '">← ' + p.nome + '</button>' : '';
           }).join('') + '</div>'
         : '') +
       (c.requisitos ? '<p class="dim">' + c.requisitos + '</p>' : '') +
     '</div>' +
-    (depoisDe(c.id).length
+    (unlockedBy(c.id).length
       ? '<div class="modal-bloco"><h4>' + txt('abre caminho para') + '</h4><div class="modal-trilhas">' +
-        depoisDe(c.id).map((p) => '<button type="button" data-curso="' + p.id + '">' + p.nome + ' →</button>').join('') +
+        unlockedBy(c.id).map((p) => '<button type="button" data-curso="' + p.id + '">' + p.nome + ' →</button>').join('') +
         '</div></div>'
       : '') +
-    // as duas famílias aparecem separadas: "em 5 trilhas" não diz a mesma
-    // coisa se 3 são carreiras e 2 são tecnologias
-    blocoDeTrilhas(deCarreira, 'carreira', false) +
-    blocoDeTrilhas(deTecnologia, 'tecnologia', deCarreira.length > 0) +
+    // the two families appear separately: "in 5 tracks" does not say the same
+    // thing if 3 are careers and 2 are technologies
+    trackBlock(career, 'carreira', false) +
+    trackBlock(technology, 'tecnologia', career.length > 0) +
     '</div>';
-  modalCorpo.scrollTop = 0;
+  modalBody.scrollTop = 0;
   modal.hidden = false;
-  /* trava a página por baixo: a classe corta o overflow do documento e da
-     tela atual, e os tratadores de roda e toque param de empurrar o fundo.
-     São as duas metades do mesmo problema — a classe cuida da barra de
-     rolagem e da inércia, os tratadores cuidam do encadeamento. */
+  /* locks the page underneath: the class cuts the overflow of the document and
+     of the current screen, and the wheel and touch handlers stop pushing the
+     background. They are the two halves of the same problem — the class handles
+     the scrollbar and the inertia, the handlers handle the chaining. */
   document.documentElement.classList.add('modal-aberto');
-  ajustarTopicos();
+  fitTopics();
   $('#modal-fechar').focus();
 }
 
-/* ---------- a lista de tópicos toma a altura que sobra ----------
-   Em duas colunas o corpo do modal não rola: quem rola é a lista. Mas o
-   teto dela não pode ser fixo — 48 tópicos com teto de 420px ainda faziam
-   a coluna passar da altura, e o modal voltava a rolar levando o vídeo e o
-   botão para fora da vista. Aqui mede-se quanto a coluna excede e tira-se
-   esse tanto da lista, que é o único bloco que pode encolher sem perder
-   informação (ela rola). Piso de 140px: abaixo disso a lista deixa de ser
-   legível e é melhor a coluna rolar.
+/* ---------- the topic list takes the height that is left ----------
+   In two columns the modal body does not scroll: the list is what scrolls. But
+   its ceiling cannot be fixed — 48 topics with a 420px ceiling still made the
+   column overflow, and the modal went back to scrolling, taking the video and
+   the button out of view. Here we measure how much the column overflows and take
+   that much off the list, which is the only block that can shrink without losing
+   information (it scrolls). A 140px floor: below that the list stops being
+   legible and it is better to let the column scroll.
 
-   Por que em JS e não no CSS: o `<details>` do Chrome envolve o conteúdo
-   num slot, então o `ul` não vira item flex e `flex:1 1 auto` nele é
-   ignorado pelo layout. */
-function ajustarTopicos() {
-  const det = modalCorpo.querySelector('.modal-topicos');
-  const lista = det && det.querySelector('ul');
-  if (!lista) return;
-  lista.style.maxHeight = '';
+   Why in JS and not in CSS: Chrome's `<details>` wraps the content in a slot, so
+   the `ul` does not become a flex item and `flex:1 1 auto` on it is ignored by
+   the layout. */
+function fitTopics() {
+  const det = modalBody.querySelector('.modal-topicos');
+  const list = det && det.querySelector('ul');
+  if (!list) return;
+  list.style.maxHeight = '';
   if (!det.open || !matchMedia('(min-width:1024px)').matches) return;
   const col = det.closest('.modal-col-detalhe');
   if (!col) return;
-  const excedente = col.scrollHeight - col.clientHeight;
-  if (excedente > 0) lista.style.maxHeight = Math.max(140, lista.clientHeight - excedente) + 'px';
+  const overflow = col.scrollHeight - col.clientHeight;
+  if (overflow > 0) list.style.maxHeight = Math.max(140, list.clientHeight - overflow) + 'px';
 }
-addEventListener('resize', ajustarTopicos);
-modalCorpo.addEventListener('toggle', (e) => {
-  if (e.target.classList.contains('modal-topicos')) ajustarTopicos();
+addEventListener('resize', fitTopics);
+modalBody.addEventListener('toggle', (e) => {
+  if (e.target.classList.contains('modal-topicos')) fitTopics();
 }, true);
 
-function fecharModal() { fecharModais(); }
+function closeModal() { closeModals(); }
 
-/* FAQ: uma pergunta aberta por vez. O `toggle` não borbulha, então a
-   escuta vai na fase de captura — e é uma só, no contêiner, em vez de uma
-   por <details>: assim vale para as perguntas que entrarem depois. */
-const faqTela = $('#faq .faq');
-if (faqTela) {
-  faqTela.addEventListener('toggle', (e) => {
-    const alvo = e.target;
-    if (alvo.tagName !== 'DETAILS' || !alvo.open) return;
-    faqTela.querySelectorAll('details[open]').forEach((d) => { if (d !== alvo) d.open = false; });
+/* FAQ: one question open at a time. `toggle` does not bubble, so the listener
+   goes on the capture phase — and there is only one, on the container, instead
+   of one per <details>: that way it covers questions added later. */
+const faqEl = $('#faq .faq');
+if (faqEl) {
+  faqEl.addEventListener('toggle', (e) => {
+    const target = e.target;
+    if (target.tagName !== 'DETAILS' || !target.open) return;
+    faqEl.querySelectorAll('details[open]').forEach((d) => { if (d !== target) d.open = false; });
   }, true);
 }
 
-// abrir a partir dos cartões e dos nós das trilhas
+// open from the cards and from the track nodes
 document.addEventListener('click', (e) => {
-  /* Setas do grafo: avança/retrocede uma tela de níveis. O seletor precisa
-     da classe — as setas das fileiras de abas também usam `data-rolar`, e
-     com o seletor solto um clique nelas rolava as abas (tratador de cima)
-     e o grafo junto. */
-  const rolar = e.target.closest('.grafo-seta[data-rolar]');
-  if (rolar) {
-    const rol = painelEl.querySelector('.trilha-grafo');
-    if (rol) rol.scrollBy({ left: Number(rolar.dataset.rolar) * Math.max(240, rol.clientWidth - 120), behavior: reduzMovimento ? 'auto' : 'smooth' });
+  /* Graph arrows: move forwards/backwards one screenful of levels. The selector
+     needs the class — the tab rows' arrows also use `data-rolar`, and with a
+     loose selector a click on them scrolled the tabs (handler above) and the
+     graph along with them. */
+  const scroll = e.target.closest('.grafo-seta[data-rolar]');
+  if (scroll) {
+    const scroller = panelEl.querySelector('.trilha-grafo');
+    if (scroller) scroller.scrollBy({ left: Number(scroll.dataset.rolar) * Math.max(240, scroller.clientWidth - 120), behavior: reduceMotion ? 'auto' : 'smooth' });
     return;
   }
 
-  // etapa com bifurcação: troca o caminho sem sair do lugar
-  const garfo = e.target.closest('[data-garfo]');
-  if (garfo) {
-    const t = TRILHAS[trilhaAtual];
-    escolhas[t.id + ':' + garfo.dataset.garfo] = Number(garfo.dataset.opcao);
-    const rol = painelEl.querySelector('.trilha-grafo');
-    const x = rol ? rol.scrollLeft : 0;
-    const y = rol ? rol.scrollTop : 0;
-    painelEl.innerHTML = montarTrilha(t);
-    const novo = painelEl.querySelector('.trilha-grafo');
-    if (novo) { novo.scrollLeft = x; novo.scrollTop = y; }
-    desenharArestas(t);
+  // a step with a fork: swaps the path without moving from the spot
+  const fork = e.target.closest('[data-garfo]');
+  if (fork) {
+    const t = TRILHAS[currentTrack];
+    choices[t.id + ':' + fork.dataset.garfo] = Number(fork.dataset.opcao);
+    const scroller = panelEl.querySelector('.trilha-grafo');
+    const x = scroller ? scroller.scrollLeft : 0;
+    const y = scroller ? scroller.scrollTop : 0;
+    panelEl.innerHTML = buildTrack(t);
+    const fresh = panelEl.querySelector('.trilha-grafo');
+    if (fresh) { fresh.scrollLeft = x; fresh.scrollTop = y; }
+    drawEdges(t);
     return;
   }
 
-  // botão do modal: o curso não é mais unidade de compra, então ele não
-  // escolhe plano — vai como origem do pedido
-  const btnMat = e.target.closest('[data-matricular]');
-  if (btnMat) { abrirAssinatura('', btnMat.dataset.matricular); return; }
+  // the modal's button: a course is no longer a unit of purchase, so it does not
+  // pick a plan — it travels as the origin of the request
+  const enrolBtn = e.target.closest('[data-matricular]');
+  if (enrolBtn) { openSignup('', enrolBtn.dataset.matricular); return; }
 
-  // botões dos três cartões de plano: levam o plano escolhido para o combo
-  const btnPlano = e.target.closest('.plano-btn');
-  if (btnPlano) {
+  // the three plan cards' buttons: they carry the chosen plan into the select
+  const planBtn = e.target.closest('.plano-btn');
+  if (planBtn) {
     e.preventDefault();
-    abrirAssinatura(btnPlano.closest('.plano').querySelector('.plano-nome').textContent.trim());
+    openSignup(planBtn.closest('.plano').querySelector('.plano-nome').textContent.trim());
     return;
   }
 
-  // capa do vídeo: agora sim carrega o player, já tocando
-  const capa = e.target.closest('[data-video]');
-  if (capa) {
-    const quadro = document.createElement('div');
-    quadro.className = 'modal-video tocando';
-    quadro.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + capa.dataset.video +
+  // the video thumbnail: now it does load the player, already playing
+  const thumb = e.target.closest('[data-video]');
+  if (thumb) {
+    const frame = document.createElement('div');
+    frame.className = 'modal-video tocando';
+    frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + thumb.dataset.video +
       '?autoplay=1&rel=0" title="' + txt('apresentação do curso') + '" allowfullscreen ' +
       'allow="accelerometer; autoplay; encrypted-media; picture-in-picture"></iframe>';
-    capa.replaceWith(quadro);
+    thumb.replaceWith(frame);
     return;
   }
 
-  const alvo = e.target.closest('[data-curso]');
-  if (alvo) { abrirCurso(alvo.dataset.curso); return; }
+  const target = e.target.closest('[data-curso]');
+  if (target) { openCourse(target.dataset.curso); return; }
 
-  // dentro do modal: saltar para a trilha citada
-  const btnTrilha = e.target.closest('[data-trilha]');
-  if (btnTrilha) {
-    const i = TRILHAS.findIndex((t) => t.id === btnTrilha.dataset.trilha);
+  // inside the modal: jump to the track mentioned
+  const trackBtn = e.target.closest('[data-trilha]');
+  if (trackBtn) {
+    const i = TRILHAS.findIndex((t) => t.id === trackBtn.dataset.trilha);
     if (i > -1) {
-      fecharModal();
-      abrirTrilha(i, true);
-      irPara(telas.findIndex((t) => t.id === 'trilhas'));
+      closeModal();
+      openTrack(i, true);
+      goTo(screens.findIndex((t) => t.id === 'trilhas'));
     }
     return;
   }
 
-  if (e.target.closest('[data-fechar]')) fecharModal();
+  if (e.target.closest('[data-fechar]')) closeModal();
 });
 
-$('#modal-fechar').addEventListener('click', fecharModais);
-modal.addEventListener('click', (e) => { if (e.target === modal) fecharModais(); });
-$('#assinar-fechar').addEventListener('click', fecharModais);
+$('#modal-fechar').addEventListener('click', closeModals);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModals(); });
+$('#assinar-fechar').addEventListener('click', closeModals);
 $('#modal-assinar').addEventListener('click', (e) => {
-  if (e.target === $('#modal-assinar')) fecharModais();
+  if (e.target === $('#modal-assinar')) closeModals();
 });
-$('#cta-assinar').addEventListener('click', () => abrirAssinatura());
+$('#cta-assinar').addEventListener('click', () => openSignup());
 
 
 /* ==========================================================
-   MATRÍCULA
-   Cole em MATRICULA_URL a URL de POST do seu formulário
-   (Formspree, Web3Forms, Brevo...). Vazio = modo demonstração.
+   ENROLMENT
+   Paste your form's POST URL into ENROL_URL (Formspree,
+   Web3Forms, Brevo...). Empty = demonstration mode.
    ========================================================== */
-const MATRICULA_URL = '';
+const ENROL_URL = '';
 
-/* O combo lista os planos, e a lista sai dos próprios cartões da tela de
-   planos — não de um array paralelo aqui. Assim, mexer nos cartões do
-   `index.html` (acrescentar um quarto plano, renomear, tirar um) ajusta o
-   formulário sozinho, e não existe a chance de os dois discordarem. Como
-   roda depois de `aplicarTextos()`, os nomes já vêm no idioma da vez. */
-const selPlano = $('#m-plano');
-const planosDaTela = () =>
+/* The select lists the plans, and the list comes from the plan screen's own
+   cards — not from a parallel array here. So changing the cards in `index.html`
+   (adding a fourth plan, renaming one, removing one) adjusts the form by itself,
+   and there is no chance of the two disagreeing. Since it runs after
+   `applyTexts()`, the names already come in the current language. */
+const planSelect = $('#m-plano');
+const plansOnScreen = () =>
   [...document.querySelectorAll('#planos .plano-nome')].map((h) => h.textContent.trim());
 
-function montarSelectPlanos() {
-  const antes = selPlano.value;
-  selPlano.innerHTML =
+function buildPlanSelect() {
+  const before = planSelect.value;
+  planSelect.innerHTML =
     '<option value="">' + txt('ainda não sei — quero orientação') + '</option>' +
-    planosDaTela().map((n) => '<option value="' + n + '">' + n + '</option>').join('');
-  selPlano.value = antes;
+    plansOnScreen().map((n) => '<option value="' + n + '">' + n + '</option>').join('');
+  planSelect.value = before;
 }
-montarSelectPlanos();
+buildPlanSelect();
 
-/* De onde a pessoa veio, quando veio de um curso. O curso deixou de ser
-   unidade de compra, então não vira opção do combo — mas saber que o
-   pedido nasceu olhando "Kubernetes" vale para quem for atender. */
-let cursoDeOrigem = '';
+/* Where the person came from, when they came from a course. The course is no
+   longer a unit of purchase, so it does not become an option in the select — but
+   knowing the request was born looking at "Kubernetes" is worth something to
+   whoever handles it. */
+let sourceCourse = '';
 
-/* Abre o modal de inscrição. Vem de três lugares, e o que muda entre eles
-   é só quanta coisa o formulário ainda precisa perguntar:
+/* Opens the signup modal. It comes from three places, and what changes between
+   them is only how much the form still has to ask:
 
-   - botão de um plano  → o plano é o cabeçalho e o seletor some. Sobram
-                          dois campos, que é o formulário mais curto possível.
-   - "Comece agora"     → ninguém escolheu plano ainda, então o seletor
-                          aparece, começando em "ainda não sei".
-   - botão do modal de  → como o de cima, mas guarda o curso que a pessoa
-     um curso             estava olhando para ir junto no envio.
+   - a plan's button   → the plan is the heading and the selector disappears.
+                         Two fields are left, which is the shortest possible form.
+   - "Comece agora"    → nobody has chosen a plan yet, so the selector appears,
+                         starting at "ainda não sei".
+   - a course modal's  → like the one above, but it keeps the course the person
+     button              was looking at so it travels along with the submission.
 
-   O foco vai para o × e não para o campo de nome: em celular, focar um
-   input na abertura escancara o teclado virtual por cima do modal antes de
-   a pessoa ler o que ele diz. */
-const modalAssinar = $('#modal-assinar');
-const assinarPlano = $('#assinar-plano');
-const campoPlano = $('#campo-plano');
+   Focus goes to the × and not to the name field: on mobile, focusing an input on
+   open throws the virtual keyboard over the modal before the person has read
+   what it says. */
+const signupModal = $('#modal-assinar');
+const signupPlan = $('#assinar-plano');
+const planField = $('#campo-plano');
 
-function abrirAssinatura(plano, origem) {
-  fecharModais();
-  cursoDeOrigem = origem || '';
-  statusMat.textContent = '';
-  const conhecido = plano && planosDaTela().includes(plano);
-  if (conhecido) {
-    $('#assinar-plano-nome').textContent = plano;
-    selPlano.value = plano;
+function openSignup(plan, origin) {
+  closeModals();
+  sourceCourse = origin || '';
+  enrolStatus.textContent = '';
+  const known = plan && plansOnScreen().includes(plan);
+  if (known) {
+    $('#assinar-plano-nome').textContent = plan;
+    planSelect.value = plan;
   } else {
-    selPlano.value = '';
+    planSelect.value = '';
   }
-  assinarPlano.hidden = !conhecido;
-  campoPlano.hidden = !!conhecido;
-  modalAssinar.hidden = false;
+  signupPlan.hidden = !known;
+  planField.hidden = !!known;
+  signupModal.hidden = false;
   document.documentElement.classList.add('modal-aberto');
   $('#assinar-fechar').focus();
 }
 
-const formMat = $('#form-matricula');
-const statusMat = $('#form-status');
+const enrolForm = $('#form-matricula');
+const enrolStatus = $('#form-status');
 
-/* ---------- o campo aceita whatsapp OU e-mail ----------
-   Enquanto o que foi digitado puder ser um telefone, a máscara entra
-   sozinha: (45) 90000-0000 no celular de nove dígitos, (45) 0000-0000 no
-   fixo. Assim que aparece letra ou @, a máscara se desfaz e o campo volta
-   a ser texto livre — senão "123abc@..." viraria "(12) 3abc@...".
-   Número internacional (começa com +) também fica intacto. */
-const contatoEl = $('#m-contato');
-const soDigitos = (s) => s.replace(/\D/g, '');
-const sinaisDaMascara = /[()\s-]/g;
+/* ---------- the field accepts a whatsapp number OR an e-mail ----------
+   As long as what has been typed could be a phone number, the mask applies by
+   itself: (45) 90000-0000 for a nine-digit mobile, (45) 0000-0000 for a
+   landline. The moment a letter or an @ shows up, the mask comes undone and the
+   field goes back to being free text — otherwise "123abc@..." would turn into
+   "(12) 3abc@...". An international number (starting with +) also stays intact. */
+const contactEl = $('#m-contato');
+const digitsOnly = (s) => s.replace(/\D/g, '');
+const MASK_CHARS = /[()\s-]/g;
 
-function comMascaraDeTelefone(d) {
+function withPhoneMask(d) {
   d = d.slice(0, 11);
   if (d.length <= 2) return d ? '(' + d : '';
-  const resto = d.slice(2);
-  if (!resto.length) return '(' + d.slice(0, 2) + ') ';
-  if (resto.length <= 4) return '(' + d.slice(0, 2) + ') ' + resto;
-  const corte = resto.length > 8 ? 5 : 4;   // celular tem nove dígitos, fixo tem oito
-  return '(' + d.slice(0, 2) + ') ' + resto.slice(0, corte) + '-' + resto.slice(corte);
+  const rest = d.slice(2);
+  if (!rest.length) return '(' + d.slice(0, 2) + ') ';
+  if (rest.length <= 4) return '(' + d.slice(0, 2) + ') ' + rest;
+  const cut = rest.length > 8 ? 5 : 4;   // a mobile has nine digits, a landline eight
+  return '(' + d.slice(0, 2) + ') ' + rest.slice(0, cut) + '-' + rest.slice(cut);
 }
 
-contatoEl.addEventListener('input', () => {
-  const v = contatoEl.value;
-  const ehTelefone = !/[^\d()\s-]/.test(v);
-  if (!ehTelefone) {
-    // e-mail (ou número internacional): tira a máscara que já tenha entrado
-    const limpo = v.replace(sinaisDaMascara, '');
-    if (limpo !== v && !/\s/.test(limpo)) contatoEl.value = limpo;
+contactEl.addEventListener('input', () => {
+  const v = contactEl.value;
+  const looksLikePhone = !/[^\d()\s-]/.test(v);
+  if (!looksLikePhone) {
+    // an e-mail (or an international number): strip whatever mask has crept in
+    const stripped = v.replace(MASK_CHARS, '');
+    if (stripped !== v && !/\s/.test(stripped)) contactEl.value = stripped;
     return;
   }
-  const pos = contatoEl.selectionStart;
-  const digitosAntes = soDigitos(v.slice(0, pos)).length;
-  const novo = comMascaraDeTelefone(soDigitos(v));
-  if (novo === v) return;
-  contatoEl.value = novo;
-  // recoloca o cursor depois do mesmo dígito em que ele estava
+  const pos = contactEl.selectionStart;
+  const digitsBefore = digitsOnly(v.slice(0, pos)).length;
+  const next = withPhoneMask(digitsOnly(v));
+  if (next === v) return;
+  contactEl.value = next;
+  // put the caret back after the same digit it was on
   let i = 0;
-  for (let vistos = 0; i < novo.length && vistos < digitosAntes; i += 1) {
-    if (/\d/.test(novo[i])) vistos += 1;
+  for (let seen = 0; i < next.length && seen < digitsBefore; i += 1) {
+    if (/\d/.test(next[i])) seen += 1;
   }
-  contatoEl.setSelectionRange(i, i);
+  contactEl.setSelectionRange(i, i);
 });
 
-formMat.addEventListener('submit', (e) => {
+enrolForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  const nome = $('#m-nome').value.trim();
-  const contato = $('#m-contato').value.trim();
-  if (!nome || !contato) {
-    statusMat.textContent = '✗ preencha nome e contato';
+  const name = $('#m-nome').value.trim();
+  const contact = $('#m-contato').value.trim();
+  if (!name || !contact) {
+    enrolStatus.textContent = '✗ preencha nome e contato';
     return;
   }
-  const dados = {
-    nome,
-    contato,
-    plano: selPlano.value || 'sem preferência',
+  const data = {
+    nome: name,
+    contato: contact,
+    plano: planSelect.value || 'sem preferência',
   };
-  if (cursoDeOrigem) dados.origem = 'curso:' + cursoDeOrigem;
-  if (!MATRICULA_URL) {
-    statusMat.textContent = '✓ pedido registrado — ' + nome + ' (modo demonstração: configure MATRICULA_URL)';
-    formMat.reset();
+  if (sourceCourse) data.origem = 'curso:' + sourceCourse;
+  if (!ENROL_URL) {
+    enrolStatus.textContent = '✓ pedido registrado — ' + name + ' (modo demonstração: configure ENROL_URL)';
+    enrolForm.reset();
     return;
   }
-  statusMat.textContent = '… enviando';
-  fetch(MATRICULA_URL, {
+  enrolStatus.textContent = '… enviando';
+  fetch(ENROL_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(dados),
+    body: JSON.stringify(data),
   })
     .then(() => {
-      statusMat.textContent = '✓ recebemos seu contato — falaremos com você em breve!';
-      formMat.reset();
+      enrolStatus.textContent = '✓ recebemos seu contato — falaremos com você em breve!';
+      enrolForm.reset();
     })
     .catch(() => {
-      statusMat.textContent = '✗ falha ao enviar — escreva para contact@codeschool.ing';
+      enrolStatus.textContent = '✗ falha ao enviar — escreva para contact@codeschool.ing';
     });
 });
 
 /* ==========================================================
    NEWSLETTER
-   Cole em NEWSLETTER_URL a URL de POST do provedor (Brevo,
-   Mailchimp, MailerLite...). Vazio = modo demonstração.
+   Paste the provider's POST URL into NEWSLETTER_URL (Brevo,
+   Mailchimp, MailerLite...). Empty = demonstration mode.
    ========================================================== */
 const NEWSLETTER_URL = '';
 
@@ -1445,9 +1453,9 @@ newsForm.addEventListener('submit', (e) => {
     return;
   }
   newsStatus.textContent = '… enviando';
-  const dados = new FormData();
-  dados.append('EMAIL', email);
-  fetch(NEWSLETTER_URL, { method: 'POST', mode: 'no-cors', body: dados })
+  const data = new FormData();
+  data.append('EMAIL', email);
+  fetch(NEWSLETTER_URL, { method: 'POST', mode: 'no-cors', body: data })
     .then(() => {
       newsStatus.textContent = '✓ inscrição confirmada — bem-vindo(a) a bordo!';
       newsForm.reset();
@@ -1458,233 +1466,233 @@ newsForm.addEventListener('submit', (e) => {
 });
 
 /* ==========================================================
-   FULLPAGE — cada seção ocupa a tela; a rolagem salta entre elas
+   FULLPAGE — each section fills the screen; scrolling jumps between them
    ========================================================== */
-const telas = Array.from(document.querySelectorAll('.screen'));
-const reduzMovimento = matchMedia('(prefers-reduced-motion: reduce)').matches;
-let atual = 0;
-let travado = false;
-let travaT = null;
+const screens = Array.from(document.querySelectorAll('.screen'));
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let current = 0;
+let locked = false;
+let lockT = null;
 
-/* indicadores laterais */
+/* the side indicators */
 const dots = document.createElement('div');
 dots.className = 'dots';
-telas.forEach((tela, i) => {
+screens.forEach((screen, i) => {
   const b = document.createElement('button');
   b.type = 'button';
   b.setAttribute('aria-label', 'Ir para a seção ' + (i + 1));
-  b.addEventListener('click', () => irPara(i));
+  b.addEventListener('click', () => goTo(i));
   dots.appendChild(b);
 });
 document.body.appendChild(dots);
 
-const linksMenu = Array.from(document.querySelectorAll('.navlinks a[href^="#"]'));
+const menuLinks = Array.from(document.querySelectorAll('.navlinks a[href^="#"]'));
 
-function marcarAtiva() {
-  dots.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === atual));
-  const id = '#' + telas[atual].id;
-  linksMenu.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === id));
+function markActive() {
+  dots.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === current));
+  const id = '#' + screens[current].id;
+  menuLinks.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === id));
 }
 
-function irPara(i) {
-  i = Math.max(0, Math.min(telas.length - 1, i));
-  const destino = telas[i].offsetTop;
-  if (i === atual && Math.abs(window.scrollY - destino) < 4) return;
-  travado = true;
-  atual = i;
-  window.scrollTo({ top: destino, behavior: reduzMovimento ? 'auto' : 'smooth' });
-  marcarAtiva();
-  clearTimeout(travaT);
-  travaT = setTimeout(() => { travado = false; }, 950);
+function goTo(i) {
+  i = Math.max(0, Math.min(screens.length - 1, i));
+  const destination = screens[i].offsetTop;
+  if (i === current && Math.abs(window.scrollY - destination) < 4) return;
+  locked = true;
+  current = i;
+  window.scrollTo({ top: destination, behavior: reduceMotion ? 'auto' : 'smooth' });
+  markActive();
+  clearTimeout(lockT);
+  lockT = setTimeout(() => { locked = false; }, 950);
 }
 
-/* a tela atual ainda pode rolar internamente nessa direção? */
-function noLimite(tela, dir) {
-  if (tela.scrollHeight <= tela.clientHeight + 4) return true;
+/* can the current screen still scroll internally in that direction? */
+function atEdge(screen, dir) {
+  if (screen.scrollHeight <= screen.clientHeight + 4) return true;
   return dir > 0
-    ? tela.scrollTop + tela.clientHeight >= tela.scrollHeight - 4
-    : tela.scrollTop <= 4;
+    ? screen.scrollTop + screen.clientHeight >= screen.scrollHeight - 4
+    : screen.scrollTop <= 4;
 }
 
-/* passar o cursor por um curso acende as arestas que chegam nele e saem dele */
-painelEl.addEventListener('mouseover', (e) => {
-  const no = e.target.closest('[data-no]');
-  if (!no) return;
-  const id = no.dataset.no;
-  painelEl.querySelectorAll('.aresta').forEach((a) => {
+/* hovering a course lights up the edges arriving at it and leaving it */
+panelEl.addEventListener('mouseover', (e) => {
+  const node = e.target.closest('[data-no]');
+  if (!node) return;
+  const id = node.dataset.no;
+  panelEl.querySelectorAll('.aresta').forEach((a) => {
     a.classList.toggle('on', a.dataset.de === id || a.dataset.para === id);
   });
 });
-painelEl.addEventListener('mouseout', (e) => {
-  if (e.target.closest('[data-no]')) painelEl.querySelectorAll('.aresta.on').forEach((a) => a.classList.remove('on'));
+panelEl.addEventListener('mouseout', (e) => {
+  if (e.target.closest('[data-no]')) panelEl.querySelectorAll('.aresta.on').forEach((a) => a.classList.remove('on'));
 });
 
-/* o grafo avisa as setas quando é arrastado direto */
-painelEl.addEventListener('scroll', (e) => {
-  if (e.target.classList && e.target.classList.contains('trilha-grafo')) ajustarSetasGrafo();
+/* the graph tells the arrows when it is dragged directly */
+panelEl.addEventListener('scroll', (e) => {
+  if (e.target.classList && e.target.classList.contains('trilha-grafo')) updateGraphArrows();
 }, true);
 
-/* painéis com rolagem própria (catálogo, trilha no celular, depoimentos) */
-function rolavelInterno(alvo, dir, tela) {
-  let el = alvo instanceof Element ? alvo : null;
-  while (el && el !== tela && el !== document.body) {
+/* panels with their own scrolling (catalogue, track on mobile, testimonials) */
+function innerScrollable(target, dir, screen) {
+  let el = target instanceof Element ? target : null;
+  while (el && el !== screen && el !== document.body) {
     if (el.scrollHeight > el.clientHeight + 4) {
-      const pode = dir > 0
+      const can = dir > 0
         ? el.scrollTop + el.clientHeight < el.scrollHeight - 4
         : el.scrollTop > 4;
-      if (pode) return el;
+      if (can) return el;
     }
     el = el.parentElement;
   }
   return null;
 }
 
-/* roda do mouse / trackpad */
+/* mouse wheel / trackpad */
 window.addEventListener('wheel', (e) => {
-  const aberto = modalAberto();
-  if (aberto) {
-    // dentro do modal, o que tem rolagem própria continua rolando; o resto
-    // não empurra a página por baixo (o `return` seco deixava passar)
+  const open = openModal();
+  if (open) {
+    // inside the modal, whatever has its own scrolling keeps scrolling; the rest
+    // does not push the page underneath (a bare `return` let it through)
     const d = e.deltaY > 0 ? 1 : -1;
-    if (!rolavelInterno(e.target, d, aberto)) e.preventDefault();
+    if (!innerScrollable(e.target, d, open)) e.preventDefault();
     return;
   }
   e.preventDefault();
-  if (travado) return;
+  if (locked) return;
   const dir = e.deltaY > 0 ? 1 : -1;
-  const tela = telas[atual];
-  const interno = rolavelInterno(e.target, dir, tela);
-  if (interno) { interno.scrollTop += e.deltaY; return; }
-  if (!noLimite(tela, dir)) { tela.scrollTop += e.deltaY; return; }
+  const screen = screens[current];
+  const inner = innerScrollable(e.target, dir, screen);
+  if (inner) { inner.scrollTop += e.deltaY; return; }
+  if (!atEdge(screen, dir)) { screen.scrollTop += e.deltaY; return; }
   if (Math.abs(e.deltaY) < 8) return;
-  irPara(atual + dir);
+  goTo(current + dir);
 }, { passive: false });
 
-/* teclado */
+/* keyboard */
 window.addEventListener('keydown', (e) => {
-  if (modalAberto()) {
-    if (e.key === 'Escape') fecharModais();
+  if (openModal()) {
+    if (e.key === 'Escape') closeModals();
     return;
   }
   if (/^(INPUT|TEXTAREA|SELECT|BUTTON|SUMMARY)$/.test(e.target.tagName)) return;
-  const desce = ['ArrowDown', 'PageDown', ' '].includes(e.key);
-  const sobe = ['ArrowUp', 'PageUp'].includes(e.key);
-  if (desce || sobe) {
+  const down = ['ArrowDown', 'PageDown', ' '].includes(e.key);
+  const up = ['ArrowUp', 'PageUp'].includes(e.key);
+  if (down || up) {
     e.preventDefault();
-    if (!travado) irPara(atual + (desce ? 1 : -1));
+    if (!locked) goTo(current + (down ? 1 : -1));
   } else if (e.key === 'Home') {
-    e.preventDefault(); irPara(0);
+    e.preventDefault(); goTo(0);
   } else if (e.key === 'End') {
-    e.preventDefault(); irPara(telas.length - 1);
-  } else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && telas[atual].id === 'trilhas') {
+    e.preventDefault(); goTo(screens.length - 1);
+  } else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && screens[current].id === 'trilhas') {
     e.preventDefault();
-    // as setas andam dentro da família da trilha aberta, não pela lista inteira
-    const daFamilia = indicesDaFamilia(familiaDe(TRILHAS[trilhaAtual]));
-    const pos = daFamilia.indexOf(trilhaAtual) + (e.key === 'ArrowRight' ? 1 : -1);
-    abrirTrilha(daFamilia[Math.max(0, Math.min(daFamilia.length - 1, pos))]);
+    // the arrows move within the open track's family, not through the whole list
+    const ofFamily = indicesOfFamily(familyOf(TRILHAS[currentTrack]));
+    const pos = ofFamily.indexOf(currentTrack) + (e.key === 'ArrowRight' ? 1 : -1);
+    openTrack(ofFamily[Math.max(0, Math.min(ofFamily.length - 1, pos))]);
   }
 });
 
-/* toque (celular e tablet) */
-let toqueY = null;
-let toqueAlvo = null;
+/* touch (mobile and tablet) */
+let touchY = null;
+let touchTarget = null;
 window.addEventListener('touchstart', (e) => {
-  toqueY = e.touches[0].clientY;
-  toqueAlvo = e.target;
+  touchY = e.touches[0].clientY;
+  touchTarget = e.target;
 }, { passive: true });
 window.addEventListener('touchmove', (e) => {
-  if (toqueY === null) return;
-  const abertoT = modalAberto();
-  if (abertoT) {
-    const d = toqueY - e.touches[0].clientY > 0 ? 1 : -1;
-    if (!rolavelInterno(toqueAlvo, d, abertoT)) e.preventDefault();
+  if (touchY === null) return;
+  const openT = openModal();
+  if (openT) {
+    const d = touchY - e.touches[0].clientY > 0 ? 1 : -1;
+    if (!innerScrollable(touchTarget, d, openT)) e.preventDefault();
     return;
   }
-  const dir = toqueY - e.touches[0].clientY > 0 ? 1 : -1;
-  if (rolavelInterno(toqueAlvo, dir, telas[atual])) return;
-  if (toqueAlvo instanceof Element && toqueAlvo.closest('.trilha-fluxo')) return;
-  if (noLimite(telas[atual], dir)) e.preventDefault();
+  const dir = touchY - e.touches[0].clientY > 0 ? 1 : -1;
+  if (innerScrollable(touchTarget, dir, screens[current])) return;
+  if (touchTarget instanceof Element && touchTarget.closest('.trilha-fluxo')) return;
+  if (atEdge(screens[current], dir)) e.preventDefault();
 }, { passive: false });
 window.addEventListener('touchend', (e) => {
-  if (toqueY === null || modalAberto()) return;
-  const delta = toqueY - e.changedTouches[0].clientY;
-  const alvo = toqueAlvo;
-  toqueY = null;
-  toqueAlvo = null;
-  if (travado || Math.abs(delta) < 50) return;
+  if (touchY === null || openModal()) return;
+  const delta = touchY - e.changedTouches[0].clientY;
+  const target = touchTarget;
+  touchY = null;
+  touchTarget = null;
+  if (locked || Math.abs(delta) < 50) return;
   const dir = delta > 0 ? 1 : -1;
-  if (rolavelInterno(alvo, dir, telas[atual])) return;
-  if (noLimite(telas[atual], dir)) irPara(atual + dir);
+  if (innerScrollable(target, dir, screens[current])) return;
+  if (atEdge(screens[current], dir)) goTo(current + dir);
 });
 
-/* âncoras internas (menu, botões do hero, modal) */
+/* internal anchors (menu, hero buttons, modal) */
 document.querySelectorAll('a[href^="#"]').forEach((a) => {
   a.addEventListener('click', (e) => {
-    const alvo = document.querySelector(a.getAttribute('href'));
-    if (!alvo) return;
-    const i = telas.indexOf(alvo.closest('.screen') || alvo);
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    const i = screens.indexOf(target.closest('.screen') || target);
     if (i > -1) {
       e.preventDefault();
       menu.classList.remove('open');
-      irPara(i);
+      goTo(i);
     }
   });
 });
 
-/* ressincroniza se a barra de rolagem for arrastada */
+/* resyncs if the scrollbar is dragged */
 let syncT = null;
 window.addEventListener('scroll', () => {
-  if (travado) return;
+  if (locked) return;
   clearTimeout(syncT);
   syncT = setTimeout(() => {
-    let melhor = 0, menorDist = Infinity;
-    telas.forEach((tela, i) => {
-      const d = Math.abs(tela.offsetTop - window.scrollY);
-      if (d < menorDist) { menorDist = d; melhor = i; }
+    let best = 0, shortest = Infinity;
+    screens.forEach((screen, i) => {
+      const d = Math.abs(screen.offsetTop - window.scrollY);
+      if (d < shortest) { shortest = d; best = i; }
     });
-    if (melhor !== atual) { atual = melhor; marcarAtiva(); }
+    if (best !== current) { current = best; markActive(); }
   }, 120);
 });
 
-window.addEventListener('resize', () => window.scrollTo({ top: telas[atual].offsetTop }));
+window.addEventListener('resize', () => window.scrollTo({ top: screens[current].offsetTop }));
 
-/* âncora na URL ao carregar (ex.: /#cursos) */
+/* an anchor in the URL on load (e.g. /#cursos) */
 if (location.hash) {
-  const alvo = document.querySelector(location.hash);
-  const i = telas.indexOf(alvo ? alvo.closest('.screen') || alvo : null);
-  if (i > -1) { atual = i; window.scrollTo({ top: telas[i].offsetTop }); }
+  const target = document.querySelector(location.hash);
+  const i = screens.indexOf(target ? target.closest('.screen') || target : null);
+  if (i > -1) { current = i; window.scrollTo({ top: screens[i].offsetTop }); }
 }
 
-/* rodapé: links das trilhas abrem a tela de trilhas já na escolhida */
-marcarAtiva();
+/* footer: the track links open the tracks screen already on the chosen one */
+markActive();
 
 /* ==========================================================
-   IDIOMA — ver assets/i18n-runtime.js
-   A troca refaz tudo o que nasce de texto: os nós estáticos, os dados
-   traduzidos e as três telas que se montam a partir deles.
+   LANGUAGE — see assets/i18n-runtime.js
+   Switching redoes everything born of text: the static nodes, the translated
+   data and the three screens built from them.
    ========================================================== */
-function redesenharTudo() {
-  montarAbas();
-  montarChips();
-  montarDropFiltros();
-  montarCatalogo();
-  montarDepoimentos();
-  montarSelectPlanos();
-  abrirTrilha(trilhaAtual, true);
-  ajustarAbas();
-  mostrarHoras();
-  montarTerminal();
+function redrawAll() {
+  buildTabs();
+  buildChips();
+  buildFilterDropdown();
+  buildCatalogue();
+  buildTestimonials();
+  buildPlanSelect();
+  openTrack(currentTrack, true);
+  updateTabs();
+  showHours();
+  buildTerminal();
 }
 
-const idiomaCaixa = $('#idioma');
-idiomaCaixa.querySelector('.idioma-btn').addEventListener('click', (e) => {
+const langBox = $('#idioma');
+langBox.querySelector('.idioma-btn').addEventListener('click', (e) => {
   e.stopPropagation();
-  const aberto = idiomaCaixa.classList.toggle('aberto');
-  e.currentTarget.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+  const open = langBox.classList.toggle('aberto');
+  e.currentTarget.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
-document.addEventListener('click', (e) => { if (!e.target.closest('#idioma')) fecharIdioma(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharIdioma(); });
+document.addEventListener('click', (e) => { if (!e.target.closest('#idioma')) closeLanguageMenu(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLanguageMenu(); });
 
-guardarBase();
-mapearTextos();
-aplicarIdioma();
+savePtBase();
+mapTexts();
+applyLanguage();

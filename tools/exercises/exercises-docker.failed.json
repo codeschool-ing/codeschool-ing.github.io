@@ -1,0 +1,58 @@
+{
+  "course": "docker",
+  "generated_at": "2026-08-03T04:13:57.690Z",
+  "options": 5,
+  "exercises": [
+    {
+      "topic": "Docker Engine no Linux e quando ele basta",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Marque todas as afirmações que se sustentam sobre usar apenas o Docker Engine no Linux, sem o Docker Desktop.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Em servidor sem ambiente gráfico, ele cobre construir, executar e enviar imagens para um registry.",
+          "correct": true,
+          "why": "Todo o ciclo de trabalho com imagens e containers é do Engine; a interface gráfica é dispensável."
+        },
+        {
+          "text": "Numa estação Linux, arquivos montados do disco local chegam ao container sem a perda da camada virtualizada.",
+          "correct": true,
+          "why": "No Linux não há máquina virtual intermediária, então o acesso ao disco não paga esse pedágio."
+        },
+        {
+          "text": "Não incide a exigência de assinatura paga que a Docker aplica ao Desktop em organizações grandes.",
+          "correct": true,
+          "why": "A condição comercial do Desktop não se estende ao Engine, distribuído sob licença livre."
+        },
+        {
+          "text": "O Compose fica de fora, porque ele é distribuído somente junto com a interface gráfica do Desktop.",
+          "correct": false,
+          "why": "O Compose está disponível como plugin do próprio Engine, sem depender do Desktop."
+        },
+        {
+          "text": "A construção de imagens fica de fora: o Engine apenas executa imagens construídas por outra ferramenta.",
+          "correct": false,
+          "why": "Construir imagens é função do Engine; não é preciso outra ferramenta para isso."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Divida os itens entre capacidade técnica e condição de uso; depois confira se a capacidade citada mora de fato no Desktop.",
+      "_reason": [
+        "pista de forma: todas as 2 erradas têm absoluto (\"sempre\", \"nunca\", \"só\"…) e nenhuma correta tem"
+      ]
+    }
+  ]
+}

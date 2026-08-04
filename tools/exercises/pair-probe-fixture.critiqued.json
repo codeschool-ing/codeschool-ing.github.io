@@ -1,0 +1,52 @@
+{
+  "course": "docker",
+  "options": 5,
+  "exercises": [
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "matching",
+      "difficulty": "hard",
+      "statement": "Cada situação vivida por uma equipe de operação casa com um efeito observado depois de os serviços passarem a rodar em containers. Faça a correspondência um a um; sobram itens na coluna da direita que não correspondem a nenhuma situação.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Duas aplicações no mesmo servidor pedem versões diferentes do mesmo interpretador, e ajustar a instalação para uma delas quebra a outra.",
+          "right": "As duas voltam a conviver na mesma máquina, cada qual carregando o próprio conjunto de bibliotecas e binários."
+        },
+        {
+          "left": "Um dos serviços tem vazamento de memória, esgota a RAM da máquina e leva os vizinhos junto na queda.",
+          "right": "Passa a valer um teto declarado por peça: quem excede é derrubado sozinho e os demais seguem atendendo."
+        },
+        {
+          "left": "Um teste de carga precisa de dez cópias do serviço em pé em poucos segundos, e cada máquina virtual do parque demora minutos para ficar pronta.",
+          "right": "Todas as réplicas pedidas ficam disponíveis quase de imediato, dividindo o mesmo núcleo de sistema já carregado no hospedeiro."
+        },
+        {
+          "left": "Uma falha explorada em um dos serviços daria ao invasor acesso de leitura a todo o disco do servidor.",
+          "right": "O intruso fica limitado ao recorte de arquivos e aos processos entregues àquela peça, sem alcançar o resto do hospedeiro."
+        },
+        {
+          "left": "Depois de uma atualização mal-sucedida, retornar ao estado que funcionava exige refazer à mão uma sequência de comandos e ajustes de configuração.",
+          "right": "Basta pôr no ar de novo o artefato imutável da revisão que funcionava, sem desfazer peça por peça o que foi aplicado."
+        }
+      ],
+      "right_distractors": [
+        "Cada réplica ganha um núcleo de sistema operacional próprio, e o tempo de subida passa a incluir a partida desse núcleo.",
+        "O consumo de memória de cada serviço cai pela metade sem que uma linha do código seja alterada."
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada situação, pergunte primeiro o que exatamente impedia a equipe de seguir; depois confira se o efeito descrito remove aquele impedimento ou apenas algum outro que soa parecido."
+    }
+  ]
+}

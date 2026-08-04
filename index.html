@@ -20,8 +20,8 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
     <span class="led"></span><span class="brand-nome">codeschool<span class="brand-sep">.</span>ing</span>
   </a>
   <div class="navlinks" id="menu">
-    <!-- botão, não âncora: abre o modal de inscrição, não leva a lugar
-         nenhum. É a porta de entrada de quem ainda não escolheu plano. -->
+    <!-- a button, not an anchor: it opens the signup modal, it does not take
+         you anywhere. It is the way in for whoever has not chosen a plan yet. -->
     <button type="button" class="nav-cta" id="cta-assinar">Comece agora</button>
     <a href="#trilhas">Trilhas</a>
     <a href="#cursos">Cursos</a>
@@ -50,7 +50,7 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
   </div>
 </nav>
 
-<!-- TELA 1 · HERO -->
+<!-- SCREEN 1 · HERO -->
 <header class="screen hero" id="topo">
   <div class="hero-inner">
     <div class="hero-copy">
@@ -77,20 +77,20 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
         <span class="dot d-r"></span><span class="dot d-y"></span><span class="dot d-g"></span>
         <span>aluno@codeschool:~</span>
       </div>
-      <!-- montado em `montarTerminal()`, a partir de CURSOS e TRILHAS: as
-           respostas são dados reais, então não envelhecem quando o
-           catálogo muda. Comando em inglês, resposta no idioma do usuário. -->
+      <!-- built in `buildTerminal()`, from CURSOS and TRILHAS: the responses are
+           real data, so they do not go stale when the catalogue changes. The
+           command is in English, the response in the user's language. -->
       <div class="term-body" id="term-body"></div>
     </div>
   </div>
 </header>
 
-<!-- TELA 2 · TRILHAS -->
+<!-- SCREEN 2 · TRACKS -->
 <section id="trilhas" class="screen panel-sec">
-  <!-- Duas fileiras: uma por família. Sem título, sem tag e sem alternador —
-       cada pixel acima do grafo é um curso a menos por coluna. -->
-  <!-- no celular as duas fileiras viram um menu só: com 360px de largura,
-       "← trilha trilha →" mostrava meia aba por vez -->
+  <!-- Two rows: one per family. No heading, no tag and no switcher — every
+       pixel above the graph is one course fewer per column. -->
+  <!-- on mobile the two rows become a single menu: at 360px wide,
+       "← trilha trilha →" showed half a tab at a time -->
   <div class="drop" id="drop-trilhas">
     <button class="drop-btn" type="button" aria-expanded="false" aria-label="Escolher trilha">
       <span class="drop-atual"></span><span class="drop-seta" aria-hidden="true">▾</span>
@@ -112,7 +112,7 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
   <div class="trilha-painel" id="trilha-painel" aria-live="polite"></div>
 </section>
 
-<!-- TELA 3 · CURSOS -->
+<!-- SCREEN 3 · COURSES -->
 <section id="cursos" class="screen">
   <div class="sec-head">
     <h2>Portfólio</h2>
@@ -141,10 +141,10 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
   </div>
 </section>
 
-<!-- TELA 4 · PLANOS -->
-<!-- Três planos de exemplo. Os valores estão zerados de propósito: o modelo
-     de cobrança ainda não foi decidido, e número inventado em vitrine vira
-     promessa. Ver o README. -->
+<!-- SCREEN 4 · PLANS -->
+<!-- Three example plans. The prices are deliberately zeroed: the billing model
+     has not been decided yet, and a made-up number on a showcase site becomes a
+     promise. See the README. -->
 <section id="planos" class="screen panel-sec">
   <div class="sec-head">
     <h2>Planos</h2>
@@ -191,7 +191,7 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
   </div>
 </section>
 
-<!-- TELA 5 · ALUNOS -->
+<!-- SCREEN 5 · STUDENTS -->
 <section id="alunos" class="screen">
   <div class="sec-head">
     <h2>Quem passou por aqui</h2>
@@ -200,11 +200,11 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
   <div class="depos" id="depos"></div>
 </section>
 
-<!-- TELA 6 · FAQ -->
-<!-- Ocupou a tela que era da matrícula: o formulário virou modal, aberto
-     pelos botões dos planos e pelo "Comece agora" do topo. As respostas
-     que dependem de política ainda não decidida trazem a marcação entre
-     colchetes — vale o mesmo critério dos preços e dos depoimentos. -->
+<!-- SCREEN 6 · FAQ -->
+<!-- It took over the screen that was the enrolment form's: the form became a
+     modal, opened by the plan buttons and by "Comece agora" at the top. Answers
+     that depend on policy not yet decided carry the marker in square brackets —
+     the same criterion as the prices and the testimonials. -->
 <section id="faq" class="screen panel-sec">
   <div class="sec-head">
     <h2>Perguntas frequentes</h2>
@@ -246,14 +246,14 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
   </div>
 </section>
 
-<!-- TELA 7 · CONTATO -->
+<!-- SCREEN 7 · CONTACT -->
 <section id="contato" class="screen">
   <div class="sec-head">
     <h2>Prefere falar com a gente?</h2>
     <p>Dúvidas sobre cursos, trilhas ou certificados — escreva e a gente responde.</p>
   </div>
 
-  <!-- e-mail e newsletter dividem a linha ao meio; no celular empilham -->
+  <!-- e-mail and newsletter split the line in half; on mobile they stack -->
   <div class="contato-linha">
     <a class="canal canal-destaque" href="mailto:contact@codeschool.ing">
       <span class="canal-icone" aria-hidden="true">
@@ -308,7 +308,7 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
   </div>
 </section>
 
-<!-- detalhe do curso -->
+<!-- course detail -->
 <div class="modal" id="modal" hidden>
   <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
     <div class="term-bar">
@@ -320,9 +320,9 @@ try{if(localStorage.getItem('codeschool-tema')==='claro')document.documentElemen
   </div>
 </div>
 
-<!-- inscrição: abre pelos botões dos planos e pelo "Comece agora" do topo.
-     Quando vem de um plano, o plano é o cabeçalho e o formulário fica com
-     dois campos; quando vem do topo, aparece o seletor de plano. -->
+<!-- signup: opened by the plan buttons and by "Comece agora" at the top. When
+     it comes from a plan, the plan is the heading and the form is left with two
+     fields; when it comes from the top, the plan selector appears. -->
 <div class="modal" id="modal-assinar" hidden>
   <div class="modal-caixa modal-estreito" role="dialog" aria-modal="true" aria-labelledby="assinar-titulo">
     <div class="term-bar">

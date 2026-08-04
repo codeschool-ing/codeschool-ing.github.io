@@ -1,0 +1,838 @@
+{
+  "course": "docker",
+  "generated_at": "2026-08-03T03:39:53.231Z",
+  "options": 5,
+  "exercises": [
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "quiz",
+      "difficulty": "easy",
+      "statement": "Uma aplicação roda no notebook da desenvolvedora e falha no servidor de homologação, que tem uma versão diferente da mesma biblioteca de sistema. Qual afirmação descreve corretamente o que muda ao entregar essa aplicação como container?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A imagem leva junto as bibliotecas de espaço de usuário de que a aplicação depende, então a versão instalada no servidor deixa de interferir.",
+          "correct": true,
+          "why": "O empacotamento resolve divergência de dependências de espaço de usuário: elas viajam dentro do artefato."
+        },
+        {
+          "text": "O container recompila a aplicação para as bibliotecas do servidor durante a subida, o que elimina a diferença de versão.",
+          "correct": false,
+          "why": "Não há recompilação na subida; o artefato executado é o mesmo que foi construído."
+        },
+        {
+          "text": "O container instala no servidor, pelo gerenciador de pacotes do host, as versões exatas que faltavam para a aplicação.",
+          "correct": false,
+          "why": "Nada é instalado no sistema hospedeiro; as dependências ficam dentro da imagem."
+        },
+        {
+          "text": "A imagem embarca também o kernel de que a aplicação depende, então a distribuição do servidor deixa de importar.",
+          "correct": false,
+          "why": "Imagem de container não contém kernel; o núcleo usado é o da máquina que executa."
+        },
+        {
+          "text": "O container executa a aplicação sobre um interpretador próprio, idêntico em qualquer sistema operacional.",
+          "correct": false,
+          "why": "Não existe interpretador universal: o processo roda nativamente sobre o kernel do hospedeiro."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Liste o que efetivamente vai dentro do artefato entregue e o que continua sendo fornecido pela máquina que o executa."
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Marque todas que se aplicam: problemas que o empacotamento da aplicação em container efetivamente ataca.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A mesma imagem é usada no notebook, na homologação e na produção, o que remove divergências de dependências de espaço de usuário.",
+          "correct": true,
+          "why": "É o ganho central: um único artefato percorre todos os ambientes."
+        },
+        {
+          "text": "Duas aplicações que exigem versões incompatíveis da mesma biblioteca passam a conviver no mesmo servidor sem conflito.",
+          "correct": true,
+          "why": "Cada uma carrega sua própria árvore de dependências, isolada da outra."
+        },
+        {
+          "text": "A entrega passa a ser um artefato único e versionável, no lugar de um roteiro de instalação repetido à mão em cada máquina.",
+          "correct": true,
+          "why": "O procedimento vira artefato construído uma vez, em vez de sequência manual."
+        },
+        {
+          "text": "A aplicação passa a consumir menos processador, porque o empacotamento dispensa a tradução de instruções feita pela camada de virtualização.",
+          "correct": false,
+          "why": "Não existe tradução de instruções sendo dispensada: o processo já executava instruções nativas antes."
+        },
+        {
+          "text": "Uma aplicação compilada para Windows passa a rodar sobre um hospedeiro Linux, já que o runtime traduz as chamadas de sistema.",
+          "correct": false,
+          "why": "O container não traduz chamadas entre famílias de sistema operacional."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Cada item promete um ganho; verifique se ele depende de algo que a imagem carrega consigo ou de algo que a máquina hospedeira fornece."
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "quiz",
+      "difficulty": "hard",
+      "statement": "Três containers foram iniciados a partir da mesma imagem. Um deles gravou um arquivo em /tmp/relatorio.txt. Qual afirmação descreve corretamente a relação entre imagem e container nesse caso?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A imagem permanece inalterada; a gravação vale só para aquele container e não aparece nos outros dois.",
+          "correct": true,
+          "why": "A imagem é o artefato imutável de origem; cada container em execução tem sua própria área gravável."
+        },
+        {
+          "text": "A imagem passa a conter o novo arquivo, e por isso os outros dois containers também o enxergam a partir de agora.",
+          "correct": false,
+          "why": "Executar um container não modifica a imagem de origem."
+        },
+        {
+          "text": "Imagem e container são o mesmo objeto em momentos distintos: parar o container que gravou devolve o arquivo à imagem.",
+          "correct": false,
+          "why": "Container é instância em execução, não um estado da imagem; parar não incorpora nada a ela."
+        },
+        {
+          "text": "O arquivo foi gravado no sistema de arquivos do hospedeiro, fora da imagem, e por isso os três containers passam a enxergá-lo.",
+          "correct": false,
+          "why": "Sem configuração explícita, a gravação fica na área do próprio container, não em área compartilhada."
+        },
+        {
+          "text": "Os outros dois containers enxergam o arquivo apenas depois de reiniciados, quando releem o conteúdo da imagem.",
+          "correct": false,
+          "why": "Reiniciar não propaga escritas de um container para outro, pois a origem comum não mudou."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pergunte o que continua existindo depois que os três containers forem removidos e o que desaparece junto com cada um."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada arranjo de execução ao efeito observado pela equipe de infraestrutura. Sobram itens na coluna da direita que não correspondem a nenhum arranjo.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Duas máquinas virtuais no mesmo hospedeiro",
+          "right": "cada instância inicializa o próprio núcleo e leva dezenas de segundos até responder"
+        },
+        {
+          "left": "Dois containers no mesmo hospedeiro Linux",
+          "right": "as duas instâncias aparecem na lista de processos do hospedeiro e sobem em fração de segundo"
+        },
+        {
+          "left": "Dois serviços instalados direto no sistema operacional do servidor físico",
+          "right": "atualizar uma biblioteca compartilhada muda o comportamento dos dois ao mesmo tempo"
+        },
+        {
+          "left": "Máquina virtual com convidado Windows sobre hospedeiro Linux",
+          "right": "o convidado é de família diferente da do hospedeiro e ainda assim executa instruções nativas do processador"
+        }
+      ],
+      "right_distractors": [
+        "a memória reservada volta a ficar disponível para o hospedeiro sempre que a carga cai",
+        "as duas instâncias compartilham o mesmo diretório de dados desde a primeira subida, sem configuração extra"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada arranjo, pergunte quantos núcleos de sistema operacional estão em execução e o que aparece quando se listam os processos da máquina física."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Marque todas que se aplicam às diferenças entre executar em bare metal, em máquina virtual e em container.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A máquina virtual inicializa um kernel próprio, enquanto o container usa o kernel que já está em execução na máquina hospedeira.",
+          "correct": true,
+          "why": "É a distinção estrutural entre os dois modelos de isolamento."
+        },
+        {
+          "text": "A imagem de container não contém kernel: ela traz o sistema de arquivos de espaço de usuário da distribuição escolhida.",
+          "correct": true,
+          "why": "Por isso a imagem é pequena e sobe rápido em comparação a uma imagem de disco de VM."
+        },
+        {
+          "text": "Instalar os serviços direto no servidor físico dispensa camadas de isolamento, mas faz todos dependerem das mesmas versões de bibliotecas do sistema.",
+          "correct": true,
+          "why": "É exatamente o conflito de dependências típico do bare metal compartilhado."
+        },
+        {
+          "text": "Um pânico de kernel provocado por um container derruba somente aquele container, já que cada um recebe seu próprio kernel.",
+          "correct": false,
+          "why": "Containers compartilham o kernel do hospedeiro; uma falha nele afeta a máquina inteira."
+        },
+        {
+          "text": "Uma máquina virtual consegue executar apenas um sistema convidado da mesma família do sistema hospedeiro.",
+          "correct": false,
+          "why": "O hipervisor permite convidados de família diferente, desde que a arquitetura do processador seja compatível."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Conte quantos kernels existem em cada arranjo e pergunte o que cada afirmação assume sobre esse número."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "quiz",
+      "difficulty": "hard",
+      "statement": "Um serviço legado precisa carregar um módulo de kernel próprio e só funciona com o kernel 4.19; o servidor disponível roda kernel 6.1. A equipe cogita empacotá-lo em container. Qual avaliação é correta?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Não resolve: o processo usaria o kernel 6.1 do hospedeiro, e a imagem não fornece kernel; esse caso pede máquina virtual.",
+          "correct": true,
+          "why": "Exigência de versão específica de kernel é justamente o limite do modelo de container."
+        },
+        {
+          "text": "Resolve: basta declarar a versão de kernel desejada na imagem, que o runtime a carrega ao iniciar o serviço.",
+          "correct": false,
+          "why": "Não existe declaração de versão de kernel em imagem; o núcleo já está em execução."
+        },
+        {
+          "text": "Resolve: o módulo é compilado dentro da imagem e cada container carrega a sua própria cópia isoladamente.",
+          "correct": false,
+          "why": "Módulo é carregado no kernel do hospedeiro, que é único e compartilhado."
+        },
+        {
+          "text": "Resolve: o hospedeiro passa a expor ao serviço a versão de kernel indicada no arquivo de configuração do container.",
+          "correct": false,
+          "why": "Configuração de container não altera a versão de kernel vista pelo processo."
+        },
+        {
+          "text": "Não resolve com container nem com máquina virtual: a saída seria reinstalar o servidor físico com o kernel 4.19.",
+          "correct": false,
+          "why": "A máquina virtual roda um kernel convidado próprio e atende ao requisito sem reinstalar o servidor."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pergunte de onde vem o kernel que o processo vai usar em cada arranjo e em qual kernel um módulo é efetivamente carregado."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "O que a existência das especificações da OCI garante na prática para quem trabalha com containers?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Uma imagem construída por uma ferramenta pode ser executada por qualquer runtime que siga a mesma especificação, sem reempacotamento.",
+          "correct": true,
+          "why": "Interoperabilidade entre construtores, registries e runtimes é o objeto das especificações."
+        },
+        {
+          "text": "A mesma imagem funciona em qualquer arquitetura de processador, pois o formato descreve o conteúdo de forma neutra.",
+          "correct": false,
+          "why": "O formato prevê arquitetura; binário de ARM não roda em x86_64 por causa da especificação."
+        },
+        {
+          "text": "Toda imagem publicada passa por verificação de vulnerabilidades antes de ser aceita por um servidor de imagens.",
+          "correct": false,
+          "why": "Varredura é política de ferramenta ou de plataforma, não conteúdo das especificações."
+        },
+        {
+          "text": "As instruções do Dockerfile têm o mesmo significado em qualquer ferramenta de construção de imagens.",
+          "correct": false,
+          "why": "O formato de arquivo de construção não é padronizado pela OCI."
+        },
+        {
+          "text": "Containers e máquinas virtuais passam a ser gerenciados pelo mesmo conjunto de comandos e pelo mesmo formato de artefato.",
+          "correct": false,
+          "why": "As especificações tratam de containers; não unificam gestão de máquinas virtuais."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Uma especificação define contrato de formato e de comportamento; pergunte, para cada promessa, se ela cabe nesse contrato ou depende de uma ferramenta específica."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada peça do ecossistema ao que ela estabelece. Sobram itens na coluna da direita que não correspondem a nenhuma peça.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Image Specification",
+          "right": "padroniza como manifesto, configuração e camadas se organizam dentro do artefato guardado"
+        },
+        {
+          "left": "Runtime Specification",
+          "right": "padroniza como um pacote já extraído em disco é transformado em processo isolado"
+        },
+        {
+          "left": "Distribution Specification",
+          "right": "padroniza as rotas HTTP de envio e recuperação usadas por servidores remotos"
+        },
+        {
+          "left": "Docker Engine",
+          "right": "junta em um produto só o serviço que executa os pacotes e o cliente de linha de comando"
+        }
+      ],
+      "right_distractors": [
+        "padroniza o arquivo declarativo que reúne vários serviços e a ordem em que eles sobem",
+        "padroniza a assinatura criptográfica exigida antes que um pacote possa ser executado"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Percorra o caminho de um artefato: como ele é montado, como trafega até um servidor remoto e como vira processo. Cada trecho desse caminho é tratado por um documento diferente."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "statement": "Marque todas que se aplicam: consequências reais de imagens e runtimes seguirem as especificações da OCI.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Uma imagem produzida por outra ferramenta de construção pode ser executada pelo Docker, desde que respeite o formato especificado.",
+          "correct": true,
+          "why": "O formato de imagem é comum, então o construtor deixa de amarrar o executor."
+        },
+        {
+          "text": "Um servidor de imagens que implemente a especificação de distribuição aceita envios de qualquer cliente que também a implemente.",
+          "correct": true,
+          "why": "O protocolo de envio e recuperação é o mesmo, independentemente do cliente."
+        },
+        {
+          "text": "Trocar o runtime de baixo nível por outro compatível não exige reconstruir as imagens já publicadas.",
+          "correct": true,
+          "why": "O artefato é o mesmo contrato; quem o executa pode mudar."
+        },
+        {
+          "text": "Uma imagem construída em ARM passa a executar em x86_64, porque o formato especificado é neutro quanto ao processador.",
+          "correct": false,
+          "why": "O manifesto registra arquitetura; binários continuam presos ao processador para o qual foram compilados."
+        },
+        {
+          "text": "A sintaxe do Dockerfile fica definida pela especificação, de modo que toda ferramenta interprete as mesmas instruções.",
+          "correct": false,
+          "why": "O arquivo de construção fica fora do escopo das especificações."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Verifique, item a item, se o que se promete está escrito em uma das especificações ou se é comportamento de uma ferramenta particular."
+    },
+    {
+      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada mecanismo ao efeito observado dentro de um container em execução. Sobram itens na coluna da direita que não correspondem a nenhum mecanismo.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Namespace de PID",
+          "right": "o processo principal se enxerga com o número 1 e não lista os demais processos da máquina"
+        },
+        {
+          "left": "Namespace de rede",
+          "right": "a instância tem tabela de rotas própria e ouve na porta 80 sem colidir com outro serviço na mesma porta"
+        },
+        {
+          "left": "Namespace de montagem",
+          "right": "a árvore de diretórios enxergada difere da árvore existente no sistema hospedeiro"
+        },
+        {
+          "left": "cgroups",
+          "right": "ao ultrapassar o teto configurado de memória, o processo é encerrado pelo núcleo"
+        },
+        {
+          "left": "Sistema de arquivos em união",
+          "right": "gravar em um arquivo herdado de uma camada inferior produz uma cópia gravável e preserva o conteúdo original"
+        }
+      ],
+      "right_distractors": [
+        "chamadas de sistema fora da lista permitida são recusadas com erro pelo núcleo",
+        "todas as chamadas feitas pelo processo são registradas em disco para auditoria posterior"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Separe os mecanismos que restringem o que o processo enxerga dos que restringem o quanto ele consome e daquele que decide como o disco é montado a partir de partes empilhadas."
+    },
+    {
+      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "type": "quiz",
+      "difficulty": "easy",
+      "statement": "Um container executou uma consulta pesada, consumiu toda a memória RAM do servidor e derrubou os serviços vizinhos. Qual mecanismo do kernel não estava configurado para esse container?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "cgroups, que impõem um teto de memória e barram o processo antes que ele tome a máquina.",
+          "correct": true,
+          "why": "Contabilidade e limitação de recursos são função dos cgroups."
+        },
+        {
+          "text": "O namespace de PID, que impediria o processo de enxergar e afetar os processos vizinhos.",
+          "correct": false,
+          "why": "Esse namespace muda a visibilidade de processos, não a quantidade de memória consumida."
+        },
+        {
+          "text": "O namespace de montagem, que separaria a área de troca usada pelo processo.",
+          "correct": false,
+          "why": "Ele isola a árvore de diretórios; não reserva nem limita memória."
+        },
+        {
+          "text": "O sistema de arquivos em união, que manteria as gravações numa camada separada.",
+          "correct": false,
+          "why": "Trata do empilhamento do disco, sem relação com consumo de RAM."
+        },
+        {
+          "text": "O namespace de rede, que limitaria a banda e a memória de buffers do processo.",
+          "correct": false,
+          "why": "Ele dá pilha de rede própria ao container, mas não estabelece cotas de memória."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pergunte qual dos mecanismos responde por contabilidade de recursos e qual responde apenas por visibilidade."
+    },
+    {
+      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "statement": "Marque todas que se aplicam ao comportamento do sistema de arquivos em união usado pelos containers.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Vários containers criados a partir da mesma imagem compartilham em disco as mesmas camadas somente leitura.",
+          "correct": true,
+          "why": "O compartilhamento das camadas de baixo é o que torna barato subir muitas instâncias."
+        },
+        {
+          "text": "As gravações feitas em execução vão para uma camada de escrita própria de cada container.",
+          "correct": true,
+          "why": "Cada instância recebe sua camada superior gravável."
+        },
+        {
+          "text": "Apagar dentro do container um arquivo vindo da imagem apenas o esconde por uma marcação, sem reduzir o espaço ocupado pelas camadas.",
+          "correct": true,
+          "why": "A remoção é registrada na camada superior; a inferior permanece intacta."
+        },
+        {
+          "text": "Ao iniciar, cada container recebe uma cópia completa do conteúdo da imagem no disco do hospedeiro.",
+          "correct": false,
+          "why": "A cópia é feita por arquivo, apenas quando há escrita, e não de forma integral na subida."
+        },
+        {
+          "text": "Um processo que rode como root dentro do container altera diretamente as camadas somente leitura da imagem.",
+          "correct": false,
+          "why": "A escrita é desviada para a camada superior; as camadas de baixo permanecem inalteradas."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pense no que precisaria ser copiado ao subir dez instâncias da mesma imagem e no que só existe enquanto cada uma delas vive."
+    },
+    {
+      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "No macOS e no Windows, o Docker Desktop executa containers Linux. Como o kernel Linux exigido por essas imagens é obtido nessas estações?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Uma máquina virtual leve, gerenciada pelo próprio Docker Desktop, fornece o kernel Linux em que os containers rodam.",
+          "correct": true,
+          "why": "Tanto no Mac quanto no Windows há um kernel Linux dentro de uma VM administrada pelo produto."
+        },
+        {
+          "text": "O Docker Desktop traduz em tempo de execução as chamadas de sistema Linux para chamadas nativas do sistema hospedeiro.",
+          "correct": false,
+          "why": "Tradução de chamadas existiu em outra tecnologia, mas não é como o produto executa containers Linux hoje."
+        },
+        {
+          "text": "Cada imagem baixada é reconstruída no formato nativo do sistema hospedeiro no momento do primeiro uso.",
+          "correct": false,
+          "why": "Imagens não são reconstruídas na estação; são executadas como estão."
+        },
+        {
+          "text": "O kernel Linux é instalado ao lado do sistema hospedeiro e escolhido durante a inicialização da máquina.",
+          "correct": false,
+          "why": "Não há inicialização dupla; o kernel adicional roda simultaneamente, dentro de uma VM."
+        },
+        {
+          "text": "Os containers Linux usam diretamente o kernel do hospedeiro, que já implementa as mesmas chamadas de sistema.",
+          "correct": false,
+          "why": "Nem macOS nem Windows implementam a interface de chamadas do Linux para esse fim."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pergunte qual núcleo atende às chamadas de sistema de um processo Linux e se o sistema instalado nessas estações oferece esse núcleo."
+    },
+    {
+      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Marque todas que se aplicam ao Docker Desktop como forma de instalação.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A instalação entrega, além do serviço que executa containers, uma interface gráfica e o cliente de linha de comando.",
+          "correct": true,
+          "why": "É um pacote de produto, não apenas o serviço."
+        },
+        {
+          "text": "Os limites de processador e memória disponíveis aos containers ficam presos ao que foi reservado para a máquina virtual do produto.",
+          "correct": true,
+          "why": "A VM é o teto de recursos de tudo que roda dentro dela."
+        },
+        {
+          "text": "No Linux, o Docker Desktop também cria uma máquina virtual, em vez de usar o kernel da máquina diretamente.",
+          "correct": true,
+          "why": "A versão para Linux mantém a VM para uniformizar o comportamento entre plataformas."
+        },
+        {
+          "text": "No Windows, containers Linux e containers Windows são executados ao mesmo tempo pelo mesmo serviço.",
+          "correct": false,
+          "why": "É preciso alternar entre os dois modos; eles não convivem no mesmo serviço."
+        },
+        {
+          "text": "O uso é gratuito para empresas de qualquer porte, já que o produto é distribuído sob licença livre.",
+          "correct": false,
+          "why": "O produto tem licença comercial com exigência de assinatura acima de certo porte de empresa."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Compare o produto de desktop com uma instalação enxuta em servidor: o que vem junto, de onde sai o kernel e sob quais condições o uso é permitido."
+    },
+    {
+      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "type": "quiz",
+      "difficulty": "hard",
+      "statement": "Numa estação Windows 11, a instalação do Docker Desktop termina sem erro, mas ao abrir o produto surge a mensagem de que o back-end WSL2 não pôde ser iniciado. Qual verificação ataca a causa mais provável?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Conferir se a virtualização por hardware está habilitada no firmware e se o recurso WSL2 está ativado no Windows.",
+          "correct": true,
+          "why": "Sem virtualização habilitada e sem o recurso ativado, o back-end não sobe."
+        },
+        {
+          "text": "Conferir se o antivírus está bloqueando a porta usada pelo cliente para falar com o serviço.",
+          "correct": false,
+          "why": "A comunicação local do cliente não é a causa de o back-end não iniciar."
+        },
+        {
+          "text": "Conferir se a imagem baixada foi construída para a mesma arquitetura de processador da estação.",
+          "correct": false,
+          "why": "Arquitetura de imagem só entra em cena depois que o ambiente de execução está de pé."
+        },
+        {
+          "text": "Conferir se o cliente de linha de comando foi acrescentado à variável PATH do usuário.",
+          "correct": false,
+          "why": "Ausência no PATH impede chamar o comando, não impede o back-end iniciar."
+        },
+        {
+          "text": "Conferir se há espaço em disco suficiente para descompactar as camadas da imagem base.",
+          "correct": false,
+          "why": "Falta de espaço se manifesta ao baixar imagens, não na subida do back-end."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "O back-end citado na mensagem depende de um recurso do sistema que, por sua vez, depende de algo habilitado antes de o sistema operacional carregar."
+    },
+    {
+      "topic": "Docker Engine no Linux e quando ele basta",
+      "type": "ordering",
+      "difficulty": "medium",
+      "statement": "Ordene os passos da instalação do Docker Engine em um servidor Debian/Ubuntu a partir do repositório oficial, até que a conta de trabalho possa usar o cliente sem sudo.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [
+        "Baixar a chave pública de assinatura do repositório oficial e gravá-la em /etc/apt/keyrings com permissão de leitura para todos",
+        "Acrescentar em /etc/apt/sources.list.d um arquivo com a linha do repositório oficial, indicando a arquitetura e o codinome da distribuição",
+        "Atualizar o índice local de pacotes do apt",
+        "Instalar os pacotes docker-ce, docker-ce-cli e containerd.io",
+        "Acrescentar a conta de trabalho ao grupo docker",
+        "Encerrar a sessão do usuário no sistema e autenticar novamente"
+      ],
+      "trap": "O aluno desatento inverte a gravação da chave pública e o acréscimo da linha do repositório: parece natural primeiro dizer ao apt onde o repositório fica e só depois cuidar da confiança. Nessa ordem, a atualização do índice falha com NO_PUBKEY e o apt descarta o repositório, porque a assinatura é verificada já na primeira leitura do índice.",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada passo, pergunte o que precisa existir na máquina antes dele: um material de confiança já gravado, um grupo que só passa a existir com o pacote, uma sessão cujas credenciais são lidas na entrada."
+    },
+    {
+      "topic": "Docker Engine no Linux e quando ele basta",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "Um servidor Ubuntu sem ambiente gráfico vai hospedar a aplicação em containers. Por que instalar apenas o Docker Engine costuma bastar nesse caso?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "O Engine já traz o serviço e o cliente de linha de comando, e os containers usam o kernel da própria máquina.",
+          "correct": true,
+          "why": "Em hospedeiro Linux não é preciso máquina virtual nem interface gráfica para executar containers Linux."
+        },
+        {
+          "text": "O Engine converte as imagens para o formato de pacote da distribuição, o que dispensa a máquina virtual.",
+          "correct": false,
+          "why": "Não há conversão de imagem em pacote; a dispensa da VM vem do kernel compatível."
+        },
+        {
+          "text": "O Engine é a versão reduzida do produto de desktop e, sem a máquina virtual, executa somente imagens oficiais.",
+          "correct": false,
+          "why": "Não há restrição de origem das imagens; a diferença está no que acompanha a instalação."
+        },
+        {
+          "text": "O Engine roda inteiramente em espaço de usuário e por isso não depende de recursos do kernel para isolar processos.",
+          "correct": false,
+          "why": "O isolamento vem justamente de recursos do kernel, usados pelo serviço."
+        },
+        {
+          "text": "O Engine inclui a interface gráfica desativada por padrão, que pode ser ligada quando houver ambiente gráfico.",
+          "correct": false,
+          "why": "A interface gráfica pertence ao produto de desktop e não acompanha o Engine."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Liste o que o produto de desktop acrescenta a uma instalação de serviço e pergunte quais desses acréscimos fazem falta numa máquina sem tela."
+    },
+    {
+      "topic": "Docker Engine no Linux e quando ele basta",
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "statement": "Marque todas que se aplicam a uma instalação de Docker Engine em servidor Linux.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "O serviço roda como root e seu socket pertence ao grupo docker; pôr uma conta nesse grupo dá poder equivalente ao de administrador.",
+          "correct": true,
+          "why": "Quem fala com o socket pode montar diretórios do hospedeiro e escalar privilégio."
+        },
+        {
+          "text": "Não há máquina virtual envolvida: os containers usam o kernel da distribuição que já está em execução no servidor.",
+          "correct": true,
+          "why": "É a razão de o Engine bastar em hospedeiro Linux."
+        },
+        {
+          "text": "O serviço é iniciado e habilitado no boot pelo systemd, como qualquer outro serviço da distribuição.",
+          "correct": true,
+          "why": "A instalação por pacote registra uma unidade de serviço gerenciada pelo init da distribuição."
+        },
+        {
+          "text": "Como não existe interface gráfica no servidor, imagens que exponham porta precisam ser executadas com o cliente rodando como root.",
+          "correct": false,
+          "why": "Publicar porta não depende de interface gráfica nem obriga o cliente a rodar como root."
+        },
+        {
+          "text": "Cada imagem executada precisa conter um kernel compatível com a versão instalada no servidor.",
+          "correct": false,
+          "why": "Imagem não contém kernel; ela traz apenas o espaço de usuário."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pergunte, item a item, com que privilégio o processo do serviço roda, de onde vem o kernel usado pelos containers e quem cuida de subir o serviço depois de um reboot."
+    }
+  ]
+}

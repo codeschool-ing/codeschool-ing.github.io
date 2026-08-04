@@ -1,0 +1,188 @@
+{
+  "course": "docker",
+  "generated_at": "2026-08-03T07:35:38.758Z",
+  "options": 5,
+  "blind": false,
+  "exercises": [
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "statement": "Sobre o que a adoção de containers resolve e o que não resolve, marque todas as afirmações que se aplicam.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Dois serviços que exigem versões incompatíveis do mesmo interpretador convivem no mesmo servidor sem que um sobrescreva os arquivos do outro.",
+          "correct": true,
+          "why": "Cada container traz o próprio conjunto de arquivos, o que elimina o conflito de dependências no mesmo servidor."
+        },
+        {
+          "text": "A resolução das dependências deixa de ser um roteiro executado no servidor e passa a estar concluída antes da entrega.",
+          "correct": true,
+          "why": "O empacotamento é feito antes, e o que chega ao servidor já contém as dependências resolvidas."
+        },
+        {
+          "text": "O processo dentro do container vê um sistema de arquivos e uma lista de processos separados dos demais serviços da mesma máquina.",
+          "correct": true,
+          "why": "É exatamente a visão restrita que caracteriza o container e o mantém isolado dos vizinhos."
+        },
+        {
+          "text": "Um serviço compilado para Windows passa a executar em servidor Linux sem recompilar, porque o container carrega o sistema de origem.",
+          "correct": false,
+          "why": "O container não substitui o kernel do hospedeiro; binários de outro sistema operacional não passam a executar por isso."
+        },
+        {
+          "text": "O consumo de processador do serviço cai, porque o container descarta as partes do sistema que o processo não utiliza.",
+          "correct": false,
+          "why": "Menos arquivos empacotados não reduz o trabalho de processador do programa; a conta de CPU continua a mesma."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada afirmação, examine se o ganho descrito vem de onde os arquivos foram preparados e de quanto o processo consegue ver, ou de algo que o equipamento e o sistema hospedeiro teriam de passar a fornecer.",
+      "_critique": [
+        {
+          "dimension": "statement",
+          "severity": "high",
+          "explanation": "O comando é ambíguo quanto ao critério de marcação. 'Sobre o que a adoção de containers resolve e o que não resolve, marque todas as afirmações que se aplicam' não diz se o aluno deve marcar as afirmações verdadeiras ou as que descrevem limites/o que não é resolvido. Como as duas erradas são justamente enunciados sobre coisas que o container NÃO faz (rodar binário Windows no Linux, baixar consumo de CPU), um aluno que domina o tópico pode entender que o pedido é apontar os itens do lado 'não resolve' e marcar 3 e 4 — conjunto oposto ao gabarito. Sendo a correção por conjunto exato, a ambiguidade reprova quem sabe.",
+          "suggestion": "Reescrever para um critério único e explícito, por exemplo: 'Marque todas as afirmações VERDADEIRAS sobre o que o uso de containers resolve. As afirmações falsas não devem ser marcadas.'"
+        },
+        {
+          "dimension": "distractors",
+          "severity": "high",
+          "explanation": "Há um padrão de formato que separa corretas de erradas sem exigir conhecimento do tópico: as duas alternativas erradas (3 e 4) são as únicas que embutem uma justificativa causal no próprio texto ('...porque o container carrega o sistema de origem', '...porque o container descarta as partes do sistema que o processo não utiliza'), enquanto as três corretas são afirmações secas, sem cláusula explicativa. Além disso, as erradas são as únicas que fazem promessas fortes de transformação (binário de outro SO passa a executar; consumo de CPU cai), do tipo que quem faz prova descarta por hábito. Dá para fechar o conjunto exato por formato.",
+          "suggestion": "Uniformizar a estrutura: ou todas as alternativas trazem justificativa embutida, ou nenhuma traz (deixando a explicação apenas no campo 'porque'). E tornar pelo menos um distrator sutil — por exemplo, 'o container garante que a mesma imagem produza o mesmo resultado independentemente da versão do kernel do hospedeiro' — em vez de afirmações de ganho espetacular."
+        }
+      ]
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada situação vivida pela equipe ao efeito observado depois de passar a executar o serviço em container. Sobram efeitos na coluna da direita que não correspondem a nenhuma situação.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "O banco de dados de teste foi instalado direto no sistema de cada notebook, e ninguém sabe mais o que foi acrescentado ali",
+          "right": "Descartar o serviço não deixa vestígio no hospedeiro: nada permanece espalhado pelos diretórios da máquina"
+        },
+        {
+          "left": "Dois serviços do mesmo servidor precisam de versões incompatíveis do mesmo interpretador",
+          "right": "Os dois ficam ativos ao mesmo tempo na máquina, cada um encontrando os arquivos que espera"
+        },
+        {
+          "left": "A ida para produção depende de uma sequência de comandos digitada à mão por quem estiver de plantão",
+          "right": "Duas entregas conduzidas em dias diferentes chegam ao servidor com conteúdo idêntico"
+        },
+        {
+          "left": "Um defeito relatado por cliente só se reproduz com o comportamento que o serviço tinha seis meses atrás",
+          "right": "O estado antigo do serviço volta a executar ao lado do atual, sem desfazer o que já está na máquina"
+        }
+      ],
+      "right_distractors": [
+        "O mesmo serviço passa a executar em máquinas de arquitetura de processador diferente, sem novo empacotamento",
+        "Um travamento do serviço deixa de alcançar o hospedeiro, que segue respondendo mesmo sem memória livre"
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Leia cada situação perguntando qual incômodo concreto ela descreve, e procure o efeito que retira exatamente esse incômodo, sem prometer nada além dele.",
+      "_critique": [
+        {
+          "dimension": "key",
+          "severity": "high",
+          "explanation": "Dois efeitos da direita descrevem o mesmo fenômeno — coexistência de duas versões na mesma máquina — e trocam de lugar sem prejuízo. 'Os dois ficam ativos ao mesmo tempo na máquina, cada um encontrando os arquivos que espera' descreve com precisão tanto a situação 2 (dois serviços com interpretadores incompatíveis) quanto a situação 4 (rodar o estado de seis meses atrás ao lado do atual: são duas versões ativas simultaneamente, cada uma com os arquivos que espera). Da mesma forma, 'O estado antigo do serviço volta a executar ao lado do atual, sem desfazer o que já está na máquina' pode ser lido como a resposta da situação 2 por um aluno que entenda 'estado antigo' como 'versão antiga do interpretador'. Como a correção é por conjunto exato de pares, quem domina o conceito de isolamento pode inverter os dois e ser reprovado.",
+          "suggestion": "Reescrever um dos dois efeitos para que só possa casar com uma situação. Ex.: para a situação 2, 'Cada serviço carrega sua própria versão do interpretador dentro do próprio empacotamento, sem que uma sobrescreva a outra no sistema do hospedeiro'; para a situação 4, 'Uma versão anterior, já empacotada, volta a executar exatamente como era, sem reinstalar nem remover nada do que está em uso hoje'."
+        },
+        {
+          "dimension": "distractors",
+          "severity": "low",
+          "explanation": "O distrator 'Um travamento do serviço deixa de alcançar o hospedeiro, que segue respondendo mesmo sem memória livre' não é falso na primeira metade: um processo que quebra dentro do container realmente não derruba o hospedeiro, e com limite de memória por cgroup a segunda metade também é defensável. Um distrator verdadeiro sobre containers convida o aluno a forçar um par onde não há situação correspondente (por exemplo, tentar encaixá-lo na situação 1, que fala de sujeira deixada no sistema).",
+          "suggestion": "Tornar o distrator claramente falso, como 'Qualquer travamento do serviço passa a ser corrigido automaticamente pelo próprio Docker, sem intervenção da equipe', mantendo a plausibilidade sem descrever um efeito real de container."
+        }
+      ]
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "statement": "Comparando execução direta no equipamento, máquina virtual e container, marque todas as afirmações corretas.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Containers de uma mesma máquina compartilham o kernel do hospedeiro, então um serviço que exija recurso ausente nesse kernel também não funciona em container.",
+          "correct": true,
+          "why": "O kernel é do hospedeiro; o que ele não oferece não passa a existir por causa do empacotamento."
+        },
+        {
+          "text": "Uma máquina virtual pode executar um sistema operacional de família diferente da do hospedeiro, com boot e drivers próprios.",
+          "correct": true,
+          "why": "O hóspede é um sistema completo e independente, por isso pode ser de outra família."
+        },
+        {
+          "text": "A separação entre container e hospedeiro é sustentada por recursos do kernel compartilhado, enquanto a de uma máquina virtual é sustentada por uma camada situada abaixo dos sistemas hóspedes.",
+          "correct": true,
+          "why": "São mecanismos de fronteira distintos: um dentro do kernel comum, outro sob os sistemas hóspedes."
+        },
+        {
+          "text": "Executar direto no equipamento perdeu utilidade prática: qualquer carga nessa condição pode ir para container sem perda.",
+          "correct": false,
+          "why": "Cargas que precisam de acesso direto ao hardware, kernel específico ou desempenho previsível continuam justificando execução direta."
+        },
+        {
+          "text": "Um container substitui a máquina virtual quando o requisito é executar um kernel com módulos próprios, sem afetar o hospedeiro.",
+          "correct": false,
+          "why": "Carregar kernel e módulos próprios é justamente o caso em que o container não serve, pois o kernel é o do hospedeiro."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Em cada afirmação, conte quantos kernels existem no arranjo descrito e quem os colocou em funcionamento.",
+      "_critique": [
+        {
+          "dimension": "distractors",
+          "severity": "high",
+          "explanation": "As duas alternativas erradas são as únicas escritas em tom de generalização/substituição exagerada ('perdeu utilidade prática: qualquer carga ... sem perda', 'um container substitui a máquina virtual'), enquanto as três corretas são todas condicionadas e cheias de qualificadores ('então', 'enquanto', 'pode'). Isso cria um padrão de formato: quem aplica a heurística de prova de descartar afirmações absolutas/totalizantes e marcar as nuançadas acerta o conjunto exato sem saber nada sobre kernel compartilhado, hipervisor ou bare metal. O exercício deixa de medir o tópico.",
+          "suggestion": "Reescrever os distratores com a mesma sobriedade e condicionalidade das corretas, apoiando o erro em um conceito técnico plausível e não em exageração retórica — por exemplo: 'Cada container executa seu próprio kernel isolado, por isso pode carregar módulos que o hospedeiro não possui' e 'A máquina virtual dispensa hipervisor porque o isolamento vem de namespaces do hospedeiro'. E incluir ao menos uma alternativa correta curta e sem qualificadores, para desfazer a correlação entre formato e gabarito."
+        },
+        {
+          "dimension": "hint",
+          "severity": "low",
+          "explanation": "A dica afirma que o critério de decisão em 'cada afirmação' é contar kernels e quem os iniciou, mas isso não decide a afirmação 3, cuja incorreção depende de acesso direto a hardware, desempenho previsível e latência — nada disso se resolve contando kernels. A dica descreve o exercício de forma parcialmente incorreta, sugerindo um único critério onde há dois.",
+          "suggestion": "Ampliar a dica para cobrir os dois eixos avaliados, por exemplo: 'Em cada afirmação, pergunte-se quantos kernels existem no arranjo e quem os iniciou — e, quando a afirmação falar de substituir uma forma de execução por outra, verifique também o que se exige do hardware e do desempenho.'"
+        }
+      ]
+    }
+  ]
+}

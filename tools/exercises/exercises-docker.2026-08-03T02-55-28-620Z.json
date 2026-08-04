@@ -1,0 +1,551 @@
+{
+  "course": "docker",
+  "generated_at": "2026-08-03T02:16:01.343Z",
+  "options": 5,
+  "exercises": [
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "quiz",
+      "difficulty": "easy",
+      "statement": "Um serviço sobe sem erro no notebook de quem o escreveu e falha ao iniciar no servidor de produção. Qual descrição corresponde ao problema que containers atacam?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Empacota a aplicação junto das bibliotecas e arquivos de que ela depende, de modo que o mesmo artefato rode igual em hosts diferentes.",
+          "correct": true,
+          "why": "O container transporta o espaço de usuário inteiro de que a aplicação precisa, removendo a divergência entre a máquina de desenvolvimento e a de produção."
+        },
+        {
+          "text": "Compila a aplicação para código de máquina do host, de modo que ela deixe de depender de interpretador ou runtime de linguagem.",
+          "correct": false,
+          "why": "Compilação estática existe, mas é outra técnica: o container não recompila nada, apenas leva junto o que a aplicação carrega."
+        },
+        {
+          "text": "Substitui o controle de versão do código, guardando o histórico de alterações em camadas recuperáveis.",
+          "correct": false,
+          "why": "Camadas existem em imagens, mas servem a reaproveitamento de conteúdo, não a histórico de desenvolvimento."
+        },
+        {
+          "text": "Traduz chamadas de sistema entre kernels diferentes, permitindo rodar binários de outro sistema operacional sem alteração.",
+          "correct": false,
+          "why": "Tradução de chamadas existe em camadas de compatibilidade, mas o container executa direto sobre o kernel do host."
+        },
+        {
+          "text": "Isola erros de lógica da aplicação, impedindo que uma exceção não tratada interrompa o atendimento.",
+          "correct": false,
+          "why": "Reinício automático e supervisão existem, mas o isolamento do container é de recursos e visibilidade, não de defeitos no código."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Pergunte-se o que exatamente muda entre as duas máquinas quando o mesmo artefato é executado nas duas."
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Uma máquina Linux roda cinco containers de aplicações diferentes ao mesmo tempo. Marque todas as afirmações que se aplicam.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "As bibliotecas de espaço de usuário que cada aplicação carrega vêm de dentro do seu artefato, e não da instalação da máquina.",
+          "correct": true,
+          "why": "É justamente esse conteúdo empacotado que faz o artefato se comportar igual em hosts diferentes."
+        },
+        {
+          "text": "As chamadas de sistema das cinco aplicações são atendidas pelo mesmo kernel, o da máquina que as hospeda.",
+          "correct": true,
+          "why": "Container não traz kernel: o kernel do host é compartilhado por todos."
+        },
+        {
+          "text": "Duas dessas aplicações podem exigir versões incompatíveis da mesma biblioteca de sistema e ainda assim rodar lado a lado.",
+          "correct": true,
+          "why": "Cada uma vê a árvore de arquivos do seu próprio artefato, então as versões não disputam a mesma instalação."
+        },
+        {
+          "text": "Cada container traz o seu próprio kernel, escolhido no momento em que a imagem foi montada.",
+          "correct": false,
+          "why": "Levar kernel próprio é característica de máquina virtual, não de container."
+        },
+        {
+          "text": "Cada artefato inclui os drivers de dispositivo da máquina onde foi construído, e é isso que garante hardware idêntico em qualquer host.",
+          "correct": false,
+          "why": "Drivers pertencem ao kernel do host; o artefato não os transporta nem apresenta hardware uniforme."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Separe o que o artefato transporta do que ele encontra pronto na máquina, e faça a pergunta item por item: de onde isso vem durante a execução?"
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "matching",
+      "difficulty": "medium",
+      "statement": "Associe cada situação vivida por uma equipe ao efeito observável depois de empacotar a aplicação em container.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "A aplicação usa uma biblioteca de sistema que está em versão diferente no servidor de produção.",
+          "right": "A cópia carregada em execução vem do pacote entregue, e a instalada na máquina fica de fora."
+        },
+        {
+          "left": "Dois serviços exigem interpretadores de versões incompatíveis entre si.",
+          "right": "As duas versões em conflito ficam disponíveis ao mesmo tempo, cada uma para quem a pediu."
+        },
+        {
+          "left": "Cada pessoa nova gasta dias seguindo um documento para deixar a máquina pronta.",
+          "right": "O caminho até a primeira execução se resume a baixar um pacote já montado e iniciá-lo."
+        },
+        {
+          "left": "Depois de uma entrega ruim, é preciso voltar ao que estava atendendo antes.",
+          "right": "O pacote publicado antes continua idêntico byte a byte e volta a responder ao ser iniciado."
+        }
+      ],
+      "right_distractors": [
+        "As alterações gravadas durante a execução ficam salvas no pacote entregue e seguem para o próximo início.",
+        "Cada serviço passa a ocupar uma máquina dedicada, com o próprio sistema operacional instalado."
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada situação, pergunte o que passou a ser carregado dentro do pacote e o que deixou de ser responsabilidade da máquina."
+    },
+    {
+      "topic": "O que é um container e que problema ele resolve",
+      "type": "quiz",
+      "difficulty": "hard",
+      "statement": "A frase \"a mesma imagem roda igual em qualquer lugar\" tem limites. Qual das situações abaixo realmente impede que uma imagem já construída seja executada no host?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "O host tem processador de arquitetura diferente daquela para a qual os programas da imagem foram compilados.",
+          "correct": true,
+          "why": "Instruções de máquina não viajam dentro do pacote de forma neutra: binários de uma arquitetura não executam em outra sem emulação."
+        },
+        {
+          "text": "O host roda uma distribuição Linux diferente da que serviu de base para a imagem.",
+          "correct": false,
+          "why": "A distribuição de dentro da imagem é a que vale para a aplicação; a do host não participa."
+        },
+        {
+          "text": "O host tem instalada uma versão diferente da biblioteca C do sistema.",
+          "correct": false,
+          "why": "A biblioteca usada em execução é a que está dentro da imagem, não a do host."
+        },
+        {
+          "text": "O host não tem instalada a versão da linguagem em que a aplicação foi escrita.",
+          "correct": false,
+          "why": "O interpretador ou runtime necessário faz parte do conteúdo empacotado."
+        },
+        {
+          "text": "O host usa um gerenciador de pacotes diferente do usado durante a construção da imagem.",
+          "correct": false,
+          "why": "O gerenciador de pacotes só atuou na construção; em execução não é consultado."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Divida os itens entre o que uma imagem carrega dentro de si e o que ela apenas encontra pronto na máquina."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "statement": "Comparando uma máquina virtual e um container rodando no mesmo servidor Linux, marque todas as afirmações que se aplicam.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A máquina virtual executa um kernel próprio, enquanto o container usa o kernel já em execução no servidor.",
+          "correct": true,
+          "why": "É a diferença estrutural entre os dois modelos e explica quase todas as demais."
+        },
+        {
+          "text": "O tempo de partida do container fica na ordem do início de um processo, porque não há carga de sistema operacional antes.",
+          "correct": true,
+          "why": "Sem boot de kernel e serviços do convidado, o que resta é criar o processo isolado."
+        },
+        {
+          "text": "O container só executa cargas compatíveis com o kernel do servidor, o que restringe a mistura de sistemas operacionais na mesma máquina.",
+          "correct": true,
+          "why": "Como o kernel é compartilhado, não há como rodar um sistema de outra família nativamente."
+        },
+        {
+          "text": "A máquina virtual isola por hipervisor e o container não isola nada: os processos de um container aparecem na lista de processos do outro.",
+          "correct": false,
+          "why": "Containers isolam a visão de processos, rede e montagens; a lista de um não mostra os processos do outro."
+        },
+        {
+          "text": "O container ocupa menos disco porque seus arquivos são comprimidos durante a execução e descomprimidos sob demanda.",
+          "correct": false,
+          "why": "Compressão existe no transporte da imagem, não como mecanismo de execução; a economia vem de não carregar um sistema convidado inteiro."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Conte quantos kernels estão carregados em cada cenário e veja quais afirmações decorrem dessa contagem."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "matching",
+      "difficulty": "hard",
+      "statement": "Associe cada forma de executar uma carga de trabalho à observação que um operador faria ao administrar a máquina.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [],
+      "trap": "",
+      "pairs": [
+        {
+          "left": "Bare metal",
+          "right": "Colocar dois serviços que pedem versões diferentes da mesma biblioteca de sistema exige conciliar as duas numa só instalação."
+        },
+        {
+          "left": "Máquina virtual sobre hipervisor tipo 1",
+          "right": "Não há sessão de trabalho na máquina física: ali não roda editor de texto, navegador nem pacote de escritório."
+        },
+        {
+          "left": "Máquina virtual sobre hipervisor tipo 2 em um notebook",
+          "right": "Encerrar o programa que gerencia as instâncias derruba as instâncias, e o restante da máquina segue em uso normal."
+        },
+        {
+          "left": "Container sobre Docker Engine no Linux",
+          "right": "A lista de processos da máquina mostra o programa isolado como um processo comum entre os demais."
+        }
+      ],
+      "right_distractors": [
+        "Encerrar o programa que gerencia as instâncias não as afeta, e elas seguem em execução com o próprio kernel.",
+        "Trocar a versão do kernel visto pelo programa isolado leva apenas o tempo de reiniciá-lo, sem mexer na máquina física."
+      ],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada linha, pergunte o que mais está em execução na mesma máquina física além da carga em questão, e quem responde às chamadas de sistema dela."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "quiz",
+      "difficulty": "hard",
+      "statement": "Uma plataforma executa código enviado por clientes desconhecidos e decide usar uma máquina virtual por cliente, em vez de um container por cliente. Qual afirmação sustenta essa decisão?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Como todos os containers compartilham o mesmo kernel, uma falha de elevação de privilégio nele alcança o host e os vizinhos.",
+          "correct": true,
+          "why": "A superfície comum é o kernel: quebrá-lo derruba o isolamento de todos os containers da máquina, o que não acontece entre convidados de um hipervisor."
+        },
+        {
+          "text": "Containers não permitem limitar CPU e memória, então um cliente consegue consumir a máquina inteira.",
+          "correct": false,
+          "why": "Limites de recurso existem e são aplicados a containers; a razão da escolha não é essa."
+        },
+        {
+          "text": "Containers não recebem endereço próprio na rede, então o tráfego de um cliente fica visível para os outros.",
+          "correct": false,
+          "why": "Containers recebem endereço em rede virtual isolada; visibilidade de tráfego não é o argumento."
+        },
+        {
+          "text": "O sistema de arquivos do container é somente leitura, então o código do cliente não consegue gravar arquivos temporários.",
+          "correct": false,
+          "why": "A camada de escrita existe por padrão; somente leitura é uma configuração opcional, não uma limitação."
+        },
+        {
+          "text": "Containers não podem ser encerrados individualmente, então cortar o acesso de um cliente interrompe os demais.",
+          "correct": false,
+          "why": "Cada container é encerrado de forma independente; isso não pesa na decisão."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Identifique qual componente é único e comum a todos os containers da máquina e o que acontece com o isolamento se ele for comprometido."
+    },
+    {
+      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "Um banco de dados de latência crítica já ocupa sozinho todo o servidor. Qual afirmação sustenta mantê-lo em bare metal?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Sem virtualização de dispositivos entre o processo e o disco, o tempo de resposta de entrada e saída fica mais previsível.",
+          "correct": true,
+          "why": "O ganho de bare metal está em remover a camada de emulação/paravirtualização de dispositivos, que introduz variação de latência."
+        },
+        {
+          "text": "Em bare metal o sistema operacional não escalona processos, então o banco recebe a CPU de forma integral.",
+          "correct": false,
+          "why": "O escalonador do sistema continua atuando em bare metal; não há execução fora dele."
+        },
+        {
+          "text": "Em bare metal o banco pode ser transferido para outra máquina sem parar, copiando o estado em execução.",
+          "correct": false,
+          "why": "Migração ao vivo de estado é recurso de hipervisor, não de instalação direta no hardware."
+        },
+        {
+          "text": "Em bare metal cada versão de biblioteca fica isolada, evitando conflito com outros serviços da máquina.",
+          "correct": false,
+          "why": "O isolamento de bibliotecas vem de container ou convidado virtualizado; na instalação direta as versões disputam a mesma árvore."
+        },
+        {
+          "text": "Em bare metal a aplicação dispensa atualização de segurança, porque não há camada compartilhada com outros inquilinos.",
+          "correct": false,
+          "why": "Atualização de segurança segue necessária; ausência de vizinhos não elimina vulnerabilidades locais."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Liste as camadas que ficam entre o processo e o hardware em cada modelo e pergunte qual delas some ao instalar direto na máquina."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "ordering",
+      "difficulty": "medium",
+      "statement": "Ordene o percurso de uma aplicação empacotada, do artefato construído até o processo em execução, conforme as especificações da OCI.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [],
+      "items": [
+        "Uma ferramenta de construção grava as camadas e o manifesto no formato descrito pela image-spec.",
+        "O conteúdo é enviado a um registry pelas chamadas HTTP definidas na distribution-spec.",
+        "Em outra máquina, o mesmo conteúdo é solicitado ao registry pela API padronizada de distribuição.",
+        "As camadas são extraídas e mescladas em um diretório raiz, ao lado de um config.json com processo, variáveis de ambiente e montagens: o bundle da runtime-spec.",
+        "Um runtime compatível com a runtime-spec aplica namespaces e limites e passa a executar o comando declarado para o container."
+      ],
+      "trap": "Inverter os dois últimos passos. Quem lê \"runtime\" supõe que ele já saiba executar uma imagem e coloca a criação do processo logo depois do download. Mas o runtime da runtime-spec não interpreta manifesto nem camadas compactadas: ele exige um diretório raiz já mesclado e um config.json ao lado. Sem essa conversão, não há o que executar.",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "A image-spec e a runtime-spec descrevem artefatos de formatos diferentes; localize em que ponto do percurso um é convertido no outro."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "quiz",
+      "difficulty": "medium",
+      "statement": "Qual consequência prática decorre de o formato de imagem e a interface de execução estarem descritos em especificação pública da OCI?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Como o formato do artefato é público, uma imagem construída com uma ferramenta é executada por runtime de outro fornecedor sem ser reempacotada.",
+          "correct": true,
+          "why": "Interoperabilidade entre construtores, registries e runtimes é exatamente o que a especificação garante."
+        },
+        {
+          "text": "Como o padrão define o formato, uma imagem construída para uma arquitetura de processador passa a rodar em qualquer outra.",
+          "correct": false,
+          "why": "O padrão prevê descrever a arquitetura do artefato, não converter binários entre arquiteturas."
+        },
+        {
+          "text": "Como o padrão é mantido por uma fundação, imagens publicadas em registries públicos são verificadas contra vulnerabilidades antes de aceitas.",
+          "correct": false,
+          "why": "Varredura de vulnerabilidade existe como ferramenta separada; nenhuma especificação de formato a impõe ao registry."
+        },
+        {
+          "text": "Como o padrão define a interface de execução, containers com programas Linux passam a rodar sobre kernel Windows sem camada adicional.",
+          "correct": false,
+          "why": "Executar cargas de outra família de sistema segue exigindo uma máquina virtual com o kernel correspondente."
+        },
+        {
+          "text": "Como o padrão descreve as camadas, duas imagens de bases diferentes compartilham o mesmo espaço em disco quando têm o mesmo tamanho.",
+          "correct": false,
+          "why": "Compartilhamento de camadas depende de conteúdo idêntico identificado por digest, não de tamanho coincidente."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Uma especificação de formato diz como o artefato é escrito e lido; verifique quais promessas das alternativas extrapolam isso para hardware, segurança ou kernel."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "statement": "Uma equipe publica imagens em conformidade com as especificações da OCI. Marque todas as afirmações que se aplicam a essa conformidade.",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "A imagem publicada pode ser baixada e executada por ferramentas de outros fornecedores, sem conversão de formato.",
+          "correct": true,
+          "why": "É o objetivo central: construtores, registries e runtimes distintos trabalham sobre o mesmo artefato."
+        },
+        {
+          "text": "Formato do artefato, protocolo de transporte e execução ficam em especificações separadas, que podem estar em versões diferentes.",
+          "correct": true,
+          "why": "São três documentos independentes: image-spec, distribution-spec e runtime-spec."
+        },
+        {
+          "text": "A imagem continua atrelada ao sistema operacional e à arquitetura para os quais foi construída.",
+          "correct": true,
+          "why": "A especificação registra sistema e arquitetura no descritor; conformidade não torna o conteúdo universal."
+        },
+        {
+          "text": "Os comandos de linha passam a ser os mesmos em qualquer ferramenta compatível, já que a interface de uso é padronizada.",
+          "correct": false,
+          "why": "A especificação cobre artefatos e interfaces internas, não a sintaxe de nenhuma CLI."
+        },
+        {
+          "text": "A imagem passa a vir assinada, com a origem de cada camada auditável por quem a baixa.",
+          "correct": false,
+          "why": "Assinatura e proveniência são práticas adicionais, apoiadas por outras ferramentas e não impostas pela conformidade."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Para cada item, pergunte se aquilo está escrito em alguma das três especificações ou se é comportamento de ferramenta que alguém escolheu adotar."
+    },
+    {
+      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "type": "quiz",
+      "difficulty": "easy",
+      "statement": "Qual frase descreve corretamente a relação entre Docker e OCI?",
+      "language": "",
+      "skeleton": "",
+      "tests": [],
+      "given_code": "",
+      "answer": "",
+      "options": [
+        {
+          "text": "Docker é uma implementação que segue as especificações da OCI, e o artefato que ele produz é lido por outras ferramentas compatíveis.",
+          "correct": true,
+          "why": "A OCI publica especificações; Docker é um dos produtos que as implementam, junto de vários outros."
+        },
+        {
+          "text": "OCI é um runtime alternativo, instalado no lugar do Docker para executar as mesmas imagens.",
+          "correct": false,
+          "why": "Runtimes alternativos existem, mas a OCI é a organização que padroniza os formatos, não um deles."
+        },
+        {
+          "text": "OCI é o registry oficial no qual as imagens do Docker Hub são espelhadas para distribuição pública.",
+          "correct": false,
+          "why": "Registries alternativos existem; a OCI padroniza o protocolo de distribuição em vez de operar um serviço."
+        },
+        {
+          "text": "Docker converte imagens OCI para um formato próprio antes de executá-las na máquina.",
+          "correct": false,
+          "why": "Houve formatos anteriores ao padrão, mas hoje o artefato manipulado já é o descrito nas especificações."
+        },
+        {
+          "text": "OCI é uma camada de compatibilidade que traduz comandos do Docker para outras ferramentas de container.",
+          "correct": false,
+          "why": "Ferramentas com CLI compatível com a do Docker existem, porém a OCI não traduz comandos."
+        }
+      ],
+      "items": [],
+      "trap": "",
+      "pairs": [],
+      "right_distractors": [],
+      "answer_expression": "",
+      "variables": [],
+      "check_source": "",
+      "check_operation": "none",
+      "check_variable": "",
+      "socratic_hint": "Decida primeiro se a OCI entrega documento ou programa executável; depois avalie o que cada alternativa atribui a ela."
+    }
+  ]
+}

@@ -1,194 +1,198 @@
-# codeschool.ing — vitrine de cursos e trilhas
+# codeschool.ing — a showcase of courses and tracks
 
-Site de `codeschool.ing` — **Etapa 1: a vitrine**. Apresenta cursos, trilhas de formação, metodologia e captação de matrículas. Não há login, pagamento nem área do aluno: isso é a Etapa 2 (plataforma/LMS), que será **desenvolvimento sob medida** — plataforma pronta está descartada.
+The `codeschool.ing` site — **Stage 1: the showcase**. It presents courses, training tracks, the methodology and enrolment capture. There is no login, no payment and no student area: that is Stage 2 (the platform/LMS), which will be **built to measure** — an off-the-shelf platform has been ruled out.
 
-**Este código nasceu como vitrine da Televideo Informática e foi transferido para a codeschool.ing.** O catálogo — 86 cursos e 16 trilhas de programação, dados, infraestrutura, segurança e IA — sempre foi o desta escola: o público é quem quer trabalhar com tecnologia. A Televideo atende outro público (informática de uso, sem virar programador) e ganhará a própria versão a partir desta mesma base, trocando `dados.js` e a identidade.
+**This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 86 courses and 16 tracks across programming, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `dados.js` and the identity.
 
-O que a transferência exigiu além do nome: **as afirmações de história saíram**. "Desde 1999", "quem ensina há 25 anos", "5.000+ alunos formados" e "de Medianeira para o mundo" são verdade sobre a Televideo e seriam mentira sobre uma escola que está nascendo. No lugar do contador de alunos entrou a **soma real da carga horária do catálogo**, calculada em `script.js` a partir de `dados.js` — um número que já é verdadeiro no dia em que o site sobe e que cresce sozinho quando entra curso novo.
+What the transfer required beyond the name: **the claims about history had to go**. "Since 1999", "who has been teaching for 25 years", "5,000+ graduates" and "from Medianeira to the world" are true about Televideo and would be a lie about a school that is just being born. In place of the student counter came the **catalogue's real total workload**, computed in `script.js` from `dados.js` — a number that is already true on the day the site goes up and that grows by itself when a new course arrives.
 
-Identidade escuro/terminal, azul da marca, tema claro opcional e **fullpage** — cada seção ocupa a altura da tela e a rolagem (mouse, teclado ou toque) salta suavemente entre elas, com indicadores laterais. Painéis longos (catálogo, trilha no celular, depoimentos, matrícula) rolam internamente antes de trocar de tela. Em HTML, CSS e JavaScript puros — sem dependências e sem build.
+A dark/terminal identity, the brand's blue, an optional light theme and **fullpage** — each section fills the screen's height and scrolling (mouse, keyboard or touch) jumps smoothly between them, with side indicators. Long panels (the catalogue, a track on mobile, the testimonials, the enrolment form) scroll internally before switching screen. In plain HTML, CSS and JavaScript — no dependencies and no build.
 
-A trilha é apresentada como **grafo de dependências**: cada coluna é um nível e as arestas mostram o que destrava o quê. As trilhas vêm em duas famílias — **por carreira** e **por tecnologia** — cada uma na sua fileira de abas, visíveis ao mesmo tempo. Cada fileira fica em **uma linha só**, com rolagem horizontal, setas nas pontas e um esmaecimento na borda indicando de que lado há mais abas. A aba ativa é trazida para a vista sozinha, então o seletor aguenta a próxima trilha sem virar duas linhas nem deixar uma aba órfã.
+A track is presented as a **dependency graph**: each column is a level and the edges show what unlocks what. The tracks come in two families — **by career** and **by technology** — each in its own row of tabs, both visible at once. Each row stays on **a single line**, with horizontal scrolling, arrows at the ends and a fade at the edge showing which side has more tabs. The active tab is brought into view by itself, so the picker copes with the next track without becoming two lines or leaving an orphan tab.
 
-## Estrutura
+## A note on language
+
+The code, the comments and the documentation are in English. Everything the visitor reads is in Brazilian Portuguese. Three families of name stay in Portuguese because they are contracts, not preferences: the catalogue's fields (`nome`, `horas`, `topicos`, `depende`…), the DOM ids and CSS classes, and the i18n lookup keys — which *are* the Portuguese source sentences.
+
+## Structure
 
 ```
-index.html            → seções do site
-assets/dados.js       → CURSOS, TRILHAS e DEPOIMENTOS (é aqui que se mantém o conteúdo)
-assets/i18n.js        → dicionários en/es/fr/it: interface, trilhas e depoimentos
-assets/i18n-cursos-en.js → catálogo em inglês (nome, resumo, ementa, tópicos)
-assets/i18n-cursos-es.js → catálogo em espanhol
-assets/i18n-cursos-fr.js → catálogo em francês
-assets/i18n-cursos-it.js → catálogo em italiano
-assets/i18n-runtime.js→ detecção de idioma, troca e reaplicação
-assets/style.css      → estilos
-assets/script.js      → trilhas, catálogo, modal de curso, modal de inscrição
-assets/favicon.svg    → chevron e cursor do prompt, nas cores do tema
-.devcontainer/        → ambiente de desenvolvimento; precisa de Node e Python
-                        (o bundle é Python; o validador executa exercícios em ambos)
-ferramentas/          → utilitários, fora do site; uma pasta por ferramenta
-  bundle/             → gera o HTML único; escreve na raiz
-  valida-catalogo/    → confere depende: ids inexistentes e ciclos
-  exercicios/         → pipeline: gera, valida e critica exercícios dos tópicos
+index.html            → the site's sections
+assets/dados.js       → CURSOS, TRILHAS and DEPOIMENTOS (this is where the content is maintained)
+assets/i18n.js        → en/es/fr/it dictionaries: interface, tracks and testimonials
+assets/i18n-cursos-en.js → the catalogue in English (name, summary, syllabus, topics)
+assets/i18n-cursos-es.js → the catalogue in Spanish
+assets/i18n-cursos-fr.js → the catalogue in French
+assets/i18n-cursos-it.js → the catalogue in Italian
+assets/i18n-runtime.js→ language detection, switching and reapplication
+assets/style.css      → styles
+assets/script.js      → tracks, catalogue, course modal, signup modal
+assets/favicon.svg    → a chevron and a prompt cursor, in the theme's colours
+.devcontainer/        → the development environment; needs Node and Python
+                        (the bundler is Python; the validator runs exercises in both)
+tools/                → utilities, outside the site; one folder per tool
+  bundle/             → builds the single HTML file; writes at the root
+  validate-catalog/   → checks depende: non-existent ids and cycles
+  exercises/          → pipeline: generates, validates and critiques topic exercises
 ```
 
-## Componentes que trocam de forma conforme a largura
+## Components that change shape with the width
 
-Três fileiras roláveis viram **menu suspenso** onde não cabem — abaixo de 700px, onde "← item item →" mostraria meio item por vez e a seta ocuparia mais espaço que o rótulo:
+Three scrollable rows become a **dropdown menu** where they do not fit — below 700px, where "← item item →" would show half an item at a time and the arrow would take up more room than the label:
 
-| onde | tela larga | tela estreita |
+| where | wide screen | narrow screen |
 | --- | --- | --- |
-| trilhas | duas fileiras de abas, uma por família | um menu só, com a lista agrupada por família |
-| filtros do catálogo | chips numa linha com setas | menu com a categoria atual e a contagem |
-| menu do topo | links à mostra | menu sanduíche (abaixo de 1180px) |
+| tracks | two rows of tabs, one per family | a single menu, with the list grouped by family |
+| catalogue filters | chips on one line with arrows | a menu with the current category and the count |
+| top menu | links on show | burger menu (below 1180px) |
 
-O colapso do topo é a **1180px**, não 960px: com o seletor de idioma e a área do aluno, abaixo disso os links quebravam em duas linhas e a barra passava por cima da primeira fileira de trilhas. A barra tem altura fixa de 64px justamente para as seções poderem contar com ela. Abaixo de 620px a **área do aluno** sai — é marcador de funcionalidade futura, então é a primeira a ceder espaço, antes do menu sanduíche.
+The top bar collapses at **1180px**, not 960px: with the language picker and the student area, below that the links wrapped onto two lines and the bar covered the first row of tracks. The bar has a fixed height of 64px precisely so the sections can count on it. Below 620px the **student area** goes — it is a placeholder for future functionality, so it is the first to give up space, before the burger menu.
 
-## Cinco idiomas, com o português como origem
+## Five languages, with Portuguese as the source
 
-O site fala **português, inglês, espanhol, francês e italiano**. O seletor fica ao lado do botão de tema, e o idioma inicial vem de `navigator.languages` — o **idioma configurado no navegador**, não geolocalização. É o sinal certo: um brasileiro acessando de fora continua querendo português, e não exige permissão do usuário. A escolha explícita fica em `localStorage` e vence a detecção.
+The site speaks **Portuguese, English, Spanish, French and Italian**. The picker sits next to the theme button, and the initial language comes from `navigator.languages` — the **language configured in the browser**, not geolocation. That is the right signal: a Brazilian browsing from abroad still wants Portuguese, and it asks the user for no permission. An explicit choice lives in `localStorage` and beats the detection.
 
-**A chave de tradução é o próprio texto em português.** Isso tem três consequências práticas:
+**The translation key is the Portuguese text itself.** That has three practical consequences:
 
-1. O português não precisa de dicionário — ele é a origem.
-2. O HTML não precisa de atributos `data-i18n`: um passeio pelos **nós de texto** guarda o original de cada trecho no carregamento. Nós de texto, não elementos, porque frases partidas por `<strong>` e `<span>` no meio ficariam de fora.
-3. **Toda chave ausente cai de volta no português sozinha.** O dicionário pode crescer aos poucos sem que a tela quebre no meio do caminho — que é exatamente o estado atual.
+1. Portuguese needs no dictionary — it is the source.
+2. The HTML needs no `data-i18n` attributes: a walk of the **text nodes** stores each fragment's original on load. Text nodes, not elements, because sentences broken by a `<strong>` or a `<span>` in the middle would be left out.
+3. **Every missing key falls back to Portuguese by itself.** The dictionary can grow gradually without the screen breaking along the way — which is exactly the current state.
 
-Os dados do catálogo não passam por uma função de tradução: na troca de idioma, os objetos de `CURSOS`, `TRILHAS` e `DEPOIMENTOS` são **reescritos no lugar** a partir de uma cópia do português guardada no carregamento. Assim todo o resto do código continua lendo `c.nome` sem saber que existe tradução, e cada campo cai no português por conta própria quando falta a versão traduzida.
+The catalogue's data does not go through a translation function: on a language switch, the `CURSOS`, `TRILHAS` and `DEPOIMENTOS` objects are **rewritten in place** from a copy of the Portuguese stored on load. That way all the rest of the code goes on reading `c.nome` without knowing a translation exists, and each field falls back to Portuguese on its own when the translated version is missing.
 
-**Está tudo traduzido, nos quatro idiomas de destino**: a interface (153 chaves), as 16 trilhas por inteiro (nome, objetivo, saída, rótulo da bifurcação, nota e nomes das opções), os depoimentos e o catálogo completo — `nome`, `resumo`, `ementa`, `topicos` e `requisitos` dos 86 cursos. São **2.203 strings por idioma**, quase 9 mil no total. O catálogo mora em arquivo próprio por idioma (`i18n-cursos-<cod>.js`) porque sozinho pesa mais que todo o resto do site somado.
+**Everything is translated, in all four target languages**: the interface (153 keys), all 16 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `nome`, `resumo`, `ementa`, `topicos` and `requisitos` for all 86 courses. That is **2,203 strings per language**, almost nine thousand in total. The catalogue lives in its own file per language (`i18n-cursos-<code>.js`) because on its own it weighs more than the rest of the site put together.
 
-Acrescentar um idioma é: uma linha em `IDIOMAS` (em `i18n-runtime.js`), um bloco `ui`/`trilhas`/`depoimentos` em `i18n.js` e um arquivo de catálogo. A conferência que roda contra o português acusa qualquer campo faltando e qualquer lista de tópicos com tamanho diferente do original — foi assim que os cinco idiomas fecharam sem furo.
+Adding a language is: one line in `LANGUAGES` (in `i18n-runtime.js`), a `ui`/`trilhas`/`depoimentos` block in `i18n.js` and a catalogue file. The check that runs against Portuguese flags any missing field and any topic list whose length differs from the original — that is how the five languages closed with no gaps.
 
-Vocabulário por idioma para "trilha": *track* em inglês, *itinerario* em espanhol, *parcours* em francês, *percorso* em italiano. É o termo que a formação profissional de cada país usa, não a tradução literal.
+Vocabulary per language for "trilha": *track* in English, *itinerario* in Spanish, *parcours* in French, *percorso* in Italian. It is the term each country's vocational training uses, not the literal translation.
 
-**O que não se traduz, de propósito**: a marca ("codeschool.ing"), os nomes das redes sociais, o e-mail e os comandos do terminal do topo. São nomes próprios e dados de contato — traduzi-los quebraria a identidade ou o dado.
+**What is deliberately not translated**: the brand ("codeschool.ing"), the social network names, the e-mail address and the hero terminal's commands. They are proper names and contact data — translating them would break the identity or the datum.
 
-**No terminal, o comando é sempre em inglês e a resposta segue o idioma do usuário.** `codeschool --status`, `tracks --career`, `course <id> --info` e `start` são o nome de uma ferramenta, e ferramenta não se traduz; as linhas de saída são texto, e texto se traduz — inclusive o separador de milhar, que sai de `toLocaleString` com o idioma da vez. Ver "Terminal do hero" abaixo.
+**In the terminal, the command is always in English and the response follows the user's language.** `codeschool --status`, `tracks --career`, `course <id> --info` and `start` are a tool's name, and a tool is not translated; the output lines are text, and text is translated — including the thousands separator, which comes out of `toLocaleString` with the current language. See "The hero terminal" below.
 
-**Frase montada por pedaços não sobrevive à tradução.** "faz parte de 2 trilhas de carreira" era prefixo + substantivo + sufixo, o que funciona em português, onde o qualificador vem depois — e saía "part of 2 tracks career tracks" em inglês, onde ele vem antes. Frases assim viram **uma chave só**, com `{n}` no lugar do número. Ordem de palavras é coisa que só a frase inteira resolve.
+**A sentence assembled from pieces does not survive translation.** "faz parte de 2 trilhas de carreira" was prefix + noun + suffix, which works in Portuguese, where the qualifier comes after — and came out as "part of 2 tracks career tracks" in English, where it comes before. Sentences like that become **a single key**, with `{n}` in place of the number. Word order is something only the whole sentence settles.
 
-Nomes de curso são traduzidos como o mercado local os anuncia, não ao pé da letra: "Testes Automatizados e CI/CD" vira *Automated Testing and CI/CD*, porque é assim que o aluno de fora procura. Nome próprio de tecnologia fica intacto nos cinco idiomas. O espanhol é neutro latino-americano — o público que chega pelo Mercosul.
+Course names are translated the way the local market advertises them, not word for word: "Testes Automatizados e CI/CD" becomes *Automated Testing and CI/CD*, because that is how a student abroad searches. A technology's proper name stays intact in all five languages. The Spanish is neutral Latin American — the audience arriving from Mercosur.
 
-## Como manter o catálogo
+## How to maintain the catalogue
 
-Tudo vive em `assets/dados.js`:
+Everything lives in `assets/dados.js`:
 
-- **`CURSOS`**: cada curso tem `id`, `nome`, `categoria`, `nivel`, `horas`, `resumo`, `ementa` (lista), `topicos` (lista), **`depende`** (lista de ids de pré-requisito) e `requisitos` (nota livre, quase sempre vazia). As categorias são livres — os chips de filtro se montam sozinhos.
-> As trilhas cobrem os tópicos dos roadmaps públicos de [Front-end](https://roadmap.sh/frontend) (34 nós), [Back-end](https://roadmap.sh/backend) (23), [DevOps](https://roadmap.sh/devops) (22), [Data Engineer](https://roadmap.sh/data-engineer) (36), [Network Engineer](https://roadmap.sh/network-engineer) (29), [Prompt Engineering](https://roadmap.sh/prompt-engineering) (30), [AI Engineer](https://roadmap.sh/ai-engineer) (18), [Software Architect](https://roadmap.sh/software-architect) (17), [Cyber Security](https://roadmap.sh/cyber-security) (6 nós, ~300 itens), [DevSecOps](https://roadmap.sh/devsecops) (17), [BI Analyst](https://roadmap.sh/bi-analyst) (45), [Go](https://roadmap.sh/golang) (~160 itens), [Docker](https://roadmap.sh/docker) (37), [Kubernetes](https://roadmap.sh/kubernetes) (~52), [Java](https://roadmap.sh/java) (~95) e [QA Engineer](https://roadmap.sh/qa) (~120) da comunidade roadmap.sh — a *sequência de aprendizado* serviu de referência; ementas e textos são autorais.
+- **`CURSOS`**: each course has `id`, `nome`, `categoria`, `nivel`, `horas`, `resumo`, `ementa` (a list), `topicos` (a list), **`depende`** (a list of prerequisite ids) and `requisitos` (a free note, almost always empty). The categories are free-form — the filter chips build themselves.
+> The tracks cover the topics of the public roadmaps for [Front-end](https://roadmap.sh/frontend) (34 nodes), [Back-end](https://roadmap.sh/backend) (23), [DevOps](https://roadmap.sh/devops) (22), [Data Engineer](https://roadmap.sh/data-engineer) (36), [Network Engineer](https://roadmap.sh/network-engineer) (29), [Prompt Engineering](https://roadmap.sh/prompt-engineering) (30), [AI Engineer](https://roadmap.sh/ai-engineer) (18), [Software Architect](https://roadmap.sh/software-architect) (17), [Cyber Security](https://roadmap.sh/cyber-security) (6 nodes, ~300 items), [DevSecOps](https://roadmap.sh/devsecops) (17), [BI Analyst](https://roadmap.sh/bi-analyst) (45), [Go](https://roadmap.sh/golang) (~160 items), [Docker](https://roadmap.sh/docker) (37), [Kubernetes](https://roadmap.sh/kubernetes) (~52), [Java](https://roadmap.sh/java) (~95) and [QA Engineer](https://roadmap.sh/qa) (~120) from the roadmap.sh community — the *learning sequence* served as a reference; the syllabuses and the copy are our own.
 
-- **`TRILHAS`**: cada trilha tem `nome`, `objetivo`, `saida` (cargo/resultado) e `cursos`, um array de ids **na ordem em que devem ser feitos**. Um mesmo curso pode estar em quantas trilhas quiser: o site calcula sozinho quantas trilhas contêm cada curso e mostra o selo "em N trilhas".
-- **`DEPOIMENTOS`**: texto, autor e contexto.
+- **`TRILHAS`**: each track has `nome`, `objetivo`, `saida` (the role or outcome) and `cursos`, an array of ids **in the order they should be taken**. The same course can be in as many tracks as it likes: the site works out by itself how many tracks contain each course and shows the "em N trilhas" badge.
+- **`DEPOIMENTOS`**: text, author and context.
 
-Adicionar um curso a uma trilha é só incluir o `id` na sequência — a carga horária total, o número de etapas, os selos e o seletor do formulário se atualizam automaticamente.
+Adding a course to a track is just including the `id` in the sequence — the total workload, the number of steps, the badges and the form's selector all update automatically.
 
-### A trilha é um grafo, não uma fila
+### A track is a graph, not a queue
 
-`depende` é a lista de ids dos pré-requisitos de um curso. É dado estruturado, não texto: o site usa para **desenhar o grafo da trilha**, para ligar os cursos no modal e para calcular níveis.
+`depende` is the list of a course's prerequisite ids. It is structured data, not text: the site uses it to **draw the track's graph**, to link the courses in the modal and to compute levels.
 
 ```js
 { id: 'git',        depende: ['web-fundamentos'] },
-{ id: 'html-css',   depende: ['web-fundamentos'] },   // mesmo pré-requisito
-{ id: 'react-ts',   depende: ['javascript', 'git'] }, // dois pré-requisitos
+{ id: 'html-css',   depende: ['web-fundamentos'] },   // the same prerequisite
+{ id: 'react-ts',   depende: ['javascript', 'git'] }, // two prerequisites
 { id: 'apis',       depende: ['node', 'bancos-sql'] },
 ```
 
-**O nível de um curso é 1 + o maior nível entre os seus pré-requisitos.** Quem cai no mesmo nível pode ser feito em qualquer ordem — `git` e `html-css` ficam lado a lado porque ambos só dependem de `web-fundamentos`. Era exatamente esse paralelismo que a apresentação linear escondia.
+**A course's level is 1 + the highest level among its prerequisites.** Whatever lands on the same level can be done in any order — `git` and `html-css` sit side by side because both depend only on `web-fundamentos`. It was exactly that parallelism the linear presentation hid.
 
-Na tela, cada nível é uma coluna e as arestas são desenhadas em **SVG sobre as posições reais** dos cartões, medidas depois que o layout existe (e refeitas no `resize` e quando as fontes carregam). Abaixo de 861px o grafo vira lista: as arestas somem, os níveis empilham e a dependência é lida no rodapé do cartão, em "depois de X". O limite é onde cabem três ou quatro níveis de uma vez — abaixo disso a faixa mostraria um cartão e meio por vez, e a lista informa mais que o grafo.
+On screen, each level is a column and the edges are drawn in **SVG over the cards' real positions**, measured after the layout exists (and redone on `resize` and when the fonts load). Below 861px the graph becomes a list: the edges disappear, the levels stack and the dependency is read in the card's footer, in "depois de X". The breakpoint is where three or four levels fit at once — below that the lane would show a card and a half at a time, and the list conveys more than the graph.
 
-### A ordem dentro de cada nível é otimizada, não escrita
+### The order within each level is optimised, not written
 
-A ordem dos nós dentro de um nível **não é a de declaração, e não é fixada trilha a trilha**. O algoritmo mede o desenho que vai sair e procura a ordem que produz menos cruzamento de linhas — trilha nova entra e é otimizada do mesmo jeito, sem ninguém arrumar nada na mão.
+The order of the nodes inside a level is **not the declaration order, and it is not pinned track by track**. The algorithm measures the drawing that will come out and looks for the order that produces the fewest line crossings — a new track comes in and is optimised the same way, with nobody fixing anything by hand.
 
-O custo tem **três critérios, comparados em ordem de prioridade** (lexicograficamente, não somados — assim nenhum critério menor compra um cruzamento a mais):
+The cost has **three criteria, compared in priority order** (lexicographically, not summed — that way no lesser criterion buys an extra crossing):
 
-1. **Cruzamentos.** Aresta de um nível para o seguinte vira curva direta: duas se cruzam quando a ordem vertical das pontas se inverte. Aresta que pula níveis **não** entra como reta — ela é desviada por fora do grafo pelo roteador (ver abaixo), e portanto só cruza alguma coisa na saída e na chegada, ao subir ou descer até a faixa livre. O custo conta exatamente isso, e escolhe o mesmo lado que o roteador escolheria.
-2. **Viés para cima.** Empatados subir e descer, o desvio sobe. É convenção, mas uniforme: com todos os atalhos saindo do mesmo lado, o corpo principal da trilha fica contíguo, em vez de partido por linhas passando dos dois lados.
-3. **Ordem do currículo.** Entre desenhos igualmente limpos, vence o que mantém os cursos na sequência em que a trilha os declara. Sem esse critério cada partida do otimizador devolvia uma permutação arbitrária entre as boas, e um nível como "Qualidade · Performance · Entrega · Multiplataforma" aparecia embaralhado sem nenhum ganho.
+1. **Crossings.** An edge from one level to the next becomes a direct curve: two cross when the vertical order of their endpoints inverts. An edge that skips levels does **not** enter as a straight line — it is diverted outside the graph by the router (see below), and therefore only crosses anything on the way out and on the way in, going up or down to the free lane. The cost counts exactly that, and picks the same side the router would pick.
+2. **Upward bias.** With up and down tied, the diversion goes up. It is a convention, but a uniform one: with every shortcut leaving the same side, the track's main body stays contiguous instead of being split by lines passing on both sides.
+3. **Curriculum order.** Among equally clean drawings, the one that keeps the courses in the sequence the track declares wins. Without that criterion each start of the optimiser returned an arbitrary permutation among the good ones, and a level like "Qualidade · Performance · Entrega · Multiplataforma" showed up shuffled for no gain at all.
 
-A busca são três peças do método de Sugiyama:
+The search is three pieces of Sugiyama's method:
 
-- **baricentro** — cada nó puxa para a altura média (ou mediana) dos vizinhos da coluna ao lado. Chega perto rápido, mas encalha: há casos que só melhoram mexendo em **duas** colunas, e nenhuma troca isolada melhora sozinha;
-- **transposição** — troca pares vizinhos de uma mesma coluna enquanto isso não piorar. Aceitar as trocas **empatadas** é o que destrava aqueles casos: a primeira troca anda de lado, a segunda colhe o ganho;
-- **partidas múltiplas** — as duas anteriores são guloso puro e o resultado depende de onde se começa. Recomeça-se da ordem do currículo, da invertida e de quatro embaralhadas, ficando com a melhor. O embaralhamento usa gerador com semente fixa: a saída é sempre a mesma, o grafo não muda de forma a cada visita. Nas partidas embaralhadas a transposição roda **antes** do baricentro — se o baricentro rodasse primeiro ele reordenaria tudo pelos vizinhos e apagaria o sorteio, e a partida deixaria de ser uma partida diferente.
+- **barycentre** — each node is pulled towards the mean (or median) height of its neighbours in the next column. It gets close fast, but it gets stuck: some cases only improve by moving **two** columns, and no isolated swap improves anything on its own;
+- **transposition** — swap neighbouring pairs within a column as long as that does not make things worse. Accepting the **tied** swaps is what unlocks those cases: the first swap moves sideways, the second collects the gain;
+- **multiple starts** — the two above are pure greedy and the result depends on where you begin. It restarts from the curriculum order, the reverse and four shuffles, keeping the best. The shuffle uses a fixed-seed generator: the output is always the same, the graph does not change shape between visits. On the shuffled starts the transposition runs **before** the barycentre — if the barycentre ran first it would reorder everything by neighbours and erase the shuffle, and the start would stop being a different start.
 
-Custa ~1,5 ms por trilha, uma vez por abertura. **Resultado nas 16 trilhas: 5 cruzamentos → 0.** É por consequência disso, e não de regra escrita, que Git e Controle de Versão fica acima de Linux e Linha de Comando em DevOps e SRE e em Engenharia de Dados: Git é folha nessas duas trilhas e sua linha de saída atravessa o grafo inteiro; no topo ela sai reto por cima, no meio ela cruzaria as linhas de Linux.
+It costs ~1.5 ms per track, once per page open. **Result across the 16 tracks: 5 crossings → 0.** It is as a consequence of that, and not of a written rule, that Git e Controle de Versão sits above Linux e Linha de Comando in DevOps e SRE and in Engenharia de Dados: Git is a leaf in those two tracks and its outgoing line crosses the whole graph; at the top it goes straight over, in the middle it would cross Linux's lines.
 
-**Nenhuma aresta passa por trás de um cartão.** A decisão de contornar é **geométrica, não topológica**: mede-se o retângulo entre as duas pontas e, se houver qualquer cartão ali dentro, a linha vai por fora. A regra antiga era "pulou mais de uma coluna, contorna" — e ela deixava passar o caso que só aparece em tela **larga e baixa**, quando `repartirNiveis()` divide um nível em sub-colunas e o vizinho de coluna entra no corredor de uma aresta entre níveis **adjacentes**.
+**No edge passes behind a card.** The decision to go around is **geometric, not topological**: the rectangle between the two endpoints is measured and, if there is any card inside it, the line goes around the outside. The old rule was "skipped more than one column, go around" — and it let through the case that only appears on a **wide and short** screen, when `splitLevels()` divides a level into sub-columns and the neighbouring card enters the corridor of an edge between **adjacent** levels.
 
-O contorno é local: passa logo acima do cartão mais alto que atrapalha, ou logo abaixo do mais baixo, pelo lado mais barato. Se esse desvio curto esbarrar noutro cartão, a linha recua para a faixa livre acima ou abaixo do grafo inteiro — que é sempre limpa, e é para isso que `.grafo-niveis` tem `padding: 20px 0`. O lado é reavaliado nesse recuo, porque o mais barato para o desvio curto quase nunca é o mesmo do longo.
+The detour is local: it passes just above the highest card in the way, or just below the lowest, on the cheaper side. If that short detour bumps into another card, the line retreats to the free lane above or below the whole graph — which is always clear, and that is what `.grafo-niveis` has `padding: 20px 0` for. The side is re-evaluated on that retreat, because the cheaper one for the short detour is almost never the same as for the long one.
 
-**A folga do contorno é 16px, não 11.** Com 11 algumas linhas passavam a menos de 2px de um cartão que não era ponta delas — medindo ponto a ponto ao longo de cada curva, o pior caso do catálogo inteiro era 1,8px. Subir a folga sozinha não bastava: o corredor entre dois cartões empilhados era de 10px, e não comportava 16 de cada lado. Por isso o `.subcol` abriu para 16px junto. O pior caso passou de 1,8px para 8px, e a mediana ficou em torno de 33px.
+**The detour's clearance is 16px, not 11.** At 11 some lines passed within 2px of a card that was not one of their endpoints — measuring point by point along each curve, the worst case in the whole catalogue was 1.8px. Raising the clearance on its own was not enough: the corridor between two stacked cards was 10px, and would not fit 16 on each side. That is why `.subcol` opened up to 16px alongside. The worst case went from 1.8px to 8px, and the median settled around 33px.
 
-As duas subidas da curva têm larguras independentes, calculadas pela **folga real de cada ponta**. Com sub-colunas o vão entre cartões cai de 48px para 14px, e uma subida fixa de 26px atravessava o vizinho — era exatamente por dentro dela que a linha entrava no cartão.
+The curve's two rises have independent widths, computed from **each endpoint's real clearance**. With sub-columns the gap between cards falls from 48px to 14px, and a fixed 26px rise went straight through the neighbour — it was precisely through that rise that the line entered the card.
 
-Isso é verificável: o detector do arquivo de teste amostra 120 pontos de cada traçado renderizado e checa se algum cai dentro de um cartão que não seja ponta daquela aresta. **16 trilhas × 5 formatos de tela = zero.**
+This is verifiable: the detector in the test file samples 120 points of each rendered path and checks whether any falls inside a card that is not an endpoint of that edge. **16 tracks × 5 screen formats = zero.**
 
-Cada aresta é um `<g>` com dois traçados — um transparente e grosso, só para captar o cursor, e o visível. Passar o mouse **na linha** a destaca; passar **no cartão** acende todas as arestas que entram e saem dele.
+Each edge is a `<g>` with two paths — one transparent and thick, only to catch the cursor, and the visible one. Hovering **the line** highlights it; hovering **the card** lights up every edge entering and leaving it.
 
-**A descrição da trilha fica ao lado dos números, presa a 58ch, e não na largura da página.** A alternativa foi testada — título e números em cima, descrição ocupando a linha inteira embaixo — e devolvia 26px de altura ao grafo, porque as 16 trilhas passavam a caber em duas linhas em vez de quatro a seis. Mas a linha de ~1250px ficou larga demais para o olho acompanhar, e o título perdia a companhia dos números. Foi revertida: **altura do grafo não compra legibilidade do texto**.
+**The track's description sits beside the numbers, pinned to 58ch, and not at the page's width.** The alternative was tried — title and numbers on top, description filling the whole line below — and it gave 26px of height back to the graph, because the 16 tracks then fitted in two lines instead of four to six. But the ~1250px line was too wide for the eye to follow, and the title lost the company of the numbers. It was reverted: **graph height does not buy text legibility**.
 
-Do que veio junto naquela tentativa, ficou só o objetivo da trilha de Go, que era o único com 375 caracteres e foi encurtado nos cinco idiomas — a frase que saiu era a de sempre sobre o roadmap.sh, e o texto ficou mais parecido com o das outras trilhas.
+Of what came along with that attempt, only the Go track's objective stayed, which was the one at 375 characters and was shortened in all five languages — the sentence that went was the usual one about roadmap.sh, and the text ended up more like the other tracks'.
 
-**A faixa do grafo abraça o grafo**, em vez de ocupar toda a altura que sobra. A medição da repartição continua sendo feita com a altura cheia — é ela que decide quantos cursos cabem numa coluna —, mas depois a faixa encolhe para o tamanho do conteúdo. Sem isso os cartões ficavam centrados numa faixa bem mais alta, e o bloco nome+objetivo tinha 33px de folga para as abas acima contra 103px para o primeiro cartão abaixo.
+**The graph's lane hugs the graph**, instead of taking up all the height left over. The splitting is still measured at full height — that is what decides how many courses fit in a column — but afterwards the lane shrinks to the content's size. Without that the cards sat centred in a much taller lane, and the name+objective block had 33px of slack to the tabs above against 103px to the first card below.
 
-Três regras de layout mantêm o grafo dentro da tela, sem barra de rolagem à mostra:
+Three layout rules keep the graph inside the screen, with no scrollbar on show:
 
-1. **O grafo ocupa a altura que sobra** na seção, em vez de uma altura fixa.
-2. **Um nível com muitos cursos quebra em sub-colunas** em vez de esticar para baixo — o grafo cresce na horizontal, que é onde há navegação. É o último recurso, não o primeiro: ver abaixo.
-3. **Setas nas pontas** avançam e retrocedem uma tela de níveis, e um esmaecimento indica de que lado ainda há grafo. As mesmas setas existem no seletor de trilhas.
+1. **The graph takes whatever height is left** in the section, instead of a fixed height.
+2. **A level with many courses breaks into sub-columns** instead of stretching downwards — the graph grows horizontally, which is where the navigation is. It is the last resort, not the first: see below.
+3. **Arrows at the ends** move forwards and backwards one screenful of levels, and a fade shows which side still has graph. The same arrows exist in the track picker.
 
-**Altura é o recurso escasso desta seção, e a seção foi desenhada em torno disso.** A regra 1 tem consequência direta: cada pixel gasto acima do grafo é um curso a menos por coluna, e uma coluna quebrada em duas quebra a leitura de "coluna = nível". A conta num notebook de 768px (janela útil de 681px) era esta:
+**Height is this section's scarce resource, and the section was designed around that.** Rule 1 has a direct consequence: every pixel spent above the graph is one course fewer per column, and a column broken in two breaks the reading of "column = level". The arithmetic on a 768px laptop (a usable window of 681px) was this:
 
-| bloco | antes | depois |
+| block | before | after |
 | --- | --- | --- |
-| cabeçalho da seção (tag + `h2` + parágrafo) | 161px | — |
-| tag na mesma linha do alternador | — | 41px |
-| abas | 52px | 48px |
-| topo da trilha (nome, objetivo, números) | 120px | 98px |
-| **faixa do grafo** | **207px** | **402px** |
+| section heading (tag + `h2` + paragraph) | 161px | — |
+| tag on the same line as the switcher | — | 41px |
+| tabs | 52px | 48px |
+| track top (name, objective, numbers) | 120px | 98px |
+| **the graph's lane** | **207px** | **402px** |
 
-O `h2` "Um caminho, não uma lista de cursos" e o parágrafo que explicava a metáfora do grafo **foram removidos desta seção** — são as únicas telas do site sem `.sec-head` completo. A tag `// TRILHAS DE FORMAÇÃO` divide a linha com o alternador de famílias, então a seção mantém identidade a custo zero de altura. O texto explicativo se perdeu de propósito: a própria faixa `N níveis · 4 deles com ordem livre` já diz que a trilha não é uma fila, e o grafo mostra.
+The `h2` "Um caminho, não uma lista de cursos" and the paragraph explaining the graph metaphor **were removed from this section** — they are the only screens on the site without a complete `.sec-head`. The `// TRILHAS DE FORMAÇÃO` tag shares the line with the family switcher, so the section keeps its identity at zero height cost. The explanatory text was lost on purpose: the `N níveis · 4 deles com ordem livre` strip already says the track is not a queue, and the graph shows it.
 
-Com 402px em vez de 207px, cabem **três cursos numa coluna** onde antes cabia um. Das 16 trilhas, em 1920×950 nenhuma quebra em sub-colunas; em 1366×768 sobra uma só — o nível 05 de Front-end, que tem quatro cursos e genuinamente não cabe. O `repartirNiveis()` passou a descontar o padding real da faixa em vez de uma constante, porque o número mágico silenciaria qualquer ganho futuro.
+With 402px instead of 207px, **three courses fit in a column** where one used to. Of the 16 tracks, at 1920×950 none breaks into sub-columns; at 1366×768 only one is left — Front-end's level 05, which has four courses and genuinely does not fit. `splitLevels()` now subtracts the lane's real padding instead of a constant, because the magic number would silence any future gain.
 
-A quebra em sub-colunas é **medida em JavaScript**, em `repartirNiveis()`: cada `.nivel` recebe uma `.subcol` por coluna, e a função mede o `offsetHeight` real de cada cartão para encher uma sub-coluna até o limite antes de abrir a seguinte. Não é preciosismo — nem `flex-wrap` em `flex-direction: column` nem CSS multi-coluna expandem a largura do container, então os cartões que sobravam iam parar **por cima do nível vizinho**. Era o que embaralhava o grafo do Front-end, cujo nível 05 tem quatro cursos. A função roda antes de `desenharArestas()`, e recolhe tudo de volta numa sub-coluna só quando o CSS está no modo lista.
+Breaking into sub-columns is **measured in JavaScript**, in `splitLevels()`: each `.nivel` gets one `.subcol` per column, and the function measures each card's real `offsetHeight` to fill a sub-column up to the limit before opening the next. It is not fussiness — neither `flex-wrap` in `flex-direction: column` nor CSS multi-column expands the container's width, so the cards left over ended up **on top of the neighbouring level**. That is what scrambled the Front-end graph, whose level 05 has four courses. The function runs before `drawEdges()`, and collapses everything back into a single sub-column when the CSS is in list mode.
 
-Quando um curso **não tem nenhum pré-requisito dentro daquela trilha**, ele herda como dependência o item anterior da lista `cursos`. Sem isso, cursos como `nuvem` e `testes-cicd` — cujos pré-requisitos reais estão em outras trilhas — cairiam todos no primeiro nível da trilha de Dados. A ordem declarada continua valendo onde não há informação melhor.
+When a course has **no prerequisite inside that track**, it inherits the previous item in the `cursos` list as a dependency. Without that, courses like `nuvem` and `testes-cicd` — whose real prerequisites are in other tracks — would all land on the Data track's first level. The declared order still applies where there is no better information.
 
-Todo caminho termina no **nó de chegada** — um selo circular com bandeira, propositalmente diferente de um cartão de curso, com a `saida` da trilha. Ele existe para que nenhum curso fique visualmente solto: cursos terminais como `ia-dev` em Back-end não são pré-requisito de nada, e sem o nó de chegada pareceriam esquecidos no meio do grafo.
+Every path ends at the **finish node** — a circular seal with a flag, deliberately different from a course card, carrying the track's `saida`. It exists so that no course is left visually loose: terminal courses like `ia-dev` in Back-end are nobody's prerequisite, and without the finish node they would look forgotten in the middle of the graph.
 
-Quando a ordem é do currículo e não do conteúdo, a trilha declara em **`ligacoes`**:
+When the order is the curriculum's and not the content's, the track declares it in **`ligacoes`**:
 
 ```js
-ligacoes: { 'bancos-sql': [3], 'apis': [3] }   // 3 = índice da etapa de escolha
-ligacoes: { 'bancos-sql': ['excel-analitico'] } // ou um id de curso
+ligacoes: { 'bancos-sql': [3], 'apis': [3] }   // 3 = the index of the choice step
+ligacoes: { 'bancos-sql': ['excel-analitico'] } // or a course id
 ```
 
-SQL não exige linguagem de servidor — mas na trilha de Back-end ele vem depois dela. `depende` guarda o pré-requisito **de conteúdo**, que é global; `ligacoes` guarda a ordem **daquela trilha**.
+SQL does not require a server language — but in the Back-end track it comes after one. `depende` holds the **content** prerequisite, which is global; `ligacoes` holds **that track's** order.
 
-A etapa com bifurcação entra no grafo como **um nó só** — ela é uma decisão, não um curso. Quem depende de um curso que está dentro do bloco (`bancos-sql` depende de `node`) recebe a aresta do bloco inteiro, então o grafo continua correto em qualquer caminho escolhido.
+A step with a fork enters the graph as **a single node** — it is a decision, not a course. Whoever depends on a course inside the block (`bancos-sql` depends on `node`) receives the edge from the whole block, so the graph stays correct on whichever path is chosen.
 
-No modal, `depende` vira botões de **pré-requisito** (vermelhos, apontando para trás) e o inverso vira **"abre caminho para"** (azuis, apontando para frente) — dá para navegar o catálogo pelas dependências.
+In the modal, `depende` becomes **prerequisite** buttons (red, pointing backwards) and its inverse becomes **"abre caminho para"** (blue, pointing forwards) — you can navigate the catalogue by its dependencies.
 
-O campo `requisitos` sobrou para o que os ids não dizem: `'Basta um dos dois — SQL não exige programação.'`, `'Este curso ensina a linguagem do zero.'`, `'Nenhum. É o primeiro curso da escola.'` Em 59 dos 86 cursos ele está vazio, e o modal simplesmente não o mostra.
+The `requisitos` field is left for what the ids do not say: `'Basta um dos dois — SQL não exige programação.'`, `'Este curso ensina a linguagem do zero.'`, `'Nenhum. É o primeiro curso da escola.'` In 59 of the 86 courses it is empty, and the modal simply does not show it.
 
-**Atenção à ordem.** Um curso não pode depender de outro que venha *depois* dele na lista `cursos` de uma trilha: isso fecha um ciclo, o cálculo de níveis não termina e a trilha inteira deixa de renderizar. Foi o que aconteceu com o antigo `containers` (hoje dividido em `docker` e `kubernetes`), que dependia de `testes-cicd` embora viesse antes dele em três trilhas.
+**Mind the order.** A course must not depend on another that comes *after* it in a track's `cursos` list: that closes a cycle, the level computation does not terminate and the whole track stops rendering. That is what happened with the old `containers` (now split into `docker` and `kubernetes`), which depended on `testes-cicd` even though it came before it in three tracks.
 
-Ao criar um curso, **preencha `depende` com ids reais**. O validador percorre o catálogo procurando id inexistente, ciclo e dependência fora de ordem:
+When creating a course, **fill `depende` with real ids**. The validator walks the catalogue looking for a non-existent id, a cycle and an out-of-order dependency:
 
 ```
-node ferramentas/valida-catalogo/valida-catalogo.js
+node tools/validate-catalog/validate-catalog.js
   → OK — sem dependências quebradas nem ciclos
   → OK — nenhuma dependência fora de ordem nas trilhas
 ```
 
-Os níveis são calculados por **ordenação topológica iterativa (Kahn)**, não por recursão — a versão recursiva tinha teto de profundidade e estourava nas trilhas longas. Se ainda assim sobrar um ciclo, os nós presos entram depois do maior pré-requisito já resolvido e um aviso vai ao console: a trilha fica torta, mas aparece.
+The levels are computed by **iterative topological sort (Kahn)**, not by recursion — the recursive version had a depth ceiling and blew up on the long tracks. If a cycle survives anyway, the stuck nodes go in after the highest prerequisite already resolved and a warning goes to the console: the track comes out crooked, but it appears.
 
-### Etapas com bifurcação
+### Steps with a fork
 
-Algumas decisões são do aluno, não da escola. O roadmap de Back-end não escolhe a linguagem do servidor — e a trilha também não deve. Para isso, um item de `cursos` pode ser um **objeto de escolha** em vez de um id:
+Some decisions belong to the student, not to the school. The Back-end roadmap does not choose the server language — and the track should not either. For that, an item of `cursos` can be a **choice object** instead of an id:
 
 ```js
 cursos: [
@@ -197,7 +201,7 @@ cursos: [
   'git',
   {
     escolha: 'a linguagem do servidor',
-    nota: 'Domine uma bem antes de saltar para outra.',   // opcional
+    nota: 'Domine uma bem antes de saltar para outra.',   // optional
     opcoes: [
       { nome: 'JavaScript / Node.js', cursos: ['javascript', 'node'] },
       { nome: 'Python',               cursos: ['python', 'python-back'] },
@@ -206,265 +210,265 @@ cursos: [
     ],
   },
   'bancos-sql',
-  // ...daqui para frente o caminho é o mesmo
+  // ...from here on the path is the same
 ]
 ```
 
-Cada opção pode ter **um ou vários cursos** — o caminho Python precisa da linguagem antes do framework; o de Java resolve os dois num curso só. A primeira opção é a sugerida por padrão.
+Each option can have **one or several courses** — the Python path needs the language before the framework; the Java one settles both in a single course. The first option is the suggested one by default.
 
-No site, a etapa aparece como um bloco tracejado com as opções em abas, cada uma mostrando sua carga. Ao trocar, o fluxo é remontado na hora, a numeração das etapas se refaz e o cabeçalho passa a mostrar **a carga daquele caminho** mais a faixa possível — hoje, `760h neste caminho (690h a 760h)`.
+On the site, the step appears as a dashed block with the options as tabs, each showing its workload. On switching, the flow is rebuilt on the spot, the step numbering redoes itself and the heading comes to show **that path's workload** plus the possible range — today, `760h neste caminho (690h a 760h)`.
 
-O que isso muda no resto do código:
+What this changes in the rest of the code:
 
-| Leitura | Função | Para quê |
+| Reading | Function | For what |
 | --- | --- | --- |
-| todos os cursos possíveis | `todosOsCursos(t)` | selo "em N trilhas", estatísticas, busca |
-| o caminho visível agora | `caminhoDaTrilha(t)` | fluxo, número de etapas, carga |
-| menor e maior caminho | `faixaDeHoras(t)` | a faixa no cabeçalho |
+| every possible course | `allCourses(t)` | the "em N trilhas" badge, statistics, search |
+| the path visible right now | `trackPath(t)` | the flow, the number of steps, the workload |
+| shortest and longest path | `hoursRange(t)` | the range in the heading |
 
-**Ao criar uma trilha nova, use bifurcação quando o roadmap não escolher por você.** Candidatos já mapeados: linguagem de script em DevSecOps (Ruby, Python, Rust, Go, JS), Python ou R em Business Intelligence, e provedor de nuvem (AWS, Azure, GCP) em DevOps.
+**When creating a new track, use a fork when the roadmap does not choose for you.** Candidates already mapped: the scripting language in DevSecOps (Ruby, Python, Rust, Go, JS), Python or R in Business Intelligence, and the cloud provider (AWS, Azure, GCP) in DevOps.
 
-### As duas famílias de trilha
+### The two track families
 
-O roadmap.sh separa os roadmaps **por cargo** (role-based) e **por habilidade** (skill-based). São perguntas diferentes, e o site responde as duas com o campo `familia`:
+roadmap.sh separates its roadmaps **by role** and **by skill**. They are different questions, and the site answers both with the `familia` field:
 
 ```js
 { id: 'backend',    familia: 'carreira',   nome: 'Desenvolvimento Back-end', … }
 { id: 'python-tec', familia: 'tecnologia', nome: 'Python', … }
 ```
 
-| | responde | saída |
+| | answers | outcome |
 | --- | --- | --- |
-| `carreira` | que profissão eu quero ter | um cargo — `Back-end Developer júnior` |
-| `tecnologia` | que ferramenta eu quero dominar | o domínio — `Domínio de Python` |
+| `carreira` | which profession do I want | a role — `Back-end Developer júnior` |
+| `tecnologia` | which tool do I want to master | the mastery — `Domínio de Python` |
 
-Na tela, um alternador acima do seletor troca a fileira de abas. Não é enfeite: 14 abas numa fileira só não cabem, e a separação é o próprio recado — quem não sabe ainda que carreira quer consegue entrar por uma tecnologia.
+On screen, a switcher above the picker changes the row of tabs. It is not decoration: 14 tabs do not fit in a single row, and the separation is the message itself — whoever does not yet know which career they want can come in via a technology.
 
-**A forma de uma trilha de tecnologia é sempre a mesma: tronco curto e leque no fim.** O tronco ensina a tecnologia a fundo; a bifurcação final abre as aplicações, montada com cursos que já existem. Uma fila de três cursos em linha reta seria pior que a lista antiga e contradiria a promessa da seção. O leque é o que a trilha de carreira não consegue dizer: uma tecnologia abre mais de uma porta.
+**A technology track always has the same shape: a short trunk and a fan at the end.** The trunk teaches the technology in depth; the final fork opens up the applications, assembled from courses that already exist. A queue of three courses in a straight line would be worse than the old list and would contradict the section's promise. The fan is what a career track cannot say: one technology opens more than one door.
 
-Diferente da bifurcação de Back-end, **aqui os caminhos não voltam a se juntar** — a `nota` da etapa avisa isso. É o único lugar do site onde a escolha é terminal, e funciona porque o nó de chegada se liga à etapa inteira.
+Unlike the Back-end fork, **here the paths do not come back together** — the step's `nota` says so. It is the only place on the site where the choice is terminal, and it works because the finish node connects to the whole step.
 
-**Que tecnologia merece uma trilha.** roadmap.sh tem ~45 roadmaps por habilidade; virar trilha é a exceção, não a regra. Precisa passar nos três critérios:
+**Which technology deserves a track.** roadmap.sh has ~45 skill roadmaps; becoming a track is the exception, not the rule. It has to pass three criteria:
 
-1. **Já tem 2+ cursos no catálogo** que caem nela — ou vale a pena produzi-los.
-2. **Abre mais de uma saída profissional** — senão a trilha de carreira já resolve e a de tecnologia é redundante.
-3. **Tem público na internet.** O critério nasceu geográfico, quando o alvo era uma cidade; a escola é 100% online e o critério deixou de ser de mapa.
+1. **It already has 2+ courses in the catalogue** that fall into it — or they are worth producing.
+2. **It opens more than one professional outcome** — otherwise the career track already covers it and the technology one is redundant.
+3. **It has an audience on the internet.** The criterion was born geographic, when the target was one town; the school is 100% online and the criterion stopped being about maps.
 
-Python e SQL passam nos três e custaram **zero curso novo**. Go passa também, e custou 220h — ver abaixo.
+Python and SQL pass all three and cost **zero new courses**. Go passes too, and cost 220h — see below.
 
-### Dividir por capacidade, não por nível: o caso Go
+### Dividing by capability, not by level: the Go case
 
-Go entrou depois de uma avaliação que primeiro o reprovou, por dois erros que vale registrar para não repetir: o critério de demanda ainda era local, e a leitura de que "o leque do Go desemboca em back-end e nada mais" estava errada — os roadmaps relacionados do próprio roadmap.sh são Backend, **DevOps, Docker e Kubernetes**. Go é a linguagem em que essas três ferramentas foram escritas. O leque dele é serviços de um lado e ferramental de infraestrutura do outro.
+Go went in after an assessment that first rejected it, for two errors worth recording so they are not repeated: the demand criterion was still local, and the reading that "Go's fan flows into back-end and nothing else" was wrong — roadmap.sh's own related roadmaps are Backend, **DevOps, Docker and Kubernetes**. Go is the language those three tools were written in. Its fan is services on one side and infrastructure tooling on the other.
 
-O que motivou a revisão foi um dado objetivo: `go-back` comprimia o roadmap inteiro — sintaxe, ponteiros, interfaces, erros, módulos, goroutines, HTTP, banco, testes, cross-compilation — em **70h, menos do que `python` gasta só com a linguagem (80h)**. Era o mesmo erro que a proposta de dividir buscava corrigir.
+What prompted the revision was an objective datum: `go-back` compressed the whole roadmap — syntax, pointers, interfaces, errors, modules, goroutines, HTTP, database, tests, cross-compilation — into **70h, less than `python` spends on the language alone (80h)**. It was the same error the proposal to split was trying to fix.
 
-A divisão natural parece ser fundamental / intermediário / avançado. **Não é**, por três razões:
+The natural division seems to be fundamentals / intermediate / advanced. **It is not**, for three reasons:
 
-- **Nível não descreve capacidade.** Quem termina "Go Intermediário" não sabe dizer o que sabe fazer. Todo o resto do catálogo é nomeado por capacidade.
-- **É informação duplicada.** `nivel` já é campo e aparece no rodapé de cada cartão (`80h · intermediário`).
-- **Três não cabe.** São ~160 tópicos no roadmap, uns 280h — três cursos dariam ~95h cada, maior que o maior curso do catálogo.
+- **A level does not describe a capability.** Whoever finishes "Intermediate Go" cannot say what they can do. All the rest of the catalogue is named by capability.
+- **It is duplicated information.** `nivel` is already a field and appears in each card's footer (`80h · intermediário`).
+- **Three does not fit.** There are ~160 topics in the roadmap, some 280h — three courses would give ~95h each, larger than the largest course in the catalogue.
 
-A divisão que ficou é por capacidade, e a progressão iniciante → avançado aparece sozinha:
+The division that stuck is by capability, and the beginner → advanced progression appears on its own:
 
-| curso | horas | o que o aluno passa a saber fazer |
+| course | hours | what the student can now do |
 | --- | --- | --- |
-| `go` | 80h | escrever Go idiomático — tipos, interfaces, generics, erros, módulos |
-| `go-concorrencia` | 70h | milhares de tarefas ao mesmo tempo, com testes que provam isso |
-| `go-back` | 70h | servir HTTP e gRPC com banco atrás — *reformado, sem a parte de linguagem* |
-| `go-producao` | 70h | operar Go: CLIs, pprof, compilação cruzada e os cantos avançados |
+| `go` | 80h | write idiomatic Go — types, interfaces, generics, errors, modules |
+| `go-concorrencia` | 70h | thousands of tasks at once, with tests that prove it |
+| `go-back` | 70h | serve HTTP and gRPC with a database behind — *reworked, without the language part* |
+| `go-producao` | 70h | operate Go: CLIs, pprof, cross-compilation and the advanced corners |
 
-A concorrência ganhou curso próprio de propósito: são ~16 tópicos, é a parte mais difícil da linguagem e é o que distingue Go de qualquer outra coisa. Enfiá-la no fim de um curso de sintaxe era exatamente o defeito do `go-back` antigo.
+Concurrency got its own course on purpose: it is ~16 topics, it is the hardest part of the language and it is what distinguishes Go from anything else. Cramming it into the end of a syntax course was exactly the old `go-back`'s defect.
 
-**Isso corrigiu de graça a assimetria da bifurcação de Back-end**: a opção Go virou `['go','go-concorrencia','go-back']`, no mesmo formato de `['python','python-back']`. A opção passou a ser a mais longa da etapa, e isso escancarou que `java-back` cometia o mesmo erro — 90h para linguagem, Spring, segurança, testes e publicação. Foi a dívida que o caso Java, logo abaixo, pagou.
+**That fixed the Back-end fork's asymmetry for free**: the Go option became `['go','go-concorrencia','go-back']`, in the same format as `['python','python-back']`. The option became the longest in the step, and that laid bare that `java-back` was making the same mistake — 90h for the language, Spring, security, tests and deployment. That was the debt the Java case, just below, paid off.
 
-**Go é a primeira trilha de tecnologia que custa conteúdo novo: 220h.** Python e SQL custaram zero. É a maior adição isolada do catálogo — para comparar, a trilha inteira de DevSecOps custou 120h. Vale saber que esse é o preço de uma trilha de linguagem feita a sério, e que o mesmo preço se aplicará a Java, Rust ou C# quando chegar a vez deles. Convém tratar isso como política ("uma trilha profunda por linguagem principal"), não caso a caso.
+**Go is the first technology track that costs new content: 220h.** Python and SQL cost zero. It is the catalogue's single largest addition — for comparison, the whole DevSecOps track cost 120h. Worth knowing that this is the price of a language track done properly, and that the same price will apply to Java, Rust or C# when their turn comes. Better treated as policy ("one deep track per major language") than case by case.
 
-### O leque redundante: o caso Java
+### The redundant fan: the Java case
 
-Java **não** vira trilha, e o interessante é que ele passa nos critérios que reprovaram os outros. Tamanho: ~95 quadrados no roadmap, mais que os ~52 do Kubernetes. Público: **52.672 pessoas** acompanhando o roadmap, contra 8.698 do Go — seis vezes mais. Pela régua de "linguagem com várias saídas", ele parecia entrar.
+Java does **not** become a track, and the interesting part is that it passes the criteria that rejected the others. Size: ~95 squares in the roadmap, more than Kubernetes's ~52. Audience: **52,672 people** following the roadmap, against Go's 8,698 — six times more. By the "a language with several outcomes" ruler, it looked like it was in.
 
-O que o reprova é um teste que só apareceu quando havia três trilhas de tecnologia para comparar: **para onde o leque desemboca.**
+What rejects it is a test that only appeared when there were three technology tracks to compare: **where the fan flows to.**
 
-| trilha | ramos | trilhas de carreira alcançadas |
+| track | branches | career tracks reached |
 | --- | --- | --- |
-| Python | servidor / dados / IA | Back-end, Eng. de Dados, BI, Arquitetura, Prompt, IA |
-| Go | serviços / infraestrutura | Back-end **e** DevOps, Redes, Segurança, DevSecOps, Suporte |
-| SQL | análise / engenharia | BI, Eng. de Dados, Arquitetura |
+| Python | server / data / AI | Back-end, Data Eng., BI, Architecture, Prompt, AI |
+| Go | services / infrastructure | Back-end **and** DevOps, Networks, Security, DevSecOps, Support |
+| SQL | analysis / engineering | BI, Data Eng., Architecture |
 
-Os quatro leques possíveis para Java foram medidos, e todos falham:
+The four possible fans for Java were measured, and all of them fail:
 
-- **Serviços corporativos** (`bancos-sql`+`java-back`+`apis`) → Back-end. Idêntico ao ramo do Go e do Python.
-- **Qualidade e testes** (`testes-cicd`) → um curso só, já dentro de Back-end.
-- **Dados na JVM** (`bigdata`) → depende de `pipelines-etl`, no fundo da trilha de Dados. Inalcançável.
-- **Arquitetura corporativa** (`arquitetura-papel` → `padroes-projeto` → `modelagem-arquitetura` → `software-corporativo`) → 230h, equilibrado, e desemboca noutra trilha. Quase funciona — mas seria **o único ramo do catálogo sem um curso da própria tecnologia dentro**. O ramo de infra do Go tem `go-producao`; o de IA do Python tem `ia-modelos`. Este teria quatro cursos que não mencionam Java: não é segunda porta da tecnologia, é virada de carreira colada no fim.
+- **Enterprise services** (`bancos-sql`+`java-back`+`apis`) → Back-end. Identical to Go's and Python's branch.
+- **Quality and testing** (`testes-cicd`) → a single course, already inside Back-end.
+- **Data on the JVM** (`bigdata`) → depends on `pipelines-etl`, deep in the Data track. Unreachable.
+- **Enterprise architecture** (`arquitetura-papel` → `padroes-projeto` → `modelagem-arquitetura` → `software-corporativo`) → 230h, balanced, and it flows into another track. It almost works — but it would be **the only branch in the catalogue without a course in the technology itself**. Go's infrastructure branch has `go-producao`; Python's AI branch has `ia-modelos`. This one would have four courses that do not mention Java: it is not a second door into the technology, it is a career change glued to the end.
 
-O roadmap concorda, e diz duas vezes: no topo, *"intentionally skips some backend topics → Visit Backend Roadmap"*; no rodapé, *"Visit Backend path and see what you missed"*. Uma saída só. **Uma trilha Java seria a trilha de Back-end sem o front-end** — o aluno não ganharia nada entrando por ela.
+The roadmap agrees, and says so twice: at the top, *"intentionally skips some backend topics → Visit Backend Roadmap"*; in the footer, *"Visit Backend path and see what you missed"*. One outcome only. **A Java track would be the Back-end track without the front-end** — the student would gain nothing entering through it.
 
-**Os três cursos vieram assim mesmo**, porque a dívida era real e independente da trilha:
+**The three courses came anyway**, because the debt was real and independent of the track:
 
-| curso | h | nível |
+| course | h | level |
 | --- | --- | --- |
-| `java` | 80h | iniciante — JVM, sintaxe, as duas caixas de OOP inteiras, coleções, generics, exceções, módulos |
-| `java-funcional` | 70h | intermediário — lambdas, Stream API, `Optional`, threads virtuais, modelo de memória, biblioteca padrão |
-| `java-back` | 70h | intermediário — *reformado*: Maven/Gradle, Spring Boot, persistência, segurança, log, testes |
+| `java` | 80h | beginner — the JVM, syntax, both boxes of OOP in full, collections, generics, exceptions, modules |
+| `java-funcional` | 70h | intermediate — lambdas, the Stream API, `Optional`, virtual threads, the memory model, the standard library |
+| `java-back` | 70h | intermediate — *reworked*: Maven/Gradle, Spring Boot, persistence, security, logging, tests |
 
-220h, **exatamente o Go** — que é a simetria correta, porque são duas linguagens de servidor de peso equivalente. A opção virou `['java','java-funcional','java-back']`. Custo: 150h de conteúdo novo, já que `java-back` existia.
+220h, **exactly Go's** — which is the right symmetry, because they are two server languages of equivalent weight. The option became `['java','java-funcional','java-back']`. Cost: 150h of new content, since `java-back` already existed.
 
-**O que destravaria a trilha:** **Android/Kotlin**, onde a JVM é *a* linguagem e não uma das opções. Aí Java ganharia segunda porta de verdade e a trilha sairia quase de graça.
+**What would unlock the track:** **Android/Kotlin**, where the JVM is *the* language and not one of the options. Then Java would gain a real second door and the track would come out almost free.
 
-> Numa primeira versão desta nota eu havia escrito que *uma trilha de QA* também destravaria. **Estava errado**, e o erro apareceu quando a trilha de QA foi realmente desenhada: a bifurcação natural do QA é **por alvo, não por linguagem** — o próprio roadmap desenha Backend Automation, Frontend Automation e Mobile Automation. As ferramentas dentro delas são JavaScript (Cypress, Playwright, Jest, Webdriver.io) ou poliglotas (Selenium, Appium); só REST Assured e Karate são JVM. Um ramo "qualidade" numa trilha Java teria cursos de ferramenta, não cursos de Java — o mesmo defeito do ramo de arquitetura.
+> In a first version of this note I had written that *a QA track* would also unlock it. **That was wrong**, and the error showed up when the QA track was actually designed: QA's natural fork is **by target, not by language** — the roadmap itself draws Backend Automation, Frontend Automation and Mobile Automation. The tools inside them are JavaScript (Cypress, Playwright, Jest, Webdriver.io) or polyglot (Selenium, Appium); only REST Assured and Karate are JVM. A "quality" branch in a Java track would have tooling courses, not Java courses — the same defect as the architecture branch.
 
-### Ferramenta não vira trilha: o caso Docker
+### A tool does not become a track: the Docker case
 
-Docker **não** vira trilha, e o motivo é diferente do que reprovou o Go na primeira avaliação: ele falha no critério 2. Go tem dois lados — construir serviços ou construir ferramental de infraestrutura. Docker não tem lado nenhum: as continuações que o próprio roadmap oferece são **Kubernetes e DevOps**, que são a mesma direção. Ninguém é "desenvolvedor Docker"; é ferramenta usada dentro de outra carreira, e a trilha seria uma fila sem bifurcação — a forma que a família de tecnologia existe justamente para evitar.
+Docker does **not** become a track, and the reason differs from what rejected Go on the first assessment: it fails criterion 2. Go has two sides — building services or building infrastructure tooling. Docker has no side at all: the continuations the roadmap itself offers are **Kubernetes and DevOps**, which are the same direction. Nobody is a "Docker developer"; it is a tool used inside another career, and the track would be a queue with no fork — the very shape the technology family exists to avoid.
 
-O tamanho confirma: o roadmap de Docker tem **~37 quadrados**, contra ~160 do de Go. É conteúdo de um curso.
+The size confirms it: the Docker roadmap has **~37 squares**, against Go's ~160. It is one course's worth of content.
 
-**Mas a pergunta revelou um defeito real.** O antigo `containers` — "Containers e Orquestração", 50h, 12 tópicos — cobria *dois* roadmaps, Docker e Kubernetes, com 8 tópicos para o primeiro e 4 para o segundo. Era o defeito do `go-back` em escala menor. Ele foi dividido:
+**But the question revealed a real defect.** The old `containers` — "Containers e Orquestração", 50h, 12 topics — covered *two* roadmaps, Docker and Kubernetes, with 8 topics for the first and 4 for the second. It was `go-back`'s defect on a smaller scale. It was split:
 
-| curso | horas | nível | onde entra |
+| course | hours | level | where it goes |
 | --- | --- | --- | --- |
-| `docker` | 50h | intermediário | Back-end, DevOps, Eng. de Dados, DevSecOps e o ramo de infra do Go |
-| `kubernetes` | 80h | avançado | só DevOps e DevSecOps |
+| `docker` | 50h | intermediate | Back-end, DevOps, Data Eng., DevSecOps and Go's infrastructure branch |
+| `kubernetes` | 80h | advanced | DevOps and DevSecOps only |
 
-**A divisão não foi só por tamanho — foi por quem precisa do quê.** Back-end e Engenharia de Dados precisam empacotar a aplicação; não precisam operar um cluster. Antes, elas pagavam orquestração embutida num curso que não dava para recusar. Agora Kubernetes fica onde ele é a matéria: DevOps e DevSecOps.
+**The split was not only by size — it was by who needs what.** Back-end and Data Engineering need to package the application; they do not need to operate a cluster. Before, they paid for orchestration embedded in a course they could not decline. Now Kubernetes sits where it is the subject: DevOps and DevSecOps.
 
-Custo: 80h de conteúdo novo. As trilhas de DevOps e DevSecOps ganharam 80h cada; Back-end e Dados ficaram com a mesma carga de antes, cobrindo Docker com mais que o dobro de profundidade (28 tópicos contra 8).
+Cost: 80h of new content. The DevOps and DevSecOps tracks gained 80h each; Back-end and Data kept the same workload as before, covering Docker with more than twice the depth (28 topics against 8).
 
-**O curso de Kubernetes foi conferido depois contra o roadmap dele**, e o resultado corrigiu uma subestimativa: o roadmap tem **~52 quadrados**, mais que os 37 do Docker. Faltavam cluster local (minikube, kind, k3d), CSI, espalhamento por topologia, prioridade e despejo, VPA e escala de nós, padrões de release dentro do cluster, agendador customizado, APIs de extensão e toda a operação de cluster (plano de controle, nós de trabalho, multi-cluster). O curso foi de 26 para **48 tópicos** e de 60h para **80h**.
+**The Kubernetes course was later checked against its roadmap**, and the result corrected an underestimate: the roadmap has **~52 squares**, more than Docker's 37. Missing were the local cluster (minikube, kind, k3d), CSI, topology spread, priority and eviction, VPA and node scaling, in-cluster release patterns, a custom scheduler, extension APIs and all of cluster operation (control plane, worker nodes, multi-cluster). The course went from 26 to **48 topics** and from 60h to **80h**.
 
-Três nós do roadmap encostam em cursos que já existem, e a divisão de trabalho é deliberada: **o curso de Kubernetes ensina o mecanismo dentro do cluster; os outros ensinam a prática em volta dele.**
+Three roadmap nodes touch courses that already exist, and the division of labour is deliberate: **the Kubernetes course teaches the mechanism inside the cluster; the others teach the practice around it.**
 
-| nó do roadmap | aqui | aprofundado em |
+| roadmap node | here | gone into depth in |
 | --- | --- | --- |
-| CI/CD Integration, GitOps | panorama de ArgoCD e Flux | `gitops` (60h) |
-| Logs, Metrics, Traces, Observability Engines | `kubectl logs`, eventos, `kubectl top`, metrics-server | `observabilidade` (70h) |
-| Canary, Blue-Green, Rolling Updates | como objeto do cluster: maxSurge, maxUnavailable, peso no Ingress | `testes-cicd` (60h), no nível da esteira |
+| CI/CD Integration, GitOps | an overview of ArgoCD and Flux | `gitops` (60h) |
+| Logs, Metrics, Traces, Observability Engines | `kubectl logs`, events, `kubectl top`, metrics-server | `observabilidade` (70h) |
+| Canary, Blue-Green, Rolling Updates | as a cluster object: maxSurge, maxUnavailable, Ingress weight | `testes-cicd` (60h), at the pipeline level |
 
-A ordem sustenta a divisão: em DevOps, os três vêm **depois** de Kubernetes (índices 10, 11 e 12 contra 7). Em DevSecOps só existe `testes-cicd`, também depois — `gitops` e `observabilidade` não estão nessa trilha, e é por isso que o panorama dentro do curso de Kubernetes precisa se sustentar sozinho.
+The order sustains the division: in DevOps, the three come **after** Kubernetes (indices 10, 11 and 12 against 7). In DevSecOps only `testes-cicd` exists, also afterwards — `gitops` and `observabilidade` are not in that track, and that is why the overview inside the Kubernetes course has to stand on its own.
 
-### Os dois níveis de conteúdo de um curso
+### A course's two levels of content
 
-| Campo | Para quem | Onde aparece |
+| Field | For whom | Where it appears |
 | --- | --- | --- |
-| `ementa` | quem está decidindo se se matricula | modal do curso, sempre visível — 5 a 7 linhas |
-| `topicos` | quem quer conferir tópico a tópico | modal, dentro do bloco recolhido **"conteúdo detalhado"** |
+| `ementa` | whoever is deciding whether to enrol | the course modal, always visible — 5 to 7 lines |
+| `topicos` | whoever wants to check topic by topic | the modal, inside the collapsed **"conteúdo detalhado"** block |
 
-A ementa **condensa**; os tópicos **listam**. É `topicos` que carrega os itens finos do roadmap — os quadradinhos bege que ficam pendurados sob cada tópico amarelo (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — sem transformar o modal numa parede de termos técnicos. O campo é opcional: curso sem `topicos` não mostra o bloco. A busca do catálogo procura nos dois.
+The syllabus **condenses**; the topics **list**. It is `topicos` that carries the roadmap's fine items — the little beige squares hanging under each yellow topic (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — without turning the modal into a wall of technical terms. The field is optional: a course with no `topicos` does not show the block. The catalogue's search looks in both.
 
-**Todos os 86 cursos estão com `topicos` preenchido — 1.503 tópicos no catálogo.** Ao criar um curso novo, preencha os dois campos: sem `topicos` ele fica visivelmente mais pobre que os vizinhos.
+**All 86 courses have `topicos` filled in — 1,503 topics in the catalogue.** When creating a new course, fill in both fields: without `topicos` it looks visibly poorer than its neighbours.
 
-### Idioma dos nomes
+### The language of the names
 
-- **Curso**: conceito em português (`Infraestrutura como Código`), nome próprio de tecnologia intacto (`JavaScript`, `Node.js`, `GitOps`, `Python`).
-- **Trilha**: nome em português (`Desenvolvimento Front-end`), e o cargo em inglês — como o mercado anuncia a vaga — no campo `saida` (`Front-end Developer júnior`).
+- **Course**: the concept in Portuguese (`Infraestrutura como Código`), a technology's proper name intact (`JavaScript`, `Node.js`, `GitOps`, `Python`).
+- **Track**: the name in Portuguese (`Desenvolvimento Front-end`), and the role in English — as the market advertises the vacancy — in the `saida` field (`Front-end Developer júnior`).
 
-### A unidade intermediária: a decisão que fica para a Etapa 2
+### The intermediate unit: the decision left to Stage 2
 
-**Entre "um curso" e "a trilha inteira" não existe nada, e as trilhas de carreira são longas:**
+**Between "one course" and "the whole track" there is nothing, and the career tracks are long:**
 
-| trilha | cursos | horas |
+| track | courses | hours |
 | --- | --- | --- |
-| Engenharia de Dados | 17 | 1.040h |
+| Engenharia de Dados | 17 | 1,040h |
 | DevSecOps | 16 | 970h |
 | Segurança Cibernética | 15 | 970h |
 | Business Intelligence | 14 | 900h |
 
-Oito das treze passam de 720h. É muito tempo sem nenhum marco de chegada — e é exatamente o buraco que a Alura preenche com o nível a mais que ela tem.
+Eight of the thirteen pass 720h. That is a lot of time with no milestone of arrival — and it is exactly the hole Alura fills with the extra level it has.
 
-**A Alura empilha; aqui as famílias ficam lado a lado.** Lá vale `Carreira ⊃ Trilha ⊃ Curso`: a Trilha é um recorte por assunto *dentro* de uma Carreira, e é a ela que o certificado se prende. Aqui, `carreira` e `tecnologia` são duas espécies do mesmo nível, e abaixo delas só existe o curso.
+**Alura stacks; here the families sit side by side.** There it goes `Career ⊃ Track ⊃ Course`: the Track is a slice by subject *inside* a Career, and it is what the certificate attaches to. Here, `carreira` and `tecnologia` are two species at the same level, and below them there is only the course.
 
-A diferença não é cosmética. A hierarquia obriga cada curso a ter um pai só, e este catálogo não cabe nisso: **43 dos 86 cursos estão em duas ou mais trilhas** — `web-fundamentos` está em 11, `git`, `python` e `linux-terminal` em 8. São 192 vagas para 86 cursos distintos, fator de reuso de 2,23x. Numa árvore isso vira duplicação; é o grafo que sustenta a promessa de que ninguém estuda a mesma coisa duas vezes.
+The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **43 of the 86 courses are in two or more tracks** — `web-fundamentos` is in 11, `git`, `python` and `linux-terminal` in 8. That is 192 slots for 86 distinct courses, a reuse factor of 2.23×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
 
-Ou seja: a separação por família resolve **por onde entrar**; a Trilha da Alura resolve **como saber que avançou**. São problemas ortogonais, e só o primeiro está resolvido aqui.
+In other words: the split by family solves **where to come in**; Alura's Track solves **how to know you have advanced**. They are orthogonal problems, and only the first one is solved here.
 
-**Por que não agora.** A mudança é aditiva — um campo novo em `TRILHAS` não invalida o `cursos` que já existe, nada migra e nenhum link morre. O custo só salta no **primeiro certificado emitido para aluno real**, porque a partir dali trocar a unidade de certificação vira reemissão ou exceção. Esse prazo é o do LMS, não o da vitrine.
+**Why not now.** The change is additive — a new field in `TRILHAS` does not invalidate the `cursos` that already exists, nothing migrates and no link dies. The cost only jumps at the **first certificate issued to a real student**, because from then on changing the unit of certification becomes a reissue or an exception. That deadline belongs to the LMS, not to the showcase.
 
-**A armadilha é a mesma do caso Go.** O eixo óbvio para cortar uma trilha em blocos é fundamental / intermediário / avançado — e ele já foi rejeitado um andar abaixo, quando o Go foi dividido: nível não descreve capacidade, `nivel` já é campo, e quem termina o bloco "intermediário" não sabe dizer o que sabe fazer. Blocar por nível repetiria o erro com outro nome.
+**The trap is the same as the Go case's.** The obvious axis for cutting a track into blocks is fundamentals / intermediate / advanced — and it was already rejected one floor below, when Go was divided: a level does not describe a capability, `nivel` is already a field, and whoever finishes the "intermediate" block cannot say what they can do. Blocking by level would repeat the error under another name.
 
-**O que falta decidir, em ordem:**
+**What is left to decide, in order:**
 
-1. **O eixo.** Se não é nível, é o quê? O candidato coerente com o resto do catálogo é *capacidade* — cada bloco entrega algo que o aluno passa a saber fazer, como os quatro cursos de Go. O candidato mais ambicioso é *saída parcial empregável*: o bloco termina onde já dá para trabalhar de alguma coisa.
-2. **O nome.** "Trilha" já está gasto no nível de cima e "etapa" já nomeia as colunas do grafo. Sobram *módulo* e *bloco*.
-3. **A âncora do certificado.** A topologia daqui cria uma pergunta que a da Alura não tem: as trilhas de tecnologia terminam em **leque com escolha terminal**, onde os caminhos não voltam a se juntar. Certificar "Domínio de Python" certifica qual ramo — todos, ou o escolhido?
-4. **O custo de tradução.** Nome de bloco é string traduzível. Treze trilhas com três ou quatro blocos cada são ~45 nomes novos × 4 idiomas.
+1. **The axis.** If it is not level, what is it? The candidate consistent with the rest of the catalogue is *capability* — each block delivers something the student can now do, like the four Go courses. The more ambitious candidate is *a partial employable outcome*: the block ends where you can already work at something.
+2. **The name.** "Trilha" is already used up one level above and "etapa" already names the graph's columns. That leaves *módulo* and *bloco*.
+3. **The certificate's anchor.** The topology here creates a question Alura's does not have: the technology tracks end in a **fan with a terminal choice**, where the paths do not come back together. Certifying "Domínio de Python" certifies which branch — all of them, or the chosen one?
+4. **The translation cost.** A block name is a translatable string. Thirteen tracks with three or four blocks each is ~45 new names × 4 languages.
 
-**O benefício que já existiria hoje** — 1.040h numa tela só é intimidante numa vitrine cujo trabalho é converter matrícula — é problema de *apresentação*, e não exige inventar a unidade de certificação para ser resolvido.
+**The benefit that would already exist today** — 1,040h on a single screen is intimidating on a showcase whose job is to convert an enrolment — is a *presentation* problem, and does not require inventing the unit of certification to be solved.
 
-## Mapa de expansão
+## Expansion map
 
-Os roadmaps que aparecem **em azul** dentro dos roadmaps do roadmap.sh são outros roadmaps inteiros. Nem todos viram trilha — a classificação que guia o crescimento do catálogo:
+The roadmaps that appear **in blue** inside roadmap.sh's roadmaps are whole other roadmaps. Not all of them become a track — the classification that guides the catalogue's growth:
 
-| Tipo | Roadmaps | Vira |
+| Type | Roadmaps | Becomes |
 | --- | --- | --- |
-| Ferramenta / competência | Docker, Kubernetes, TypeScript, MCP | **curso** compartilhado (ex.: `docker` serve hoje a cinco trilhas) |
-| Disciplina transversal | System Design, Design & Architecture, API Security | **curso avançado** compartilhado |
-| Carreira de entrada | DevOps, Network Engineer, AI Engineer, QA Engineer | **trilha** própria |
-| Carreira sênior | Software Architect, Engineering Manager | **trilha de continuação**, com outra trilha como pré-requisito |
-| Especialização | Prompt Engineering, AI Red Teaming, Vibe Coding | **trilha curta** ou curso, conforme o volume |
-| Roadmap com dois públicos | Cyber Security | **duas trilhas**, uma servindo de base à outra |
-| Interseção de duas carreiras | DevSecOps | **trilha** própria, se trouxer curso que nenhuma das duas tem |
-| Mesma matéria, outro público | BI Analyst | **trilha** própria, com caminho que não passa por programação |
-| Linguagem com várias saídas | Python, SQL, Go, JavaScript | **trilha da família `tecnologia`** — tronco curto e leque de aplicações |
-| Linguagem com uma saída só | Java | **cursos** dentro da trilha de carreira que a usa — o leque seria redundante |
-| Ferramenta com uma saída só | Docker, Kubernetes, Terraform, Spring Boot | **curso** compartilhado — o leque não existe, e uma trilha viraria enchimento |
+| Tool / skill | Docker, Kubernetes, TypeScript, MCP | a shared **course** (e.g. `docker` serves five tracks today) |
+| Cross-cutting discipline | System Design, Design & Architecture, API Security | a shared **advanced course** |
+| Entry career | DevOps, Network Engineer, AI Engineer, QA Engineer | its own **track** |
+| Senior career | Software Architect, Engineering Manager | a **continuation track**, with another track as a prerequisite |
+| Specialisation | Prompt Engineering, AI Red Teaming, Vibe Coding | a **short track** or a course, depending on the volume |
+| A roadmap with two audiences | Cyber Security | **two tracks**, one serving as the base for the other |
+| The intersection of two careers | DevSecOps | its own **track**, if it brings a course neither of the two has |
+| The same subject for another audience | BI Analyst | its own **track**, with a path that does not go through programming |
+| A language with several outcomes | Python, SQL, Go, JavaScript | a **`tecnologia`-family track** — a short trunk and a fan of applications |
+| A language with a single outcome | Java | **courses** inside the career track that uses it — the fan would be redundant |
+| A tool with a single outcome | Docker, Kubernetes, Terraform, Spring Boot | a shared **course** — the fan does not exist, and a track would be padding |
 
-### O mesmo assunto para outro público: o caso BI Analyst
+### The same subject for another audience: the BI Analyst case
 
-BI e Engenharia de Dados tratam do mesmo dado, mas para pessoas diferentes: o engenheiro constrói o encanamento, o analista responde à pergunta do diretor. A trilha de BI **não passa por programação** nas primeiras 260h — começa em Informática Essencial, negócio, Excel e estatística, e só encontra Python na nona etapa.
+BI and Data Engineering deal with the same data, but for different people: the engineer builds the plumbing, the analyst answers the director's question. The BI track **does not go through programming** in its first 260h — it starts at essential computing, business, Excel and statistics, and only meets Python at the ninth step.
 
-É a trilha mais vendável para o público real de uma escola de cidade do interior: contador, gerente de loja, encarregado de produção. Ninguém deles vai fazer Engenharia de Dados.
+It is the most sellable track for the real audience of a small-town school: an accountant, a shop manager, a production supervisor. None of them is going to do Data Engineering.
 
-**Ela também corrigiu uma lacuna que passou por baixo do radar em nove trilhas:** não havia **nenhum curso de estatística** no catálogo. A trilha de Engenharia de Dados ia de Python direto a modelagem dimensional sem nunca ensinar média, desvio padrão, p-valor ou regressão. `estatistica` (80h) entrou nas duas.
+**It also fixed a gap that had slipped under the radar across nine tracks:** there was **no statistics course** in the catalogue. The Data Engineering track went from Python straight to dimensional modelling without ever teaching a mean, a standard deviation, a p-value or a regression. `estatistica` (80h) went into both.
 
-### A segunda porta sem programação: o caso QA Engineer
+### The second door without programming: the QA Engineer case
 
-Pelo tamanho, QA é uma trilha comum: ~120 quadrados no roadmap, 22.366 seguidores, 720h. **O que a torna estratégica é a mesma coisa que tornou o BI:** as primeiras **330h não exigem programar.** O roadmap põe fundamentos, abordagens caixa preta/cinza/branca, modelos de ciclo de vida, metodologias, teste manual e técnicas funcionais **antes** de qualquer automação — só no oitavo curso aparece JavaScript.
+By size, QA is an ordinary track: ~120 squares in the roadmap, 22,366 followers, 720h. **What makes it strategic is the same thing that made BI:** the first **330h do not require programming.** The roadmap puts fundamentals, black/grey/white box approaches, lifecycle models, methodologies, manual testing and functional techniques **before** any automation — JavaScript only appears in the eighth course.
 
-BI e QA atendem públicos diferentes que chegam pela mesma porta: BI serve quem gosta de analisar número, QA serve quem gosta de quebrar coisa. São hoje as duas únicas entradas do catálogo para quem está mudando de carreira e ainda não programa.
+BI and QA serve different audiences arriving through the same door: BI serves whoever likes analysing numbers, QA serves whoever likes breaking things. They are today the catalogue's only two entrances for someone changing career who does not yet program.
 
-Custou **310h de conteúdo novo em cinco cursos** — a adição mais cara até agora, acima das 220h do Go. Vale porque é a única adição recente que **abre uma porta nova** em vez de aprofundar uma existente; Go, Java, Docker e Kubernetes todos aprofundaram caminhos que já existiam.
+It cost **310h of new content across five courses** — the most expensive addition so far, above Go's 220h. It is worth it because it is the only recent addition that **opens a new door** instead of deepening an existing one; Go, Java, Docker and Kubernetes all deepened paths that already existed.
 
-Reaproveita 410h: `web-fundamentos`, `git`, `bancos-sql`, `html-css`, `javascript`, `seguranca-fundamentos` e `testes-cicd`. E fez `web-fundamentos` chegar a **nove trilhas** — é o curso mais compartilhado do catálogo.
+It reuses 410h: `web-fundamentos`, `git`, `bancos-sql`, `html-css`, `javascript`, `seguranca-fundamentos` and `testes-cicd`. And it took `web-fundamentos` to **nine tracks** — it is the catalogue's most shared course.
 
-**Um detalhe de grafo que ela expôs:** `seguranca-fundamentos` e `testes-cicd` são o fechamento do currículo de QA, mas seus pré-requisitos de conteúdo estão no começo da trilha (`web-fundamentos` e `apis`, este último nem presente). O grafo os jogava para o nível 03, ao lado do JavaScript. Foi o caso clássico de **`ligacoes`** — ordem de currículo em vez de dependência de conteúdo — e com ela os dois voltaram para o nível 06, antes da chegada.
+**A graph detail it exposed:** `seguranca-fundamentos` and `testes-cicd` are the closing of the QA curriculum, but their content prerequisites are at the start of the track (`web-fundamentos` and `apis`, the latter not even present). The graph threw them to level 03, beside JavaScript. It was the classic case for **`ligacoes`** — curriculum order rather than content dependency — and with it the two went back to level 06, before the finish.
 
-### Interseção não é combo: o caso DevSecOps
+### An intersection is not a combo: the DevSecOps case
 
-DevSecOps fica entre DevOps e Segurança, e **87% da trilha já existia**. Pela régua do Full Stack, isso levanta a suspeita certa — mas ele passa, e a diferença é objetiva: traz **três cursos que nenhuma das duas trilhas tinha** (Codificação Segura, Modelagem de Ameaças e Risco, Segurança na Esteira e Cadeia de Suprimentos) e uma ordem própria. Full Stack trazia zero.
+DevSecOps sits between DevOps and Security, and **87% of the track already existed**. By the Full Stack ruler, that raises the right suspicion — but it passes, and the difference is objective: it brings **three courses neither of the two tracks had** (Secure Coding, Threat and Risk Modelling, Pipeline and Supply Chain Security) and an order of its own. Full Stack brought zero.
 
-**O teste, portanto, não é "quanto se repete", é "traz conteúdo e ordem que não existem?".** DevSecOps traz 120h exclusivas e entrega 890h.
+**The test, therefore, is not "how much repeats", it is "does it bring content and an order that do not exist?".** DevSecOps brings 120h that are exclusive and delivers 890h.
 
-`codigo-seguro` também entrou na trilha de Segurança Cibernética, que não tinha nada de segurança de aplicação — a lacuna só ficou visível quando este roadmap foi mapeado.
+`codigo-seguro` also went into the Cyber Security track, which had nothing on application security — the gap only became visible when this roadmap was mapped.
 
-### Um roadmap pode virar mais de uma trilha: o caso Cyber Security
+### One roadmap can become more than one track: the Cyber Security case
 
-O roadmap de Cyber Security tem só **6 nós amarelos**, mas cerca de **300 itens** pendurados neles — é de longe o maior. Uma trilha única passaria de 1.300h e misturaria dois públicos que não se encontram: quem quer trabalhar em help desk e quem quer ser pentester.
+The Cyber Security roadmap has only **6 yellow nodes**, but around **300 items** hanging off them — it is by far the largest. A single track would pass 1,300h and would mix two audiences that never meet: whoever wants to work on a help desk and whoever wants to be a pentester.
 
-Foi partido no lugar onde o próprio roadmap já separa:
+It was split where the roadmap itself already separates:
 
-| Blocos do roadmap | Virou |
+| Roadmap blocks | Became |
 | --- | --- |
-| Fundamental IT Skills · Operating Systems · base de rede | **Fundamentos de TI e Suporte** (7 cursos, 400h) |
-| Security Skills and Knowledge · Cloud Skills · Programming Skills | **Segurança Cibernética** (15 cursos, 970h) |
+| Fundamental IT Skills · Operating Systems · networking base | **Fundamentos de TI e Suporte** (7 courses, 400h) |
+| Security Skills and Knowledge · Cloud Skills · Programming Skills | **Segurança Cibernética** (15 courses, 970h) |
 
-A primeira é a porta de entrada da escola — não exige nada e termina em Técnico de Suporte. A segunda usa a primeira como base. **Regra:** quando um roadmap contém dois públicos com saídas diferentes, ele vira duas trilhas, não uma trilha gigante.
+The first is the school's entrance — it requires nothing and ends at Support Technician. The second uses the first as its base. **Rule:** when a roadmap contains two audiences with different outcomes, it becomes two tracks, not one giant track.
 
-`informatica-essencial`, o primeiro curso da trilha de TI, é o **"Informática Essencial"** que estava pendente desde o começo do projeto: hardware, Office, nuvem pessoal e rede doméstica. Ele saiu do bloco *Fundamental IT Skills* deste roadmap.
+`informatica-essencial`, the first course of the IT track, is the **"Informática Essencial"** that had been pending since the start of the project: hardware, Office, personal cloud and home networking. It came out of this roadmap's *Fundamental IT Skills* block.
 
-### Trilha de continuação: o caso Software Architect
+### A continuation track: the Software Architect case
 
-Arquitetura de Software é a primeira trilha do catálogo que **não é porta de entrada**. Não existe arquiteto júnior: o roadmap pede Back-end, Full Stack ou System Design antes, e a trilha declara isso no `objetivo` e no campo `requisitos` do primeiro curso. A jornada real é **760h de Back-end + 740h de Arquitetura**.
+Software Architecture is the catalogue's first track that is **not an entrance**. There is no junior architect: the roadmap asks for Back-end, Full Stack or System Design first, and the track declares that in its `objetivo` and in the first course's `requisitos` field. The real journey is **760h of Back-end + 740h of Architecture**.
 
-Isso muda o que a escola vende: em vez de só formar iniciante, ela acompanha carreira — o aluno de 2027 volta em 2030. Vale abrir outras trilhas assim (Engineering Manager, Staff Engineer) mantendo a regra: **trilha sênior sempre declara a trilha anterior**.
+That changes what the school sells: instead of only training beginners, it accompanies a career — the student of 2027 comes back in 2030. It is worth opening other tracks like this (Engineering Manager, Staff Engineer) keeping the rule: **a senior track always declares the preceding track**.
 
-**Full Stack fica de fora, por decisão.** É exatamente a soma de Front-end e Back-end: não traz nenhum curso novo, nenhuma ordem nova e nenhuma saída que as duas trilhas já não entreguem. Quem quer tudo faz as duas — e o catálogo não ganha uma trilha que só repete as outras.
+**Full Stack is left out, by decision.** It is exactly the sum of Front-end and Back-end: it brings no new course, no new order and no outcome the two tracks do not already deliver. Whoever wants everything does both — and the catalogue does not gain a track that only repeats the others.
 
-A régua, refinada depois do caso Prompt/IA: **combinar trilhas completas não justifica trilha nova; recortar o começo de uma trilha para um público que nunca faria o resto, sim.** Engenharia de Prompt é hoje um subconjunto de Engenharia de IA e continua existindo por isso — ela diz a quem não programa "pare aqui, já é o suficiente para você", coisa que Full Stack não diria a ninguém.
+The ruler, refined after the Prompt/AI case: **combining complete tracks does not justify a new track; slicing the start of a track for an audience that would never do the rest, does.** Prompt Engineering is today a subset of AI Engineering and goes on existing for that reason — it tells whoever does not program "stop here, this is already enough for you", which Full Stack would say to nobody.
 
-**Cursos compartilhados hoje** (aparecem com o selo "em N trilhas"):
+**Courses shared today** (they show the "em N trilhas" badge):
 
-| Curso | Nº de trilhas |
+| Course | No. of tracks |
 | --- | --- |
 | `web-fundamentos` | 9 |
 | `git` · `python` · `linux-terminal` | 7 |
@@ -474,18 +478,18 @@ A régua, refinada depois do caso Prompt/IA: **combinar trilhas completas não j
 | `html-css` · `ia-dev` · `iac` · `modelagem-dw` · `ia-seguranca` · `seguranca-fundamentos` | 3 |
 | `servidores-cache` · `kubernetes` · `estatistica` · `pipelines-etl` · `dados-governanca` · `analytics-bi` · `redes-seguranca` · `prompt-engineering` · `prompt-confiabilidade` · `informatica-essencial` · `sistemas-operacionais` · `criptografia` · `ataques-ameacas` · `codigo-seguro` · `soc-resposta` · `nuvem-seguranca` | 2 |
 
-**A economia do modelo**: somadas, as treze trilhas de carreira entregam até 9.610 horas de formação — mas o conteúdo a produzir é de 5.310 horas, porque os cursos compartilhados são feitos uma vez só. **45% de economia**, e ela cresce a cada trilha nova.
+**The model's economics**: added up, the thirteen career tracks deliver up to 9,610 hours of training — but the content to produce is 5,310 hours, because the shared courses are made only once. **45% savings**, and it grows with every new track.
 
-O número é calculado **só sobre a família `carreira`** — tanto a carga entregue quanto a coluna "só dela" abaixo. As trilhas de tecnologia são 100% reaproveitamento por construção: incluí-las empurraria a economia para cima sem a escola ter produzido uma hora sequer, e o indicador deixaria de medir o que interessa. Foi por isso que a tabela abaixo não se mexeu quando Python e SQL entraram; a linha de Back-end mudou por outro motivo — a opção Go ganhou dois cursos, que são exclusivos dela e derrubaram o reaproveitamento de 37% para 25%.
+The number is computed **only over the `carreira` family** — both the delivered workload and the "exclusive to it" column below. The technology tracks are 100% reuse by construction: including them would push the savings up without the school having produced a single hour, and the indicator would stop measuring what matters. That is why the table below did not move when Python and SQL went in; the Back-end line changed for another reason — the Go option gained two courses, which are exclusive to it and dropped the reuse from 37% to 25%.
 
-Como isso aparece na prática, trilha por trilha (horas exclusivas = conteúdo que só ela usa):
+How that appears in practice, track by track (exclusive hours = content only it uses):
 
-| Trilha | Carga | Só dela | Reaproveitado |
+| Track | Workload | Exclusive to it | Reused |
 | --- | --- | --- | --- |
 | Desenvolvimento Front-end | 590h | 320h | 46% |
 | Desenvolvimento Back-end | 760-840h | 760h | 10% |
 | DevOps e SRE | 780h | 60h | 92% |
-| Engenharia de Dados | 1.040h | 170h | 84% |
+| Engenharia de Dados | 1,040h | 170h | 84% |
 | Redes e Infraestrutura | 730h | 210h | 71% |
 | Engenharia de Prompt | 200h | 0h | 100% |
 | Engenharia de IA | 730h | 370h | 49% |
@@ -496,33 +500,33 @@ Como isso aparece na prática, trilha por trilha (horas exclusivas = conteúdo q
 | Business Intelligence | 900h | 350h | 61% |
 | Qualidade e Testes de Software | 720h | 310h | 57% |
 
-**DevOps e SRE custa 60 horas de conteúdo novo** e entrega 780 — é o caso extremo do modelo. E **Engenharia de Prompt custa zero**: é inteiramente recorte de Engenharia de IA.
+**DevOps e SRE costs 60 hours of new content** and delivers 780 — it is the model's extreme case. And **Engenharia de Prompt costs zero**: it is entirely a slice of Engenharia de IA.
 
-Note o efeito cruzado: quando DevSecOps entrou, as horas exclusivas de Segurança Cibernética caíram de 450h para 150h; quando BI entrou, Engenharia de Dados caiu de 360h para 170h. Não é que elas tenham perdido conteúdo — passaram a dividi-lo. **Toda trilha nova torna as antigas mais baratas.**
+Note the cross effect: when DevSecOps went in, Segurança Cibernética's exclusive hours fell from 450h to 150h; when BI went in, Engenharia de Dados fell from 360h to 170h. It is not that they lost content — they started sharing it. **Every new track makes the old ones cheaper.**
 
-Os casos Go e Java andam na direção contrária e mostram o outro lado da conta: `go`, `go-concorrencia`, `java` e `java-funcional` só aparecem em Back-end dentro da família carreira, então as horas exclusivas dela subiram de 480h para **760h** e o reaproveitamento caiu de 37% para 10%. Back-end virou a trilha mais cara do catálogo — e é justo, porque é ela que banca quatro linguagens de servidor. Curso de linguagem é caro justamente porque **não** se divide.
+The Go and Java cases go in the opposite direction and show the other side of the arithmetic: `go`, `go-concorrencia`, `java` and `java-funcional` only appear in Back-end within the career family, so its exclusive hours rose from 480h to **760h** and the reuse fell from 37% to 10%. Back-end became the catalogue's most expensive track — and that is fair, because it is the one bankrolling four server languages. A language course is expensive precisely because it does **not** get shared.
 
-Foi por isso que Docker nasceu como curso próprio em vez de virar um bloco dentro de outro: hoje `docker` serve a cinco trilhas.
+That is why Docker was born as its own course instead of becoming a block inside another: today `docker` serves five tracks.
 
-## O modal de um curso
+## A course's modal
 
-Em telas de **1024px para cima** o modal se abre em **duas colunas**: à esquerda o que convence — o que é o curso, o vídeo de apresentação e o botão de matrícula —, à direita o que detalha — ementa, conteúdo detalhado, pré-requisitos e trilhas. Abaixo disso volta a ser uma coluna, e a ordem do HTML já é a ordem certa de leitura. O limite é onde cada coluna ainda fica com ~440px: mais estreito que isso, duas colunas leem pior que uma. Acima de 1500px a caixa para de crescer — numa tela 4K o modal ocupava metade da largura em branco de um lado e linhas longas demais do outro.
+On screens of **1024px and up** the modal opens in **two columns**: on the left what convinces — what the course is, the introduction video and the enrolment button —, on the right what details it — syllabus, detailed content, prerequisites and tracks. Below that it goes back to one column, and the HTML order is already the right reading order. The breakpoint is where each column still gets ~440px: any narrower than that and two columns read worse than one. Above 1500px the box stops growing — on a 4K screen the modal took up half the width in blank on one side and lines that were too long on the other.
 
-Um curso de 48 tópicos abertos fazia o modal inteiro rolar, e a coluna da esquerda — o vídeo e o botão de matrícula — subia junto para fora da vista. Em telas grandes **o corpo do modal não rola**: quem rola é a lista de tópicos, por dentro.
+A course with 48 topics open made the whole modal scroll, and the left column — the video and the enrolment button — went up out of view with it. On large screens **the modal's body does not scroll**: what scrolls is the topic list, inside itself.
 
-O teto da lista é **medido em JavaScript**, não fixado no CSS. Um teto fixo não resolve: com 420px a lista parava, mas a coluna inteira (ementa + tópicos + pré-requisitos + trilhas) continuava passando da altura e o modal voltava a rolar. `ajustarTopicos()` mede quanto a coluna excede e tira esse tanto da lista — o único bloco que pode encolher sem perder informação, porque ela rola. Piso de 140px; abaixo disso a coluna rola, como rede de segurança.
+The list's ceiling is **measured in JavaScript**, not fixed in CSS. A fixed ceiling does not solve it: at 420px the list stopped, but the whole column (syllabus + topics + prerequisites + tracks) still overflowed and the modal went back to scrolling. `fitTopics()` measures how much the column overflows and takes that much off the list — the only block that can shrink without losing information, because it scrolls. A 140px floor; below that the column scrolls, as a safety net.
 
-Era para ser CSS puro (`flex:1 1 auto` na lista dentro de um `<details>` em `display:flex`), e não funciona: o Chrome envolve o conteúdo do `<details>` num slot, então o `ul` **não** vira item flex. O estilo computado aceita a regra e o layout a ignora — a lista ficava com 1387px dentro de um bloco de 246px e vazava por cima do resto. Medir foi o que mostrou isso; olhando o CSS não dava para saber.
+It was meant to be pure CSS (`flex:1 1 auto` on the list inside a `<details>` in `display:flex`), and it does not work: Chrome wraps the `<details>` content in a slot, so the `ul` does **not** become a flex item. The computed style accepts the rule and the layout ignores it — the list ended up 1387px inside a 246px block and spilled over the rest. Measuring is what showed that; looking at the CSS there was no way to know.
 
-No celular nada disso se aplica: lá a rolagem única da tela é mais natural que uma caixa que rola dentro de outra.
+On mobile none of this applies: there, a single screen scroll is more natural than a box scrolling inside another.
 
-**Com o modal aberto, o fundo não rola.** Prender só a roda e o toque no JavaScript não bastava — os tratadores tinham um `return` seco antes do `preventDefault()`, e ainda sobravam a barra de rolagem do navegador e a inércia do trackpad. São duas metades: uma classe no `<html>` corta o overflow do documento e da tela (cuida da barra e da inércia) e os tratadores deixam passar apenas o que tem rolagem própria **dentro** do modal (cuida do encadeamento). A posição da página fica exatamente onde estava, porque nada é reposicionado.
+**With the modal open, the background does not scroll.** Trapping only the wheel and touch in JavaScript was not enough — the handlers had a bare `return` before the `preventDefault()`, and the browser's scrollbar and the trackpad's inertia were still left over. It is two halves: a class on `<html>` cuts the overflow of the document and of the screen (handling the scrollbar and the inertia) and the handlers let through only what has its own scrolling **inside** the modal (handling the chaining). The page's position stays exactly where it was, because nothing is repositioned.
 
-**O vídeo é uma fachada, não um iframe.** O quadro mostra a capa do YouTube e um botão; só depois do clique o player entra. Assim o modal abre leve e quem não assiste não recebe cookie nenhum do YouTube. Curso sem `video` preenchido mostra o quadro reservado com "vídeo em breve" — o espaço já fica guardado, então publicar os vídeos um a um não reorganiza a tela de ninguém.
+**The video is a facade, not an iframe.** The frame shows the YouTube thumbnail and a button; only after a click does the player come in. That way the modal opens light and whoever does not watch receives no YouTube cookie at all. A course with no `video` filled in shows the reserved frame with "vídeo em breve" — the space is already held, so publishing the videos one at a time does not rearrange anyone's screen.
 
-## Terminal do hero
+## The hero terminal
 
-Quatro comandos, e **nenhuma resposta escrita à mão**: os números, os nomes das trilhas e a ficha do curso saem de `CURSOS` e `TRILHAS`, em `montarTerminal()`. Entra trilha nova e ele conta certo sozinho; nenhuma linha pode contradizer o resto da página, porque lê a mesma fonte.
+Four commands, and **not one hand-written response**: the numbers, the track names and the course card all come out of `CURSOS` and `TRILHAS`, in `buildTerminal()`. A new track comes in and it counts right by itself; no line can contradict the rest of the page, because it reads the same source.
 
 ```
 $ codeschool --status
@@ -541,93 +545,93 @@ $ codeschool course kubernetes --info
 $ codeschool start▊
 ```
 
-A trilha de Back-end mostra `760–840h` porque tem bifurcação: a faixa vem de `faixaDeHoras()`, o mesmo cálculo que a tela de trilhas usa. O curso da terceira resposta é fixo (`CURSO_VITRINE`) e escolhido por ser avançado **e** ter pré-requisito — assim a ficha mostra as duas coisas. Se o id sumir do catálogo, cai no primeiro curso que tenha `depende` preenchido.
+The Back-end track shows `760–840h` because it has a fork: the range comes from `hoursRange()`, the same computation the tracks screen uses. The course in the third response is fixed (`SHOWCASE_COURSE`) and chosen for being advanced **and** having a prerequisite — that way the card shows both. If the id disappears from the catalogue, it falls back to the first course with `depende` filled in.
 
-**O atraso da animação é calculado, não escrito por posição.** Antes eram seis regras `nth-child` com o atraso de cada linha; o terminal tem treze agora, e tudo além da sexta aparecia de uma vez. `montarTerminal()` grava a posição em `--i` e o CSS faz `calc(.2s + var(--i) * .16s)` — o escalonamento passa a valer para quantas linhas houver.
+**The animation delay is computed, not written by position.** It used to be six `nth-child` rules with each line's delay; the terminal has thirteen now, and everything past the sixth appeared at once. `buildTerminal()` writes the position into `--i` and the CSS does `calc(.2s + var(--i) * .16s)` — the staggering comes to apply to however many lines there are.
 
-O terminal **só aparece acima de 1180px**, junto com o menu à mostra. Abaixo disso a coluna de texto ocupa a largura toda.
+The terminal **only appears above 1180px**, along with the menu on show. Below that the text column takes the full width.
 
-## Modal de inscrição
+## The signup modal
 
-**O formulário não é uma tela: é um modal.** Antes, clicar em "Quero este plano" atravessava a página inteira até uma seção que perguntava de novo qual plano a pessoa queria. Agora o plano vira o cabeçalho do modal e o formulário fica com **dois campos**. A tela que sobrou virou o FAQ.
+**The form is not a screen: it is a modal.** Before, clicking "Quero este plano" crossed the whole page to a section that asked again which plan the person wanted. Now the plan becomes the modal's heading and the form is left with **two fields**. The screen that was freed became the FAQ.
 
-Abre de **três lugares**, e o que muda entre eles é só quanta coisa ainda falta perguntar:
+It opens from **three places**, and what changes between them is only how much is still left to ask:
 
-| de onde | plano | o que o formulário mostra |
+| from where | plan | what the form shows |
 | --- | --- | --- |
-| botão de um dos cartões | conhecido | plano no cabeçalho, sem seletor: nome e contato |
-| "Comece agora", no topo | nenhum | seletor de plano, começando em "ainda não sei" |
-| botão do modal de curso | nenhum | igual ao de cima, mas guarda o curso como origem |
+| a card's button | known | the plan in the heading, no selector: name and contact |
+| "Comece agora", at the top | none | a plan selector, starting at "ainda não sei" |
+| the course modal's button | none | like the one above, but it keeps the course as the origin |
 
-**A lista de planos sai dos próprios cartões da tela de Planos**, lida do DOM (`#planos .plano-nome`), não de um array paralelo no `script.js`. Acrescentar um quarto plano, renomear ou tirar um ajusta o seletor sozinho, e não existe a chance de os dois discordarem. Como `montarSelectPlanos()` roda depois de `aplicarTextos()`, os nomes já chegam no idioma da vez.
+**The plan list comes from the Plans screen's own cards**, read from the DOM (`#planos .plano-nome`), not from a parallel array in `script.js`. Adding a fourth plan, renaming or removing one adjusts the selector by itself, and there is no chance of the two disagreeing. Since `buildPlanSelect()` runs after `applyTexts()`, the names already arrive in the current language.
 
-**O "Comece agora" do topo é `<button>`, não âncora.** Ele abre um diálogo, não navega — e é a porta de entrada de quem ainda não escolheu plano. Sem ele, o formulário só existiria dentro do modal de um plano, e quem quer orientação antes de escolher ficaria sem caminho. Os três botões dos cartões seguiram o mesmo raciocínio e viraram `<button>` também.
+**The "Comece agora" at the top is a `<button>`, not an anchor.** It opens a dialog, it does not navigate — and it is the way in for whoever has not chosen a plan yet. Without it, the form would only exist inside a plan's modal, and whoever wants guidance before choosing would have no route. The three card buttons followed the same reasoning and became `<button>`s too.
 
-**O botão do modal de curso registra a origem.** Fecha o modal do curso, abre o de inscrição sem plano e guarda o id em `cursoDeOrigem`, que vai no envio como `origem: 'curso:kubernetes'`. Saber que o pedido nasceu olhando Kubernetes vale para quem atende, mesmo que o curso não seja o que se compra.
+**The course modal's button records the origin.** It closes the course modal, opens the signup one with no plan and keeps the id in `sourceCourse`, which travels in the submission as `origem: 'curso:kubernetes'`. Knowing the request was born looking at Kubernetes is worth something to whoever handles it, even though the course is not what is being bought.
 
-**O foco vai para o × e não para o campo de nome.** Em celular, focar um input na abertura escancara o teclado virtual por cima do modal antes de a pessoa ler o que ele diz.
+**Focus goes to the × and not to the name field.** On mobile, focusing an input on open throws the virtual keyboard over the modal before the person has read what it says.
 
-**Agora são dois modais, e a trava de rolagem precisou parar de conhecer um só.** `modalAberto()` devolve o que estiver aberto, e a roda, o toque e o Esc consultam essa função em vez de olhar direto para o modal de curso. Sem isso, abrir o de inscrição deixaria a página rolando por baixo — exatamente o defeito que já tinha sido corrigido uma vez.
+**There are two modals now, and the scroll lock had to stop knowing only one.** `openModal()` returns whichever is open, and the wheel, touch and Esc consult that function instead of looking straight at the course modal. Without that, opening the signup one would leave the page scrolling underneath — exactly the defect that had already been fixed once.
 
-**Duas regras do modal de curso vazavam para o novo**: em telas de 1024px para cima, a caixa de 1080px e o corpo em duas colunas. Ficaram restritas com `:not(.modal-estreito)` e `:not(.assinar-corpo)` — o modal de inscrição tem 460px e uma coluna só.
+**Two of the course modal's rules leaked into the new one**: on screens of 1024px and up, the 1080px box and the two-column body. They were restricted with `:not(.modal-estreito)` and `:not(.assinar-corpo)` — the signup modal is 460px and a single column.
 
-**Com pouca altura, o subtítulo some** (`@media(max-height:560px)`). Altura curta é quase sempre o teclado virtual aberto: aí a pessoa está digitando e precisa enxergar o campo e o botão, não a explicação. Medido com a viewport encolhida a 420px e a 380px — sem isso, o "Comece agora" caía abaixo da dobra dentro do próprio modal.
+**With little height, the subtitle disappears** (`@media(max-height:560px)`). A short height is almost always the virtual keyboard being open: the person is typing and needs to see the field and the button, not the explanation. Measured with the viewport shrunk to 420px and to 380px — without it, "Comece agora" fell below the fold inside the modal itself.
 
-**O campo de contato aceita whatsapp ou e-mail.** Enquanto o que foi digitado ainda puder ser um telefone, a máscara entra sozinha — `(45) 90000-0000` no celular de nove dígitos, `(45) 0000-0000` no fixo. Assim que aparece letra ou `@`, a máscara se desfaz e o campo volta a ser texto livre; sem isso, quem digitasse `123abc@…` ficaria com `(12) 3abc@…`. O cursor é recolocado depois do mesmo dígito em que estava, então dá para corrigir no meio do número sem ser jogado para o fim.
+**The contact field accepts a whatsapp number or an e-mail.** As long as what has been typed could still be a phone number, the mask applies by itself — `(45) 90000-0000` for a nine-digit mobile, `(45) 0000-0000` for a landline. The moment a letter or an `@` shows up, the mask comes undone and the field goes back to being free text; without that, whoever typed `123abc@…` would end up with `(12) 3abc@…`. The caret is put back after the same digit it was on, so you can correct the middle of a number without being thrown to the end.
 
-Dentro do modal o formulário é **empilhado sempre**: numa caixa de 460px não há largura para duas colunas.
+Inside the modal the form is **always stacked**: a 460px box has no width for two columns.
 
-O envio está pronto para um provedor (Formspree, Web3Forms, Brevo...): cole a URL de POST em `MATRICULA_URL`, no bloco "MATRÍCULA" de `assets/script.js`. Enquanto estiver vazia, o formulário funciona em modo demonstração.
+Submission is ready for a provider (Formspree, Web3Forms, Brevo...): paste the POST URL into `ENROL_URL`, in the "ENROLMENT" block of `assets/script.js`. While it is empty, the form works in demonstration mode.
 
-## Deixado de fora de propósito
+## Deliberately left out
 
-- **Ferramentas de colaboração** (Slack, Trello, Atlassian) aparecem no roadmap de Software Architect, mas não sustentam curso nem etapa — entram como uso corrente dentro de `gestao-processos`.
-- **Big Data na trilha de Arquitetura**: o roadmap cita Hadoop, Spark e MapReduce. O arquiteto precisa do panorama, que `modelagem-dw` dá; as 70h de `bigdata` ficaram só na trilha de Dados para não inflar a trilha em conteúdo que ele não vai operar.
-- **Certificações** (PMI, ITIL, Prince2, Scrum, CompTIA, OSCP, CISSP…) são apresentadas como panorama em `gestao-processos`, `suporte-tecnico` e `pentest`; a escola não prepara para prova de certificadora.
-- **Uma trilha de red team separada da de blue team**: o roadmap de Cyber Security não separa, e dividir agora criaria duas trilhas de 400h com metade do conteúdo repetido. `pentest` (ofensivo) e `soc-resposta` (defensivo) convivem na mesma trilha, cada um com 70-80h. Se a procura justificar, a divisão é feita depois sem refazer curso nenhum.
-- **Uma trilha de tecnologia para cada roadmap por habilidade**: são ~45 no roadmap.sh. Só entram os que passam nos três critérios acima; o resto continua sendo curso dentro de uma trilha de carreira, que é onde já estava.
-- **Cursos avulsos, fora de qualquer trilha**: o catálogo é bom para procurar um curso que você já sabe que quer, mas um curso sem trilha perde o selo "em N trilhas", perde o bloco "faz parte de" no modal e vira beco sem saída na navegação. Hoje são **zero avulsos**, e vale manter assim — foi a alternativa descartada quando as trilhas de tecnologia foram desenhadas.
-- **`ia-seguranca` entrou na trilha de Segurança Cibernética** ainda que não esteja no roadmap de Cyber Security: segurança de aplicações com LLM é o assunto que um analista de 2026 vai encontrar, e o curso já existia. É o único desvio deliberado em relação ao roadmap nessa trilha.
+- **Collaboration tools** (Slack, Trello, Atlassian) appear in the Software Architect roadmap, but they do not sustain a course or a step — they come in as everyday use inside `gestao-processos`.
+- **Big Data in the Architecture track**: the roadmap cites Hadoop, Spark and MapReduce. The architect needs the overview, which `modelagem-dw` gives; `bigdata`'s 70h stayed only in the Data track so as not to inflate the track with content they will not operate.
+- **Certifications** (PMI, ITIL, Prince2, Scrum, CompTIA, OSCP, CISSP…) are presented as an overview in `gestao-processos`, `suporte-tecnico` and `pentest`; the school does not prepare anyone for a certifier's exam.
+- **A red team track separate from the blue team one**: the Cyber Security roadmap does not separate them, and dividing now would create two 400h tracks with half the content repeated. `pentest` (offensive) and `soc-resposta` (defensive) coexist in the same track, each with 70-80h. If demand justifies it, the split can be done later without redoing a single course.
+- **A technology track for every skill roadmap**: there are ~45 on roadmap.sh. Only those that pass the three criteria above go in; the rest go on being a course inside a career track, which is where they already were.
+- **Standalone courses, outside any track**: the catalogue is good for finding a course you already know you want, but a course with no track loses the "em N trilhas" badge, loses the "faz parte de" block in the modal and becomes a dead end in the navigation. Today there are **zero standalone courses**, and it is worth keeping it that way — it was the alternative discarded when the technology tracks were designed.
+- **`ia-seguranca` went into the Cyber Security track** even though it is not in the Cyber Security roadmap: application security with LLMs is the subject a 2026 analyst will run into, and the course already existed. It is the only deliberate deviation from the roadmap in that track.
 
-## O que ainda precisa ser preenchido
+## What still needs filling in
 
-- Depoimentos reais (com autorização dos alunos) — lembrando que são **cinco** lugares: `dados.js` para o português e `i18n.js` para en, es, fr e it
-- Vídeos de apresentação: o id do YouTube no campo `video` de cada curso, em `dados.js`
-- **Os três planos são exemplos**: os valores estão em `00` de propósito, e os benefícios listados são plausíveis, não decididos. Ver a seção "Planos" abaixo.
-- E-mail real (hoje `contact@codeschool.ing`)
-- **Quatro respostas do FAQ são exemplos** e trazem a marcação entre colchetes: cancelamento, formas de pagamento, venda avulsa e condições para empresa. As perguntas são as certas — são as que todo mundo faz sobre assinatura —, mas as respostas dependem de política que ainda não existe, e prazo ou regra de reembolso escritos numa vitrine viram compromisso que alguém vai cobrar.
-- Os depoimentos de exemplo assinam "turma de [ano]", vocabulário de matrícula em turma. Quando entrarem os relatos reais, a assinatura de cada um precisa combinar com o modelo de assinatura.
-- Perfis reais nas redes sociais: os cinco links do rodapé apontam para handles `codeschool.ing`/`codeschool-ing` que ainda precisam existir
-- Revisão das ementas e cargas horárias conforme os cursos que a escola realmente oferece
+- Real testimonials (with the students' permission) — remembering that there are **five** places: `dados.js` for the Portuguese and `i18n.js` for en, es, fr and it
+- Introduction videos: the YouTube id in each course's `video` field, in `dados.js`
+- **The three plans are examples**: the prices are at `00` on purpose, and the listed benefits are plausible, not decided. See the "Plans" section below.
+- A real e-mail address (today `contact@codeschool.ing`)
+- **Four FAQ answers are examples** and carry the marker in square brackets: cancellation, payment methods, standalone sales and terms for companies. The questions are the right ones — they are what everyone asks about a subscription — but the answers depend on a policy that does not exist yet, and a deadline or refund rule written on a showcase becomes a commitment somebody will hold you to.
+- The example testimonials sign off with "turma de [ano]", the vocabulary of enrolling in a cohort. When the real accounts come in, each one's sign-off has to match the enrolment model.
+- Real social media profiles: the footer's five links point at `codeschool.ing`/`codeschool-ing` handles that still need to exist
+- A review of the syllabuses and workloads against the courses the school actually offers
 
-## Planos
+## Plans
 
-A seção `#planos` substituiu a antiga "Como funciona" — os quatro passos ("escolha sua trilha", "estude quando puder"…) descreviam um método que a página inteira já demonstra, e o espaço vale mais mostrando o que custa quanto.
+The `#planos` section replaced the old "Como funciona" — the four steps ("choose your track", "study when you can"…) described a method the whole page already demonstrates, and the space is worth more showing what costs what.
 
-**Os três cartões são marcadores de posição.** Nome, chamada e itens estão escritos como se fossem reais, porque cartão com "lorem ipsum" não deixa avaliar o layout; mas o preço é `R$ 00` em todos os três, e é assim que deve ficar até a decisão de cobrança. Número inventado em vitrine não é rascunho: é promessa, e alguém vai cobrar por ela.
+**The three cards are placeholders.** The name, the strapline and the items are written as though they were real, because a card with "lorem ipsum" does not let you assess the layout; but the price is `R$ 00` on all three, and that is how it must stay until the billing decision. A made-up number on a showcase is not a draft: it is a promise, and somebody will hold you to it.
 
-O que cada um representa hoje — **Essencial** (uma trilha), **Completo** (catálogo inteiro, é o destacado) e **Equipes** (empresa, preço por pessoa) — é uma hipótese de escada, não uma decisão. Trocar os três por outra estrutura é editar `index.html` e as chaves correspondentes nos quatro dicionários de `i18n.js`.
+What each one represents today — **Essencial** (one track), **Completo** (the whole catalogue, the highlighted one) and **Equipes** (a company, priced per person) — is a hypothesis of a ladder, not a decision. Swapping the three for another structure means editing `index.html` and the corresponding keys in `i18n.js`'s four dictionaries.
 
-**Os botões dos planos abrem o modal de inscrição** com o plano já no cabeçalho — ver "Modal de inscrição" abaixo.
+**The plan buttons open the signup modal** with the plan already in the heading — see "The signup modal" above.
 
 ## FAQ
 
-Ocupou a tela que era da matrícula. São oito perguntas: as quatro que já existiam ao lado do formulário e quatro que a assinatura trouxe — cancelamento, formas de pagamento, venda avulsa e contratação por empresa.
+It took over the screen that was the enrolment form's. There are eight questions: the four that already existed beside the form and four the subscription brought — cancellation, payment methods, standalone sales and contracting by a company.
 
-**Uma pergunta aberta por vez.** A escuta do `toggle` fica no contêiner e em fase de captura — `toggle` não borbulha —, então vale também para as perguntas que entrarem depois, sem uma escuta por `<details>`.
+**One question open at a time.** The `toggle` listener sits on the container and on the capture phase — `toggle` does not bubble — so it also covers questions added later, without one listener per `<details>`.
 
-Em **861px para cima** as perguntas ficam em duas colunas. Oito sanfonas numa coluna só viravam uma fita estreita no meio de uma tela larga. É `grid`, não `columns`: a coluna múltipla do CSS parte um `<details>` aberto ao meio.
+At **861px and up** the questions sit in two columns. Eight accordions in a single column turned into a narrow ribbon in the middle of a wide screen. It is `grid`, not `columns`: CSS multi-column splits an open `<details>` down the middle.
 
-As quatro respostas novas trazem a marcação `[resposta de exemplo — ...]` no fim, no mesmo estilo dos preços e dos depoimentos. Elas são plausíveis, não decididas — o critério é o mesmo do `R$ 00`.
+The four new answers carry the `[resposta de exemplo — ...]` marker at the end, in the same style as the prices and the testimonials. They are plausible, not decided — the criterion is the same as the `R$ 00`'s.
 
-## Contato
+## Contact
 
-Sobrou **um canal**: o e-mail. O WhatsApp e o horário de atendimento saíram — número de telefone e "seg–sex · 8h às 18h" são promessa de atendimento síncrono, e a escola não tem balcão. O e-mail e a newsletter dividem a linha ao meio (`.contato-linha`), e no celular empilham.
+**One channel** is left: the e-mail. WhatsApp and the opening hours went — a phone number and "seg–sex · 8h às 18h" are a promise of synchronous support, and the school has no counter. The e-mail and the newsletter split the line in half (`.contato-linha`), and on mobile they stack.
 
-O formulário de matrícula continua aceitando telefone com máscara: quem prefere ser chamado no WhatsApp diz isso ali, e aí o número é o do aluno, não o da escola.
+The enrolment form still accepts a phone number with a mask: whoever prefers to be reached on WhatsApp says so there, and then the number is the student's, not the school's.
 
-## Publicar no GitHub Pages
+## Publishing on GitHub Pages
 
-O destino é `codeschool-ing/codeschool-ing.github.io`, que é o Pages da organização: o conteúdo vai na **raiz** do repositório, não em `escola/`. Para o domínio próprio, um arquivo `CNAME` na raiz com uma linha, `codeschool.ing`, e o DNS apontando para o GitHub — `A` para os quatro endereços do Pages, ou `ALIAS`/`ANAME` para `codeschool-ing.github.io`.
+The destination is `codeschool-ing/codeschool-ing.github.io`, which is the organisation's Pages: the content goes in the repository's **root**, not in `escola/`. For the custom domain, a `CNAME` file at the root with one line, `codeschool.ing`, and DNS pointing at GitHub — `A` records for the four Pages addresses, or `ALIAS`/`ANAME` to `codeschool-ing.github.io`.
 
-Não há build: é copiar `index.html` e `assets/` e commitar. O `escola-vitrine.html` do `ferramentas/bundle/bundle.py` serve para mandar por e-mail ou abrir do disco, não para publicar — no Pages os arquivos separados são melhores, porque o navegador cacheia cada um.
+There is no build: it is copying `index.html` and `assets/` and committing. The `escola-vitrine.html` from `tools/bundle/bundle.py` is for sending by e-mail or opening from disk, not for publishing — on Pages the separate files are better, because the browser caches each one.

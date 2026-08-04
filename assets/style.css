@@ -1,16 +1,21 @@
 /* ==========================================================================
-   codeschool.ing — vitrine de cursos e trilhas
-   Mesma identidade e navegação do portal: telas de altura cheia com
-   rolagem discreta entre elas (ver assets/script.js).
+   codeschool.ing — showcase of courses and tracks
+
+   Same identity and navigation as the portal: full-height screens with discreet
+   scrolling between them (see assets/script.js).
+
+   ON LANGUAGE: comments are in English. Class names, ids and custom properties
+   stay in Portuguese — index.html and script.js share them, so they are a
+   contract rather than prose.
    ========================================================================== */
 
 :root{
   --ink:#0a0e14;
   --panel:#111721;
   --scan:#1b2431;
-  --phosphor:#5b8cff;     /* azul da marca */
+  --phosphor:#5b8cff;     /* the brand's blue */
   --phosphor-dim:#33549e;
-  --amber:#ff4d5e;        /* vermelho da marca */
+  --amber:#ff4d5e;        /* the brand's red */
   --paper:#e8e6df;
   --paper-dim:#9aa0a8;
   --wire:#233043;
@@ -51,7 +56,7 @@ body::before{
   opacity:.35;mix-blend-mode:multiply;
 }
 
-/* ---------- TELAS (fullpage) ---------- */
+/* ---------- SCREENS (fullpage) ---------- */
 .screen{
   height:100vh;
   height:100svh;
@@ -76,10 +81,10 @@ nav{
   transition:background .3s ease;
 }
 .brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:1.05rem}
-/* o nome inteiro é um item flex só: o `gap` do `.brand` separa o LED do
-   nome e não se mete entre "codeschool", o ponto e "ing".
-   Caixa alta só aqui, no letreiro da barra: no rodapé, no título e nos
-   endereços a marca continua minúscula, que é como ela se escreve. */
+/* the whole name is a single flex item: `.brand`'s `gap` separates the LED from
+   the name and does not get between "codeschool", the dot and "ing".
+   Upper case only here, on the bar's sign: in the footer, in the title and in
+   the addresses the brand stays lower case, which is how it is written. */
 .brand-nome{white-space:nowrap;text-transform:uppercase;letter-spacing:.01em}
 .brand-sep{color:var(--paper-dim);font-weight:400}
 .brand .led{width:9px;height:9px;border-radius:50%;background:var(--phosphor);box-shadow:0 0 10px var(--phosphor);animation:blink 2.4s steps(1) infinite}
@@ -89,8 +94,8 @@ nav{
 .navlinks a:hover,.navlinks a.on{color:var(--phosphor)}
 .navlinks a:not(.nav-cta)::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--phosphor);transition:width .25s}
 .navlinks a:not(.nav-cta):hover::after,.navlinks a.on:not(.nav-cta)::after{width:100%}
-/* é um <button> (abre um diálogo, não navega), então herda o que os
-   vizinhos <a> ganham de graça: fonte, tamanho e fundo transparente */
+/* it is a <button> (it opens a dialog, it does not navigate), so it inherits
+   what the neighbouring <a>s get for free: font, size and transparent background */
 .nav-cta{
   border:1px solid var(--phosphor-dim);color:var(--phosphor)!important;padding:7px 16px;
   border-radius:2px;transition:background .2s,color .2s;
@@ -109,7 +114,7 @@ nav{
 html[data-tema="claro"] .tema .ico-sol{display:block}
 html[data-tema="claro"] .tema .ico-lua{display:none}
 .burger{display:none;background:none;border:0;color:var(--paper);font-size:1.4rem;cursor:pointer}
-/* ---------- SELETOR DE IDIOMA ---------- */
+/* ---------- LANGUAGE PICKER ---------- */
 .idioma{position:relative}
 .idioma-btn{
   display:flex;align-items:center;gap:6px;height:34px;padding:0 10px;
@@ -135,11 +140,11 @@ html[data-tema="claro"] .tema .ico-lua{display:none}
 .idioma-op:hover{color:var(--paper);background:var(--scan)}
 .idioma-op.on{color:var(--phosphor);background:rgba(91,140,255,.12)}
 html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
-/* Área do aluno: reservada para a Etapa 2 (plataforma). Fica visível e
-   desabilitada de propósito — anuncia o que vem sem prometer link que não abre. */
-/* No vermelho da marca: é o único item da barra que não leva a lugar
-   nenhum ainda, e a cor o separa da navegação de verdade em vez de fazê-lo
-   competir com ela. */
+/* Student area: reserved for Stage 2 (the platform). It is visible and disabled
+   on purpose — it announces what is coming without promising a link that does not open. */
+/* In the brand's red: it is the only item on the bar that does not lead anywhere
+   yet, and the colour sets it apart from the real navigation instead of making it
+   compete with it. */
 .nav-aluno{
   display:flex;align-items:center;gap:7px;cursor:default;white-space:nowrap;flex:0 0 auto;
   font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--amber);
@@ -153,7 +158,7 @@ html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
   color:var(--amber);border:1px solid var(--amber);border-radius:2px;padding:1px 5px;
 }
 
-/* ---------- INDICADORES LATERAIS ---------- */
+/* ---------- SIDE INDICATORS ---------- */
 .dots{
   position:fixed;right:20px;top:50%;transform:translateY(-50%);
   display:flex;flex-direction:column;gap:12px;z-index:90;
@@ -213,38 +218,38 @@ html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
 .term-body .pr{color:var(--phosphor)}
 .term-body .cm{color:var(--paper-dim)}
 .term-body .ok{color:var(--amber)}
-/* O atraso vem da posição, calculado, não de uma regra por `nth-child`:
-   o terminal tem 13 linhas agora e ganharia mais a cada comando novo — com
-   a lista fixa, tudo além da sexta aparecia de uma vez, sem escalonar.
-   `--i` é preenchido em `montarTerminal()`. */
+/* The delay comes from the position, computed, not from an `nth-child` rule: the
+   terminal has 13 lines now and would gain more with every new command — with a
+   fixed list, everything past the sixth appeared at once, unstaggered.
+   `--i` is filled in by `buildTerminal()`. */
 .term-line{opacity:0;animation:typein .4s forwards;animation-delay:calc(.2s + var(--i,0) * .16s)}
-/* linha em branco entre um comando e o próximo */
+/* a blank line between one command and the next */
 .term-vao{height:.7em}
 @keyframes typein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-/* ---------- CABEÇALHO DAS SEÇÕES ---------- */
-/* o bloco já era centrado na página; o texto agora acompanha */
+/* ---------- SECTION HEADINGS ---------- */
+/* the block was already centred on the page; now the text follows */
 .sec-head{margin-bottom:24px;max-width:760px;text-align:center}
 .sec-head .tag{font-family:'IBM Plex Mono',monospace;font-size:.74rem;letter-spacing:.16em;color:var(--amber);text-transform:uppercase}
 .sec-head h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.6rem,3.2vw,2.4rem);letter-spacing:-.02em;margin:10px 0 8px;line-height:1.08}
 .sec-head p{color:var(--paper-dim);font-size:.96rem}
 
-/* ---------- TRILHAS ---------- */
-/* o seletor cresce a cada trilha nova: uma linha com setas nas pontas,
-   em vez de quebrar e deixar uma aba órfã na segunda linha */
-/* Alternador de famílias: "por carreira" e "por tecnologia" são perguntas
-   diferentes (que profissão eu quero / que ferramenta eu quero dominar), e
-   as 14 abas não caberiam numa fileira só. Fica acima do seletor, discreto. */
-/* Duas fileiras de abas, uma por família, cada uma com rótulo e setas. Como
-   as famílias são só duas e não devem crescer, mostrar as duas ao mesmo tempo
-   informa mais e custa menos altura do que o alternador que havia antes. */
+/* ---------- TRACKS ---------- */
+/* the picker grows with every new track: one line with arrows at the ends,
+   instead of wrapping and leaving an orphan tab on a second line */
+/* Family switcher: "por carreira" and "por tecnologia" are different questions
+   (which profession do I want / which tool do I want to master), and the 14 tabs
+   would not fit in a single row. It sits above the picker, discreetly. */
+/* Two rows of tabs, one per family, each with its own label and arrows. Since
+   there are only two families and they are not meant to grow, showing both at
+   once conveys more and costs less height than the switcher that was there. */
 .abas-caixa{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex:0 0 auto}
-/* a última fileira abre o mesmo respiro que o topo da trilha deixa
-   para o grafo: o bloco nome+objetivo fica centrado entre os dois */
+/* the last row opens the same breathing room the top of the track leaves for the
+   graph: the name+objective block ends up centred between the two */
 .abas-caixa[data-familia="tecnologia"]{margin-bottom:18px}
-/* "TRILHAS POR TECNOLOGIA" numa linha só comeria 165px das abas. Deixando
-   quebrar em duas linhas o rótulo custa os mesmos ~100px de largura, e a
-   altura já é a do botão de aba — não empurra nada. */
+/* "TRILHAS POR TECNOLOGIA" on a single line would eat 165px of the tabs. Letting
+   it wrap onto two lines costs the label the same ~100px of width, and the height
+   is already the tab button's — it pushes nothing. */
 .abas-rotulo{
   font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.12em;
   text-transform:uppercase;color:var(--paper-dim);
@@ -252,9 +257,10 @@ html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
 }
 .chips-caixa{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0}
 
-/* ---------- MENU SUSPENSO (celular) ----------
-   Substitui as fileiras roláveis onde elas não cabem: com 360px de largura,
-   "← item item →" mostra meio item por vez e a seta ocupa mais que o rótulo. */
+/* ---------- DROPDOWN MENU (mobile) ----------
+   It replaces the scrollable rows where they do not fit: at 360px wide,
+   "← item item →" shows half an item at a time and the arrow takes up more room
+   than the label. */
 .drop{display:none;position:relative;flex:1 1 auto;min-width:0}
 .drop-btn{
   display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
@@ -274,9 +280,10 @@ html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
   box-shadow:0 18px 36px -14px rgba(0,0,0,.6);
 }
 .drop.aberto .drop-lista{display:flex}
-/* Cabeçalho de grupo dentro do menu ("por carreira", "por tecnologia").
-   Com a cor das opções ele sumia no meio delas; aqui vira faixa: cor de
-   destaque, fundo próprio e um filete acima separando do grupo anterior. */
+/* A group heading inside the menu ("por carreira", "por tecnologia"). In the
+   options' colour it disappeared among them; here it becomes a band: accent
+   colour, its own background and a hairline above separating it from the
+   previous group. */
 .drop-grupo{
   font-family:'IBM Plex Mono',monospace;font-size:.64rem;font-weight:600;
   letter-spacing:.14em;text-transform:uppercase;color:var(--amber);
@@ -299,7 +306,7 @@ html[data-tema="claro"] .drop-op.on{background:rgba(43,82,201,.09)}
   flex:1 1 auto;min-width:0;
 }
 .trilha-aba{align-self:flex-start}
-/* o fade aparece só do lado onde ainda há aba escondida (classes postas pelo script) */
+/* the fade appears only on the side that still has a hidden tab (classes set by the script) */
 .trilha-abas.fade-dir{
   mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent);
   -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent);
@@ -324,9 +331,9 @@ html[data-tema="claro"] .drop-op.on{background:rgba(43,82,201,.09)}
 
 .trilha-painel{transition:opacity .2s ease}
 .trilha-painel.trocando{opacity:0}
-/* Descrição à esquerda, números à direita, na mesma linha. A descrição
-   ocupando a largura da página foi testada e não ficou boa: o texto ficava
-   largo demais para o olho acompanhar, e o título perdia a companhia. */
+/* Description on the left, numbers on the right, on the same line. Letting the
+   description take the page's full width was tried and did not work: the text was
+   too wide for the eye to follow, and the heading lost its company. */
 .trilha-topo{
   display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   align-items:flex-start;margin-bottom:18px;flex:0 0 auto;
@@ -341,11 +348,11 @@ html[data-tema="claro"] .drop-op.on{background:rgba(43,82,201,.09)}
 .trilha-resumo b{display:block;color:var(--phosphor);font-size:1.2rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
 .trilha-resumo i{display:block;font-style:normal;font-size:.68rem;color:var(--phosphor-dim);margin-top:2px}
 
-/* ---------- O GRAFO DA TRILHA ----------
-   Cada coluna é um nível: tudo o que está na mesma coluna pode ser feito
-   ao mesmo tempo, porque nada ali depende de nada ali. As arestas são
-   desenhadas em SVG por cima, sobre as posições reais dos cartões. */
-/* a caixa segura as setas nas pontas; a barra de rolagem some */
+/* ---------- THE TRACK GRAPH ----------
+   Each column is a level: everything in the same column can be done at the same
+   time, because nothing there depends on anything else there. The edges are drawn
+   in SVG on top, over the cards' real positions. */
+/* the box holds the arrows at the ends; the scrollbar disappears */
 .grafo-caixa{display:flex;align-items:stretch;gap:8px}
 .grafo-seta,.abas-seta{
   flex:0 0 auto;align-self:center;cursor:pointer;
@@ -359,7 +366,7 @@ html[data-tema="claro"] .drop-op.on{background:rgba(43,82,201,.09)}
 .grafo-caixa.sem-setas .grafo-seta{display:none}
 .abas-caixa.sem-setas .abas-seta,.chips-caixa.sem-setas .abas-seta{visibility:hidden}
 
-/* a seção de trilhas não centraliza: o grafo ocupa a altura que sobrar */
+/* the tracks section does not centre: the graph takes whatever height is left */
 #trilhas::before,#trilhas::after{display:none}
 #trilhas{padding-top:78px;padding-bottom:20px}
 #trilhas>.trilha-painel{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
@@ -371,7 +378,7 @@ html[data-tema="claro"] .drop-op.on{background:rgba(43,82,201,.09)}
   height:100%;
 }
 .trilha-grafo::-webkit-scrollbar{display:none}
-/* esmaece a borda onde ainda há grafo, como nas abas */
+/* fades the edge where there is still graph, as with the tabs */
 .trilha-grafo.fade-dir{mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent)}
 .trilha-grafo.fade-esq{mask-image:linear-gradient(to left,#000 calc(100% - 26px),transparent)}
 .trilha-grafo.fade-esq.fade-dir{
@@ -382,27 +389,27 @@ html[data-tema="claro"] .drop-op.on{background:rgba(43,82,201,.09)}
 .grafo-arestas .linha{fill:none;stroke:var(--phosphor-dim);stroke-width:1.5;opacity:.75;transition:stroke .15s,stroke-width .15s,opacity .15s}
 .grafo-arestas .hit{fill:none;stroke:transparent;stroke-width:14;pointer-events:stroke}
 .grafo-arestas .ponta{fill:var(--phosphor);opacity:.9;transition:r .15s}
-/* a aresta se destaca no cursor, como o cartão do curso */
+/* the edge highlights on hover, like the course card */
 .aresta:hover .linha,.aresta.on .linha{stroke:var(--phosphor);stroke-width:2.6;opacity:1}
 .aresta:hover .ponta,.aresta.on .ponta{r:4.5}
-/* a faixa de cima e de baixo fica livre: é por ela que passam as arestas
-   que pulam colunas, em vez de atravessarem os cartões do meio */
+/* the top and bottom lanes stay clear: that is where the edges that skip columns
+   travel, instead of crossing the cards in between */
 .grafo-niveis{position:relative;display:flex;align-items:stretch;gap:48px;width:max-content;min-width:100%;height:100%;padding:20px 0}
-/* um nível com muitos cursos quebra em sub-colunas em vez de esticar para
-   baixo: o grafo cresce na horizontal, que é onde há setas para navegar */
-/* O nível é uma faixa de sub-colunas. Quantas, e o que vai em cada uma, é
-   decidido no script depois de medir a altura disponível — nem flex-wrap nem
-   multi-coluna expandem a largura do container em direção de coluna, e os
-   cartões acabavam sobrepondo o nível vizinho. */
+/* a level with many courses breaks into sub-columns instead of stretching
+   downwards: the graph grows horizontally, which is where the arrows are */
+/* A level is a band of sub-columns. How many, and what goes in each, is decided
+   in the script after measuring the available height — neither flex-wrap nor
+   multi-column expands the container's width in the column direction, and the
+   cards ended up overlapping the neighbouring level. */
 .nivel{display:flex;align-items:center;gap:14px;flex:0 0 auto;height:100%}
-/* 16px, não 10: é por este corredor que passam as linhas que desviam de
-   um cartão, e com 10 elas raspavam nos vizinhos */
+/* 16px, not 10: this corridor is where the lines that go around a card travel,
+   and at 10 they grazed the neighbours */
 .subcol{display:flex;flex-direction:column;gap:16px;justify-content:center;flex:0 0 auto}
-/* dentro de uma coluna o eixo principal é vertical: o flex-basis de 195px
-   do cartão viraria ALTURA. Aqui ele volta a ser largura e altura natural. */
+/* inside a column the main axis is vertical: the card's 195px flex-basis would
+   become HEIGHT. Here it goes back to being width, with natural height. */
 .subcol > .curso-no{flex:0 0 auto;width:238px}
 
-/* o nó de chegada: não é um curso, então não é um cartão — é um selo */
+/* the finish node: it is not a course, so it is not a card — it is a seal */
 .no-saida{
   flex:0 0 auto;align-self:center;max-width:210px;
   display:flex;align-items:center;gap:12px;padding:4px 0;background:none;border:0;
@@ -419,8 +426,8 @@ html[data-tema="claro"] .saida-selo{background:rgba(212,15,40,.07);box-shadow:0 
 .saida-rotulo{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
 .saida-nome{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;line-height:1.2}
 .curso-no{
-  /* não encolhe abaixo de 195px: com muitas etapas o trilho rola em vez
-     de espremer os títulos */
+  /* does not shrink below 195px: with many steps the rail scrolls instead
+     of squeezing the titles */
   flex:1 0 195px;text-align:left;cursor:pointer;
   background:var(--ink);border:1px solid var(--wire);border-radius:4px;
   padding:11px 13px 10px;color:inherit;font:inherit;
@@ -435,14 +442,14 @@ html[data-tema="claro"] .saida-selo{background:rgba(212,15,40,.07);box-shadow:0 
   font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--amber);
   border:1px solid currentColor;border-radius:2px;padding:1px 6px;align-self:flex-start;
 }
-/* o pré-requisito por extenso: no desktop as arestas já dizem isso, mas
-   o texto continua servindo a leitor de tela e ao layout de celular */
+/* the prerequisite spelled out: on desktop the edges already say this, but the
+   text still serves screen readers and the mobile layout */
 .curso-no .requer{
   font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--phosphor-dim);
   border-top:1px dashed var(--wire);margin-top:4px;padding-top:5px;line-height:1.35;
 }
-/* onde as arestas são desenhadas elas já dizem isso; o texto fica só para
-   leitor de tela. O limite acompanha o do grafo (861px). */
+/* where the edges are drawn they already say this; the text is left for screen
+   readers only. The breakpoint follows the graph's (861px). */
 @media (min-width:861px){
   .curso-no .requer{
     position:absolute;width:1px;height:1px;padding:0;margin:-1px;
@@ -450,9 +457,9 @@ html[data-tema="claro"] .saida-selo{background:rgba(212,15,40,.07);box-shadow:0 
   }
 }
 
-/* ---------- ETAPA COM BIFURCAÇÃO ----------
-   O caminho da trilha se abre: o aluno escolhe uma opção e o fluxo segue.
-   Visualmente é um bloco tracejado que envolve os cursos daquele caminho. */
+/* ---------- A STEP WITH A FORK ----------
+   The track's path opens up: the student picks an option and the flow carries on.
+   Visually it is a dashed block wrapping that path's courses. */
 .garfo{
   display:flex;flex-direction:column;gap:8px;flex:0 0 auto;
   border:1px dashed var(--phosphor-dim);border-radius:6px;
@@ -478,10 +485,10 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
 .garfo-aba.on .garfo-h{color:var(--phosphor-dim)}
 .garfo-nota{font-size:.78rem;line-height:1.45;color:var(--paper-dim);max-width:62ch}
 .garfo-cursos{display:flex;align-items:stretch;gap:10px}
-/* com uma opção de curso único o cartão não deve virar faixa larga */
+/* with a single-course option the card must not become a wide band */
 .garfo-cursos .curso-no{max-width:330px}
 
-/* em tela larga a nota vai para o lado das abas: o bloco fica mais baixo */
+/* on a wide screen the note goes beside the tabs: the block gets shorter */
 @media (min-width:861px){
   .garfo{
     display:grid;grid-template-columns:1fr minmax(0,24ch);
@@ -494,7 +501,7 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
   .garfo-cursos .curso-no{flex:1 1 0;min-width:0}
 }
 
-/* ---------- CATÁLOGO ---------- */
+/* ---------- CATALOGUE ---------- */
 .filtros{display:flex;gap:14px;flex-wrap:nowrap;align-items:center;margin-bottom:16px}
 .busca{position:relative;flex:0 0 auto;width:min(300px,100%)}
 .busca-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--paper-dim)}
@@ -521,7 +528,7 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
 .chip.on{color:var(--phosphor);border-color:var(--phosphor)}
 .chip .qtd{color:var(--amber);margin-left:5px}
 
-/* o catálogo é longo: rola dentro da própria tela */
+/* the catalogue is long: it scrolls inside its own screen */
 .cursos-rol{
   max-height:52vh;overflow-y:auto;padding-right:10px;
   scrollbar-width:thin;scrollbar-color:var(--wire) transparent;
@@ -549,11 +556,11 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
 .curso-rodape .trilhas-qtd{color:var(--phosphor)}
 .vazio{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--paper-dim);margin-top:18px}
 
-/* ---------- PLANOS ---------- */
-/* três colunas iguais que viram uma só quando não cabem. `align-items:
-   stretch` (padrão do grid) mantém os três cartões da mesma altura mesmo
-   com listas de tamanhos diferentes; o botão desce para o rodapé de cada
-   um por causa do `margin-top:auto`. */
+/* ---------- PLANS ---------- */
+/* three equal columns that become one when they do not fit. `align-items:
+   stretch` (the grid default) keeps the three cards the same height even with
+   lists of different sizes; the button drops to the foot of each one because of
+   `margin-top:auto`. */
 .planos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
 .plano{
   position:relative;display:flex;flex-direction:column;
@@ -581,14 +588,14 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
 .plano-moeda{font-size:.85rem;color:var(--paper-dim)}
 .plano-preco strong{font-size:2rem;font-weight:600;color:var(--phosphor);line-height:1}
 .plano-periodo{font-size:.78rem;color:var(--paper-dim)}
-/* a lista come a sobra vertical do cartão: com isso o botão de cada plano
-   encosta no rodapé e os três ficam alinhados entre si */
+/* the list eats the card's vertical slack: with that, each plan's button sits at
+   the bottom and the three line up with each other */
 .plano-itens{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:.86rem;flex:1 1 auto}
 .plano-itens li{padding-left:18px;position:relative;color:var(--paper)}
 .plano-itens li::before{content:'✓';position:absolute;left:0;color:var(--phosphor)}
 .plano-btn{margin-top:20px;justify-content:center}
 
-/* ---------- DEPOIMENTOS ---------- */
+/* ---------- TESTIMONIALS ---------- */
 .depos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
 .depo{
   background:var(--panel);border:1px solid var(--wire);border-radius:4px;padding:20px 22px;
@@ -600,7 +607,7 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
 .depo-autor b{display:block;color:var(--phosphor);font-weight:600}
 .depo-autor span{color:var(--paper-dim)}
 
-/* ---------- CAMPOS DO FORMULÁRIO ---------- */
+/* ---------- FORM FIELDS ---------- */
 .campo{display:flex;flex-direction:column;gap:5px}
 .campo label{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--phosphor-dim)}
 .campo input,.campo select{
@@ -613,11 +620,11 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
 .form-status:empty{display:none}
 
 .faq{display:flex;flex-direction:column;gap:7px}
-/* Na tela inteira as perguntas viram duas colunas: oito sanfonas numa
-   coluna só viravam uma fita estreita no meio de uma tela larga. Grid, não
-   `columns`: a coluna múltipla do CSS parte um <details> aberto ao meio.
-   `align-content:start` para as duas colunas crescerem de cima para baixo
-   em vez de se espalharem pela altura. */
+/* On a full screen the questions become two columns: eight accordions in a single
+   column turned into a narrow ribbon in the middle of a wide screen. Grid, not
+   `columns`: CSS multi-column splits an open <details> down the middle.
+   `align-content:start` so the two columns grow top-down instead of spreading
+   over the height. */
 @media(min-width:861px){
   .faq-tela{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;align-content:start}
 }
@@ -632,9 +639,9 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
 .faq details p{margin-top:8px;font-size:.86rem;color:var(--paper-dim)}
 .faq a{color:var(--phosphor)}
 
-/* ---------- CONTATO (bloco compartilhado com o outro site) ---------- */
-/* e-mail e newsletter dividem a linha ao meio. `align-items:stretch` faz o
-   cartão do e-mail acompanhar a altura do formulário, que é o mais alto. */
+/* ---------- CONTACT (block shared with the other site) ---------- */
+/* e-mail and newsletter split the line in half. `align-items:stretch` makes the
+   e-mail card follow the height of the form, which is the taller one. */
 .contato-linha{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;align-items:stretch}
 .contato-linha .news{margin-bottom:0}
 .canais{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:12px}
@@ -694,27 +701,28 @@ a.canal:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
 .s-seta{position:absolute;top:12px;right:12px;font-size:.95rem;color:var(--wire);transition:color .2s,transform .2s}
 .social:hover .s-seta{color:var(--phosphor);transform:translate(2px,-2px)}
 
-/* larguras intermediárias: canais em 2 colunas, para o e-mail não quebrar */
+/* intermediate widths: channels in 2 columns, so the e-mail does not wrap */
 @media(max-width:1080px) and (min-width:641px){
   .canais{grid-template-columns:1fr 1fr}
 }
 
-/* A newsletter divide a linha com o e-mail, então a coluna dela é metade da
-   tela. Abaixo de ~1180px o rótulo, o campo e o botão não cabem os três na
-   mesma linha e o botão caía sozinho, encolhido e encostado à esquerda.
-   Mandando o rótulo ocupar a linha inteira, o campo e o botão dividem a de
-   baixo — que é o arranjo que já funciona no celular, sem empilhar tudo. */
+/* The newsletter shares the line with the e-mail, so its column is half the
+   screen. Below ~1180px the label, the field and the button do not all fit on the
+   same line and the button dropped on its own, shrunken and pushed left. Making
+   the label take the whole line, the field and the button share the one below —
+   which is the arrangement that already works on mobile, without stacking
+   everything. */
 @media(min-width:561px) and (max-width:1180px){
   .contato-linha .news-prompt{width:100%}
-  /* `flex-basis:0`, não `auto`: a quebra de linha é decidida pelo tamanho
-     base, e com `auto` o campo entrava na conta com a largura intrínseca
-     dele (~180px) e empurrava o botão para a linha seguinte antes de
-     qualquer encolhimento. Com base zero o botão cabe primeiro e o campo
-     cresce para o que sobrar. */
+  /* `flex-basis:0`, not `auto`: the line break is decided by the base size,
+     and with `auto` the field entered the sum at its intrinsic width
+     (~180px) and pushed the button onto the next line before any shrinking
+     happened. With a zero basis the button fits first and the field grows
+     into whatever is left. */
   .contato-linha .news input{flex:1 1 0;min-width:0}
 }
 
-/* rodapé compacto na última tela */
+/* compact footer on the last screen */
 .foot-slim{
   display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
   margin-top:24px;padding-top:16px;border-top:1px solid var(--wire);
@@ -724,48 +732,48 @@ a.canal:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
 .foot-links a{color:var(--phosphor-dim);transition:color .2s}
 .foot-links a:hover{color:var(--phosphor)}
 
-/* ---------- MODAL DE CURSO ---------- */
+/* ---------- COURSE MODAL ---------- */
 .modal[hidden]{display:none}
 .modal{
   position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;
   background:rgba(4,6,10,.88);backdrop-filter:blur(6px);animation:surgir .22s ease;
 }
-/* Com o modal aberto o fundo não rola. Prender só a roda e o toque no
-   JavaScript não bastava: sobravam a barra de rolagem do navegador, a
-   inércia do trackpad e as teclas dentro de um campo. Aqui o overflow é
-   cortado no documento e na tela — a posição atual fica exatamente onde
-   estava, porque nada é reposicionado. */
+/* With the modal open the background does not scroll. Trapping only the wheel and
+   touch in JavaScript was not enough: the browser's scrollbar, the trackpad's
+   inertia and the keys inside a field were left over. Here the overflow is cut on
+   the document and on the screen — the current position stays exactly where it
+   was, because nothing is repositioned. */
 html.modal-aberto,
 html.modal-aberto body{overflow:hidden}
 html.modal-aberto .screen{overflow:hidden}
 @keyframes surgir{from{opacity:0}to{opacity:1}}
-/* `100%`, não `96vw`: o `.modal` já reserva a margem no próprio padding.
-   Com 96vw a caixa ficava mais larga que a célula do grid em qualquer tela
-   abaixo de 1000px, transbordava para os dois lados e, como só o lado
-   direito é alcançável, o modal parecia deslocado. */
+/* `100%`, not `96vw`: `.modal` already reserves the margin in its own padding.
+   At 96vw the box was wider than the grid cell on any screen below 1000px,
+   overflowed on both sides and, since only the right-hand side is reachable, the
+   modal looked off-centre. */
 .modal-caixa{
   width:min(660px,100%);max-height:86vh;display:flex;flex-direction:column;
   background:var(--panel);border:1px solid var(--wire);border-radius:6px;overflow:hidden;
   box-shadow:0 40px 80px -20px rgba(0,0,0,.8);
 }
 
-/* ---------- vídeo de apresentação ----------
-   O quadro existe mesmo sem vídeo publicado: reservar o espaço agora evita
-   que a tela se reorganize quando os vídeos entrarem, um curso por vez. */
+/* ---------- the introduction video ----------
+   The frame exists even with no video published: reserving the space now stops the
+   screen from rearranging itself when the videos land, one course at a time. */
 .modal-video{
   position:relative;display:grid;place-items:center;width:100%;aspect-ratio:16/9;
   margin-bottom:16px;border:1px solid var(--wire);border-radius:4px;overflow:hidden;
   background:var(--ink);padding:0;cursor:pointer;
 }
 .modal-video img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-/* numa coluna só, o quadro 16:9 numa janela baixa ocupava o modal inteiro
-   e empurrava o resumo para fora da tela — aqui ele para de crescer */
+/* in a single column, the 16:9 frame in a short window took over the whole modal
+   and pushed the summary off screen — here it stops growing */
 @media (max-height:760px){
   .modal-video{max-width:calc(46vh * 16 / 9);margin-inline:auto}
 }
 .modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .modal-video.tocando,.modal-video.vazio{cursor:default}
-/* triângulo de "tocar", desenhado em CSS para não depender de imagem */
+/* the "play" triangle, drawn in CSS so it depends on no image */
 .video-play{
   position:relative;z-index:1;width:54px;height:54px;border-radius:50%;
   display:grid;place-items:center;
@@ -790,14 +798,14 @@ html.modal-aberto .screen{overflow:hidden}
 .modal-fechar:hover{color:var(--amber)}
 .modal-corpo{padding:24px 26px;overflow-y:auto}
 
-/* ---------- MODAL DE INSCRIÇÃO ---------- */
-/* Mais estreito que o do curso: são dois ou três campos, e uma caixa de
-   660px deixaria o formulário perdido no meio dela. */
+/* ---------- SIGNUP MODAL ---------- */
+/* Narrower than the course one: it is two or three fields, and a 660px box would
+   leave the form lost in the middle of it. */
 .modal-estreito{width:min(460px,100%)}
 .assinar-corpo h3{margin-bottom:8px}
 .assinar-sub{color:var(--paper-dim);font-size:.88rem;margin-bottom:16px}
-/* Quando a pessoa vem de um cartão de plano, o plano é o cabeçalho e o
-   seletor some — restam nome e contato, o formulário mais curto possível. */
+/* When the person comes from a plan card, the plan is the heading and the
+   selector disappears — name and contact are left, the shortest possible form. */
 .assinar-plano{
   display:flex;align-items:baseline;gap:10px;margin-bottom:16px;
   padding:10px 12px;border:1px solid var(--phosphor-dim);border-radius:3px;
@@ -809,15 +817,15 @@ html.modal-aberto .screen{overflow:hidden}
   text-transform:uppercase;color:var(--phosphor-dim);
 }
 .assinar-plano strong{font-family:'Space Grotesk',sans-serif;font-size:1rem;color:var(--paper)}
-/* empilhado sempre: numa caixa de 460px não há largura para duas colunas */
+/* always stacked: a 460px box has no width for two columns */
 .form-assinar{display:flex;flex-direction:column;gap:12px}
 .form-assinar .campo[hidden]{display:none}
 .form-assinar .btn{justify-content:center;margin-top:2px}
 
-/* Altura curta é quase sempre o teclado virtual aberto: a pessoa está
-   digitando e precisa enxergar o campo e o botão, não a explicação. O
-   subtítulo cede o lugar, e o resto encolhe — sem isso o "Comece agora"
-   ficava abaixo da dobra dentro do próprio modal. */
+/* A short height is almost always the virtual keyboard being open: the person is
+   typing and needs to see the field and the button, not the explanation. The
+   subtitle gives up its place, and the rest shrinks — without this "Comece agora"
+   ended up below the fold inside the modal itself. */
 @media(max-height:560px){
   .assinar-corpo{padding:16px 18px}
   .assinar-sub{display:none}
@@ -837,7 +845,7 @@ html.modal-aberto .screen{overflow:hidden}
 .modal-bloco ul{list-style:none;display:grid;gap:5px}
 .modal-bloco li{font-size:.9rem;padding-left:20px;position:relative}
 .modal-bloco li::before{content:"→";position:absolute;left:0;color:var(--phosphor)}
-/* conteúdo detalhado: a lista técnica completa, recolhida por padrão */
+/* detailed content: the full technical list, collapsed by default */
 .modal-topicos{margin-bottom:16px;border:1px solid var(--wire);border-radius:4px;background:var(--ink)}
 .modal-topicos summary{
   cursor:pointer;list-style:none;padding:10px 14px;display:flex;align-items:center;gap:10px;
@@ -865,45 +873,45 @@ html.modal-aberto .screen{overflow:hidden}
 .modal-trilhas.pre-req button:hover{background:var(--amber);color:var(--ink)}
 .modal-acoes{display:flex;gap:10px;flex-wrap:wrap;padding-top:4px}
 
-/* ---------- duas colunas onde couber ----------
-   Numa coluna só o modal de um curso grande passa de dois metros de
-   rolagem, e numa tela de 4K sobrava metade da largura vazia. Acima de
-   1024px o conteúdo se divide: à esquerda o que convence (o que é, quem
-   fala e o botão), à direita o que detalha (ementa, tópicos, dependências
-   e trilhas). O limite é onde cada coluna ainda fica com ~440px — abaixo
-   disso duas colunas ficam mais estreitas que uma linha confortável de
-   leitura, e voltar para uma só é melhor. */
-/* empilhado, a apresentação precisa de respiro antes de "o que você
-   aprende"; em duas colunas ela é o fim da coluna e a margem some */
+/* ---------- two columns wherever they fit ----------
+   In a single column a big course's modal runs to two metres of scrolling, and on
+   a 4K screen half the width was left empty. Above 1024px the content divides: on
+   the left what convinces (what it is, who speaks about it and the button), on the
+   right what details it (syllabus, topics, dependencies and tracks). The
+   breakpoint is where each column still gets ~440px — below that two columns are
+   narrower than a comfortable reading line, and going back to one is better. */
+/* stacked, the introduction needs room before "o que você aprende"; in two
+   columns it is the end of the column and the margin disappears */
 .modal-col-apresenta{margin-bottom:20px}
 
 @media (min-width:1024px){
   .modal-caixa:not(.modal-estreito){width:min(1080px,94vw)}
-  /* O CORPO NÃO ROLA. Ele fica com a altura que a caixa permite e as duas
-     colunas dividem essa altura; quem rola é a lista de tópicos, por
-     dentro. Um teto fixo na lista não bastava: com 48 tópicos ela parava
-     em 420px, mas a coluna inteira (ementa + tópicos + pré-requisitos +
-     trilhas) continuava passando da altura e o modal voltava a rolar,
-     levando o vídeo e o botão para fora da vista. */
+  /* THE BODY DOES NOT SCROLL. It takes the height the box allows and the two
+     columns split that height; what scrolls is the topic list, inside
+     itself. A fixed ceiling on the list was not enough: with 48 topics it
+     stopped at 420px, but the whole column (syllabus + topics +
+     prerequisites + tracks) still overflowed and the modal went back to
+     scrolling, taking the video and the button out of view. */
   .modal-corpo:not(.assinar-corpo){
     display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);
     gap:0 30px;align-items:stretch;overflow:hidden;min-height:0;
   }
   .modal-col{min-height:0;display:flex;flex-direction:column}
   .modal-col-apresenta{margin-bottom:0;overflow-y:auto}
-  /* o botão fica centrado sob o vídeo, que ocupa a coluna inteira */
+  /* the button sits centred under the video, which fills the whole column */
   .modal-col-apresenta .modal-acoes{padding-top:8px;justify-content:center}
   .modal-video{max-width:none;margin-inline:0}
   .modal-corpo:not(.assinar-corpo) h3{font-size:1.55rem}
 
-  /* A lista de tópicos rola por dentro, e o teto dela é medido em JS
-     (`ajustarTopicos`): ela recebe exatamente a altura que sobra na coluna,
-     então pré-requisitos e trilhas, que vêm depois, continuam à vista.
-     Não dá para resolver só no CSS: o `<details>` do Chrome envolve o
-     conteúdo num slot, e o `ul` não vira item flex — `flex:1 1 auto` nele
-     é aceito pelo estilo computado e ignorado pelo layout.
-     A rolagem na coluna é a rede de segurança para quando nem a lista no
-     mínimo faz o resto caber. */
+  /* The topic list scrolls inside itself, and its ceiling is measured in JS
+     (`fitTopics`): it gets exactly the height left over in the column, so
+     the prerequisites and tracks that come after stay in view.
+     It cannot be settled in CSS alone: Chrome's `<details>` wraps the
+     content in a slot, and the `ul` does not become a flex item —
+     `flex:1 1 auto` on it is accepted by the computed style and ignored by
+     the layout.
+     Scrolling on the column is the safety net for when not even the list at
+     its minimum makes the rest fit. */
   .modal-col-detalhe{overflow-y:auto}
   .modal-topicos ul{
     overflow-y:auto;
@@ -914,17 +922,17 @@ html.modal-aberto .screen{overflow:hidden}
   .modal-col ::-webkit-scrollbar-thumb,
   .modal-col::-webkit-scrollbar-thumb{background:var(--wire);border-radius:3px}
 }
-/* acima de 1500px o texto não deve crescer junto com a tela: linha longa
-   demais cansa. A caixa para de crescer e fica centrada. */
+/* above 1500px the text must not grow with the screen: too long a line tires the
+   eye. The box stops growing and stays centred. */
 @media (min-width:1500px){
   .modal-caixa{width:1180px}
 }
 
 /* ==========================================================================
-   RESPONSIVO — testado em 360×740, 768×1024, 1024×768, 1366×768 e 1920×1080
+   RESPONSIVE — tested at 360×740, 768×1024, 1024×768, 1366×768 and 1920×1080
    ========================================================================== */
 
-/* tablets e notebooks estreitos: hero e matrícula em coluna */
+/* tablets and narrow laptops: hero and enrolment in a column */
 @media(max-width:1180px){
   .hero-inner{grid-template-columns:1fr;gap:28px}
   .terminal{display:none}
@@ -946,21 +954,21 @@ html.modal-aberto .screen{overflow:hidden}
   .dots{right:10px}
 }
 
-/* Telas estreitas: o grafo vira lista.
-   O grafo só se paga quando cabem três ou quatro níveis de uma vez. Abaixo
-   disso a faixa mostraria um cartão e meio por vez, então os níveis empilham
-   e a dependência passa a ser lida no texto "depois de", não na aresta. */
+/* Narrow screens: the graph becomes a list.
+   The graph only pays for itself when three or four levels fit at once. Below
+   that the lane would show a card and a half at a time, so the levels stack and
+   the dependency comes to be read in the "depois de" text, not in the edge. */
 @media(max-width:860px){
   .grafo-seta{display:none}
   .trilha-grafo{max-height:46vh;height:auto;overflow-x:hidden}
-  /* aqui a rolagem é vertical, então o fade que avisa "tem mais" vai embaixo */
+  /* here the scrolling is vertical, so the fade that says "there is more" goes at the bottom */
   .trilha-grafo.fade-baixo{mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent)}
   .grafo-arestas{display:none}
   .grafo-niveis{flex-direction:column;gap:12px;width:auto;height:auto}
-  /* uma coluna só: as sub-colunas medidas para a tela larga deixam de valer
-     e cada cartão ocupa a largura inteira */
+  /* a single column: the sub-columns measured for the wide screen stop
+     applying and each card takes the full width */
   .nivel{gap:12px;height:auto;flex-direction:column;align-items:flex-start}
-  /* o cartão acompanha a largura da tela, mas sem virar faixa vazia no tablet */
+  /* the card follows the screen width, without becoming an empty band on a tablet */
   .subcol{width:100%;max-width:560px}
   .subcol > .curso-no,.subcol > .garfo,.subcol > .no-saida{
     width:100%;max-width:none;min-width:0;
@@ -968,7 +976,7 @@ html.modal-aberto .screen{overflow:hidden}
   #trilhas .grafo-caixa{min-height:0}
   .nivel + .nivel{border-top:1px dashed var(--wire);padding-top:12px}
   .curso-no{flex:1 1 auto}
-  /* a bifurcação também empilha; as abas viram faixa deslizante */
+  /* the fork stacks too; the tabs become a sliding strip */
   .garfo-cursos{flex-direction:column}
   .garfo-cursos .curso-no{max-width:none}
   .garfo-abas{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
@@ -977,7 +985,7 @@ html.modal-aberto .screen{overflow:hidden}
   .garfo-nota{font-size:.74rem}
 }
 
-/* onde a fileira rolável não cabe, entra o menu suspenso */
+/* where the scrollable row does not fit, the dropdown takes over */
 @media(max-width:700px){
   #drop-trilhas{display:block;margin-bottom:14px}
   #drop-filtros{display:block}
@@ -986,14 +994,14 @@ html.modal-aberto .screen{overflow:hidden}
   .busca{width:100%}
 }
 
-/* Abaixo disso a barra só cabe com o essencial. A área do aluno é marcador
-   de funcionalidade futura: é a primeira a sair, antes do menu sanduíche. */
+/* Below this the bar only fits the essentials. The student area is a placeholder
+   for future functionality: it is the first to go, before the burger menu. */
 @media(max-width:620px){
   .nav-aluno{display:none}
   .brand{font-size:.95rem}
 }
 
-/* celulares */
+/* mobile phones */
 @media(max-width:560px){
   .screen{padding:78px 20px 26px}
   .sec-head{margin-bottom:16px}
@@ -1001,29 +1009,29 @@ html.modal-aberto .screen{overflow:hidden}
   .hero h1{font-size:clamp(1.7rem,7.5vw,2.2rem)}
   .hero .lead{font-size:.94rem;margin-bottom:18px}
   .btn{padding:11px 18px;font-size:.8rem}
-  /* Os dois botões do hero lado a lado, dividindo a largura do texto.
-     `flex-basis:0` porque a quebra de linha é decidida pelo tamanho base:
-     com `auto` o rótulo mais longo ("Catálogo de cursos", e pior nos outros
-     idiomas) empurrava o segundo botão para baixo antes de encolher.
-     O padding lateral cai para 10px para caber em telas de 360px. */
+  /* The hero's two buttons side by side, splitting the text's width.
+     `flex-basis:0` because the line break is decided by the base size: with
+     `auto` the longest label ("Catálogo de cursos", and worse in the other
+     languages) pushed the second button down before shrinking.
+     The side padding drops to 10px to fit 360px screens. */
   .hero-actions{flex-wrap:nowrap;gap:10px}
   .hero-actions .btn{flex:1 1 0;min-width:0;justify-content:center;text-align:center;padding-left:10px;padding-right:10px}
   .hero-nums{gap:14px;font-size:.7rem;padding-top:14px}
   .hero-nums strong{font-size:.95rem}
 
-  /* a faixa deslizante das abas já vem do bloco principal; aqui só encurta */
+  /* the tabs' sliding strip already comes from the main block; here it just gets shorter */
   .abas-caixa{margin-bottom:14px}
   .trilha-grafo{max-height:42vh}
   .trilha-topo{margin-bottom:14px}
-  /* sem encolher, os quatro números somavam mais que a largura da tela */
+  /* without shrinking, the four numbers added up to more than the screen width */
   .trilha-resumo{gap:14px;font-size:.7rem;flex-shrink:1;width:100%}
   .trilha-resumo b{font-size:1rem}
 
   .cursos-rol{max-height:50vh}
   .cursos-grade{grid-template-columns:1fr}
   .planos{max-height:54vh;overflow-y:auto}
-  /* metade da largura só faz sentido quando há largura: no celular o
-     e-mail e a newsletter voltam a ocupar a linha inteira */
+  /* half the width only makes sense when there is width: on mobile the
+     e-mail and the newsletter go back to taking the whole line */
   .contato-linha{grid-template-columns:1fr}
   .depos{max-height:54vh;overflow-y:auto}
   .depo{padding:16px 18px}
@@ -1032,25 +1040,26 @@ html.modal-aberto .screen{overflow:hidden}
   .canal{padding:12px 14px}
   .canal-valor{font-size:.82rem}
   .news-copy{width:100%}
-  /* Empilhado: rótulo, campo e botão, um por linha. Com `flex-wrap` o
-     rótulo e o campo brigavam pela primeira linha e o campo saía espremido
-     em ~150px. O botão vai à largura do cartão porque é o alvo de toque. */
-  /* `.news` é flex com wrap: sem `width:100%` a linha caía para baixo do
-     texto mas continuava com a largura do conteúdo (~195px), e nem o campo
-     nem o botão tinham como esticar. */
+  /* Stacked: label, field and button, one per line. With `flex-wrap` the
+     label and the field fought over the first line and the field came out
+     squeezed into ~150px. The button takes the card's width because it is
+     the touch target. */
+  /* `.news` is flex with wrap: without `width:100%` the line dropped below
+     the text but kept the content's width (~195px), and neither the field
+     nor the button had any way to stretch. */
   .news-linha{flex-direction:column;align-items:stretch;width:100%}
   .news input{min-width:0;width:100%}
   .news-btn{width:100%;justify-content:center}
   .dots{right:6px;gap:10px}
 
-  /* modal: mais área útil e botão na largura do cartão, que é o alvo de toque */
+  /* modal: more usable area and a button at the card's width, which is the touch target */
   .modal{padding:12px}
   .modal-corpo{padding:20px}
   .modal-acoes{width:100%}
   .modal-acoes .btn{width:100%;justify-content:center}
 }
 
-/* janelas baixas (notebooks 768px de altura e afins) */
+/* short windows (768px-tall laptops and the like) */
 @media(max-height:780px){
   .screen{padding-top:78px}
   .sec-head{margin-bottom:18px}
@@ -1060,9 +1069,10 @@ html.modal-aberto .screen{overflow:hidden}
   .hero-actions{margin-bottom:16px}
   .hero-nums{padding-top:14px}
   .term-body{padding:14px;font-size:.76rem;line-height:1.7}
-  /* O bloco de bifurcação é o item mais alto do grafo — abas, nota e até três
-     cartões — e numa janela de 720px ele não cabia na faixa. Aqui tudo dentro
-     dele encolhe alguns pixels, o que basta para o bloco caber inteiro. */
+  /* The fork block is the tallest item in the graph — tabs, note and up to
+     three cards — and in a 720px window it did not fit the lane. Here
+     everything inside it shrinks a few pixels, which is enough for the whole
+     block to fit. */
   .curso-no{padding:9px 11px 8px;gap:3px}
   .curso-no .nome{font-size:.88rem}
   .curso-no .meta{padding-top:4px}
@@ -1081,17 +1091,17 @@ html.modal-aberto .screen{overflow:hidden}
   .foot-slim{margin-top:16px;padding-top:12px}
 }
 
-/* janelas muito baixas (720p e afins): só aqui o objetivo da trilha cede as
-   últimas linhas para o grafo caber. Numa janela de 768px ele ainda cabe
-   inteiro, e o texto é copy de venda — não se corta antes do necessário. */
+/* very short windows (720p and the like): only here does the track's objective
+   give up its last lines so the graph fits. In a 768px window it still fits whole,
+   and the text is sales copy — it is not cut before it has to be. */
 @media(max-height:740px){
   .trilha-topo p{
     display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;
     overflow:hidden;
   }
 }
-/* num notebook de 768px a janela útil fica em ~681px: aí o objetivo cede mais
-   uma linha, porque cada 22px valem um cartão a mais por coluna do grafo */
+/* on a 768px laptop the usable window comes to ~681px: there the objective gives
+   up one more line, because every 22px is worth one more card per graph column */
 @media(max-height:700px){
   .trilha-topo p{-webkit-line-clamp:2}
 }
