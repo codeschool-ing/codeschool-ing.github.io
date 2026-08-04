@@ -18,7 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { findCourse, load } from './lib/catalog.mjs';
+import { findCourse, load, courseName, courseTopics } from './lib/catalog.mjs';
 import { totalCost, report } from './lib/claude.mjs';
 import { generate, countByType } from './lib/generate.mjs';
 import { validate, checkInterpreters, languagesUsed, checkCAS, needsCAS } from './lib/validate.mjs';
@@ -127,10 +127,11 @@ function preserve(file) {
 
 async function stageGenerate(courseId) {
   const course = findCourse(courseId);
-  const topics = RANGE ? course.topicos.slice(RANGE.from - 1, RANGE.to) : course.topicos.slice(0, MAX_TOPICS);
+  const all = courseTopics(course);
+  const topics = RANGE ? all.slice(RANGE.from - 1, RANGE.to) : all.slice(0, MAX_TOPICS);
 
-  console.log(`course ....... ${course.nome} (${course.id})`);
-  console.log(`topics ....... ${topics.length} of ${course.topicos.length}${RANGE ? ` (from ${RANGE.from} to ${RANGE.from + topics.length - 1})` : ''}`);
+  console.log(`course ....... ${courseName(course)} (${course.id})`);
+  console.log(`topics ....... ${topics.length} of ${all.length}${RANGE ? ` (from ${RANGE.from} to ${RANGE.from + topics.length - 1})` : ''}`);
   console.log(`options ...... ${options.options} per question`);
   console.log(`parallel ..... ${PARALLEL} simultaneous calls`);
   console.log(`rewrite ...... ${REWRITES} repair lap(s) for whatever fails`);
@@ -220,7 +221,7 @@ async function stageValidate(exercises, data) {
   console.log('');
   const { approved, failed } = await validate({
     exercises,
-    options: { ...options, options: data.options ?? options.options, topics: findCourse(data.course).topicos },
+    options: { ...options, options: data.options ?? options.options, topics: courseTopics(findCourse(data.course)) },
     timeout: TIMEOUT,
     parallel: PARALLEL,
     structureOnly: has('structure-only'),
@@ -315,7 +316,7 @@ try {
     fs.writeFileSync(destination, build(options), 'utf8');
     console.log(`${path.basename(destination)} written (${build(options).split(/\s+/).length} words)`);
   } else if (has('courses')) {
-    for (const c of load().courses) console.log(`${c.id.padEnd(24)} ${String(c.topicos?.length ?? 0).padStart(2)} topics  ${c.nome}`);
+    for (const c of load().courses) console.log(`${c.id.padEnd(24)} ${String(courseTopics(c).length).padStart(2)} topics  ${courseName(c)}`);
   } else if (!target || has('help')) {
     console.log(HELP);
   } else {

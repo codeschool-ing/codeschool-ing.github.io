@@ -19,7 +19,7 @@
  * the mechanical check fails it for free — and what it is catching is a set of statements that
  * does not sustain the intended key, a defect only the critic used to see, at a price.
  */
-import { courseContext } from './catalog.mjs';
+import { courseContext, courseTopics } from './catalog.mjs';
 import { ask } from './claude.mjs';
 import { concurrentMap } from './parallel.mjs';
 
@@ -138,7 +138,7 @@ export function buildOptions(statements, judgements, expected) {
  * question carries. It is named apart from the option list this module builds. */
 export async function blindAuthoring({ exercises, course, settings, parallel, onProgress }) {
   // It also writes blind with respect to the syllabus: only what has been taught up to the topic.
-  const ctx = (e) => courseContext(course, { upTo: (course.topicos.indexOf(e.topic) + 1) || undefined });
+  const ctx = (e) => courseContext(course, { upTo: (courseTopics(course).indexOf(e.topic) + 1) || undefined });
   const targets = exercises.filter((e) => WITH_OPTIONS.has(e.type));
   if (!targets.length) return exercises;
 

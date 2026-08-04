@@ -1,5 +1,5 @@
 /* Stage 1: write exercises from a course's topics. */
-import { courseContext } from './catalog.mjs';
+import { courseContext, courseTopics } from './catalog.mjs';
 import { ask } from './claude.mjs';
 import { schema, RULES_BY_TYPE, summary } from './types.mjs';
 import { concurrentMap } from './parallel.mjs';
@@ -48,7 +48,7 @@ export async function generate({ course, topics, batchSize, parallel, options, o
     // between batches, so prompt caching still applies.
     // Position in the COURSE, not in the batch: with `--topics 7-12` the index inside the
     // slice is 0..5, and cutting the syllabus by it would hide exactly what was taught.
-    const upTo = course.topicos.indexOf(batch[batch.length - 1]) + 1;
+    const upTo = courseTopics(course).indexOf(batch[batch.length - 1]) + 1;
     const r = await ask({
       stage: 'generate',
       system: `${RULES(options)}\n\n---\n\n${courseContext(course, { upTo })}`,
