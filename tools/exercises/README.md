@@ -1,284 +1,305 @@
-# Pipeline de exercícios
+# Exercise pipeline
 
-Gera, valida e critica exercícios auto-corrigíveis a partir dos tópicos do catálogo.
-Substitui as três ferramentas separadas que existiam antes.
+Generates, validates and critiques self-gradable exercises from the catalogue's topics. It
+replaces the three separate tools that existed before.
 
-**As regras que este pipeline aplica, e o defeito que originou cada uma, estão em
-[`REGRAS.md`](REGRAS.md).** Os prompts no código são a implementação; aquele arquivo é a
-fonte. Regra nova entra lá primeiro — ver a regra de ouro no [`CLAUDE.md`](../../CLAUDE.md)
-da raiz.
+**The rules this pipeline enforces, and the defect that caused each one, are in
+[`RULES.md`](RULES.md).** The prompts in the code are the implementation; that file is the
+source. A new rule goes there first — see the golden rule in the root
+[`CLAUDE.md`](../../CLAUDE.md).
 
 ```
-gerar  →  validar  →  criticar  ─┐
-escreve   executa     julga      │
-   ▲                             │
-   └──────  refazer  ◀───────────┘
-            o que caiu, com o laudo em mãos
+generate  →  validate  →  critique  ─┐
+ writes       executes     judges    │
+   ▲                                 │
+   └──────  rewrite  ◀───────────────┘
+            whatever fell, with the report in hand
 ```
 
-O que reprova não é descartado: volta ao gerador com o defeito nomeado e passa pelo funil
-inteiro de novo. Uma volta por padrão (`--refazer N`, `0` desliga).
+What fails is not discarded: it goes back to the generator with the defect named and passes
+through the whole funnel again. One lap by default (`--rewrite N`, `0` turns it off).
 
-No fim de cada ciclo completo a execução responde sozinha se a rodada evoluiu — ver
-[o veredito](#a-rodada-evoluiu-ou-não).
+At the end of every complete cycle the run answers by itself whether the round improved — see
+[the verdict](#did-the-round-improve-or-not).
 
-## Rodar
+## A note on language
+
+The code, the comments, the prompts and this documentation are in English. **The exercises are
+written in Brazilian Portuguese**, because that is what the student reads, and the mechanical
+checks in `lib/types.mjs` analyse Portuguese text — translating those regular expressions
+would switch the entire free layer off. Worked examples quoted from real defects stay in
+Portuguese for the same reason: the defect lives in the wording.
+
+## Running it
 
 ```sh
-cd ferramentas/exercicios
+cd tools/exercises
 npm install
 export ANTHROPIC_API_KEY=sk-ant-...
 
-node exercicios.mjs python --max 3           # o ciclo inteiro
+node exercises.mjs python --max 3           # the whole cycle
 ```
 
-**O padrão é rodar tudo.** O alvo é um id de curso ou um arquivo `.json` — o script
-distingue pelo sufixo e começa na etapa que faz sentido.
+**The default is to run everything.** The target is a course id or a `.json` file — the script
+tells them apart by the suffix and starts at whichever stage makes sense.
 
 ```sh
-node exercicios.mjs python --max 3            # gera, valida e critica
-node exercicios.mjs python --ate gerar        # só gera
-node exercicios.mjs saida.json                # retoma: valida e critica
-node exercicios.mjs saida.json --de criticar  # só critica
+node exercises.mjs python --max 3             # generates, validates and critiques
+node exercises.mjs python --to generate       # generates only
+node exercises.mjs out.json                   # resumes: validates and critiques
+node exercises.mjs out.json --from critique   # critiques only
 ```
 
-Retomar de um arquivo é o que torna barato corrigir um gabarito à mão e reconferir sem
-regerar — e sem pagar de novo, porque a solução de referência fica salva no aprovado.
+Resuming from a file is what makes it cheap to fix a key by hand and re-check without
+regenerating — and without paying again, because the reference solution is saved in the
+approved exercise.
 
-| opção | padrão |
+| option | default |
 | --- | --- |
-| `--de` / `--ate` | `gerar` (ou `validar`, se o alvo é `.json`) até `criticar` |
-| `--max N` | todos — **use `--max 3` na primeira vez**, custa centavos |
-| `--lote N` | 6 tópicos por chamada |
-| `--alternativas N` | 5 |
-| `--timeout N` | 10 s por caso de teste |
+| `--from` / `--to` | `generate` (or `validate`, if the target is a `.json`) through `critique` |
+| `--max N` | all of them — **use `--max 3` the first time**, it costs cents |
+| `--topics A-B` | none; the range of topics A to B (1-based), to advance through a long course |
+| `--batch N` | 6 topics per call |
+| `--options N` | 5 |
+| `--timeout N` | 10 s per test case |
+| `--parallel N` | 4 simultaneous calls |
+| `--rewrite N` | 1 repair lap for whatever fails (`0` turns it off) |
+| `--blind` | writes the options without knowing which ones are correct (**experimental**) |
+| `--structure-only` | validate with no API and no execution (free) |
+| `--probes-only` | critique without the judgement (cheaper) |
+| `--dry` | generate without calling the API |
+| `--courses` | lists the catalogue's ids |
+| `--view [N]` | reads a `.json`'s exercises in human form |
+| `--prompts` | writes `prompts.md` with every prompt in full |
+| `--reach` | how much of the already-paid rejections the checks would catch for free |
 
-Linguagens que o validador executa: **python**, **javascript** e **sql** (SQLite em memória).
-| `--paralelo N` | 4 chamadas simultâneas |
-| `--refazer N` | 1 volta de conserto do que reprovar (`0` desliga) |
-| `--cegas` | escreve as alternativas sem saber quais são as corretas (**experimental**) |
-| `--so-estrutura` | validar sem API nem execução (grátis) |
-| `--so-sondas` | criticar sem o julgamento (mais barato) |
-| `--seco` | gerar sem chamar a API |
-| `--cursos` | lista os ids do catálogo |
-| `--ver [N]` | lê os exercícios de um `.json` em forma humana |
-| `--prompts` | grava `prompts.md` com todos os prompts na íntegra |
-| `--alcance` | quanto das rejeições já pagas as conferências pegariam de graça |
+Languages the validator can execute: **python**, **javascript** and **sql** (in-memory SQLite).
 
-O custo sai por etapa e somado, numa conta só.
+The cost comes out per stage and totalled, in a single account.
 
-### Antes de gastar
+### Before spending
 
 ```sh
-npm test        # conferências mecânicas, guardas da reescrita, contabilidade do funil
+npm test        # mechanical checks, rewrite guards, funnel bookkeeping
 ```
 
-Roda em um segundo e não chama a API. Os 48 exercícios revisados à mão são o corpo de prova
-permanente das conferências mecânicas: nenhuma pode acusar um deles, e cada uma guarda também
-o caso real que a motivou. Afrouxar uma regra sem perceber quebra um teste em vez de passar
-despercebido.
+It runs in a second and calls no API. The 48 hand-reviewed exercises are the mechanical
+checks' permanent corpus: none of them may be flagged by any check, and each check also keeps
+the real case that motivated it. Loosening a rule by accident breaks a test instead of
+slipping past unnoticed.
 
-### Produção sem API
+### Production without the API
 
-Quando não há orçamento para a crítica, dá para produzir com as duas camadas grátis:
-conferência mecânica e **execução**. O tipo que se verifica por completo assim é
-`saida-esperada` — o interpretador roda o trecho e compara byte a byte, sem julgamento nenhum
-no meio.
+When there is no budget for the critique, it is possible to produce with the two free layers:
+the mechanical check and **execution**. The type that verifies completely that way is
+`expected-output` — the interpreter runs the snippet and compares byte for byte, with no
+judgement in between.
 
-`codigo` **não** se verifica de graça: a solução de referência é escrita às cegas por uma
-chamada de API, e é essa cegueira que dá valor ao resultado. Quem escrever à mão pode rodar
-uma solução própria contra os casos, o que pega gabarito errado, mas não pega "existe atalho
-que ignora o tópico" — para isso o oráculo precisa não ter visto os casos.
+`code` does **not** verify for free: the reference solution is written blind by an API call,
+and it is that blindness that gives the result its value. Whoever writes by hand can run a
+solution of their own against the cases, which catches a wrong key, but does not catch "there
+is a shortcut that ignores the topic" — for that the oracle has to have not seen the cases.
 
-Cada exercício aprovado carrega `_verificacao`, e o portal deve usá-lo para decidir o que
-publica primeiro:
+Every approved exercise carries `_verification`, and the portal should use it to decide what
+to publish first:
 
-| valor | o que garante |
+| value | what it guarantees |
 | --- | --- |
-| `criticado` | passou por sondas e juiz — a marca mais forte |
-| `execucao` | o interpretador confirmou o gabarito |
-| `estrutura` | só as conferências mecânicas; nada confirmou o gabarito |
+| `critiqued` | it passed the probes and the judge — the strongest mark |
+| `execution` | the interpreter confirmed the key |
+| `structure` | the mechanical checks only; nothing confirmed the key |
 
-### A rodada evoluiu ou não?
+### Did the round improve or not?
 
-Todo ciclo completo grava uma linha em `historico.json` e termina com um veredito de três
-estados — `EVOLUIU`, `PAROU` ou `PIOROU`:
+Every complete cycle writes a line into `history.json` and ends with a three-state verdict —
+`IMPROVED`, `STALLED` or `WORSE`:
 
 ```
-progresso — docker, contra a rodada de 2026-08-03 03:40
-  aprovados ....... 8/18 (44%)   antes 8/18 (44%)   0 pp
-  pegos de graça .. 1 de 10 (10%)   antes 0 de 10 (0%)   +10 pp
-  custo/aprovado .. US$ 0.327   antes US$ 0.335   -2%
-  causas pagas .... distratores 6 · dica 5 · gabarito 1
+progress — docker, against the round of 2026-08-03 03:40
+  first pass ...... 8/18 (44%)   before 8/18 (44%)   0 pp
+  caught free ..... 1 of 10 (10%)   before 0 of 10 (0%)   +10 pp
+  cost/approved ... US$ 0.327   before US$ 0.335   -2%
+  paid causes ..... distractors 6 · hint 5 · key 1
 
-  EVOLUIU — a ferramenta pega 10 pp a mais dos defeitos sozinha, sem pagar API.
+  IMPROVED — the tool catches 10 pp more of the defects by itself, without paying the API.
 ```
 
-O número que decide **não é a taxa de aprovação**: ela muda com o curso e com o tópico, e sobe
-sozinha se o gerador ficar tímido. O que mede a ferramenta é a divisão do trabalho — quantos
-defeitos foram pegos por cálculo, de graça, contra quantos só apareceram depois de pagar a
-API. Cada regra que vira conta empurra defeito de uma coluna para a outra.
+The number that decides is **not the approval rate**: it moves with the course and with the
+topic, and it rises by itself if the generator turns timid. What measures the tool is the
+division of labour — how many defects were caught by computation, for free, against how many
+only appeared after paying the API. Every rule that becomes arithmetic pushes a defect from
+one column to the other.
 
-A comparação é sempre com a rodada anterior **do mesmo curso**: docker contra python mediria
-o assunto, não a ferramenta.
+The rate is the **first pass** only: a rescue by the rewrite is a bought approval, and adding
+the two makes a stalled round look like a leap.
 
-### Ler o que saiu
+The comparison is always against the previous round **of the same course**: docker against
+python would measure the subject, not the tool.
+
+### Reading what came out
 
 ```sh
-node exercicios.mjs exercicios-python.json --ver      # todos
-node exercicios.mjs exercicios-python.json --ver 26   # só o de número 26
+node exercises.mjs exercises-python.json --view      # all of them
+node exercises.mjs exercises-python.json --view 26   # only number 26
 ```
 
-Mostra enunciado, corpo com o gabarito marcado, dica e — se o arquivo for um `.criticado` ou
-`.rejeitado` — os achados da crítica.
+It shows the statement, the body with the key marked, the hint and — if the file is a
+`.critiqued` or a `.rejected` — the critique's findings.
 
-**Isto existe porque a revisão por uma pessoa é o único sinal externo do pipeline.** Todo o
-resto é o mesmo modelo julgando a si mesmo: as sondas ancoram parte, a execução prova outra
-parte, mas "este exercício vale o tempo de um aluno?" não tem resposta automática. Enquanto o
-conteúdo só existia como JSON, esse sinal ficava bloqueado por atrito de formato — e sinal que
-custa esforço não é coletado.
+**This exists because review by a person is the pipeline's only external signal.** All the
+rest is the same model judging itself: the probes anchor part of it, execution proves another
+part, but "is this exercise worth a student's time?" has no automatic answer. While the
+content existed only as JSON, that signal was blocked by format friction — and a signal that
+costs effort is not collected.
 
-### O que é versionado
+### What is versioned
 
-`exercicios-<curso>.json` vai para o repositório: é conteúdo, custou dinheiro e revisão para
-existir, e é a entrada de todo o resto. Os derivados de cada rodada — `.validado`,
-`.reprovado`, `.criticado`, `.rejeitado` e as cópias com timestamp — ficam de fora, porque
-se refazem rodando o pipeline sobre o mesmo arquivo. O `.gitignore` separa os dois pelo
-segundo ponto no nome (`exercicios-*.*.json`).
+`exercises-<course>.json` goes into the repository: it is content, it cost money and review to
+exist, and it is the input to everything else. Each round's derivatives — `.validated`,
+`.failed`, `.critiqued`, `.rejected` and the timestamped copies — stay out, because they are
+remade by running the pipeline over the same file. The `.gitignore` tells the two apart by the
+second dot in the name (`exercises-*.*.json`).
 
-## Paralelismo
+## Parallelism
 
-As três etapas rodam com **4 chamadas simultâneas** por padrão (`--paralelo N`). O pipeline
-passa quase todo o relógio esperando rede: um curso de 48 tópicos são ~200 exercícios, cada
-um com até quatro chamadas em série. Em sequência isso são horas de espera.
+The three stages run with **4 simultaneous calls** by default (`--parallel N`). The pipeline
+spends almost all the wall clock waiting on the network: a 48-topic course is ~200 exercises,
+each with up to four calls in sequence. Done serially that is hours of waiting.
 
-O número entre colchetes é o **índice do exercício no arquivo**, não o progresso: com
-paralelismo os resultados chegam fora de ordem, e um contador de conclusão não permitia achar
-a linha correspondente no JSON. Por isso as linhas saem embaralhadas — é identidade, não
-contagem. Vale para cruzar um achado da crítica com o exercício que o produziu.
+The number in brackets is the **exercise's index in the file**, not progress: with parallelism
+the results arrive out of order, and a completion counter did not let you find the
+corresponding line in the JSON. That is why the lines come out shuffled — it is identity, not
+counting. It is what lets you cross a critique finding with the exercise that produced it.
 
-**Os resultados voltam na ordem da entrada**, mesmo terminando fora de ordem — o arquivo
-gerado não pode depender de quem respondeu primeiro, senão duas rodadas iguais produzem
-arquivos diferentes. Conferido: `--paralelo 1` e `--paralelo 8` produzem JSON byte a byte
-idêntico.
+**The results come back in input order**, even when they finish out of order — the generated
+file must not depend on who answered first, or two identical runs produce different files.
+Checked: `--parallel 1` and `--parallel 8` produce byte-identical JSON.
 
-Suba o número se não bater rate limit; o SDK já repete 429 sozinho com recuo. Baixe para 1
-quando quiser depurar um erro sem saída interleaved.
+Raise the number if you do not hit a rate limit; the SDK already retries a 429 by itself with
+backoff. Drop it to 1 when you want to debug an error without interleaved output.
 
-## Os sete tipos
+## The seven types
 
-| tipo | o aluno faz | corrigido por | serve para |
+| type | the student does | graded by | serves for |
 | --- | --- | --- | --- |
-| `codigo` | escreve a solução | execução contra casos de teste | linguagem e ferramenta |
-| `saida-esperada` | digita o que o trecho imprime | execução do próprio trecho | semântica, precedência, tipos |
-| `quiz` | escolhe uma | comparação | conceito com uma leitura |
-| `multipla-escolha` | escolhe várias | comparação de conjunto | conceito com vários aspectos |
-| `ordenacao` | põe em ordem | comparação de sequência | processo, pipeline, ciclo de vida |
-| `associacao` | emparelha duas colunas | comparação do mapeamento | comando e efeito, erro e causa, termo e definição |
-| `resposta-expressao` | escreve uma expressão | **equivalência simbólica (sympy)** | derivada, integral, simplificação |
+| `code` | writes the solution | execution against test cases | a language or a tool |
+| `expected-output` | types what the snippet prints | execution of the snippet itself | semantics, precedence, types |
+| `quiz` | picks one | comparison | a concept with a single reading |
+| `multiple-choice` | picks several | exact-set comparison | a concept with several aspects |
+| `ordering` | puts them in order | sequence comparison | a process, a pipeline, a lifecycle |
+| `matching` | pairs up two columns | comparison of the mapping | command and effect, error and cause, term and definition |
+| `expression-answer` | writes an expression | **symbolic equivalence (sympy)** | derivative, integral, simplification |
 
-**`saida-esperada` é o tipo mais forte do conjunto.** O validador executa o trecho mostrado
-e compara com o gabarito, então defeito de semântica vira reprovação determinística em vez
-de depender de julgamento. Foi assim que o `-7 ** 2 = 49` — certo para a variável, errado
-para o literal — passou a ser pego por execução.
+**`expected-output` is the strongest type of the set.** The validator runs the snippet shown
+and compares it with the key, so a semantic defect becomes a deterministic failure instead of
+depending on judgement. That is how `-7 ** 2 = 49` — right for the variable, wrong for the
+literal — came to be caught by execution.
 
-**`ordenacao` existe pelas 24 disciplinas de infra e segurança**, onde o que se ensina é
-ordem de operação e quase nada executa. Sem ele, esses cursos ficariam só com quiz.
+**`ordering` exists because of the 24 infrastructure and security subjects**, where what is
+taught is order of operations and almost nothing executes. Without it, those courses would be
+left with quiz alone. It is no longer generated automatically — see `GENERATABLE_TYPES` in
+`lib/types.mjs` for why, and for the criterion to bring it back.
 
-**`associacao` é o mais versátil fora da programação.** O defeito que o define é ambiguidade:
-se um item da direita puder ser defendido para duas entradas da esquerda, há mais de um
-gabarito. A conferência estrutural rejeita coluna com item repetido; o crítico testa cada
-direita contra todas as esquerdas.
+**`matching` is the most versatile one outside programming.** The defect that defines it is
+ambiguity: if an item on the right can be defended for two entries on the left, there is more
+than one key. The structural check rejects a column with a repeated item; a blind probe asks
+which pairings defend themselves, and any left item that accepts two fails the exercise.
 
-**`resposta-expressao` é o único tipo cujo gabarito se prova.** Nos outros, a correção do
-gabarito é evidência: a solução escrita às cegas concorda, o crítico não achou defeito. Aqui
-o sympy **recalcula a resposta por conta própria** a partir da expressão de origem e compara.
-Se divergir, o gabarito está errado — demonstrado, não julgado.
+**`expression-answer` is the only type whose key is proved.** In the others, the key's
+correctness is evidence: the blindly written solution agrees, the critic found no defect. Here
+sympy **recomputes the answer on its own** from the source expression and compares. If they
+diverge, the key is wrong — demonstrated, not judged.
 
 ```
-integral certa       ok       sympy recalcula e confere: x**3/3
-integral ERRADA      REPROVA  gabarito "x**3/2", mas a verificação calcula "x**3/3"
+right integral    ok       sympy recomputes and agrees: x**3/3
+WRONG integral    FAILED   key "x**3/2", but the check computes "x**3/3"
 ```
 
-Um exercício com `verificacao_operacao: nenhuma` **reprova**: sem recálculo, ninguém conferiu
-o gabarito, e aprovar seria dar selo a algo não checado.
+An exercise with `check_operation: none` **fails**: with no recomputation, nobody verified the
+key, and approving it would stamp a mark on something unchecked.
 
-Comparação é por equivalência, não por texto: `2*x`, `x*2` e `x+x` são a mesma resposta. Em
-integral, `+ C` é aceito — a diferença que não contém a variável de integração é a constante.
+Comparison is by equivalence, not by text: `2*x`, `x*2` and `x+x` are the same answer. In an
+integral, `+ C` is accepted — the difference that does not contain the integration variable is
+the constant.
 
-Cuidado com domínio: sem `x:positive` em `variaveis`, o sympy não simplifica `sqrt(x**2)`
-para `x`, e o aluno que responder assim é reprovado. Declare a suposição quando o enunciado
-a implicar.
+Careful with the domain: without `x:positive` in `variables`, sympy does not simplify
+`sqrt(x**2)` to `x`, and the student who answers that way is failed. Declare the assumption
+when the statement implies it.
 
-### Reaproveitar noutra disciplina
+### Reusing it in another subject
 
-Cinco dos sete tipos — `quiz`, `multipla-escolha`, `ordenacao`, `associacao`,
-`resposta-expressao` — não pressupõem programação (a constante `TIPOS_NEUTROS` os marca).
-Só `codigo` e `saida-esperada` dependem de interpretador.
+Five of the seven types — `quiz`, `multiple-choice`, `ordering`, `matching`,
+`expression-answer` — presuppose no programming (the `NEUTRAL_TYPES` constant marks them).
+Only `code` and `expected-output` depend on an interpreter.
 
-Para **matemática** (cálculo, álgebra, vestibular), o conjunto já serve hoje:
-`resposta-expressao` cobre o exercício central, `ordenacao` cobre método passo a passo,
-`associacao` cobre função↔derivada, e os de alternativa cobrem o formato de prova.
+For **mathematics** (calculus, algebra, entrance exams), the set already serves today:
+`expression-answer` covers the central exercise, `ordering` covers a step-by-step method,
+`matching` covers function↔derivative, and the option types cover the exam format.
 
-O que ainda amarra o pipeline a este catálogo é `lib/catalogo.mjs`, que lê `assets/dados.js`
-e espera os campos `topicos`, `ementa`, `nivel`. Para outra escola, é esse módulo que muda —
-o resto viaja. Vale saber disso antes de acrescentar acoplamento novo em outros arquivos.
+What still ties the pipeline to this catalogue is `lib/catalog.mjs`, which reads
+`assets/dados.js` and expects the fields `topicos`, `ementa`, `nivel`. For another school,
+that module is what changes — the rest travels. Worth knowing before adding new coupling in
+other files.
 
-## As três etapas
+## The three stages
 
-**Gerar.** Recebe os tópicos do curso na ordem em que são ensinados e trata essa ordem como
-restrição: exercício do tópico N só pode exigir o que os tópicos 1..N ensinaram. As regras de
-alternativa cobrem os quatro defeitos que apareceram em quase todo quiz gerado — correta mais
-longa que as erradas, distrator de enchimento, absolutos descartáveis por hábito de prova, e
-erradas de uma categoria com a correta de outra.
+**Generate.** It receives the course's topics in the order they are taught and treats that
+order as a constraint: an exercise for topic N may only require what topics 1..N have taught.
+The syllabus is cut at the batch's last topic, so the generator cannot require what it cannot
+see. The option rules cover the four defects that showed up in almost every generated quiz —
+the correct one longer than the wrong ones, filler distractors, absolutes an exam-taker
+discards out of habit, and wrong ones from one category with the correct one from another.
 
-**Validar.** Estrutura de graça, depois execução. Em `codigo`, escreve uma solução de
-referência **sem ver os casos de teste** e roda contra eles: às cegas, concordar vira
-evidência de que enunciado e gabarito descrevem a mesma coisa; discordar significa que um dos
-dois erra, e o validador não adivinha qual. Em `saida-esperada`, executa o trecho direto.
+**Validate.** Structure for free, then execution. In `code`, it writes a reference solution
+**without seeing the test cases** and runs it against them: blind, agreeing becomes evidence
+that the statement and the key describe the same thing; disagreeing means one of the two is
+wrong, and the validator does not guess which. In `expected-output`, it runs the snippet
+directly.
 
-**Criticar.** Duas sondas comportamentais e um julgamento. A sonda cega responde a questão sem
-ver o gabarito; a sonda da dica tenta resolver vendo só o enunciado e a dica. Sonda vale mais
-que opinião: pedir a um modelo que "avalie a qualidade" de um texto escrito por outro modelo
-convida à concordância.
+**Critique.** Behavioural probes and one judgement. The blind probe answers the question
+without seeing the key; the pair probe asks which pairings defend themselves; the hint probe
+tries to solve the exercise seeing only the statement, the body and the hint. A probe is worth
+more than an opinion: asking a model to "assess the quality" of a text written by another
+model invites agreement.
 
-A régua da gravidade é uma pergunta só: **isso muda quem passa?** Acertar por eliminação sem
-saber o assunto é gravidade alta, não ressalva de redação.
+The severity ruler is one question: **does this change who passes?** Getting it right by
+elimination without knowing the subject is high severity, not a stylistic caveat.
 
-## Custo medido
+## Measured cost
 
-Números reais, `claude-opus-5`, antes da unificação:
+Real numbers, `claude-opus-5`:
 
-| etapa | por exercício |
+| stage | per exercise |
 | --- | --- |
-| gerar | US$ 0,028 |
-| validar | US$ 0,003 |
-| criticar | US$ 0,067 – 0,077 |
+| generate | US$ 0.028 |
+| validate | US$ 0.003 |
+| critique | US$ 0.067 – 0.077 |
 
-Criticar custa ~2,5x gerar: são até três chamadas por exercício, cada uma raciocinando sobre
-o exercício inteiro. **96% do gasto é token de saída**, então mexer em contexto ou caching
-rende pouco — o que muda a conta é quantos exercícios por tópico.
+Critiquing costs ~2.5× generating: it is up to four calls per exercise, each one reasoning
+about the whole exercise. **96% of the spend is output tokens**, so touching context or
+caching yields little — what changes the bill is how many exercises per topic.
 
-## Segurança
+Execution costs about 50× less than judgement (US$0.02 against US$0.98 in one round) and
+catches a wrong key deterministically, which is why the free layers are worth pushing first.
 
-**Executa código gerado por IA na sua máquina**, com timeout por caso e nada mais. Não rode
-um JSON que você não gerou. Para volume, rode em contêiner descartável — que é como o portal
-vai executar código de aluno de qualquer forma.
+## Security
 
-**`resposta-expressao` precisa de `sympy`** (`pip install sympy`). O script confere antes de
-validar e sai com código 2 se faltar. É dependência opcional: só entra quando há exercício
-desse tipo. O `sympify` roda sobre texto gerado pelo modelo — no portal, aplicado a texto de
-**aluno**, exige parsing restrito e sandbox, porque é execução de código.
+**It runs AI-generated code on your machine**, with a per-case timeout and nothing else. Do
+not run a JSON you did not generate. For volume, run it in a disposable container — which is
+how the portal will execute student code anyway.
 
-Linguagens: `python` e `javascript`. O script confere que os interpretadores existem antes de
-validar e **sai com código 2** se faltar algum — sem isso, um `python3` ausente vira "todos os
-exercícios reprovados" e manda caçar defeito no conteúdo. Códigos de saída: `0` tudo passou,
-`1` algo reprovou, `2` o ambiente não permite validar.
+**`expression-answer` needs `sympy`** (`pip install sympy`). The script checks before
+validating and exits with code 2 if it is missing. It is an optional dependency: it only comes
+in when there is an exercise of that type. `sympify` runs over text generated by the model —
+in the portal, applied to **student** text, it demands restricted parsing and a sandbox,
+because it is code execution.
 
-## O que ainda falta
+The script checks the interpreters exist before validating and **exits with code 2** if any is
+missing — without that, an absent `python3` becomes "every exercise failed" and sends you
+hunting for a defect in the content. Exit codes: `0` everything passed, `1` something failed,
+`2` the environment does not allow validating.
 
-- **Realimentar a crítica no gerador**: hoje o exercício rejeitado é descartado. Com a régua
-  nova a taxa de rejeição deve subir, e refazer com a crítica em mãos sai mais barato que
-  gerar do zero.
-- **Deduplicação** entre tópicos vizinhos.
-- **Ingestão no portal**: sai um JSON solto; o banco é da Etapa 2.
+## What is still missing
+
+- **Deduplication** between neighbouring topics.
+- **Ingestion into the portal**: a loose JSON comes out; the database is Stage 2's job.
