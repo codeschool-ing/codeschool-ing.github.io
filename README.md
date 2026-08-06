@@ -39,11 +39,10 @@ assets/style.css      → styles
 assets/script.js      → tracks, catalogue, course modal, signup modal
 assets/favicon.svg    → a chevron and a prompt cursor, in the theme's colours
 .devcontainer/        → the development environment; needs Node and Python
-                        (the bundler is Python; the validator runs exercises in both)
+                        (the bundler is Python, the catalogue validator is Node)
 tools/                → utilities, outside the site; one folder per tool
   bundle/             → builds the single HTML file; writes at the root
   validate-catalog/   → checks `requires`: non-existent ids and cycles
-  exercises/          → pipeline: generates, validates and critiques topic exercises
 ```
 
 ## Components that change shape with the width
