@@ -5,9 +5,12 @@
    scrolling between them (see assets/script.js).
 
    ON LANGUAGE: English throughout — comments, class names, ids and custom
-   properties. index.html and assets/script.js share those names, so they are a
-   contract; it is kept in step with codeschool-ing/portal-frontend's base.css,
-   which is this same file.
+   properties. The page and its script share those names, so they are a
+   contract rather than prose.
+
+   THIS FILE EXISTS TWICE, byte for byte: codeschool-ing.github.io's
+   assets/style.css and portal-frontend's assets/base.css. Edit one and copy it
+   across; `diff` between the two is the check that nobody forgot.
    ========================================================================== */
 
 :root{
@@ -773,7 +776,7 @@ html.modal-open .screen{overflow:hidden}
   .modal-video{max-width:calc(46vh * 16 / 9);margin-inline:auto}
 }
 .modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.modal-video.playing,.modal-video.empty{cursor:default}
+.modal-video.playing,.modal-video.is-empty{cursor:default}
 /* the "play" triangle, drawn in CSS so it depends on no image */
 .video-play{
   position:relative;z-index:1;width:54px;height:54px;border-radius:50%;
@@ -787,8 +790,8 @@ html.modal-open .screen{overflow:hidden}
 }
 .modal-video:hover .video-play{background:var(--phosphor);transform:scale(1.06)}
 .modal-video:hover .video-play::before{border-left-color:var(--ink)}
-.modal-video.empty{border-style:dashed}
-.modal-video.empty .video-play{opacity:.45}
+.modal-video.is-empty{border-style:dashed}
+.modal-video.is-empty .video-play{opacity:.45}
 .video-notice{
   position:absolute;bottom:10px;z-index:1;
   font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;

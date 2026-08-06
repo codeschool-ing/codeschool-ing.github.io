@@ -347,6 +347,35 @@ const tracksOfCourse = (id) => TRACKS.filter((t) => allCourses(t).includes(id));
 const unlockedBy = (id) => COURSES.filter((c) => (c.requires || []).includes(id));
 
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---------- the released version ----------
+
+   IT ANSWERS ONE QUESTION, and the person asking is not a student: what is
+   actually deployed right now. That is why it sits in the footer's link row,
+   beside `github`, at the size the row already uses — a visitor deciding
+   whether to enrol has no use for it, and it must not compete for their
+   attention.
+
+   THE PAGE NEVER INVENTS IT. The single source is the `version` meta tag, and
+   the release workflow refuses a tag that disagrees with it. Anything other
+   than a semantic version — `dev`, the state of every build that is not a
+   release — leaves the link out of the document rather than pointing at a
+   GitHub tag that does not exist.
+
+   Written AFTER the i18n runtime has walked the DOM, which is what keeps a
+   language switch from treating "v1.2.0" as a sentence to translate: the
+   element is empty when the walk stores the page's text, so nothing about it
+   is stored, and `applyTexts` has nothing to rewrite. */
+(() => {
+  const version = document.querySelector('meta[name="version"]')?.content?.trim() || '';
+  if (!/^\d+\.\d+\.\d+(?:[-+][\w.]+)?$/.test(version)) return;
+
+  const el = document.getElementById('version');
+  if (!el) return;
+  el.textContent = 'v' + version;
+  el.href = 'https://github.com/codeschool-ing/codeschool-ing.github.io/releases/tag/v' + version;
+  el.hidden = false;
+})();
 $('#n-courses').textContent = COURSES.length;
 $('#n-tracks').textContent = TRACKS.length;
 /* the catalogue's real total workload, in place of the old "5,000+ students
@@ -1130,7 +1159,7 @@ function trackBlock(list, family, continuation) {
    rearrange the screen. */
 function videoBlock(c) {
   if (!c.video) {
-    return '<div class="modal-video empty" aria-hidden="true">' +
+    return '<div class="modal-video is-empty" aria-hidden="true">' +
       '<span class="video-play"></span><span class="video-notice">' + txt('video coming soon') + '</span></div>';
   }
   return '<button type="button" class="modal-video" data-video="' + c.video + '" ' +

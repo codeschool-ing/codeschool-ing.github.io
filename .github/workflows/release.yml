@@ -1,0 +1,49 @@
+# The tag and the page have to say the same thing.
+#
+# This site has no build step — GitHub Pages serves the default branch as it
+# is — so the version is written in the repository and the release is checked
+# against it, rather than stamped on the way out. That trade buys one manual
+# step per release (`node tools/version/version.js 1.2.0`) and costs nothing at
+# serving time; what it must not buy is silent drift, which is what this is for.
+#
+# A wrong version is worse than no version: it answers "what is deployed?" with
+# confidence and gets it wrong. So this fails the release rather than warn.
+
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  version-matches-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: The version in the page must equal the tag
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME#v}"
+          page="$(node tools/version/version.js --check)"
+          echo "tag:  $tag"
+          echo "page: $page"
+          if [ "$tag" != "$page" ]; then
+            echo
+            echo "The release is tagged v$tag and the page says v$page."
+            echo "Whoever reads the footer would be told the wrong thing."
+            echo
+            echo "Fix it with:  node tools/version/version.js $tag"
+            echo "then commit, delete the tag and tag again."
+            exit 1
+          fi
+
+      - name: The catalogue still holds together
+        run: |
+          node tools/validate-catalog/validate-catalog.js
+          node tools/catalog-snapshot/catalog-snapshot.js > /dev/null

@@ -4,6 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>codeschool.ing</title>
+<!-- The released version, and the only place it is written. `assets/script.js`
+     renders it into the footer and the release workflow checks it against the
+     tag, so the page and the GitHub release cannot disagree in silence.
+     "dev" means "not a release": the footer shows nothing rather than link to
+     a tag that does not exist. Cut a release with tools/version/version.js. -->
+<meta name="version" content="dev" />
 <meta name="description" content="Online tech school: courses in programming, data, infrastructure, security and AI, organised into learning tracks. Study at your own pace, with a teacher alongside you." />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <script>/* applies the saved theme before the paint, so it does not flash.
@@ -304,6 +310,9 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
     <span>© <span id="year"></span> codeschool.ing</span>
     <div class="foot-links">
       <a href="https://github.com/codeschool-ing">github</a>
+      <!-- filled in by assets/script.js, and left out entirely when this build
+           is not a release -->
+      <a class="mono" id="version" hidden></a>
     </div>
     <span>made in Brazil · for anywhere</span>
   </div>

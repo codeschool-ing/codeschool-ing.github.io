@@ -49,6 +49,7 @@ Each in its own folder, with the executable at the root of it:
 - `tools/validate-catalog/validate-catalog.js` — checks `assets/catalog.js`
 - `tools/catalog-snapshot/catalog-snapshot.js` — exports the catalogue as JSON for
   `codeschool-ing/portal-backend`'s `ingest`, translations included
+- `tools/version/version.js` — reads or sets the released version
 
 ## Before pushing
 
@@ -61,3 +62,19 @@ python3 tools/bundle/bundle.py                    # and open showcase.html from 
 Then load the page in all five languages and confirm no screen shows a raw translation key —
 an English string visible while another language is active, where the dictionary says the
 translation differs.
+
+## Cutting a release
+
+The version lives in `index.html`, in `<meta name="version">`, and nowhere else. There is no
+build step here — Pages serves the default branch as it is — so stamping it on the way out
+would mean a robot commit per release. The file is authoritative and the tag is checked
+against it instead:
+
+```sh
+node tools/version/version.js 1.2.0    # never edit the meta tag by hand
+git commit -am 'Release 1.2.0' && git tag v1.2.0 && git push --follow-tags
+```
+
+`.github/workflows/release.yml` fails the release when the two disagree. `dev` is every build
+that is not a release, and the footer then shows nothing rather than link to a tag nobody
+created — a wrong version is worse than none, because it answers with confidence.
