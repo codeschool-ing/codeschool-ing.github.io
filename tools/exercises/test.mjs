@@ -59,6 +59,21 @@ await group('corpus — the 48 hand-reviewed exercises', () => {
   const d = JSON.parse(fs.readFileSync(path.join(HERE, 'exercises-python.json'), 'utf8'));
   ok(d.exercises.length === 48, 'the corpus has 48 exercises', `it has ${d.exercises.length}`);
 
+  /* THE CORPUS HAS TO BE IN THE SOURCE LANGUAGE, and this check exists because the alternative
+     is silence. The mechanical layer's vocabulary is English; run it over Portuguese text and
+     every check returns clean, the 48 "pass", and the suite reports a calibrated layer that is
+     in fact switched off. An assertion that can only be satisfied by absence guards nothing —
+     so this one asserts presence: the corpus must read as English.
+
+     It fails while the corpus is still being translated. That is the point: an unfinished
+     translation should break the build, not quietly pass it. */
+  const PT_ONLY = /\b(que|não|para|uma|com|dos|das|você|quando|onde|mais|sem|pelo|pela|então|porque|cada|ser|seu|sua)\b/i;
+  const portuguese = d.exercises.filter((e) => PT_ONLY.test(`${e.statement} ${e.socratic_hint}`));
+  ok(portuguese.length === 0,
+    'the corpus is in the source language, so the mechanical checks actually analyse it',
+    `${portuguese.length} of ${d.exercises.length} exercises still read as Portuguese — until they are `
+    + 'translated the checks below pass vacuously');
+
   for (const [i, e] of d.exercises.entries()) {
     const p = check(e, { options: d.options ?? 5 });
     ok(p.length === 0, `#${i + 1} (${e.type}) passes the mechanical check`, p.join('; '));

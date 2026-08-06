@@ -24,11 +24,13 @@ At the end of every complete cycle the run answers by itself whether the round i
 
 ## A note on language
 
-The code, the comments, the prompts and this documentation are in English. **The exercises are
-written in Brazilian Portuguese**, because that is what the student reads, and the mechanical
-checks in `lib/types.mjs` analyse Portuguese text — translating those regular expressions
-would switch the entire free layer off. Worked examples quoted from real defects stay in
-Portuguese for the same reason: the defect lives in the wording.
+**English is the source language, for the exercises as much as for the code.** Portuguese is a
+translation layer, like Spanish, French and Italian — the same shape the catalogue uses. The
+mechanical checks in `lib/types.mjs` analyse the source, so their vocabulary is English; it was
+Portuguese only because the source was, which was a consequence and never a policy.
+
+A translation is judged against its source, not against the checks. What decides an answer —
+`correct`, expected outputs, answer keys — is never translated.
 
 ## Running it
 
