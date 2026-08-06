@@ -1130,7 +1130,7 @@ function trackBlock(list, family, continuation) {
    rearrange the screen. */
 function videoBlock(c) {
   if (!c.video) {
-    return '<div class="modal-video empty" aria-hidden="true">' +
+    return '<div class="modal-video is-empty" aria-hidden="true">' +
       '<span class="video-play"></span><span class="video-notice">' + txt('video coming soon') + '</span></div>';
   }
   return '<button type="button" class="modal-video" data-video="' + c.video + '" ' +
