@@ -4,7 +4,7 @@
   "options": 5,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Uma aplicação roda no notebook da desenvolvedora e falha no servidor de homologação, que tem uma versão diferente da mesma biblioteca de sistema. Qual afirmação descreve corretamente o que muda ao entregar essa aplicação como container?",
@@ -52,7 +52,7 @@
       "socratic_hint": "Liste o que efetivamente vai dentro do artefato entregue e o que continua sendo fornecido pela máquina que o executa."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas que se aplicam: problemas que o empacotamento da aplicação em container efetivamente ataca.",
@@ -100,7 +100,7 @@
       "socratic_hint": "Cada item promete um ganho; verifique se ele depende de algo que a imagem carrega consigo ou de algo que a máquina hospedeira fornece."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Três containers foram iniciados a partir da mesma imagem. Um deles gravou um arquivo em /tmp/relatorio.txt. Qual afirmação descreve corretamente a relação entre imagem e container nesse caso?",
@@ -148,7 +148,7 @@
       "socratic_hint": "Pergunte o que continua existindo depois que os três containers forem removidos e o que desaparece junto com cada um."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada arranjo de execução ao efeito observado pela equipe de infraestrutura. Sobram itens na coluna da direita que não correspondem a nenhum arranjo.",
@@ -190,7 +190,7 @@
       "socratic_hint": "Para cada arranjo, pergunte quantos núcleos de sistema operacional estão em execução e o que aparece quando se listam os processos da máquina física."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas que se aplicam às diferenças entre executar em bare metal, em máquina virtual e em container.",
@@ -238,7 +238,7 @@
       "socratic_hint": "Conte quantos kernels existem em cada arranjo e pergunte o que cada afirmação assume sobre esse número."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Um serviço legado precisa carregar um módulo de kernel próprio e só funciona com o kernel 4.19; o servidor disponível roda kernel 6.1. A equipe cogita empacotá-lo em container. Qual avaliação é correta?",
@@ -286,7 +286,7 @@
       "socratic_hint": "Pergunte de onde vem o kernel que o processo vai usar em cada arranjo e em qual kernel um módulo é efetivamente carregado."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "O que a existência das especificações da OCI garante na prática para quem trabalha com containers?",
@@ -334,7 +334,7 @@
       "socratic_hint": "Uma especificação define contrato de formato e de comportamento; pergunte, para cada promessa, se ela cabe nesse contrato ou depende de uma ferramenta específica."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada peça do ecossistema ao que ela estabelece. Sobram itens na coluna da direita que não correspondem a nenhuma peça.",
@@ -376,7 +376,7 @@
       "socratic_hint": "Percorra o caminho de um artefato: como ele é montado, como trafega até um servidor remoto e como vira processo. Cada trecho desse caminho é tratado por um documento diferente."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas que se aplicam: consequências reais de imagens e runtimes seguirem as especificações da OCI.",
@@ -424,7 +424,7 @@
       "socratic_hint": "Verifique, item a item, se o que se promete está escrito em uma das especificações ou se é comportamento de uma ferramenta particular."
     },
     {
-      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "topic": "Namespaces, cgroups and union filesystems — the general idea",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada mecanismo ao efeito observado dentro de um container em execução. Sobram itens na coluna da direita que não correspondem a nenhum mecanismo.",
@@ -470,7 +470,7 @@
       "socratic_hint": "Separe os mecanismos que restringem o que o processo enxerga dos que restringem o quanto ele consome e daquele que decide como o disco é montado a partir de partes empilhadas."
     },
     {
-      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "topic": "Namespaces, cgroups and union filesystems — the general idea",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Um container executou uma consulta pesada, consumiu toda a memória RAM do servidor e derrubou os serviços vizinhos. Qual mecanismo do kernel não estava configurado para esse container?",
@@ -518,7 +518,7 @@
       "socratic_hint": "Pergunte qual dos mecanismos responde por contabilidade de recursos e qual responde apenas por visibilidade."
     },
     {
-      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "topic": "Namespaces, cgroups and union filesystems — the general idea",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas que se aplicam ao comportamento do sistema de arquivos em união usado pelos containers.",
@@ -566,7 +566,7 @@
       "socratic_hint": "Pense no que precisaria ser copiado ao subir dez instâncias da mesma imagem e no que só existe enquanto cada uma delas vive."
     },
     {
-      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "topic": "Installation: Docker Desktop on Windows, Mac and Linux",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "No macOS e no Windows, o Docker Desktop executa containers Linux. Como o kernel Linux exigido por essas imagens é obtido nessas estações?",
@@ -614,7 +614,7 @@
       "socratic_hint": "Pergunte qual núcleo atende às chamadas de sistema de um processo Linux e se o sistema instalado nessas estações oferece esse núcleo."
     },
     {
-      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "topic": "Installation: Docker Desktop on Windows, Mac and Linux",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas que se aplicam ao Docker Desktop como forma de instalação.",
@@ -662,7 +662,7 @@
       "socratic_hint": "Compare o produto de desktop com uma instalação enxuta em servidor: o que vem junto, de onde sai o kernel e sob quais condições o uso é permitido."
     },
     {
-      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "topic": "Installation: Docker Desktop on Windows, Mac and Linux",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Numa estação Windows 11, a instalação do Docker Desktop termina sem erro, mas ao abrir o produto surge a mensagem de que o back-end WSL2 não pôde ser iniciado. Qual verificação ataca a causa mais provável?",
@@ -710,7 +710,7 @@
       "socratic_hint": "O back-end citado na mensagem depende de um recurso do sistema que, por sua vez, depende de algo habilitado antes de o sistema operacional carregar."
     },
     {
-      "topic": "Docker Engine no Linux e quando ele basta",
+      "topic": "Docker Engine on Linux and when it is all you need",
       "type": "ordering",
       "difficulty": "medium",
       "statement": "Ordene os passos da instalação do Docker Engine em um servidor Debian/Ubuntu a partir do repositório oficial, até que a conta de trabalho possa usar o cliente sem sudo.",
@@ -739,7 +739,7 @@
       "socratic_hint": "Para cada passo, pergunte o que precisa existir na máquina antes dele: um material de confiança já gravado, um grupo que só passa a existir com o pacote, uma sessão cujas credenciais são lidas na entrada."
     },
     {
-      "topic": "Docker Engine no Linux e quando ele basta",
+      "topic": "Docker Engine on Linux and when it is all you need",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Um servidor Ubuntu sem ambiente gráfico vai hospedar a aplicação em containers. Por que instalar apenas o Docker Engine costuma bastar nesse caso?",
@@ -787,7 +787,7 @@
       "socratic_hint": "Liste o que o produto de desktop acrescenta a uma instalação de serviço e pergunte quais desses acréscimos fazem falta numa máquina sem tela."
     },
     {
-      "topic": "Docker Engine no Linux e quando ele basta",
+      "topic": "Docker Engine on Linux and when it is all you need",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas que se aplicam a uma instalação de Docker Engine em servidor Linux.",

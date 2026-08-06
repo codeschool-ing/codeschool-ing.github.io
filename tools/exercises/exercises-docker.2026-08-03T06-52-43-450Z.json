@@ -5,7 +5,7 @@
   "blind": true,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Uma aplicação sobe sem erro na estação de quem a desenvolveu e falha no servidor de homologação com mensagem de biblioteca ausente. Empacotá-la em container resolve esse tipo de falha principalmente por qual motivo?",
@@ -54,7 +54,7 @@
       "_blind": true
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as situações que o empacotamento da aplicação em container atenua de forma direta. Há mais de uma resposta correta.",
@@ -103,7 +103,7 @@
       "_blind": true
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Três containers foram iniciados a partir da mesma imagem. Dentro de um deles, um arquivo de configuração é editado e o serviço é reiniciado. O que se observa nos outros dois e num quarto container criado depois?",
@@ -152,7 +152,7 @@
       "_blind": true
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Subir uma máquina virtual leva dezenas de segundos; subir um container a partir de uma imagem já presente no equipamento leva fração de segundo. Qual é a razão dessa diferença?",
@@ -201,7 +201,7 @@
       "_blind": true
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações corretas sobre as diferenças entre máquina virtual e container. Há mais de uma resposta correta.",
@@ -250,7 +250,7 @@
       "_blind": true
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "matching",
       "difficulty": "hard",
       "statement": "Associe cada arranjo ao fato operacional que se observa nele. Sobram itens na coluna da direita, que não correspondem a nenhum arranjo da esquerda.",
@@ -292,7 +292,7 @@
       "socratic_hint": "Em cada arranjo, conte quantas cópias de sistema operacional ficam de pé e verifique o que uma instância consegue ver dos arquivos da vizinha."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Uma equipe constrói e publica um artefato usando Docker; outra equipe o executa com um runtime de fornecedor diferente, sem conversão e sem plugin. O que sustenta esse funcionamento?",
@@ -341,7 +341,7 @@
       "_blind": true
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações corretas sobre o alcance das especificações da OCI. Há mais de uma resposta correta.",
@@ -390,7 +390,7 @@
       "_blind": true
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Qual afirmação descreve corretamente a relação entre Docker e OCI?",

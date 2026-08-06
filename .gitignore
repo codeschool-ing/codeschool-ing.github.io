@@ -1,6 +1,6 @@
 # bundle.py output: built from index.html + assets/. Meant for emailing or opening from
 # disk, not for publishing.
-/escola-vitrine.html
+/showcase.html
 
 # Catalogue tooling: dependencies and generated output.
 node_modules/

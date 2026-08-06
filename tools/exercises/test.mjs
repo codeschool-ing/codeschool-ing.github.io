@@ -286,13 +286,13 @@ await group('blind authoring builds the key from the judgement, not from the aut
 /* ---- 3d. the generator must not see what comes later --------------------- */
 
 await group('the syllabus is cut for whoever writes and whole for whoever critiques', () => {
-  const course = { nome: 'C', categoria: 'x', nivel: 'y', horas: 1, resumo: 'r', ementa: 'e', topicos: ['um', 'dois', 'três', 'quatro'] };
+  const course = { name: 'C', category: 'x', level: 'y', hours: 1, summary: 'r', syllabus: 'e', topics: ['one', 'two', 'three', 'four'] };
   const cut = courseContext(course, { upTo: 2 });
-  ok(cut.includes('dois') && !cut.includes('três'), 'cut at 2 shows the first two and hides the rest');
+  ok(cut.includes('two') && !cut.includes('three'), 'cut at 2 shows the first two and hides the rest');
   ok(/de propósito/.test(cut), 'and it says the rest is hidden on purpose, so the author does not assume it was taught');
-  ok(courseContext(course).includes('quatro'), 'with no cut, the syllabus comes whole — that is what the critic needs to recognise a forward reference');
-  ok(courseContext(course, { upTo: 9 }).includes('quatro'), 'a cut beyond the end hides nothing');
-  ok(courseContext(course, { upTo: undefined }).includes('quatro'), 'a topic missing from the syllabus must not blind the author by accident');
+  ok(courseContext(course).includes('four'), 'with no cut, the syllabus comes whole — that is what the critic needs to recognise a forward reference');
+  ok(courseContext(course, { upTo: 9 }).includes('four'), 'a cut beyond the end hides nothing');
+  ok(courseContext(course, { upTo: undefined }).includes('four'), 'a topic missing from the syllabus must not blind the author by accident');
 });
 
 /* ---- 3e. reach against the already-paid rejections ----------------------- */

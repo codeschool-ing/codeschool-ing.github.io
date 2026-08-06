@@ -5,7 +5,7 @@
   "blind": false,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Entre as descrições abaixo, qual corresponde ao que é um container?",
@@ -53,7 +53,7 @@
       "socratic_hint": "Pergunte quem executa o programa e o que esse programa consegue ver enquanto está executando."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Uma aplicação sobe sem erro no notebook da desenvolvedora e falha no servidor de homologação com mensagem de arquivo ausente. A equipe passa a entregar a aplicação em container. O que muda na causa desse tipo de falha?",
@@ -101,7 +101,7 @@
       "socratic_hint": "Identifique o que passou a viajar de uma máquina para a outra depois da mudança, e o que continua sendo característica de cada máquina."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Sobre o que a adoção de containers resolve e o que não resolve, marque todas as afirmações que se aplicam.",
@@ -149,7 +149,7 @@
       "socratic_hint": "Para cada afirmação, examine se o ganho descrito vem de onde os arquivos foram preparados e de quanto o processo consegue ver, ou de algo que o equipamento e o sistema hospedeiro teriam de passar a fornecer."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada situação vivida pela equipe ao efeito observado depois de passar a executar o serviço em container. Sobram efeitos na coluna da direita que não correspondem a nenhuma situação.",
@@ -191,7 +191,7 @@
       "socratic_hint": "Leia cada situação perguntando qual incômodo concreto ela descreve, e procure o efeito que retira exatamente esse incômodo, sem prometer nada além dele."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "O mesmo serviço é preparado de duas formas: em uma máquina virtual e em um container. O container fica pronto para atender em poucos segundos, e a máquina virtual leva mais de um minuto. Qual explicação corresponde a essa diferença?",
@@ -239,7 +239,7 @@
       "socratic_hint": "Pense no que acontece entre o comando de partida e a primeira resposta em cada caso: parte desse tempo é gasta em algo que só um dos dois arranjos precisa fazer."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Comparando execução direta no equipamento, máquina virtual e container, marque todas as afirmações corretas.",
@@ -287,7 +287,7 @@
       "socratic_hint": "Em cada afirmação, conte quantos kernels existem no arranjo descrito e quem os colocou em funcionamento."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada elemento ao comportamento observável que lhe corresponde. Sobram descrições na coluna da direita que não correspondem a nenhum elemento da esquerda.",

@@ -2,7 +2,7 @@
 """Builds a single HTML file, with no external dependencies, to send around or open straight
 from disk (file://). It inlines the CSS, the six scripts and the favicon.
 
-    python3 tools/bundle/bundle.py  -> escola-vitrine.html (at the root)
+    python3 tools/bundle/bundle.py  -> showcase.html (at the root)
     python3 bundle.py output.html
 
 The site is still served from index.html + assets/. This file only exists to hand over a copy
@@ -15,7 +15,7 @@ import sys
 
 HERE = pathlib.Path(__file__).parent
 ROOT = HERE.parent.parent  # the site lives at the root; this tool lives in tools/bundle/
-OUTPUT = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / 'escola-vitrine.html'
+OUTPUT = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / 'showcase.html'
 
 html = (ROOT / 'index.html').read_text(encoding='utf-8')
 

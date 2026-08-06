@@ -4,7 +4,7 @@
   "options": 5,
   "exercises": [
     {
-      "topic": "Instalação, interpretador e o primeiro script",
+      "topic": "Installation, the interpreter and your first script",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Você digita `2 + 3` no modo interativo e aparece `5`. O mesmo conteúdo num arquivo `conta.py`, executado com `python conta.py`, não mostra nada. O que explica a diferença?",
@@ -52,7 +52,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Instalação, interpretador e o primeiro script",
+      "topic": "Installation, the interpreter and your first script",
       "type": "expected-output",
       "difficulty": "easy",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -74,7 +74,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Instalação, interpretador e o primeiro script",
+      "topic": "Installation, the interpreter and your first script",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque **todas** as afirmações verdadeiras sobre executar um script com `python arquivo.py`.",
@@ -122,7 +122,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Instalação, interpretador e o primeiro script",
+      "topic": "Installation, the interpreter and your first script",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Você quer rodar o módulo `http.server` da biblioteca padrão a partir do terminal. Qual comando faz isso, e por quê?",
@@ -170,7 +170,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Tipos, variáveis, operadores e formatação de strings",
+      "topic": "Types, variables, operators and string formatting",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -192,7 +192,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Tipos, variáveis, operadores e formatação de strings",
+      "topic": "Types, variables, operators and string formatting",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -214,7 +214,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Tipos, variáveis, operadores e formatação de strings",
+      "topic": "Types, variables, operators and string formatting",
       "type": "code",
       "difficulty": "medium",
       "statement": "Leia um nome na primeira linha e um preço na segunda. Imprima uma única linha no formato `<nome>: R$ <preço>`, com o preço arredondado para exatamente duas casas decimais e ponto como separador decimal. Não imprima nada além dessa linha.",
@@ -262,7 +262,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Tipos, variáveis, operadores e formatação de strings",
+      "topic": "Types, variables, operators and string formatting",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada expressão ao valor que ela produz em Python. Sobram valores na coluna da direita que não correspondem a expressão alguma.",
@@ -308,7 +308,7 @@
       ]
     },
     {
-      "topic": "Coleções: listas, tuplas, dicionários e conjuntos",
+      "topic": "Collections: lists, tuples, dictionaries and sets",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -330,7 +330,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Coleções: listas, tuplas, dicionários e conjuntos",
+      "topic": "Collections: lists, tuples, dictionaries and sets",
       "type": "code",
       "difficulty": "easy",
       "statement": "A variável `numeros` já vem preenchida com os inteiros da entrada. Imprima a lista dos valores distintos em ordem crescente, no formato com que o Python exibe listas — o resultado de `print` sobre uma lista. Não imprima nada além dessa linha.",
@@ -378,7 +378,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Coleções: listas, tuplas, dicionários e conjuntos",
+      "topic": "Collections: lists, tuples, dictionaries and sets",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações verdadeiras sobre coleções em Python.",
@@ -426,7 +426,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Coleções: listas, tuplas, dicionários e conjuntos",
+      "topic": "Collections: lists, tuples, dictionaries and sets",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Cada linha da direita descreve o que acontece ao usar uma coleção chamada `c` no interpretador. Associe cada coleção ao seu comportamento. Sobram descrições que não correspondem a coleção alguma.",
@@ -468,7 +468,7 @@
       ]
     },
     {
-      "topic": "Condições, laços e compreensões (list/dict comprehensions)",
+      "topic": "Conditionals, loops and comprehensions (list/dict comprehensions)",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -490,7 +490,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Condições, laços e compreensões (list/dict comprehensions)",
+      "topic": "Conditionals, loops and comprehensions (list/dict comprehensions)",
       "type": "code",
       "difficulty": "medium",
       "statement": "Leia uma linha com palavras separadas por espaço e imprima uma linha por palavra distinta, no formato `palavra: quantidade`, em ordem alfabética crescente das palavras. Linha sem palavra alguma não produz saída. Suponha que as palavras contêm apenas letras minúsculas sem acento.",
@@ -538,7 +538,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Condições, laços e compreensões (list/dict comprehensions)",
+      "topic": "Conditionals, loops and comprehensions (list/dict comprehensions)",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Qual laço produz exatamente a mesma lista que `[n * 2 for n in range(4) if n != 2]`?",
@@ -586,7 +586,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Condições, laços e compreensões (list/dict comprehensions)",
+      "topic": "Conditionals, loops and comprehensions (list/dict comprehensions)",
       "type": "expected-output",
       "difficulty": "hard",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -608,7 +608,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Funções: argumentos, retorno, escopo e lambdas",
+      "topic": "Functions: arguments, return values, scope and lambdas",
       "type": "expected-output",
       "difficulty": "hard",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -630,7 +630,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Funções: argumentos, retorno, escopo e lambdas",
+      "topic": "Functions: arguments, return values, scope and lambdas",
       "type": "code",
       "difficulty": "medium",
       "statement": "Escreva a função `resumo(valores, casas=2)` que recebe uma lista de números e devolve uma string no formato `min=<menor> max=<maior> media=<média>`, com cada número formatado com `casas` casas decimais. Para lista vazia, devolva a string `sem dados`. O programa principal já está escrito no esqueleto: ele chama a função com o segundo argumento quando a entrada traz uma segunda linha, e sem ele quando não traz.",
@@ -678,7 +678,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Funções: argumentos, retorno, escopo e lambdas",
+      "topic": "Functions: arguments, return values, scope and lambdas",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Dado `def marcar(item, marca=\"*\", repetir=1)` que devolve `marca * repetir + item`, marque **todas** as chamadas que produzem exatamente a string `\"--fim\"`.",
@@ -726,7 +726,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Funções: argumentos, retorno, escopo e lambdas",
+      "topic": "Functions: arguments, return values, scope and lambdas",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Considere `v = [1, 2, 3, 4]`. Associe cada expressão ao valor que ela produz. Sobram valores na coluna da direita que não correspondem a expressão alguma.",
@@ -768,7 +768,7 @@
       ]
     },
     {
-      "topic": "Orientação a objetos: classes, herança e métodos especiais",
+      "topic": "Object orientation: classes, inheritance and special methods",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -790,7 +790,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Orientação a objetos: classes, herança e métodos especiais",
+      "topic": "Object orientation: classes, inheritance and special methods",
       "type": "code",
       "difficulty": "medium",
       "statement": "Escreva a classe `Contador` com um método `somar(n)` que acrescenta `n` ao total e devolve o próprio objeto, e um método `total()` que devolve o valor acumulado, começando em zero. O programa principal já está escrito no esqueleto.",
@@ -833,7 +833,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Orientação a objetos: classes, herança e métodos especiais",
+      "topic": "Object orientation: classes, inheritance and special methods",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Numa classe `Filha(Mae)`, qual efeito tem chamar `super().__init__(x)` dentro de `Filha.__init__`?",
@@ -881,7 +881,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Orientação a objetos: classes, herança e métodos especiais",
+      "topic": "Object orientation: classes, inheritance and special methods",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações verdadeiras sobre métodos especiais em Python.",
@@ -929,7 +929,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Módulos, pacotes e a biblioteca padrão",
+      "topic": "Modules, packages and the standard library",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -951,7 +951,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Módulos, pacotes e a biblioteca padrão",
+      "topic": "Modules, packages and the standard library",
       "type": "code",
       "difficulty": "medium",
       "statement": "Leia uma data no formato `AAAA-MM-DD` e imprima o dia da semana correspondente, em minúsculas e em português, exatamente como nesta lista: `segunda-feira`, `terça-feira`, `quarta-feira`, `quinta-feira`, `sexta-feira`, `sábado`, `domingo`. Não imprima nada além dessa linha.",
@@ -999,7 +999,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Módulos, pacotes e a biblioteca padrão",
+      "topic": "Modules, packages and the standard library",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Um arquivo `util.py` termina com um bloco `if __name__ == \"__main__\":` que chama uma função de teste. O que esse bloco garante?",
@@ -1047,7 +1047,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Módulos, pacotes e a biblioteca padrão",
+      "topic": "Modules, packages and the standard library",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada módulo da biblioteca padrão ao problema que ele resolve. Sobram descrições que não correspondem a módulo algum desta lista.",
@@ -1089,7 +1089,7 @@
       ]
     },
     {
-      "topic": "Erros e exceções: try, except, else e finally",
+      "topic": "Errors and exceptions: try, except, else and finally",
       "type": "expected-output",
       "difficulty": "hard",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -1111,7 +1111,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Erros e exceções: try, except, else e finally",
+      "topic": "Errors and exceptions: try, except, else and finally",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -1133,7 +1133,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Erros e exceções: try, except, else e finally",
+      "topic": "Errors and exceptions: try, except, else and finally",
       "type": "code",
       "difficulty": "medium",
       "statement": "A lista `valores` já vem preenchida pelo esqueleto com os campos da linha lida. Some os que forem inteiros válidos e conte os que não forem. Imprima uma única linha no formato `total=<soma> invalidos=<quantidade>`. Uma linha sem campo algum produz `total=0 invalidos=0`. Não imprima nada além dessa linha.",
@@ -1181,7 +1181,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Erros e exceções: try, except, else e finally",
+      "topic": "Errors and exceptions: try, except, else and finally",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Num mesmo `try`, você escreve `except Exception:` antes de `except ValueError:`. O bloco protegido levanta um `ValueError`. O que acontece?",
@@ -1229,7 +1229,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Arquivos, JSON e CSV",
+      "topic": "Files, JSON and CSV",
       "type": "expected-output",
       "difficulty": "hard",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -1251,7 +1251,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Arquivos, JSON e CSV",
+      "topic": "Files, JSON and CSV",
       "type": "code",
       "difficulty": "medium",
       "statement": "A entrada é um CSV com vírgula como separador: uma linha de cabeçalho com as colunas `nome` e `nota`, seguida de zero ou mais linhas de dados. Imprima o nome de cada pessoa cuja nota seja maior ou igual a 7, um por linha, na ordem em que aparecem na entrada. Se ninguém alcançar, imprima `ninguem`. As notas podem ter casas decimais.",
@@ -1299,7 +1299,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Arquivos, JSON e CSV",
+      "topic": "Files, JSON and CSV",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque **todas** as afirmações verdadeiras sobre ler e escrever JSON e CSV em Python.",
@@ -1347,7 +1347,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Arquivos, JSON e CSV",
+      "topic": "Files, JSON and CSV",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Você quer acrescentar linhas ao fim de um arquivo de log já existente, sem apagar o que está lá, e criando o arquivo caso ele ainda não exista. Qual modo de abertura faz isso?",
@@ -1395,7 +1395,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Ambientes virtuais (venv), pip e requirements",
+      "topic": "Virtual environments (venv), pip and requirements",
       "type": "ordering",
       "difficulty": "medium",
       "statement": "Você começa um projeto novo e quer que as bibliotecas fiquem isoladas do Python do sistema. Coloque os quatro comandos na ordem em que precisam ser executados.",
@@ -1422,7 +1422,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Ambientes virtuais (venv), pip e requirements",
+      "topic": "Virtual environments (venv), pip and requirements",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Com o ambiente virtual ativo, o que `pip freeze > requirements.txt` grava no arquivo?",
@@ -1470,7 +1470,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Ambientes virtuais (venv), pip e requirements",
+      "topic": "Virtual environments (venv), pip and requirements",
       "type": "matching",
       "difficulty": "hard",
       "statement": "Associe cada comando ao que se observa **depois** de executá-lo. Sobram observações que não correspondem a comando algum.",
@@ -1512,7 +1512,7 @@
       ]
     },
     {
-      "topic": "Ambientes virtuais (venv), pip e requirements",
+      "topic": "Virtual environments (venv), pip and requirements",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque **todas** as afirmações verdadeiras sobre ambientes virtuais.",
@@ -1560,7 +1560,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Estruturas de dados e noção de complexidade (Big-O)",
+      "topic": "Data structures and a sense of complexity (Big-O)",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada operação à ordem de crescimento do seu custo, em função do número `n` de elementos. Sobram ordens de crescimento que não correspondem a operação alguma.",
@@ -1602,7 +1602,7 @@
       ]
     },
     {
-      "topic": "Estruturas de dados e noção de complexidade (Big-O)",
+      "topic": "Data structures and a sense of complexity (Big-O)",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Por que `x in conjunto` costuma ser muito mais rápido que `x in lista` quando a coleção é grande?",
@@ -1650,7 +1650,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Estruturas de dados e noção de complexidade (Big-O)",
+      "topic": "Data structures and a sense of complexity (Big-O)",
       "type": "code",
       "difficulty": "hard",
       "statement": "As listas `a` e `b` já vêm preenchidas pelo esqueleto, a partir de um `n` lido da entrada. Imprima quantos valores distintos aparecem em **ambas** as listas ao mesmo tempo — ou seja, o tamanho da interseção, sem contar repetições. Não imprima nada além desse número.\n\nO último caso de teste usa `n` na casa das centenas de milhares e há limite de tempo por caso: uma solução que, para cada valor de `a`, percorre `b` inteira não termina a tempo.",
@@ -1693,7 +1693,7 @@
       "right_distractors": []
     },
     {
-      "topic": "Estruturas de dados e noção de complexidade (Big-O)",
+      "topic": "Data structures and a sense of complexity (Big-O)",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "O que este trecho imprime? Escreva o texto que aparece na tela.",
@@ -1715,7 +1715,7 @@
       "right_distractors": []
     },
     {
-      "topic": "pandas para tabelas e requests para consumir APIs",
+      "topic": "pandas for tables and requests for consuming APIs",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Num `DataFrame` cujo índice é `[\"a\", \"b\", \"c\"]`, o que distingue `df.loc[\"b\"]` de `df.iloc[1]`?",
@@ -1763,7 +1763,7 @@
       "right_distractors": []
     },
     {
-      "topic": "pandas para tabelas e requests para consumir APIs",
+      "topic": "pandas for tables and requests for consuming APIs",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque **todas** as afirmações verdadeiras sobre consumir uma API com `requests`.",
@@ -1811,7 +1811,7 @@
       "right_distractors": []
     },
     {
-      "topic": "pandas para tabelas e requests para consumir APIs",
+      "topic": "pandas for tables and requests for consuming APIs",
       "type": "matching",
       "difficulty": "hard",
       "statement": "Para um `DataFrame` `df` com as colunas `turma` e `nota`, associe cada expressão ao que ela devolve. Sobram descrições que não correspondem a expressão alguma.",
@@ -1853,7 +1853,7 @@
       ]
     },
     {
-      "topic": "pandas para tabelas e requests para consumir APIs",
+      "topic": "pandas for tables and requests for consuming APIs",
       "type": "ordering",
       "difficulty": "medium",
       "statement": "Coloque em ordem as quatro chamadas de um laço que consome uma página de uma API com `requests`.",

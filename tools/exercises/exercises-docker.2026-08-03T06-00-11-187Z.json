@@ -4,7 +4,7 @@
   "options": 5,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Uma equipe entrega um serviço que funciona no notebook de quem escreveu e falha ao subir no servidor de homologação, com erro de biblioteca ausente. Qual afirmação descreve o que muda nessa situação quando o serviço passa a ser entregue como container?",
@@ -52,7 +52,7 @@
       "socratic_hint": "Compare o que está dentro do pacote entregue com o que continua vindo de quem o roda."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações verdadeiras sobre o alcance de um container. Há mais de uma correta.",
@@ -100,7 +100,7 @@
       "socratic_hint": "Repare em quais peças o pacote leva consigo e quais ele apenas empresta de quem o roda; depois pergunte que problemas ficam fora dessa troca."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Do ponto de vista do sistema que o executa, o que é um container em execução?",
@@ -148,7 +148,7 @@
       "socratic_hint": "Pergunte quem escalona as instruções do programa que está dentro de um container e quem atende as chamadas de sistema que ele faz."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Um serviço idêntico sobe em cerca de 300 ms como container e em cerca de 40 s como máquina virtual, no mesmo servidor. Qual afirmação explica essa diferença?",
@@ -196,7 +196,7 @@
       "socratic_hint": "Liste tudo o que precisa acontecer entre o comando de início e a primeira linha de log, em cada uma das duas montagens."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações verdadeiras na comparação entre bare metal, máquina virtual e container. Há mais de uma correta.",
@@ -244,7 +244,7 @@
       "socratic_hint": "Para cada item, identifique quantas cópias de núcleo existem na montagem descrita e de onde vêm os arquivos que a aplicação abre."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada situação ao efeito que a equipe observa. Sobram itens na coluna da direita que não correspondem a nenhuma situação.",
@@ -286,7 +286,7 @@
       "socratic_hint": "Em cada linha, pergunte se a peça alterada é única no servidor ou se existe uma por instância."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "O que as especificações da OCI padronizam?",
@@ -334,7 +334,7 @@
       "socratic_hint": "Pense no que precisa ser combinado entre quem monta um artefato e quem o roda depois, e no que cada projeto continua livre para decidir sozinho."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações que se sustentam sobre o efeito prático da conformidade com o padrão OCI. Há mais de uma correta.",
@@ -382,7 +382,7 @@
       "socratic_hint": "Releia cada item perguntando quem precisaria concordar com quem para que aquilo fosse verdade."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Qual consequência é esperada quando o formato de um artefato é definido por uma especificação aberta em vez de pela implementação de um único fornecedor?",

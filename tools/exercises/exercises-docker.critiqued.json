@@ -5,7 +5,7 @@
   "blind": false,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Entre as descrições abaixo, qual corresponde ao que é um container?",
@@ -61,7 +61,7 @@
       ]
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Uma aplicação sobe sem erro no notebook da desenvolvedora e falha no servidor de homologação com mensagem de arquivo ausente. A equipe passa a entregar a aplicação em container. O que muda na causa desse tipo de falha?",
@@ -117,7 +117,7 @@
       ]
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "O mesmo serviço é preparado de duas formas: em uma máquina virtual e em um container. O container fica pronto para atender em poucos segundos, e a máquina virtual leva mais de um minuto. Qual explicação corresponde a essa diferença?",
@@ -173,7 +173,7 @@
       ]
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada elemento ao comportamento observável que lhe corresponde. Sobram descrições na coluna da direita que não correspondem a nenhum elemento da esquerda.",
