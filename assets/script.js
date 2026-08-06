@@ -5,7 +5,7 @@
    name stay in Portuguese because they are contracts, not preferences:
 
      · the catalogue's fields (`name`, `horas`, `topicos`, `depende`, `opcoes`…),
-       which assets/dados.js and the four i18n-cursos-*.js files define;
+       which assets/catalog.js and the i18n-courses-*.js files define;
      · DOM ids, `data-*` attributes and CSS classes (`#track-panel`, `.course-node`,
        `.fork-tab`), which index.html and style.css share with this file;
      · the arguments to `txt()`, which ARE the translation keys — the Portuguese
@@ -500,7 +500,7 @@ function buildTrackDropdown() {
   FAMILIES.forEach((f) => {
     const h = document.createElement('div');
     h.className = 'drop-group';
-    h.textContent = txt(f === 'career' ? 'tracks por carreira' : 'tracks por tecnologia');
+    h.textContent = txt(f === 'career' ? 'career tracks' : 'technology tracks');
     list.appendChild(h);
     indicesOfFamily(f).forEach((i) => {
       const b = document.createElement('button');
@@ -1114,8 +1114,8 @@ function closeModals() {
 function trackBlock(list, family, continuation) {
   if (!list.length) return '';
   const n = list.length;
-  const key = (continuation ? 'e de {n} ' : 'faz parte de {n} ') +
-    (n > 1 ? 'tracks' : 'trilha') + ' de ' + family;
+  const key = (continuation ? 'and of {n} ' : 'part of {n} ') +
+    family + (n > 1 ? ' tracks' : ' track');
   return '<div class="modal-block"><h4>' + txt(key).replace('{n}', n) +
     '</h4><div class="modal-tracks">' +
     list.map((t) => '<button type="button" data-track="' + t.id + '">' + t.name + ' →</button>').join('') +
