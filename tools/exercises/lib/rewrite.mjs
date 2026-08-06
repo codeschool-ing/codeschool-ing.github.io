@@ -17,7 +17,7 @@
  * `multiple-choice` for an easy `quiz` would solve the rejection and ruin the two measures
  * that keep the generator honest: topic coverage and rate by type.
  */
-import { courseContext } from './catalog.mjs';
+import { courseContext, courseTopics } from './catalog.mjs';
 import { ask } from './claude.mjs';
 import { RULES } from './generate.mjs';
 import { schema } from './types.mjs';
@@ -74,7 +74,7 @@ export async function rewrite({ exercises, course, options, parallel, onProgress
   const outputs = await concurrentMap(exercises, parallel, async (e, i) => {
     // Whoever rewrites is an author, so they see as much as the author did: up to the
     // exercise's own topic.
-    const upTo = course.topicos.indexOf(e.topic) + 1;
+    const upTo = courseTopics(course).indexOf(e.topic) + 1;
     const system = `${RULES(options)}\n\n---\n\n${courseContext(course, { upTo: upTo || undefined })}`;
     const problems = report(e);
     const r = await ask({

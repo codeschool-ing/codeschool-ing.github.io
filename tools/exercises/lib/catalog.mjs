@@ -23,6 +23,16 @@ export function load() {
   return cache;
 }
 
+/* The two catalogue fields the rest of the pipeline needs, behind an accessor.
+ *
+ * They are here, and not read directly, so that the claim at the top of this file stays true:
+ * five other places used to reach for `course.topicos` and `course.nome` themselves, which
+ * quietly made the adapter five files wide. Topic order is load-bearing everywhere downstream
+ * — it is what "an exercise for topic N may only require topics 1..N" is checked against — so
+ * this is the field that would hurt most to have scattered. */
+export const courseTopics = (course) => course.topicos ?? [];
+export const courseName = (course) => course.nome;
+
 export function findCourse(id) {
   const { courses } = load();
   const course = courses.find((c) => c.id === id);
