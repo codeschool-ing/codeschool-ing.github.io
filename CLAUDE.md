@@ -47,11 +47,14 @@ Each in its own folder, with the executable at the root of it:
 
 - `tools/bundle/bundle.py` — packs the site into a single `showcase.html`
 - `tools/validate-catalog/validate-catalog.js` — checks `assets/catalog.js`
+- `tools/catalog-snapshot/catalog-snapshot.js` — exports the catalogue as JSON for
+  `codeschool-ing/portal-backend`'s `ingest`, translations included
 
 ## Before pushing
 
 ```sh
 node tools/validate-catalog/validate-catalog.js   # broken prerequisites, cycles, track order
+node tools/catalog-snapshot/catalog-snapshot.js > /dev/null   # dictionaries still in step
 python3 tools/bundle/bundle.py                    # and open showcase.html from file://
 ```
 
