@@ -1,11 +1,11 @@
 {
-  "course": "bancos-sql",
+  "course": "sql-databases",
   "generated_at": "2026-08-03T09:08:04.839Z",
   "options": 5,
   "blind": false,
   "exercises": [
     {
-      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "topic": "The relational model: tables, primary and foreign keys",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "A tabela funcionarios tem chave primária matricula e uma coluna gerente_matricula declarada como chave estrangeira para funcionarios.matricula. Qual afirmação sobre esse esquema é correta?",
@@ -53,7 +53,7 @@
       "socratic_hint": "Duas coisas para checar em cada afirmação: quais valores a coluna de ligação pode receber, e o que muda quando as duas pontas da ligação ficam na mesma tabela."
     },
     {
-      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "topic": "The relational model: tables, primary and foreign keys",
       "type": "multiple-choice",
       "difficulty": "easy",
       "statement": "Marque todas as afirmações verdadeiras sobre chaves primárias em tabelas relacionais.",
@@ -101,7 +101,7 @@
       "socratic_hint": "Revise quantas colunas uma chave pode envolver, quantas chaves desse tipo cabem numa mesma tabela e o que acontece quando um valor falta."
     },
     {
-      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "topic": "The relational model: tables, primary and foreign keys",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada situação ao efeito que o banco produz. Sobram itens na coluna da direita que não correspondem a nenhuma situação.",
@@ -147,7 +147,7 @@
       "socratic_hint": "Imagine duas linhas concretas para cada situação e pergunte o que o banco faria na hora de gravar ou de remover."
     },
     {
-      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "topic": "The relational model: tables, primary and foreign keys",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "As tabelas clientes (chave primária cliente_id) e pedidos (chave primária pedido_id, coluna cliente_id como chave estrangeira para clientes) estão carregadas, e todo pedido aponta para um cliente existente. O banco recusa qualquer operação que deixe uma chave estrangeira sem destino. Uma equipe precisa remover o cliente 7 e os três pedidos dele. Qual descrição das operações o banco aceita?",
@@ -195,7 +195,7 @@
       "socratic_hint": "Examine como fica a linha que guarda o identificador do outro lado no instante seguinte a cada remoção."
     },
     {
-      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "topic": "Normalisation up to third normal form and when to denormalise",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "A tabela matriculas tem chave primária formada por (aluno_id, curso_id) e as colunas nota e nome_do_curso. O conteúdo de nome_do_curso é sempre o mesmo para um dado curso_id, qualquer que seja o aluno. Qual afirmação descreve corretamente a situação?",
@@ -243,7 +243,7 @@
       "socratic_hint": "Para cada coluna fora do identificador, verifique se o valor muda quando você altera apenas uma das colunas que o compõem."
     },
     {
-      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "topic": "Normalisation up to third normal form and when to denormalise",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "A tabela funcionarios tem chave primária matricula e as colunas nome, setor_id e nome_do_setor, sendo nome_do_setor determinado por setor_id. Qual mudança coloca o esquema na terceira forma normal?",
@@ -291,7 +291,7 @@
       "socratic_hint": "Localize de qual coluna o valor repetido depende diretamente e pergunte se essa coluna identifica a linha da tabela em que ela está."
     },
     {
-      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "topic": "Normalisation up to third normal form and when to denormalise",
       "type": "matching",
       "difficulty": "hard",
       "statement": "Associe cada característica de esquema ao incômodo que ela provoca no dia a dia da base. Sobram itens na coluna da direita que não correspondem a nenhuma característica.",
@@ -333,7 +333,7 @@
       "socratic_hint": "Para cada característica, simule mentalmente uma inserção, uma correção e uma busca, e observe qual das três fica desconfortável."
     },
     {
-      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "topic": "Normalisation up to third normal form and when to denormalise",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações verdadeiras sobre desnormalizar um esquema de propósito.",
@@ -381,7 +381,7 @@
       "socratic_hint": "Para cada afirmação, identifique qual operação ficaria mais barata e o que passaria a exigir manutenção extra por parte de quem grava."
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "code",
       "difficulty": "easy",
       "statement": "A tabela produto tem as colunas id, nome, preco e estoque. Escreva uma única instrução SELECT que devolva o nome e o preço dos produtos com estoque maior que zero, do mais caro para o mais barato, trazendo no máximo 3 linhas. As colunas devem sair na ordem nome, preco e com esses nomes. Entre os produtos de estoque positivo não há preços repetidos. Não acrescente nenhum texto além do resultado da consulta.",
@@ -424,7 +424,7 @@
       "socratic_hint": "Três decisões cabem nesta consulta: quais linhas entram, em que sequência elas saem e quantas sobrevivem — e a última decisão trabalha sobre o resultado das outras duas."
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "Informe exatamente o que a instrução SELECT abaixo imprime, incluindo a linha de cabeçalho. Colunas separadas por ' | ' e valores ausentes escritos como NULL.",
@@ -446,7 +446,7 @@
       "socratic_hint": "Antes de contar as três linhas, decida em que ponto de uma ordenação crescente ficam as notas ausentes; o segundo critério de ordenação só entra em cena entre linhas de nota igual."
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações verdadeiras sobre consultas com SELECT, WHERE, ORDER BY e LIMIT. Há mais de uma.",
@@ -494,7 +494,7 @@
       "socratic_hint": "Para cada item, imagine uma tabelinha de quatro registros e teste a afirmação nela; inclua um registro com célula sem valor preenchido."
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "matching",
       "difficulty": "hard",
       "statement": "A tabela item contém exatamente estas quatro linhas (nome, preco, estoque): ('cabo', 12.5, 0), ('fone', 45.9, 3), ('mouse', 29.9, 7), ('pilha', 8.5, 0). Associe cada consulta à lista de nomes que ela devolve, na ordem em que as linhas saem. Sobram opções na coluna da direita que não correspondem a nenhuma das consultas.",
@@ -540,7 +540,7 @@
       "socratic_hint": "Duas consultas selecionam o mesmo conjunto de linhas e ainda assim têm respostas diferentes: repare em qual coluna cada ordenação usa e para que lado ela cresce."
     },
     {
-      "topic": "JOINs: inner, left, right e full",
+      "topic": "JOINs: inner, left, right and full",
       "type": "code",
       "difficulty": "medium",
       "statement": "As tabelas são cliente(id, nome) e pedido(id, cliente_id, valor), em que cliente_id referencia cliente(id) e pode ser NULL. Escreva uma única instrução SELECT que liste todos os clientes com o valor de cada pedido seu; um cliente sem pedido aparece uma vez, com valor NULL. As colunas devem se chamar cliente e valor, nessa ordem. Ordene por cliente em ordem crescente e, dentro do mesmo cliente, por valor em ordem crescente. Não acrescente nenhum texto além do resultado da consulta.",
@@ -583,7 +583,7 @@
       "socratic_hint": "Decida qual das duas tabelas precisa ter todas as suas linhas preservadas no resultado, e confira se o pedido órfão (sem cliente_id) tem lugar nessa escolha."
     },
     {
-      "topic": "JOINs: inner, left, right e full",
+      "topic": "JOINs: inner, left, right and full",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "Informe exatamente o que a instrução SELECT abaixo imprime, incluindo a linha de cabeçalho. Colunas separadas por ' | ' e valores ausentes escritos como NULL.",
@@ -605,7 +605,7 @@
       "socratic_hint": "Percorra cada linha das duas tabelas procurando par, e depois verifique qual das duas tem todas as suas linhas garantidas no resultado; a ordenação é alfabética sobre os nomes já emparelhados."
     },
     {
-      "topic": "JOINs: inner, left, right e full",
+      "topic": "JOINs: inner, left, right and full",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Considere consultas da forma SELECT ... FROM a LEFT JOIN b ON b.a_id = a.id, sem WHERE. Marque todas as afirmações verdadeiras. Há mais de uma.",
@@ -653,7 +653,7 @@
       "socratic_hint": "Desenhe dois cenários no papel: um em que cada registro da primeira tabela tem um único correspondente, e outro em que um deles tem dois; depois repita o exercício olhando para os registros da segunda tabela que ninguém referencia."
     },
     {
-      "topic": "JOINs: inner, left, right e full",
+      "topic": "JOINs: inner, left, right and full",
       "type": "matching",
       "difficulty": "hard",
       "statement": "A tabela aluno tem 7 linhas: 5 delas com turma_id apontando para turmas existentes (a turma A tem 3 desses alunos, a B tem 1 e a C tem 1) e 2 com turma_id NULL. A tabela turma tem 4 linhas — A, B, C e D — e D não tem nenhum aluno. Associe cada cláusula de junção, usada em uma consulta sem WHERE e com ON t.id = a.turma_id, ao número de linhas do resultado. Sobram opções na coluna da direita que não correspondem a nenhuma das cláusulas.",

@@ -2,7 +2,7 @@
   "floor": 21,
   "exercises": [
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Sobre a comparação entre instalação direta no hardware, máquina virtual e container, marque todas as afirmações que se sustentam (há mais de uma).",
@@ -66,7 +66,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações que se aplicam ao efeito de existir uma especificação aberta para o formato e a execução de containers.",
@@ -130,7 +130,7 @@
       "_course": "docker"
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "matching",
       "difficulty": "hard",
       "statement": "Cada situação vivida por uma equipe de operação casa com um efeito observado depois de os serviços passarem a rodar em containers. Faça a correspondência um a um; sobram itens na coluna da direita que não correspondem a nenhuma situação.",
@@ -198,7 +198,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "matching",
       "difficulty": "hard",
       "statement": "Cada situação abaixo casa com um resultado que a adesão às especificações abertas produz nela. Faça a correspondência um a um; sobram resultados na coluna da direita que não correspondem a nenhuma situação.",
@@ -262,7 +262,7 @@
       "_course": "docker"
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Sobre o que a adoção de containers efetivamente muda na entrega de uma aplicação, marque todas as afirmações que se sustentam.",
@@ -325,7 +325,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada arranjo de execução ao efeito que a equipe observa ao usá-lo. Sobram descrições na coluna da direita que não correspondem a nenhum dos arranjos.",
@@ -394,7 +394,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Quarenta cópias da mesma aplicação em containers ocupam bem menos memória em um servidor que quarenta máquinas virtuais com a mesma aplicação. Qual explicação sustenta essa diferença?",
@@ -457,7 +457,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "O que as especificações da OCI padronizam?",
@@ -520,7 +520,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Uma imagem e um runtime declaram conformidade com a OCI. Marque todas as consequências práticas que decorrem dessa conformidade.",
@@ -583,7 +583,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Uma equipe quer trocar o Docker por outra ferramenta conforme à OCI na esteira de integração, mantendo as imagens já publicadas. O que a conformidade garante nessa troca?",
@@ -658,7 +658,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "topic": "Namespaces, cgroups and union filesystems — the general idea",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Um container executa um servidor web em um host Linux. Ao listar os processos no host, o que se observa sobre esse servidor?",
@@ -721,7 +721,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "topic": "Namespaces, cgroups and union filesystems — the general idea",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações que se sustentam sobre namespaces, cgroups e sistemas de arquivos em união.",
@@ -784,7 +784,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "topic": "Installation: Docker Desktop on Windows, Mac and Linux",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as consequências de usar o Docker Desktop com camada virtualizada no Windows ou no macOS.",
@@ -847,7 +847,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Docker Engine no Linux e quando ele basta",
+      "topic": "Docker Engine on Linux and when it is all you need",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações que se sustentam sobre usar apenas o Docker Engine no Linux, sem o Docker Desktop.",
@@ -899,7 +899,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Instalação, interpretador e o primeiro script",
+      "topic": "Installation, the interpreter and your first script",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque **todas** as afirmações verdadeiras sobre executar um script com `python arquivo.py`.",
@@ -951,7 +951,7 @@
       "_course": "python"
     },
     {
-      "topic": "Funções: argumentos, retorno, escopo e lambdas",
+      "topic": "Functions: arguments, return values, scope and lambdas",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Dado `def marcar(item, marca=\"*\", repetir=1)` que devolve `marca * repetir + item`, marque **todas** as chamadas que produzem exatamente a string `\"--fim\"`.",
@@ -1004,7 +1004,7 @@
       "_course": "python"
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Sobre o que a adoção de containers resolve e o que não resolve, marque todas as afirmações que se aplicam.",
@@ -1067,7 +1067,7 @@
       "_course": "docker"
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada situação vivida pela equipe ao efeito observado depois de passar a executar o serviço em container. Sobram efeitos na coluna da direita que não correspondem a nenhuma situação.",
@@ -1124,7 +1124,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Comparando execução direta no equipamento, máquina virtual e container, marque todas as afirmações corretas.",
@@ -1187,7 +1187,7 @@
       "_course": "docker"
     },
     {
-      "topic": "Escrever com clareza: estrutura, precisão e economia de palavras",
+      "topic": "Writing clearly: structure, precision and economy of words",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações verdadeiras sobre a estrutura de um texto técnico escrito para leitores ocupados.",
@@ -1259,10 +1259,10 @@
           "suggestion": "Moderar a afirmação: 'Títulos que anunciam a conclusão da seção, e não apenas o assunto, permitem captar o essencial do texto lendo só os títulos.'"
         }
       ],
-      "_course": "arquiteto-comunicacao"
+      "_course": "architect-communication"
     },
     {
-      "topic": "Escrever com clareza: estrutura, precisão e economia de palavras",
+      "topic": "Writing clearly: structure, precision and economy of words",
       "type": "matching",
       "difficulty": "hard",
       "statement": "Cada trecho da esquerda falha por imprecisão. Ligue-o à consequência que essa falha específica tem para quem lê. Duas consequências da direita não correspondem a nenhum trecho.",
@@ -1332,10 +1332,10 @@
           "suggestion": "Trocar os distratores por consequências do mesmo gênero das corretas, mas que não decorram de nenhum trecho dado — ex.: 'não se sabe qual ambiente foi afetado' ou 'não se identifica qual versão do serviço foi medida'."
         }
       ],
-      "_course": "arquiteto-comunicacao"
+      "_course": "architect-communication"
     },
     {
-      "topic": "Escrever com clareza: estrutura, precisão e economia de palavras",
+      "topic": "Writing clearly: structure, precision and economy of words",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Um trecho de 180 palavras foi revisado e ficou com 110. O revisor afirma que nada de conteúdo foi perdido. Qual constatação sustenta essa afirmação?",
@@ -1389,10 +1389,10 @@
           "suggestion": "Reescrever ao menos dois distratores para que também apelem a conteúdo/recuperabilidade, mas com critério insuficiente — por exemplo: 'todos os números e nomes próprios da versão longa aparecem na versão curta' (verifica dados, mas não as relações entre eles) ou 'o resumo executivo continua respondendo à pergunta central do documento' (verifica só a pergunta principal, não as demais). Assim a distinção passa a exigir julgamento sobre o que 'nada perdido' significa, e não apenas identificar a alternativa fora da categoria."
         }
       ],
-      "_course": "arquiteto-comunicacao"
+      "_course": "architect-communication"
     },
     {
-      "topic": "Documento de uma página, proposta técnica e RFC interna",
+      "topic": "The one-pager, the technical proposal and the internal RFC",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações verdadeiras sobre o uso do documento de uma página, da proposta técnica e da RFC interna.",
@@ -1452,10 +1452,10 @@
           "suggestion": "Corrigir para 'decisão cara exige leitura rápida'."
         }
       ],
-      "_course": "arquiteto-comunicacao"
+      "_course": "architect-communication"
     },
     {
-      "topic": "Documento de uma página, proposta técnica e RFC interna",
+      "topic": "The one-pager, the technical proposal and the internal RFC",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Um documento de uma página pede aprovação para mover os relatórios para outro banco de dados. Qual das aberturas abaixo cumpre a função do primeiro parágrafo desse formato?",
@@ -1509,10 +1509,10 @@
           "suggestion": "Reescreva o enunciado sem revelar a função do primeiro parágrafo (ex.: \"Qual abertura serve melhor a um documento de uma página destinado a quem vai decidir?\") e inclua ao menos dois distratores que também contenham pedido/decisão, mas errando o formato — por exemplo, um que peça aprovação sem custo nem prazo, e outro que apresente pedido só depois de dois parágrafos de contexto (ou que peça aprovação de algo diferente do que o documento discute). Assim a escolha passa a depender de saber o que o primeiro parágrafo deve entregar, e não de identificar a única opção que pede algo."
         }
       ],
-      "_course": "arquiteto-comunicacao"
+      "_course": "architect-communication"
     },
     {
-      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "topic": "The relational model: tables, primary and foreign keys",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "As tabelas clientes (chave primária cliente_id) e pedidos (chave primária pedido_id, coluna cliente_id como chave estrangeira para clientes) estão carregadas, e todo pedido aponta para um cliente existente. O banco recusa qualquer operação que deixe uma chave estrangeira sem destino. Uma equipe precisa remover o cliente 7 e os três pedidos dele. Qual descrição das operações o banco aceita?",
@@ -1562,10 +1562,10 @@
       "_reason": [
         "pista de forma: toda correta é bem mais curta que toda errada (63 vs 91)"
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "topic": "The relational model: tables, primary and foreign keys",
       "type": "multiple-choice",
       "difficulty": "easy",
       "statement": "Marque todas as afirmações verdadeiras sobre chaves primárias em tabelas relacionais.",
@@ -1625,10 +1625,10 @@
           "suggestion": "Separar as duas ideias, deixando apenas a parte falsa: 'A chave primária precisa obrigatoriamente ser um número gerado pelo banco, pois atributos do mundo real não podem identificar linhas.'"
         }
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "Modelo relacional: tabelas, chaves primárias e estrangeiras",
+      "topic": "The relational model: tables, primary and foreign keys",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada situação ao efeito que o banco produz. Sobram itens na coluna da direita que não correspondem a nenhuma situação.",
@@ -1704,10 +1704,10 @@
           "suggestion": "Reescrever os efeitos com vocabulário mais neutro (evitando repetir os termos-chave das situações) e acrescentar um distrator próximo do conteúdo, por exemplo 'a gravação é aceita e o valor inexistente na tabela de destino é gravado como nulo'."
         }
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "topic": "Normalisation up to third normal form and when to denormalise",
       "type": "matching",
       "difficulty": "hard",
       "statement": "Associe cada característica de esquema ao incômodo que ela provoca no dia a dia da base. Sobram itens na coluna da direita que não correspondem a nenhuma característica.",
@@ -1773,10 +1773,10 @@
           "suggestion": "Incluir entre os distratores da direita outro custo de consulta plausível (ex.: 'a consulta fica mais lenta porque nenhuma coluna filtrada tem índice') para que o contraste de categoria não entregue o par."
         }
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "topic": "Normalisation up to third normal form and when to denormalise",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações verdadeiras sobre desnormalizar um esquema de propósito.",
@@ -1842,10 +1842,10 @@
           "suggestion": "Ampliar a dica para cobrir os eixos realmente presentes, por exemplo: 'Verifique, em cada afirmação, se ela descreve a direção correta (normalizar x desnormalizar), qual leitura fica mais barata, que gravação passa a exigir manutenção extra e o que continua obrigatório no esquema.'"
         }
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "code",
       "difficulty": "medium",
       "statement": "A tabela `produto` já está criada no esqueleto. Escreva uma única instrução SELECT que devolva as colunas `nome` e `preco_centavos`, nessa ordem, apenas dos produtos com `estoque` maior que zero e `preco_centavos` de no máximo 10000. Ordene do maior preço para o menor e, em caso de empate no preço, pelo `nome` em ordem alfabética crescente. Devolva no máximo 3 linhas. Não escreva INSERTs: a correção carrega dados diferentes em cada caso antes de executar a sua consulta e imprime o resultado no formato padrão do sqlite3 em modo lista — uma linha por registro, colunas separadas por `|`, sem cabeçalho. Se nenhuma linha satisfizer as condições, a saída fica vazia.",
@@ -1918,10 +1918,10 @@
           "motivo": "OperationalError: no such table: produto"
         }
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "expected-output",
       "difficulty": "hard",
       "statement": "O trecho abaixo é executado no sqlite3 em modo lista (uma linha por registro, colunas separadas por `|`, sem cabeçalho). Informe exatamente o que é impresso, na ordem em que aparece.",
@@ -1944,10 +1944,10 @@
       "_reason": [
         "gabarito \"Ana\\nDiego\\nBruno\\nCarla\\n\", o interpretador produz \"cliente\\nBruno\\nCarla\\n\""
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "A consulta `SELECT nome FROM produto LIMIT 5;` é executada sobre uma tabela com milhares de linhas. O que se pode garantir sobre o resultado?",
@@ -1997,10 +1997,10 @@
       "_reason": [
         "pista de forma: 2 palavras da dica (tabela, especifica) aparecem numa alternativa só, a correta"
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Sobre a consulta `SELECT nome FROM aluno WHERE nota >= 7 ORDER BY nota DESC LIMIT 3;`, marque todas as afirmações verdadeiras.",
@@ -2051,10 +2051,10 @@
         "pista de forma: toda correta é bem mais curta que toda errada (92 vs 116)",
         "pista de forma: o termo técnico \"desc\" está no enunciado e em exatamente uma alternativa, a correta"
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "JOINs: inner, left, right e full",
+      "topic": "JOINs: inner, left, right and full",
       "type": "code",
       "difficulty": "hard",
       "statement": "As tabelas `autor` e `livro` já estão criadas no esqueleto (não há restrição de chave estrangeira: pode haver `livro.autor_id` sem autor correspondente). Escreva uma única instrução SELECT que devolva `autor.nome` e `livro.titulo`, nessa ordem, para todos os autores — inclusive os que não têm nenhum livro, que devem aparecer com a coluna do título vazia (NULL é impresso como texto vazio). Livros cujo `autor_id` não corresponda a nenhum autor não devem aparecer. Ordene por nome do autor e, dentro de cada autor, por título, ambos em ordem alfabética crescente. Não escreva INSERTs: a correção carrega dados diferentes em cada caso antes de executar a sua consulta e imprime o resultado no formato padrão do sqlite3 em modo lista — uma linha por registro, colunas separadas por `|`, sem cabeçalho.",
@@ -2127,10 +2127,10 @@
           "motivo": "OperationalError: no such table: autor"
         }
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "JOINs: inner, left, right e full",
+      "topic": "JOINs: inner, left, right and full",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações verdadeiras sobre junções entre duas tabelas.",
@@ -2190,10 +2190,10 @@
           "suggestion": "Ajustar o exemplo: sugerir uma tabela com três linhas que casam com a mesma linha da outra, mais uma linha sem par em cada lado (por exemplo, 3 linhas casando + 1 órfã de cada lado), para que todas as afirmações sejam testáveis no mesmo exemplo."
         }
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações verdadeiras sobre consultas com SELECT, WHERE, ORDER BY e LIMIT. Há mais de uma.",
@@ -2243,10 +2243,10 @@
       "_reason": [
         "pista de forma: o termo técnico \"limit\" está no enunciado e em exatamente uma alternativa, a correta"
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "JOINs: inner, left, right e full",
+      "topic": "JOINs: inner, left, right and full",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Considere consultas da forma SELECT ... FROM a LEFT JOIN b ON b.a_id = a.id, sem WHERE. Marque todas as afirmações verdadeiras. Há mais de uma.",
@@ -2296,10 +2296,10 @@
       "_reason": [
         "pista de forma: o termo técnico \"join\" está no enunciado e em exatamente uma alternativa, a correta"
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "Normalização até a terceira forma normal e quando desnormalizar",
+      "topic": "Normalisation up to third normal form and when to denormalise",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "A tabela funcionarios tem chave primária matricula e as colunas nome, setor_id e nome_do_setor, sendo nome_do_setor determinado por setor_id. Qual mudança coloca o esquema na terceira forma normal?",
@@ -2359,10 +2359,10 @@
           "suggestion": "Reescrever: 'Manter em funcionarios as colunas matricula, nome e setor_id, e mover nome_do_setor para uma tabela setores cuja chave primária é setor_id.'"
         }
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     },
     {
-      "topic": "SELECT, WHERE, ORDER BY e LIMIT",
+      "topic": "SELECT, WHERE, ORDER BY and LIMIT",
       "type": "expected-output",
       "difficulty": "medium",
       "statement": "Informe exatamente o que a instrução SELECT abaixo imprime, incluindo a linha de cabeçalho. Colunas separadas por ' | ' e valores ausentes escritos como NULL.",
@@ -2402,7 +2402,7 @@
           "suggestion": "Mover a discussão de posição de NULLs para o tópico de comparação entre bancos, e neste exercício avaliar ORDER BY com dois critérios e LIMIT sobre colunas sem valores ausentes (ou com NULLs filtrados por WHERE)."
         }
       ],
-      "_course": "bancos-sql"
+      "_course": "sql-databases"
     }
   ]
 }

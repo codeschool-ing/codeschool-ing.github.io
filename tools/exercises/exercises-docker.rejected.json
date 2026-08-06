@@ -5,7 +5,7 @@
   "blind": false,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Sobre o que a adoção de containers resolve e o que não resolve, marque todas as afirmações que se aplicam.",
@@ -67,7 +67,7 @@
       ]
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada situação vivida pela equipe ao efeito observado depois de passar a executar o serviço em container. Sobram efeitos na coluna da direita que não correspondem a nenhuma situação.",
@@ -123,7 +123,7 @@
       ]
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Comparando execução direta no equipamento, máquina virtual e container, marque todas as afirmações corretas.",

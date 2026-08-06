@@ -4,7 +4,7 @@
   "options": 5,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Sobre o que a adoção de containers efetivamente muda na entrega de uma aplicação, marque todas as afirmações que se sustentam.",
@@ -66,7 +66,7 @@
       ]
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada arranjo de execução ao efeito que a equipe observa ao usá-lo. Sobram descrições na coluna da direita que não correspondem a nenhum dos arranjos.",
@@ -134,7 +134,7 @@
       ]
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Quarenta cópias da mesma aplicação em containers ocupam bem menos memória em um servidor que quarenta máquinas virtuais com a mesma aplicação. Qual explicação sustenta essa diferença?",
@@ -196,7 +196,7 @@
       ]
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "O que as especificações da OCI padronizam?",
@@ -258,7 +258,7 @@
       ]
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Uma imagem e um runtime declaram conformidade com a OCI. Marque todas as consequências práticas que decorrem dessa conformidade.",
@@ -320,7 +320,7 @@
       ]
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Uma equipe quer trocar o Docker por outra ferramenta conforme à OCI na esteira de integração, mantendo as imagens já publicadas. O que a conformidade garante nessa troca?",
@@ -394,7 +394,7 @@
       ]
     },
     {
-      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "topic": "Namespaces, cgroups and union filesystems — the general idea",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Um container executa um servidor web em um host Linux. Ao listar os processos no host, o que se observa sobre esse servidor?",
@@ -456,7 +456,7 @@
       ]
     },
     {
-      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "topic": "Namespaces, cgroups and union filesystems — the general idea",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações que se sustentam sobre namespaces, cgroups e sistemas de arquivos em união.",
@@ -518,7 +518,7 @@
       ]
     },
     {
-      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "topic": "Installation: Docker Desktop on Windows, Mac and Linux",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as consequências de usar o Docker Desktop com camada virtualizada no Windows ou no macOS.",

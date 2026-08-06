@@ -1,48 +1,66 @@
 /* ==========================================================================
-   codeschool.ing — internationalisation (pt-BR · en · es · fr · it)
+   codeschool.ing — internationalisation (en · pt-BR · es · fr · it)
 
-   THE KEY IS THE PORTUGUESE TEXT ITSELF. That has three good consequences:
-   Portuguese needs no dictionary (it is the source), the HTML needs no
-   `data-i18n` attributes, and any string not yet translated falls back to
-   Portuguese by itself, without breaking the screen.
+   THE KEY IS THE ENGLISH STRING. English is the source language, so it needs no
+   dictionary and has none: any string with no entry falls back to the key, and
+   the key is already what to show. Portuguese used to be the base and needed no
+   dictionary for the same reason; it is the fifth translation now, in
+   assets/i18n-pt.js and assets/i18n-courses-pt.js.
 
-   The dictionaries live in assets/i18n.js, under window.I18N. Their keys — and
-   the shape of the catalogue objects they carry (`cursos`, `trilhas`, `nome`,
-   `ementa`…) — are the data contract, so they stay in Portuguese.
+   The dictionaries live in window.I18N: the interface in assets/i18n.js and
+   assets/i18n-pt.js, the catalogue one file per language.
 
    Detection: it uses `navigator.languages`, which is the LANGUAGE configured in
    the browser — not geolocation. That is the right signal: a Brazilian browsing
    from abroad still wants Portuguese, and it asks the user for no permission.
+
+   This file is kept syncable with codeschool-ing/portal-frontend's copy. The
+   documented divergence is `DYNAMIC`: there it comes from `window.I18N_DYNAMIC`
+   because nearly the whole portal page is built by JavaScript; here the list is
+   eleven containers in otherwise static HTML, so it stays in the code — and the
+   page may still override it.
    ========================================================================== */
 
 const LANGUAGES = [
-  { cod: 'pt', html: 'pt-BR', rotulo: 'Português', curto: 'PT' },
-  { cod: 'en', html: 'en',    rotulo: 'English',   curto: 'EN' },
-  { cod: 'es', html: 'es',    rotulo: 'Español',   curto: 'ES' },
-  { cod: 'fr', html: 'fr',    rotulo: 'Français',  curto: 'FR' },
-  { cod: 'it', html: 'it',    rotulo: 'Italiano',  curto: 'IT' },
+  { code: 'en', html: 'en',    label: 'English',    short: 'EN' },
+  { code: 'pt', html: 'pt-BR', label: 'Português',  short: 'PT' },
+  { code: 'es', html: 'es',    label: 'Español',    short: 'ES' },
+  { code: 'fr', html: 'fr',    label: 'Français',   short: 'FR' },
+  { code: 'it', html: 'it',    label: 'Italiano',   short: 'IT' },
 ];
-const LANG_KEY = 'codeschool-idioma';
+const LANG_KEY = 'codeschool-language';
+const LANG_KEY_LEGACY = 'codeschool-idioma';   // what the key was called before the rename
 
 function browserLanguage() {
   const list = (navigator.languages && navigator.languages.length)
-    ? navigator.languages : [navigator.language || 'pt-BR'];
+    ? navigator.languages : [navigator.language || 'en'];
   for (const l of list) {
     const base = String(l).toLowerCase().split('-')[0];
-    if (LANGUAGES.some((i) => i.cod === base)) return base;
+    if (LANGUAGES.some((i) => i.code === base)) return base;
   }
-  return 'pt';
+  return 'en';
 }
 
+/* A visitor who had already picked a language stored it under the old key. Read
+   it, move it, and forget the old name — otherwise the rename silently resets
+   everyone to browser detection, which for most of them means a different
+   language than the one they chose. */
 let LANG = (() => {
   try {
-    const saved = localStorage.getItem(LANG_KEY);
-    if (saved && LANGUAGES.some((i) => i.cod === saved)) return saved;
+    let saved = localStorage.getItem(LANG_KEY);
+    if (!saved) {
+      saved = localStorage.getItem(LANG_KEY_LEGACY);
+      if (saved) {
+        localStorage.setItem(LANG_KEY, saved);
+        localStorage.removeItem(LANG_KEY_LEGACY);
+      }
+    }
+    if (saved && LANGUAGES.some((i) => i.code === saved)) return saved;
   } catch (e) { /* private mode: fall back to detection */ }
   return browserLanguage();
 })();
 
-/* translation of one interface string; with no entry, it returns the Portuguese */
+/* translation of one interface string; with no entry, it returns the key, which is already English */
 function txt(s) {
   const d = window.I18N && window.I18N[LANG] && window.I18N[LANG].ui;
   return (d && d[s]) || s;
@@ -52,10 +70,10 @@ function txt(s) {
    A single walk of the DOM stores the original text of every leaf element.
    Switching language is rewriting those same nodes. Containers built by
    JavaScript are left out: they rebuild themselves from the data. */
-const DYNAMIC = [
-  '#trilha-painel', '#cursos-grade', '#chips-cat', '#modal-corpo',
-  '#abas-carreira', '#abas-tecnologia', '#depos', '#m-interesse',
-  '#drop-trilhas-lista', '#drop-filtros-lista', '.drop-atual',
+const DYNAMIC = window.I18N_DYNAMIC || [
+  '#track-panel', '#courses-grid', '#chips-category', '#modal-body',
+  '#tabs-career', '#tabs-technology', '#quotes', '#m-interest',
+  '#drop-tracks-list', '#drop-filters-list', '.drop-current',
 ];
 const originalTexts = [];   // { el, kind, original, raw }
 
@@ -105,94 +123,98 @@ function missingTranslations() {
 }
 
 /* ---------- catalogue content ----------
-   The original Portuguese of each field is stored and, on a language switch, the
-   CURSOS/TRILHAS/DEPOIMENTOS objects are rewritten in place. That way the rest
-   of the code goes on reading `c.nome` without knowing a translation exists —
-   and each field falls back to Portuguese by itself when the translated version
-   is missing. */
-const PT_BASE = { cursos: {}, trilhas: {}, depoimentos: [] };
+   The authored strings of each field are stored once and, on a language switch,
+   the COURSES/TRACKS/TESTIMONIALS objects are rewritten in place. The rest of
+   the code goes on reading `c.name` without knowing a translation exists, and
+   each field falls back to the base by itself when a translated version is
+   missing.
 
-function savePtBase() {
-  CURSOS.forEach((c) => {
-    PT_BASE.cursos[c.id] = {
-      nome: c.nome, resumo: c.resumo, ementa: c.ementa,
-      topicos: c.topicos, requisitos: c.requisitos,
+   THE BASE IS ENGLISH NOW. It used to be Portuguese, because Portuguese was the
+   source language and therefore needed no dictionary. The mechanism did not
+   change — only the language the fallback lands on. */
+const BASE = { courses: {}, tracks: {}, testimonials: [] };
+
+function saveBase() {
+  COURSES.forEach((c) => {
+    BASE.courses[c.id] = {
+      name: c.name, summary: c.summary, syllabus: c.syllabus,
+      topics: c.topics, prerequisites: c.prerequisites,
     };
   });
-  TRILHAS.forEach((tr) => {
+  TRACKS.forEach((tr) => {
     const steps = {};
-    tr.cursos.forEach((item, ix) => {
+    tr.courses.forEach((item, ix) => {
       if (isChoice(item)) {
-        steps[ix] = { escolha: item.escolha, nota: item.nota, opcoes: item.opcoes.map((o) => o.nome) };
+        steps[ix] = { choice: item.choice, note: item.note, options: item.options.map((o) => o.name) };
       }
     });
-    PT_BASE.trilhas[tr.id] = { nome: tr.nome, objetivo: tr.objetivo, saida: tr.saida, etapas: steps };
+    BASE.tracks[tr.id] = { name: tr.name, goal: tr.goal, outcome: tr.outcome, steps };
   });
-  DEPOIMENTOS.forEach((d) => PT_BASE.depoimentos.push({ texto: d.texto, autor: d.autor, contexto: d.contexto }));
+  TESTIMONIALS.forEach((d) => BASE.testimonials.push({ text: d.text, author: d.author, context: d.context }));
 }
 
 function applyContent() {
   const dic = (window.I18N && window.I18N[LANG]) || {};
-  const dc = dic.cursos || {}, dt = dic.trilhas || {}, dd = dic.depoimentos || [];
+  const dc = dic.courses || {}, dt = dic.tracks || {}, dd = dic.testimonials || [];
 
-  CURSOS.forEach((c) => {
-    const pt = PT_BASE.cursos[c.id], tr = dc[c.id] || {};
-    c.nome = tr.nome || pt.nome;
-    c.resumo = tr.resumo || pt.resumo;
-    c.ementa = tr.ementa || pt.ementa;
-    c.topicos = tr.topicos || pt.topicos;
-    c.requisitos = tr.requisitos !== undefined ? tr.requisitos : pt.requisitos;
+  COURSES.forEach((c) => {
+    const base = BASE.courses[c.id], tr = dc[c.id] || {};
+    c.name = tr.name || base.name;
+    c.summary = tr.summary || base.summary;
+    c.syllabus = tr.syllabus || base.syllabus;
+    c.topics = tr.topics || base.topics;
+    c.prerequisites = tr.prerequisites !== undefined ? tr.prerequisites : base.prerequisites;
   });
 
-  TRILHAS.forEach((track) => {
-    const pt = PT_BASE.trilhas[track.id], tr = dt[track.id] || {};
-    track.nome = tr.nome || pt.nome;
-    track.objetivo = tr.objetivo || pt.objetivo;
-    track.saida = tr.saida || pt.saida;
-    track.cursos.forEach((item, ix) => {
+  TRACKS.forEach((track) => {
+    const base = BASE.tracks[track.id], tr = dt[track.id] || {};
+    track.name = tr.name || base.name;
+    track.goal = tr.goal || base.goal;
+    track.outcome = tr.outcome || base.outcome;
+    track.courses.forEach((item, ix) => {
       if (!isChoice(item)) return;
-      const ptStep = pt.etapas[ix], trStep = (tr.etapas || {})[ix] || {};
-      item.escolha = trStep.escolha || ptStep.escolha;
-      item.nota = trStep.nota || ptStep.nota;
-      item.opcoes.forEach((o, io) => { o.nome = (trStep.opcoes && trStep.opcoes[io]) || ptStep.opcoes[io]; });
+      const baseStep = base.steps[ix], trStep = (tr.steps || {})[ix] || {};
+      item.choice = trStep.choice || baseStep.choice;
+      item.note = trStep.note || baseStep.note;
+      item.options.forEach((o, io) => { o.name = (trStep.options && trStep.options[io]) || baseStep.options[io]; });
     });
   });
 
-  DEPOIMENTOS.forEach((d, i) => {
-    const pt = PT_BASE.depoimentos[i], tr = dd[i] || {};
-    d.texto = tr.texto || pt.texto;
-    d.autor = tr.autor || pt.autor;
-    d.contexto = tr.contexto || pt.contexto;
+  TESTIMONIALS.forEach((d, i) => {
+    const base = BASE.testimonials[i], tr = dd[i] || {};
+    d.text = tr.text || base.text;
+    d.author = tr.author || base.author;
+    d.context = tr.context || base.context;
   });
 }
 
 /* ---------- the picker ---------- */
 function buildLanguagePicker() {
-  const box = document.querySelector('#idioma-menu');
+  const box = document.querySelector('#lang-menu');
   if (!box) return;
   box.textContent = '';
   LANGUAGES.forEach((i) => {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'idioma-op' + (i.cod === LANG ? ' on' : '');
+    b.className = 'lang-op' + (i.code === LANG ? ' on' : '');
     b.lang = i.html;
-    b.textContent = i.rotulo;
-    b.addEventListener('click', () => { switchLanguage(i.cod); closeLanguageMenu(); });
+    b.textContent = i.label;
+    b.addEventListener('click', () => { switchLanguage(i.code); closeLanguageMenu(); });
     box.appendChild(b);
   });
-  const active = LANGUAGES.find((i) => i.cod === LANG);
-  document.querySelector('#idioma-curto').textContent = active.curto;
+  const active = LANGUAGES.find((i) => i.code === LANG);
+  document.querySelector('#lang-short').textContent = active.short;
   document.documentElement.lang = active.html;
 }
 function closeLanguageMenu() {
-  const c = document.querySelector('#idioma');
-  if (c) { c.classList.remove('aberto'); c.querySelector('.idioma-btn').setAttribute('aria-expanded', 'false'); }
+  const c = document.querySelector('#lang');
+  if (c) { c.classList.remove('is-open'); c.querySelector('.lang-btn').setAttribute('aria-expanded', 'false'); }
 }
 
-function switchLanguage(cod) {
-  if (cod === LANG) return;
-  LANG = cod;
-  try { localStorage.setItem(LANG_KEY, cod); } catch (e) { /* private mode */ }
+function switchLanguage(code) {
+  if (code === LANG) return;
+  LANG = code;
+  try { localStorage.setItem(LANG_KEY, code); } catch (e) { /* private mode */ }
   applyLanguage();
 }
 

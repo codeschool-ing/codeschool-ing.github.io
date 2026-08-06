@@ -4,7 +4,7 @@
   "options": 5,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Uma aplicação roda sem erros no notebook de quem a escreveu e falha no servidor de homologação com mensagem de biblioteca ausente. Qual afirmação descreve o problema que o empacotamento em container resolve nessa situação?",
@@ -52,7 +52,7 @@
       "socratic_hint": "Compare o que precisa estar previamente instalado na máquina de destino antes e depois de a aplicação ser distribuída dessa forma."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Sobre o que um container entrega e sobre o que ele depende da máquina onde executa, marque todas as afirmações que se aplicam.",
@@ -100,7 +100,7 @@
       "socratic_hint": "Em cada item, decida se a frase fala de algo que viaja dentro do pacote ou de algo que a máquina de destino fornece na hora da execução."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Uma equipe empacota em container uma API que exige uma versão específica de runtime e que se conecta a um banco de dados hospedado em outro servidor, cujo endereço e credenciais hoje ficam em variáveis de ambiente de cada máquina. Depois do empacotamento, qual afirmação descreve corretamente o resultado?",
@@ -148,7 +148,7 @@
       "socratic_hint": "Separe as dependências que a equipe consegue congelar no momento de montar o pacote daquelas que só se conhecem quando ele sobe em determinado lugar."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada forma de executar aplicações ao efeito que a equipe observa na prática. Sobram itens na coluna da direita que não correspondem a nenhuma das formas listadas.",
@@ -190,7 +190,7 @@
       "socratic_hint": "Para cada forma, pergunte de onde parte a inicialização da máquina e quantas cópias de sistema operacional ficam ativas ao mesmo tempo."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Um container fica pronto para atender em menos de um segundo, enquanto uma máquina virtual com a mesma aplicação leva dezenas de segundos. Qual é a razão dessa diferença?",
@@ -238,7 +238,7 @@
       "socratic_hint": "Liste tudo que precisa acontecer entre acionar a partida e a aplicação aceitar a primeira requisição em cada um dos dois arranjos, e compare as duas listas."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as afirmações verdadeiras sobre a comparação entre máquina virtual e container.",
@@ -286,7 +286,7 @@
       "socratic_hint": "Em cada afirmação, identifique quantos kernels estão em jogo e a quem pertence cada um deles."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Qual afirmação descreve corretamente o que o padrão OCI estabelece?",
@@ -334,7 +334,7 @@
       "socratic_hint": "Repare em que ponto duas implementações rivais precisam concordar para que o mesmo material produzido por uma sirva à outra."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "As especificações mantidas pela OCI delimitam o que precisa ser igual entre implementações diferentes. Marque todos os itens que estão dentro desse escopo.",
@@ -382,7 +382,7 @@
       "socratic_hint": "Pergunte, item por item, se dois projetos concorrentes precisariam daquilo idêntico para trocar material entre si, ou se cada um pode resolver do seu jeito sem quebrar nada."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Uma equipe montou suas imagens com Docker e vai passar a executá-las em um servidor que usa outro runtime compatível com OCI, operado por outra ferramenta de linha de comando. Qual afirmação descreve o que acontece nessa troca?",

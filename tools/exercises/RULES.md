@@ -323,7 +323,7 @@ not as proof of precision.
 The first comparison within the **same course**, between conceptual topics and executable
 topics:
 
-| `bancos-sql` | validated | approved on the first pass |
+| `sql-databases` | validated | approved on the first pass |
 | --- | --- | --- |
 | topics 1–2 (relational model, normalisation) | 7 | **2 (29%)** |
 | topics 4–5 (SELECT/WHERE/ORDER BY, JOINs) | 6 | **5 (83%)** |
@@ -343,10 +343,10 @@ arithmetic was withdrawn precisely because I read a one-exercise difference as a
 ## 5b. Generality: measured, not assumed
 
 Thirteen rounds happened in a single course, and the legitimate question was whether the
-learning applied only to it. A US$ 1.33 round in **`arquiteto-comunicacao`** — 50h, advanced,
+learning applied only to it. A US$ 1.33 round in **`architect-communication`** — 50h, advanced,
 without a line of code, the most hostile case in the catalogue — answered it:
 
-| | docker (2 topics) | arquiteto-comunicacao (2 topics) |
+| | docker (2 topics) | architect-communication (2 topics) |
 | --- | --- | --- |
 | first pass | 4/7 (57%) | 3/8 (37%) |
 | cost per approval | US$ 0.328 | US$ 0.444 |
@@ -359,7 +359,7 @@ real defects, not artefacts.
 
 **A correction, made one round later.** The original paragraph attributed the drop to the
 course's subject being a matter of judgement and said to budget +35% for `gestao` and
-`arquitetura`. A third course — `bancos-sql`, technical — gave **3/8, identical**. Three
+`architecture`. A third course — `sql-databases`, technical — gave **3/8, identical**. Three
 courses: 4/7, 3/8, 3/8, or **10/23 (43%) together**. The difference between 4/7 and 3/8 is
 **one exercise**, and I treated one exercise as a signal. There is no detectable
 course-type effect in this sample, and the budgeting rule was wrong. What the sample supports
@@ -372,7 +372,7 @@ strongest, the only deterministic one — **had never run on generated content**
 in the 48 Python exercises, written by hand.
 
 In other words: everything this file claims about rate and cost holds for the **hardest third**
-of the problem, the one where approval depends on judgement. `bancos-sql` from topic 4
+of the problem, the one where approval depends on judgement. `sql-databases` from topic 4
 (`SELECT, WHERE, ORDER BY`) is execution territory, and nobody knows what the rate is there.
 Measuring that is the next round worth paying for.
 

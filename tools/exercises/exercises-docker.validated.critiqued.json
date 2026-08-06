@@ -4,7 +4,7 @@
   "options": 5,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Uma aplicação web sobe sem erro no notebook da desenvolvedora e falha no servidor de homologação com mensagem de biblioteca ausente. Qual afirmação descreve corretamente o que muda ao entregar essa aplicação como container?",
@@ -60,7 +60,7 @@
       ]
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Um time mantém um roteiro manual de preparação de servidor: instalar o runtime, instalar bibliotecas de sistema, ajustar variáveis de ambiente. Ao passar a entregar a aplicação em container, o que acontece com essas etapas?",
@@ -122,7 +122,7 @@
       ]
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "hard",
       "statement": "Marque todas as situações em que a máquina virtual continua sendo a escolha adequada e o container não resolve o problema.",
@@ -170,7 +170,7 @@
       "socratic_hint": "Pergunte, item por item, qual peça precisaria ser diferente daquela que o host já oferece a todos os processos."
     },
     {
-      "topic": "Namespaces, cgroups e sistemas de arquivos em união — a ideia geral",
+      "topic": "Namespaces, cgroups and union filesystems — the general idea",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Associe cada mecanismo do kernel ao efeito observável dentro de um container. Sobram descrições na coluna da direita que não correspondem a nenhum dos mecanismos listados.",
@@ -226,7 +226,7 @@
       ]
     },
     {
-      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "topic": "Installation: Docker Desktop on Windows, Mac and Linux",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Por que o Docker Desktop no Windows e no macOS mantém uma máquina virtual em execução?",
@@ -294,7 +294,7 @@
       ]
     },
     {
-      "topic": "Instalação: Docker Desktop no Windows, Mac e Linux",
+      "topic": "Installation: Docker Desktop on Windows, Mac and Linux",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Numa estação Windows, qual requisito precisa estar atendido para o Docker Desktop conseguir executar containers Linux?",
@@ -356,7 +356,7 @@
       ]
     },
     {
-      "topic": "Docker Engine no Linux e quando ele basta",
+      "topic": "Docker Engine on Linux and when it is all you need",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "Em um servidor Linux, o que se instala ao instalar o Docker Engine?",
@@ -418,7 +418,7 @@
       ]
     },
     {
-      "topic": "Docker Engine no Linux e quando ele basta",
+      "topic": "Docker Engine on Linux and when it is all you need",
       "type": "quiz",
       "difficulty": "hard",
       "statement": "Recém-instalado o Docker Engine num Linux, os comandos do cliente falham com erro de permissão ao tentar falar com o serviço. Qual explicação corresponde ao que acontece?",

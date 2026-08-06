@@ -5,7 +5,7 @@
   "origin": "escrito à mão na conversa, sem custo de API; verificado por execução e pelas conferências mecânicas, sem o passe de crítica",
   "exercises": [
     {
-      "topic": "Sintaxe ES6+: let/const, arrow functions e template strings",
+      "topic": "ES6+ syntax: let/const, arrow functions and template strings",
       "type": "expected-output",
       "difficulty": "medium",
       "language": "javascript",
@@ -15,7 +15,7 @@
       "answer": "escuro\nTypeError\n"
     },
     {
-      "topic": "Sintaxe ES6+: let/const, arrow functions e template strings",
+      "topic": "ES6+ syntax: let/const, arrow functions and template strings",
       "type": "expected-output",
       "difficulty": "hard",
       "language": "javascript",
@@ -25,7 +25,7 @@
       "answer": "0,1,2\n3,3,3\nnumber\n"
     },
     {
-      "topic": "Tipos, coerção, igualdade estrita e valores falsos",
+      "topic": "Types, coercion, strict equality and falsy values",
       "type": "expected-output",
       "difficulty": "hard",
       "language": "javascript",
@@ -35,7 +35,7 @@
       "answer": "true\ntrue\nfalse\ntrue\nfalse\nfalse\n"
     },
     {
-      "topic": "Tipos, coerção, igualdade estrita e valores falsos",
+      "topic": "Types, coercion, strict equality and falsy values",
       "type": "code",
       "difficulty": "medium",
       "language": "javascript",
@@ -71,7 +71,7 @@
       ]
     },
     {
-      "topic": "Objetos, arrays, espalhamento e desestruturação",
+      "topic": "Objects, arrays, spread and destructuring",
       "type": "expected-output",
       "difficulty": "medium",
       "language": "javascript",
@@ -81,7 +81,7 @@
       "answer": "ana\na,b,c\n"
     },
     {
-      "topic": "Objetos, arrays, espalhamento e desestruturação",
+      "topic": "Objects, arrays, spread and destructuring",
       "type": "expected-output",
       "difficulty": "hard",
       "language": "javascript",
@@ -91,7 +91,7 @@
       "answer": "local:8080\nlocal:8080\nlocal:null\n"
     },
     {
-      "topic": "Funções, escopo, closures e o valor de this",
+      "topic": "Functions, scope, closures and the value of this",
       "type": "expected-output",
       "difficulty": "hard",
       "language": "javascript",
@@ -101,7 +101,7 @@
       "answer": "10\nundefined\n"
     },
     {
-      "topic": "Funções, escopo, closures e o valor de this",
+      "topic": "Functions, scope, closures and the value of this",
       "type": "code",
       "difficulty": "medium",
       "language": "javascript",
@@ -132,7 +132,7 @@
       ]
     },
     {
-      "topic": "Classes, protótipos e módulos ES",
+      "topic": "Classes, prototypes and ES modules",
       "type": "expected-output",
       "difficulty": "medium",
       "language": "javascript",
@@ -142,7 +142,7 @@
       "answer": "undefined\npeça eixo\nfalse\n"
     },
     {
-      "topic": "Assincronismo: callbacks, promises e async/await",
+      "topic": "Asynchrony: callbacks, promises and async/await",
       "type": "expected-output",
       "difficulty": "hard",
       "language": "javascript",
@@ -152,7 +152,7 @@
       "answer": "um\nquatro\ntrês\ndois\n"
     },
     {
-      "topic": "Assincronismo: callbacks, promises e async/await",
+      "topic": "Asynchrony: callbacks, promises and async/await",
       "type": "expected-output",
       "difficulty": "hard",
       "language": "javascript",
@@ -162,7 +162,7 @@
       "answer": "30,20,10\n30,20,10\n"
     },
     {
-      "topic": "fetch, JSON e tratamento de erros de rede",
+      "topic": "fetch, JSON and handling network errors",
       "type": "expected-output",
       "difficulty": "hard",
       "language": "javascript",
@@ -172,7 +172,7 @@
       "answer": "{\"data\":\"1970-01-01T00:00:00.000Z\",\"nulo\":null,\"num\":null}\ndata,nulo,num\n"
     },
     {
-      "topic": "Depuração no navegador e tratamento de exceções",
+      "topic": "Debugging in the browser and exception handling",
       "type": "expected-output",
       "difficulty": "hard",
       "language": "javascript",

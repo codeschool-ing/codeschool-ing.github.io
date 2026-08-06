@@ -4,7 +4,7 @@
   "options": 5,
   "exercises": [
     {
-      "topic": "Docker Engine no Linux e quando ele basta",
+      "topic": "Docker Engine on Linux and when it is all you need",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Marque todas as afirmações que se sustentam sobre usar apenas o Docker Engine no Linux, sem o Docker Desktop.",

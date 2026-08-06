@@ -4,7 +4,7 @@
   "options": 5,
   "exercises": [
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Uma equipe entrega um binário acompanhado de um README com a lista de dependências. Na estação de quem programou o sistema sobe; no servidor de produção ele quebra porque a versão de uma biblioteca do sistema é outra. Qual característica do empacotamento em container elimina essa classe de falha?",
@@ -52,7 +52,7 @@
       "socratic_hint": "A falha nasceu de um arquivo em disco com versão diferente. Pergunte, em cada alternativa, o que ela promete transportar junto com o programa e o que ela deixa a cargo da máquina de destino."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Sobre o que o empacotamento em container entrega e o que ele não entrega, marque todas as afirmações que se sustentam.",
@@ -100,7 +100,7 @@
       "socratic_hint": "Duas dessas afirmações prometem que o empacotamento resolva algo que ele não toca. Comece perguntando o que precisa ser diferente entre desenvolvimento e produção, e o que precisa ser diferente entre dois modelos de processador."
     },
     {
-      "topic": "O que é um container e que problema ele resolve",
+      "topic": "What a container is and what problem it solves",
       "type": "matching",
       "difficulty": "medium",
       "statement": "Cada situação relatada por uma equipe de operação corresponde a um efeito observado depois que a aplicação passou a ser entregue empacotada. Associe cada uma ao seu efeito.",
@@ -142,7 +142,7 @@
       "socratic_hint": "Para cada situação, pergunte qual peça deixou de ser responsabilidade da máquina de destino. Duas das opções da direita descrevem comportamentos que nenhuma dessas situações produz."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "quiz",
       "difficulty": "medium",
       "statement": "No mesmo host, sobe-se uma máquina virtual com 2 vCPU e 2 GB e um container com limite de 2 CPUs e 2 GB. Nos dois casos a aplicação é a mesma e está ociosa. O que se observa no consumo de memória em repouso?",
@@ -190,7 +190,7 @@
       "socratic_hint": "Liste tudo que precisa estar rodando antes que o processo da aplicação apareça, em cada um dos dois casos, e compare as duas listas."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Em quais dessas exigências a máquina virtual continua sendo a resposta, porque o container não a atende? Marque todas que se aplicam.",
@@ -238,7 +238,7 @@
       "socratic_hint": "Pergunte de cada exigência qual peça teria de ser duplicada para atendê-la: um conjunto de arquivos, uma contabilidade de recursos ou o próprio kernel."
     },
     {
-      "topic": "Bare metal, máquina virtual e container: o que muda em cada um",
+      "topic": "Bare metal, virtual machine and container: what changes in each",
       "type": "matching",
       "difficulty": "hard",
       "statement": "Associe cada peça das três abordagens ao papel que ela cumpre.",
@@ -284,7 +284,7 @@
       "socratic_hint": "Para cada peça, pergunte se ela é código em execução ou conteúdo em disco, e a quem ela precisa pedir licença para chegar ao processador. Duas descrições da direita não correspondem a nenhuma das peças listadas."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "quiz",
       "difficulty": "easy",
       "statement": "Dizer que uma imagem é conforme ao padrão OCI significa o quê, na prática?",
@@ -332,7 +332,7 @@
       "socratic_hint": "Pergunte, em cada alternativa, o que passaria a ser impossível se a imagem deixasse de ser conforme — e se essa impossibilidade tem a ver com formato ou com política de quem publica."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "multiple-choice",
       "difficulty": "medium",
       "statement": "Quais consequências decorrem, de fato, de o formato de imagem, o protocolo de distribuição e o comportamento do runtime estarem escritos em especificações públicas? Marque todas que se aplicam.",
@@ -380,7 +380,7 @@
       "socratic_hint": "Verifique, em cada afirmação, se o que ela promete depende apenas de duas implementações concordarem sobre um formato — ou se depende de algo que nem o formato nem o protocolo controlam."
     },
     {
-      "topic": "Docker e o padrão OCI: por que a especificação importa",
+      "topic": "Docker and the OCI standard: why the specification matters",
       "type": "ordering",
       "difficulty": "hard",
       "statement": "Ordene o caminho de uma aplicação empacotada, do artefato recém-construído até o processo no ar em outra máquina, conforme o que cada especificação da OCI cobre.",
