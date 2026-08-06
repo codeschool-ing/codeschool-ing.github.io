@@ -2,18 +2,19 @@
 
 A static showcase site (Stage 1) and the tooling that prepares Stage 2, the Student Portal.
 No build step, no dependencies on the site itself: plain HTML, CSS and JS, with the catalogue
-in `assets/dados.js`.
+in `assets/catalog.js`.
 
 ## Language
 
-**Code, comments and documentation are in English. Everything a student reads is in Brazilian
-Portuguese.** That is the whole rule, and the line it draws is the only one that matters here.
+**English is the source language, everywhere: code, comments, documentation, the DOM contract
+and the catalogue.** Portuguese is the fifth translation, in `assets/i18n-pt.js` and
+`assets/i18n-courses-pt.js`, alongside Spanish, French and Italian.
 
-Three things stay in Portuguese for reasons that are not preference:
+Two things are still Portuguese, for reasons that are not preference:
 
-- the catalogue's field names (`nome`, `topicos`, `ementa`, `depende`…), the site's DOM ids
-  and CSS classes, and the i18n lookup keys — they are data contracts, and renaming them
-  breaks the live site;
+- the course and track ids are a contract with `codeschool-ing/portal-frontend` — they are
+  English now, and its `MOVED_IDS` in `app/state.js` is the authority. Renaming one here
+  without renaming it there silently unjoins the two repositories;
 - the regular expressions in `tools/exercises/lib/types.mjs`, which analyse Portuguese
   exercise text. Translating them would switch the entire free mechanical layer off;
 - worked examples quoted from real defects. The defect lives in the Portuguese wording, so a
@@ -58,7 +59,7 @@ way I would not have predicted.
 Each in its own folder, with the executable at the root of it:
 
 - `tools/bundle/bundle.py` — packs the site into a single `.html`
-- `tools/validate-catalog/validate-catalog.js` — checks `assets/dados.js`
+- `tools/validate-catalog/validate-catalog.js` — checks `assets/catalog.js`
 - `tools/exercises/exercises.mjs` — generates, validates and critiques exercises
 
 ## Security

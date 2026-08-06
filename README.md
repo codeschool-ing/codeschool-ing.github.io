@@ -2,9 +2,9 @@
 
 The `codeschool.ing` site — **Stage 1: the showcase**. It presents courses, training tracks, the methodology and enrolment capture. There is no login, no payment and no student area: that is Stage 2 (the platform/LMS), which will be **built to measure** — an off-the-shelf platform has been ruled out.
 
-**This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 86 courses and 16 tracks across programming, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `dados.js` and the identity.
+**This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 86 courses and 16 tracks across programming, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `catalog.js` and the identity.
 
-What the transfer required beyond the name: **the claims about history had to go**. "Since 1999", "who has been teaching for 25 years", "5,000+ graduates" and "from Medianeira to the world" are true about Televideo and would be a lie about a school that is just being born. In place of the student counter came the **catalogue's real total workload**, computed in `script.js` from `dados.js` — a number that is already true on the day the site goes up and that grows by itself when a new course arrives.
+What the transfer required beyond the name: **the claims about history had to go**. "Since 1999", "who has been teaching for 25 years", "5,000+ graduates" and "from Medianeira to the world" are true about Televideo and would be a lie about a school that is just being born. In place of the student counter came the **catalogue's real total workload**, computed in `script.js` from `catalog.js` — a number that is already true on the day the site goes up and that grows by itself when a new course arrives.
 
 A dark/terminal identity, the brand's blue, an optional light theme and **fullpage** — each section fills the screen's height and scrolling (mouse, keyboard or touch) jumps smoothly between them, with side indicators. Long panels (the catalogue, a track on mobile, the testimonials, the enrolment form) scroll internally before switching screen. In plain HTML, CSS and JavaScript — no dependencies and no build.
 
@@ -12,18 +12,28 @@ A track is presented as a **dependency graph**: each column is a level and the e
 
 ## A note on language
 
-The code, the comments and the documentation are in English. Everything the visitor reads is in Brazilian Portuguese. Three families of name stay in Portuguese because they are contracts, not preferences: the catalogue's fields (`nome`, `horas`, `topicos`, `depende`…), the DOM ids and CSS classes, and the i18n lookup keys — which *are* the Portuguese source sentences.
+**English is the product's source language** — the code, the comments, the documentation, the DOM contract and the catalogue. Portuguese was not deleted: it changed role. It used to be the base, which is why it needed no dictionary; it is now the fifth translation, alongside Spanish, French and Italian.
+
+The `en` dictionaries are gone, because they would have been identity maps. A missing entry in any language falls back to the key, and the key is already the string to show. Browser detection falls back to English.
+
+| file | holds |
+| --- | --- |
+| `assets/i18n-pt.js` | the interface and the testimonials in Portuguese |
+| `assets/i18n-courses-pt.js` | the catalogue in Portuguese — names, summaries, syllabus, topics, prerequisites, and the tracks |
+
+**The course and track ids are a contract with `codeschool-ing/portal-frontend`**, which renamed first and stores them in a student's browser. Its `MOVED_IDS` in `app/state.js` is the authoritative old-to-new map. Do not rename an id here without renaming it there.
 
 ## Structure
 
 ```
 index.html            → the site's sections
-assets/dados.js       → CURSOS, TRILHAS and DEPOIMENTOS (this is where the content is maintained)
-assets/i18n.js        → en/es/fr/it dictionaries: interface, tracks and testimonials
-assets/i18n-cursos-en.js → the catalogue in English (name, summary, syllabus, topics)
-assets/i18n-cursos-es.js → the catalogue in Spanish
-assets/i18n-cursos-fr.js → the catalogue in French
-assets/i18n-cursos-it.js → the catalogue in Italian
+assets/catalog.js     → COURSES, TRACKS and TESTIMONIALS (this is where the content is maintained)
+assets/i18n.js        → es/fr/it interface dictionaries + testimonials
+assets/i18n-pt.js     → the interface in Portuguese
+assets/i18n-courses-pt.js → the catalogue in Portuguese
+assets/i18n-courses-es.js → the catalogue in Spanish
+assets/i18n-courses-fr.js → the catalogue in French
+assets/i18n-courses-it.js → the catalogue in Italian
 assets/i18n-runtime.js→ language detection, switching and reapplication
 assets/style.css      → styles
 assets/script.js      → tracks, catalogue, course modal, signup modal
@@ -32,7 +42,7 @@ assets/favicon.svg    → a chevron and a prompt cursor, in the theme's colours
                         (the bundler is Python; the validator runs exercises in both)
 tools/                → utilities, outside the site; one folder per tool
   bundle/             → builds the single HTML file; writes at the root
-  validate-catalog/   → checks depende: non-existent ids and cycles
+  validate-catalog/   → checks `requires`: non-existent ids and cycles
   exercises/          → pipeline: generates, validates and critiques topic exercises
 ```
 
@@ -48,23 +58,23 @@ Three scrollable rows become a **dropdown menu** where they do not fit — below
 
 The top bar collapses at **1180px**, not 960px: with the language picker and the student area, below that the links wrapped onto two lines and the bar covered the first row of tracks. The bar has a fixed height of 64px precisely so the sections can count on it. Below 620px the **student area** goes — it is a placeholder for future functionality, so it is the first to give up space, before the burger menu.
 
-## Five languages, with Portuguese as the source
+## Five languages, with English as the source
 
-The site speaks **Portuguese, English, Spanish, French and Italian**. The picker sits next to the theme button, and the initial language comes from `navigator.languages` — the **language configured in the browser**, not geolocation. That is the right signal: a Brazilian browsing from abroad still wants Portuguese, and it asks the user for no permission. An explicit choice lives in `localStorage` and beats the detection.
+The site speaks **English, Portuguese, Spanish, French and Italian**. The picker sits next to the theme button, and the initial language comes from `navigator.languages` — the **language configured in the browser**, not geolocation. That is the right signal: a Brazilian browsing from abroad still wants Portuguese, and it asks the user for no permission. An explicit choice lives in `localStorage` and beats the detection.
 
-**The translation key is the Portuguese text itself.** That has three practical consequences:
+**The translation key is the English text itself.** That has three practical consequences:
 
-1. Portuguese needs no dictionary — it is the source.
+1. English needs no dictionary — it is the source.
 2. The HTML needs no `data-i18n` attributes: a walk of the **text nodes** stores each fragment's original on load. Text nodes, not elements, because sentences broken by a `<strong>` or a `<span>` in the middle would be left out.
-3. **Every missing key falls back to Portuguese by itself.** The dictionary can grow gradually without the screen breaking along the way — which is exactly the current state.
+3. **Every missing key falls back to English by itself.** The dictionary can grow gradually without the screen breaking along the way — which is exactly the current state.
 
-The catalogue's data does not go through a translation function: on a language switch, the `CURSOS`, `TRILHAS` and `DEPOIMENTOS` objects are **rewritten in place** from a copy of the Portuguese stored on load. That way all the rest of the code goes on reading `c.nome` without knowing a translation exists, and each field falls back to Portuguese on its own when the translated version is missing.
+The catalogue's data does not go through a translation function: on a language switch, the `COURSES`, `TRACKS` and `TESTIMONIALS` objects are **rewritten in place** from a copy of the English stored on load. That way all the rest of the code goes on reading `c.name` without knowing a translation exists, and each field falls back to English on its own when the translated version is missing.
 
-**Everything is translated, in all four target languages**: the interface (153 keys), all 16 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `nome`, `resumo`, `ementa`, `topicos` and `requisitos` for all 86 courses. That is **2,203 strings per language**, almost nine thousand in total. The catalogue lives in its own file per language (`i18n-cursos-<code>.js`) because on its own it weighs more than the rest of the site put together.
+**Everything is translated, in all four non-source languages**: the interface (153 keys), all 16 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 86 courses. That is **2,203 strings per language**, almost nine thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
 
-Adding a language is: one line in `LANGUAGES` (in `i18n-runtime.js`), a `ui`/`trilhas`/`depoimentos` block in `i18n.js` and a catalogue file. The check that runs against Portuguese flags any missing field and any topic list whose length differs from the original — that is how the five languages closed with no gaps.
+Adding a language is: one line in `LANGUAGES` (in `i18n-runtime.js`), a `ui`/`testimonials` block in `i18n.js` and a `tracks` block in the catalogue file and a catalogue file. The check that runs against the source flags any missing field and any topic list whose length differs from the original — that is how the five languages closed with no gaps.
 
-Vocabulary per language for "trilha": *track* in English, *itinerario* in Spanish, *parcours* in French, *percorso* in Italian. It is the term each country's vocational training uses, not the literal translation.
+Vocabulary per language for "track": *trilha* in Portuguese, *itinerario* in Spanish, *parcours* in French, *percorso* in Italian. It is the term each country's vocational training uses, not the literal translation.
 
 **What is deliberately not translated**: the brand ("codeschool.ing"), the social network names, the e-mail address and the hero terminal's commands. They are proper names and contact data — translating them would break the identity or the datum.
 
@@ -76,28 +86,28 @@ Course names are translated the way the local market advertises them, not word f
 
 ## How to maintain the catalogue
 
-Everything lives in `assets/dados.js`:
+Everything lives in `assets/catalog.js`:
 
-- **`CURSOS`**: each course has `id`, `nome`, `categoria`, `nivel`, `horas`, `resumo`, `ementa` (a list), `topicos` (a list), **`depende`** (a list of prerequisite ids) and `requisitos` (a free note, almost always empty). The categories are free-form — the filter chips build themselves.
+- **`COURSES`**: each course has `id`, `name`, `category`, `level`, `hours`, `summary`, `syllabus` (a list), `topics` (a list), **`requires`** (a list of prerequisite ids) and `prerequisites` (a free note, almost always empty). The categories are free-form — the filter chips build themselves.
 > The tracks cover the topics of the public roadmaps for [Front-end](https://roadmap.sh/frontend) (34 nodes), [Back-end](https://roadmap.sh/backend) (23), [DevOps](https://roadmap.sh/devops) (22), [Data Engineer](https://roadmap.sh/data-engineer) (36), [Network Engineer](https://roadmap.sh/network-engineer) (29), [Prompt Engineering](https://roadmap.sh/prompt-engineering) (30), [AI Engineer](https://roadmap.sh/ai-engineer) (18), [Software Architect](https://roadmap.sh/software-architect) (17), [Cyber Security](https://roadmap.sh/cyber-security) (6 nodes, ~300 items), [DevSecOps](https://roadmap.sh/devsecops) (17), [BI Analyst](https://roadmap.sh/bi-analyst) (45), [Go](https://roadmap.sh/golang) (~160 items), [Docker](https://roadmap.sh/docker) (37), [Kubernetes](https://roadmap.sh/kubernetes) (~52), [Java](https://roadmap.sh/java) (~95) and [QA Engineer](https://roadmap.sh/qa) (~120) from the roadmap.sh community — the *learning sequence* served as a reference; the syllabuses and the copy are our own.
 
-- **`TRILHAS`**: each track has `nome`, `objetivo`, `saida` (the role or outcome) and `cursos`, an array of ids **in the order they should be taken**. The same course can be in as many tracks as it likes: the site works out by itself how many tracks contain each course and shows the "em N trilhas" badge.
-- **`DEPOIMENTOS`**: text, author and context.
+- **`TRACKS`**: each track has `name`, `goal`, `outcome` (the role or outcome) and `courses`, an array of ids **in the order they should be taken**. The same course can be in as many tracks as it likes: the site works out by itself how many tracks contain each course and shows the "em N trilhas" badge.
+- **`TESTIMONIALS`**: text, author and context.
 
 Adding a course to a track is just including the `id` in the sequence — the total workload, the number of steps, the badges and the form's selector all update automatically.
 
 ### A track is a graph, not a queue
 
-`depende` is the list of a course's prerequisite ids. It is structured data, not text: the site uses it to **draw the track's graph**, to link the courses in the modal and to compute levels.
+`requires` is the list of a course's prerequisite ids. It is structured data, not text: the site uses it to **draw the track's graph**, to link the courses in the modal and to compute levels.
 
 ```js
-{ id: 'git',        depende: ['web-fundamentos'] },
-{ id: 'html-css',   depende: ['web-fundamentos'] },   // the same prerequisite
+{ id: 'git',        depende: ['web-fundamentals'] },
+{ id: 'html-css',   depende: ['web-fundamentals'] },   // the same prerequisite
 { id: 'react-ts',   depende: ['javascript', 'git'] }, // two prerequisites
-{ id: 'apis',       depende: ['node', 'bancos-sql'] },
+{ id: 'apis',       depende: ['node', 'sql-databases'] },
 ```
 
-**A course's level is 1 + the highest level among its prerequisites.** Whatever lands on the same level can be done in any order — `git` and `html-css` sit side by side because both depend only on `web-fundamentos`. It was exactly that parallelism the linear presentation hid.
+**A course's level is 1 + the highest level among its prerequisites.** Whatever lands on the same level can be done in any order — `git` and `html-css` sit side by side because both depend only on `web-fundamentals`. It was exactly that parallelism the linear presentation hid.
 
 On screen, each level is a column and the edges are drawn in **SVG over the cards' real positions**, measured after the layout exists (and redone on `resize` and when the fonts load). Below 861px the graph becomes a list: the edges disappear, the levels stack and the dependency is read in the card's footer, in "depois de X". The breakpoint is where three or four levels fit at once — below that the lane would show a card and a half at a time, and the list conveys more than the graph.
 
@@ -153,34 +163,34 @@ Three layout rules keep the graph inside the screen, with no scrollbar on show:
 | track top (name, objective, numbers) | 120px | 98px |
 | **the graph's lane** | **207px** | **402px** |
 
-The `h2` "Um caminho, não uma lista de cursos" and the paragraph explaining the graph metaphor **were removed from this section** — they are the only screens on the site without a complete `.sec-head`. The `// TRILHAS DE FORMAÇÃO` tag shares the line with the family switcher, so the section keeps its identity at zero height cost. The explanatory text was lost on purpose: the `N níveis · 4 deles com ordem livre` strip already says the track is not a queue, and the graph shows it.
+The `h2` "Um caminho, não uma lista de cursos" and the paragraph explaining the graph metaphor **were removed from this section** — they are the only screens on the site without a complete `.sec-head`. The `// TRACKS DE FORMAÇÃO` tag shares the line with the family switcher, so the section keeps its identity at zero height cost. The explanatory text was lost on purpose: the `N níveis · 4 deles com ordem livre` strip already says the track is not a queue, and the graph shows it.
 
 With 402px instead of 207px, **three courses fit in a column** where one used to. Of the 16 tracks, at 1920×950 none breaks into sub-columns; at 1366×768 only one is left — Front-end's level 05, which has four courses and genuinely does not fit. `splitLevels()` now subtracts the lane's real padding instead of a constant, because the magic number would silence any future gain.
 
 Breaking into sub-columns is **measured in JavaScript**, in `splitLevels()`: each `.nivel` gets one `.subcol` per column, and the function measures each card's real `offsetHeight` to fill a sub-column up to the limit before opening the next. It is not fussiness — neither `flex-wrap` in `flex-direction: column` nor CSS multi-column expands the container's width, so the cards left over ended up **on top of the neighbouring level**. That is what scrambled the Front-end graph, whose level 05 has four courses. The function runs before `drawEdges()`, and collapses everything back into a single sub-column when the CSS is in list mode.
 
-When a course has **no prerequisite inside that track**, it inherits the previous item in the `cursos` list as a dependency. Without that, courses like `nuvem` and `testes-cicd` — whose real prerequisites are in other tracks — would all land on the Data track's first level. The declared order still applies where there is no better information.
+When a course has **no prerequisite inside that track**, it inherits the previous item in the `courses` list as a dependency. Without that, courses like `cloud` and `testing-cicd` — whose real prerequisites are in other tracks — would all land on the Data track's first level. The declared order still applies where there is no better information.
 
-Every path ends at the **finish node** — a circular seal with a flag, deliberately different from a course card, carrying the track's `saida`. It exists so that no course is left visually loose: terminal courses like `ia-dev` in Back-end are nobody's prerequisite, and without the finish node they would look forgotten in the middle of the graph.
+Every path ends at the **finish node** — a circular seal with a flag, deliberately different from a course card, carrying the track's `outcome`. It exists so that no course is left visually loose: terminal courses like `ai-dev` in Back-end are nobody's prerequisite, and without the finish node they would look forgotten in the middle of the graph.
 
-When the order is the curriculum's and not the content's, the track declares it in **`ligacoes`**:
+When the order is the curriculum's and not the content's, the track declares it in **`links`**:
 
 ```js
-ligacoes: { 'bancos-sql': [3], 'apis': [3] }   // 3 = the index of the choice step
-ligacoes: { 'bancos-sql': ['excel-analitico'] } // or a course id
+ligacoes: { 'sql-databases': [3], 'apis': [3] }   // 3 = the index of the choice step
+ligacoes: { 'sql-databases': ['excel-analytics'] } // or a course id
 ```
 
-SQL does not require a server language — but in the Back-end track it comes after one. `depende` holds the **content** prerequisite, which is global; `ligacoes` holds **that track's** order.
+SQL does not require a server language — but in the Back-end track it comes after one. `requires` holds the **content** prerequisite, which is global; `links` holds **that track's** order.
 
-A step with a fork enters the graph as **a single node** — it is a decision, not a course. Whoever depends on a course inside the block (`bancos-sql` depends on `node`) receives the edge from the whole block, so the graph stays correct on whichever path is chosen.
+A step with a fork enters the graph as **a single node** — it is a decision, not a course. Whoever depends on a course inside the block (`sql-databases` depends on `node`) receives the edge from the whole block, so the graph stays correct on whichever path is chosen.
 
-In the modal, `depende` becomes **prerequisite** buttons (red, pointing backwards) and its inverse becomes **"abre caminho para"** (blue, pointing forwards) — you can navigate the catalogue by its dependencies.
+In the modal, `requires` becomes **prerequisite** buttons (red, pointing backwards) and its inverse becomes **"abre caminho para"** (blue, pointing forwards) — you can navigate the catalogue by its dependencies.
 
-The `requisitos` field is left for what the ids do not say: `'Basta um dos dois — SQL não exige programação.'`, `'Este curso ensina a linguagem do zero.'`, `'Nenhum. É o primeiro curso da escola.'` In 59 of the 86 courses it is empty, and the modal simply does not show it.
+The `prerequisites` field is left for what the ids do not say: `'Basta um dos dois — SQL não exige programação.'`, `'Este curso ensina a linguagem do zero.'`, `'Nenhum. É o primeiro curso da escola.'` In 59 of the 86 courses it is empty, and the modal simply does not show it.
 
-**Mind the order.** A course must not depend on another that comes *after* it in a track's `cursos` list: that closes a cycle, the level computation does not terminate and the whole track stops rendering. That is what happened with the old `containers` (now split into `docker` and `kubernetes`), which depended on `testes-cicd` even though it came before it in three tracks.
+**Mind the order.** A course must not depend on another that comes *after* it in a track's `courses` list: that closes a cycle, the level computation does not terminate and the whole track stops rendering. That is what happened with the old `containers` (now split into `docker` and `kubernetes`), which depended on `testing-cicd` even though it came before it in three tracks.
 
-When creating a course, **fill `depende` with real ids**. The validator walks the catalogue looking for a non-existent id, a cycle and an out-of-order dependency:
+When creating a course, **fill `requires` with real ids**. The validator walks the catalogue looking for a non-existent id, a cycle and an out-of-order dependency:
 
 ```
 node tools/validate-catalog/validate-catalog.js
@@ -192,11 +202,11 @@ The levels are computed by **iterative topological sort (Kahn)**, not by recursi
 
 ### Steps with a fork
 
-Some decisions belong to the student, not to the school. The Back-end roadmap does not choose the server language — and the track should not either. For that, an item of `cursos` can be a **choice object** instead of an id:
+Some decisions belong to the student, not to the school. The Back-end roadmap does not choose the server language — and the track should not either. For that, an item of `courses` can be a **choice object** instead of an id:
 
 ```js
 cursos: [
-  'web-fundamentos',
+  'web-fundamentals',
   'html-css',
   'git',
   {
@@ -209,7 +219,7 @@ cursos: [
       { nome: 'Go',                   cursos: ['go-back'] },
     ],
   },
-  'bancos-sql',
+  'sql-databases',
   // ...from here on the path is the same
 ]
 ```
@@ -230,23 +240,23 @@ What this changes in the rest of the code:
 
 ### The two track families
 
-roadmap.sh separates its roadmaps **by role** and **by skill**. They are different questions, and the site answers both with the `familia` field:
+roadmap.sh separates its roadmaps **by role** and **by skill**. They are different questions, and the site answers both with the `family` field:
 
 ```js
 { id: 'backend',    familia: 'carreira',   nome: 'Desenvolvimento Back-end', … }
-{ id: 'python-tec', familia: 'tecnologia', nome: 'Python', … }
+{ id: 'python-tech', familia: 'tecnologia', nome: 'Python', … }
 ```
 
 | | answers | outcome |
 | --- | --- | --- |
-| `carreira` | which profession do I want | a role — `Back-end Developer júnior` |
-| `tecnologia` | which tool do I want to master | the mastery — `Domínio de Python` |
+| `career` | which profession do I want | a role — `Back-end Developer júnior` |
+| `technology` | which tool do I want to master | the mastery — `Domínio de Python` |
 
 On screen, a switcher above the picker changes the row of tabs. It is not decoration: 14 tabs do not fit in a single row, and the separation is the message itself — whoever does not yet know which career they want can come in via a technology.
 
 **A technology track always has the same shape: a short trunk and a fan at the end.** The trunk teaches the technology in depth; the final fork opens up the applications, assembled from courses that already exist. A queue of three courses in a straight line would be worse than the old list and would contradict the section's promise. The fan is what a career track cannot say: one technology opens more than one door.
 
-Unlike the Back-end fork, **here the paths do not come back together** — the step's `nota` says so. It is the only place on the site where the choice is terminal, and it works because the finish node connects to the whole step.
+Unlike the Back-end fork, **here the paths do not come back together** — the step's `note` says so. It is the only place on the site where the choice is terminal, and it works because the finish node connects to the whole step.
 
 **Which technology deserves a track.** roadmap.sh has ~45 skill roadmaps; becoming a track is the exception, not the rule. It has to pass three criteria:
 
@@ -265,7 +275,7 @@ What prompted the revision was an objective datum: `go-back` compressed the whol
 The natural division seems to be fundamentals / intermediate / advanced. **It is not**, for three reasons:
 
 - **A level does not describe a capability.** Whoever finishes "Intermediate Go" cannot say what they can do. All the rest of the catalogue is named by capability.
-- **It is duplicated information.** `nivel` is already a field and appears in each card's footer (`80h · intermediário`).
+- **It is duplicated information.** `level` is already a field and appears in each card's footer (`80h · intermediário`).
 - **Three does not fit.** There are ~160 topics in the roadmap, some 280h — three courses would give ~95h each, larger than the largest course in the catalogue.
 
 The division that stuck is by capability, and the beginner → advanced progression appears on its own:
@@ -273,13 +283,13 @@ The division that stuck is by capability, and the beginner → advanced progress
 | course | hours | what the student can now do |
 | --- | --- | --- |
 | `go` | 80h | write idiomatic Go — types, interfaces, generics, errors, modules |
-| `go-concorrencia` | 70h | thousands of tasks at once, with tests that prove it |
+| `go-concurrency` | 70h | thousands of tasks at once, with tests that prove it |
 | `go-back` | 70h | serve HTTP and gRPC with a database behind — *reworked, without the language part* |
-| `go-producao` | 70h | operate Go: CLIs, pprof, cross-compilation and the advanced corners |
+| `go-production` | 70h | operate Go: CLIs, pprof, cross-compilation and the advanced corners |
 
 Concurrency got its own course on purpose: it is ~16 topics, it is the hardest part of the language and it is what distinguishes Go from anything else. Cramming it into the end of a syntax course was exactly the old `go-back`'s defect.
 
-**That fixed the Back-end fork's asymmetry for free**: the Go option became `['go','go-concorrencia','go-back']`, in the same format as `['python','python-back']`. The option became the longest in the step, and that laid bare that `java-back` was making the same mistake — 90h for the language, Spring, security, tests and deployment. That was the debt the Java case, just below, paid off.
+**That fixed the Back-end fork's asymmetry for free**: the Go option became `['go','go-concurrency','go-back']`, in the same format as `['python','python-back']`. The option became the longest in the step, and that laid bare that `java-back` was making the same mistake — 90h for the language, Spring, security, tests and deployment. That was the debt the Java case, just below, paid off.
 
 **Go is the first technology track that costs new content: 220h.** Python and SQL cost zero. It is the catalogue's single largest addition — for comparison, the whole DevSecOps track cost 120h. Worth knowing that this is the price of a language track done properly, and that the same price will apply to Java, Rust or C# when their turn comes. Better treated as policy ("one deep track per major language") than case by case.
 
@@ -297,10 +307,10 @@ What rejects it is a test that only appeared when there were three technology tr
 
 The four possible fans for Java were measured, and all of them fail:
 
-- **Enterprise services** (`bancos-sql`+`java-back`+`apis`) → Back-end. Identical to Go's and Python's branch.
-- **Quality and testing** (`testes-cicd`) → a single course, already inside Back-end.
+- **Enterprise services** (`sql-databases`+`java-back`+`apis`) → Back-end. Identical to Go's and Python's branch.
+- **Quality and testing** (`testing-cicd`) → a single course, already inside Back-end.
 - **Data on the JVM** (`bigdata`) → depends on `pipelines-etl`, deep in the Data track. Unreachable.
-- **Enterprise architecture** (`arquitetura-papel` → `padroes-projeto` → `modelagem-arquitetura` → `software-corporativo`) → 230h, balanced, and it flows into another track. It almost works — but it would be **the only branch in the catalogue without a course in the technology itself**. Go's infrastructure branch has `go-producao`; Python's AI branch has `ia-modelos`. This one would have four courses that do not mention Java: it is not a second door into the technology, it is a career change glued to the end.
+- **Enterprise architecture** (`architecture-role` → `design-patterns` → `architecture-modeling` → `enterprise-software`) → 230h, balanced, and it flows into another track. It almost works — but it would be **the only branch in the catalogue without a course in the technology itself**. Go's infrastructure branch has `go-production`; Python's AI branch has `ai-models`. This one would have four courses that do not mention Java: it is not a second door into the technology, it is a career change glued to the end.
 
 The roadmap agrees, and says so twice: at the top, *"intentionally skips some backend topics → Visit Backend Roadmap"*; in the footer, *"Visit Backend path and see what you missed"*. One outcome only. **A Java track would be the Back-end track without the front-end** — the student would gain nothing entering through it.
 
@@ -309,10 +319,10 @@ The roadmap agrees, and says so twice: at the top, *"intentionally skips some ba
 | course | h | level |
 | --- | --- | --- |
 | `java` | 80h | beginner — the JVM, syntax, both boxes of OOP in full, collections, generics, exceptions, modules |
-| `java-funcional` | 70h | intermediate — lambdas, the Stream API, `Optional`, virtual threads, the memory model, the standard library |
+| `java-functional` | 70h | intermediate — lambdas, the Stream API, `Optional`, virtual threads, the memory model, the standard library |
 | `java-back` | 70h | intermediate — *reworked*: Maven/Gradle, Spring Boot, persistence, security, logging, tests |
 
-220h, **exactly Go's** — which is the right symmetry, because they are two server languages of equivalent weight. The option became `['java','java-funcional','java-back']`. Cost: 150h of new content, since `java-back` already existed.
+220h, **exactly Go's** — which is the right symmetry, because they are two server languages of equivalent weight. The option became `['java','java-functional','java-back']`. Cost: 150h of new content, since `java-back` already existed.
 
 **What would unlock the track:** **Android/Kotlin**, where the JVM is *the* language and not one of the options. Then Java would gain a real second door and the track would come out almost free.
 
@@ -342,26 +352,26 @@ Three roadmap nodes touch courses that already exist, and the division of labour
 | roadmap node | here | gone into depth in |
 | --- | --- | --- |
 | CI/CD Integration, GitOps | an overview of ArgoCD and Flux | `gitops` (60h) |
-| Logs, Metrics, Traces, Observability Engines | `kubectl logs`, events, `kubectl top`, metrics-server | `observabilidade` (70h) |
-| Canary, Blue-Green, Rolling Updates | as a cluster object: maxSurge, maxUnavailable, Ingress weight | `testes-cicd` (60h), at the pipeline level |
+| Logs, Metrics, Traces, Observability Engines | `kubectl logs`, events, `kubectl top`, metrics-server | `observability` (70h) |
+| Canary, Blue-Green, Rolling Updates | as a cluster object: maxSurge, maxUnavailable, Ingress weight | `testing-cicd` (60h), at the pipeline level |
 
-The order sustains the division: in DevOps, the three come **after** Kubernetes (indices 10, 11 and 12 against 7). In DevSecOps only `testes-cicd` exists, also afterwards — `gitops` and `observabilidade` are not in that track, and that is why the overview inside the Kubernetes course has to stand on its own.
+The order sustains the division: in DevOps, the three come **after** Kubernetes (indices 10, 11 and 12 against 7). In DevSecOps only `testing-cicd` exists, also afterwards — `gitops` and `observability` are not in that track, and that is why the overview inside the Kubernetes course has to stand on its own.
 
 ### A course's two levels of content
 
 | Field | For whom | Where it appears |
 | --- | --- | --- |
-| `ementa` | whoever is deciding whether to enrol | the course modal, always visible — 5 to 7 lines |
-| `topicos` | whoever wants to check topic by topic | the modal, inside the collapsed **"conteúdo detalhado"** block |
+| `syllabus` | whoever is deciding whether to enrol | the course modal, always visible — 5 to 7 lines |
+| `topics` | whoever wants to check topic by topic | the modal, inside the collapsed **"conteúdo detalhado"** block |
 
-The syllabus **condenses**; the topics **list**. It is `topicos` that carries the roadmap's fine items — the little beige squares hanging under each yellow topic (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — without turning the modal into a wall of technical terms. The field is optional: a course with no `topicos` does not show the block. The catalogue's search looks in both.
+The syllabus **condenses**; the topics **list**. It is `topics` that carries the roadmap's fine items — the little beige squares hanging under each yellow topic (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — without turning the modal into a wall of technical terms. The field is optional: a course with no `topics` does not show the block. The catalogue's search looks in both.
 
-**All 86 courses have `topicos` filled in — 1,503 topics in the catalogue.** When creating a new course, fill in both fields: without `topicos` it looks visibly poorer than its neighbours.
+**All 86 courses have `topics` filled in — 1,503 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
 
 ### The language of the names
 
 - **Course**: the concept in Portuguese (`Infraestrutura como Código`), a technology's proper name intact (`JavaScript`, `Node.js`, `GitOps`, `Python`).
-- **Track**: the name in Portuguese (`Desenvolvimento Front-end`), and the role in English — as the market advertises the vacancy — in the `saida` field (`Front-end Developer júnior`).
+- **Track**: the name in Portuguese (`Desenvolvimento Front-end`), and the role in English — as the market advertises the vacancy — in the `outcome` field (`Front-end Developer júnior`).
 
 ### The intermediate unit: the decision left to Stage 2
 
@@ -376,15 +386,15 @@ The syllabus **condenses**; the topics **list**. It is `topicos` that carries th
 
 Eight of the thirteen pass 720h. That is a lot of time with no milestone of arrival — and it is exactly the hole Alura fills with the extra level it has.
 
-**Alura stacks; here the families sit side by side.** There it goes `Career ⊃ Track ⊃ Course`: the Track is a slice by subject *inside* a Career, and it is what the certificate attaches to. Here, `carreira` and `tecnologia` are two species at the same level, and below them there is only the course.
+**Alura stacks; here the families sit side by side.** There it goes `Career ⊃ Track ⊃ Course`: the Track is a slice by subject *inside* a Career, and it is what the certificate attaches to. Here, `career` and `technology` are two species at the same level, and below them there is only the course.
 
-The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **43 of the 86 courses are in two or more tracks** — `web-fundamentos` is in 11, `git`, `python` and `linux-terminal` in 8. That is 192 slots for 86 distinct courses, a reuse factor of 2.23×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
+The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **43 of the 86 courses are in two or more tracks** — `web-fundamentals` is in 11, `git`, `python` and `linux-terminal` in 8. That is 192 slots for 86 distinct courses, a reuse factor of 2.23×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
 
 In other words: the split by family solves **where to come in**; Alura's Track solves **how to know you have advanced**. They are orthogonal problems, and only the first one is solved here.
 
-**Why not now.** The change is additive — a new field in `TRILHAS` does not invalidate the `cursos` that already exists, nothing migrates and no link dies. The cost only jumps at the **first certificate issued to a real student**, because from then on changing the unit of certification becomes a reissue or an exception. That deadline belongs to the LMS, not to the showcase.
+**Why not now.** The change is additive — a new field in `TRACKS` does not invalidate the `courses` that already exists, nothing migrates and no link dies. The cost only jumps at the **first certificate issued to a real student**, because from then on changing the unit of certification becomes a reissue or an exception. That deadline belongs to the LMS, not to the showcase.
 
-**The trap is the same as the Go case's.** The obvious axis for cutting a track into blocks is fundamentals / intermediate / advanced — and it was already rejected one floor below, when Go was divided: a level does not describe a capability, `nivel` is already a field, and whoever finishes the "intermediate" block cannot say what they can do. Blocking by level would repeat the error under another name.
+**The trap is the same as the Go case's.** The obvious axis for cutting a track into blocks is fundamentals / intermediate / advanced — and it was already rejected one floor below, when Go was divided: a level does not describe a capability, `level` is already a field, and whoever finishes the "intermediate" block cannot say what they can do. Blocking by level would repeat the error under another name.
 
 **What is left to decide, in order:**
 
@@ -409,7 +419,7 @@ The roadmaps that appear **in blue** inside roadmap.sh's roadmaps are whole othe
 | A roadmap with two audiences | Cyber Security | **two tracks**, one serving as the base for the other |
 | The intersection of two careers | DevSecOps | its own **track**, if it brings a course neither of the two has |
 | The same subject for another audience | BI Analyst | its own **track**, with a path that does not go through programming |
-| A language with several outcomes | Python, SQL, Go, JavaScript | a **`tecnologia`-family track** — a short trunk and a fan of applications |
+| A language with several outcomes | Python, SQL, Go, JavaScript | a **`technology`-family track** — a short trunk and a fan of applications |
 | A language with a single outcome | Java | **courses** inside the career track that uses it — the fan would be redundant |
 | A tool with a single outcome | Docker, Kubernetes, Terraform, Spring Boot | a shared **course** — the fan does not exist, and a track would be padding |
 
@@ -419,7 +429,7 @@ BI and Data Engineering deal with the same data, but for different people: the e
 
 It is the most sellable track for the real audience of a small-town school: an accountant, a shop manager, a production supervisor. None of them is going to do Data Engineering.
 
-**It also fixed a gap that had slipped under the radar across nine tracks:** there was **no statistics course** in the catalogue. The Data Engineering track went from Python straight to dimensional modelling without ever teaching a mean, a standard deviation, a p-value or a regression. `estatistica` (80h) went into both.
+**It also fixed a gap that had slipped under the radar across nine tracks:** there was **no statistics course** in the catalogue. The Data Engineering track went from Python straight to dimensional modelling without ever teaching a mean, a standard deviation, a p-value or a regression. `statistics` (80h) went into both.
 
 ### The second door without programming: the QA Engineer case
 
@@ -429,9 +439,9 @@ BI and QA serve different audiences arriving through the same door: BI serves wh
 
 It cost **310h of new content across five courses** — the most expensive addition so far, above Go's 220h. It is worth it because it is the only recent addition that **opens a new door** instead of deepening an existing one; Go, Java, Docker and Kubernetes all deepened paths that already existed.
 
-It reuses 410h: `web-fundamentos`, `git`, `bancos-sql`, `html-css`, `javascript`, `seguranca-fundamentos` and `testes-cicd`. And it took `web-fundamentos` to **nine tracks** — it is the catalogue's most shared course.
+It reuses 410h: `web-fundamentals`, `git`, `sql-databases`, `html-css`, `javascript`, `security-fundamentals` and `testing-cicd`. And it took `web-fundamentals` to **nine tracks** — it is the catalogue's most shared course.
 
-**A graph detail it exposed:** `seguranca-fundamentos` and `testes-cicd` are the closing of the QA curriculum, but their content prerequisites are at the start of the track (`web-fundamentos` and `apis`, the latter not even present). The graph threw them to level 03, beside JavaScript. It was the classic case for **`ligacoes`** — curriculum order rather than content dependency — and with it the two went back to level 06, before the finish.
+**A graph detail it exposed:** `security-fundamentals` and `testing-cicd` are the closing of the QA curriculum, but their content prerequisites are at the start of the track (`web-fundamentals` and `apis`, the latter not even present). The graph threw them to level 03, beside JavaScript. It was the classic case for **`links`** — curriculum order rather than content dependency — and with it the two went back to level 06, before the finish.
 
 ### An intersection is not a combo: the DevSecOps case
 
@@ -439,7 +449,7 @@ DevSecOps sits between DevOps and Security, and **87% of the track already exist
 
 **The test, therefore, is not "how much repeats", it is "does it bring content and an order that do not exist?".** DevSecOps brings 120h that are exclusive and delivers 890h.
 
-`codigo-seguro` also went into the Cyber Security track, which had nothing on application security — the gap only became visible when this roadmap was mapped.
+`secure-code` also went into the Cyber Security track, which had nothing on application security — the gap only became visible when this roadmap was mapped.
 
 ### One roadmap can become more than one track: the Cyber Security case
 
@@ -454,11 +464,11 @@ It was split where the roadmap itself already separates:
 
 The first is the school's entrance — it requires nothing and ends at Support Technician. The second uses the first as its base. **Rule:** when a roadmap contains two audiences with different outcomes, it becomes two tracks, not one giant track.
 
-`informatica-essencial`, the first course of the IT track, is the **"Informática Essencial"** that had been pending since the start of the project: hardware, Office, personal cloud and home networking. It came out of this roadmap's *Fundamental IT Skills* block.
+`computing-essentials`, the first course of the IT track, is the **"Informática Essencial"** that had been pending since the start of the project: hardware, Office, personal cloud and home networking. It came out of this roadmap's *Fundamental IT Skills* block.
 
 ### A continuation track: the Software Architect case
 
-Software Architecture is the catalogue's first track that is **not an entrance**. There is no junior architect: the roadmap asks for Back-end, Full Stack or System Design first, and the track declares that in its `objetivo` and in the first course's `requisitos` field. The real journey is **760h of Back-end + 740h of Architecture**.
+Software Architecture is the catalogue's first track that is **not an entrance**. There is no junior architect: the roadmap asks for Back-end, Full Stack or System Design first, and the track declares that in its `goal` and in the first course's `prerequisites` field. The real journey is **760h of Back-end + 740h of Architecture**.
 
 That changes what the school sells: instead of only training beginners, it accompanies a career — the student of 2027 comes back in 2030. It is worth opening other tracks like this (Engineering Manager, Staff Engineer) keeping the rule: **a senior track always declares the preceding track**.
 
@@ -470,17 +480,17 @@ The ruler, refined after the Prompt/AI case: **combining complete tracks does no
 
 | Course | No. of tracks |
 | --- | --- |
-| `web-fundamentos` | 9 |
+| `web-fundamentals` | 9 |
 | `git` · `python` · `linux-terminal` | 7 |
-| `redes` · `nuvem` | 6 |
-| `testes-cicd` | 5 |
-| `javascript` · `bancos-sql` · `docker` · `observabilidade` | 4 |
-| `html-css` · `ia-dev` · `iac` · `modelagem-dw` · `ia-seguranca` · `seguranca-fundamentos` | 3 |
-| `servidores-cache` · `kubernetes` · `estatistica` · `pipelines-etl` · `dados-governanca` · `analytics-bi` · `redes-seguranca` · `prompt-engineering` · `prompt-confiabilidade` · `informatica-essencial` · `sistemas-operacionais` · `criptografia` · `ataques-ameacas` · `codigo-seguro` · `soc-resposta` · `nuvem-seguranca` | 2 |
+| `networks` · `cloud` | 6 |
+| `testing-cicd` | 5 |
+| `javascript` · `sql-databases` · `docker` · `observability` | 4 |
+| `html-css` · `ai-dev` · `iac` · `warehouse-modeling` · `ai-security` · `security-fundamentals` | 3 |
+| `servers-cache` · `kubernetes` · `statistics` · `pipelines-etl` · `data-governance` · `analytics-bi` · `networks-security` · `prompt-engineering` · `prompt-reliability` · `computing-essentials` · `operating-systems` · `cryptography` · `attacks-threats` · `secure-code` · `soc-response` · `cloud-security` | 2 |
 
 **The model's economics**: added up, the thirteen career tracks deliver up to 9,610 hours of training — but the content to produce is 5,310 hours, because the shared courses are made only once. **45% savings**, and it grows with every new track.
 
-The number is computed **only over the `carreira` family** — both the delivered workload and the "exclusive to it" column below. The technology tracks are 100% reuse by construction: including them would push the savings up without the school having produced a single hour, and the indicator would stop measuring what matters. That is why the table below did not move when Python and SQL went in; the Back-end line changed for another reason — the Go option gained two courses, which are exclusive to it and dropped the reuse from 37% to 25%.
+The number is computed **only over the `career` family** — both the delivered workload and the "exclusive to it" column below. The technology tracks are 100% reuse by construction: including them would push the savings up without the school having produced a single hour, and the indicator would stop measuring what matters. That is why the table below did not move when Python and SQL went in; the Back-end line changed for another reason — the Go option gained two courses, which are exclusive to it and dropped the reuse from 37% to 25%.
 
 How that appears in practice, track by track (exclusive hours = content only it uses):
 
@@ -504,7 +514,7 @@ How that appears in practice, track by track (exclusive hours = content only it 
 
 Note the cross effect: when DevSecOps went in, Segurança Cibernética's exclusive hours fell from 450h to 150h; when BI went in, Engenharia de Dados fell from 360h to 170h. It is not that they lost content — they started sharing it. **Every new track makes the old ones cheaper.**
 
-The Go and Java cases go in the opposite direction and show the other side of the arithmetic: `go`, `go-concorrencia`, `java` and `java-funcional` only appear in Back-end within the career family, so its exclusive hours rose from 480h to **760h** and the reuse fell from 37% to 10%. Back-end became the catalogue's most expensive track — and that is fair, because it is the one bankrolling four server languages. A language course is expensive precisely because it does **not** get shared.
+The Go and Java cases go in the opposite direction and show the other side of the arithmetic: `go`, `go-concurrency`, `java` and `java-functional` only appear in Back-end within the career family, so its exclusive hours rose from 480h to **760h** and the reuse fell from 37% to 10%. Back-end became the catalogue's most expensive track — and that is fair, because it is the one bankrolling four server languages. A language course is expensive precisely because it does **not** get shared.
 
 That is why Docker was born as its own course instead of becoming a block inside another: today `docker` serves five tracks.
 
@@ -526,7 +536,7 @@ On mobile none of this applies: there, a single screen scroll is more natural th
 
 ## The hero terminal
 
-Four commands, and **not one hand-written response**: the numbers, the track names and the course card all come out of `CURSOS` and `TRILHAS`, in `buildTerminal()`. A new track comes in and it counts right by itself; no line can contradict the rest of the page, because it reads the same source.
+Four commands, and **not one hand-written response**: the numbers, the track names and the course card all come out of `COURSES` and `TRACKS`, in `buildTerminal()`. A new track comes in and it counts right by itself; no line can contradict the rest of the page, because it reads the same source.
 
 ```
 $ codeschool --status
@@ -545,7 +555,7 @@ $ codeschool course kubernetes --info
 $ codeschool start▊
 ```
 
-The Back-end track shows `760–840h` because it has a fork: the range comes from `hoursRange()`, the same computation the tracks screen uses. The course in the third response is fixed (`SHOWCASE_COURSE`) and chosen for being advanced **and** having a prerequisite — that way the card shows both. If the id disappears from the catalogue, it falls back to the first course with `depende` filled in.
+The Back-end track shows `760–840h` because it has a fork: the range comes from `hoursRange()`, the same computation the tracks screen uses. The course in the third response is fixed (`SHOWCASE_COURSE`) and chosen for being advanced **and** having a prerequisite — that way the card shows both. If the id disappears from the catalogue, it falls back to the first course with `requires` filled in.
 
 **The animation delay is computed, not written by position.** It used to be six `nth-child` rules with each line's delay; the terminal has thirteen now, and everything past the sixth appeared at once. `buildTerminal()` writes the position into `--i` and the CSS does `calc(.2s + var(--i) * .16s)` — the staggering comes to apply to however many lines there are.
 
@@ -585,18 +595,18 @@ Submission is ready for a provider (Formspree, Web3Forms, Brevo...): paste the P
 
 ## Deliberately left out
 
-- **Collaboration tools** (Slack, Trello, Atlassian) appear in the Software Architect roadmap, but they do not sustain a course or a step — they come in as everyday use inside `gestao-processos`.
-- **Big Data in the Architecture track**: the roadmap cites Hadoop, Spark and MapReduce. The architect needs the overview, which `modelagem-dw` gives; `bigdata`'s 70h stayed only in the Data track so as not to inflate the track with content they will not operate.
-- **Certifications** (PMI, ITIL, Prince2, Scrum, CompTIA, OSCP, CISSP…) are presented as an overview in `gestao-processos`, `suporte-tecnico` and `pentest`; the school does not prepare anyone for a certifier's exam.
-- **A red team track separate from the blue team one**: the Cyber Security roadmap does not separate them, and dividing now would create two 400h tracks with half the content repeated. `pentest` (offensive) and `soc-resposta` (defensive) coexist in the same track, each with 70-80h. If demand justifies it, the split can be done later without redoing a single course.
+- **Collaboration tools** (Slack, Trello, Atlassian) appear in the Software Architect roadmap, but they do not sustain a course or a step — they come in as everyday use inside `process-management`.
+- **Big Data in the Architecture track**: the roadmap cites Hadoop, Spark and MapReduce. The architect needs the overview, which `warehouse-modeling` gives; `bigdata`'s 70h stayed only in the Data track so as not to inflate the track with content they will not operate.
+- **Certifications** (PMI, ITIL, Prince2, Scrum, CompTIA, OSCP, CISSP…) are presented as an overview in `process-management`, `tech-support` and `pentest`; the school does not prepare anyone for a certifier's exam.
+- **A red team track separate from the blue team one**: the Cyber Security roadmap does not separate them, and dividing now would create two 400h tracks with half the content repeated. `pentest` (offensive) and `soc-response` (defensive) coexist in the same track, each with 70-80h. If demand justifies it, the split can be done later without redoing a single course.
 - **A technology track for every skill roadmap**: there are ~45 on roadmap.sh. Only those that pass the three criteria above go in; the rest go on being a course inside a career track, which is where they already were.
 - **Standalone courses, outside any track**: the catalogue is good for finding a course you already know you want, but a course with no track loses the "em N trilhas" badge, loses the "faz parte de" block in the modal and becomes a dead end in the navigation. Today there are **zero standalone courses**, and it is worth keeping it that way — it was the alternative discarded when the technology tracks were designed.
-- **`ia-seguranca` went into the Cyber Security track** even though it is not in the Cyber Security roadmap: application security with LLMs is the subject a 2026 analyst will run into, and the course already existed. It is the only deliberate deviation from the roadmap in that track.
+- **`ai-security` went into the Cyber Security track** even though it is not in the Cyber Security roadmap: application security with LLMs is the subject a 2026 analyst will run into, and the course already existed. It is the only deliberate deviation from the roadmap in that track.
 
 ## What still needs filling in
 
-- Real testimonials (with the students' permission) — remembering that there are **five** places: `dados.js` for the Portuguese and `i18n.js` for en, es, fr and it
-- Introduction videos: the YouTube id in each course's `video` field, in `dados.js`
+- Real testimonials (with the students' permission) — remembering that there are **five** places: `catalog.js` for the Portuguese and `i18n.js` for en, es, fr and it
+- Introduction videos: the YouTube id in each course's `video` field, in `catalog.js`
 - **The three plans are examples**: the prices are at `00` on purpose, and the listed benefits are plausible, not decided. See the "Plans" section below.
 - A real e-mail address (today `contact@codeschool.ing`)
 - **Four FAQ answers are examples** and carry the marker in square brackets: cancellation, payment methods, standalone sales and terms for companies. The questions are the right ones — they are what everyone asks about a subscription — but the answers depend on a policy that does not exist yet, and a deadline or refund rule written on a showcase becomes a commitment somebody will hold you to.
@@ -634,4 +644,4 @@ The enrolment form still accepts a phone number with a mask: whoever prefers to 
 
 The destination is `codeschool-ing/codeschool-ing.github.io`, which is the organisation's Pages: the content goes in the repository's **root**, not in `escola/`. For the custom domain, a `CNAME` file at the root with one line, `codeschool.ing`, and DNS pointing at GitHub — `A` records for the four Pages addresses, or `ALIAS`/`ANAME` to `codeschool-ing.github.io`.
 
-There is no build: it is copying `index.html` and `assets/` and committing. The `escola-vitrine.html` from `tools/bundle/bundle.py` is for sending by e-mail or opening from disk, not for publishing — on Pages the separate files are better, because the browser caches each one.
+There is no build: it is copying `index.html` and `assets/` and committing. The `showcase.html` from `tools/bundle/bundle.py` is for sending by e-mail or opening from disk, not for publishing — on Pages the separate files are better, because the browser caches each one.

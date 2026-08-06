@@ -237,7 +237,7 @@ For **mathematics** (calculus, algebra, entrance exams), the set already serves 
 `matching` covers function↔derivative, and the option types cover the exam format.
 
 What still ties the pipeline to this catalogue is `lib/catalog.mjs`, which reads
-`assets/dados.js` and expects the fields `topicos`, `ementa`, `nivel`. For another school,
+`assets/catalog.js` and expects the fields `topics`, `syllabus`, `level`. For another school,
 that module is what changes — the rest travels. Worth knowing before adding new coupling in
 other files.
 
