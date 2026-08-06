@@ -488,30 +488,36 @@ export function schema({ options }) {
  *
  * The vocabularies below are Portuguese because the exercises are. See the note at the top of
  * this file. */
-const ABSOLUTES = /\b(sempre|nunca|jamais|somente|apenas|qualquer|nenhum[a]?|todo[as]?|impossível|garante|garantem|dispensa|elimina|impede|obriga|abstrai)\b/i;
-// The earlier vocabulary missed two real cases in a single round: the correct options were
-// qualified with "enquanto", "mas faz todos dependerem", "não contém X: ela traz Y" — none of
-// which were on the list. Hedging is structure (contrast, concession, qualification), not a
-// handful of terms. The probability adverbs were also missing: in one round the critic failed
-// a question whose correct option was "the only one protected by an adverb of uncertainty" —
-// "provavelmente" — and none of them were here.
-const HEDGE = /(desde que|a menos que|salvo que|em geral|geralmente|normalmente|costuma|costumam|comparável|aproximadamente|na maioria|quando possível|tende a|enquanto|embora|ainda que|apesar de|porém|contudo|entretanto|no entanto|mas |exceto|em vez de|ao contrário|na prática|tipicamente|pode variar|depende d|provavelmente|possivelmente|talvez|eventualmente|potencialmente|frequentemente|raramente|costumeiramente)/i;
-const UNCERTAINTY = /(provavelmente|possivelmente|talvez|eventualmente|potencialmente|em geral|geralmente|normalmente|costuma|costumam|tende a|tendem a|na maioria|tipicamente|pode variar|quase sempre)/i;
-// Modal axis. The critic named this exact defect: "the three correct options are statements of
-// possibility and the two wrong ones are statements of obligation or total guarantee". It is
-// not the same as the absolutes test — "faz com que", "atende", "pode ser executada" are not
-// absolutes, and they still separate the two groups perfectly.
-const CAN = /(\bpode\b|\bpodem\b|é possível|são possíveis|consegue|conseguem|permite|permitem|passa a poder|nada impede)/i;
-const MUST = /(obriga|obrigam|garante|garantem|assegura|exige|exigem|\bdeve\b|\bdevem\b|\bfaz\b|\bfazem\b|força|sem exceção|impede que|elimina a necessidade)/i;
-const NUMBER = /\b(uma|duas|tr[êe]s|quatro|cinco|[1-9])\b/i;
-const TRUTH_WORD = /\b(falsas?|verdadeiras?|corretas?|erradas?)\b/i;
-// A multiple-choice statement mixing both polarities: "sobre o que X resolve **e o que não
-// resolve**, marque todas que se aplicam". The student cannot tell whether to mark the true
-// ones or the limits, and the two readings give opposite sets — with exact-set grading the
-// ambiguity fails precisely whoever understood the topic.
-const POLARITY = /\b(?:o que|as que|aquilo que)\b[^.?]{0,60}\be\b[^.?]{0,25}\b(?:o que |as que |quais )?(?:não|nao)\b/i;
-const WARNS_SURPLUS = /(sobra|não correspond|nao correspond|não emparelh|nao emparelh|a mais|nem toda|nem todas|extras?)/i;
-const STOPWORDS = new Set(['para', 'como', 'quando', 'porque', 'entre', 'sobre', 'depois', 'antes', 'mesmo', 'mesma', 'pode', 'podem', 'ser', 'seu', 'sua', 'que', 'com', 'dos', 'das', 'uma', 'este', 'esta', 'esse', 'essa', 'pelo', 'pela', 'mais', 'menos']);
+/* THE VOCABULARY IS ENGLISH, because the exercises are authored in English now. It used to be
+   Portuguese, and that was not a policy — it was a consequence of the source language. When
+   the source moved, these had to move with it, or the whole free layer would go on running
+   and flagging nothing, which is worse than not running at all.
+
+   A translated exercise is NOT checked here: a translation is judged against its source, not
+   against these rules. The checks run on the source. */
+const ABSOLUTES = /\b(always|never|only|solely|any|none|no one|nothing|every|all|impossible|guarantees?|eliminates?|prevents?|forces?|requires no|dispenses with|abstracts away)\b/i;
+/* Hedging is structure — contrast, concession, qualification — not a handful of terms. The
+   probability adverbs belong here too: one round failed a question whose correct option was
+   "the only one protected by an adverb of uncertainty". */
+const HEDGE = /(as long as|provided that|unless|in general|generally|normally|usually|tends? to|comparable|approximately|most of the time|when possible|while |whereas|although|even though|despite|however|nevertheless|nonetheless|but |except|instead of|unlike|in practice|typically|may vary|depends on|probably|possibly|perhaps|maybe|potentially|often|rarely|frequently)/i;
+const UNCERTAINTY = /(probably|possibly|perhaps|maybe|potentially|in general|generally|normally|usually|tends? to|most of the time|typically|may vary|almost always)/i;
+/* Modal axis. The critic named this exact defect: "the three correct options are statements of
+   possibility and the two wrong ones are statements of obligation or total guarantee". It is
+   not the absolutes test — "makes", "serves", "can be run" are not absolutes and still
+   separate the two groups perfectly. */
+const CAN = /(\bcan\b|\bcould\b|\bmay\b|it is possible|are possible|manages to|allows?|lets?|nothing stops)/i;
+const MUST = /(obliges?|guarantees?|ensures?|requires?|\bmust\b|\bshall\b|\bmakes\b|\bforces?\b|without exception|stops .* from|removes the need)/i;
+const NUMBER = /\b(one|two|three|four|five|[1-9])\b/i;
+const TRUTH_WORD = /\b(false|true|correct|wrong|incorrect)\b/i;
+/* A multiple-choice statement mixing both polarities: "about what X solves **and what it does
+   not**, mark all that apply". The student cannot tell whether to mark the true ones or the
+   limits, and the two readings give opposite sets. */
+const POLARITY = /\b(?:what|which|the ones)\b[^.?]{0,60}\band\b[^.?]{0,25}\b(?:what |which )?(?:does not|do not|doesn't|don't|is not|are not)\b/i;
+const WARNS_SURPLUS = /(left over|leftover|do(?:es)? not (?:match|pair)|unmatched|extra|not all|spare)/i;
+const STOPWORDS = new Set(['the', 'and', 'for', 'with', 'that', 'this', 'these', 'those', 'from', 'into',
+  'when', 'where', 'because', 'between', 'about', 'after', 'before', 'same', 'can', 'could', 'may',
+  'its', 'their', 'his', 'her', 'more', 'less', 'than', 'each', 'every', 'one', 'two', 'not', 'but',
+  'are', 'was', 'were', 'has', 'have', 'had', 'been', 'being', 'does', 'did', 'you', 'your', 'out']);
 
 const words = (s) =>
   new Set(
@@ -794,7 +800,7 @@ export function check(e, { options }) {
     if (empty(e.trap)) p.push('ordering without a declared trap');
     // Anaphora pins the position through the text: "executa **esse** bytecode" only makes
     // sense after the step that produces it, and the student orders by grammar.
-    const ANAPHORA = /\b(esse|essa|este|esta|isso|nele|nela|dele|dela|anterior)\b/i;
+    const ANAPHORA = /\b(this|that|these|those|the previous|the former|the latter|it|above)\b/i;
     for (const [i, t] of (e.items ?? []).entries()) {
       if (ANAPHORA.test(t)) p.push(`ordering: item ${i + 1} refers to another step ("${t.match(ANAPHORA)[0]}")`);
     }

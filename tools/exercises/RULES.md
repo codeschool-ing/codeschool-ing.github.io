@@ -10,11 +10,27 @@ the *source*: if the two diverge, this one wins.
 > **Golden rule:** every iteration improves the tool, not just the content. A defect that can
 > repeat in another course becomes a rule **before** the exercise is fixed.
 
-**On language.** The code, the comments and this file are in English; the exercises are in
-Brazilian Portuguese, because that is what the student reads. Worked examples quoted below
-stay in Portuguese on purpose: the defect lives in the Portuguese wording, and a translated
-example illustrates nothing. The mechanical checks' regular expressions analyse Portuguese for
-the same reason — translating them would switch the free layer off.
+**On language — this policy was wrong, and it is corrected here.** It used to say the
+exercises were Portuguese "because that is what the student reads", and that the mechanical
+checks' regular expressions had to stay Portuguese with them. Both halves were confusions:
+
+- *what the student reads* is an argument for a TRANSLATION LAYER, not for a source language.
+  The catalogue settled this already — English source, one dictionary per language — and the
+  exercises are content exactly like the catalogue is. A Brazilian and an Italian both have to
+  be able to read the exercise; only a translation layer gives them that, and pinning the
+  source to Portuguese gave it to neither;
+- the regular expressions were never a policy. They were a CONSEQUENCE of the source language.
+  When the source moved to English they moved with it, and keeping them Portuguese would have
+  left the whole free layer running over text it cannot parse — flagging nothing, and
+  reporting a calibrated layer that is switched off.
+
+**English is the source. Portuguese is a translation, like Spanish, French and Italian.** The
+checks run on the source and never on a translation: a translation is judged against its
+source, not against these rules.
+
+Worked examples quoted in this file stay in Portuguese where the defect lives in the
+Portuguese wording — those are historical records of rounds that happened in Portuguese, and
+translating them would make them illustrate nothing.
 
 ## How to use this to generate the software from scratch
 

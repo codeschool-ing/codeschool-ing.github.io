@@ -15,10 +15,12 @@ Two things are still Portuguese, for reasons that are not preference:
 - the course and track ids are a contract with `codeschool-ing/portal-frontend` — they are
   English now, and its `MOVED_IDS` in `app/state.js` is the authority. Renaming one here
   without renaming it there silently unjoins the two repositories;
-- the regular expressions in `tools/exercises/lib/types.mjs`, which analyse Portuguese
-  exercise text. Translating them would switch the entire free mechanical layer off;
-- worked examples quoted from real defects. The defect lives in the Portuguese wording, so a
-  translated example illustrates nothing.
+- worked examples quoted from real defects in `RULES.md`. Those are records of rounds that
+  happened in Portuguese, and a translated example illustrates nothing.
+
+The exercises are English at the source now, with Portuguese as a translation layer. The
+regular expressions in `tools/exercises/lib/types.mjs` follow the source, not the other way
+round — they analyse whatever language the source is in.
 
 ## Golden rule
 
