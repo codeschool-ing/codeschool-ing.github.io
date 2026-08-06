@@ -4,10 +4,10 @@
    ON LANGUAGE: comments and logic identifiers are in English. Three families of
    name stay in Portuguese because they are contracts, not preferences:
 
-     · the catalogue's fields (`nome`, `horas`, `topicos`, `depende`, `opcoes`…),
+     · the catalogue's fields (`name`, `horas`, `topicos`, `depende`, `opcoes`…),
        which assets/dados.js and the four i18n-cursos-*.js files define;
-     · DOM ids, `data-*` attributes and CSS classes (`#trilha-painel`, `.curso-no`,
-       `.garfo-aba`), which index.html and style.css share with this file;
+     · DOM ids, `data-*` attributes and CSS classes (`#track-panel`, `.course-node`,
+       `.fork-tab`), which index.html and style.css share with this file;
      · the arguments to `txt()`, which ARE the translation keys — the Portuguese
        sentence is the lookup key across all four translation files.
 
@@ -15,17 +15,17 @@
    ========================================================================== */
 
 const $ = (sel) => document.querySelector(sel);
-const courseById = (id) => CURSOS.find((c) => c.id === id);
+const courseById = (id) => COURSES.find((c) => c.id === id);
 
 /* ---------- tracks with a fork ----------
-   An item of `cursos` is either a course id (a string) or a choice step (an
+   An item of `courses` is either a course id (a string) or a choice step (an
    object with `opcoes`). Hence three different readings of the same track:
    every possible course, the chosen path, and the hours of that path. */
-const isChoice = (item) => typeof item === 'object' && Array.isArray(item.opcoes);
+const isChoice = (item) => typeof item === 'object' && Array.isArray(item.options);
 
 // every course the track can contain, adding up all the options
 const allCourses = (t) =>
-  t.cursos.flatMap((i) => (isChoice(i) ? i.opcoes.flatMap((o) => o.cursos) : [i]));
+  t.courses.flatMap((i) => (isChoice(i) ? i.options.flatMap((o) => o.courses) : [i]));
 
 // each track's current choice, by option index (the first one is the suggested one)
 const choices = {};
@@ -33,9 +33,9 @@ const activeOption = (trackId, stepIdx) => (choices[trackId + ':' + stepIdx] || 
 
 // the path the student is looking at right now
 const trackPath = (t) =>
-  t.cursos.flatMap((i, idx) => (isChoice(i) ? i.opcoes[activeOption(t.id, idx)].cursos : [i]));
+  t.courses.flatMap((i, idx) => (isChoice(i) ? i.options[activeOption(t.id, idx)].courses : [i]));
 
-const hoursOf = (ids) => ids.reduce((s, id) => s + (courseById(id)?.horas || 0), 0);
+const hoursOf = (ids) => ids.reduce((s, id) => s + (courseById(id)?.hours || 0), 0);
 
 /* ---------- a track's graph ----------
    Each course on the path becomes a node; a choice step becomes a single node
@@ -48,16 +48,16 @@ function trackGraph(t) {
   const ofCourse = {};   // course id -> id of the node containing it
   const forkMembers = {}; // course id (from any option) -> fork node id
 
-  t.cursos.forEach((item, idx) => {
+  t.courses.forEach((item, idx) => {
     if (!isChoice(item)) {
       nodes.push({ id: item, kind: 'curso', courses: [item] });
       ofCourse[item] = item;
       return;
     }
-    const nodeId = 'garfo:' + idx;
-    nodes.push({ id: nodeId, kind: 'garfo', step: item, idx: idx, courses: item.opcoes[activeOption(t.id, idx)].cursos });
-    item.opcoes.forEach((o) => o.cursos.forEach((c) => { forkMembers[c] = nodeId; }));
-    item.opcoes[activeOption(t.id, idx)].cursos.forEach((c) => { ofCourse[c] = nodeId; });
+    const nodeId = 'fork:' + idx;
+    nodes.push({ id: nodeId, kind: 'fork', step: item, idx: idx, courses: item.options[activeOption(t.id, idx)].courses });
+    item.options.forEach((o) => o.courses.forEach((c) => { forkMembers[c] = nodeId; }));
+    item.options[activeOption(t.id, idx)].courses.forEach((c) => { ofCourse[c] = nodeId; });
   });
 
   // edges: prerequisite -> course, resolving inner courses to their block
@@ -65,12 +65,12 @@ function trackGraph(t) {
   nodes.forEach((node, i) => {
     const deps = new Set();
     node.courses.forEach((id) => {
-      (courseById(id)?.depende || []).forEach((d) => {
+      (courseById(id)?.requires || []).forEach((d) => {
         const target = ofCourse[d] || forkMembers[d];
         if (target && target !== node.id) deps.add(target);
       });
       // links that exist only in this track (curriculum order, not content order)
-      ((t.ligacoes || {})[id] || []).forEach((v) => {
+      ((t.links || {})[id] || []).forEach((v) => {
         const target = idOfItem(v);
         if (target && target !== node.id) deps.add(target);
       });
@@ -117,7 +117,7 @@ function trackGraph(t) {
     queue.push(n.id);
   });
   if (stuck.length && window.console) {
-    console.warn('track "' + t.nome + '": circular dependency in ' + stuck.map((n) => n.id).join(', '));
+    console.warn('track "' + t.name + '": circular dependency in ' + stuck.map((n) => n.id).join(', '));
   }
 
   // group by level, leaving no hole in the sequence of columns
@@ -332,9 +332,9 @@ function trackGraph(t) {
 // workload range: the shortest and the longest possible path
 function hoursRange(t) {
   let min = 0, max = 0;
-  t.cursos.forEach((i) => {
-    if (!isChoice(i)) { const h = courseById(i)?.horas || 0; min += h; max += h; return; }
-    const hs = i.opcoes.map((o) => hoursOf(o.cursos));
+  t.courses.forEach((i) => {
+    if (!isChoice(i)) { const h = courseById(i)?.hours || 0; min += h; max += h; return; }
+    const hs = i.options.map((o) => hoursOf(o.courses));
     min += Math.min(...hs);
     max += Math.max(...hs);
   });
@@ -342,28 +342,28 @@ function hoursRange(t) {
 }
 
 // in how many tracks a course appears (the same course can serve several)
-const tracksOfCourse = (id) => TRILHAS.filter((t) => allCourses(t).includes(id));
+const tracksOfCourse = (id) => TRACKS.filter((t) => allCourses(t).includes(id));
 // the inverse of `depende`: which courses this one unlocks
-const unlockedBy = (id) => CURSOS.filter((c) => (c.depende || []).includes(id));
+const unlockedBy = (id) => COURSES.filter((c) => (c.requires || []).includes(id));
 
-document.getElementById('ano').textContent = new Date().getFullYear();
-$('#n-cursos').textContent = CURSOS.length;
-$('#n-trilhas').textContent = TRILHAS.length;
+document.getElementById('year').textContent = new Date().getFullYear();
+$('#n-courses').textContent = COURSES.length;
+$('#n-tracks').textContent = TRACKS.length;
 /* the catalogue's real total workload, in place of the old "5,000+ students
    graduated" — a number a new school does not have. This one grows by itself
    when a course is added, and it is true on the day the site goes up. The
    thousands separator follows the language: 5.930 in Portuguese, 5,930 in
    English. */
-const TOTAL_HOURS = CURSOS.reduce((s, c) => s + (c.horas || 0), 0);
-const currentLocale = () => (LANGUAGES.find((i) => i.cod === LANG) || {}).html || 'pt-BR';
+const TOTAL_HOURS = COURSES.reduce((s, c) => s + (c.hours || 0), 0);
+const currentLocale = () => (LANGUAGES.find((i) => i.code === LANG) || {}).html || 'en';
 function showHours() {
-  $('#n-horas').textContent = TOTAL_HOURS.toLocaleString(currentLocale());
+  $('#n-hours').textContent = TOTAL_HOURS.toLocaleString(currentLocale());
 }
 showHours();
 
 /* ---------- the hero terminal ----------
    Four commands, and not one hand-written response: the numbers, the track names
-   and the course card all come out of CURSOS and TRILHAS. That way the terminal
+   and the course card all come out of COURSES and TRACKS. That way the terminal
    does not go stale — a new track comes in and it counts right — and there is no
    way for it to contradict the rest of the page.
 
@@ -375,30 +375,30 @@ function buildTerminal() {
   if (!body) return;
   const cmd = (s) => '<div class="term-line"><span class="pr">$</span> ' + s + '</div>';
   const arrow = (m, cls, s) => '<div class="term-line"><span class="' + cls + '">' + m + '</span> ' + s + '</div>';
-  const blank = '<div class="term-vao"></div>';
+  const blank = '<div class="term-gap"></div>';
 
   const status = arrow('✓', 'ok',
-    CURSOS.length + ' ' + txt('cursos ·') + ' ' + TRILHAS.length + ' ' + txt('trilhas ·') +
-    ' ' + TOTAL_HOURS.toLocaleString(currentLocale()) + ' ' + txt('horas de conteúdo'));
+    COURSES.length + ' ' + txt('courses ·') + ' ' + TRACKS.length + ' ' + txt('tracks ·') +
+    ' ' + TOTAL_HOURS.toLocaleString(currentLocale()) + ' ' + txt('hours of content'));
 
-  const career = TRILHAS.filter((t) => t.familia === 'carreira');
+  const career = TRACKS.filter((t) => t.family === 'career');
   const list = career.slice(0, 3).map((t) => {
     const f = hoursRange(t);
-    return arrow('→', 'pr', t.nome + ' · ' + (f.min === f.max ? f.min : f.min + '–' + f.max) + 'h');
+    return arrow('→', 'pr', t.name + ' · ' + (f.min === f.max ? f.min : f.min + '–' + f.max) + 'h');
   }).join('');
   const rest = career.length - 3;
   const moreTracks = rest > 0
     ? '<div class="term-line"><span class="cm">  ' +
-      txt('… e mais {n} trilhas de carreira').replace('{n}', rest) + '</span></div>'
+      txt('… and {n} more career tracks').replace('{n}', rest) + '</span></div>'
     : '';
 
-  const c = courseById(SHOWCASE_COURSE) || CURSOS.find((x) => (x.depende || []).length);
+  const c = courseById(SHOWCASE_COURSE) || COURSES.find((x) => (x.requires || []).length);
   const card = c
     ? cmd('codeschool course ' + c.id + ' --info') +
-      arrow('→', 'pr', c.nome + ' · ' + c.horas + 'h · ' + txt(c.nivel)) +
-      ((c.depende || []).length
-        ? arrow('↳', 'cm', txt('precisa antes:') + ' ' +
-            c.depende.map((d) => courseById(d)?.nome).filter(Boolean).join(', '))
+      arrow('→', 'pr', c.name + ' · ' + c.hours + 'h · ' + txt(c.level)) +
+      ((c.requires || []).length
+        ? arrow('↳', 'cm', txt('needs first:') + ' ' +
+            c.requires.map((d) => courseById(d)?.name).filter(Boolean).join(', '))
         : '')
     : '';
 
@@ -412,19 +412,62 @@ function buildTerminal() {
 }
 buildTerminal();
 
-/* ---------- light/dark theme ---------- */
-const themeBtn = $('#tema-btn');
+/* ---------- light/dark theme ----------
+   The key and its two values were renamed, and both halves matter: a returning
+   visitor stored `codeschool-tema: claro`, and reading only the new name would
+   put them back on the dark theme they had turned off. Read the old one once,
+   translate the value, write the new one, forget the old name. The same read
+   lives inlined in index.html's <head>, because the anti-flash script runs
+   before this file does. */
+const THEME_KEY = 'codeschool-theme';
+const THEME_KEY_LEGACY = 'codeschool-tema';
+const THEME_LEGACY_VALUES = { claro: 'light', escuro: 'dark' };
+
+function storedTheme() {
+  try {
+    const fresh = localStorage.getItem(THEME_KEY);
+    if (fresh) return fresh;
+    const old = localStorage.getItem(THEME_KEY_LEGACY);
+    if (old) {
+      const moved = THEME_LEGACY_VALUES[old] || old;
+      localStorage.setItem(THEME_KEY, moved);
+      localStorage.removeItem(THEME_KEY_LEGACY);
+      return moved;
+    }
+  } catch (e) { /* private mode */ }
+  return 'dark';
+}
+
+const themeBtn = $('#theme-btn');
 function applyTheme(theme) {
-  if (theme === 'claro') document.documentElement.dataset.tema = 'claro';
-  else delete document.documentElement.dataset.tema;
-  themeBtn.setAttribute('aria-label', theme === 'claro' ? 'Mudar para tema escuro' : 'Mudar para tema claro');
+  if (theme === 'light') document.documentElement.dataset.theme = 'light';
+  else delete document.documentElement.dataset.theme;
+  themeBtn.setAttribute('aria-label', theme === 'light' ? txt('Switch to the dark theme') : txt('Switch to the light theme'));
 }
 themeBtn.addEventListener('click', () => {
-  const next = document.documentElement.dataset.tema === 'claro' ? 'escuro' : 'claro';
-  try { localStorage.setItem('codeschool-tema', next); } catch (e) {}
+  const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+  try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
   applyTheme(next);
 });
-try { applyTheme(localStorage.getItem('codeschool-tema') || 'escuro'); } catch (e) { applyTheme('escuro'); }
+applyTheme(storedTheme());
+
+/* ---------- the old section anchors ----------
+   `#trilhas`, `#cursos`, `#planos`, `#alunos`, `#contato` and `#topo` are
+   published: they are in the nav, in bookmarks, and possibly in links this
+   repository does not control. They were renamed with everything else — keeping
+   six Portuguese ids would have been the one carve-out — so the old fragment has
+   to keep working. This maps it to the new one on load and on every hashchange.
+   It is cheap and it never expires; an inbound link does not, either. */
+const MOVED_ANCHORS = {
+  '#topo': '#top', '#trilhas': '#tracks', '#cursos': '#courses',
+  '#planos': '#plans', '#alunos': '#students', '#contato': '#contact',
+};
+function moveAnchor() {
+  const to = MOVED_ANCHORS[location.hash];
+  if (to) history.replaceState(null, '', to);
+}
+moveAnchor();
+addEventListener('hashchange', moveAnchor);
 
 /* ---------- mobile menu ---------- */
 const menu = $('#menu');
@@ -433,7 +476,7 @@ $('#burger').addEventListener('click', () => menu.classList.toggle('open'));
 /* ==========================================================
    TRACKS — a sequence of courses with arrows
    ========================================================== */
-const panelEl = $('#trilha-painel');
+const panelEl = $('#track-panel');
 let currentTrack = 0;
 let swapT = null;
 
@@ -441,34 +484,34 @@ let swapT = null;
    "tecnologia" answers which tool they want to master. Each has its own row of
    tabs, with its own label and arrows — since there are only two, the switcher
    that used to be there cost more height than it conveyed. The index used
-   throughout this section is still the one into TRILHAS. */
-const FAMILIES = ['carreira', 'tecnologia'];
-const familyOf = (t) => t.familia || 'carreira';
-const indicesOfFamily = (f) => TRILHAS.map((t, i) => (familyOf(t) === f ? i : -1)).filter((i) => i >= 0);
-const familyBox = (f) => document.querySelector('.abas-caixa[data-familia="' + f + '"]');
-const familyTabs = (f) => $('#abas-' + f);
+   throughout this section is still the one into TRACKS. */
+const FAMILIES = ['career', 'technology'];
+const familyOf = (t) => t.family || 'career';
+const indicesOfFamily = (f) => TRACKS.map((t, i) => (familyOf(t) === f ? i : -1)).filter((i) => i >= 0);
+const familyBox = (f) => document.querySelector('.tabs-box[data-family="' + f + '"]');
+const familyTabs = (f) => $('#tabs-' + f);
 
 /* The tracks dropdown (mobile): the two scrollable rows become a single list,
    grouped by family. Same data source, same opening function. */
-const trackDrop = $('#drop-trilhas');
+const trackDrop = $('#drop-tracks');
 function buildTrackDropdown() {
-  const list = $('#drop-trilhas-lista');
+  const list = $('#drop-tracks-list');
   list.textContent = '';
   FAMILIES.forEach((f) => {
     const h = document.createElement('div');
-    h.className = 'drop-grupo';
-    h.textContent = txt(f === 'carreira' ? 'trilhas por carreira' : 'trilhas por tecnologia');
+    h.className = 'drop-group';
+    h.textContent = txt(f === 'career' ? 'tracks por carreira' : 'tracks por tecnologia');
     list.appendChild(h);
     indicesOfFamily(f).forEach((i) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'drop-op' + (i === currentTrack ? ' on' : '');
-      b.textContent = TRILHAS[i].nome;
+      b.textContent = TRACKS[i].name;
       b.addEventListener('click', () => { openTrack(i); closeDropdowns(); });
       list.appendChild(b);
     });
   });
-  trackDrop.querySelector('.drop-atual').textContent = TRILHAS[currentTrack].nome;
+  trackDrop.querySelector('.drop-current').textContent = TRACKS[currentTrack].name;
 }
 
 function buildTabs() {
@@ -477,11 +520,11 @@ function buildTabs() {
     el.textContent = '';
     indicesOfFamily(f).forEach((i) => {
       const b = document.createElement('button');
-      b.className = 'trilha-aba' + (i === currentTrack ? ' on' : '');
+      b.className = 'track-tab' + (i === currentTrack ? ' on' : '');
       b.type = 'button';
       b.dataset.idx = i;
       b.setAttribute('role', 'tab');
-      b.textContent = TRILHAS[i].nome;
+      b.textContent = TRACKS[i].name;
       b.addEventListener('click', () => openTrack(i));
       el.appendChild(b);
     });
@@ -493,14 +536,14 @@ function courseCard(id, order, deps) {
   const c = courseById(id);
   if (!c) return '';
   const nT = tracksOfCourse(id).length;
-  const requires = (deps || []).map((d) => courseById(d)?.nome).filter(Boolean);
+  const requires = (deps || []).map((d) => courseById(d)?.name).filter(Boolean);
   return (
-    '<button class="curso-no" type="button" data-curso="' + c.id + '" data-no="' + c.id + '">' +
-      (order ? '<span class="ordem">' + txt('nível') + ' ' + order + '</span>' : '') +
-      '<span class="nome">' + c.nome + '</span>' +
-      (nT > 1 ? '<span class="tag-compartilhado">' + txt('em') + ' ' + nT + ' ' + txt('trilhas') + '</span>' : '') +
-      '<span class="meta">' + c.horas + 'h · ' + txt(c.nivel) + '</span>' +
-      (requires.length ? '<span class="requer">' + txt('depois de') + ' ' + requires.join(' + ') + '</span>' : '') +
+    '<button class="course-node" type="button" data-course="' + c.id + '" data-node="' + c.id + '">' +
+      (order ? '<span class="order">' + txt('level') + ' ' + order + '</span>' : '') +
+      '<span class="name">' + c.name + '</span>' +
+      (nT > 1 ? '<span class="tag-shared">' + txt('in') + ' ' + nT + ' ' + txt('tracks') + '</span>' : '') +
+      '<span class="meta">' + c.hours + 'h · ' + txt(c.level) + '</span>' +
+      (requires.length ? '<span class="requires">' + txt('after') + ' ' + requires.join(' + ') + '</span>' : '') +
     '</button>'
   );
 }
@@ -516,75 +559,75 @@ function buildTrack(t) {
       const cards = nodes
         .map((node) => {
           if (node.kind === 'saida') {
-            return '<div class="no-saida" data-no="@saida">' +
-              '<span class="saida-selo" aria-hidden="true">' +
+            return '<div class="node-outcome" data-node="@saida">' +
+              '<span class="outcome-seal" aria-hidden="true">' +
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
                 '<path d="M5 22V4M5 4h11l-2 4 2 4H5"/></svg>' +
               '</span>' +
-              '<span class="saida-txt">' +
-                '<span class="saida-rotulo">' + txt('chegada') + '</span>' +
-                '<span class="saida-nome">' + t.saida + '</span>' +
+              '<span class="outcome-text">' +
+                '<span class="outcome-label">' + txt('finish') + '</span>' +
+                '<span class="outcome-name">' + t.outcome + '</span>' +
               '</span>' +
             '</div>';
           }
           if (node.kind === 'curso') {
-            const names = (courseById(node.id)?.depende || []).filter((d) => g.nodes.some((x) => x.courses.includes(d)));
+            const names = (courseById(node.id)?.requires || []).filter((d) => g.nodes.some((x) => x.courses.includes(d)));
             return courseCard(node.id, String(v + 1).padStart(2, '0'), names);
           }
           // choice step: a single block, with the options as tabs
           const item = node.step;
           const sel = activeOption(t.id, node.idx);
-          const tabs = item.opcoes
+          const tabs = item.options
             .map((o, j) =>
-              '<button class="garfo-aba' + (j === sel ? ' on' : '') + '" type="button" ' +
-              'data-garfo="' + node.idx + '" data-opcao="' + j + '">' + o.nome +
-              '<span class="garfo-h">' + hoursOf(o.cursos) + 'h</span></button>')
+              '<button class="fork-tab' + (j === sel ? ' on' : '') + '" type="button" ' +
+              'data-fork="' + node.idx + '" data-option="' + j + '">' + o.name +
+              '<span class="fork-h">' + hoursOf(o.courses) + 'h</span></button>')
             .join('');
-          const inside = item.opcoes[sel].cursos.map((id) => courseCard(id)).join('');
+          const inside = item.options[sel].courses.map((id) => courseCard(id)).join('');
           return (
-            '<div class="garfo" data-no="' + node.id + '">' +
-              '<div class="garfo-topo">' +
-                '<span class="garfo-rotulo">' + txt('nível') + ' ' + String(v + 1).padStart(2, '0') +
-                  ' · ' + txt('você escolhe') + ' ' + item.escolha + '</span>' +
-                '<div class="garfo-abas" role="tablist">' + tabs + '</div>' +
+            '<div class="fork" data-node="' + node.id + '">' +
+              '<div class="fork-top">' +
+                '<span class="fork-label">' + txt('level') + ' ' + String(v + 1).padStart(2, '0') +
+                  ' · ' + txt('you choose') + ' ' + item.choice + '</span>' +
+                '<div class="fork-tabs" role="tablist">' + tabs + '</div>' +
               '</div>' +
-              (item.nota ? '<p class="garfo-nota">' + item.nota + '</p>' : '') +
-              '<div class="garfo-cursos">' + inside + '</div>' +
+              (item.note ? '<p class="fork-note">' + item.note + '</p>' : '') +
+              '<div class="fork-courses">' + inside + '</div>' +
             '</div>'
           );
         })
         .join('');
       // one sub-column only; the script splits it after measuring the real height
-      return '<div class="nivel" data-nivel="' + v + '"><div class="subcol">' + cards + '</div></div>';
+      return '<div class="level" data-level="' + v + '"><div class="subcol">' + cards + '</div></div>';
     })
     .join('');
 
   const workload = min === max
-    ? '<span><b>' + hours + 'h</b>' + txt('de carga') + '</span>'
-    : '<span><b>' + hours + 'h</b>' + txt('neste caminho') + ' <i>(' + min + 'h ' + txt('a') + ' ' + max + 'h)</i></span>';
+    ? '<span><b>' + hours + 'h</b>' + txt('total') + '</span>'
+    : '<span><b>' + hours + 'h</b>' + txt('on this path') + ' <i>(' + min + 'h ' + txt('to') + ' ' + max + 'h)</i></span>';
 
   const parallel = g.columns.slice(0, -1).filter((c) => c.length > 1).length;
 
   return (
-    '<div class="trilha-topo">' +
+    '<div class="track-top">' +
       '<div>' +
-        '<h3>' + t.nome + '</h3>' +
-        '<p>' + t.objetivo + '</p>' +
+        '<h3>' + t.name + '</h3>' +
+        '<p>' + t.goal + '</p>' +
       '</div>' +
-      '<div class="trilha-resumo">' +
-        '<span><b>' + path.length + '</b>' + txt('cursos') + '</span>' +
+      '<div class="track-summary">' +
+        '<span><b>' + path.length + '</b>' + txt('courses') + '</span>' +
         workload +
-        '<span><b>' + g.realLevels + '</b>' + txt('níveis') +
-          (parallel ? '<i>' + parallel + ' ' + txt('deles com ordem livre') + '</i>' : '') +
+        '<span><b>' + g.realLevels + '</b>' + txt('levels') +
+          (parallel ? '<i>' + parallel + ' ' + txt('of them in free order') + '</i>' : '') +
         '</span>' +
-        '<span><b>→</b>' + t.saida + '</span>' +
+        '<span><b>→</b>' + t.outcome + '</span>' +
       '</div>' +
     '</div>' +
-    '<div class="grafo-caixa">' +
-      '<button class="grafo-seta esq" type="button" data-rolar="-1" aria-label="Ver níveis anteriores">←</button>' +
-      '<div class="trilha-grafo"><svg class="grafo-arestas" aria-hidden="true"></svg>' +
-        '<div class="grafo-niveis">' + columns + '</div></div>' +
-      '<button class="grafo-seta dir" type="button" data-rolar="1" aria-label="Ver próximos níveis">→</button>' +
+    '<div class="graph-box">' +
+      '<button class="graph-arrow left" type="button" data-scroll="-1" aria-label="See the previous levels">←</button>' +
+      '<div class="track-graph"><svg class="graph-edges" aria-hidden="true"></svg>' +
+        '<div class="graph-levels">' + columns + '</div></div>' +
+      '<button class="graph-arrow right" type="button" data-scroll="1" aria-label="See the next levels">→</button>' +
     '</div>'
   );
 }
@@ -595,12 +638,12 @@ function buildTrack(t) {
    before the next one opens, so the graph grows horizontally — which is where
    the navigation arrows are. */
 function splitLevels() {
-  const scroller = panelEl.querySelector('.trilha-grafo');
-  const lane = panelEl.querySelector('.grafo-niveis');
+  const scroller = panelEl.querySelector('.track-graph');
+  const lane = panelEl.querySelector('.graph-levels');
   if (!scroller || !lane) return;
   // back to full size before measuring: it is the available height that decides
   // the split, not whatever was left over from the previous track
-  const boxG = panelEl.querySelector('.grafo-caixa');
+  const boxG = panelEl.querySelector('.graph-box');
   if (boxG) boxG.style.flex = '1 1 auto';
   // on a narrow screen the CSS stacks everything into one column: nothing to
   // split, and whatever an earlier measurement left goes back to one sub-column
@@ -611,7 +654,7 @@ function splitLevels() {
   const cs = getComputedStyle(lane);
   const available = scroller.clientHeight -
     (parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)) - 4;
-  panelEl.querySelectorAll('.nivel').forEach((lvl) => {
+  panelEl.querySelectorAll('.level').forEach((lvl) => {
     const items = [];
     lvl.querySelectorAll(':scope > .subcol').forEach((sc) => {
       Array.from(sc.children).forEach((el) => items.push(el));
@@ -653,11 +696,11 @@ function splitLevels() {
      what decides how many cards fit in a column. */
   if (!asList) {
     let tallest = 0;
-    panelEl.querySelectorAll('.nivel > .subcol').forEach((sc) => {
+    panelEl.querySelectorAll('.level > .subcol').forEach((sc) => {
       tallest = Math.max(tallest, sc.offsetHeight);
     });
     const full = scroller.clientHeight;
-    const cx = panelEl.querySelector('.grafo-caixa');
+    const cx = panelEl.querySelector('.graph-box');
     if (tallest && cx) {
       const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
       cx.style.flex = '0 0 ' + Math.min(full, tallest + pad) + 'px';
@@ -670,14 +713,14 @@ function splitLevels() {
    right edge is joined to the left edge of whoever depends on it. */
 function drawEdges(t) {
   splitLevels();
-  const cont = panelEl.querySelector('.trilha-grafo');
-  const svg = cont && cont.querySelector('.grafo-arestas');
+  const cont = panelEl.querySelector('.track-graph');
+  const svg = cont && cont.querySelector('.graph-edges');
   if (!svg) return;
   const g = trackGraph(t);
   const base = cont.getBoundingClientRect();
   const L = cont.scrollLeft, T = cont.scrollTop;
   const boxOf = (id) => {
-    const el = cont.querySelector('[data-no="' + CSS.escape(id) + '"]');
+    const el = cont.querySelector('[data-node="' + CSS.escape(id) + '"]');
     if (!el) return null;
     const r = el.getBoundingClientRect();
     return { x: r.left - base.left + L, y: r.top - base.top + T, w: r.width, h: r.height };
@@ -785,11 +828,11 @@ function drawEdges(t) {
       }
 
       lines.push(
-        '<g class="aresta" data-de="' + d + '" data-para="' + node.id + '">' +
+        '<g class="edge" data-from="' + d + '" data-to="' + node.id + '">' +
           '<title>' + nodeLabel(d, g) + ' → ' + nodeLabel(node.id, g) + '</title>' +
           '<path class="hit" d="' + dd + '"/>' +
-          '<path class="linha" d="' + dd + '"/>' +
-          '<circle class="ponta" cx="' + x2 + '" cy="' + y2 + '" r="3"/>' +
+          '<path class="row" d="' + dd + '"/>' +
+          '<circle class="tip" cx="' + x2 + '" cy="' + y2 + '" r="3"/>' +
         '</g>'
       );
     });
@@ -800,64 +843,64 @@ function drawEdges(t) {
 
 /* a node's readable name, for the edge's tooltip */
 function nodeLabel(id, g) {
-  if (id === '@saida') return txt('chegada');
+  if (id === '@saida') return txt('finish');
   const c = courseById(id);
-  if (c) return c.nome;
+  if (c) return c.name;
   const node = g.nodes.find((n) => n.id === id);
-  return node && node.step ? 'escolha ' + node.step.escolha : id;
+  return node && node.step ? 'choice: ' + node.step.choice : id;
 }
 
 /* the graph scrolls by arrows, with no scrollbar on show */
 function updateGraphArrows() {
-  const cx = panelEl.querySelector('.grafo-caixa');
-  const scroller = cx && cx.querySelector('.trilha-grafo');
+  const cx = panelEl.querySelector('.graph-box');
+  const scroller = cx && cx.querySelector('.track-graph');
   if (!scroller) return;
   const overflow = scroller.scrollWidth - scroller.clientWidth;
-  cx.querySelector('.grafo-seta.esq').disabled = !(overflow > 4 && scroller.scrollLeft > 4);
-  cx.querySelector('.grafo-seta.dir').disabled = !(overflow > 4 && scroller.scrollLeft < overflow - 4);
-  cx.classList.toggle('sem-setas', overflow <= 4);
-  scroller.classList.toggle('fade-dir', overflow > 4 && scroller.scrollLeft < overflow - 4);
-  scroller.classList.toggle('fade-esq', overflow > 4 && scroller.scrollLeft > 4);
+  cx.querySelector('.graph-arrow.left').disabled = !(overflow > 4 && scroller.scrollLeft > 4);
+  cx.querySelector('.graph-arrow.right').disabled = !(overflow > 4 && scroller.scrollLeft < overflow - 4);
+  cx.classList.toggle('no-arrows', overflow <= 4);
+  scroller.classList.toggle('fade-right', overflow > 4 && scroller.scrollLeft < overflow - 4);
+  scroller.classList.toggle('fade-left', overflow > 4 && scroller.scrollLeft > 4);
   // on a narrow screen the graph is a list and scrolls downwards: the fade says there is more
   const overflowY = scroller.scrollHeight - scroller.clientHeight;
-  scroller.classList.toggle('fade-baixo', overflowY > 4 && scroller.scrollTop < overflowY - 4);
+  scroller.classList.toggle('fade-down', overflowY > 4 && scroller.scrollTop < overflowY - 4);
 }
 
 /* A row scrolls when the tabs do not fit: arrows at the ends and a fade showing
    which side still has track. The same function serves both families and the
    catalogue's row of filters. */
 function updateRow(box) {
-  const scroller = box && box.querySelector('.trilha-abas, .chips');
+  const scroller = box && box.querySelector('.track-tabs, .chips');
   if (!scroller) return;
   const overflow = scroller.scrollWidth - scroller.clientWidth;
   const hasLeft = overflow > 4 && scroller.scrollLeft > 4;
   const hasRight = overflow > 4 && scroller.scrollLeft < overflow - 4;
-  scroller.classList.toggle('fade-esq', hasLeft);
-  scroller.classList.toggle('fade-dir', hasRight);
-  const left = box.querySelector('.abas-seta.esq');
-  const right = box.querySelector('.abas-seta.dir');
+  scroller.classList.toggle('fade-left', hasLeft);
+  scroller.classList.toggle('fade-right', hasRight);
+  const left = box.querySelector('.tabs-arrow.left');
+  const right = box.querySelector('.tabs-arrow.right');
   if (left) left.disabled = !hasLeft;
   if (right) right.disabled = !hasRight;
-  box.classList.toggle('sem-setas', overflow <= 4);
+  box.classList.toggle('no-arrows', overflow <= 4);
 }
 function updateTabs() {
   FAMILIES.forEach((f) => updateRow(familyBox(f)));
-  updateRow($('.chips-caixa'));
+  updateRow($('.chips-box'));
 }
 
 /* scrolls one "screenful" per click, respecting the available width */
 document.addEventListener('click', (e) => {
-  const b = e.target.closest('.abas-seta[data-rolar], #chips-esq, #chips-dir');
+  const b = e.target.closest('.tabs-arrow[data-scroll], #chips-left, #chips-right');
   if (!b) return;
-  const box = b.closest('.abas-caixa, .chips-caixa');
-  const scroller = box.querySelector('.trilha-abas, .chips');
-  const step = b.id === 'chips-esq' || b.dataset.rolar === '-1' ? -1 : 1;
+  const box = b.closest('.tabs-box, .chips-box');
+  const scroller = box.querySelector('.track-tabs, .chips');
+  const step = b.id === 'chips-left' || b.dataset.scroll === '-1' ? -1 : 1;
   scroller.scrollBy({ left: step * Math.max(160, scroller.clientWidth - 80), behavior: reduceMotion ? 'auto' : 'smooth' });
 });
 document.addEventListener('scroll', (e) => {
   const scroller = e.target;
-  if (!scroller.classList || !(scroller.classList.contains('trilha-abas') || scroller.classList.contains('chips'))) return;
-  updateRow(scroller.closest('.abas-caixa, .chips-caixa'));
+  if (!scroller.classList || !(scroller.classList.contains('track-tabs') || scroller.classList.contains('chips'))) return;
+  updateRow(scroller.closest('.tabs-box, .chips-box'));
 }, true);
 
 function openTrack(i, noAnimation) {
@@ -865,7 +908,7 @@ function openTrack(i, noAnimation) {
   // both rows are always on show: it is enough to mark the right tab and bring
   // it into view inside its own row
   let active = null;
-  document.querySelectorAll('.trilha-aba').forEach((b) => {
+  document.querySelectorAll('.track-tab').forEach((b) => {
     const isThisOne = Number(b.dataset.idx) === i;
     b.classList.toggle('on', isThisOne);
     if (isThisOne) active = b;
@@ -883,16 +926,16 @@ function openTrack(i, noAnimation) {
   // from 160ms ago would overwrite the panel that has just been built
   clearTimeout(swapT);
   if (noAnimation) {
-    panelEl.classList.remove('trocando');
-    panelEl.innerHTML = buildTrack(TRILHAS[i]);
-    drawEdges(TRILHAS[i]);
+    panelEl.classList.remove('switching');
+    panelEl.innerHTML = buildTrack(TRACKS[i]);
+    drawEdges(TRACKS[i]);
     return;
   }
-  panelEl.classList.add('trocando');
+  panelEl.classList.add('switching');
   swapT = setTimeout(() => {
-    panelEl.innerHTML = buildTrack(TRILHAS[i]);
-    panelEl.classList.remove('trocando');
-    drawEdges(TRILHAS[i]);
+    panelEl.innerHTML = buildTrack(TRACKS[i]);
+    panelEl.classList.remove('switching');
+    drawEdges(TRACKS[i]);
   }, 160);
 }
 buildTabs();
@@ -903,30 +946,30 @@ addEventListener('resize', updateTabs);
 let redrawT = null;
 addEventListener('resize', () => {
   clearTimeout(redrawT);
-  redrawT = setTimeout(() => drawEdges(TRILHAS[currentTrack]), 120);
+  redrawT = setTimeout(() => drawEdges(TRACKS[currentTrack]), 120);
 });
 if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(() => drawEdges(TRILHAS[currentTrack]));
+  document.fonts.ready.then(() => drawEdges(TRACKS[currentTrack]));
 }
 
 /* ==========================================================
    CATALOGUE — search + filter by area
    ========================================================== */
-const grid = $('#cursos-grade');
-const emptyEl = $('#cursos-vazio');
-const searchEl = $('#busca');
-const chipsEl = $('#chips-cat');
-let category = 'todas';
+const grid = $('#courses-grid');
+const emptyEl = $('#courses-empty');
+const searchEl = $('#search');
+const chipsEl = $('#chips-category');
+let category = 'all';
 
-const categories = ['todas', ...new Set(CURSOS.map((c) => c.categoria))];
+const categories = ['all', ...new Set(COURSES.map((c) => c.category))];
 function buildChips() {
   chipsEl.textContent = '';
   categories.forEach((cat) => {
     const b = document.createElement('button');
     b.className = 'chip' + (cat === category ? ' on' : '');
     b.type = 'button';
-    const n = cat === 'todas' ? CURSOS.length : CURSOS.filter((c) => c.categoria === cat).length;
-    b.innerHTML = txt(cat) + '<span class="qtd">(' + n + ')</span>';
+    const n = cat === 'all' ? COURSES.length : COURSES.filter((c) => c.category === cat).length;
+    b.innerHTML = txt(cat) + '<span class="count">(' + n + ')</span>';
     b.addEventListener('click', () => {
       category = cat;
       chipsEl.querySelectorAll('.chip').forEach((c) => c.classList.toggle('on', c === b));
@@ -939,12 +982,12 @@ function buildChips() {
 buildChips();
 
 /* The filters dropdown (mobile), for the same reason as the tracks one */
-const filterDrop = $('#drop-filtros');
+const filterDrop = $('#drop-filters');
 function buildFilterDropdown() {
-  const list = $('#drop-filtros-lista');
+  const list = $('#drop-filters-list');
   list.textContent = '';
   categories.forEach((cat) => {
-    const n = cat === 'todas' ? CURSOS.length : CURSOS.filter((c) => c.categoria === cat).length;
+    const n = cat === 'all' ? COURSES.length : COURSES.filter((c) => c.category === cat).length;
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'drop-op' + (cat === category ? ' on' : '');
@@ -958,39 +1001,39 @@ function buildFilterDropdown() {
     });
     list.appendChild(b);
   });
-  const nCurrent = category === 'todas' ? CURSOS.length : CURSOS.filter((c) => c.categoria === category).length;
-  filterDrop.querySelector('.drop-atual').textContent = txt(category) + ' (' + nCurrent + ')';
+  const nCurrent = category === 'all' ? COURSES.length : COURSES.filter((c) => c.category === category).length;
+  filterDrop.querySelector('.drop-current').textContent = txt(category) + ' (' + nCurrent + ')';
 }
 buildFilterDropdown();
 
 /* opens/closes, and closes on a click outside — applies to both menus */
 function closeDropdowns() {
-  document.querySelectorAll('.drop.aberto').forEach((d) => {
-    d.classList.remove('aberto');
+  document.querySelectorAll('.drop.is-open').forEach((d) => {
+    d.classList.remove('is-open');
     d.querySelector('.drop-btn').setAttribute('aria-expanded', 'false');
   });
 }
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.drop-btn');
-  if (!btn) { if (!e.target.closest('.drop-lista')) closeDropdowns(); return; }
+  if (!btn) { if (!e.target.closest('.drop-list')) closeDropdowns(); return; }
   const d = btn.closest('.drop');
-  const opening = !d.classList.contains('aberto');
+  const opening = !d.classList.contains('is-open');
   closeDropdowns();
-  d.classList.toggle('aberto', opening);
+  d.classList.toggle('is-open', opening);
   btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDropdowns(); });
 
 function buildCatalogue() {
   const term = searchEl.value.trim().toLowerCase();
-  const list = CURSOS.filter((c) => {
-    const okCat = category === 'todas' || c.categoria === category;
+  const list = COURSES.filter((c) => {
+    const okCat = category === 'all' || c.category === category;
     const okTerm =
       !term ||
-      c.nome.toLowerCase().includes(term) ||
-      c.resumo.toLowerCase().includes(term) ||
-      c.ementa.join(' ').toLowerCase().includes(term) ||
-      (c.topicos || []).join(' ').toLowerCase().includes(term);
+      c.name.toLowerCase().includes(term) ||
+      c.summary.toLowerCase().includes(term) ||
+      c.syllabus.join(' ').toLowerCase().includes(term) ||
+      (c.topics || []).join(' ').toLowerCase().includes(term);
     return okCat && okTerm;
   });
 
@@ -998,13 +1041,13 @@ function buildCatalogue() {
     .map((c) => {
       const nT = tracksOfCourse(c.id).length;
       return (
-        '<button class="curso-card" type="button" data-curso="' + c.id + '">' +
-          '<span class="curso-topo"><span class="curso-cat">/' + txt(c.categoria) + '</span>' +
-          '<span class="curso-nivel">' + txt(c.nivel) + '</span></span>' +
-          '<h3>' + c.nome + '</h3>' +
-          '<p>' + c.resumo + '</p>' +
-          '<span class="curso-rodape"><span>' + c.horas + ' ' + txt('horas') + '</span>' +
-          '<span class="trilhas-qtd">' + (nT ? txt('em') + ' ' + nT + ' ' + txt(nT > 1 ? 'trilhas' : 'trilha') : txt('curso avulso')) + '</span></span>' +
+        '<button class="course-card" type="button" data-course="' + c.id + '">' +
+          '<span class="course-top"><span class="course-cat">/' + txt(c.category) + '</span>' +
+          '<span class="course-level">' + txt(c.level) + '</span></span>' +
+          '<h3>' + c.name + '</h3>' +
+          '<p>' + c.summary + '</p>' +
+          '<span class="course-foot"><span>' + c.hours + ' ' + txt('hours') + '</span>' +
+          '<span class="tracks-count">' + (nT ? txt('in') + ' ' + nT + ' ' + txt(nT > 1 ? 'tracks' : 'trilha') : txt('standalone course')) + '</span></span>' +
         '</button>'
       );
     })
@@ -1019,12 +1062,12 @@ function buildCatalogue() {
    list also subtracts the scrollbar. So a real card gets measured. With no card
    on screen (a search with no results), the last good width still applies. */
 function alignSearch() {
-  const box = document.querySelector('.busca');
+  const box = document.querySelector('.search');
   if (!box) return;
   /* on mobile the search takes the whole line and the dropdown does the
      filtering — nothing to line up, and an inline width would get in the way */
   if (matchMedia('(max-width:700px)').matches) { box.style.width = ''; return; }
-  const card = grid.querySelector('.curso-card');
+  const card = grid.querySelector('.course-card');
   if (card && card.offsetWidth) box.style.width = card.offsetWidth + 'px';
 }
 addEventListener('resize', alignSearch);
@@ -1035,11 +1078,11 @@ buildCatalogue();
    TESTIMONIALS
    ========================================================== */
 function buildTestimonials() {
-  $('#depos').innerHTML = DEPOIMENTOS.map(
+  $('#quotes').innerHTML = TESTIMONIALS.map(
     (d) =>
-      '<article class="depo"><span class="depo-aspas" aria-hidden="true">“</span>' +
-      '<p>' + d.texto + '</p>' +
-      '<span class="depo-autor"><b>' + d.autor + '</b><span>' + d.contexto + '</span></span></article>'
+      '<article class="quote"><span class="quote-marks" aria-hidden="true">“</span>' +
+      '<p>' + d.text + '</p>' +
+      '<span class="quote-author"><b>' + d.author + '</b><span>' + d.context + '</span></span></article>'
   ).join('');
 }
 buildTestimonials();
@@ -1048,34 +1091,34 @@ buildTestimonials();
    COURSE MODAL
    ========================================================== */
 const modal = $('#modal');
-const modalBody = $('#modal-corpo');
-const modalFile = $('#modal-arquivo');
+const modalBody = $('#modal-body');
+const modalFile = $('#modal-file');
 
 /* There are two modals — the course one and the signup one — and the scroll
    lock, the Esc key and touch chaining all need to know which one is open rather
    than assume it is the course one. `openModal()` is what they all consult. */
-const MODALS = () => [modal, $('#modal-assinar')];
+const MODALS = () => [modal, $('#modal-subscribe')];
 const openModal = () => MODALS().find((m) => m && !m.hidden) || null;
 function closeModals() {
   MODALS().forEach((m) => { if (m) m.hidden = true; });
-  document.documentElement.classList.remove('modal-aberto');
+  document.documentElement.classList.remove('modal-open');
 }
 
-/* "faz parte de 3 trilhas de carreira" + "e de 2 trilhas de tecnologia"
+/* "faz parte de 3 tracks de carreira" + "e de 2 tracks de tecnologia"
 
    The whole sentence is ONE translation key, with `{n}` in place of the number —
    not a prefix plus the noun plus a suffix. Assembling it from pieces works in
-   Portuguese, where the qualifier comes after ("trilhas de carreira"), and breaks
+   Portuguese, where the qualifier comes after ("tracks de carreira"), and breaks
    in English, where it comes before ("career tracks"): out came "part of 2 tracks
    career tracks". Word order is something only the whole sentence settles. */
 function trackBlock(list, family, continuation) {
   if (!list.length) return '';
   const n = list.length;
   const key = (continuation ? 'e de {n} ' : 'faz parte de {n} ') +
-    (n > 1 ? 'trilhas' : 'trilha') + ' de ' + family;
-  return '<div class="modal-bloco"><h4>' + txt(key).replace('{n}', n) +
-    '</h4><div class="modal-trilhas">' +
-    list.map((t) => '<button type="button" data-trilha="' + t.id + '">' + t.nome + ' →</button>').join('') +
+    (n > 1 ? 'tracks' : 'trilha') + ' de ' + family;
+  return '<div class="modal-block"><h4>' + txt(key).replace('{n}', n) +
+    '</h4><div class="modal-tracks">' +
+    list.map((t) => '<button type="button" data-track="' + t.id + '">' + t.name + ' →</button>').join('') +
     '</div></div>';
 }
 
@@ -1087,11 +1130,11 @@ function trackBlock(list, family, continuation) {
    rearrange the screen. */
 function videoBlock(c) {
   if (!c.video) {
-    return '<div class="modal-video vazio" aria-hidden="true">' +
-      '<span class="video-play"></span><span class="video-aviso">' + txt('vídeo em breve') + '</span></div>';
+    return '<div class="modal-video empty" aria-hidden="true">' +
+      '<span class="video-play"></span><span class="video-notice">' + txt('video coming soon') + '</span></div>';
   }
   return '<button type="button" class="modal-video" data-video="' + c.video + '" ' +
-    'aria-label="' + txt('assistir à apresentação do curso') + '">' +
+    'aria-label="' + txt('watch the course introduction') + '">' +
     '<img src="https://i.ytimg.com/vi/' + c.video + '/hqdefault.jpg" alt="" loading="lazy" />' +
     '<span class="video-play"></span></button>';
 }
@@ -1100,56 +1143,56 @@ function openCourse(id) {
   const c = courseById(id);
   if (!c) return;
   const tracks = tracksOfCourse(id);
-  const career = tracks.filter((t) => familyOf(t) === 'carreira');
-  const technology = tracks.filter((t) => familyOf(t) === 'tecnologia');
+  const career = tracks.filter((t) => familyOf(t) === 'career');
+  const technology = tracks.filter((t) => familyOf(t) === 'technology');
   modalFile.textContent = id + '.curso';
   /* Two columns wherever they fit (see style.css): on the left what convinces —
      what the course is, who speaks about it and the button; on the right what
      details it — syllabus, topics, prerequisites and tracks. In a single column,
      the HTML order is already the right reading order. */
   modalBody.innerHTML =
-    '<div class="modal-col modal-col-apresenta">' +
-    '<h3 id="modal-titulo">' + c.nome + '</h3>' +
+    '<div class="modal-col modal-col-intro">' +
+    '<h3 id="modal-title">' + c.name + '</h3>' +
     '<div class="modal-meta">' +
-      '<span>' + txt('área') + ': <b>' + txt(c.categoria) + '</b></span>' +
-      '<span>' + txt('nível') + ': <b>' + txt(c.nivel) + '</b></span>' +
-      '<span>' + txt('carga') + ': <b>' + c.horas + ' ' + txt('horas') + '</b></span>' +
+      '<span>' + txt('area') + ': <b>' + txt(c.category) + '</b></span>' +
+      '<span>' + txt('level') + ': <b>' + txt(c.level) + '</b></span>' +
+      '<span>' + txt('workload') + ': <b>' + c.hours + ' ' + txt('hours') + '</b></span>' +
     '</div>' +
     videoBlock(c) +
-    '<p>' + c.resumo + '</p>' +
-    '<div class="modal-acoes"><button type="button" class="btn btn-primary" data-matricular="' + c.id + '">' +
-      txt('Comece agora →') + '</button></div>' +
+    '<p>' + c.summary + '</p>' +
+    '<div class="modal-actions"><button type="button" class="btn btn-primary" data-enrol="' + c.id + '">' +
+      txt('Start now →') + '</button></div>' +
     '</div>' +
-    '<div class="modal-col modal-col-detalhe">' +
-    '<div class="modal-bloco"><h4>' + txt('o que você aprende') + '</h4><ul>' +
-      c.ementa.map((e) => '<li>' + e + '</li>').join('') +
+    '<div class="modal-col modal-col-detail">' +
+    '<div class="modal-block"><h4>' + txt('what you learn') + '</h4><ul>' +
+      c.syllabus.map((e) => '<li>' + e + '</li>').join('') +
     '</ul></div>' +
     // the full technical list — collapsed, for whoever wants to check it topic by topic
-    (c.topicos && c.topicos.length
-      ? '<details class="modal-topicos"><summary>' + txt('conteúdo detalhado') +
-        '<span class="qtd">' + c.topicos.length + ' ' + txt('tópicos') + '</span></summary><ul>' +
-        c.topicos.map((t) => '<li>' + t + '</li>').join('') +
+    (c.topics && c.topics.length
+      ? '<details class="modal-topics"><summary>' + txt('detailed contents') +
+        '<span class="count">' + c.topics.length + ' ' + txt('topics') + '</span></summary><ul>' +
+        c.topics.map((t) => '<li>' + t + '</li>').join('') +
         '</ul></details>'
       : '') +
-    '<div class="modal-bloco"><h4>' + txt('pré-requisitos') + '</h4>' +
-      ((c.depende || []).length
-        ? '<div class="modal-trilhas pre-req">' +
-          c.depende.map((d) => {
+    '<div class="modal-block"><h4>' + txt('prerequisites') + '</h4>' +
+      ((c.requires || []).length
+        ? '<div class="modal-tracks pre-req">' +
+          c.requires.map((d) => {
             const p = courseById(d);
-            return p ? '<button type="button" data-curso="' + p.id + '">← ' + p.nome + '</button>' : '';
+            return p ? '<button type="button" data-course="' + p.id + '">← ' + p.name + '</button>' : '';
           }).join('') + '</div>'
         : '') +
-      (c.requisitos ? '<p class="dim">' + c.requisitos + '</p>' : '') +
+      (c.prerequisites ? '<p class="dim">' + c.prerequisites + '</p>' : '') +
     '</div>' +
     (unlockedBy(c.id).length
-      ? '<div class="modal-bloco"><h4>' + txt('abre caminho para') + '</h4><div class="modal-trilhas">' +
-        unlockedBy(c.id).map((p) => '<button type="button" data-curso="' + p.id + '">' + p.nome + ' →</button>').join('') +
+      ? '<div class="modal-block"><h4>' + txt('opens the way to') + '</h4><div class="modal-tracks">' +
+        unlockedBy(c.id).map((p) => '<button type="button" data-course="' + p.id + '">' + p.name + ' →</button>').join('') +
         '</div></div>'
       : '') +
     // the two families appear separately: "in 5 tracks" does not say the same
     // thing if 3 are careers and 2 are technologies
-    trackBlock(career, 'carreira', false) +
-    trackBlock(technology, 'tecnologia', career.length > 0) +
+    trackBlock(career, 'career', false) +
+    trackBlock(technology, 'technology', career.length > 0) +
     '</div>';
   modalBody.scrollTop = 0;
   modal.hidden = false;
@@ -1157,9 +1200,9 @@ function openCourse(id) {
      of the current screen, and the wheel and touch handlers stop pushing the
      background. They are the two halves of the same problem — the class handles
      the scrollbar and the inertia, the handlers handle the chaining. */
-  document.documentElement.classList.add('modal-aberto');
+  document.documentElement.classList.add('modal-open');
   fitTopics();
-  $('#modal-fechar').focus();
+  $('#modal-close').focus();
 }
 
 /* ---------- the topic list takes the height that is left ----------
@@ -1175,19 +1218,19 @@ function openCourse(id) {
    the `ul` does not become a flex item and `flex:1 1 auto` on it is ignored by
    the layout. */
 function fitTopics() {
-  const det = modalBody.querySelector('.modal-topicos');
+  const det = modalBody.querySelector('.modal-topics');
   const list = det && det.querySelector('ul');
   if (!list) return;
   list.style.maxHeight = '';
   if (!det.open || !matchMedia('(min-width:1024px)').matches) return;
-  const col = det.closest('.modal-col-detalhe');
+  const col = det.closest('.modal-col-detail');
   if (!col) return;
   const overflow = col.scrollHeight - col.clientHeight;
   if (overflow > 0) list.style.maxHeight = Math.max(140, list.clientHeight - overflow) + 'px';
 }
 addEventListener('resize', fitTopics);
 modalBody.addEventListener('toggle', (e) => {
-  if (e.target.classList.contains('modal-topicos')) fitTopics();
+  if (e.target.classList.contains('modal-topics')) fitTopics();
 }, true);
 
 function closeModal() { closeModals(); }
@@ -1207,26 +1250,26 @@ if (faqEl) {
 // open from the cards and from the track nodes
 document.addEventListener('click', (e) => {
   /* Graph arrows: move forwards/backwards one screenful of levels. The selector
-     needs the class — the tab rows' arrows also use `data-rolar`, and with a
+     needs the class — the tab rows' arrows also use `data-scroll`, and with a
      loose selector a click on them scrolled the tabs (handler above) and the
      graph along with them. */
-  const scroll = e.target.closest('.grafo-seta[data-rolar]');
+  const scroll = e.target.closest('.graph-arrow[data-scroll]');
   if (scroll) {
-    const scroller = panelEl.querySelector('.trilha-grafo');
-    if (scroller) scroller.scrollBy({ left: Number(scroll.dataset.rolar) * Math.max(240, scroller.clientWidth - 120), behavior: reduceMotion ? 'auto' : 'smooth' });
+    const scroller = panelEl.querySelector('.track-graph');
+    if (scroller) scroller.scrollBy({ left: Number(scroll.dataset.scroll) * Math.max(240, scroller.clientWidth - 120), behavior: reduceMotion ? 'auto' : 'smooth' });
     return;
   }
 
   // a step with a fork: swaps the path without moving from the spot
-  const fork = e.target.closest('[data-garfo]');
+  const fork = e.target.closest('[data-fork]');
   if (fork) {
-    const t = TRILHAS[currentTrack];
-    choices[t.id + ':' + fork.dataset.garfo] = Number(fork.dataset.opcao);
-    const scroller = panelEl.querySelector('.trilha-grafo');
+    const t = TRACKS[currentTrack];
+    choices[t.id + ':' + fork.dataset.fork] = Number(fork.dataset.option);
+    const scroller = panelEl.querySelector('.track-graph');
     const x = scroller ? scroller.scrollLeft : 0;
     const y = scroller ? scroller.scrollTop : 0;
     panelEl.innerHTML = buildTrack(t);
-    const fresh = panelEl.querySelector('.trilha-grafo');
+    const fresh = panelEl.querySelector('.track-graph');
     if (fresh) { fresh.scrollLeft = x; fresh.scrollTop = y; }
     drawEdges(t);
     return;
@@ -1234,14 +1277,14 @@ document.addEventListener('click', (e) => {
 
   // the modal's button: a course is no longer a unit of purchase, so it does not
   // pick a plan — it travels as the origin of the request
-  const enrolBtn = e.target.closest('[data-matricular]');
-  if (enrolBtn) { openSignup('', enrolBtn.dataset.matricular); return; }
+  const enrolBtn = e.target.closest('[data-enrol]');
+  if (enrolBtn) { openSignup('', enrolBtn.dataset.enrol); return; }
 
   // the three plan cards' buttons: they carry the chosen plan into the select
-  const planBtn = e.target.closest('.plano-btn');
+  const planBtn = e.target.closest('.plan-btn');
   if (planBtn) {
     e.preventDefault();
-    openSignup(planBtn.closest('.plano').querySelector('.plano-nome').textContent.trim());
+    openSignup(planBtn.closest('.plan').querySelector('.plan-name').textContent.trim());
     return;
   }
 
@@ -1249,39 +1292,39 @@ document.addEventListener('click', (e) => {
   const thumb = e.target.closest('[data-video]');
   if (thumb) {
     const frame = document.createElement('div');
-    frame.className = 'modal-video tocando';
+    frame.className = 'modal-video playing';
     frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + thumb.dataset.video +
-      '?autoplay=1&rel=0" title="' + txt('apresentação do curso') + '" allowfullscreen ' +
+      '?autoplay=1&rel=0" title="' + txt('course introduction') + '" allowfullscreen ' +
       'allow="accelerometer; autoplay; encrypted-media; picture-in-picture"></iframe>';
     thumb.replaceWith(frame);
     return;
   }
 
-  const target = e.target.closest('[data-curso]');
-  if (target) { openCourse(target.dataset.curso); return; }
+  const target = e.target.closest('[data-course]');
+  if (target) { openCourse(target.dataset.course); return; }
 
   // inside the modal: jump to the track mentioned
-  const trackBtn = e.target.closest('[data-trilha]');
+  const trackBtn = e.target.closest('[data-track]');
   if (trackBtn) {
-    const i = TRILHAS.findIndex((t) => t.id === trackBtn.dataset.trilha);
+    const i = TRACKS.findIndex((t) => t.id === trackBtn.dataset.track);
     if (i > -1) {
       closeModal();
       openTrack(i, true);
-      goTo(screens.findIndex((t) => t.id === 'trilhas'));
+      goTo(screens.findIndex((t) => t.id === 'tracks'));
     }
     return;
   }
 
-  if (e.target.closest('[data-fechar]')) closeModal();
+  if (e.target.closest('[data-close]')) closeModal();
 });
 
-$('#modal-fechar').addEventListener('click', closeModals);
+$('#modal-close').addEventListener('click', closeModals);
 modal.addEventListener('click', (e) => { if (e.target === modal) closeModals(); });
-$('#assinar-fechar').addEventListener('click', closeModals);
-$('#modal-assinar').addEventListener('click', (e) => {
-  if (e.target === $('#modal-assinar')) closeModals();
+$('#subscribe-close').addEventListener('click', closeModals);
+$('#modal-subscribe').addEventListener('click', (e) => {
+  if (e.target === $('#modal-subscribe')) closeModals();
 });
-$('#cta-assinar').addEventListener('click', () => openSignup());
+$('#cta-subscribe').addEventListener('click', () => openSignup());
 
 
 /* ==========================================================
@@ -1296,14 +1339,14 @@ const ENROL_URL = '';
    (adding a fourth plan, renaming one, removing one) adjusts the form by itself,
    and there is no chance of the two disagreeing. Since it runs after
    `applyTexts()`, the names already come in the current language. */
-const planSelect = $('#m-plano');
+const planSelect = $('#m-plan');
 const plansOnScreen = () =>
-  [...document.querySelectorAll('#planos .plano-nome')].map((h) => h.textContent.trim());
+  [...document.querySelectorAll('#plans .plan-name')].map((h) => h.textContent.trim());
 
 function buildPlanSelect() {
   const before = planSelect.value;
   planSelect.innerHTML =
-    '<option value="">' + txt('ainda não sei — quero orientação') + '</option>' +
+    '<option value="">' + txt('not sure yet — I would like guidance') + '</option>' +
     plansOnScreen().map((n) => '<option value="' + n + '">' + n + '</option>').join('');
   planSelect.value = before;
 }
@@ -1328,9 +1371,9 @@ let sourceCourse = '';
    Focus goes to the × and not to the name field: on mobile, focusing an input on
    open throws the virtual keyboard over the modal before the person has read
    what it says. */
-const signupModal = $('#modal-assinar');
-const signupPlan = $('#assinar-plano');
-const planField = $('#campo-plano');
+const signupModal = $('#modal-subscribe');
+const signupPlan = $('#subscribe-plan');
+const planField = $('#field-plan');
 
 function openSignup(plan, origin) {
   closeModals();
@@ -1338,7 +1381,7 @@ function openSignup(plan, origin) {
   enrolStatus.textContent = '';
   const known = plan && plansOnScreen().includes(plan);
   if (known) {
-    $('#assinar-plano-nome').textContent = plan;
+    $('#subscribe-plan-name').textContent = plan;
     planSelect.value = plan;
   } else {
     planSelect.value = '';
@@ -1346,11 +1389,11 @@ function openSignup(plan, origin) {
   signupPlan.hidden = !known;
   planField.hidden = !!known;
   signupModal.hidden = false;
-  document.documentElement.classList.add('modal-aberto');
-  $('#assinar-fechar').focus();
+  document.documentElement.classList.add('modal-open');
+  $('#subscribe-close').focus();
 }
 
-const enrolForm = $('#form-matricula');
+const enrolForm = $('#form-enrol');
 const enrolStatus = $('#form-status');
 
 /* ---------- the field accepts a whatsapp number OR an e-mail ----------
@@ -1359,7 +1402,7 @@ const enrolStatus = $('#form-status');
    landline. The moment a letter or an @ shows up, the mask comes undone and the
    field goes back to being free text — otherwise "123abc@..." would turn into
    "(12) 3abc@...". An international number (starting with +) also stays intact. */
-const contactEl = $('#m-contato');
+const contactEl = $('#m-contact');
 const digitsOnly = (s) => s.replace(/\D/g, '');
 const MASK_CHARS = /[()\s-]/g;
 
@@ -1397,35 +1440,35 @@ contactEl.addEventListener('input', () => {
 
 enrolForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  const name = $('#m-nome').value.trim();
-  const contact = $('#m-contato').value.trim();
+  const name = $('#m-name').value.trim();
+  const contact = $('#m-contact').value.trim();
   if (!name || !contact) {
-    enrolStatus.textContent = '✗ preencha nome e contato';
+    enrolStatus.textContent = txt('✗ fill in your name and contact');
     return;
   }
   const data = {
-    nome: name,
-    contato: contact,
-    plano: planSelect.value || 'sem preferência',
+    name: name,
+    contact: contact,
+    plan: planSelect.value || 'no preference',
   };
-  if (sourceCourse) data.origem = 'curso:' + sourceCourse;
+  if (sourceCourse) data.origin = 'course:' + sourceCourse;
   if (!ENROL_URL) {
-    enrolStatus.textContent = '✓ pedido registrado — ' + name + ' (modo demonstração: configure ENROL_URL)';
+    enrolStatus.textContent = txt('✓ request recorded') + ' — ' + name + ' ' + txt('(demonstration mode: set ENROL_URL)');
     enrolForm.reset();
     return;
   }
-  enrolStatus.textContent = '… enviando';
+  enrolStatus.textContent = txt('… sending');
   fetch(ENROL_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
     .then(() => {
-      enrolStatus.textContent = '✓ recebemos seu contato — falaremos com você em breve!';
+      enrolStatus.textContent = txt('✓ we have your details — we will be in touch soon!');
       enrolForm.reset();
     })
     .catch(() => {
-      enrolStatus.textContent = '✗ falha ao enviar — escreva para contact@codeschool.ing';
+      enrolStatus.textContent = txt('✗ could not send — write to contact@codeschool.ing');
     });
 });
 
@@ -1444,24 +1487,24 @@ newsForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const email = newsEmail.value.trim();
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    newsStatus.textContent = '✗ informe um e-mail válido';
+    newsStatus.textContent = txt('✗ enter a valid e-mail');
     return;
   }
   if (!NEWSLETTER_URL) {
-    newsStatus.textContent = '✓ inscrição registrada — ' + email + ' (modo demonstração)';
+    newsStatus.textContent = txt('✓ subscription recorded') + ' — ' + email + ' ' + txt('(demonstration mode)');
     newsForm.reset();
     return;
   }
-  newsStatus.textContent = '… enviando';
+  newsStatus.textContent = txt('… sending');
   const data = new FormData();
   data.append('EMAIL', email);
   fetch(NEWSLETTER_URL, { method: 'POST', mode: 'no-cors', body: data })
     .then(() => {
-      newsStatus.textContent = '✓ inscrição confirmada — bem-vindo(a) a bordo!';
+      newsStatus.textContent = txt('✓ subscription confirmed — welcome aboard!');
       newsForm.reset();
     })
     .catch(() => {
-      newsStatus.textContent = '✗ falha ao enviar — tente novamente em instantes';
+      newsStatus.textContent = txt('✗ could not send — try again in a moment');
     });
 });
 
@@ -1480,7 +1523,7 @@ dots.className = 'dots';
 screens.forEach((screen, i) => {
   const b = document.createElement('button');
   b.type = 'button';
-  b.setAttribute('aria-label', 'Ir para a seção ' + (i + 1));
+  b.setAttribute('aria-label', txt('Go to section') + ' ' + (i + 1));
   b.addEventListener('click', () => goTo(i));
   dots.appendChild(b);
 });
@@ -1507,37 +1550,37 @@ function goTo(i) {
 }
 
 /* can the current screen still scroll internally in that direction? */
-function atEdge(screen, dir) {
+function atEdge(screen, right) {
   if (screen.scrollHeight <= screen.clientHeight + 4) return true;
-  return dir > 0
+  return right > 0
     ? screen.scrollTop + screen.clientHeight >= screen.scrollHeight - 4
     : screen.scrollTop <= 4;
 }
 
 /* hovering a course lights up the edges arriving at it and leaving it */
 panelEl.addEventListener('mouseover', (e) => {
-  const node = e.target.closest('[data-no]');
+  const node = e.target.closest('[data-node]');
   if (!node) return;
-  const id = node.dataset.no;
-  panelEl.querySelectorAll('.aresta').forEach((a) => {
-    a.classList.toggle('on', a.dataset.de === id || a.dataset.para === id);
+  const id = node.dataset.node;
+  panelEl.querySelectorAll('.edge').forEach((a) => {
+    a.classList.toggle('on', a.dataset.from === id || a.dataset.to === id);
   });
 });
 panelEl.addEventListener('mouseout', (e) => {
-  if (e.target.closest('[data-no]')) panelEl.querySelectorAll('.aresta.on').forEach((a) => a.classList.remove('on'));
+  if (e.target.closest('[data-node]')) panelEl.querySelectorAll('.edge.on').forEach((a) => a.classList.remove('on'));
 });
 
 /* the graph tells the arrows when it is dragged directly */
 panelEl.addEventListener('scroll', (e) => {
-  if (e.target.classList && e.target.classList.contains('trilha-grafo')) updateGraphArrows();
+  if (e.target.classList && e.target.classList.contains('track-graph')) updateGraphArrows();
 }, true);
 
 /* panels with their own scrolling (catalogue, track on mobile, testimonials) */
-function innerScrollable(target, dir, screen) {
+function innerScrollable(target, right, screen) {
   let el = target instanceof Element ? target : null;
   while (el && el !== screen && el !== document.body) {
     if (el.scrollHeight > el.clientHeight + 4) {
-      const can = dir > 0
+      const can = right > 0
         ? el.scrollTop + el.clientHeight < el.scrollHeight - 4
         : el.scrollTop > 4;
       if (can) return el;
@@ -1559,13 +1602,13 @@ window.addEventListener('wheel', (e) => {
   }
   e.preventDefault();
   if (locked) return;
-  const dir = e.deltaY > 0 ? 1 : -1;
+  const right = e.deltaY > 0 ? 1 : -1;
   const screen = screens[current];
-  const inner = innerScrollable(e.target, dir, screen);
+  const inner = innerScrollable(e.target, right, screen);
   if (inner) { inner.scrollTop += e.deltaY; return; }
-  if (!atEdge(screen, dir)) { screen.scrollTop += e.deltaY; return; }
+  if (!atEdge(screen, right)) { screen.scrollTop += e.deltaY; return; }
   if (Math.abs(e.deltaY) < 8) return;
-  goTo(current + dir);
+  goTo(current + right);
 }, { passive: false });
 
 /* keyboard */
@@ -1584,10 +1627,10 @@ window.addEventListener('keydown', (e) => {
     e.preventDefault(); goTo(0);
   } else if (e.key === 'End') {
     e.preventDefault(); goTo(screens.length - 1);
-  } else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && screens[current].id === 'trilhas') {
+  } else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && screens[current].id === 'tracks') {
     e.preventDefault();
     // the arrows move within the open track's family, not through the whole list
-    const ofFamily = indicesOfFamily(familyOf(TRILHAS[currentTrack]));
+    const ofFamily = indicesOfFamily(familyOf(TRACKS[currentTrack]));
     const pos = ofFamily.indexOf(currentTrack) + (e.key === 'ArrowRight' ? 1 : -1);
     openTrack(ofFamily[Math.max(0, Math.min(ofFamily.length - 1, pos))]);
   }
@@ -1608,10 +1651,10 @@ window.addEventListener('touchmove', (e) => {
     if (!innerScrollable(touchTarget, d, openT)) e.preventDefault();
     return;
   }
-  const dir = touchY - e.touches[0].clientY > 0 ? 1 : -1;
-  if (innerScrollable(touchTarget, dir, screens[current])) return;
-  if (touchTarget instanceof Element && touchTarget.closest('.trilha-fluxo')) return;
-  if (atEdge(screens[current], dir)) e.preventDefault();
+  const right = touchY - e.touches[0].clientY > 0 ? 1 : -1;
+  if (innerScrollable(touchTarget, right, screens[current])) return;
+  if (touchTarget instanceof Element && touchTarget.closest('.track-flow')) return;
+  if (atEdge(screens[current], right)) e.preventDefault();
 }, { passive: false });
 window.addEventListener('touchend', (e) => {
   if (touchY === null || openModal()) return;
@@ -1620,9 +1663,9 @@ window.addEventListener('touchend', (e) => {
   touchY = null;
   touchTarget = null;
   if (locked || Math.abs(delta) < 50) return;
-  const dir = delta > 0 ? 1 : -1;
-  if (innerScrollable(target, dir, screens[current])) return;
-  if (atEdge(screens[current], dir)) goTo(current + dir);
+  const right = delta > 0 ? 1 : -1;
+  if (innerScrollable(target, right, screens[current])) return;
+  if (atEdge(screens[current], right)) goTo(current + right);
 });
 
 /* internal anchors (menu, hero buttons, modal) */
@@ -1656,7 +1699,7 @@ window.addEventListener('scroll', () => {
 
 window.addEventListener('resize', () => window.scrollTo({ top: screens[current].offsetTop }));
 
-/* an anchor in the URL on load (e.g. /#cursos) */
+/* an anchor in the URL on load (e.g. /#courses) */
 if (location.hash) {
   const target = document.querySelector(location.hash);
   const i = screens.indexOf(target ? target.closest('.screen') || target : null);
@@ -1684,15 +1727,15 @@ function redrawAll() {
   buildTerminal();
 }
 
-const langBox = $('#idioma');
-langBox.querySelector('.idioma-btn').addEventListener('click', (e) => {
+const langBox = $('#lang');
+langBox.querySelector('.lang-btn').addEventListener('click', (e) => {
   e.stopPropagation();
-  const open = langBox.classList.toggle('aberto');
+  const open = langBox.classList.toggle('is-open');
   e.currentTarget.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
-document.addEventListener('click', (e) => { if (!e.target.closest('#idioma')) closeLanguageMenu(); });
+document.addEventListener('click', (e) => { if (!e.target.closest('#lang')) closeLanguageMenu(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLanguageMenu(); });
 
-savePtBase();
+saveBase();
 mapTexts();
 applyLanguage();

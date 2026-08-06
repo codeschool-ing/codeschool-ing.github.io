@@ -1,30 +1,54 @@
 /* ==========================================================================
-   codeschool.ing — catálogo em inglês
+   codeschool.ing — the course and track catalog.
 
-   Só os campos de conteúdo dos cursos (`nome`, `resumo`, `ementa`,
-   `topicos`, `requisitos`). O resto do dicionário — interface e trilhas —
-   está em assets/i18n.js; este arquivo ficou de fora porque sozinho pesa
-   mais que todos os outros somados.
+   AUTHORED IN ENGLISH. English is the product's source language; Portuguese is
+   the fifth translation, in assets/i18n-courses-pt.js, alongside Spanish,
+   French and Italian.
 
-   Vale a mesma regra do resto: campo ausente cai de volta no português.
+   THE IDS ARE A CONTRACT WITH codeschool-ing/portal-frontend. That repository
+   renamed first and stores them in a student's browser; its `MOVED_IDS` in
+   app/state.js is the authoritative old-to-new map, and this file was built to
+   match it. Structurally the two files are identical — same hours, same
+   `requires`, same track sequences, same `links`; checked field by field, zero
+   differences. Do not rename an id here without renaming it there.
 
-   Tradução: conceito em inglês, nome próprio de tecnologia intacto. Nomes
-   de curso em inglês corrente do mercado ("Automated Testing and CI/CD",
-   não uma tradução literal), porque é assim que o aluno de fora procura.
+   A course may appear in as many tracks as needed — cite its `id` in the
+   track's sequence and the site works out the "in N tracks" badge on its own.
+
+   Each course carries two levels of content:
+     `syllabus` — 5 to 7 lines, the commercial read: what the student takes away.
+     `topics`   — the complete technical list, shown in the modal inside a
+                  collapsed block. Optional: a course without it shows no block.
+
+   INTRODUCTION VIDEO: a course may carry a `video` field with the YouTube id —
+   only the id, not the whole URL:
+
+     { id: 'git', video: 'dQw4w9WgXcQ', ... }
+
+   With no `video`, the modal shows the reserved frame saying it is coming, so
+   publishing the videos one at a time does not rearrange the screen.
+
+   A FORKING STEP: an item of `courses` is normally a course id (a string).
+   Where the track leaves the decision to the student, the item becomes an
+   object with `choice`, an optional `note`, and `options`.
    ========================================================================== */
-window.I18N.en.cursos = {
 
-'web-fundamentos': {
-  nome: 'Web and Internet Fundamentals',
-  resumo: 'Understand what happens between typing an address and the page appearing — the ground floor of any web career.',
-  ementa: [
+const COURSES = [
+{
+  id: 'web-fundamentals',
+  name: 'Web and Internet Fundamentals',
+  category: 'foundations',
+  level: 'beginner',
+  hours: 40,
+  summary: 'Understand what happens between typing an address and the page appearing — the ground floor of any web career.',
+  syllabus: [
     'How the internet works: packets, protocols and servers',
     'HTTP and HTTPS: requests, responses, status codes',
     'Domains, DNS and hosting in practice',
     'How browsers render a page',
     'Developer tools and first diagnostics',
   ],
-  topicos: [
+  topics: [
     'Client, server and host: who asks and who answers',
     'Packet, frame and socket',
     'Bandwidth, latency and throughput',
@@ -37,20 +61,24 @@ window.I18N.en.cursos = {
     'How the browser builds the page: DOM, CSSOM and rendering',
     'Developer tools: network, console and elements',
   ],
-  requisitos: 'Everyday computer and internet use.',
+  requires: [],
+  prerequisites: 'Everyday computer and internet use.',
 },
-
-'git': {
-  nome: 'Git and Version Control',
-  resumo: 'Version your code, work as a team and never lose work again.',
-  ementa: [
+{
+  id: 'git',
+  name: 'Git and Version Control',
+  category: 'foundations',
+  level: 'beginner',
+  hours: 30,
+  summary: 'Version your code, work as a team and never lose work again.',
+  syllabus: [
     'Repositories, commits and history',
     'Branches, merging and conflict resolution',
     'GitHub and GitLab: remotes, pull requests and code review',
     'Team workflows (feature branch, trunk based)',
     'Good practice for messages and organisation',
   ],
-  topicos: [
+  topics: [
     'What version control is and why it exists',
     'Repository, staging area and commit',
     'History: log, diff, blame and show',
@@ -63,19 +91,25 @@ window.I18N.en.cursos = {
     '.gitignore, submodules and large files (Git LFS)',
     'Commit messages and the Conventional Commits standard',
   ],
+  requires: [
+    'web-fundamentals',
+  ],
 },
-
-'javascript': {
-  nome: 'JavaScript',
-  resumo: 'The language of the web: logic, interactivity and talking to servers.',
-  ementa: [
+{
+  id: 'javascript',
+  name: 'JavaScript',
+  category: 'programming',
+  level: 'intermediate',
+  hours: 80,
+  summary: 'The language of the web: logic, interactivity and talking to servers.',
+  syllabus: [
     'Modern syntax (ES6+), types, functions and scope',
     'DOM manipulation, events and forms',
     'Asynchrony: promises, async/await and fetch',
     'Browser web APIs: storage, geolocation, notifications',
     'Package managers (npm, pnpm, yarn) and modules',
   ],
-  topicos: [
+  topics: [
     'ES6+ syntax: let/const, arrow functions and template strings',
     'Types, coercion, strict equality and falsy values',
     'Objects, arrays, spread and destructuring',
@@ -89,12 +123,18 @@ window.I18N.en.cursos = {
     'npm, pnpm and yarn: installing, versioning and publishing packages',
     'Debugging in the browser and exception handling',
   ],
+  requires: [
+    'html-css',
+  ],
 },
-
-'ia-dev': {
-  nome: 'AI in Development',
-  resumo: 'Code with company: coding assistants, agents and AI built into your own projects.',
-  ementa: [
+{
+  id: 'ai-dev',
+  name: 'AI in Development',
+  category: 'ai',
+  level: 'intermediate',
+  hours: 50,
+  summary: 'Code with company: coding assistants, agents and AI built into your own projects.',
+  syllabus: [
     'How language models work: embeddings, vectors and RAG',
     'Coding assistants in the editor: review, refactoring and documentation',
     'Prompting techniques for programming tasks',
@@ -102,7 +142,7 @@ window.I18N.en.cursos = {
     'Integration patterns: streaming, structured output and function calling',
     'Providers (Anthropic, OpenAI, Google) with cost and safety under control',
   ],
-  topicos: [
+  topics: [
     'How a language model generates text: tokens, embeddings and context',
     'Context window, cost per token and practical limits',
     'Coding assistants in the editor: complete, refactor and document',
@@ -115,20 +155,27 @@ window.I18N.en.cursos = {
     'Providers: Anthropic, OpenAI and Google — keys, limits and cost',
     'Risks: hallucination, data leakage and prompt injection',
   ],
-  requisitos: 'Either one of the two languages is enough.',
+  requires: [
+    'javascript',
+    'python',
+  ],
+  prerequisites: 'Either one of the two languages is enough.',
 },
-
-'html-css': {
-  nome: 'HTML and CSS',
-  resumo: 'Build and style pages from scratch, with layout that is genuinely responsive.',
-  ementa: [
+{
+  id: 'html-css',
+  name: 'HTML and CSS',
+  category: 'frontend',
+  level: 'beginner',
+  hours: 70,
+  summary: 'Build and style pages from scratch, with layout that is genuinely responsive.',
+  syllabus: [
     'Semantic HTML and document structure',
     'Selectors, cascade, specificity and CSS variables',
     'Layout with Flexbox and Grid',
     'Responsiveness, media queries and mobile first',
     'CSS frameworks: Tailwind in practice',
   ],
-  topicos: [
+  topics: [
     'Structure of an HTML document and metadata',
     'Semantic HTML: header, nav, main, section, article and footer',
     'Forms, fields, labels and native validation',
@@ -143,12 +190,18 @@ window.I18N.en.cursos = {
     'Transitions, animations and transforms',
     'Tailwind CSS: utilities, configuration and components',
   ],
+  requires: [
+    'web-fundamentals',
+  ],
 },
-
-'react-ts': {
-  nome: 'Front-end with React and TypeScript',
-  resumo: 'The industry standard: components, typed state and the professional toolchain.',
-  ementa: [
+{
+  id: 'react-ts',
+  name: 'Front-end with React and TypeScript',
+  category: 'frontend',
+  level: 'advanced',
+  hours: 90,
+  summary: 'The industry standard: components, typed state and the professional toolchain.',
+  syllabus: [
     'Components, props, state and hooks',
     'Routing, forms and consuming APIs',
     'TypeScript applied to components and data',
@@ -156,7 +209,7 @@ window.I18N.en.cursos = {
     'Linters and formatters (ESLint, Prettier, Biome)',
     'A look at the alternatives: Vue, Angular, Svelte',
   ],
-  topicos: [
+  topics: [
     'Components, props and composition',
     'Local state with useState and effects with useEffect',
     'Hooks: useMemo, useCallback, useRef and custom hooks',
@@ -170,20 +223,27 @@ window.I18N.en.cursos = {
     'ESLint, Prettier and Biome',
     'A look at Vue, Angular and Svelte',
   ],
-  requisitos: 'Both are required.',
+  requires: [
+    'javascript',
+    'git',
+  ],
+  prerequisites: 'Both are required.',
 },
-
-'front-qualidade': {
-  nome: 'Testing, Security and Accessibility',
-  resumo: 'What separates a site that works from a product people can trust.',
-  ementa: [
+{
+  id: 'front-quality',
+  name: 'Testing, Security and Accessibility',
+  category: 'frontend',
+  level: 'advanced',
+  hours: 60,
+  summary: 'What separates a site that works from a product people can trust.',
+  syllabus: [
     'Unit and component tests (Vitest, Jest)',
     'End-to-end tests (Playwright, Cypress)',
     'Authentication strategies: sessions, JWT, OAuth',
     'Web security: CORS, HTTPS, CSP and OWASP risks',
     'Accessibility: WCAG, keyboard, screen readers and contrast',
   ],
-  topicos: [
+  topics: [
     'The testing pyramid applied to the front-end',
     'Unit and component tests with Vitest and Jest',
     'Testing Library: test the way the user uses it',
@@ -198,19 +258,25 @@ window.I18N.en.cursos = {
     'ARIA, screen readers and alternative text',
     'Contrast, target size and respecting reduced motion',
   ],
+  requires: [
+    'react-ts',
+  ],
 },
-
-'front-performance': {
-  nome: 'Rendering, Performance and PWA',
-  resumo: 'Fast sites that rank well on Google and keep working offline.',
-  ementa: [
+{
+  id: 'front-performance',
+  name: 'Rendering, Performance and PWA',
+  category: 'frontend',
+  level: 'advanced',
+  hours: 60,
+  summary: 'Fast sites that rank well on Google and keep working offline.',
+  syllabus: [
     'Server-side rendering (SSR) with Next.js and friends',
     'Static sites (SSG) and when to pick each strategy',
     'Measuring performance: Lighthouse, Core Web Vitals, DevTools',
     'Cache, service workers and streaming responses',
     'Progressive Web Apps: installation and offline use',
   ],
-  topicos: [
+  topics: [
     'Client-side, server-side (SSR) and hybrid rendering',
     'Next.js: routing, server components and static generation',
     'Static site generation (SSG) and incremental regeneration',
@@ -223,19 +289,25 @@ window.I18N.en.cursos = {
     'Service workers and offline caching strategies',
     'Progressive Web App: manifest, installation and notifications',
   ],
+  requires: [
+    'react-ts',
+  ],
 },
-
-'front-entrega': {
-  nome: 'Deployment, Design Systems and GraphQL',
-  resumo: 'Ship, standardise and integrate — the work of someone who delivers a product, not a page.',
-  ementa: [
+{
+  id: 'front-delivery',
+  name: 'Deployment, Design Systems and GraphQL',
+  category: 'frontend',
+  level: 'advanced',
+  hours: 60,
+  summary: 'Ship, standardise and integrate — the work of someone who delivers a product, not a page.',
+  syllabus: [
     'Deploying to Vercel, Netlify, Cloudflare and GitHub Pages',
     'Continuous integration and preview environments',
     'Design systems: tokens, components and documentation',
     'Web Components: custom elements and shadow DOM',
     'Consuming GraphQL APIs (Apollo, Relay)',
   ],
-  topicos: [
+  topics: [
     'Deploying to Vercel, Netlify, Cloudflare Pages and GitHub Pages',
     'Environment variables and secrets in the build process',
     'Continuous integration and per-pull-request preview environments',
@@ -248,19 +320,25 @@ window.I18N.en.cursos = {
     'GraphQL clients: Apollo and Relay',
     'Client-side error monitoring and crash reporting',
   ],
+  requires: [
+    'react-ts',
+  ],
 },
-
-'front-multiplataforma': {
-  nome: 'Desktop and Mobile Apps with Web',
-  resumo: 'Take what you already know about the web to the app stores and to the desktop.',
-  ementa: [
+{
+  id: 'front-multiplatform',
+  name: 'Desktop and Mobile Apps with Web',
+  category: 'frontend',
+  level: 'advanced',
+  hours: 50,
+  summary: 'Take what you already know about the web to the app stores and to the desktop.',
+  syllabus: [
     'Mobile apps with React Native',
     'A look at Flutter and Ionic',
     'Desktop apps with Electron and Tauri',
     'Packaging, signing and publishing',
     'Final project: a published app in your portfolio',
   ],
-  topicos: [
+  topics: [
     'React Native: components, navigation and styling',
     'Reaching device features: camera, notifications and storage',
     'Expo: development, builds and over-the-air updates',
@@ -272,19 +350,25 @@ window.I18N.en.cursos = {
     'Automatic updates and versioning',
     'Final project: an app published in your portfolio',
   ],
+  requires: [
+    'react-ts',
+  ],
 },
-
-'node': {
-  nome: 'Node.js: JavaScript on the Server',
-  resumo: 'The roadmap’s language choice: take the JavaScript you already know to the server side.',
-  ementa: [
+{
+  id: 'node',
+  name: 'Node.js: JavaScript on the Server',
+  category: 'backend',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'The roadmap’s language choice: take the JavaScript you already know to the server side.',
+  syllabus: [
     'Why pick one language and master it before jumping to another',
     'Runtime, event loop and asynchronous programming on the server',
     'Modules, packages and organising projects',
     'HTTP server and routing with Express',
     'Reading files, environment variables and processes',
   ],
-  topicos: [
+  topics: [
     'Why master one language before jumping to another',
     'The Node runtime: V8, event loop and task queue',
     'CommonJS modules and ES Modules',
@@ -297,13 +381,20 @@ window.I18N.en.cursos = {
     'Processes, workers and running in cluster mode',
     'A look at other server languages: Python, Go, Java, PHP and C#',
   ],
-  requisitos: 'Both are required.',
+  requires: [
+    'javascript',
+    'git',
+  ],
+  prerequisites: 'Both are required.',
 },
-
-'python-back': {
-  nome: 'Back-end with Python: Django and FastAPI',
-  resumo: 'The Python route to the server: two frameworks, two styles, the same professional result.',
-  ementa: [
+{
+  id: 'python-back',
+  name: 'Back-end with Python: Django and FastAPI',
+  category: 'backend',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'The Python route to the server: two frameworks, two styles, the same professional result.',
+  syllabus: [
     'Django: the framework that comes with everything',
     'FastAPI: modern, fast, typed APIs',
     'Routes, views, templates and serialisation',
@@ -311,7 +402,7 @@ window.I18N.en.cursos = {
     'Authentication and permissions',
     'Testing, environments and deployment',
   ],
-  topicos: [
+  topics: [
     'Choosing between Django and FastAPI: what each one assumes',
     'Django: project, apps, urls and views',
     'Django templates and static files',
@@ -330,13 +421,20 @@ window.I18N.en.cursos = {
     'Serving in production: Gunicorn, Uvicorn and a reverse proxy',
     'Containerising and deploying',
   ],
-  requisitos: 'Both are required.',
+  requires: [
+    'python',
+    'git',
+  ],
+  prerequisites: 'Both are required.',
 },
-
-'java-back': {
-  nome: 'Back-end with Java and Spring',
-  resumo: 'The ecosystem behind banking, industry and government: Spring Boot, persistence and the most mature toolchain on the market.',
-  ementa: [
+{
+  id: 'java-back',
+  name: 'Back-end with Java and Spring',
+  category: 'backend',
+  level: 'intermediate',
+  hours: 70,
+  summary: 'The ecosystem behind banking, industry and government: Spring Boot, persistence and the most mature toolchain on the market.',
+  syllabus: [
     'Maven and Gradle: dependencies, build and project layout',
     'Spring Boot: autoconfiguration, dependency injection and profiles',
     'Spring MVC: controllers, DTOs and validation',
@@ -344,7 +442,7 @@ window.I18N.en.cursos = {
     'Spring Security, structured logging and documentation',
     'Layered testing and shipping the artefact',
   ],
-  topicos: [
+  topics: [
     'Maven: dependencies, build lifecycle, plugins and repository',
     'Gradle: build script, tasks and incremental builds',
     'A look at Bazel and where it shows up',
@@ -369,13 +467,19 @@ window.I18N.en.cursos = {
     'Actuator, metrics and health checks',
     'Packaging as a jar, a container image and shipping it',
   ],
-  requisitos: 'Requires the language and its standard library: this course starts at the ecosystem.',
+  requires: [
+    'java-functional',
+  ],
+  prerequisites: 'Requires the language and its standard library: this course starts at the ecosystem.',
 },
-
-'java': {
-  nome: 'Java',
-  resumo: 'The most widely employed language in the corporate world: strong typing, object orientation done properly and thirty years of compatibility.',
-  ementa: [
+{
+  id: 'java',
+  name: 'Java',
+  category: 'programming',
+  level: 'beginner',
+  hours: 80,
+  summary: 'The most widely employed language in the corporate world: strong typing, object orientation done properly and thirty years of compatibility.',
+  syllabus: [
     'The JVM, the life of a program and the syntax of the language',
     'Types, casting, strings, arrays and control flow',
     'Full object orientation: classes, inheritance, interfaces and encapsulation',
@@ -383,7 +487,7 @@ window.I18N.en.cursos = {
     'Collections and generics: picking the right structure',
     'Exceptions, annotations and the module system',
   ],
-  topicos: [
+  topics: [
     'The JVM: compilation, bytecode, execution and LTS releases',
     'The life of a program: from source file to process',
     'Basic syntax, conventions and the first program',
@@ -425,13 +529,17 @@ window.I18N.en.cursos = {
     'Annotations: the language ones, the framework ones and your own',
     'The module system (JPMS): `module-info` and strong encapsulation',
   ],
-  requisitos: 'None. This course teaches the language from scratch — it is the entry point for anyone who has never written Java.',
+  requires: [],
+  prerequisites: 'None. This course teaches the language from scratch — it is the entry point for anyone who has never written Java.',
 },
-
-'java-funcional': {
-  nome: 'Java: Functional and Concurrent',
-  resumo: 'The Java that changed: lambdas, streams, virtual threads and the standard library you use every day.',
-  ementa: [
+{
+  id: 'java-functional',
+  name: 'Java: Functional and Concurrent',
+  category: 'programming',
+  level: 'intermediate',
+  hours: 70,
+  summary: 'The Java that changed: lambdas, streams, virtual threads and the standard library you use every day.',
+  syllabus: [
     'Lambdas, functional interfaces and composition',
     'Stream API: transforming a collection without a loop',
     '`Optional` and the end of the careless `NullPointerException`',
@@ -439,7 +547,7 @@ window.I18N.en.cursos = {
     'Memory model, `volatile` and synchronisation',
     'Standard library: files, date and time, networking, regular expressions and cryptography',
   ],
-  topicos: [
+  topics: [
     'Lambda expressions: syntax, capture and what they replace',
     'Functional interfaces: `Function`, `Predicate`, `Supplier` and `Consumer`',
     'Method and constructor references',
@@ -467,13 +575,19 @@ window.I18N.en.cursos = {
     'Cryptography: digests, symmetric and asymmetric ciphers and `KeyStore`',
     'Secure random generation and password storage',
   ],
-  requisitos: 'Requires the Java course: object orientation, collections and exceptions are assumed here.',
+  requires: [
+    'java',
+  ],
+  prerequisites: 'Requires the Java course: object orientation, collections and exceptions are assumed here.',
 },
-
-'go-back': {
-  nome: 'Back-end with Go',
-  resumo: 'The server in Go: HTTP with the standard library, gRPC, databases and real time — from the first endpoint to the shipped binary.',
-  ementa: [
+{
+  id: 'go-back',
+  name: 'Back-end with Go',
+  category: 'backend',
+  level: 'intermediate',
+  hours: 70,
+  summary: 'The server in Go: HTTP with the standard library, gRPC, databases and real time — from the first endpoint to the shipped binary.',
+  syllabus: [
     'HTTP server with net/http and routing',
     'Frameworks: when to use Gin, Echo, Fiber or none at all',
     'Database access with pgx, GORM and migrations',
@@ -481,7 +595,7 @@ window.I18N.en.cursos = {
     'Structured logging and real-time communication',
     'Deployment: a single binary in a minimal container',
   ],
-  topicos: [
+  topics: [
     'HTTP server with net/http: handlers, mux and the 1.22 routing',
     'Middleware: logging, panic recovery, CORS and authentication',
     'JSON in and out, validation and standardised errors',
@@ -500,13 +614,19 @@ window.I18N.en.cursos = {
     'Cross-compilation and a single binary in a distroless container',
     'Health checks, metrics and graceful shutdown',
   ],
-  requisitos: 'Requires the language and concurrency: this course starts at the server.',
+  requires: [
+    'go-concurrency',
+  ],
+  prerequisites: 'Requires the language and concurrency: this course starts at the server.',
 },
-
-'go': {
-  nome: 'Go',
-  resumo: 'The language Docker, Kubernetes and Terraform chose: little syntax to memorise, a lot of software to build.',
-  ementa: [
+{
+  id: 'go',
+  name: 'Go',
+  category: 'programming',
+  level: 'beginner',
+  hours: 80,
+  summary: 'The language Docker, Kubernetes and Terraform chose: little syntax to memorise, a lot of software to build.',
+  syllabus: [
     'Syntax, types, constants and conversions',
     'Composite types: arrays, slices, maps and structs',
     'Functions, closures and pointers without arithmetic',
@@ -514,7 +634,7 @@ window.I18N.en.cursos = {
     'Generics: generic functions and types with constraints',
     'Errors as values, modules and project organisation',
   ],
-  topicos: [
+  topics: [
     'Why Go exists: fast compilation, a single binary and simplicity',
     'The history of the language and the release cycle',
     'Installation, GOPATH, workspace and the `go` command',
@@ -556,13 +676,17 @@ window.I18N.en.cursos = {
     'Packages, import rules and what a capital letter means',
     'Using third-party packages and publishing a module of your own',
   ],
-  requisitos: 'None. This course teaches the language from scratch — it is the entry point for anyone who has never written Go.',
+  requires: [],
+  prerequisites: 'None. This course teaches the language from scratch — it is the entry point for anyone who has never written Go.',
 },
-
-'go-concorrencia': {
-  nome: 'Go: Concurrency and Testing',
-  resumo: 'The part of Go that does not exist in other languages: thousands of tasks at once, with no framework and no fright.',
-  ementa: [
+{
+  id: 'go-concurrency',
+  name: 'Go: Concurrency and Testing',
+  category: 'programming',
+  level: 'intermediate',
+  hours: 70,
+  summary: 'The part of Go that does not exist in other languages: thousands of tasks at once, with no framework and no fright.',
+  syllabus: [
     'Goroutines and channels: cheap concurrency',
     'Synchronisation with `sync`, mutexes and wait groups',
     'Cancellation and deadlines with the `context` package',
@@ -570,7 +694,7 @@ window.I18N.en.cursos = {
     'Race condition detection',
     'The standard library and real testing: table-driven tests, mocks and benchmarks',
   ],
-  topicos: [
+  topics: [
     'Concurrency is not parallelism: what Go actually promises',
     'Goroutines: cost, scheduler and what happens in `main`',
     'Channels: sending, receiving, closing and ranging',
@@ -602,13 +726,19 @@ window.I18N.en.cursos = {
     'Benchmarks: writing them, reading the result and not fooling yourself',
     'Test coverage: measuring it and knowing what it does not tell you',
   ],
-  requisitos: 'Requires the Go course: syntax, interfaces and errors are assumed here.',
+  requires: [
+    'go',
+  ],
+  prerequisites: 'Requires the Go course: syntax, interfaces and errors are assumed here.',
 },
-
-'go-producao': {
-  nome: 'Go in Production: CLIs, Tooling and Performance',
-  resumo: 'The tooling that makes Go the language of infrastructure: command line, profiling, cross-compilation and the advanced corners.',
-  ementa: [
+{
+  id: 'go-production',
+  name: 'Go in Production: CLIs, Tooling and Performance',
+  category: 'backend',
+  level: 'advanced',
+  hours: 70,
+  summary: 'The tooling that makes Go the language of infrastructure: command line, profiling, cross-compilation and the advanced corners.',
+  syllabus: [
     'Command-line programs with Cobra and bubbletea',
     'The full toolchain: build, vet, linters and security analysis',
     'Profiling with pprof and trace: finding the real bottleneck',
@@ -616,7 +746,7 @@ window.I18N.en.cursos = {
     'Code generation, build tags and reflection',
     'The advanced corners: escape analysis, `unsafe` and CGO',
   ],
-  topicos: [
+  topics: [
     'A command-line program: arguments, subcommands and output',
     'Cobra: commands, flags, help and autocompletion',
     'urfave/cli as a lighter alternative',
@@ -642,13 +772,19 @@ window.I18N.en.cursos = {
     'CGO: calling C from Go and what you give up by doing so',
     'Plugins and dynamic loading: the real limits of the approach',
   ],
-  requisitos: 'Requires concurrency and some project experience: this is the most advanced course on the track.',
+  requires: [
+    'go-concurrency',
+  ],
+  prerequisites: 'Requires concurrency and some project experience: this is the most advanced course on the track.',
 },
-
-'bancos-sql': {
-  nome: 'Relational Databases and SQL',
-  resumo: 'Model, query and protect the data that holds up any system.',
-  ementa: [
+{
+  id: 'sql-databases',
+  name: 'Relational Databases and SQL',
+  category: 'data',
+  level: 'intermediate',
+  hours: 70,
+  summary: 'Model, query and protect the data that holds up any system.',
+  syllabus: [
     'Relational modelling and normalisation',
     'SELECT, JOIN, aggregations and subqueries',
     'Transactions, ACID and failure modes',
@@ -656,7 +792,7 @@ window.I18N.en.cursos = {
     'Indexes and query performance analysis',
     'An overview: PostgreSQL, MySQL, MariaDB, SQLite',
   ],
-  topicos: [
+  topics: [
     'The relational model: tables, primary and foreign keys',
     'Normalisation up to third normal form and when to denormalise',
     'Creating and altering tables, data types and constraints',
@@ -671,13 +807,17 @@ window.I18N.en.cursos = {
     'PostgreSQL, MySQL, MariaDB and SQLite: when to pick each',
     'Oracle and the corporate world',
   ],
-  requisitos: 'No programming required: SQL can be learned without knowing how to program.',
+  requires: [],
+  prerequisites: 'No programming required: SQL can be learned without knowing how to program.',
 },
-
-'apis': {
-  nome: 'APIs and Authentication',
-  resumo: 'The front door of your system: clear contracts, controlled access and security.',
-  ementa: [
+{
+  id: 'apis',
+  name: 'APIs and Authentication',
+  category: 'backend',
+  level: 'advanced',
+  hours: 70,
+  summary: 'The front door of your system: clear contracts, controlled access and security.',
+  syllabus: [
     'API styles: REST, JSON, GraphQL, gRPC and SOAP',
     'Specification with OpenAPI and living documentation',
     'Authentication: basic, token, session/cookie, JWT and OAuth',
@@ -685,7 +825,7 @@ window.I18N.en.cursos = {
     'Hashing algorithms (bcrypt, scrypt) and password storage',
     'API security good practice: CORS, HTTPS, CSP, OWASP risks',
   ],
-  topicos: [
+  topics: [
     'REST: resources, verbs, status codes and versioning',
     'JSON and contract good practice',
     'GraphQL: schema, resolvers and the over-fetching problem',
@@ -700,19 +840,25 @@ window.I18N.en.cursos = {
     'Rate limiting per client',
     'CORS, HTTPS, CSP and the OWASP Top 10 applied to APIs',
   ],
+  requires: [
+    'sql-databases',
+  ],
 },
-
-'servidores-cache': {
-  nome: 'Web Servers and Caching',
-  resumo: 'Get the application online and make it answer fast under load.',
-  ementa: [
+{
+  id: 'servers-cache',
+  name: 'Web Servers and Caching',
+  category: 'backend',
+  level: 'intermediate',
+  hours: 50,
+  summary: 'Get the application online and make it answer fast under load.',
+  syllabus: [
     'Servers and reverse proxies: Nginx, Apache, Caddy',
     'Certificates, SSL/TLS and server security',
     'HTTP caching: headers, validation and invalidation',
     'Server-side caching with Redis and Memcached',
     'Caching strategies and common traps',
   ],
-  topicos: [
+  topics: [
     'Web servers: Nginx, Apache and Caddy',
     'Reverse proxy, load balancing and serving static files',
     'TLS certificates, free issuance and automatic renewal',
@@ -725,19 +871,25 @@ window.I18N.en.cursos = {
     'Caching patterns: cache-aside, write-through and write-behind',
     'Cache stampede and warming',
   ],
+  requires: [
+    'apis',
+  ],
 },
-
-'testes-cicd': {
-  nome: 'Automated Testing and CI/CD',
-  resumo: 'Ship often without fear: automate the checking and the releasing.',
-  ementa: [
+{
+  id: 'testing-cicd',
+  name: 'Automated Testing and CI/CD',
+  category: 'backend',
+  level: 'advanced',
+  hours: 60,
+  summary: 'Ship often without fear: automate the checking and the releasing.',
+  syllabus: [
     'Unit, integration and functional tests',
     'Test doubles, fixtures and test data',
     'Coverage: what it tells you and what it does not',
     'Continuous integration and continuous delivery pipelines',
     'Environments, secrets and release strategies',
   ],
-  topicos: [
+  topics: [
     'Unit, integration, functional and acceptance tests',
     'Test doubles: stub, mock, spy and fake',
     'Fixtures, factories and test data sets',
@@ -750,12 +902,18 @@ window.I18N.en.cursos = {
     'Release strategies: blue-green, canary and feature flags',
     'Rollback and stop criteria',
   ],
+  requires: [
+    'apis',
+  ],
 },
-
-'docker': {
-  nome: 'Docker and Containers',
-  resumo: 'Package your application once and run it anywhere — from a colleague’s laptop to the production server.',
-  ementa: [
+{
+  id: 'docker',
+  name: 'Docker and Containers',
+  category: 'infra',
+  level: 'intermediate',
+  hours: 50,
+  summary: 'Package your application once and run it anywhere — from a colleague’s laptop to the production server.',
+  syllabus: [
     'What a container is and why it replaced the virtual machine',
     'Images, layers and a Dockerfile that builds efficiently',
     'Volumes, bind mounts and data persistence',
@@ -763,7 +921,7 @@ window.I18N.en.cursos = {
     'Registries, image versioning and security',
     'A look at deployment: Swarm, Nomad, Kubernetes and PaaS',
   ],
-  topicos: [
+  topics: [
     'What a container is and what problem it solves',
     'Bare metal, virtual machine and container: what changes in each',
     'Docker and the OCI standard: why the specification matters',
@@ -793,13 +951,19 @@ window.I18N.en.cursos = {
     'A look at deployment: Docker Swarm, Nomad, Kubernetes and PaaS',
     'A look at the alternatives: Podman, containerd and LXC',
   ],
-  requisitos: 'Requires the Linux command line. No specific programming language required.',
+  requires: [
+    'linux-terminal',
+  ],
+  prerequisites: 'Requires the Linux command line. No specific programming language required.',
 },
-
-'kubernetes': {
-  nome: 'Kubernetes: Orchestration in Production',
-  resumo: 'One container is easy; hundreds of them, with zero-downtime updates and automatic scaling, is Kubernetes.',
-  ementa: [
+{
+  id: 'kubernetes',
+  name: 'Kubernetes: Orchestration in Production',
+  category: 'infra',
+  level: 'advanced',
+  hours: 80,
+  summary: 'One container is easy; hundreds of them, with zero-downtime updates and automatic scaling, is Kubernetes.',
+  syllabus: [
     'Cluster architecture and your first application online',
     'Deployments, services, Ingress and pod-to-pod networking',
     'Configuration, secrets and persistent storage with CSI',
@@ -807,7 +971,7 @@ window.I18N.en.cursos = {
     'Cluster security: RBAC, network policies and pod security',
     'Helm, release patterns, extending with CRDs and day-to-day operations',
   ],
-  topicos: [
+  topics: [
     'Why orchestrate: what Compose does not solve',
     'An overview of Kubernetes and the vocabulary of the cluster',
     'Alternatives: Swarm, Nomad, ECS and PaaS — when Kubernetes is overkill',
@@ -857,13 +1021,19 @@ window.I18N.en.cursos = {
     'Installing the control plane and adding worker nodes',
     'Multiple clusters: multi-context, federation and region strategy',
   ],
-  requisitos: 'Requires Docker. This is the most advanced infrastructure course in the catalogue. GitOps, observability and pipelines appear as an overview — each has its own course after this one.',
+  requires: [
+    'docker',
+  ],
+  prerequisites: 'Requires Docker. This is the most advanced infrastructure course in the catalogue. GitOps, observability and pipelines appear as an overview — each has its own course after this one.',
 },
-
-'arquitetura': {
-  nome: 'Systems Architecture',
-  resumo: 'The decisions that determine whether a system grows or seizes up — and how to communicate them.',
-  ementa: [
+{
+  id: 'architecture',
+  name: 'Systems Architecture',
+  category: 'backend',
+  level: 'advanced',
+  hours: 70,
+  summary: 'The decisions that determine whether a system grows or seizes up — and how to communicate them.',
+  syllabus: [
     'Monolith, microservices, SOA, serverless and service mesh',
     'The twelve factors of modern applications',
     'Asynchronous messaging with Kafka and RabbitMQ',
@@ -871,7 +1041,7 @@ window.I18N.en.cursos = {
     'Real-time data: WebSockets, SSE and polling',
     'Documenting and defending architectural decisions',
   ],
-  topicos: [
+  topics: [
     'Monolith: when it is still the right call',
     'Microservices: boundaries, communication and operational cost',
     'SOA, serverless and service mesh',
@@ -884,19 +1054,25 @@ window.I18N.en.cursos = {
     'Service registry, discovery and API gateway',
     'Recording architectural decisions (ADRs) and defending them',
   ],
+  requires: [
+    'docker',
+  ],
 },
-
-'escala': {
-  nome: 'Scale and Observability',
-  resumo: 'What happens when the system grows — and how to see what is actually going on.',
-  ementa: [
+{
+  id: 'scale',
+  name: 'Scale and Observability',
+  category: 'backend',
+  level: 'advanced',
+  hours: 60,
+  summary: 'What happens when the system grows — and how to see what is actually going on.',
+  syllabus: [
     'Scaling databases: indexes, replicas, sharding and the CAP theorem',
     'NoSQL databases: document, key-value, column, graph and time series',
     'Observability: instrumentation, monitoring and telemetry',
     'Mitigation strategies: throttling, backpressure, circuit breaker',
     'Graceful degradation and capacity planning',
   ],
-  topicos: [
+  topics: [
     'Vertical and horizontal scaling: the limit of each',
     'Read replicas, partitioning and sharding',
     'The CAP theorem and eventual consistency',
@@ -910,12 +1086,18 @@ window.I18N.en.cursos = {
     'Graceful degradation and capacity planning',
     'Load testing and stress testing',
   ],
+  requires: [
+    'architecture',
+  ],
 },
-
-'linux-terminal': {
-  nome: 'Linux and the Command Line',
-  resumo: 'The system that runs the internet: master the terminal and stop depending on a graphical interface.',
-  ementa: [
+{
+  id: 'linux-terminal',
+  name: 'Linux and the Command Line',
+  category: 'infra',
+  level: 'beginner',
+  hours: 70,
+  summary: 'The system that runs the internet: master the terminal and stop depending on a graphical interface.',
+  syllabus: [
     'Operating systems: Linux, Unix and Windows in operations',
     'Distributions: Ubuntu/Debian, RHEL and derivatives, SUSE',
     'Terminal: navigation, permissions, users and processes',
@@ -924,7 +1106,7 @@ window.I18N.en.cursos = {
     'Process and performance monitoring from the command line',
     'Terminal editors: Vim, Nano, Emacs',
   ],
-  topicos: [
+  topics: [
     'Linux, Unix and Windows: differences in day-to-day operations',
     'Distributions: Ubuntu/Debian, RHEL, Rocky, Alma and SUSE',
     'The filesystem, absolute and relative paths',
@@ -939,12 +1121,18 @@ window.I18N.en.cursos = {
     'Terminal editors: Vim, Nano and Emacs',
     'Scheduling tasks: cron and systemd timers',
   ],
+  requires: [
+    'web-fundamentals',
+  ],
 },
-
-'redes': {
-  nome: 'Networks and Protocols',
-  resumo: 'How data travels — and what to do when it stops travelling.',
-  ementa: [
+{
+  id: 'networks',
+  name: 'Networks and Protocols',
+  category: 'infra',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'How data travels — and what to do when it stops travelling.',
+  syllabus: [
     'The OSI model and the TCP/IP stack',
     'DNS, HTTP, HTTPS and SSL/TLS in practice',
     'SSH: remote access, keys and tunnels',
@@ -952,7 +1140,7 @@ window.I18N.en.cursos = {
     'Email protocols: SMTP, IMAP, POP3S, SPF, DKIM and DMARC',
     'Network diagnostics: dig, traceroute, tcpdump',
   ],
-  topicos: [
+  topics: [
     'The OSI model: the seven layers and what lives in each one',
     'The TCP/IP model and how it maps onto OSI',
     'TCP and UDP: ports, handshake and when to use each',
@@ -964,19 +1152,25 @@ window.I18N.en.cursos = {
     'Email: SMTP, IMAP, POP3S, SPF, DKIM and DMARC',
     'Diagnostics: ping, dig, nslookup, traceroute, mtr, netstat/ss and tcpdump',
   ],
+  requires: [
+    'linux-terminal',
+  ],
 },
-
-'nuvem': {
-  nome: 'Cloud and Serverless',
-  resumo: 'Where infrastructure lives today: providers, managed services and computing without servers.',
-  ementa: [
+{
+  id: 'cloud',
+  name: 'Cloud and Serverless',
+  category: 'infra',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'Where infrastructure lives today: providers, managed services and computing without servers.',
+  syllabus: [
     'Cloud models: IaaS, PaaS, SaaS',
     'An overview of providers: AWS, Azure, Google Cloud and the alternatives',
     'Compute, storage, networking and identity in the cloud',
     'Serverless: AWS Lambda, Cloudflare Workers, Vercel, Netlify',
     'Costs: how to estimate them, measure them and avoid surprises',
   ],
-  topicos: [
+  topics: [
     'IaaS, PaaS and SaaS: what each model delivers and what is left to you',
     'Public, private and hybrid cloud',
     'Providers: AWS, Azure, Google Cloud, DigitalOcean, Hetzner and Linode',
@@ -988,12 +1182,18 @@ window.I18N.en.cursos = {
     'Regions, availability zones and their effect on latency',
     'Costs: billing models, budgets and spend alerts',
   ],
+  requires: [
+    'networks',
+  ],
 },
-
-'iac': {
-  nome: 'Infrastructure as Code',
-  resumo: 'Stop configuring servers by hand: describe the infrastructure in version-controlled files.',
-  ementa: [
+{
+  id: 'iac',
+  name: 'Infrastructure as Code',
+  category: 'infra',
+  level: 'advanced',
+  hours: 70,
+  summary: 'Stop configuring servers by hand: describe the infrastructure in version-controlled files.',
+  syllabus: [
     'Declarative provisioning with Terraform',
     'An overview of Pulumi, CloudFormation and AWS CDK',
     'State, planning and applying changes safely',
@@ -1001,7 +1201,7 @@ window.I18N.en.cursos = {
     'Reusable modules and multiple environments',
     'Ephemeral, reproducible infrastructure',
   ],
-  topicos: [
+  topics: [
     'Provisioning and configuration management: two different jobs',
     'Terraform: providers, resources, variables and outputs',
     'Terraform state: the state file, remote backend and locking',
@@ -1013,19 +1213,25 @@ window.I18N.en.cursos = {
     'Machine images with Packer',
     'Immutable, ephemeral and reproducible infrastructure',
   ],
+  requires: [
+    'cloud',
+  ],
 },
-
-'gitops': {
-  nome: 'GitOps, Artefacts and Secrets',
-  resumo: 'The repository as the source of truth: deployments that can be traced, reversed and trusted.',
-  ementa: [
+{
+  id: 'gitops',
+  name: 'GitOps, Artefacts and Secrets',
+  category: 'infra',
+  level: 'advanced',
+  hours: 60,
+  summary: 'The repository as the source of truth: deployments that can be traced, reversed and trusted.',
+  syllabus: [
     'GitOps principles and the approval flow',
     'ArgoCD and FluxCD in practice',
     'Artefact management: Artifactory, Nexus, image registries',
     'Secret management: Vault, Sealed Secrets, SOPS and cloud services',
     'Credential rotation and least privilege',
   ],
-  topicos: [
+  topics: [
     'GitOps principles: declarative, versioned and reconciled',
     'The repository as the source of truth and the approval flow',
     'ArgoCD: applications, sync and drift',
@@ -1039,12 +1245,18 @@ window.I18N.en.cursos = {
     'Credential rotation and least privilege',
     'Auditing: who changed what, when and why',
   ],
+  requires: [
+    'iac',
+  ],
 },
-
-'observabilidade': {
-  nome: 'Observability and Operations',
-  resumo: 'Seeing what is happening in production — and acting before the user notices.',
-  ementa: [
+{
+  id: 'observability',
+  name: 'Observability and Operations',
+  category: 'infra',
+  level: 'advanced',
+  hours: 70,
+  summary: 'Seeing what is happening in production — and acting before the user notices.',
+  syllabus: [
     'Metrics with Prometheus and dashboards with Grafana',
     'Centralised logging: Elastic Stack, Loki, Graylog',
     'Distributed tracing with Jaeger and OpenTelemetry',
@@ -1052,7 +1264,7 @@ window.I18N.en.cursos = {
     'Service mesh: Istio, Linkerd and Envoy',
     'Cloud design patterns: availability, resilience and data',
   ],
-  topicos: [
+  topics: [
     'The three pillars: metrics, logs and traces',
     'Prometheus: scraping, PromQL, exporters and Alertmanager',
     'Grafana: dashboards, data sources and annotations',
@@ -1064,12 +1276,18 @@ window.I18N.en.cursos = {
     'Service mesh: Istio, Linkerd and Envoy',
     'Cloud design patterns: availability, resilience and data',
   ],
+  requires: [
+    'gitops',
+  ],
 },
-
-'python': {
-  nome: 'Python',
-  resumo: 'The recommended language for data, automation and AI — from the basics to the structures employers ask for.',
-  ementa: [
+{
+  id: 'python',
+  name: 'Python',
+  category: 'programming',
+  level: 'intermediate',
+  hours: 80,
+  summary: 'The recommended language for data, automation and AI — from the basics to the structures employers ask for.',
+  syllabus: [
     'Syntax, types, collections and functions',
     'Object orientation and modules',
     'Data structures and algorithms: lists, dictionaries, complexity',
@@ -1077,7 +1295,7 @@ window.I18N.en.cursos = {
     'Virtual environments, packages and project organisation',
     'Essential libraries: pandas and requests',
   ],
-  topicos: [
+  topics: [
     'Installation, the interpreter and your first script',
     'Types, variables, operators and string formatting',
     'Collections: lists, tuples, dictionaries and sets',
@@ -1091,12 +1309,18 @@ window.I18N.en.cursos = {
     'Data structures and a sense of complexity (Big-O)',
     'pandas for tables and requests for consuming APIs',
   ],
+  requires: [
+    'web-fundamentals',
+  ],
 },
-
-'dados-fundamentos': {
-  nome: 'Data Engineering Fundamentals',
-  resumo: 'The map of the profession: what a data engineer does and how data travels through a company.',
-  ementa: [
+{
+  id: 'data-fundamentals',
+  name: 'Data Engineering Fundamentals',
+  category: 'data',
+  level: 'beginner',
+  hours: 50,
+  summary: 'The map of the profession: what a data engineer does and how data travels through a company.',
+  syllabus: [
     'What data engineering is and how it differs from data science',
     'Skills, responsibilities and how to choose technologies',
     'The data lifecycle: generation, storage, ingestion and delivery',
@@ -1104,7 +1328,7 @@ window.I18N.en.cursos = {
     'Collection considerations: volume, frequency, quality and cost',
     'The basics of distributed systems',
   ],
-  topicos: [
+  topics: [
     'What a data engineer does and how it differs from a data scientist',
     'Responsibilities, skills and criteria for choosing technology',
     'The data lifecycle: generation, ingestion, storage, transformation and delivery',
@@ -1116,12 +1340,18 @@ window.I18N.en.cursos = {
     'Distributed systems: partitioning, replication and fault tolerance',
     'The CAP theorem applied to data platforms',
   ],
+  requires: [
+    'python',
+  ],
 },
-
-'modelagem-dw': {
-  nome: 'Data Modelling and the Data Warehouse',
-  resumo: 'Organise data to answer business questions, not just to store records.',
-  ementa: [
+{
+  id: 'warehouse-modeling',
+  name: 'Data Modelling and the Data Warehouse',
+  category: 'data',
+  level: 'advanced',
+  hours: 70,
+  summary: 'Organise data to answer business questions, not just to store records.',
+  syllabus: [
     'OLTP and OLAP: two worlds, two ways of modelling',
     'Dimensional modelling: facts, dimensions, star and snowflake',
     'Slowly changing dimensions (SCD)',
@@ -1129,7 +1359,7 @@ window.I18N.en.cursos = {
     'Data warehouse, data lake and lakehouse: BigQuery, Snowflake, Redshift, Delta Lake',
     'Data mart, data mesh and metadata-driven architectures',
   ],
-  topicos: [
+  topics: [
     'OLTP and OLAP: different workloads demand different models',
     'Dimensional modelling: fact tables and dimension tables',
     'Star schema and snowflake schema',
@@ -1143,12 +1373,18 @@ window.I18N.en.cursos = {
     'Data mart, data mesh and metadata-driven architectures',
     'Data catalogue and field dictionary',
   ],
+  requires: [
+    'sql-databases',
+  ],
 },
-
-'pipelines-etl': {
-  nome: 'Data Pipelines and ETL',
-  resumo: 'The backbone of the profession: moving and transforming data reliably and repeatably.',
-  ementa: [
+{
+  id: 'pipelines-etl',
+  name: 'Data Pipelines and ETL',
+  category: 'data',
+  level: 'advanced',
+  hours: 70,
+  summary: 'The backbone of the profession: moving and transforming data reliably and repeatably.',
+  syllabus: [
     'Ingestion types: batch, real time and hybrid',
     'ETL and ELT: extract, transform and load',
     'Orchestration with Apache Airflow: DAGs, scheduling and retries',
@@ -1156,7 +1392,7 @@ window.I18N.en.cursos = {
     'An overview of Luigi and Prefect',
     'Idempotency, reprocessing and failure handling',
   ],
-  topicos: [
+  topics: [
     'Batch, real-time and hybrid ingestion',
     'ETL and ELT: where the transformation happens',
     'Change data capture (CDC) and incremental loads',
@@ -1169,12 +1405,18 @@ window.I18N.en.cursos = {
     'Versioning pipelines and separating environments',
     'Cost and performance of large loads',
   ],
+  requires: [
+    'warehouse-modeling',
+  ],
 },
-
-'bigdata': {
-  nome: 'Big Data and Distributed Computing',
-  resumo: 'When the data no longer fits on one machine: process it on a cluster.',
-  ementa: [
+{
+  id: 'bigdata',
+  name: 'Big Data and Distributed Computing',
+  category: 'data',
+  level: 'advanced',
+  hours: 70,
+  summary: 'When the data no longer fits on one machine: process it on a cluster.',
+  syllabus: [
     'Cluster computing fundamentals and task scheduling',
     'Distributed filesystems and HDFS',
     'Apache Spark: RDDs, DataFrames and in-memory processing',
@@ -1182,7 +1424,7 @@ window.I18N.en.cursos = {
     'Cluster management with Kubernetes',
     'Messaging systems for data: Kafka, RabbitMQ, SQS and SNS',
   ],
-  topicos: [
+  topics: [
     'When data stops fitting on one machine',
     'Cluster computing: nodes, scheduler and fault tolerance',
     'Distributed filesystems and HDFS',
@@ -1196,12 +1438,18 @@ window.I18N.en.cursos = {
     'RabbitMQ, Amazon SQS and SNS',
     'Columnar formats and read optimisation',
   ],
+  requires: [
+    'pipelines-etl',
+  ],
 },
-
-'dados-governanca': {
-  nome: 'Data Security, Governance and Privacy',
-  resumo: 'Data is a responsibility: protect it, trace it and comply with the law.',
-  ementa: [
+{
+  id: 'data-governance',
+  name: 'Data Security, Governance and Privacy',
+  category: 'data',
+  level: 'advanced',
+  hours: 60,
+  summary: 'Data is a responsibility: protect it, trace it and comply with the law.',
+  syllabus: [
     'Authentication and authorisation on data platforms',
     'Encryption at rest and in transit',
     'Tokenisation, masking and obfuscation of data',
@@ -1209,7 +1457,7 @@ window.I18N.en.cursos = {
     'Brazil’s LGPD in practice (and an overview of GDPR and the EU AI Act)',
     'Retention and anonymisation policies',
   ],
-  topicos: [
+  topics: [
     'Authentication and authorisation on data platforms',
     'Access control by role, by attribute and by row or column',
     'Encryption at rest and in transit',
@@ -1222,12 +1470,18 @@ window.I18N.en.cursos = {
     'Retention, purge policies and audit trails',
     'Interoperability and data contracts between teams',
   ],
+  requires: [
+    'bigdata',
+  ],
 },
-
-'analytics-bi': {
-  nome: 'Analytics, BI and Reverse ETL',
-  resumo: 'The end the business actually sees: turning processed data into decisions.',
-  ementa: [
+{
+  id: 'analytics-bi',
+  name: 'Analytics, BI and Reverse ETL',
+  category: 'data',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'The end the business actually sees: turning processed data into decisions.',
+  syllabus: [
     'Exploratory analysis and the metrics that matter',
     'Business intelligence and modelling for self-service',
     'Dashboards with Power BI (and an overview of Tableau, Looker, Streamlit)',
@@ -1235,7 +1489,7 @@ window.I18N.en.cursos = {
     'Tools: Hightouch, Census, Segment',
     'Telling stories with data without misleading anyone',
   ],
-  topicos: [
+  topics: [
     'Exploratory analysis: distribution, correlation and outliers',
     'Metrics, dimensions and definitions shared between teams',
     'The semantic layer and modelling for self-service',
@@ -1247,19 +1501,25 @@ window.I18N.en.cursos = {
     'Segmentation, cohorts and funnels',
     'Telling stories with data without misleading: scales, framing and bias',
   ],
+  requires: [
+    'sql-databases',
+  ],
 },
-
-'ml-mlops': {
-  nome: 'Machine Learning and MLOps',
-  resumo: 'Where data engineering meets artificial intelligence.',
-  ementa: [
+{
+  id: 'ml-mlops',
+  name: 'Machine Learning and MLOps',
+  category: 'ai',
+  level: 'advanced',
+  hours: 50,
+  summary: 'Where data engineering meets artificial intelligence.',
+  syllabus: [
     'An overview of machine learning: supervised and unsupervised',
     'The data engineer’s role in a model’s lifecycle',
     'Feature stores and preparing data for training',
     'MLOps: model versioning, deployment and monitoring',
     'Drift detection and retraining',
   ],
-  topicos: [
+  topics: [
     'Supervised, unsupervised and reinforcement learning',
     'Common tasks: classification, regression, clustering and recommendation',
     'Train/validation/test splits and data leakage',
@@ -1271,12 +1531,18 @@ window.I18N.en.cursos = {
     'Monitoring in production: performance, latency and cost',
     'Detecting data and concept drift, and retraining',
   ],
+  requires: [
+    'analytics-bi',
+  ],
 },
-
-'redes-enderecamento': {
-  nome: 'Addressing, Routing and Switching',
-  resumo: 'The heart of the network: dividing addresses, choosing paths and wiring the equipment that gets the packet there.',
-  ementa: [
+{
+  id: 'networks-addressing',
+  name: 'Addressing, Routing and Switching',
+  category: 'infra',
+  level: 'intermediate',
+  hours: 80,
+  summary: 'The heart of the network: dividing addresses, choosing paths and wiring the equipment that gets the packet there.',
+  syllabus: [
     'Network equipment and what each device is for',
     'Topologies and network design principles',
     'IPv4 and IPv6 addressing in practice',
@@ -1285,7 +1551,7 @@ window.I18N.en.cursos = {
     'Switching, VLANs and spanning tree',
     'Labs in simulators (Packet Tracer, GNS3)',
   ],
-  topicos: [
+  topics: [
     'Equipment: router, switch, hub, modem, access point, firewall and load balancer',
     'Network card, repeater, bridge and gateway',
     'Topologies: bus, star, ring, mesh and hybrid',
@@ -1309,12 +1575,18 @@ window.I18N.en.cursos = {
     'Link aggregation (LACP) and Power over Ethernet (PoE)',
     'Inter-VLAN routing and layer 3 switches',
   ],
+  requires: [
+    'networks',
+  ],
 },
-
-'redes-disponibilidade': {
-  nome: 'VPNs, Wireless and High Availability',
-  resumo: 'A network that stays up and reaches everywhere: tunnels, well-designed wi-fi, redundancy and diagnosis by packet capture.',
-  ementa: [
+{
+  id: 'networks-availability',
+  name: 'VPNs, Wireless and High Availability',
+  category: 'infra',
+  level: 'advanced',
+  hours: 70,
+  summary: 'A network that stays up and reaches everywhere: tunnels, well-designed wi-fi, redundancy and diagnosis by packet capture.',
+  syllabus: [
     'Tunnels and VPNs: site to site and remote access',
     'Wireless networks: standards, channels and security',
     'Packet analysis with Wireshark and tcpdump',
@@ -1322,7 +1594,7 @@ window.I18N.en.cursos = {
     'Traffic management: QoS and load balancing',
     'A layer-by-layer diagnostic method',
   ],
-  topicos: [
+  topics: [
     'Encapsulation and tunnels: GRE and IP-in-IP',
     'IPsec: transport and tunnel modes, IKE and security associations',
     'SSL/TLS VPN and layer 2 VPN',
@@ -1347,12 +1619,18 @@ window.I18N.en.cursos = {
     'ping, traceroute, mtr, nslookup, iperf and bandwidth tests',
     'Documenting the incident: symptom, hypothesis, test and fix',
   ],
+  requires: [
+    'networks-addressing',
+  ],
 },
-
-'redes-seguranca': {
-  nome: 'Network Security',
-  resumo: 'Defending the network properly: a well-configured firewall, cryptography you actually understand, known attacks and least-privilege access.',
-  ementa: [
+{
+  id: 'networks-security',
+  name: 'Network Security',
+  category: 'infra',
+  level: 'advanced',
+  hours: 70,
+  summary: 'Defending the network properly: a well-configured firewall, cryptography you actually understand, known attacks and least-privilege access.',
+  syllabus: [
     'Firewalls, proxies and the DMZ',
     'Common attacks and how each one works',
     'Cryptography fundamentals and certificates',
@@ -1360,7 +1638,7 @@ window.I18N.en.cursos = {
     'Access control lists (ACLs)',
     'Zero Trust architecture and network access control',
   ],
-  topicos: [
+  topics: [
     'Stateful and stateless firewalls',
     'Next-generation firewall (NGFW) and deep packet inspection',
     'Web application firewall (WAF) and reverse proxy',
@@ -1385,12 +1663,18 @@ window.I18N.en.cursos = {
     'Network access control (NAC) and 802.1X authentication',
     'Logging, auditing and incident response',
   ],
+  requires: [
+    'networks-availability',
+  ],
 },
-
-'redes-automacao': {
-  nome: 'Network Automation',
-  resumo: 'Stop configuring device by device: describe the network in code, validate it and apply it at scale.',
-  ementa: [
+{
+  id: 'networks-automation',
+  name: 'Network Automation',
+  category: 'infra',
+  level: 'advanced',
+  hours: 60,
+  summary: 'Stop configuring device by device: describe the network in code, validate it and apply it at scale.',
+  syllabus: [
     'Network APIs: REST, NETCONF, RESTCONF and gNMI',
     'Modelling with YANG, JSON and XML',
     'Automation with Python: Netmiko, NAPALM and Nornir',
@@ -1398,7 +1682,7 @@ window.I18N.en.cursos = {
     'Configuration templates with Jinja2',
     'Source of truth, backup and configuration validation',
   ],
-  topicos: [
+  topics: [
     'Why automate: human error, scale and repeatability',
     'REST APIs on network equipment: authentication, verbs and pagination',
     'NETCONF and RESTCONF: structured, transactional configuration',
@@ -1415,13 +1699,20 @@ window.I18N.en.cursos = {
     'Continuous integration applied to the network',
     'An overview of software-defined networking (SDN) and controllers',
   ],
-  requisitos: 'Both are required.',
+  requires: [
+    'python',
+    'networks-security',
+  ],
+  prerequisites: 'Both are required.',
 },
-
-'prompt-engineering': {
-  nome: 'Prompt Engineering',
-  resumo: 'Chatting with a model is easy; getting the right answer every time is a craft. Design, configure and genuinely test your prompts.',
-  ementa: [
+{
+  id: 'prompt-engineering',
+  name: 'Prompt Engineering',
+  category: 'ai',
+  level: 'beginner',
+  hours: 60,
+  summary: 'Chatting with a model is easy; getting the right answer every time is a craft. Design, configure and genuinely test your prompts.',
+  syllabus: [
     'How a language model works and what a prompt is',
     'Terminology: tokens, context, hallucination, RAG and agents',
     'Sampling parameters: temperature, top-k and top-p',
@@ -1430,7 +1721,7 @@ window.I18N.en.cursos = {
     'Techniques: zero-shot, few-shot, chain of thought, ToT, ReAct',
     'Automatic prompt generation using the model itself',
   ],
-  topicos: [
+  topics: [
     'What a language model is and how it predicts the next token',
     'What a prompt is and what prompt engineering is',
     'Tokens, tokenisation and why cost is measured that way',
@@ -1463,13 +1754,17 @@ window.I18N.en.cursos = {
     'Prompt tuning: learned prompts instead of written ones',
     'Automatic prompt engineering: using the LLM to generate prompts',
   ],
-  requisitos: 'Everyday computer and internet use.',
+  requires: [],
+  prerequisites: 'Everyday computer and internet use.',
 },
-
-'prompt-confiabilidade': {
-  nome: 'Reliable Prompts: Evaluation and Good Practice',
-  resumo: 'The distance between a demo prompt and one that runs in production: measure it, version it and stop trusting luck.',
-  ementa: [
+{
+  id: 'prompt-reliability',
+  name: 'Reliable Prompts: Evaluation and Good Practice',
+  category: 'ai',
+  level: 'intermediate',
+  hours: 50,
+  summary: 'The distance between a demo prompt and one that runs in production: measure it, version it and stop trusting luck.',
+  syllabus: [
     'The good practices that hold a prompt up in production',
     'Delimiting, variables and clear instructions',
     'Automated evaluation and output testing',
@@ -1477,7 +1772,7 @@ window.I18N.en.cursos = {
     'Reliability: debiasing, ensembling and self-evaluation',
     'Cost and latency in real pipelines',
   ],
-  topicos: [
+  topics: [
     'Giving few-shot examples to pin down output structure and style',
     'Keeping the prompt short, direct and free of contradictory instructions',
     'Asking for structured output when it makes consumption easier',
@@ -1500,12 +1795,18 @@ window.I18N.en.cursos = {
     'LLM self-evaluation',
     'Calibration: aligning stated confidence with actual accuracy',
   ],
+  requires: [
+    'prompt-engineering',
+  ],
 },
-
-'ia-seguranca': {
-  nome: 'AI Security and Red Teaming',
-  resumo: 'AI systems fail in new ways. Learn to attack your own before someone else does — and to defend them.',
-  ementa: [
+{
+  id: 'ai-security',
+  name: 'AI Security and Red Teaming',
+  category: 'ai',
+  level: 'advanced',
+  hours: 50,
+  summary: 'AI systems fail in new ways. Learn to attack your own before someone else does — and to defend them.',
+  syllabus: [
     'How LLM applications fail and how they are attacked',
     'Direct and indirect prompt injection',
     'Leaking data and system instructions',
@@ -1514,7 +1815,7 @@ window.I18N.en.cursos = {
     'Red teaming: planning, executing and reporting',
     'Defences: filters, tool isolation and human review',
   ],
-  topicos: [
+  topics: [
     'The attack surface of an LLM application',
     'Direct prompt injection: getting around the system instructions',
     'Indirect injection: malicious content in pages, files and emails',
@@ -1538,12 +1839,18 @@ window.I18N.en.cursos = {
     'Logging, auditing and incident response in production',
     'Brazil’s LGPD applied to data sent to third-party models',
   ],
+  requires: [
+    'prompt-reliability',
+  ],
 },
-
-'ia-modelos': {
-  nome: 'AI Models: Choice, Platforms and APIs',
-  resumo: 'There is no best model — there is the right model for your task, on your budget. Learn to choose and to integrate.',
-  ementa: [
+{
+  id: 'ai-models',
+  name: 'AI Models: Choice, Platforms and APIs',
+  category: 'ai',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'There is no best model — there is the right model for your task, on your budget. Learn to choose and to integrate.',
+  syllabus: [
     'Model types: pretrained, closed, open and self-hosted',
     'How to choose the right model for each task',
     'Closed models: Claude, Gemini, GPT, Cohere and Mistral',
@@ -1551,7 +1858,7 @@ window.I18N.en.cursos = {
     'Hugging Face, Ollama, LM Studio and OpenRouter',
     'APIs and SDKs from the main providers',
   ],
-  topicos: [
+  topics: [
     'Pretrained models: what comes ready made',
     'Closed and open-source models: licence, cost and control',
     'Self-hosted models: when running your own is worth it',
@@ -1574,20 +1881,27 @@ window.I18N.en.cursos = {
     'OpenAI-compatible APIs',
     'Keys, quotas, rate limits and spend control',
   ],
-  requisitos: 'Both are required.',
+  requires: [
+    'prompt-engineering',
+    'python',
+  ],
+  prerequisites: 'Both are required.',
 },
-
-'embeddings-vetores': {
-  nome: 'Embeddings and Vector Databases',
-  resumo: 'Search by meaning, not by word. The technical foundation behind RAG, recommendation and classification.',
-  ementa: [
+{
+  id: 'embeddings-vectors',
+  name: 'Embeddings and Vector Databases',
+  category: 'ai',
+  level: 'advanced',
+  hours: 60,
+  summary: 'Search by meaning, not by word. The technical foundation behind RAG, recommendation and classification.',
+  syllabus: [
     'What embeddings are and why they change search',
     'Use cases: semantic search, classification, recommendation and anomalies',
     'Proprietary and open embedding models',
     'Vector databases: how to choose and operate one',
     'Indexing embeddings and similarity search',
   ],
-  topicos: [
+  topics: [
     'What an embedding is: meaning turned into a vector',
     'Dimensions, distance and cosine similarity',
     'Semantic search: finding by meaning, not by exact word',
@@ -1607,19 +1921,25 @@ window.I18N.en.cursos = {
     'Combining metadata filters with vector search',
     'Storage and reindexing costs',
   ],
+  requires: [
+    'ai-models',
+  ],
 },
-
-'rag': {
-  nome: 'RAG and Context Engineering',
-  resumo: 'Make the model answer about what it has never seen: your company’s documents, with the source cited.',
-  ementa: [
+{
+  id: 'rag',
+  name: 'RAG and Context Engineering',
+  category: 'ai',
+  level: 'advanced',
+  hours: 70,
+  summary: 'Make the model answer about what it has never seen: your company’s documents, with the source cited.',
+  syllabus: [
     'What RAG is and when it beats fine-tuning',
     'The full pipeline: chunk, index, retrieve and generate',
     'Frameworks: LangChain, LlamaIndex, Haystack and RAGFlow',
     'Context engineering: external memory and dynamic filters',
     'Context compaction and isolation',
   ],
-  topicos: [
+  topics: [
     'The problem RAG solves: knowledge the model does not have',
     'Use cases: documentation, support, legal and internal knowledge bases',
     'RAG versus fine-tuning: cost, freshness and traceability',
@@ -1638,12 +1958,18 @@ window.I18N.en.cursos = {
     'Context isolation: separating tasks and avoiding contamination',
     'Cost per query and retrieval caching',
   ],
+  requires: [
+    'embeddings-vectors',
+  ],
 },
-
-'agentes-mcp': {
-  nome: 'AI Agents and MCP',
-  resumo: 'When the model stops answering and starts acting: tools, the decision loop, multi-agent systems and the MCP protocol.',
-  ementa: [
+{
+  id: 'agents-mcp',
+  name: 'AI Agents and MCP',
+  category: 'ai',
+  level: 'advanced',
+  hours: 80,
+  summary: 'When the model stops answering and starts acting: tools, the decision loop, multi-agent systems and the MCP protocol.',
+  syllabus: [
     'What an agent is and when it is the right answer',
     'Tools, function calling and the decision loop',
     'Multi-agent systems and orchestration',
@@ -1651,7 +1977,7 @@ window.I18N.en.cursos = {
     'Model Context Protocol: host, client, server and transport',
     'Building an MCP server and an MCP client',
   ],
-  topicos: [
+  topics: [
     'Agent, assistant and automation: where the difference lies',
     'Agent use cases — and when they are overkill',
     'The reason-and-act loop (ReAct) in practice',
@@ -1671,12 +1997,18 @@ window.I18N.en.cursos = {
     'Permissions, least privilege and human confirmation',
     'Cost, latency and the limits of an agent in production',
   ],
+  requires: [
+    'rag',
+  ],
 },
-
-'llm-observabilidade': {
-  nome: 'LLM Observability and Evaluation in Production',
-  resumo: '"It worked in the demo" is not "it worked": instrument it, evaluate it and regression-test every change.',
-  ementa: [
+{
+  id: 'llm-observability',
+  name: 'LLM Observability and Evaluation in Production',
+  category: 'ai',
+  level: 'advanced',
+  hours: 50,
+  summary: '"It worked in the demo" is not "it worked": instrument it, evaluate it and regression-test every change.',
+  syllabus: [
     'Tracing and logging model calls',
     'Monitoring cost, latency and quality in production',
     'Tools: LangSmith, Langfuse, Helicone and Arize AI',
@@ -1684,7 +2016,7 @@ window.I18N.en.cursos = {
     'Evaluation metrics and tools (DeepEval, RAGAS)',
     'Regression testing on every prompt or model change',
   ],
-  topicos: [
+  topics: [
     'Tracing a single call and a chain of calls',
     'Logging inputs and outputs without leaking personal data',
     'Monitoring cost per request, per user and per feature',
@@ -1702,19 +2034,25 @@ window.I18N.en.cursos = {
     'Wiring evaluation into the continuous integration pipeline',
     'Dashboards and alerts for quality drops',
   ],
+  requires: [
+    'agents-mcp',
+  ],
 },
-
-'multimodal': {
-  nome: 'Multimodal AI: Image, Audio and Video',
-  resumo: 'The model also sees and hears: read documents, generate images, transcribe audio and understand video.',
-  ementa: [
+{
+  id: 'multimodal',
+  name: 'Multimodal AI: Image, Audio and Video',
+  category: 'ai',
+  level: 'advanced',
+  hours: 50,
+  summary: 'The model also sees and hears: read documents, generate images, transcribe audio and understand video.',
+  syllabus: [
     'What changes when the model can see and hear',
     'Image understanding and generation',
     'Video understanding and audio processing',
     'Text to speech and speech to text',
     'APIs: Vision, DALL-E, Whisper and the alternatives',
   ],
-  topicos: [
+  topics: [
     'Multimodal AI use cases in real products',
     'Image understanding: description, extraction and document reading',
     'Image generation: prompt, style and limits',
@@ -1730,12 +2068,18 @@ window.I18N.en.cursos = {
     'Cost, file size and upload limits',
     'Accessibility: captions, audio description and transcription',
   ],
+  requires: [
+    'llm-observability',
+  ],
 },
-
-'arquitetura-papel': {
-  nome: 'The Role of the Software Architect',
-  resumo: 'An architect is not the oldest programmer in the room: it is whoever decides, documents and answers for the structural choices.',
-  ementa: [
+{
+  id: 'architecture-role',
+  name: 'The Role of the Software Architect',
+  category: 'architecture',
+  level: 'advanced',
+  hours: 40,
+  summary: 'An architect is not the oldest programmer in the room: it is whoever decides, documents and answers for the structural choices.',
+  syllabus: [
     'What software architecture is — and what it is not',
     'What an architect actually does day to day',
     'Levels: application, solution and enterprise architecture',
@@ -1743,7 +2087,7 @@ window.I18N.en.cursos = {
     'Simplifying instead of complicating',
     'The balance between engineering, deadline and cost',
   ],
-  topicos: [
+  topics: [
     'What software architecture is: components, interaction and environment',
     'What architecture is not: neither a pretty diagram nor the fashionable technology',
     'What a software architect is and where their authority comes from',
@@ -1762,13 +2106,17 @@ window.I18N.en.cursos = {
     'Architect, tech lead and senior engineer: the boundaries of the role',
     'Antipatterns: the PowerPoint architect, the ivory tower and overengineering',
   ],
-  requisitos: 'The Back-end Development track completed — or equivalent experience.',
+  requires: [],
+  prerequisites: 'The Back-end Development track completed — or equivalent experience.',
 },
-
-'padroes-projeto': {
-  nome: 'Design Patterns and Principles',
-  resumo: 'The structural vocabulary of the profession: SOLID, DDD, CQRS, TDD and the paradigms that hold design decisions up.',
-  ementa: [
+{
+  id: 'design-patterns',
+  name: 'Design Patterns and Principles',
+  category: 'architecture',
+  level: 'advanced',
+  hours: 80,
+  summary: 'The structural vocabulary of the profession: SOLID, DDD, CQRS, TDD and the paradigms that hold design decisions up.',
+  syllabus: [
     'Object orientation beyond the syntax',
     'SOLID and the principles behind sustainable code',
     'Presentation patterns: MVC, MVP and MVVM',
@@ -1776,7 +2124,7 @@ window.I18N.en.cursos = {
     'Domain-Driven Design and test-driven development',
     'Functional and reactive programming and the actor model',
   ],
-  topicos: [
+  topics: [
     'Object orientation: encapsulation, inheritance, polymorphism and composition',
     'Composition over inheritance: why almost always',
     'SOLID: single responsibility, open/closed, Liskov substitution',
@@ -1797,12 +2145,18 @@ window.I18N.en.cursos = {
     'Concurrency and parallelism: where the patterns break down',
     'Choosing the pattern for the problem, not for your CV',
   ],
+  requires: [
+    'architecture-role',
+  ],
 },
-
-'modelagem-arquitetura': {
-  nome: 'Architecture Modelling and Frameworks',
-  resumo: 'Drawing to be understood: diagrams that communicate, decisions on record and the frameworks the corporate market asks for.',
-  ementa: [
+{
+  id: 'architecture-modeling',
+  name: 'Architecture Modelling and Frameworks',
+  category: 'architecture',
+  level: 'advanced',
+  hours: 60,
+  summary: 'Drawing to be understood: diagrams that communicate, decisions on record and the frameworks the corporate market asks for.',
+  syllabus: [
     'UML and the diagrams people actually use',
     'The C4 model: four zoom levels of an architecture',
     'Architecture decision records (ADRs)',
@@ -1810,7 +2164,7 @@ window.I18N.en.cursos = {
     'BABOK and business requirements analysis',
     'Documentation that outlives the project',
   ],
-  topicos: [
+  topics: [
     'What a diagram is for: communicating, not decorating',
     'UML: use case, class, sequence, component and deployment diagrams',
     'The C4 model: context, containers, components and code',
@@ -1826,19 +2180,25 @@ window.I18N.en.cursos = {
     'Architecture review and assessment checklists',
     'Presenting architecture to technical and non-technical audiences',
   ],
+  requires: [
+    'design-patterns',
+  ],
 },
-
-'software-corporativo': {
-  nome: 'Enterprise Software and Integration',
-  resumo: 'The reality of large companies: ERP, CRM, BPM and the work of integrating systems nobody is allowed to switch off.',
-  ementa: [
+{
+  id: 'enterprise-software',
+  name: 'Enterprise Software and Integration',
+  category: 'architecture',
+  level: 'advanced',
+  hours: 50,
+  summary: 'The reality of large companies: ERP, CRM, BPM and the work of integrating systems nobody is allowed to switch off.',
+  syllabus: [
     'The enterprise ecosystem: ERP, CRM, BPM and document management',
     'SAP, Salesforce and Microsoft Dynamics',
     'Process automation with BPM and BPEL',
     'Enterprise service bus (ESB) and legacy integration',
     'Migration and coexistence strategies',
   ],
-  topicos: [
+  topics: [
     'What an ERP is and why it constrains the architecture',
     'SAP: ERP, HANA and Business Objects',
     'Microsoft Dynamics and the Microsoft ecosystem inside the company',
@@ -1855,12 +2215,18 @@ window.I18N.en.cursos = {
     'Data migration: quality, reconciliation and rollback',
     'Buy versus build: how to justify the decision',
   ],
+  requires: [
+    'architecture-modeling',
+  ],
 },
-
-'gestao-processos': {
-  nome: 'Management, Process and Estimation',
-  resumo: 'The architect lives between engineering and management: understand the methods, the ceremonies and how to estimate without inventing numbers.',
-  ementa: [
+{
+  id: 'process-management',
+  name: 'Management, Process and Estimation',
+  category: 'management',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'The architect lives between engineering and management: understand the methods, the ceremonies and how to estimate without inventing numbers.',
+  syllabus: [
     'Agile models: Scrum, Kanban and XP',
     'Scaling agile: SAFe and LeSS',
     'Classic models: PMI, Prince2, RUP and ITIL',
@@ -1868,7 +2234,7 @@ window.I18N.en.cursos = {
     'Delivery metrics that do not turn into surveillance',
     'An overview of the certifications the market asks for',
   ],
-  topicos: [
+  topics: [
     'Waterfall, iterative and agile: what each one assumes about the world',
     'Scrum: roles, ceremonies, artefacts and what usually goes wrong',
     'Kanban: flow, work-in-progress limits and cycle time',
@@ -1885,12 +2251,18 @@ window.I18N.en.cursos = {
     'Technical debt: recording it, negotiating it and paying it down',
     'Certifications: PMI, ITIL, Prince2, Scrum and the cloud ones',
   ],
+  requires: [
+    'architecture-role',
+  ],
 },
-
-'arquiteto-comunicacao': {
-  nome: 'Communication, Consulting and Technical Leadership',
-  resumo: 'The part that sinks more architects than any technical difficulty: explaining, persuading, growing people and saying no.',
-  ementa: [
+{
+  id: 'architect-communication',
+  name: 'Communication, Consulting and Technical Leadership',
+  category: 'management',
+  level: 'advanced',
+  hours: 50,
+  summary: 'The part that sinks more architects than any technical difficulty: explaining, persuading, growing people and saying no.',
+  syllabus: [
     'Writing to be read: documentation and proposals',
     'Presenting technical decisions to non-technical people',
     'Internal consulting: diagnose before you prescribe',
@@ -1898,7 +2270,7 @@ window.I18N.en.cursos = {
     'Negotiating deadline, scope and technical debt',
     'Building a technical reputation without becoming a salesperson',
   ],
-  topicos: [
+  topics: [
     'Writing clearly: structure, precision and economy of words',
     'The one-pager, the technical proposal and the internal RFC',
     'Adapting the message: board, product, team and client',
@@ -1916,12 +2288,18 @@ window.I18N.en.cursos = {
     'Blameless postmortems and a culture of learning',
     'Technical reputation: talks, articles and community',
   ],
+  requires: [
+    'process-management',
+  ],
 },
-
-'informatica-essencial': {
-  nome: 'Essential Computing',
-  resumo: 'The start of everything: understanding the computer from the inside, mastering everyday tools and losing the fear of touching things.',
-  ementa: [
+{
+  id: 'computing-essentials',
+  name: 'Essential Computing',
+  category: 'foundations',
+  level: 'beginner',
+  hours: 60,
+  summary: 'The start of everything: understanding the computer from the inside, mastering everyday tools and losing the fear of touching things.',
+  syllabus: [
     'Hardware components and what each one does',
     'Connection types: cable, Wi-Fi, Bluetooth, NFC',
     'Windows, files, folders and organisation',
@@ -1929,7 +2307,7 @@ window.I18N.en.cursos = {
     'Personal cloud and collaborative work',
     'Home networking basics and first diagnostics',
   ],
-  topicos: [
+  topics: [
     'Processor, RAM, storage and motherboard',
     'Graphics card, power supply, cooling and case',
     'Peripherals: monitor, keyboard, mouse, printer and scanner',
@@ -1947,13 +2325,17 @@ window.I18N.en.cursos = {
     'Signs of a hardware problem and when to stop pushing',
     'Using it sensibly: passwords, updates and common scams',
   ],
-  requisitos: 'None. This is the school’s first course.',
+  requires: [],
+  prerequisites: 'None. This is the school’s first course.',
 },
-
-'sistemas-operacionais': {
-  nome: 'Operating Systems: Windows, Linux and macOS',
-  resumo: 'The three systems you will meet in any company — installed, configured and administered by you.',
-  ementa: [
+{
+  id: 'operating-systems',
+  name: 'Operating Systems: Windows, Linux and macOS',
+  category: 'infra',
+  level: 'beginner',
+  hours: 70,
+  summary: 'The three systems you will meet in any company — installed, configured and administered by you.',
+  syllabus: [
     'Installing and configuring all three systems',
     'Versions, editions and the differences between them',
     'Navigating by graphical interface and by command line',
@@ -1961,7 +2343,7 @@ window.I18N.en.cursos = {
     'Installing software and managing files',
     'Common commands and troubleshooting',
   ],
-  topicos: [
+  topics: [
     'What an operating system does: processes, memory and devices',
     'Installing and setting up Windows',
     'Installing and setting up a Linux distribution',
@@ -1980,12 +2362,18 @@ window.I18N.en.cursos = {
     'Updates, drivers and compatibility',
     'Diagnosis: system logs, safe mode and recovery',
   ],
+  requires: [
+    'computing-essentials',
+  ],
 },
-
-'virtualizacao': {
-  nome: 'Virtualisation and Labs',
-  resumo: 'Build your own lab: several machines on a single computer, so you can test, break things and roll back without fear.',
-  ementa: [
+{
+  id: 'virtualization',
+  name: 'Virtualisation and Labs',
+  category: 'infra',
+  level: 'beginner',
+  hours: 50,
+  summary: 'Build your own lab: several machines on a single computer, so you can test, break things and roll back without fear.',
+  syllabus: [
     'What virtualisation is and what it is for',
     'Hypervisor, host system and guest system',
     'VirtualBox and VMware in practice',
@@ -1993,7 +2381,7 @@ window.I18N.en.cursos = {
     'Snapshots, clones and virtual networks',
     'Building a study lab from scratch',
   ],
-  topicos: [
+  topics: [
     'What a virtual machine is and what it saves you',
     'Type 1 and type 2 hypervisors: the difference that matters',
     'Host system and guest system',
@@ -2010,12 +2398,18 @@ window.I18N.en.cursos = {
     'Building a lab with a client, a server and a target',
     'Isolating the lab from the real network',
   ],
+  requires: [
+    'operating-systems',
+  ],
 },
-
-'suporte-tecnico': {
-  nome: 'Technical Support and Service Desk',
-  resumo: 'Half the job is technical; the other half is understanding the person on the other side and recording what was done.',
-  ementa: [
+{
+  id: 'tech-support',
+  name: 'Technical Support and Service Desk',
+  category: 'management',
+  level: 'beginner',
+  hours: 50,
+  summary: 'Half the job is technical; the other half is understanding the person on the other side and recording what was done.',
+  syllabus: [
     'A diagnostic method: from symptom to cause',
     'Serving users without jargon',
     'Tickets, priority and escalation',
@@ -2023,7 +2417,7 @@ window.I18N.en.cursos = {
     'Remote access and support tools',
     'Ethics, privacy and the limits of the role',
   ],
-  topicos: [
+  topics: [
     'A diagnostic method: reproduce, isolate, test and confirm',
     'Asking the right question: what the user did, not what they thought',
     'Layers of cause: user, application, system, network and hardware',
@@ -2040,12 +2434,18 @@ window.I18N.en.cursos = {
     'The limits of the role: when the answer is "I cannot do that"',
     'An overview of entry-level certifications: CompTIA A+, Linux+ and Network+',
   ],
+  requires: [
+    'virtualization',
+  ],
 },
-
-'seguranca-fundamentos': {
-  nome: 'Information Security Fundamentals',
-  resumo: 'The vocabulary and the mindset of the field: what risk is, what defence in depth is and why trust is the problem.',
-  ementa: [
+{
+  id: 'security-fundamentals',
+  name: 'Information Security Fundamentals',
+  category: 'security',
+  level: 'beginner',
+  hours: 60,
+  summary: 'The vocabulary and the mindset of the field: what risk is, what defence in depth is and why trust is the problem.',
+  syllabus: [
     'The CIA triad and what it guides in practice',
     'Risk: definition, assessment and treatment',
     'Defence in depth and segmentation',
@@ -2053,7 +2453,7 @@ window.I18N.en.cursos = {
     'Blue, red and purple teams',
     'Standards and frameworks: ISO, NIST, CIS, CSF and RMF',
   ],
-  topicos: [
+  topics: [
     'The CIA triad: confidentiality, integrity and availability',
     'Defining risk: threat, vulnerability and impact',
     'Assessing and treating risk: accept, mitigate, transfer or avoid',
@@ -2073,12 +2473,18 @@ window.I18N.en.cursos = {
     'Brazil’s LGPD and the duty to protect personal data',
     'Careers in the field: SOC, pentest, GRC, forensics and AppSec',
   ],
+  requires: [
+    'web-fundamentals',
+  ],
 },
-
-'criptografia': {
-  nome: 'Applied Cryptography',
-  resumo: 'Without understanding cryptography you are only repeating configuration from a tutorial. Here you learn what each option protects.',
-  ementa: [
+{
+  id: 'cryptography',
+  name: 'Applied Cryptography',
+  category: 'security',
+  level: 'intermediate',
+  hours: 50,
+  summary: 'Without understanding cryptography you are only repeating configuration from a tutorial. Here you learn what each option protects.',
+  syllabus: [
     'Symmetric and asymmetric cryptography',
     'Hashing, salting and password storage',
     'Key exchange and public key infrastructure',
@@ -2086,7 +2492,7 @@ window.I18N.en.cursos = {
     'Secure protocols and their insecure equivalents',
     'Cryptography on wireless networks',
   ],
-  topicos: [
+  topics: [
     'Symmetric cryptography: AES, modes of operation and the initialisation vector',
     'Asymmetric cryptography: RSA, elliptic curves and key size',
     'Public and private keys: who encrypts and who verifies',
@@ -2105,12 +2511,18 @@ window.I18N.en.cursos = {
     'EAP, PEAP and authentication on the corporate network',
     'Classic mistakes: keys in the code, rolling your own algorithm and nonce reuse',
   ],
+  requires: [
+    'security-fundamentals',
+  ],
 },
-
-'ataques-ameacas': {
-  nome: 'Attacks, Threats and Social Engineering',
-  resumo: 'Know the attack to recognise it: how each one works, what trace it leaves and what actually stops it.',
-  ementa: [
+{
+  id: 'attacks-threats',
+  name: 'Attacks, Threats and Social Engineering',
+  category: 'security',
+  level: 'intermediate',
+  hours: 70,
+  summary: 'Know the attack to recognise it: how each one works, what trace it leaves and what actually stops it.',
+  syllabus: [
     'Social engineering: the attacks that use no code',
     'Network, application and password attacks',
     'Malware: types, behaviour and propagation',
@@ -2118,7 +2530,7 @@ window.I18N.en.cursos = {
     'Frameworks: Cyber Kill Chain, Diamond Model and MITRE ATT&CK',
     'Web: the OWASP Top 10 in practice',
   ],
-  topicos: [
+  topics: [
     'Social engineering: why the human being is the shortest path',
     'Phishing, vishing (voice), smishing (SMS) and whaling (big targets)',
     'Spam and spim: what differs and why it matters',
@@ -2146,12 +2558,18 @@ window.I18N.en.cursos = {
     'The Diamond Model: adversary, capability, infrastructure and victim',
     'MITRE ATT&CK: tactics, techniques and procedures',
   ],
+  requires: [
+    'cryptography',
+  ],
 },
-
-'defesa-hardening': {
-  nome: 'Endpoint Defence and Hardening',
-  resumo: 'Reducing the attack surface machine by machine: hardened configuration, endpoint protection and patching kept up to date.',
-  ementa: [
+{
+  id: 'defense-hardening',
+  name: 'Endpoint Defence and Hardening',
+  category: 'security',
+  level: 'advanced',
+  hours: 70,
+  summary: 'Reducing the attack surface machine by machine: hardened configuration, endpoint protection and patching kept up to date.',
+  syllabus: [
     'Operating system hardening',
     'Group policies and centralised configuration',
     'Antivirus, antimalware, EDR and DLP',
@@ -2159,7 +2577,7 @@ window.I18N.en.cursos = {
     'Vulnerability and patch management',
     'Jump servers, access control and workstation segmentation',
   ],
-  topicos: [
+  topics: [
     'Operating system hardening: unnecessary services, accounts and features',
     'Secure configuration guides (CIS Benchmarks) and automation',
     'Group Policy and centralised configuration',
@@ -2180,12 +2598,18 @@ window.I18N.en.cursos = {
     'Inventory and configuration as the basis of any defence',
     'File and URL analysis: VirusTotal, urlscan, any.run, Joe Sandbox and WHOIS',
   ],
+  requires: [
+    'attacks-threats',
+  ],
 },
-
-'soc-resposta': {
-  nome: 'SOC, Monitoring and Incident Response',
-  resumo: 'The blue team’s work: seeing what is happening, deciding whether it is an incident and running the response through to the report.',
-  ementa: [
+{
+  id: 'soc-response',
+  name: 'SOC, Monitoring and Incident Response',
+  category: 'security',
+  level: 'advanced',
+  hours: 70,
+  summary: 'The blue team’s work: seeing what is happening, deciding whether it is an incident and running the response through to the report.',
+  syllabus: [
     'Where the logs live and how to read them',
     'SIEM and SOAR: centralise, correlate and automate',
     'Threat hunting and threat intelligence',
@@ -2193,7 +2617,7 @@ window.I18N.en.cursos = {
     'The basics of computer forensics',
     'Communicating during and after the incident',
   ],
-  topicos: [
+  topics: [
     'Log sources: event logs, syslog, netflow, packet capture and firewall',
     'Where each log lives on Windows and on Linux',
     'Retention, integrity and chain of custody for logs',
@@ -2216,12 +2640,18 @@ window.I18N.en.cursos = {
     'The incident report: facts, impact, cause and recommendation',
     'Breach notification and LGPD obligations',
   ],
+  requires: [
+    'defense-hardening',
+  ],
 },
-
-'pentest': {
-  nome: 'Penetration Testing and Red Team',
-  resumo: 'Attacking with written authorisation, a method and a report. Without a contract it is not a penetration test — it is a crime.',
-  ementa: [
+{
+  id: 'pentest',
+  name: 'Penetration Testing and Red Team',
+  category: 'security',
+  level: 'advanced',
+  hours: 80,
+  summary: 'Attacking with written authorisation, a method and a report. Without a contract it is not a penetration test — it is a crime.',
+  syllabus: [
     'Rules of engagement, scope and authorisation',
     'Kali Linux, ParrotOS and the tester’s arsenal',
     'Reconnaissance, scanning and enumeration',
@@ -2229,7 +2659,7 @@ window.I18N.en.cursos = {
     'Web application testing',
     'Reporting, evidence and practice on CTF platforms',
   ],
-  topicos: [
+  topics: [
     'Rules of engagement: scope, window, limits and emergency contact',
     'Written authorisation: the document that separates a profession from a crime',
     'Test types: black, grey and white box; internal and external',
@@ -2253,13 +2683,20 @@ window.I18N.en.cursos = {
     'An overview of certifications: OSCP, CEH, GPEN, GWAPT and CREST',
     'Legal limits in Brazil and the tester’s liability',
   ],
-  requisitos: 'Both are required.',
+  requires: [
+    'soc-response',
+    'python',
+  ],
+  prerequisites: 'Both are required.',
 },
-
-'nuvem-seguranca': {
-  nome: 'Cloud Security',
-  resumo: 'In the cloud the blame is shared, but the bill is yours: understand the responsibility model and where the failures happen.',
-  ementa: [
+{
+  id: 'cloud-security',
+  name: 'Cloud Security',
+  category: 'security',
+  level: 'advanced',
+  hours: 50,
+  summary: 'In the cloud the blame is shared, but the bill is yours: understand the responsibility model and where the failures happen.',
+  syllabus: [
     'Cloud and on-premises: what changes for security',
     'Shared responsibility with the provider',
     'Identity and access: the new perimeter',
@@ -2267,7 +2704,7 @@ window.I18N.en.cursos = {
     'Security of infrastructure as code and serverless',
     'Logging, auditing and compliance in the cloud',
   ],
-  topicos: [
+  topics: [
     'Differences between cloud and on-premises infrastructure',
     'The shared responsibility model: what is yours and what is the provider’s',
     'SaaS, PaaS and IaaS: where your share of the responsibility shifts',
@@ -2286,12 +2723,18 @@ window.I18N.en.cursos = {
     'Cloud security posture management (CSPM) and configuration scanning',
     'Compliance, data residency and sovereignty',
   ],
+  requires: [
+    'cloud',
+  ],
 },
-
-'codigo-seguro': {
-  nome: 'Secure Coding',
-  resumo: 'Most flaws are not broken into: they are written in. Learn to code so the attack has no way in.',
-  ementa: [
+{
+  id: 'secure-code',
+  name: 'Secure Coding',
+  category: 'security',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'Most flaws are not broken into: they are written in. Learn to code so the attack has no way in.',
+  syllabus: [
     'Why most flaws are born in the code',
     'Input validation and output handling',
     'Preventing SQL and command injection',
@@ -2299,7 +2742,7 @@ window.I18N.en.cursos = {
     'Secrets, dependencies and third-party code',
     'Code review with a security eye',
   ],
-  topicos: [
+  topics: [
     'Where the flaw is born: requirement, design or implementation',
     'Never trust input: allowlist validation',
     'Client-side and server-side validation: why you need both',
@@ -2321,12 +2764,18 @@ window.I18N.en.cursos = {
     'Automated security testing inside the project',
     'OWASP ASVS and the Cheat Sheets in daily use',
   ],
+  requires: [
+    'attacks-threats',
+  ],
 },
-
-'modelagem-ameacas': {
-  nome: 'Threat Modelling and Risk',
-  resumo: 'Finding the flaw in the design costs a meeting; finding it in production costs an incident. Model before you build.',
-  ementa: [
+{
+  id: 'threat-modeling',
+  name: 'Threat Modelling and Risk',
+  category: 'security',
+  level: 'advanced',
+  hours: 50,
+  summary: 'Finding the flaw in the design costs a meeting; finding it in production costs an incident. Model before you build.',
+  syllabus: [
     'Modelling the threat before writing code',
     'STRIDE, PASTA and other methodologies',
     'Attack surface mapping',
@@ -2334,7 +2783,7 @@ window.I18N.en.cursos = {
     'Audit, compliance and control mapping',
     'Continuous modelling, not a dead document',
   ],
-  topicos: [
+  topics: [
     'What threat modelling is and when to do it',
     'Data flow diagrams and trust boundaries',
     'STRIDE: spoofing, tampering, repudiation, information disclosure, denial of service and elevation of privilege',
@@ -2351,12 +2800,18 @@ window.I18N.en.cursos = {
     'Audit: scope, evidence and preparation',
     'Continuous modelling: folding it into refinement and design review',
   ],
+  requires: [
+    'secure-code',
+  ],
 },
-
-'pipeline-seguro': {
-  nome: 'Pipeline and Supply Chain Security',
-  resumo: 'Security that runs on every commit: scanning in the pipeline, hardened images, dependencies under control and policy as code.',
-  ementa: [
+{
+  id: 'secure-pipeline',
+  name: 'Pipeline and Supply Chain Security',
+  category: 'security',
+  level: 'advanced',
+  hours: 70,
+  summary: 'Security that runs on every commit: scanning in the pipeline, hardened images, dependencies under control and policy as code.',
+  syllabus: [
     'DevSecOps: what changes compared with DevOps',
     'SAST, DAST, SCA and secret scanning in CI/CD',
     'Image and runtime container security',
@@ -2364,7 +2819,7 @@ window.I18N.en.cursos = {
     'Hardening the build pipeline',
     'Automated remediation and policy as code',
   ],
-  topicos: [
+  topics: [
     'DevSecOps and DevOps: what actually changes in the routine',
     'Shifting security left without stalling delivery',
     'Static analysis (SAST): configuring, tuning and living with false positives',
@@ -2386,13 +2841,20 @@ window.I18N.en.cursos = {
     'Policy as code: OPA, Conftest and infrastructure checks',
     'Metrics: time to fix, scan coverage and security debt',
   ],
-  requisitos: 'Both are required.',
+  requires: [
+    'testing-cicd',
+    'threat-modeling',
+  ],
+  prerequisites: 'Both are required.',
 },
-
-'bi-negocio': {
-  nome: 'BI for the Business: KPIs and Applications',
-  resumo: 'The question comes before the tool. Understand how a company works and which number actually changes a decision.',
-  ementa: [
+{
+  id: 'bi-business',
+  name: 'BI for the Business: KPIs and Applications',
+  category: 'management',
+  level: 'beginner',
+  hours: 60,
+  summary: 'The question comes before the tool. Understand how a company works and which number actually changes a decision.',
+  syllabus: [
     'What business intelligence is and why it matters',
     'The functions of a company: finance, marketing, operations and HR',
     'The four types of analysis, from descriptive to prescriptive',
@@ -2400,7 +2862,7 @@ window.I18N.en.cursos = {
     'Operational, tactical and strategic BI',
     'Applications by sector: retail, healthcare, industry and finance',
   ],
-  topicos: [
+  topics: [
     'What business intelligence is and what it is not',
     'Why BI matters: deciding by data instead of by opinion',
     'BI analyst, data analyst, data engineer and data scientist: who does what',
@@ -2423,12 +2885,18 @@ window.I18N.en.cursos = {
     'Applications in industry: predictive maintenance, production and quality control',
     'Compliance reporting and regulatory obligations',
   ],
+  requires: [
+    'computing-essentials',
+  ],
 },
-
-'excel-analitico': {
-  nome: 'Excel for Data Analysis',
-  resumo: 'The tool every company already has — used properly: pivot tables, Power Query and the data model.',
-  ementa: [
+{
+  id: 'excel-analytics',
+  name: 'Excel for Data Analysis',
+  category: 'data',
+  level: 'beginner',
+  hours: 60,
+  summary: 'The tool every company already has — used properly: pivot tables, Power Query and the data model.',
+  syllabus: [
     'Formulas that solve real problems',
     'Lookup and reference functions',
     'Tables, validation and conditional formatting',
@@ -2436,7 +2904,7 @@ window.I18N.en.cursos = {
     'Power Query: importing, cleaning and combining',
     'Power Pivot, measures and dashboards in Excel',
   ],
-  topicos: [
+  topics: [
     'Laying out the sheet for analysis: one row per record',
     'Relative and absolute references and defined names',
     'Logical functions: IF, AND, OR and IFERROR',
@@ -2456,12 +2924,18 @@ window.I18N.en.cursos = {
     'Building a navigable dashboard in Excel',
     'The limits of Excel and when to move to a database or BI platform',
   ],
+  requires: [
+    'computing-essentials',
+  ],
 },
-
-'estatistica': {
-  nome: 'Statistics for Data Analysis',
-  resumo: 'The foundation that separates reading a number from understanding it: describe, compare, test and never confuse correlation with cause.',
-  ementa: [
+{
+  id: 'statistics',
+  name: 'Statistics for Data Analysis',
+  category: 'data',
+  level: 'beginner',
+  hours: 80,
+  summary: 'The foundation that separates reading a number from understanding it: describe, compare, test and never confuse correlation with cause.',
+  syllabus: [
     'Variables and data types',
     'Descriptive statistics: centre, spread and shape',
     'Distributions and what they reveal',
@@ -2469,7 +2943,7 @@ window.I18N.en.cursos = {
     'Correlation, causality and regression',
     'Hypothesis tests, p-values and confidence intervals',
   ],
-  topicos: [
+  topics: [
     'Categorical and numerical variables',
     'Discrete and continuous variables; nominal, ordinal, interval and ratio scales',
     'Measures of central tendency: mean, median and mode',
@@ -2493,12 +2967,18 @@ window.I18N.en.cursos = {
     'Beyond linear regression: logistic regression and an overview of models',
     'Statistical significance versus practical relevance',
   ],
+  requires: [
+    'computing-essentials',
+  ],
 },
-
-'dados-limpeza': {
-  nome: 'Data Cleaning and Preparation',
-  resumo: 'Eighty per cent of the work is here: dirty data in, wrong decision out. Learn to treat it before you analyse it.',
-  ementa: [
+{
+  id: 'data-cleaning',
+  name: 'Data Cleaning and Preparation',
+  category: 'data',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'Eighty per cent of the work is here: dirty data in, wrong decision out. Learn to treat it before you analyse it.',
+  syllabus: [
     'Diagnosing data quality',
     'Missing, duplicate and inconsistent values',
     'Standardising formats, text and categories',
@@ -2506,7 +2986,7 @@ window.I18N.en.cursos = {
     'Transformation and enrichment',
     'Exploratory data analysis (EDA) as a working step',
   ],
-  topicos: [
+  topics: [
     'Dimensions of data quality: accuracy, completeness, consistency and timeliness',
     'Profiling: getting to know the table before touching it',
     'Missing values: why they are missing and what that means',
@@ -2525,13 +3005,20 @@ window.I18N.en.cursos = {
     'Tools: Excel, SQL, pandas and dplyr',
     'Recording every transformation: reproducibility and auditing',
   ],
-  requisitos: 'Both are required.',
+  requires: [
+    'statistics',
+    'sql-databases',
+  ],
+  prerequisites: 'Both are required.',
 },
-
-'visualizacao': {
-  nome: 'Data Visualisation',
-  resumo: 'The right chart makes the data speak; the wrong one lies without meaning to. Learn to choose, draw and not mislead.',
-  ementa: [
+{
+  id: 'visualization',
+  name: 'Data Visualisation',
+  category: 'data',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'The right chart makes the data speak; the wrong one lies without meaning to. Learn to choose, draw and not mislead.',
+  syllabus: [
     'Fundamentals: what the eye understands quickly',
     'Chart families and when to use each one',
     'Colour theory applied to data',
@@ -2539,7 +3026,7 @@ window.I18N.en.cursos = {
     'Charts that mislead — and how not to make them',
     'Responsive dashboards and reading on a phone',
   ],
-  topicos: [
+  topics: [
     'Visual encoding: position, length, angle, area, colour and shape',
     'The hierarchy of accuracy: why bars beat pies',
     'Bar and column charts: ordering and a baseline at zero',
@@ -2561,12 +3048,18 @@ window.I18N.en.cursos = {
     'Responsiveness: the dashboard on the director’s phone',
     'Tools: Excel, Power BI, Tableau and code libraries',
   ],
+  requires: [
+    'data-cleaning',
+  ],
 },
-
-'bi-tecnicas': {
-  nome: 'Analytical Techniques: Time Series, A/B Tests and Cohorts',
-  resumo: 'The three analyses companies ask for most: where are we heading, which version is better and why customers disappear.',
-  ementa: [
+{
+  id: 'bi-techniques',
+  name: 'Analytical Techniques: Time Series, A/B Tests and Cohorts',
+  category: 'data',
+  level: 'advanced',
+  hours: 60,
+  summary: 'The three analyses companies ask for most: where are we heading, which version is better and why customers disappear.',
+  syllabus: [
     'Time series: trend, seasonality and noise',
     'Forecasting and evaluating error',
     'A/B testing: design, sample size and reading the result',
@@ -2574,7 +3067,7 @@ window.I18N.en.cursos = {
     'Machine learning applied to BI',
     'Recognising algorithmic bias',
   ],
-  topicos: [
+  topics: [
     'Components of a time series: trend, seasonality, cycle and noise',
     'Decomposition and moving averages',
     'Exponential smoothing and an overview of ARIMA and Prophet',
@@ -2595,12 +3088,18 @@ window.I18N.en.cursos = {
     'Algorithmic bias: where it comes from and how to recognise it',
     'Mitigation strategies and ethical use of the model',
   ],
+  requires: [
+    'visualization',
+  ],
 },
-
-'dados-storytelling': {
-  nome: 'Communication and Storytelling with Data',
-  resumo: 'Analysis nobody understands changes nothing. Learn to tell the story in the data and to be taken seriously in the meeting.',
-  ementa: [
+{
+  id: 'data-storytelling',
+  name: 'Communication and Storytelling with Data',
+  category: 'management',
+  level: 'intermediate',
+  hours: 50,
+  summary: 'Analysis nobody understands changes nothing. Learn to tell the story in the data and to be taken seriously in the meeting.',
+  syllabus: [
     'The structure of a story told with data',
     'Adapting the message to the audience',
     'Presentation and dashboard design',
@@ -2608,7 +3107,7 @@ window.I18N.en.cursos = {
     'Business acumen and critical thinking',
     'Stakeholder and change management',
   ],
-  topicos: [
+  topics: [
     'Why data alone does not convince anyone',
     'Story structure: context, conflict, evidence and recommendation',
     'Starting from the conclusion: the inverted pyramid',
@@ -2626,12 +3125,18 @@ window.I18N.en.cursos = {
     'Project management basics for analytical deliverables',
     'Portfolio: an end-to-end analysis project that shows your process',
   ],
+  requires: [
+    'bi-techniques',
+  ],
 },
-
-'qa-fundamentos': {
-  nome: 'Software Quality Fundamentals',
-  resumo: 'Testing is not hunting for defects at the end: it is deciding what is worth checking, and when.',
-  ementa: [
+{
+  id: 'qa-fundamentals',
+  name: 'Software Quality Fundamentals',
+  category: 'quality',
+  level: 'beginner',
+  hours: 60,
+  summary: 'Testing is not hunting for defects at the end: it is deciding what is worth checking, and when.',
+  syllabus: [
     'What quality assurance is and what it is not',
     'The tester’s mindset: systematic doubt, not suspicion',
     'Testing approaches: black, grey and white box',
@@ -2639,7 +3144,7 @@ window.I18N.en.cursos = {
     'Methodologies: TDD, BDD, ATDD and root cause analysis',
     'Test oracles and prioritisation: where to start when time runs short',
   ],
-  topicos: [
+  topics: [
     'What quality assurance is: preventing versus detecting',
     'Product quality and process quality',
     'The cost of a defect across the lifecycle: why finding it early is cheaper',
@@ -2663,13 +3168,19 @@ window.I18N.en.cursos = {
     'Entry and exit criteria for a test cycle',
     'Useful metrics and metrics that turn into theatre',
   ],
-  requisitos: 'No programming required. This is the entry point of the Quality track.',
+  requires: [
+    'web-fundamentals',
+  ],
+  prerequisites: 'No programming required. This is the entry point of the Quality track.',
 },
-
-'testes-manuais': {
-  nome: 'Manual Testing and Test Management',
-  resumo: 'The part of the job no tool does: understanding the product, writing the case and proving the defect.',
-  ementa: [
+{
+  id: 'manual-testing',
+  name: 'Manual Testing and Test Management',
+  category: 'quality',
+  level: 'beginner',
+  hours: 60,
+  summary: 'The part of the job no tool does: understanding the product, writing the case and proving the defect.',
+  syllabus: [
     'Test planning: scope, risk, environment and criteria',
     'Cases and scenarios: writing what someone else can execute',
     'Verification and validation, and compatibility testing',
@@ -2677,7 +3188,7 @@ window.I18N.en.cursos = {
     'An overview of non-functional techniques',
     'Management: Jira, TestRail, Zephyr, reporting and test data',
   ],
-  topicos: [
+  topics: [
     'The test plan: scope, risk, resources, environment and schedule',
     'Test cases and scenarios: precondition, step, expected result',
     'Writing a case someone else can run without asking a single question',
@@ -2701,13 +3212,19 @@ window.I18N.en.cursos = {
     'Test environments and the "it works on my machine" problem',
     'Email testing: Mailinator, Gmail Tester and confirmation flows',
   ],
-  requisitos: 'No programming required.',
+  requires: [
+    'qa-fundamentals',
+  ],
+  prerequisites: 'No programming required.',
 },
-
-'automacao-web': {
-  nome: 'Web Test Automation',
-  resumo: 'The robot that runs the whole regression suite in minutes — and only pays off if it does not break on every screen change.',
-  ementa: [
+{
+  id: 'web-automation',
+  name: 'Web Test Automation',
+  category: 'quality',
+  level: 'intermediate',
+  hours: 70,
+  summary: 'The robot that runs the whole regression suite in minutes — and only pays off if it does not break on every screen change.',
+  syllabus: [
     'How the browser works inside: DOM, network and rendering',
     'Selenium, Cypress and Playwright: when each one fits',
     'Stable locators and the Page Object pattern',
@@ -2715,7 +3232,7 @@ window.I18N.en.cursos = {
     'Headless and parallel execution',
     'The testing pyramid: what to automate and what not to',
   ],
-  topicos: [
+  topics: [
     'Browser developer tools: elements, network and console',
     'DOM, CSS selectors and XPath: choosing a locator that does not break',
     'Ajax and asynchronous loading: why the test "flickers"',
@@ -2739,13 +3256,20 @@ window.I18N.en.cursos = {
     'The testing pyramid: cost, speed and confidence at each layer',
     'What not to automate: the test that costs more than the defect',
   ],
-  requisitos: 'Requires programming logic and basic JavaScript.',
+  requires: [
+    'javascript',
+    'manual-testing',
+  ],
+  prerequisites: 'Requires programming logic and basic JavaScript.',
 },
-
-'automacao-api-mobile': {
-  nome: 'API and Mobile Automation',
-  resumo: 'Testing where the defect is cheapest to find: at the API, before the screen — and in the app, where the user is.',
-  ementa: [
+{
+  id: 'api-mobile-automation',
+  name: 'API and Mobile Automation',
+  category: 'quality',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'Testing where the defect is cheapest to find: at the API, before the screen — and in the app, where the user is.',
+  syllabus: [
     'HTTP, REST and the API contract for testers',
     'Postman and Newman: from a manual collection to running in the pipeline',
     'REST Assured and Karate: API testing in code',
@@ -2753,7 +3277,7 @@ window.I18N.en.cursos = {
     'Mobile automation: Appium, Espresso and Detox',
     'Emulator, real device and device cloud',
   ],
-  topicos: [
+  topics: [
     'HTTP for testers: methods, status codes and headers',
     'REST, JSON and the contract the API promises to honour',
     'API authentication: key, token, JWT and OAuth',
@@ -2777,13 +3301,19 @@ window.I18N.en.cursos = {
     'Gestures, permissions and app states in tests',
     'Testing an app offline and on a poor connection',
   ],
-  requisitos: 'Requires some programming knowledge. It does not depend on the web automation course — the two can be taken in any order.',
+  requires: [
+    'manual-testing',
+  ],
+  prerequisites: 'Requires some programming knowledge. It does not depend on the web automation course — the two can be taken in any order.',
 },
-
-'testes-nao-funcionais': {
-  nome: 'Non-functional Testing',
-  resumo: 'The system does what it should — but does it hold up, is it accessible, and does it resist someone trying to break it on purpose?',
-  ementa: [
+{
+  id: 'non-functional-testing',
+  name: 'Non-functional Testing',
+  category: 'quality',
+  level: 'advanced',
+  hours: 60,
+  summary: 'The system does what it should — but does it hold up, is it accessible, and does it resist someone trying to break it on purpose?',
+  syllabus: [
     'Load, stress and performance: planning the test before running it',
     'JMeter, K6, Gatling and Locust in practice',
     'Front-end performance with Lighthouse and WebPageTest',
@@ -2791,7 +3321,7 @@ window.I18N.en.cursos = {
     'Security testing: OWASP Top 10, attack vectors and scanning',
     'Monitoring and watching for what testing does not catch',
   ],
-  topicos: [
+  topics: [
     'The non-functional requirement: turning "it has to be fast" into a number',
     'Load, stress, spike, soak and scalability: the difference',
     'Modelling the load: virtual users, think time and ramp-up',
@@ -2817,6 +3347,419 @@ window.I18N.en.cursos = {
     'RunScope and synthetic API monitoring in production',
     'Alerting and on-call: the defect that only shows up with real users',
   ],
+  requires: [
+    'web-automation',
+  ],
 },
+];
 
-};
+const TRACKS = [
+{
+  id: 'frontend',
+  name: 'Front-end Development',
+  family: 'career',
+  goal: 'The complete training for whoever builds what the user sees: from the first static page to the published app. Sequence based on the community Front-end roadmap at roadmap.sh, adapted to our method.',
+  outcome: 'Junior Front-end Developer',
+  courses: [
+    'web-fundamentals',
+    'html-css',
+    'javascript',
+    'git',
+    'ai-dev',
+    'react-ts',
+    'front-quality',
+    'front-performance',
+    'front-delivery',
+    'front-multiplatform',
+  ],
+},
+{
+  id: 'backend',
+  name: 'Back-end Development',
+  family: 'career',
+  goal: 'Training for whoever builds what holds the application up: data, APIs, servers and scale. Based on the community Back-end roadmap at roadmap.sh — the server language is your choice, and the path converges again after it.',
+  outcome: 'Junior Back-end Developer',
+  courses: [
+    'web-fundamentals',
+    'html-css',
+    'git',
+    {
+      choice: 'the server language',
+      note: 'Master one properly before jumping to another. The rest of the track is the same on any path.',
+      options: [
+        { name: 'JavaScript / Node.js', courses: [
+            'javascript',
+            'node',
+          ] },
+        { name: 'Python', courses: [
+            'python',
+            'python-back',
+          ] },
+        { name: 'Java', courses: [
+            'java',
+            'java-functional',
+            'java-back',
+          ] },
+        { name: 'Go', courses: [
+            'go',
+            'go-concurrency',
+            'go-back',
+          ] },
+      ],
+    },
+    'sql-databases',
+    'apis',
+    'servers-cache',
+    'ai-dev',
+    'testing-cicd',
+    'docker',
+    'architecture',
+    'scale',
+  ],
+  links: {"sql-databases":[3],"apis":[3]},
+},
+{
+  id: 'devops',
+  name: 'DevOps and SRE',
+  family: 'career',
+  goal: 'Training for whoever keeps the operation running: systems, networks, cloud, automation and observability. Sequence based on the community DevOps roadmap at roadmap.sh. Half the courses come from earlier tracks — anyone who did Front-end or Back-end starts halfway there.',
+  outcome: 'Junior DevOps Engineer / SRE',
+  courses: [
+    'web-fundamentals',
+    'linux-terminal',
+    'git',
+    'javascript',
+    'networks',
+    'servers-cache',
+    'docker',
+    'kubernetes',
+    'cloud',
+    'iac',
+    'testing-cicd',
+    'gitops',
+    'observability',
+  ],
+},
+{
+  id: 'data',
+  name: 'Data Engineering',
+  family: 'career',
+  goal: 'Training for whoever builds the infrastructure behind decisions: modelling, pipelines, big data and governance. Sequence based on the community Data Engineer roadmap at roadmap.sh, which recommends Python and SQL as prerequisites. Half the courses come from earlier tracks.',
+  outcome: 'Junior Data Engineer',
+  courses: [
+    'web-fundamentals',
+    'linux-terminal',
+    'git',
+    'python',
+    'data-fundamentals',
+    'statistics',
+    'sql-databases',
+    'warehouse-modeling',
+    'cloud',
+    'pipelines-etl',
+    'bigdata',
+    'docker',
+    'testing-cicd',
+    'observability',
+    'data-governance',
+    'analytics-bi',
+    'ml-mlops',
+  ],
+  links: {"sql-databases":["statistics"]},
+},
+{
+  id: 'networks-infra',
+  name: 'Networks and Infrastructure',
+  family: 'career',
+  goal: 'Training for whoever gets the packet through: addressing, routing, wi-fi, security and automation. Sequence based on the community Network Engineer roadmap at roadmap.sh — seven of the eleven courses come from earlier tracks.',
+  outcome: 'Junior Network Engineer',
+  courses: [
+    'web-fundamentals',
+    'linux-terminal',
+    'networks',
+    'networks-addressing',
+    'networks-availability',
+    'networks-security',
+    'cloud',
+    'python',
+    'networks-automation',
+    'iac',
+    'observability',
+  ],
+},
+{
+  id: 'prompt',
+  name: 'Prompt Engineering',
+  family: 'career',
+  goal: 'The shortest track in the catalogue and the only one that needs no programming: whoever writes, supports, teaches or decides needs this too. Covers the whole community Prompt Engineering roadmap at roadmap.sh, including the AI Red Teaming one it references.',
+  outcome: 'Prompt Engineering Specialist',
+  courses: [
+    'web-fundamentals',
+    'prompt-engineering',
+    'prompt-reliability',
+    'ai-security',
+  ],
+},
+{
+  id: 'ai',
+  name: 'AI Engineering',
+  family: 'career',
+  goal: 'Training for whoever builds products with AI: model choice, embeddings, RAG, agents, MCP, evaluation and multimodal. Sequence based on the community AI Engineer roadmap at roadmap.sh — the programming foundation comes from Python.',
+  outcome: 'Junior AI Engineer',
+  courses: [
+    'web-fundamentals',
+    'python',
+    'git',
+    'prompt-engineering',
+    'prompt-reliability',
+    'ai-models',
+    'embeddings-vectors',
+    'rag',
+    'agents-mcp',
+    'ai-dev',
+    'ai-security',
+    'llm-observability',
+    'multimodal',
+  ],
+},
+{
+  id: 'software-architecture',
+  name: 'Software Architecture',
+  family: 'career',
+  goal: 'The only track in the catalogue that requires another one first: it is a career continuation, not an entry point. For whoever already develops and is about to start deciding — patterns, modelling, enterprise integration, management and communication. Sequence based on the community Software Architect roadmap at roadmap.sh, which asks for Back-end as a prerequisite.',
+  outcome: 'Software Architect',
+  courses: [
+    'architecture-role',
+    'design-patterns',
+    'architecture-modeling',
+    'linux-terminal',
+    'networks',
+    'cloud',
+    'iac',
+    'observability',
+    'warehouse-modeling',
+    'enterprise-software',
+    'process-management',
+    'architect-communication',
+  ],
+},
+{
+  id: 'it-support',
+  name: 'IT Fundamentals and Support',
+  family: 'career',
+  goal: 'The school\'s entry point and the first track that requires nothing: it starts with the case open and ends with you supporting, diagnosing and documenting. Covers the Fundamental IT Skills and Operating Systems blocks and the networking base of the community Cyber Security roadmap at roadmap.sh.',
+  outcome: 'Support Technician / Help Desk',
+  courses: [
+    'computing-essentials',
+    'operating-systems',
+    'web-fundamentals',
+    'linux-terminal',
+    'networks',
+    'virtualization',
+    'tech-support',
+  ],
+},
+{
+  id: 'security',
+  name: 'Cyber Security',
+  family: 'career',
+  goal: 'Attack and defence on the same path: fundamentals, cryptography, threats, hardening, SOC, penetration testing and cloud. It is the larger half of the community Cyber Security roadmap at roadmap.sh — the other half became the IT Fundamentals and Support track, which serves as its base.',
+  outcome: 'Information Security Analyst',
+  courses: [
+    'security-fundamentals',
+    'operating-systems',
+    'linux-terminal',
+    'networks',
+    'cryptography',
+    'attacks-threats',
+    'secure-code',
+    'networks-security',
+    'defense-hardening',
+    'soc-response',
+    'cloud',
+    'cloud-security',
+    'python',
+    'pentest',
+    'ai-security',
+  ],
+},
+{
+  id: 'devsecops',
+  name: 'DevSecOps',
+  family: 'career',
+  goal: 'The cheapest track in the catalogue: it sits at the intersection of DevOps and Security, and 80% of it already exists. Security that runs on every commit — secure code, threat modelling, pipeline scanning, hardened images and a supply chain under control. Sequence based on the community DevSecOps roadmap at roadmap.sh.',
+  outcome: 'DevSecOps Engineer',
+  courses: [
+    'linux-terminal',
+    'git',
+    'python',
+    'security-fundamentals',
+    'networks',
+    'cryptography',
+    'attacks-threats',
+    'secure-code',
+    'threat-modeling',
+    'docker',
+    'kubernetes',
+    'testing-cicd',
+    'secure-pipeline',
+    'cloud',
+    'cloud-security',
+    'soc-response',
+  ],
+},
+{
+  id: 'bi',
+  name: 'Business Intelligence',
+  family: 'career',
+  goal: 'The track for whoever wants to work with data without becoming a programmer: statistics, real Excel, SQL, visualisation and the conversation with the business. Sequence based on the community BI Analyst roadmap at roadmap.sh. It is the track that brought in the statistics the whole catalogue was missing.',
+  outcome: 'BI Analyst / Data Analyst',
+  courses: [
+    'computing-essentials',
+    'bi-business',
+    'excel-analytics',
+    'statistics',
+    'sql-databases',
+    'data-cleaning',
+    'visualization',
+    'analytics-bi',
+    'python',
+    'warehouse-modeling',
+    'pipelines-etl',
+    'bi-techniques',
+    'data-governance',
+    'data-storytelling',
+  ],
+  links: {"sql-databases":["excel-analytics"],"python":["analytics-bi"]},
+},
+{
+  id: 'qa',
+  name: 'Software Quality and Testing',
+  family: 'career',
+  goal: 'Training for whoever makes sure the software does what it promises — and holds up to what was promised for it. Sequence based on the community QA Engineer roadmap at roadmap.sh. As in BI, nobody needs to program to start: there are 330h before the first programming course, and it is the catalogue\'s second entry point for career changers.',
+  outcome: 'Junior QA Engineer',
+  courses: [
+    'web-fundamentals',
+    'qa-fundamentals',
+    'manual-testing',
+    'git',
+    'sql-databases',
+    'html-css',
+    'javascript',
+    'web-automation',
+    'api-mobile-automation',
+    'non-functional-testing',
+    'security-fundamentals',
+    'testing-cicd',
+  ],
+  links: {"security-fundamentals":["non-functional-testing"],"testing-cicd":["non-functional-testing"]},
+},
+{
+  id: 'python-tech',
+  name: 'Python',
+  family: 'technology',
+  goal: 'For whoever wants to master the language, not a job title. The trunk is the same for everyone — the language properly learned, with version control — and at the end you choose where to apply it: on the server, in data or in AI. Based on the community Python roadmap at roadmap.sh.',
+  outcome: 'Command of Python',
+  courses: [
+    'web-fundamentals',
+    'python',
+    'git',
+    {
+      choice: 'where to apply Python',
+      note: 'The track does not converge again here: each path is a different application of the same language.',
+      options: [
+        { name: 'Server and APIs', courses: [
+            'sql-databases',
+            'python-back',
+            'apis',
+          ] },
+        { name: 'Data', courses: [
+            'sql-databases',
+            'data-fundamentals',
+            'warehouse-modeling',
+          ] },
+        { name: 'AI', courses: [
+            'prompt-engineering',
+            'ai-models',
+            'embeddings-vectors',
+          ] },
+      ],
+    },
+  ],
+},
+{
+  id: 'go-tech',
+  name: 'Go',
+  family: 'technology',
+  goal: 'The language Docker, Kubernetes and Terraform were written in. The trunk runs from syntax to concurrency — the part of Go that does not exist in other languages — and at the end you pick your side: build services, or build the tooling. Based on the public Go roadmap at roadmap.sh.',
+  outcome: 'Command of Go',
+  courses: [
+    'web-fundamentals',
+    'go',
+    'go-concurrency',
+    {
+      choice: 'which side of Go',
+      note: 'Both start from the same concurrency: one builds the service, the other builds the tooling that runs it.',
+      options: [
+        { name: 'Services and APIs', courses: [
+            'sql-databases',
+            'go-back',
+            'apis',
+          ] },
+        { name: 'Tooling and Infrastructure', courses: [
+            'linux-terminal',
+            'go-production',
+            'docker',
+          ] },
+      ],
+    },
+  ],
+},
+{
+  id: 'sql-tech',
+  name: 'SQL and Databases',
+  family: 'technology',
+  goal: 'The technology that employs the most and demands the least: SQL is learned without knowing how to program. It is the track for whoever comes from admin, accounting or management and is tired of asking someone else for a report. After the database, you choose what to do with the data. Based on the community SQL and PostgreSQL roadmaps at roadmap.sh.',
+  outcome: 'Command of SQL and databases',
+  courses: [
+    'computing-essentials',
+    'sql-databases',
+    {
+      choice: 'what to do with the data',
+      note: 'Both paths start from the same database: one looks at the decision, the other at the volume.',
+      options: [
+        { name: 'Analytics and BI', courses: [
+            'bi-business',
+            'excel-analytics',
+            'analytics-bi',
+          ] },
+        { name: 'Data Engineering', courses: [
+            'warehouse-modeling',
+            'pipelines-etl',
+          ] },
+      ],
+    },
+  ],
+},
+];
+
+/* The showcase has these and the portal does not: they sell, they do not teach.
+   The bracketed markers are deliberate and are listed in the README as still to
+   be filled in — a made-up testimonial on a showcase is a claim, not a draft. */
+const TESTIMONIALS = [
+  {
+    text: '[Edit: a real student testimonial.] I started not knowing what HTML was and finished the track with three projects published in my portfolio.',
+    author: '[Student name]',
+    context: 'Front-end Development track · class of [year]',
+  },
+  {
+    text: '[Edit: a real student testimonial.] The Git course changed the way I work — today I collaborate on projects without being afraid of breaking anything.',
+    author: '[Student name]',
+    context: 'Git and Version Control · class of [year]',
+  },
+  {
+    text: '[Edit: a real student testimonial.] The AI part of the Development track surprised me most: it changed my productivity at work.',
+    author: '[Student name]',
+    context: 'AI in Development · class of [year]',
+  },
+];

@@ -4,9 +4,10 @@
    Same identity and navigation as the portal: full-height screens with discreet
    scrolling between them (see assets/script.js).
 
-   ON LANGUAGE: comments are in English. Class names, ids and custom properties
-   stay in Portuguese — index.html and script.js share them, so they are a
-   contract rather than prose.
+   ON LANGUAGE: English throughout — comments, class names, ids and custom
+   properties. index.html and assets/script.js share those names, so they are a
+   contract; it is kept in step with codeschool-ing/portal-frontend's base.css,
+   which is this same file.
    ========================================================================== */
 
 :root{
@@ -21,7 +22,7 @@
   --wire:#233043;
 }
 
-html[data-tema="claro"]{
+html[data-theme="light"]{
   --ink:#f2f4f9;
   --panel:#ffffff;
   --scan:#e7ebf4;
@@ -32,10 +33,10 @@ html[data-tema="claro"]{
   --paper-dim:#5a6274;
   --wire:#ccd4e3;
 }
-html[data-tema="claro"] body::before{opacity:.10}
-html[data-tema="claro"] nav{background:rgba(242,244,249,.88)}
-html[data-tema="claro"] .terminal,
-html[data-tema="claro"] .modal-caixa{box-shadow:0 0 0 1px rgba(20,30,60,.05),0 24px 48px -20px rgba(20,30,60,.25)}
+html[data-theme="light"] body::before{opacity:.10}
+html[data-theme="light"] nav{background:rgba(242,244,249,.88)}
+html[data-theme="light"] .terminal,
+html[data-theme="light"] .modal-box{box-shadow:0 0 0 1px rgba(20,30,60,.05),0 24px 48px -20px rgba(20,30,60,.25)}
 
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -85,7 +86,7 @@ nav{
    the name and does not get between "codeschool", the dot and "ing".
    Upper case only here, on the bar's sign: in the footer, in the title and in
    the addresses the brand stays lower case, which is how it is written. */
-.brand-nome{white-space:nowrap;text-transform:uppercase;letter-spacing:.01em}
+.brand-name{white-space:nowrap;text-transform:uppercase;letter-spacing:.01em}
 .brand-sep{color:var(--paper-dim);font-weight:400}
 .brand .led{width:9px;height:9px;border-radius:50%;background:var(--phosphor);box-shadow:0 0 10px var(--phosphor);animation:blink 2.4s steps(1) infinite}
 @keyframes blink{0%,88%{opacity:1}90%,100%{opacity:.25}}
@@ -102,58 +103,58 @@ nav{
   font-family:inherit;font-size:inherit;line-height:inherit;background:none;cursor:pointer;
 }
 .nav-cta:hover{background:var(--phosphor);color:var(--ink)!important}
-.nav-acoes{display:flex;align-items:center;gap:10px;margin-left:20px}
-.tema{
+.nav-actions{display:flex;align-items:center;gap:10px;margin-left:20px}
+.theme{
   display:grid;place-items:center;width:34px;height:34px;
   background:none;border:1px solid var(--wire);border-radius:2px;
   color:var(--paper-dim);cursor:pointer;transition:color .2s,border-color .2s;
 }
-.tema:hover{color:var(--phosphor);border-color:var(--phosphor)}
-.tema svg{width:17px;height:17px}
-.tema .ico-sol{display:none}
-html[data-tema="claro"] .tema .ico-sol{display:block}
-html[data-tema="claro"] .tema .ico-lua{display:none}
+.theme:hover{color:var(--phosphor);border-color:var(--phosphor)}
+.theme svg{width:17px;height:17px}
+.theme .ico-sun{display:none}
+html[data-theme="light"] .theme .ico-sun{display:block}
+html[data-theme="light"] .theme .ico-moon{display:none}
 .burger{display:none;background:none;border:0;color:var(--paper);font-size:1.4rem;cursor:pointer}
 /* ---------- LANGUAGE PICKER ---------- */
-.idioma{position:relative}
-.idioma-btn{
+.lang{position:relative}
+.lang-btn{
   display:flex;align-items:center;gap:6px;height:34px;padding:0 10px;
   background:none;border:1px solid var(--wire);border-radius:2px;
   color:var(--paper-dim);cursor:pointer;
   font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.06em;
   transition:color .2s,border-color .2s;
 }
-.idioma-btn:hover{color:var(--phosphor);border-color:var(--phosphor)}
-.idioma-btn svg{width:16px;height:16px}
-.idioma-menu{
+.lang-btn:hover{color:var(--phosphor);border-color:var(--phosphor)}
+.lang-btn svg{width:16px;height:16px}
+.lang-menu{
   position:absolute;top:calc(100% + 8px);right:0;z-index:110;
   display:none;flex-direction:column;min-width:150px;
   background:var(--panel);border:1px solid var(--wire);border-radius:4px;padding:4px;
   box-shadow:0 18px 36px -14px rgba(0,0,0,.6);
 }
-.idioma.aberto .idioma-menu{display:flex}
-.idioma-op{
+.lang.is-open .lang-menu{display:flex}
+.lang-op{
   text-align:left;background:none;border:0;border-radius:3px;cursor:pointer;
   padding:8px 11px;color:var(--paper-dim);font:inherit;font-size:.8rem;
   transition:color .2s,background .2s;
 }
-.idioma-op:hover{color:var(--paper);background:var(--scan)}
-.idioma-op.on{color:var(--phosphor);background:rgba(91,140,255,.12)}
-html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
+.lang-op:hover{color:var(--paper);background:var(--scan)}
+.lang-op.on{color:var(--phosphor);background:rgba(91,140,255,.12)}
+html[data-theme="light"] .lang-op.on{background:rgba(43,82,201,.09)}
 /* Student area: reserved for Stage 2 (the platform). It is visible and disabled
    on purpose — it announces what is coming without promising a link that does not open. */
 /* In the brand's red: it is the only item on the bar that does not lead anywhere
    yet, and the colour sets it apart from the real navigation instead of making it
    compete with it. */
-.nav-aluno{
+.nav-student{
   display:flex;align-items:center;gap:7px;cursor:default;white-space:nowrap;flex:0 0 auto;
   font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--amber);
   border:1px solid var(--amber);border-radius:2px;padding:6px 11px;
   transition:background .2s,color .2s;
 }
-.nav-aluno:hover{background:var(--amber);color:var(--ink)}
-.nav-aluno svg{width:15px;height:15px;flex:0 0 auto}
-.nav-breve{
+.nav-student:hover{background:var(--amber);color:var(--ink)}
+.nav-student svg{width:15px;height:15px;flex:0 0 auto}
+.nav-soon{
   font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
   color:var(--amber);border:1px solid var(--amber);border-radius:2px;padding:1px 5px;
 }
@@ -224,7 +225,7 @@ html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
    `--i` is filled in by `buildTerminal()`. */
 .term-line{opacity:0;animation:typein .4s forwards;animation-delay:calc(.2s + var(--i,0) * .16s)}
 /* a blank line between one command and the next */
-.term-vao{height:.7em}
+.term-gap{height:.7em}
 @keyframes typein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
 /* ---------- SECTION HEADINGS ---------- */
@@ -237,25 +238,25 @@ html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
 /* ---------- TRACKS ---------- */
 /* the picker grows with every new track: one line with arrows at the ends,
    instead of wrapping and leaving an orphan tab on a second line */
-/* Family switcher: "por carreira" and "por tecnologia" are different questions
+/* Family switcher: "by career" and "by technology" are different questions
    (which profession do I want / which tool do I want to master), and the 14 tabs
    would not fit in a single row. It sits above the picker, discreetly. */
 /* Two rows of tabs, one per family, each with its own label and arrows. Since
    there are only two families and they are not meant to grow, showing both at
    once conveys more and costs less height than the switcher that was there. */
-.abas-caixa{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex:0 0 auto}
+.tabs-box{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex:0 0 auto}
 /* the last row opens the same breathing room the top of the track leaves for the
    graph: the name+objective block ends up centred between the two */
-.abas-caixa[data-familia="tecnologia"]{margin-bottom:18px}
-/* "TRILHAS POR TECNOLOGIA" on a single line would eat 165px of the tabs. Letting
+.tabs-box[data-family="technology"]{margin-bottom:18px}
+/* "TRACKS BY TECHNOLOGY" on a single line would eat 165px of the tabs. Letting
    it wrap onto two lines costs the label the same ~100px of width, and the height
    is already the tab button's — it pushes nothing. */
-.abas-rotulo{
+.tabs-label{
   font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.12em;
   text-transform:uppercase;color:var(--paper-dim);
   flex:0 0 104px;line-height:1.3;
 }
-.chips-caixa{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0}
+.chips-box{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0}
 
 /* ---------- DROPDOWN MENU (mobile) ----------
    It replaces the scrollable rows where they do not fit: at 360px wide,
@@ -269,29 +270,29 @@ html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
   font-family:'IBM Plex Mono',monospace;font-size:.78rem;text-align:left;
   transition:border-color .2s;
 }
-.drop-btn:hover,.drop.aberto .drop-btn{border-color:var(--phosphor)}
-.drop-atual{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.drop-seta{color:var(--phosphor);flex:0 0 auto;transition:transform .2s}
-.drop.aberto .drop-seta{transform:rotate(180deg)}
-.drop-lista{
+.drop-btn:hover,.drop.is-open .drop-btn{border-color:var(--phosphor)}
+.drop-current{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.drop-arrow{color:var(--phosphor);flex:0 0 auto;transition:transform .2s}
+.drop.is-open .drop-arrow{transform:rotate(180deg)}
+.drop-list{
   position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:80;
   display:none;flex-direction:column;max-height:60vh;overflow-y:auto;
   background:var(--panel);border:1px solid var(--wire);border-radius:4px;padding:4px;
   box-shadow:0 18px 36px -14px rgba(0,0,0,.6);
 }
-.drop.aberto .drop-lista{display:flex}
-/* A group heading inside the menu ("por carreira", "por tecnologia"). In the
+.drop.is-open .drop-list{display:flex}
+/* A group heading inside the menu ("by career", "by technology"). In the
    options' colour it disappeared among them; here it becomes a band: accent
    colour, its own background and a hairline above separating it from the
    previous group. */
-.drop-grupo{
+.drop-group{
   font-family:'IBM Plex Mono',monospace;font-size:.64rem;font-weight:600;
   letter-spacing:.14em;text-transform:uppercase;color:var(--amber);
   background:var(--scan);border-radius:2px;
   padding:7px 11px;margin:8px 0 5px;
 }
-.drop-grupo:first-child{margin-top:0}
-.drop-grupo + .drop-op{margin-top:0}
+.drop-group:first-child{margin-top:0}
+.drop-group + .drop-op{margin-top:0}
 .drop-op{
   text-align:left;background:none;border:0;border-radius:3px;cursor:pointer;
   padding:9px 11px;color:var(--paper-dim);font:inherit;font-size:.82rem;
@@ -299,133 +300,133 @@ html[data-tema="claro"] .idioma-op.on{background:rgba(43,82,201,.09)}
 }
 .drop-op:hover{color:var(--paper);background:var(--scan)}
 .drop-op.on{color:var(--phosphor);background:rgba(91,140,255,.12)}
-html[data-tema="claro"] .drop-op.on{background:rgba(43,82,201,.09)}
-.trilha-abas{
+html[data-theme="light"] .drop-op.on{background:rgba(43,82,201,.09)}
+.track-tabs{
   display:flex;flex-wrap:nowrap;gap:8px;
   overflow-x:auto;padding-bottom:6px;scrollbar-width:none;
   flex:1 1 auto;min-width:0;
 }
-.trilha-aba{align-self:flex-start}
+.track-tab{align-self:flex-start}
 /* the fade appears only on the side that still has a hidden tab (classes set by the script) */
-.trilha-abas.fade-dir{
+.track-tabs.fade-right{
   mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent);
   -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent);
 }
-.trilha-abas.fade-esq{
+.track-tabs.fade-left{
   mask-image:linear-gradient(to left,#000 calc(100% - 34px),transparent);
   -webkit-mask-image:linear-gradient(to left,#000 calc(100% - 34px),transparent);
 }
-.trilha-abas.fade-esq.fade-dir{
+.track-tabs.fade-left.fade-right{
   mask-image:linear-gradient(to right,transparent,#000 34px,#000 calc(100% - 34px),transparent);
   -webkit-mask-image:linear-gradient(to right,transparent,#000 34px,#000 calc(100% - 34px),transparent);
 }
-.trilha-abas::-webkit-scrollbar{display:none}
-.trilha-aba{
+.track-tabs::-webkit-scrollbar{display:none}
+.track-tab{
   font-family:'IBM Plex Mono',monospace;font-size:.76rem;
   color:var(--paper-dim);background:transparent;white-space:nowrap;flex:0 0 auto;
   border:1px solid var(--wire);border-radius:2px;padding:8px 11px;cursor:pointer;
   transition:color .2s,border-color .2s,background .2s;
 }
-.trilha-aba:hover{color:var(--paper);border-color:var(--phosphor-dim)}
-.trilha-aba.on{color:var(--phosphor);border-color:var(--phosphor);background:rgba(91,140,255,.07)}
+.track-tab:hover{color:var(--paper);border-color:var(--phosphor-dim)}
+.track-tab.on{color:var(--phosphor);border-color:var(--phosphor);background:rgba(91,140,255,.07)}
 
-.trilha-painel{transition:opacity .2s ease}
-.trilha-painel.trocando{opacity:0}
+.track-panel{transition:opacity .2s ease}
+.track-panel.switching{opacity:0}
 /* Description on the left, numbers on the right, on the same line. Letting the
    description take the page's full width was tried and did not work: the text was
    too wide for the eye to follow, and the heading lost its company. */
-.trilha-topo{
+.track-top{
   display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   align-items:flex-start;margin-bottom:18px;flex:0 0 auto;
 }
-.trilha-topo>div:first-child{max-width:64ch}
-.trilha-topo h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;margin-bottom:5px}
-.trilha-topo p{color:var(--paper-dim);max-width:58ch;font-size:.92rem;line-height:1.5}
-.trilha-resumo{
+.track-top>div:first-child{max-width:64ch}
+.track-top h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;margin-bottom:5px}
+.track-top p{color:var(--paper-dim);max-width:58ch;font-size:.92rem;line-height:1.5}
+.track-summary{
   display:flex;gap:20px;flex-wrap:wrap;flex-shrink:0;
   font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--paper-dim);
 }
-.trilha-resumo b{display:block;color:var(--phosphor);font-size:1.2rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
-.trilha-resumo i{display:block;font-style:normal;font-size:.68rem;color:var(--phosphor-dim);margin-top:2px}
+.track-summary b{display:block;color:var(--phosphor);font-size:1.2rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.track-summary i{display:block;font-style:normal;font-size:.68rem;color:var(--phosphor-dim);margin-top:2px}
 
 /* ---------- THE TRACK GRAPH ----------
    Each column is a level: everything in the same column can be done at the same
    time, because nothing there depends on anything else there. The edges are drawn
    in SVG on top, over the cards' real positions. */
 /* the box holds the arrows at the ends; the scrollbar disappears */
-.grafo-caixa{display:flex;align-items:stretch;gap:8px}
-.grafo-seta,.abas-seta{
+.graph-box{display:flex;align-items:stretch;gap:8px}
+.graph-arrow,.tabs-arrow{
   flex:0 0 auto;align-self:center;cursor:pointer;
   width:32px;height:32px;border-radius:50%;
   background:var(--panel);border:1px solid var(--wire);color:var(--phosphor);
   font-size:1rem;line-height:1;display:grid;place-items:center;
   transition:border-color .2s,color .2s,opacity .2s;
 }
-.grafo-seta:hover:not(:disabled),.abas-seta:hover:not(:disabled){border-color:var(--phosphor)}
-.grafo-seta:disabled,.abas-seta:disabled{opacity:.25;cursor:default;color:var(--paper-dim)}
-.grafo-caixa.sem-setas .grafo-seta{display:none}
-.abas-caixa.sem-setas .abas-seta,.chips-caixa.sem-setas .abas-seta{visibility:hidden}
+.graph-arrow:hover:not(:disabled),.tabs-arrow:hover:not(:disabled){border-color:var(--phosphor)}
+.graph-arrow:disabled,.tabs-arrow:disabled{opacity:.25;cursor:default;color:var(--paper-dim)}
+.graph-box.no-arrows .graph-arrow{display:none}
+.tabs-box.no-arrows .tabs-arrow,.chips-box.no-arrows .tabs-arrow{visibility:hidden}
 
 /* the tracks section does not centre: the graph takes whatever height is left */
-#trilhas::before,#trilhas::after{display:none}
-#trilhas{padding-top:78px;padding-bottom:20px}
-#trilhas>.trilha-painel{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
-#trilhas .grafo-caixa{flex:1 1 auto;min-height:0}
+#tracks::before,#tracks::after{display:none}
+#tracks{padding-top:78px;padding-bottom:20px}
+#tracks>.track-panel{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+#tracks .graph-box{flex:1 1 auto;min-height:0}
 
-.trilha-grafo{
+.track-graph{
   position:relative;overflow:auto;flex:1 1 auto;min-width:0;
   padding-bottom:4px;scrollbar-width:none;
   height:100%;
 }
-.trilha-grafo::-webkit-scrollbar{display:none}
+.track-graph::-webkit-scrollbar{display:none}
 /* fades the edge where there is still graph, as with the tabs */
-.trilha-grafo.fade-dir{mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent)}
-.trilha-grafo.fade-esq{mask-image:linear-gradient(to left,#000 calc(100% - 26px),transparent)}
-.trilha-grafo.fade-esq.fade-dir{
+.track-graph.fade-right{mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent)}
+.track-graph.fade-left{mask-image:linear-gradient(to left,#000 calc(100% - 26px),transparent)}
+.track-graph.fade-left.fade-right{
   mask-image:linear-gradient(to right,transparent,#000 26px,#000 calc(100% - 26px),transparent);
 }
-.grafo-arestas{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
-.grafo-arestas .aresta{pointer-events:auto;cursor:help}
-.grafo-arestas .linha{fill:none;stroke:var(--phosphor-dim);stroke-width:1.5;opacity:.75;transition:stroke .15s,stroke-width .15s,opacity .15s}
-.grafo-arestas .hit{fill:none;stroke:transparent;stroke-width:14;pointer-events:stroke}
-.grafo-arestas .ponta{fill:var(--phosphor);opacity:.9;transition:r .15s}
+.graph-edges{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+.graph-edges .edge{pointer-events:auto;cursor:help}
+.graph-edges .row{fill:none;stroke:var(--phosphor-dim);stroke-width:1.5;opacity:.75;transition:stroke .15s,stroke-width .15s,opacity .15s}
+.graph-edges .hit{fill:none;stroke:transparent;stroke-width:14;pointer-events:stroke}
+.graph-edges .tip{fill:var(--phosphor);opacity:.9;transition:r .15s}
 /* the edge highlights on hover, like the course card */
-.aresta:hover .linha,.aresta.on .linha{stroke:var(--phosphor);stroke-width:2.6;opacity:1}
-.aresta:hover .ponta,.aresta.on .ponta{r:4.5}
+.edge:hover .row,.edge.on .row{stroke:var(--phosphor);stroke-width:2.6;opacity:1}
+.edge:hover .tip,.edge.on .tip{r:4.5}
 /* the top and bottom lanes stay clear: that is where the edges that skip columns
    travel, instead of crossing the cards in between */
-.grafo-niveis{position:relative;display:flex;align-items:stretch;gap:48px;width:max-content;min-width:100%;height:100%;padding:20px 0}
+.graph-levels{position:relative;display:flex;align-items:stretch;gap:48px;width:max-content;min-width:100%;height:100%;padding:20px 0}
 /* a level with many courses breaks into sub-columns instead of stretching
    downwards: the graph grows horizontally, which is where the arrows are */
 /* A level is a band of sub-columns. How many, and what goes in each, is decided
    in the script after measuring the available height — neither flex-wrap nor
    multi-column expands the container's width in the column direction, and the
    cards ended up overlapping the neighbouring level. */
-.nivel{display:flex;align-items:center;gap:14px;flex:0 0 auto;height:100%}
+.level{display:flex;align-items:center;gap:14px;flex:0 0 auto;height:100%}
 /* 16px, not 10: this corridor is where the lines that go around a card travel,
    and at 10 they grazed the neighbours */
 .subcol{display:flex;flex-direction:column;gap:16px;justify-content:center;flex:0 0 auto}
 /* inside a column the main axis is vertical: the card's 195px flex-basis would
    become HEIGHT. Here it goes back to being width, with natural height. */
-.subcol > .curso-no{flex:0 0 auto;width:238px}
+.subcol > .course-node{flex:0 0 auto;width:238px}
 
 /* the finish node: it is not a course, so it is not a card — it is a seal */
-.no-saida{
+.node-outcome{
   flex:0 0 auto;align-self:center;max-width:210px;
   display:flex;align-items:center;gap:12px;padding:4px 0;background:none;border:0;
 }
-.saida-selo{
+.outcome-seal{
   flex:0 0 auto;width:54px;height:54px;border-radius:50%;
   display:grid;place-items:center;color:var(--amber);
   border:1px solid var(--amber);background:rgba(255,77,94,.08);
   box-shadow:0 0 0 5px rgba(255,77,94,.07);
 }
-html[data-tema="claro"] .saida-selo{background:rgba(212,15,40,.07);box-shadow:0 0 0 5px rgba(212,15,40,.06)}
-.saida-selo svg{width:22px;height:22px}
-.saida-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
-.saida-rotulo{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
-.saida-nome{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;line-height:1.2}
-.curso-no{
+html[data-theme="light"] .outcome-seal{background:rgba(212,15,40,.07);box-shadow:0 0 0 5px rgba(212,15,40,.06)}
+.outcome-seal svg{width:22px;height:22px}
+.outcome-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.outcome-label{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+.outcome-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;line-height:1.2}
+.course-node{
   /* does not shrink below 195px: with many steps the rail scrolls instead
      of squeezing the titles */
   flex:1 0 195px;text-align:left;cursor:pointer;
@@ -434,24 +435,24 @@ html[data-tema="claro"] .saida-selo{background:rgba(212,15,40,.07);box-shadow:0 
   display:flex;flex-direction:column;gap:4px;
   transition:border-color .2s,transform .2s;
 }
-.curso-no:hover{border-color:var(--phosphor);transform:translateY(-3px)}
-.curso-no .ordem{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--phosphor-dim);letter-spacing:.1em}
-.curso-no .nome{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.95rem;line-height:1.18}
-.curso-no .meta{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--paper-dim);margin-top:auto;padding-top:5px}
-.curso-no .tag-compartilhado{
+.course-node:hover{border-color:var(--phosphor);transform:translateY(-3px)}
+.course-node .order{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--phosphor-dim);letter-spacing:.1em}
+.course-node .name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.95rem;line-height:1.18}
+.course-node .meta{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--paper-dim);margin-top:auto;padding-top:5px}
+.course-node .tag-shared{
   font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--amber);
   border:1px solid currentColor;border-radius:2px;padding:1px 6px;align-self:flex-start;
 }
 /* the prerequisite spelled out: on desktop the edges already say this, but the
    text still serves screen readers and the mobile layout */
-.curso-no .requer{
+.course-node .requires{
   font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--phosphor-dim);
   border-top:1px dashed var(--wire);margin-top:4px;padding-top:5px;line-height:1.35;
 }
 /* where the edges are drawn they already say this; the text is left for screen
    readers only. The breakpoint follows the graph's (861px). */
 @media (min-width:861px){
-  .curso-no .requer{
+  .course-node .requires{
     position:absolute;width:1px;height:1px;padding:0;margin:-1px;
     overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
   }
@@ -460,63 +461,63 @@ html[data-tema="claro"] .saida-selo{background:rgba(212,15,40,.07);box-shadow:0 
 /* ---------- A STEP WITH A FORK ----------
    The track's path opens up: the student picks an option and the flow carries on.
    Visually it is a dashed block wrapping that path's courses. */
-.garfo{
+.fork{
   display:flex;flex-direction:column;gap:8px;flex:0 0 auto;
   border:1px dashed var(--phosphor-dim);border-radius:6px;
   padding:10px 11px 12px;background:rgba(91,140,255,.035);
 }
-html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
-.garfo-topo{display:flex;flex-direction:column;gap:8px}
-.garfo-rotulo{
+html[data-theme="light"] .fork{background:rgba(43,82,201,.045)}
+.fork-top{display:flex;flex-direction:column;gap:8px}
+.fork-label{
   font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.12em;
   text-transform:uppercase;color:var(--amber);
 }
-.garfo-abas{display:flex;gap:6px;flex-wrap:wrap}
-.garfo-aba{
+.fork-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.fork-tab{
   font-family:'IBM Plex Mono',monospace;font-size:.7rem;cursor:pointer;
   display:flex;align-items:baseline;gap:6px;
   background:var(--ink);color:var(--paper-dim);
   border:1px solid var(--wire);border-radius:3px;padding:6px 10px;
   transition:color .2s,border-color .2s,background .2s;
 }
-.garfo-aba:hover{color:var(--paper);border-color:var(--phosphor-dim)}
-.garfo-aba.on{color:var(--phosphor);border-color:var(--phosphor);background:rgba(91,140,255,.1)}
-.garfo-aba .garfo-h{font-size:.62rem;color:var(--paper-dim)}
-.garfo-aba.on .garfo-h{color:var(--phosphor-dim)}
-.garfo-nota{font-size:.78rem;line-height:1.45;color:var(--paper-dim);max-width:62ch}
-.garfo-cursos{display:flex;align-items:stretch;gap:10px}
+.fork-tab:hover{color:var(--paper);border-color:var(--phosphor-dim)}
+.fork-tab.on{color:var(--phosphor);border-color:var(--phosphor);background:rgba(91,140,255,.1)}
+.fork-tab .fork-h{font-size:.62rem;color:var(--paper-dim)}
+.fork-tab.on .fork-h{color:var(--phosphor-dim)}
+.fork-note{font-size:.78rem;line-height:1.45;color:var(--paper-dim);max-width:62ch}
+.fork-courses{display:flex;align-items:stretch;gap:10px}
 /* with a single-course option the card must not become a wide band */
-.garfo-cursos .curso-no{max-width:330px}
+.fork-courses .course-node{max-width:330px}
 
 /* on a wide screen the note goes beside the tabs: the block gets shorter */
 @media (min-width:861px){
-  .garfo{
+  .fork{
     display:grid;grid-template-columns:1fr minmax(0,24ch);
-    grid-template-areas:"topo nota" "cursos cursos";
+    grid-template-areas:"top note" "courses courses";
     column-gap:18px;row-gap:10px;max-width:620px;
   }
-  .garfo-topo{grid-area:topo}
-  .garfo-nota{grid-area:nota;font-size:.7rem;line-height:1.4;align-self:end}
-  .garfo-cursos{grid-area:cursos}
-  .garfo-cursos .curso-no{flex:1 1 0;min-width:0}
+  .fork-top{grid-area:top}
+  .fork-note{grid-area:note;font-size:.7rem;line-height:1.4;align-self:end}
+  .fork-courses{grid-area:courses}
+  .fork-courses .course-node{flex:1 1 0;min-width:0}
 }
 
 /* ---------- CATALOGUE ---------- */
-.filtros{display:flex;gap:14px;flex-wrap:nowrap;align-items:center;margin-bottom:16px}
-.busca{position:relative;flex:0 0 auto;width:min(300px,100%)}
-.busca-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--paper-dim)}
-.busca input{
+.filters{display:flex;gap:14px;flex-wrap:nowrap;align-items:center;margin-bottom:16px}
+.search{position:relative;flex:0 0 auto;width:min(300px,100%)}
+.search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--paper-dim)}
+.search input{
   width:100%;font-family:'IBM Plex Mono',monospace;font-size:.8rem;
   background:var(--panel);border:1px solid var(--wire);border-radius:2px;
   color:var(--paper);padding:9px 12px 9px 32px;
 }
-.busca input:focus{outline:none;border-color:var(--phosphor)}
+.search input:focus{outline:none;border-color:var(--phosphor)}
 .chips{display:flex;gap:7px;flex-wrap:nowrap;flex:1 1 auto;min-width:0;
   overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
 .chips::-webkit-scrollbar{display:none}
-.chips.fade-dir{mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent)}
-.chips.fade-esq{mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent)}
-.chips.fade-esq.fade-dir{mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent)}
+.chips.fade-right{mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent)}
+.chips.fade-left{mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent)}
+.chips.fade-left.fade-right{mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent)}
 .chip{flex:0 0 auto;white-space:nowrap}
 .chip{
   font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--paper-dim);
@@ -526,96 +527,96 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
 }
 .chip:hover{color:var(--paper);border-color:var(--phosphor-dim)}
 .chip.on{color:var(--phosphor);border-color:var(--phosphor)}
-.chip .qtd{color:var(--amber);margin-left:5px}
+.chip .count{color:var(--amber);margin-left:5px}
 
 /* the catalogue is long: it scrolls inside its own screen */
-.cursos-rol{
+.courses-scroll{
   max-height:52vh;overflow-y:auto;padding-right:10px;
   scrollbar-width:thin;scrollbar-color:var(--wire) transparent;
 }
-.cursos-rol::-webkit-scrollbar{width:6px}
-.cursos-rol::-webkit-scrollbar-thumb{background:var(--wire);border-radius:3px}
-.cursos-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-.curso-card{
+.courses-scroll::-webkit-scrollbar{width:6px}
+.courses-scroll::-webkit-scrollbar-thumb{background:var(--wire);border-radius:3px}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.course-card{
   display:flex;flex-direction:column;gap:7px;text-align:left;cursor:pointer;
   background:var(--panel);border:1px solid var(--wire);border-radius:4px;
   padding:16px 18px;color:inherit;font:inherit;
   transition:border-color .2s,transform .2s;
 }
-.curso-card:hover{border-color:var(--phosphor);transform:translateY(-3px)}
-.curso-topo{display:flex;justify-content:space-between;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:.68rem}
-.curso-cat{color:var(--phosphor-dim)}
-.curso-nivel{color:var(--amber)}
-.curso-card h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.02rem;line-height:1.25}
-.curso-card p{font-size:.85rem;color:var(--paper-dim)}
-.curso-rodape{
+.course-card:hover{border-color:var(--phosphor);transform:translateY(-3px)}
+.course-top{display:flex;justify-content:space-between;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:.68rem}
+.course-cat{color:var(--phosphor-dim)}
+.course-level{color:var(--amber)}
+.course-card h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.02rem;line-height:1.25}
+.course-card p{font-size:.85rem;color:var(--paper-dim)}
+.course-foot{
   display:flex;justify-content:space-between;align-items:center;gap:10px;
   margin-top:auto;padding-top:9px;border-top:1px solid var(--wire);
   font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--paper-dim);
 }
-.curso-rodape .trilhas-qtd{color:var(--phosphor)}
-.vazio{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--paper-dim);margin-top:18px}
+.course-foot .tracks-count{color:var(--phosphor)}
+.empty{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--paper-dim);margin-top:18px}
 
 /* ---------- PLANS ---------- */
 /* three equal columns that become one when they do not fit. `align-items:
    stretch` (the grid default) keeps the three cards the same height even with
    lists of different sizes; the button drops to the foot of each one because of
    `margin-top:auto`. */
-.planos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
-.plano{
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.plan{
   position:relative;display:flex;flex-direction:column;
   background:var(--panel);border:1px solid var(--wire);border-radius:4px;
   padding:22px 20px;transition:border-color .2s,transform .2s;
 }
-.plano:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
-.plano-destaque{
+.plan:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
+.plan-featured{
   border-color:var(--phosphor-dim);
   background:linear-gradient(135deg,rgba(91,140,255,.08),var(--panel) 60%);
 }
-.plano-selo{
+.plan-seal{
   position:absolute;top:-9px;left:20px;
   font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink);background:var(--phosphor);
   padding:3px 8px;border-radius:3px;
 }
-.plano-nome{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.15rem}
-.plano-chamada{font-size:.85rem;color:var(--paper-dim);margin-top:4px;min-height:2.6em}
-.plano-preco{
+.plan-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.15rem}
+.plan-pitch{font-size:.85rem;color:var(--paper-dim);margin-top:4px;min-height:2.6em}
+.plan-price{
   display:flex;align-items:baseline;gap:3px;
   margin:14px 0 16px;padding-bottom:16px;border-bottom:1px solid var(--wire);
   font-family:'IBM Plex Mono',monospace;
 }
-.plano-moeda{font-size:.85rem;color:var(--paper-dim)}
-.plano-preco strong{font-size:2rem;font-weight:600;color:var(--phosphor);line-height:1}
-.plano-periodo{font-size:.78rem;color:var(--paper-dim)}
+.plan-currency{font-size:.85rem;color:var(--paper-dim)}
+.plan-price strong{font-size:2rem;font-weight:600;color:var(--phosphor);line-height:1}
+.plan-period{font-size:.78rem;color:var(--paper-dim)}
 /* the list eats the card's vertical slack: with that, each plan's button sits at
    the bottom and the three line up with each other */
-.plano-itens{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:.86rem;flex:1 1 auto}
-.plano-itens li{padding-left:18px;position:relative;color:var(--paper)}
-.plano-itens li::before{content:'✓';position:absolute;left:0;color:var(--phosphor)}
-.plano-btn{margin-top:20px;justify-content:center}
+.plan-items{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:.86rem;flex:1 1 auto}
+.plan-items li{padding-left:18px;position:relative;color:var(--paper)}
+.plan-items li::before{content:'✓';position:absolute;left:0;color:var(--phosphor)}
+.plan-btn{margin-top:20px;justify-content:center}
 
 /* ---------- TESTIMONIALS ---------- */
-.depos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-.depo{
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.quote{
   background:var(--panel);border:1px solid var(--wire);border-radius:4px;padding:20px 22px;
   display:flex;flex-direction:column;gap:10px;
 }
-.depo-aspas{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;line-height:1;color:var(--phosphor-dim)}
-.depo p{font-size:.92rem}
-.depo-autor{margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:.72rem}
-.depo-autor b{display:block;color:var(--phosphor);font-weight:600}
-.depo-autor span{color:var(--paper-dim)}
+.quote-marks{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;line-height:1;color:var(--phosphor-dim)}
+.quote p{font-size:.92rem}
+.quote-author{margin-top:auto;font-family:'IBM Plex Mono',monospace;font-size:.72rem}
+.quote-author b{display:block;color:var(--phosphor);font-weight:600}
+.quote-author span{color:var(--paper-dim)}
 
 /* ---------- FORM FIELDS ---------- */
-.campo{display:flex;flex-direction:column;gap:5px}
-.campo label{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--phosphor-dim)}
-.campo input,.campo select{
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--phosphor-dim)}
+.field input,.field select{
   font-family:'IBM Plex Mono',monospace;font-size:.83rem;
   background:var(--ink);border:1px solid var(--wire);border-radius:2px;
   color:var(--paper);padding:10px 12px;width:100%;
 }
-.campo input:focus,.campo select:focus{outline:none;border-color:var(--phosphor)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--phosphor)}
 .form-status{font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--phosphor)}
 .form-status:empty{display:none}
 
@@ -626,7 +627,7 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
    `align-content:start` so the two columns grow top-down instead of spreading
    over the height. */
 @media(min-width:861px){
-  .faq-tela{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;align-content:start}
+  .faq-view{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;align-content:start}
 }
 .faq details{background:var(--ink);border:1px solid var(--wire);border-radius:4px;padding:12px 16px}
 .faq summary{
@@ -642,26 +643,26 @@ html[data-tema="claro"] .garfo{background:rgba(43,82,201,.045)}
 /* ---------- CONTACT (block shared with the other site) ---------- */
 /* e-mail and newsletter split the line in half. `align-items:stretch` makes the
    e-mail card follow the height of the form, which is the taller one. */
-.contato-linha{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;align-items:stretch}
-.contato-linha .news{margin-bottom:0}
-.canais{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:12px}
-.canal{
+.contact-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;align-items:stretch}
+.contact-row .news{margin-bottom:0}
+.channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:12px}
+.channel{
   display:flex;align-items:center;gap:14px;
   background:var(--panel);border:1px solid var(--wire);border-radius:4px;
   padding:14px 16px;transition:border-color .2s,transform .2s;
 }
-a.canal:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
-.canal-destaque{border-color:var(--phosphor-dim);background:linear-gradient(135deg,rgba(91,140,255,.08),var(--panel) 60%)}
-.canal-icone{
+a.channel:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
+.channel-featured{border-color:var(--phosphor-dim);background:linear-gradient(135deg,rgba(91,140,255,.08),var(--panel) 60%)}
+.channel-icon{
   width:38px;height:38px;flex-shrink:0;display:grid;place-items:center;
   border:1px solid var(--wire);border-radius:4px;color:var(--phosphor);
 }
-.canal-icone svg{width:21px;height:21px}
-.canal-rotulo{
+.channel-icon svg{width:21px;height:21px}
+.channel-label{
   display:block;font-family:'IBM Plex Mono',monospace;font-size:.66rem;
   letter-spacing:.12em;text-transform:uppercase;color:var(--phosphor-dim);
 }
-.canal-valor{font-size:.86rem;color:var(--paper);overflow-wrap:anywhere;line-height:1.35}
+.channel-value{font-size:.86rem;color:var(--paper);overflow-wrap:anywhere;line-height:1.35}
 
 .news{
   display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;
@@ -673,7 +674,7 @@ a.canal:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
   text-transform:uppercase;color:var(--amber);
 }
 .news-copy p{font-size:.85rem;color:var(--paper-dim);max-width:44ch}
-.news-linha{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.news-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .news-prompt{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--paper)}
 .news-prompt .pr{color:var(--phosphor)}
 .news input{
@@ -687,7 +688,7 @@ a.canal:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
 .news-status{width:100%;font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--phosphor)}
 .news-status:empty{display:none}
 
-.social-grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
 .social{
   position:relative;display:flex;flex-direction:column;gap:6px;
   background:var(--panel);border:1px solid var(--wire);border-radius:4px;
@@ -696,14 +697,14 @@ a.canal:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
 .social:hover{border-color:var(--phosphor);transform:translateY(-3px)}
 .social svg{width:24px;height:24px;color:var(--paper-dim);transition:color .2s}
 .social:hover svg{color:var(--phosphor)}
-.s-nome{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.92rem}
+.s-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.92rem}
 .s-user{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--paper-dim);overflow-wrap:anywhere;line-height:1.3}
-.s-seta{position:absolute;top:12px;right:12px;font-size:.95rem;color:var(--wire);transition:color .2s,transform .2s}
-.social:hover .s-seta{color:var(--phosphor);transform:translate(2px,-2px)}
+.s-arrow{position:absolute;top:12px;right:12px;font-size:.95rem;color:var(--wire);transition:color .2s,transform .2s}
+.social:hover .s-arrow{color:var(--phosphor);transform:translate(2px,-2px)}
 
 /* intermediate widths: channels in 2 columns, so the e-mail does not wrap */
 @media(max-width:1080px) and (min-width:641px){
-  .canais{grid-template-columns:1fr 1fr}
+  .channels{grid-template-columns:1fr 1fr}
 }
 
 /* The newsletter shares the line with the e-mail, so its column is half the
@@ -713,13 +714,13 @@ a.canal:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
    which is the arrangement that already works on mobile, without stacking
    everything. */
 @media(min-width:561px) and (max-width:1180px){
-  .contato-linha .news-prompt{width:100%}
+  .contact-row .news-prompt{width:100%}
   /* `flex-basis:0`, not `auto`: the line break is decided by the base size,
      and with `auto` the field entered the sum at its intrinsic width
      (~180px) and pushed the button onto the next line before any shrinking
      happened. With a zero basis the button fits first and the field grows
      into whatever is left. */
-  .contato-linha .news input{flex:1 1 0;min-width:0}
+  .contact-row .news input{flex:1 1 0;min-width:0}
 }
 
 /* compact footer on the last screen */
@@ -736,22 +737,22 @@ a.canal:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
 .modal[hidden]{display:none}
 .modal{
   position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;
-  background:rgba(4,6,10,.88);backdrop-filter:blur(6px);animation:surgir .22s ease;
+  background:rgba(4,6,10,.88);backdrop-filter:blur(6px);animation:appear .22s ease;
 }
 /* With the modal open the background does not scroll. Trapping only the wheel and
    touch in JavaScript was not enough: the browser's scrollbar, the trackpad's
    inertia and the keys inside a field were left over. Here the overflow is cut on
    the document and on the screen — the current position stays exactly where it
    was, because nothing is repositioned. */
-html.modal-aberto,
-html.modal-aberto body{overflow:hidden}
-html.modal-aberto .screen{overflow:hidden}
-@keyframes surgir{from{opacity:0}to{opacity:1}}
+html.modal-open,
+html.modal-open body{overflow:hidden}
+html.modal-open .screen{overflow:hidden}
+@keyframes appear{from{opacity:0}to{opacity:1}}
 /* `100%`, not `96vw`: `.modal` already reserves the margin in its own padding.
    At 96vw the box was wider than the grid cell on any screen below 1000px,
    overflowed on both sides and, since only the right-hand side is reachable, the
    modal looked off-centre. */
-.modal-caixa{
+.modal-box{
   width:min(660px,100%);max-height:86vh;display:flex;flex-direction:column;
   background:var(--panel);border:1px solid var(--wire);border-radius:6px;overflow:hidden;
   box-shadow:0 40px 80px -20px rgba(0,0,0,.8);
@@ -772,7 +773,7 @@ html.modal-aberto .screen{overflow:hidden}
   .modal-video{max-width:calc(46vh * 16 / 9);margin-inline:auto}
 }
 .modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.modal-video.tocando,.modal-video.vazio{cursor:default}
+.modal-video.playing,.modal-video.empty{cursor:default}
 /* the "play" triangle, drawn in CSS so it depends on no image */
 .video-play{
   position:relative;z-index:1;width:54px;height:54px;border-radius:50%;
@@ -786,92 +787,92 @@ html.modal-aberto .screen{overflow:hidden}
 }
 .modal-video:hover .video-play{background:var(--phosphor);transform:scale(1.06)}
 .modal-video:hover .video-play::before{border-left-color:var(--ink)}
-.modal-video.vazio{border-style:dashed}
-.modal-video.vazio .video-play{opacity:.45}
-.video-aviso{
+.modal-video.empty{border-style:dashed}
+.modal-video.empty .video-play{opacity:.45}
+.video-notice{
   position:absolute;bottom:10px;z-index:1;
   font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;
   text-transform:uppercase;color:var(--paper-dim);
 }
-.modal-arquivo{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--paper-dim)}
-.modal-fechar{margin-left:12px;background:none;border:0;cursor:pointer;color:var(--paper-dim);font-size:1.3rem;line-height:1;transition:color .2s}
-.modal-fechar:hover{color:var(--amber)}
-.modal-corpo{padding:24px 26px;overflow-y:auto}
+.modal-file{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--paper-dim)}
+.modal-close{margin-left:12px;background:none;border:0;cursor:pointer;color:var(--paper-dim);font-size:1.3rem;line-height:1;transition:color .2s}
+.modal-close:hover{color:var(--amber)}
+.modal-body{padding:24px 26px;overflow-y:auto}
 
 /* ---------- SIGNUP MODAL ---------- */
 /* Narrower than the course one: it is two or three fields, and a 660px box would
    leave the form lost in the middle of it. */
-.modal-estreito{width:min(460px,100%)}
-.assinar-corpo h3{margin-bottom:8px}
-.assinar-sub{color:var(--paper-dim);font-size:.88rem;margin-bottom:16px}
+.modal-narrow{width:min(460px,100%)}
+.subscribe-body h3{margin-bottom:8px}
+.subscribe-sub{color:var(--paper-dim);font-size:.88rem;margin-bottom:16px}
 /* When the person comes from a plan card, the plan is the heading and the
    selector disappears — name and contact are left, the shortest possible form. */
-.assinar-plano{
+.subscribe-plan{
   display:flex;align-items:baseline;gap:10px;margin-bottom:16px;
   padding:10px 12px;border:1px solid var(--phosphor-dim);border-radius:3px;
   background:linear-gradient(135deg,rgba(91,140,255,.1),transparent 70%);
 }
-.assinar-plano[hidden]{display:none}
-.assinar-plano-rotulo{
+.subscribe-plan[hidden]{display:none}
+.subscribe-plan-label{
   font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;
   text-transform:uppercase;color:var(--phosphor-dim);
 }
-.assinar-plano strong{font-family:'Space Grotesk',sans-serif;font-size:1rem;color:var(--paper)}
+.subscribe-plan strong{font-family:'Space Grotesk',sans-serif;font-size:1rem;color:var(--paper)}
 /* always stacked: a 460px box has no width for two columns */
-.form-assinar{display:flex;flex-direction:column;gap:12px}
-.form-assinar .campo[hidden]{display:none}
-.form-assinar .btn{justify-content:center;margin-top:2px}
+.form-subscribe{display:flex;flex-direction:column;gap:12px}
+.form-subscribe .field[hidden]{display:none}
+.form-subscribe .btn{justify-content:center;margin-top:2px}
 
 /* A short height is almost always the virtual keyboard being open: the person is
    typing and needs to see the field and the button, not the explanation. The
-   subtitle gives up its place, and the rest shrinks — without this "Comece agora"
+   subtitle gives up its place, and the rest shrinks — without this "Start now"
    ended up below the fold inside the modal itself. */
 @media(max-height:560px){
-  .assinar-corpo{padding:16px 18px}
-  .assinar-sub{display:none}
-  .assinar-corpo h3{font-size:1.15rem;margin-bottom:10px}
-  .assinar-plano{margin-bottom:12px;padding:8px 10px}
-  .form-assinar{gap:10px}
+  .subscribe-body{padding:16px 18px}
+  .subscribe-sub{display:none}
+  .subscribe-body h3{font-size:1.15rem;margin-bottom:10px}
+  .subscribe-plan{margin-bottom:12px;padding:8px 10px}
+  .form-subscribe{gap:10px}
 }
-.modal-corpo h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:6px}
+.modal-body h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:6px}
 .modal-meta{display:flex;gap:16px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:.73rem;color:var(--paper-dim);margin-bottom:14px}
 .modal-meta b{color:var(--phosphor);font-weight:500}
-.modal-corpo>p{color:var(--paper-dim);margin-bottom:16px}
-.modal-bloco{margin-bottom:16px}
-.modal-bloco h4{
+.modal-body>p{color:var(--paper-dim);margin-bottom:16px}
+.modal-block{margin-bottom:16px}
+.modal-block h4{
   font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.14em;
   text-transform:uppercase;color:var(--phosphor-dim);margin-bottom:8px;
 }
-.modal-bloco ul{list-style:none;display:grid;gap:5px}
-.modal-bloco li{font-size:.9rem;padding-left:20px;position:relative}
-.modal-bloco li::before{content:"→";position:absolute;left:0;color:var(--phosphor)}
+.modal-block ul{list-style:none;display:grid;gap:5px}
+.modal-block li{font-size:.9rem;padding-left:20px;position:relative}
+.modal-block li::before{content:"→";position:absolute;left:0;color:var(--phosphor)}
 /* detailed content: the full technical list, collapsed by default */
-.modal-topicos{margin-bottom:16px;border:1px solid var(--wire);border-radius:4px;background:var(--ink)}
-.modal-topicos summary{
+.modal-topics{margin-bottom:16px;border:1px solid var(--wire);border-radius:4px;background:var(--ink)}
+.modal-topics summary{
   cursor:pointer;list-style:none;padding:10px 14px;display:flex;align-items:center;gap:10px;
   font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
   color:var(--phosphor-dim);transition:color .2s;
 }
-.modal-topicos summary::-webkit-details-marker{display:none}
-.modal-topicos summary::before{content:"+";color:var(--phosphor);font-size:.95rem;line-height:1}
-.modal-topicos[open] summary::before{content:"–"}
-.modal-topicos summary:hover{color:var(--phosphor)}
-.modal-topicos summary .qtd{margin-left:auto;color:var(--paper-dim);letter-spacing:.04em;text-transform:none}
-.modal-topicos ul{list-style:none;display:grid;gap:6px;padding:2px 14px 14px;border-top:1px solid var(--wire)}
-.modal-topicos li{font-size:.85rem;padding-left:18px;position:relative;color:var(--paper-dim)}
-.modal-topicos li::before{content:"·";position:absolute;left:5px;color:var(--phosphor)}
+.modal-topics summary::-webkit-details-marker{display:none}
+.modal-topics summary::before{content:"+";color:var(--phosphor);font-size:.95rem;line-height:1}
+.modal-topics[open] summary::before{content:"–"}
+.modal-topics summary:hover{color:var(--phosphor)}
+.modal-topics summary .count{margin-left:auto;color:var(--paper-dim);letter-spacing:.04em;text-transform:none}
+.modal-topics ul{list-style:none;display:grid;gap:6px;padding:2px 14px 14px;border-top:1px solid var(--wire)}
+.modal-topics li{font-size:.85rem;padding-left:18px;position:relative;color:var(--paper-dim)}
+.modal-topics li::before{content:"·";position:absolute;left:5px;color:var(--phosphor)}
 
-.modal-trilhas{display:flex;gap:8px;flex-wrap:wrap}
-.modal-trilhas button{
+.modal-tracks{display:flex;gap:8px;flex-wrap:wrap}
+.modal-tracks button{
   font-family:'IBM Plex Mono',monospace;font-size:.73rem;cursor:pointer;
   background:transparent;color:var(--phosphor);border:1px solid var(--phosphor-dim);
   border-radius:2px;padding:6px 12px;transition:background .2s,color .2s;
 }
-.modal-trilhas button:hover{background:var(--phosphor);color:var(--ink)}
-.modal-trilhas.pre-req{margin-bottom:8px}
-.modal-trilhas.pre-req button{color:var(--amber);border-color:var(--amber)}
-.modal-trilhas.pre-req button:hover{background:var(--amber);color:var(--ink)}
-.modal-acoes{display:flex;gap:10px;flex-wrap:wrap;padding-top:4px}
+.modal-tracks button:hover{background:var(--phosphor);color:var(--ink)}
+.modal-tracks.pre-req{margin-bottom:8px}
+.modal-tracks.pre-req button{color:var(--amber);border-color:var(--amber)}
+.modal-tracks.pre-req button:hover{background:var(--amber);color:var(--ink)}
+.modal-actions{display:flex;gap:10px;flex-wrap:wrap;padding-top:4px}
 
 /* ---------- two columns wherever they fit ----------
    In a single column a big course's modal runs to two metres of scrolling, and on
@@ -880,28 +881,28 @@ html.modal-aberto .screen{overflow:hidden}
    right what details it (syllabus, topics, dependencies and tracks). The
    breakpoint is where each column still gets ~440px — below that two columns are
    narrower than a comfortable reading line, and going back to one is better. */
-/* stacked, the introduction needs room before "o que você aprende"; in two
+/* stacked, the introduction needs room before "what you learn"; in two
    columns it is the end of the column and the margin disappears */
-.modal-col-apresenta{margin-bottom:20px}
+.modal-col-intro{margin-bottom:20px}
 
 @media (min-width:1024px){
-  .modal-caixa:not(.modal-estreito){width:min(1080px,94vw)}
+  .modal-box:not(.modal-narrow){width:min(1080px,94vw)}
   /* THE BODY DOES NOT SCROLL. It takes the height the box allows and the two
      columns split that height; what scrolls is the topic list, inside
      itself. A fixed ceiling on the list was not enough: with 48 topics it
      stopped at 420px, but the whole column (syllabus + topics +
      prerequisites + tracks) still overflowed and the modal went back to
      scrolling, taking the video and the button out of view. */
-  .modal-corpo:not(.assinar-corpo){
+  .modal-body:not(.subscribe-body){
     display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);
     gap:0 30px;align-items:stretch;overflow:hidden;min-height:0;
   }
   .modal-col{min-height:0;display:flex;flex-direction:column}
-  .modal-col-apresenta{margin-bottom:0;overflow-y:auto}
+  .modal-col-intro{margin-bottom:0;overflow-y:auto}
   /* the button sits centred under the video, which fills the whole column */
-  .modal-col-apresenta .modal-acoes{padding-top:8px;justify-content:center}
+  .modal-col-intro .modal-actions{padding-top:8px;justify-content:center}
   .modal-video{max-width:none;margin-inline:0}
-  .modal-corpo:not(.assinar-corpo) h3{font-size:1.55rem}
+  .modal-body:not(.subscribe-body) h3{font-size:1.55rem}
 
   /* The topic list scrolls inside itself, and its ceiling is measured in JS
      (`fitTopics`): it gets exactly the height left over in the column, so
@@ -912,8 +913,8 @@ html.modal-aberto .screen{overflow:hidden}
      the layout.
      Scrolling on the column is the safety net for when not even the list at
      its minimum makes the rest fit. */
-  .modal-col-detalhe{overflow-y:auto}
-  .modal-topicos ul{
+  .modal-col-detail{overflow-y:auto}
+  .modal-topics ul{
     overflow-y:auto;
     scrollbar-width:thin;scrollbar-color:var(--wire) transparent;
   }
@@ -925,7 +926,7 @@ html.modal-aberto .screen{overflow:hidden}
 /* above 1500px the text must not grow with the screen: too long a line tires the
    eye. The box stops growing and stays centred. */
 @media (min-width:1500px){
-  .modal-caixa{width:1180px}
+  .modal-box{width:1180px}
 }
 
 /* ==========================================================================
@@ -936,7 +937,7 @@ html.modal-aberto .screen{overflow:hidden}
 @media(max-width:1180px){
   .hero-inner{grid-template-columns:1fr;gap:28px}
   .terminal{display:none}
-  .cursos-rol{max-height:46vh}
+  .courses-scroll{max-height:46vh}
   .navlinks{
     display:none;position:absolute;top:100%;left:0;right:0;
     flex-direction:column;align-items:stretch;gap:0;
@@ -946,58 +947,58 @@ html.modal-aberto .screen{overflow:hidden}
   .navlinks a{padding:15px clamp(20px,5vw,64px);border-top:1px solid var(--wire)}
   .navlinks .nav-cta{margin:12px clamp(20px,5vw,64px);text-align:center}
   .burger{display:block}
-  .nav-aluno span:not(.nav-breve){display:none}
-  .nav-aluno .nav-breve{display:none}
-  .nav-aluno{padding:6px 9px}
-  .idioma-btn{padding:0 8px}
-  .nav-acoes{margin-left:auto}
+  .nav-student span:not(.nav-soon){display:none}
+  .nav-student .nav-soon{display:none}
+  .nav-student{padding:6px 9px}
+  .lang-btn{padding:0 8px}
+  .nav-actions{margin-left:auto}
   .dots{right:10px}
 }
 
 /* Narrow screens: the graph becomes a list.
    The graph only pays for itself when three or four levels fit at once. Below
    that the lane would show a card and a half at a time, so the levels stack and
-   the dependency comes to be read in the "depois de" text, not in the edge. */
+   the dependency comes to be read in the "recommended after" text, not in the edge. */
 @media(max-width:860px){
-  .grafo-seta{display:none}
-  .trilha-grafo{max-height:46vh;height:auto;overflow-x:hidden}
+  .graph-arrow{display:none}
+  .track-graph{max-height:46vh;height:auto;overflow-x:hidden}
   /* here the scrolling is vertical, so the fade that says "there is more" goes at the bottom */
-  .trilha-grafo.fade-baixo{mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent)}
-  .grafo-arestas{display:none}
-  .grafo-niveis{flex-direction:column;gap:12px;width:auto;height:auto}
+  .track-graph.fade-down{mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent)}
+  .graph-edges{display:none}
+  .graph-levels{flex-direction:column;gap:12px;width:auto;height:auto}
   /* a single column: the sub-columns measured for the wide screen stop
      applying and each card takes the full width */
-  .nivel{gap:12px;height:auto;flex-direction:column;align-items:flex-start}
+  .level{gap:12px;height:auto;flex-direction:column;align-items:flex-start}
   /* the card follows the screen width, without becoming an empty band on a tablet */
   .subcol{width:100%;max-width:560px}
-  .subcol > .curso-no,.subcol > .garfo,.subcol > .no-saida{
+  .subcol > .course-node,.subcol > .fork,.subcol > .node-outcome{
     width:100%;max-width:none;min-width:0;
   }
-  #trilhas .grafo-caixa{min-height:0}
-  .nivel + .nivel{border-top:1px dashed var(--wire);padding-top:12px}
-  .curso-no{flex:1 1 auto}
+  #tracks .graph-box{min-height:0}
+  .level + .level{border-top:1px dashed var(--wire);padding-top:12px}
+  .course-node{flex:1 1 auto}
   /* the fork stacks too; the tabs become a sliding strip */
-  .garfo-cursos{flex-direction:column}
-  .garfo-cursos .curso-no{max-width:none}
-  .garfo-abas{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
-  .garfo-abas::-webkit-scrollbar{display:none}
-  .garfo-aba{flex:0 0 auto;white-space:nowrap}
-  .garfo-nota{font-size:.74rem}
+  .fork-courses{flex-direction:column}
+  .fork-courses .course-node{max-width:none}
+  .fork-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+  .fork-tabs::-webkit-scrollbar{display:none}
+  .fork-tab{flex:0 0 auto;white-space:nowrap}
+  .fork-note{font-size:.74rem}
 }
 
 /* where the scrollable row does not fit, the dropdown takes over */
 @media(max-width:700px){
-  #drop-trilhas{display:block;margin-bottom:14px}
-  #drop-filtros{display:block}
-  .abas-caixa,.chips-caixa{display:none}
-  .filtros{flex-wrap:wrap;gap:10px}
-  .busca{width:100%}
+  #drop-tracks{display:block;margin-bottom:14px}
+  #drop-filters{display:block}
+  .tabs-box,.chips-box{display:none}
+  .filters{flex-wrap:wrap;gap:10px}
+  .search{width:100%}
 }
 
 /* Below this the bar only fits the essentials. The student area is a placeholder
    for future functionality: it is the first to go, before the burger menu. */
 @media(max-width:620px){
-  .nav-aluno{display:none}
+  .nav-student{display:none}
   .brand{font-size:.95rem}
 }
 
@@ -1011,7 +1012,7 @@ html.modal-aberto .screen{overflow:hidden}
   .btn{padding:11px 18px;font-size:.8rem}
   /* The hero's two buttons side by side, splitting the text's width.
      `flex-basis:0` because the line break is decided by the base size: with
-     `auto` the longest label ("Catálogo de cursos", and worse in the other
+     `auto` the longest label ("Course catalog", and worse in the other
      languages) pushed the second button down before shrinking.
      The side padding drops to 10px to fit 360px screens. */
   .hero-actions{flex-wrap:nowrap;gap:10px}
@@ -1020,25 +1021,25 @@ html.modal-aberto .screen{overflow:hidden}
   .hero-nums strong{font-size:.95rem}
 
   /* the tabs' sliding strip already comes from the main block; here it just gets shorter */
-  .abas-caixa{margin-bottom:14px}
-  .trilha-grafo{max-height:42vh}
-  .trilha-topo{margin-bottom:14px}
+  .tabs-box{margin-bottom:14px}
+  .track-graph{max-height:42vh}
+  .track-top{margin-bottom:14px}
   /* without shrinking, the four numbers added up to more than the screen width */
-  .trilha-resumo{gap:14px;font-size:.7rem;flex-shrink:1;width:100%}
-  .trilha-resumo b{font-size:1rem}
+  .track-summary{gap:14px;font-size:.7rem;flex-shrink:1;width:100%}
+  .track-summary b{font-size:1rem}
 
-  .cursos-rol{max-height:50vh}
-  .cursos-grade{grid-template-columns:1fr}
-  .planos{max-height:54vh;overflow-y:auto}
+  .courses-scroll{max-height:50vh}
+  .courses-grid{grid-template-columns:1fr}
+  .plans{max-height:54vh;overflow-y:auto}
   /* half the width only makes sense when there is width: on mobile the
      e-mail and the newsletter go back to taking the whole line */
-  .contato-linha{grid-template-columns:1fr}
-  .depos{max-height:54vh;overflow-y:auto}
-  .depo{padding:16px 18px}
+  .contact-row{grid-template-columns:1fr}
+  .quotes{max-height:54vh;overflow-y:auto}
+  .quote{padding:16px 18px}
   .foot-slim{flex-direction:column;text-align:center;gap:8px;font-size:.68rem}
-  .social-grade{grid-template-columns:1fr 1fr}
-  .canal{padding:12px 14px}
-  .canal-valor{font-size:.82rem}
+  .social-grid{grid-template-columns:1fr 1fr}
+  .channel{padding:12px 14px}
+  .channel-value{font-size:.82rem}
   .news-copy{width:100%}
   /* Stacked: label, field and button, one per line. With `flex-wrap` the
      label and the field fought over the first line and the field came out
@@ -1047,16 +1048,16 @@ html.modal-aberto .screen{overflow:hidden}
   /* `.news` is flex with wrap: without `width:100%` the line dropped below
      the text but kept the content's width (~195px), and neither the field
      nor the button had any way to stretch. */
-  .news-linha{flex-direction:column;align-items:stretch;width:100%}
+  .news-row{flex-direction:column;align-items:stretch;width:100%}
   .news input{min-width:0;width:100%}
   .news-btn{width:100%;justify-content:center}
   .dots{right:6px;gap:10px}
 
   /* modal: more usable area and a button at the card's width, which is the touch target */
   .modal{padding:12px}
-  .modal-corpo{padding:20px}
-  .modal-acoes{width:100%}
-  .modal-acoes .btn{width:100%;justify-content:center}
+  .modal-body{padding:20px}
+  .modal-actions{width:100%}
+  .modal-actions .btn{width:100%;justify-content:center}
 }
 
 /* short windows (768px-tall laptops and the like) */
@@ -1073,20 +1074,20 @@ html.modal-aberto .screen{overflow:hidden}
      three cards — and in a 720px window it did not fit the lane. Here
      everything inside it shrinks a few pixels, which is enough for the whole
      block to fit. */
-  .curso-no{padding:9px 11px 8px;gap:3px}
-  .curso-no .nome{font-size:.88rem}
-  .curso-no .meta{padding-top:4px}
-  .garfo{padding:8px 9px 9px;row-gap:8px}
-  .garfo-abas{gap:5px}
-  .garfo-aba{padding:5px 9px}
-  .garfo-nota{font-size:.66rem;line-height:1.35}
-  .grafo-niveis{padding:12px 0}
+  .course-node{padding:9px 11px 8px;gap:3px}
+  .course-node .name{font-size:.88rem}
+  .course-node .meta{padding-top:4px}
+  .fork{padding:8px 9px 9px;row-gap:8px}
+  .fork-tabs{gap:5px}
+  .fork-tab{padding:5px 9px}
+  .fork-note{font-size:.66rem;line-height:1.35}
+  .graph-levels{padding:12px 0}
 
-  .cursos-rol{max-height:44vh}
-  .plano{padding:18px 18px}
-  .depo{padding:16px 18px}
+  .courses-scroll{max-height:44vh}
+  .plan{padding:18px 18px}
+  .quote{padding:16px 18px}
   .faq details{padding:10px 14px}
-  .canal{padding:12px 14px}
+  .channel{padding:12px 14px}
   .social{padding:12px 14px}
   .foot-slim{margin-top:16px;padding-top:12px}
 }
@@ -1095,7 +1096,7 @@ html.modal-aberto .screen{overflow:hidden}
    give up its last lines so the graph fits. In a 768px window it still fits whole,
    and the text is sales copy — it is not cut before it has to be. */
 @media(max-height:740px){
-  .trilha-topo p{
+  .track-top p{
     display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;
     overflow:hidden;
   }
@@ -1103,7 +1104,7 @@ html.modal-aberto .screen{overflow:hidden}
 /* on a 768px laptop the usable window comes to ~681px: there the objective gives
    up one more line, because every 22px is worth one more card per graph column */
 @media(max-height:700px){
-  .trilha-topo p{-webkit-line-clamp:2}
+  .track-top p{-webkit-line-clamp:2}
 }
 
 @media(prefers-reduced-motion:reduce){

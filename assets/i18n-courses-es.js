@@ -1,0 +1,2863 @@
+/* ==========================================================================
+   codeschool.ing — the catalog in Spanish.
+
+   Only the courses' and tracks' content fields. The interface is in
+   assets/i18n.js; this file is separate because on its own it weighs more than
+   all the others put together.
+
+   Keyed by id, not by the English string: an id is stable, a title is edited.
+   A missing field falls back to the English source in assets/catalog.js.
+
+   Translation: the concept translated, a technology's proper name intact.
+   Course names in the local market's own wording, because that is how a student
+   there searches.
+   ========================================================================== */
+
+window.I18N.es = window.I18N.es || {};
+window.I18N.es.courses = {
+  "web-fundamentals": {
+    "name": "Fundamentos de la Web e Internet",
+    "summary": "Entendé qué pasa entre escribir una dirección y ver la página — la base que sostiene cualquier carrera web.",
+    "syllabus": [
+      "Cómo funciona internet: paquetes, protocolos y servidores",
+      "HTTP y HTTPS: solicitudes, respuestas, códigos de estado",
+      "Dominios, DNS y hospedaje en la práctica",
+      "Cómo los navegadores renderizan una página",
+      "Herramientas de desarrollo y primeros diagnósticos"
+    ],
+    "topics": [
+      "Cliente, servidor y host: quién pide y quién responde",
+      "Paquete, trama (frame) y socket",
+      "Ancho de banda, latencia y rendimiento (throughput)",
+      "Dirección IP, dirección MAC y ARP",
+      "Redes en capas: del cable al navegador",
+      "HTTP y HTTPS: métodos, encabezados y códigos de estado",
+      "Cookies, sesiones y caché del navegador",
+      "Dominios: registro, DNS, propagación y subdominios",
+      "Hospedaje: compartido, VPS, nube y CDN",
+      "Cómo el navegador arma la página: DOM, CSSOM y renderizado",
+      "Herramientas de desarrollo: red, consola y elementos"
+    ],
+    "prerequisites": "Saber usar computadora e internet en el día a día."
+  },
+  "git": {
+    "name": "Git y Control de Versiones",
+    "summary": "Versioná tu código, trabajá en equipo y no vuelvas a perder trabajo.",
+    "syllabus": [
+      "Repositorios, commits e historial",
+      "Ramas, fusión y resolución de conflictos",
+      "GitHub y GitLab: remotos, pull requests y revisión de código",
+      "Flujos de trabajo en equipo (feature branch, trunk based)",
+      "Buenas prácticas de mensajes y organización"
+    ],
+    "topics": [
+      "Qué es el control de versiones y por qué existe",
+      "Repositorio, área de preparación (staging) y commit",
+      "Historial: log, diff, blame y show",
+      "Deshacer con seguridad: restore, revert y reset",
+      "Ramas: crear, cambiar, fusionar y eliminar",
+      "Merge, rebase y resolución de conflictos",
+      "Remotos: clone, fetch, pull, push y etiquetas",
+      "GitHub, GitLab y Bitbucket: issues, pull requests y revisión de código",
+      "Flujos de trabajo: feature branch, trunk based y Git Flow",
+      ".gitignore, submódulos y archivos grandes (Git LFS)",
+      "Mensajes de commit y el estándar de commits convencionales"
+    ]
+  },
+  "javascript": {
+    "name": "JavaScript",
+    "summary": "El lenguaje de la web: lógica, interactividad y comunicación con servidores.",
+    "syllabus": [
+      "Sintaxis moderna (ES6+), tipos, funciones y ámbito",
+      "Manipulación del DOM, eventos y formularios",
+      "Asincronía: promesas, async/await y fetch",
+      "APIs web del navegador: almacenamiento, geolocalización, notificaciones",
+      "Gestores de paquetes (npm, pnpm, yarn) y módulos"
+    ],
+    "topics": [
+      "Sintaxis ES6+: let/const, funciones flecha y plantillas de cadena",
+      "Tipos, coerción, igualdad estricta y valores falsos",
+      "Objetos, arreglos, propagación y desestructuración",
+      "Funciones, ámbito, closures y el valor de this",
+      "Clases, prototipos y módulos ES",
+      "DOM: selección, creación y modificación de elementos",
+      "Eventos, delegación y formularios",
+      "Asincronía: callbacks, promesas y async/await",
+      "fetch, JSON y manejo de errores de red",
+      "APIs web: localStorage, sessionStorage, geolocalización y notificaciones",
+      "npm, pnpm y yarn: instalar, versionar y publicar paquetes",
+      "Depuración en el navegador y manejo de excepciones"
+    ]
+  },
+  "ai-dev": {
+    "name": "IA en el Desarrollo",
+    "summary": "Programá acompañado: asistentes de código, agentes e integración de IA en tus proyectos.",
+    "syllabus": [
+      "Cómo funcionan los modelos de lenguaje: embeddings, vectores y RAG",
+      "Asistentes de código en el editor: revisión, refactorización y documentación",
+      "Técnicas de prompting para tareas de programación",
+      "Agentes, herramientas y el protocolo MCP",
+      "Patrones de integración: streaming, salidas estructuradas y function calling",
+      "Proveedores (Anthropic, OpenAI, Google) con costo y seguridad bajo control"
+    ],
+    "topics": [
+      "Cómo un modelo de lenguaje genera texto: tokens, embeddings y contexto",
+      "Ventana de contexto, costo por token y límites prácticos",
+      "Asistentes de código en el editor: completar, refactorizar y documentar",
+      "Revisión de código asistida y generación de pruebas",
+      "Prompting aplicado a tareas de programación",
+      "Generación aumentada por recuperación (RAG): búsqueda vectorial y citas",
+      "Agentes, herramientas y el protocolo MCP",
+      "Llamada a funciones (function calling) y salidas estructuradas",
+      "Respuestas en streaming y experiencia de usuario",
+      "Proveedores: Anthropic, OpenAI y Google — claves, límites y costo",
+      "Riesgos: alucinación, filtración de datos e inyección de prompts"
+    ],
+    "prerequisites": "Alcanza con uno de los dos lenguajes."
+  },
+  "html-css": {
+    "name": "HTML y CSS",
+    "summary": "Construí y estilizá páginas desde cero, con maquetado responsivo de verdad.",
+    "syllabus": [
+      "HTML semántico y estructura de documentos",
+      "Selectores, cascada, especificidad y variables CSS",
+      "Maquetado con Flexbox y Grid",
+      "Responsividad, media queries y mobile first",
+      "Frameworks CSS: Tailwind en la práctica"
+    ],
+    "topics": [
+      "Estructura de un documento HTML y metadatos",
+      "HTML semántico: header, nav, main, section, article y footer",
+      "Formularios, campos, etiquetas y validación nativa",
+      "Tablas, imágenes responsivas y multimedia",
+      "Selectores, cascada, herencia y especificidad",
+      "Modelo de caja, box-sizing y unidades (px, rem, em, %, vw/vh)",
+      "Posicionamiento: static, relative, absolute, fixed y sticky",
+      "Flexbox: ejes, alineación y distribución",
+      "CSS Grid: filas, columnas, áreas y grilla implícita",
+      "Variables CSS y organización de estilos",
+      "Responsividad: mobile first, media queries y container queries",
+      "Transiciones, animaciones y transformaciones",
+      "Tailwind CSS: utilidades, configuración y componentes"
+    ]
+  },
+  "react-ts": {
+    "name": "Front-end con React y TypeScript",
+    "summary": "El estándar del mercado: componentes, estado tipado y las herramientas profesionales.",
+    "syllabus": [
+      "Componentes, props, estado y hooks",
+      "Rutas, formularios y consumo de APIs",
+      "TypeScript aplicado a componentes y datos",
+      "Empaquetadores y entorno moderno (Vite)",
+      "Linters y formateadores (ESLint, Prettier, Biome)",
+      "Panorama de alternativas: Vue, Angular, Svelte"
+    ],
+    "topics": [
+      "Componentes, props y composición",
+      "Estado local con useState y efectos con useEffect",
+      "Hooks: useMemo, useCallback, useRef y hooks personalizados",
+      "Contexto y estado global (Redux, Zustand, Jotai)",
+      "Listas, claves y renderizado condicional",
+      "Rutas con React Router: parámetros, anidamiento y protección",
+      "Formularios controlados y bibliotecas de formularios",
+      "Consumo de APIs con React Query: caché y estados de carga",
+      "TypeScript: tipos, interfaces, genéricos y tipado de props",
+      "Vite: servidor de desarrollo, build y variables de entorno",
+      "ESLint, Prettier y Biome",
+      "Panorama de Vue, Angular y Svelte"
+    ],
+    "prerequisites": "Los dos son necesarios."
+  },
+  "front-quality": {
+    "name": "Pruebas, Seguridad y Accesibilidad",
+    "summary": "Lo que separa un sitio que funciona de un producto confiable.",
+    "syllabus": [
+      "Pruebas unitarias y de componentes (Vitest, Jest)",
+      "Pruebas de extremo a extremo (Playwright, Cypress)",
+      "Estrategias de autenticación: sesiones, JWT, OAuth",
+      "Seguridad web: CORS, HTTPS, CSP y riesgos de OWASP",
+      "Accesibilidad: WCAG, teclado, lectores de pantalla y contraste"
+    ],
+    "topics": [
+      "La pirámide de pruebas aplicada al front-end",
+      "Pruebas unitarias y de componentes con Vitest y Jest",
+      "Testing Library: probar como lo usa el usuario",
+      "Pruebas de extremo a extremo con Playwright y Cypress",
+      "Autenticación: sesión con cookie, JWT, OAuth y OpenID",
+      "Almacenamiento seguro de tokens en el navegador",
+      "CORS: qué es, cuándo se rompe y cómo resolverlo",
+      "HTTPS, Content Security Policy (CSP) y encabezados de seguridad",
+      "OWASP Top 10 en el front-end: XSS, CSRF y clickjacking",
+      "Accesibilidad: WCAG y los niveles A, AA y AAA",
+      "Navegación por teclado, foco visible y orden de tabulación",
+      "ARIA, lectores de pantalla y texto alternativo",
+      "Contraste, tamaño de objetivo y respeto al movimiento reducido"
+    ]
+  },
+  "front-performance": {
+    "name": "Renderizado, Rendimiento y PWA",
+    "summary": "Sitios rápidos, bien posicionados en Google y que funcionan incluso sin conexión.",
+    "syllabus": [
+      "Renderizado en el servidor (SSR) con Next.js y similares",
+      "Sitios estáticos (SSG) y cuándo elegir cada estrategia",
+      "Medición de rendimiento: Lighthouse, Core Web Vitals, DevTools",
+      "Caché, service workers y respuestas en streaming",
+      "Progressive Web Apps: instalación y uso sin conexión"
+    ],
+    "topics": [
+      "Renderizado en el cliente, en el servidor (SSR) e híbrido",
+      "Next.js: rutas, server components y generación estática",
+      "Generación de sitios estáticos (SSG) y regeneración incremental",
+      "Hidratación, streaming y componentes asíncronos",
+      "Core Web Vitals: LCP, INP y CLS",
+      "Lighthouse, WebPageTest y el panel de rendimiento del navegador",
+      "Optimización de imágenes, fuentes y recursos críticos",
+      "División de código (code splitting) y carga bajo demanda",
+      "Caché del navegador, CDN y encabezados de caché",
+      "Service workers y estrategias de caché sin conexión",
+      "Progressive Web App: manifiesto, instalación y notificaciones"
+    ]
+  },
+  "front-delivery": {
+    "name": "Despliegue, Design Systems y GraphQL",
+    "summary": "Publicá, estandarizá e integrá — el trabajo de quien entrega producto, no páginas.",
+    "syllabus": [
+      "Publicación en Vercel, Netlify, Cloudflare y GitHub Pages",
+      "Integración continua y entornos de vista previa",
+      "Design systems: tokens, componentes y documentación",
+      "Web Components: custom elements y shadow DOM",
+      "Consumo de APIs GraphQL (Apollo, Relay)"
+    ],
+    "topics": [
+      "Publicación en Vercel, Netlify, Cloudflare Pages y GitHub Pages",
+      "Variables de entorno y secretos en el proceso de build",
+      "Integración continua y entornos de vista previa por pull request",
+      "Dominios personalizados, HTTPS y redirecciones",
+      "Design systems: tokens, escalas tipográficas y temas",
+      "Biblioteca de componentes documentada con Storybook",
+      "Versionado y publicación de paquetes internos",
+      "Web Components: custom elements, shadow DOM y plantillas",
+      "GraphQL: consultas, mutaciones y fragmentos",
+      "Clientes GraphQL: Apollo y Relay",
+      "Monitoreo de errores en el cliente e informes de fallas"
+    ]
+  },
+  "front-multiplatform": {
+    "name": "Apps de Escritorio y Móviles con Web",
+    "summary": "Llevá lo que ya sabés de web a las tiendas de aplicaciones y al escritorio.",
+    "syllabus": [
+      "Aplicaciones móviles con React Native",
+      "Panorama de Flutter e Ionic",
+      "Aplicaciones de escritorio con Electron y Tauri",
+      "Empaquetado, firma y publicación",
+      "Proyecto final: una app publicada en tu portafolio"
+    ],
+    "topics": [
+      "React Native: componentes, navegación y estilos",
+      "Acceso a recursos del dispositivo: cámara, notificaciones y almacenamiento",
+      "Expo: desarrollo, build y actualizaciones remotas",
+      "Panorama de Flutter e Ionic",
+      "Electron: proceso principal, renderizador y comunicación entre ellos",
+      "Tauri: aplicaciones de escritorio livianas con tecnologías web",
+      "Empaquetado, íconos e instaladores",
+      "Firma de código y publicación en las tiendas",
+      "Actualizaciones automáticas y versionado",
+      "Proyecto final: una aplicación publicada en el portafolio"
+    ]
+  },
+  "node": {
+    "name": "Node.js: JavaScript en el Servidor",
+    "summary": "La elección de lenguaje del roadmap: llevá el JavaScript que ya sabés al lado del servidor.",
+    "syllabus": [
+      "Por qué elegir un lenguaje y dominarlo antes de saltar a otro",
+      "Runtime, event loop y programación asíncrona en el servidor",
+      "Módulos, paquetes y organización de proyectos",
+      "Servidor HTTP y enrutamiento con Express",
+      "Lectura de archivos, variables de entorno y procesos"
+    ],
+    "topics": [
+      "Por qué dominar un lenguaje antes de saltar a otro",
+      "El runtime de Node: V8, event loop y cola de tareas",
+      "Módulos CommonJS y ES Modules",
+      "package.json, scripts y gestión de dependencias",
+      "Servidor HTTP nativo y enrutamiento",
+      "Express: rutas, middlewares y manejo de errores",
+      "Solicitud y respuesta: cuerpo, encabezados, query y parámetros",
+      "Sistema de archivos, streams y buffers",
+      "Variables de entorno y configuración por entorno",
+      "Procesos, workers y ejecución en clúster",
+      "Panorama de otros lenguajes de servidor: Python, Go, Java, PHP y C#"
+    ],
+    "prerequisites": "Los dos son necesarios."
+  },
+  "python-back": {
+    "name": "Back-end con Python: Django y FastAPI",
+    "summary": "El camino Python hacia el servidor: dos frameworks, dos estilos, el mismo resultado profesional.",
+    "syllabus": [
+      "Django: el framework que ya viene con todo",
+      "FastAPI: APIs modernas, rápidas y tipadas",
+      "Rutas, vistas, plantillas y serialización",
+      "ORM, migraciones y acceso a base de datos",
+      "Autenticación y permisos",
+      "Pruebas, entornos y publicación"
+    ],
+    "topics": [
+      "Elegir entre Django y FastAPI: qué asume cada uno",
+      "Django: proyecto, apps, urls y vistas",
+      "Plantillas de Django y archivos estáticos",
+      "ORM de Django: modelos, consultas y migraciones",
+      "Django admin y el valor de tener un panel gratis",
+      "Django REST Framework: serializers y viewsets",
+      "FastAPI: rutas, tipado con Pydantic y validación automática",
+      "FastAPI: documentación automática (OpenAPI) e inyección de dependencias",
+      "Asincronía en Python: async/await y cuándo ayuda de verdad",
+      "SQLAlchemy y Alembic para quienes no usan Django",
+      "Autenticación: sesión, token y JWT en ambos frameworks",
+      "Permisos, roles y protección de rutas",
+      "Tareas en segundo plano: Celery y colas",
+      "Pruebas con pytest y cliente de pruebas",
+      "Variables de entorno, configuración por entorno y secretos",
+      "Servir en producción: Gunicorn, Uvicorn y proxy inverso",
+      "Empaquetar en contenedor y publicar"
+    ],
+    "prerequisites": "Los dos son necesarios."
+  },
+  "java-back": {
+    "name": "Back-end con Java y Spring",
+    "summary": "El ecosistema que sostiene bancos, industria y gobierno: Spring Boot, persistencia y las herramientas más maduras del mercado.",
+    "syllabus": [
+      "Maven y Gradle: dependencias, build y organización del proyecto",
+      "Spring Boot: autoconfiguración, inyección de dependencias y perfiles",
+      "Spring MVC: controladores, DTOs y validación",
+      "Persistencia: JDBC, Hibernate y Spring Data JPA",
+      "Spring Security, registro estructurado y documentación",
+      "Pruebas por capas y publicación del artefacto"
+    ],
+    "topics": [
+      "Maven: dependencias, ciclo de build, plugins y repositorio",
+      "Gradle: build script, tareas y build incremental",
+      "Panorama de Bazel y cuándo aparece",
+      "Spring Boot: autoconfiguración, starters y perfiles por entorno",
+      "Inyección de dependencias e inversión de control en la práctica",
+      "Spring MVC: controladores, DTOs y validación (Bean Validation)",
+      "Manejo global de errores y respuestas estandarizadas",
+      "Panorama de frameworks web: Quarkus, Javalin, Play y Micronaut",
+      "JDBC: la base que todo lo demás usa por debajo",
+      "Hibernate y JPA: mapeo objeto-relacional y el problema N+1",
+      "Spring Data JPA: entidades, relaciones, consultas y proyecciones",
+      "Panorama de EBean y de alternativas livianas",
+      "Flyway o Liquibase para migración de base de datos",
+      "Transacciones, aislamiento y pool de conexiones",
+      "Spring Security: autenticación, autorización y JWT",
+      "Registro estructurado: SLF4J como fachada, Logback, Log4j2 y TinyLog",
+      "Javadoc y documentación de API con OpenAPI",
+      "Pruebas unitarias con JUnit 5 y TestNG",
+      "Dobles de prueba con Mockito e integración con Testcontainers",
+      "Pruebas de API con REST Assured y de carga con JMeter",
+      "Pruebas de comportamiento con Cucumber-JVM",
+      "Actuator, métricas y verificación de salud",
+      "Empaquetar en jar, imagen de contenedor y publicar"
+    ],
+    "prerequisites": "Exige el lenguaje y su biblioteca estándar: este curso empieza en el ecosistema."
+  },
+  "java": {
+    "name": "Java",
+    "summary": "El lenguaje más empleado del mundo corporativo: tipado fuerte, orientación a objetos de verdad y treinta años de compatibilidad.",
+    "syllabus": [
+      "La JVM, el ciclo de vida de un programa y la sintaxis del lenguaje",
+      "Tipos, conversión, cadenas, arreglos y control de flujo",
+      "Orientación a objetos completa: clases, herencia, interfaces y encapsulamiento",
+      "Records, enums, clases anidadas y paquetes",
+      "Colecciones y genéricos: elegir la estructura correcta",
+      "Excepciones, anotaciones y el sistema de módulos"
+    ],
+    "topics": [
+      "La JVM: compilación, bytecode, ejecución y versiones LTS",
+      "Ciclo de vida de un programa: del archivo fuente al proceso",
+      "Sintaxis básica, convenciones y el primer programa",
+      "Tipos primitivos, wrappers y `var`",
+      "Variables, ámbito y tiempo de vida",
+      "Conversión de tipos: implícita, explícita y pérdida de precisión",
+      "Cadenas y sus métodos: inmutabilidad, `StringBuilder` y formato",
+      "Operaciones matemáticas, `Math` y cuidados con punto flotante",
+      "Arreglos: declaración, recorrido y arreglos multidimensionales",
+      "Condicionales: `if`, `switch` y el `switch` de expresión",
+      "Bucles: `for`, `while`, `do-while` y `for-each`",
+      "Clases y objetos: qué existe en tiempo de ejecución",
+      "Atributos y métodos: estado y comportamiento",
+      "Modificadores de acceso y por qué `private` es el valor sensato",
+      "La palabra `static`: cuándo pertenece a la clase y no al objeto",
+      "La palabra `final` en variable, método y clase",
+      "Clases anidadas, internas y anónimas",
+      "Paquetes, importación y organización del proyecto",
+      "Ciclo de vida del objeto: construcción, referencia y recolección de basura",
+      "Herencia: reutilización, `super` y los límites de la jerarquía",
+      "Abstracción: la clase abstracta y el contrato que impone",
+      "Encapsulamiento: por qué el accesor no es burocracia",
+      "Interfaces, métodos por defecto y herencia múltiple de comportamiento",
+      "Sobrecarga y sobreescritura de métodos: la diferencia que confunde",
+      "Ligadura estática y dinámica: quién decide el método que se ejecuta",
+      "Encadenamiento de métodos y la interfaz fluida",
+      "Bloques inicializadores y orden de inicialización",
+      "`enum`: más que una constante, un tipo con comportamiento",
+      "`record`: datos inmutables sin ceremonia",
+      "Paso por valor: el malentendido más común de Java",
+      "Colecciones: arreglo contra `ArrayList`, y cuándo sirve cada uno",
+      "`List`, `Set` y `Map`: elegir la implementación correcta",
+      "`Queue`, `Deque` y `Stack`",
+      "`Iterator` y recorrido seguro durante la modificación",
+      "Genéricos: colecciones tipadas, comodines y borrado de tipos",
+      "Excepciones verificadas y no verificadas: `try`, `catch`, `finally`",
+      "`try-with-resources` y cierre automático",
+      "Crear una excepción propia y la jerarquía de `Throwable`",
+      "Anotaciones: las del lenguaje, las de framework y las tuyas",
+      "Sistema de módulos (JPMS): `module-info` y encapsulamiento fuerte"
+    ],
+    "prerequisites": "Ninguno. Este curso enseña el lenguaje desde cero — es el punto de entrada para quien nunca programó en Java."
+  },
+  "java-functional": {
+    "name": "Java: Funcional y Concurrente",
+    "summary": "El Java que cambió: lambdas, streams, hilos virtuales y la biblioteca estándar que se usa todos los días.",
+    "syllabus": [
+      "Lambdas, interfaces funcionales y composición",
+      "Stream API: transformar colecciones sin bucles",
+      "`Optional` y el fin del `NullPointerException` por descuido",
+      "Concurrencia: hilos, ejecutores e hilos virtuales",
+      "Modelo de memoria, `volatile` y sincronización",
+      "Biblioteca estándar: archivos, fecha y hora, red, expresiones regulares y criptografía"
+    ],
+    "topics": [
+      "Expresiones lambda: sintaxis, captura y qué reemplazan",
+      "Interfaces funcionales: `Function`, `Predicate`, `Supplier` y `Consumer`",
+      "Referencias a métodos y constructores",
+      "Funciones de orden superior: recibir y devolver comportamiento",
+      "Composición de funciones: `andThen`, `compose` y el encadenamiento",
+      "Stream API: fuente, operaciones intermedias y terminales",
+      "`map`, `filter`, `reduce` y colectores",
+      "`Collectors`: agrupar, particionar y unir",
+      "Streams paralelos: cuándo ayudan y cuándo estorban",
+      "`Optional`: crear, encadenar y el antipatrón del `get()`",
+      "Hilos: crear, iniciar y el costo real de uno",
+      "El modelo de memoria de Java: visibilidad y reordenamiento",
+      "La palabra `volatile`: qué garantiza y qué no",
+      "Sincronización: `synchronized`, `Lock` y condición de carrera",
+      "Colecciones concurrentes y atómicos",
+      "Ejecutores, pools de hilos y `CompletableFuture`",
+      "Hilos virtuales: qué cambia con Project Loom",
+      "Concurrencia estructurada: panorama",
+      "Entrada y salida: flujos de bytes y de caracteres",
+      "Archivos y directorios con NIO.2: `Path`, `Files` y recorrido",
+      "Serialización, JSON y el cuidado con la deserialización insegura",
+      "Fecha y hora: `LocalDate`, `Instant`, zona horaria y duración",
+      "Red: sockets, `HttpClient` y llamadas HTTP en la biblioteca estándar",
+      "Expresiones regulares: `Pattern`, `Matcher` y costo del retroceso",
+      "Criptografía: resumen, cifrado simétrico, asimétrico y `KeyStore`",
+      "Generación segura de aleatorios y almacenamiento de contraseñas"
+    ],
+    "prerequisites": "Exige el curso de Java: aquí se asumen orientación a objetos, colecciones y excepciones."
+  },
+  "go-back": {
+    "name": "Back-end con Go",
+    "summary": "El servidor en Go: HTTP con la biblioteca estándar, gRPC, base de datos y tiempo real — del primer endpoint al binario publicado.",
+    "syllabus": [
+      "Servidor HTTP con net/http y enrutamiento",
+      "Frameworks: cuándo usar Gin, Echo, Fiber o ninguno",
+      "Acceso a base de datos con pgx, GORM y migraciones",
+      "gRPC y Protocol Buffers para servicios internos",
+      "Registro estructurado y comunicación en tiempo real",
+      "Publicación: binario único en un contenedor mínimo"
+    ],
+    "topics": [
+      "Servidor HTTP con net/http: handlers, mux y el enrutamiento de la 1.22",
+      "Middlewares: registro, recuperación de pánico, CORS y autenticación",
+      "JSON de entrada y salida, validación y errores estandarizados",
+      "Panorama de frameworks: Gin, Echo, Fiber y Beego",
+      "Cuándo alcanza la biblioteca estándar y el framework estorba",
+      "Acceso a base de datos con database/sql y pgx",
+      "ORM con GORM: mapeo, relaciones y trampas",
+      "sqlc: SQL que se convierte en código Go tipado",
+      "Migraciones, transacciones y pool de conexiones",
+      "gRPC y Protocol Buffers: contrato, generación de código y streaming",
+      "Cuándo gRPC le gana a REST y cuándo no",
+      "Registro estructurado con slog, zerolog y zap",
+      "Comunicación en tiempo real: WebSocket, Melody y Centrifugo",
+      "Configuración por entorno, flags y variables",
+      "Pruebas de handler con httptest y pruebas de integración",
+      "Compilación cruzada y binario único en contenedor distroless",
+      "Verificación de salud, métricas y apagado ordenado"
+    ],
+    "prerequisites": "Exige el lenguaje y la concurrencia: este curso empieza en el servidor."
+  },
+  "go": {
+    "name": "Go",
+    "summary": "El lenguaje que eligieron Docker, Kubernetes y Terraform: poca sintaxis para memorizar, mucho software para construir.",
+    "syllabus": [
+      "Sintaxis, tipos, constantes y conversiones",
+      "Tipos compuestos: arreglos, slices, mapas y structs",
+      "Funciones, closures y punteros sin aritmética",
+      "Métodos, interfaces implícitas y composición",
+      "Genéricos: funciones y tipos genéricos con restricciones",
+      "Errores como valores, módulos y organización del proyecto"
+    ],
+    "topics": [
+      "Por qué existe Go: compilación rápida, binario único y simplicidad",
+      "Historia del lenguaje y el ciclo de versiones",
+      "Instalación, GOPATH, workspace y el comando `go`",
+      "Primer programa, `go run` y la documentación incorporada",
+      "Variables y constantes: `var` contra `:=`",
+      "Zero values, `const`, `iota`, ámbito y sombreado",
+      "Tipos numéricos: enteros con y sin signo, punto flotante y complejos",
+      "Booleanos, runas y la diferencia entre byte, runa y carácter",
+      "Cadenas: literales crudos e interpretados, inmutabilidad y UTF-8",
+      "Conversión de tipos y por qué Go no convierte solo",
+      "Arreglos contra slices: qué se pasa realmente",
+      "Slices por dentro: capacidad, crecimiento y `make()`",
+      "Conversión entre slice y arreglo en ambos sentidos",
+      "Mapas, el idioma comma-ok y el mapa sin orden",
+      "Structs, etiquetas de struct y serialización a JSON",
+      "Structs embebidos: composición sin herencia",
+      "Bucles: `for`, `for range`, recorrer mapas y cadenas",
+      "Control de flujo: `break`, `continue`, etiquetas y el `goto` desaconsejado",
+      "Condicionales: `if`, `if-else` con inicialización y `switch` sin fall-through",
+      "Funciones: parámetros, retornos múltiples y retornos con nombre",
+      "Funciones variádicas, anónimas y closures",
+      "Paso por valor: qué significa esto en Go",
+      "Punteros: lo básico, con structs, con mapas y slices",
+      "Panorama de la gestión de memoria y el recolector de basura",
+      "Métodos contra funciones: cuándo el receptor tiene sentido",
+      "Receptor por puntero y por valor: la elección que cambia el comportamiento",
+      "Interfaces implícitas y el patrón de la interfaz pequeña",
+      "Interfaz vacía, `any` y el costo de perder el tipo",
+      "Interfaces embebidas, aserción de tipo y `type switch`",
+      "Genéricos: por qué llegaron y qué problema resuelven",
+      "Funciones y tipos genéricos, restricciones e inferencia de tipos",
+      "Errores como valores: la interfaz `error` y el idioma de manejo",
+      "`errors.New`, `fmt.Errorf` y el verbo de envoltura",
+      "Envolver y desenvolver errores: `errors.Is` y `errors.As`",
+      "Errores centinela y cuándo declarar uno",
+      "`panic` y `recover`: los dos lugares donde caben",
+      "Pila de llamadas y depuración de un error en producción",
+      "Módulos: `go mod init`, `tidy` y `vendor`",
+      "Paquetes, reglas de importación y el significado de la mayúscula",
+      "Usar paquetes de terceros y publicar un módulo propio"
+    ],
+    "prerequisites": "Ninguno. Este curso enseña el lenguaje desde cero — es el punto de entrada para quien nunca programó en Go."
+  },
+  "go-concurrency": {
+    "name": "Go: Concurrencia y Pruebas",
+    "summary": "La parte de Go que no existe en otros lenguajes: miles de tareas al mismo tiempo, sin framework y sin sustos.",
+    "syllabus": [
+      "Goroutines y canales: concurrencia de bajo costo",
+      "Sincronización con `sync`, mutexes y grupos de espera",
+      "Cancelación y plazos con el paquete `context`",
+      "Patrones: fan-in, fan-out, pipeline y pool de trabajadores",
+      "Detección de condiciones de carrera",
+      "Biblioteca estándar y pruebas de verdad: table-driven, mocks y benchmarks"
+    ],
+    "topics": [
+      "Concurrencia no es paralelismo: qué promete Go realmente",
+      "Goroutines: costo, planificador y qué pasa en `main`",
+      "Canales: enviar, recibir, cerrar y recorrer",
+      "Canal con y sin búfer: la elección que provoca bloqueos",
+      "`select`, tiempo límite y el caso `default`",
+      "Fuga de goroutines: cómo ocurre y cómo evitarla",
+      "Pool de trabajadores: limitar la concurrencia a propósito",
+      "Paquete `sync`: `Mutex`, `RWMutex` y cuándo el canal es peor",
+      "`WaitGroup`, `Once` y `sync.Map`",
+      "Paquete `context`: cancelación, plazo y valores",
+      "Propagar el contexto por toda la llamada: el patrón del primer parámetro",
+      "Casos de uso: solicitud HTTP, consulta a base de datos y apagado",
+      "Patrón fan-out: repartir trabajo entre goroutines",
+      "Patrón fan-in: juntar varios canales en uno",
+      "Patrón pipeline: etapas encadenadas con cierre correcto",
+      "Detector de carreras (`-race`): ejecutarlo, leer la salida y corregir",
+      "Entrada y salida: `io.Reader`, `io.Writer` y su composición",
+      "Archivos y directorios con `os`, lectura eficiente con `bufio`",
+      "`encoding/json`: marshal, unmarshal, etiquetas y campos opcionales",
+      "`time`: duración, temporizador, ticker y zona horaria",
+      "`flag` para argumentos de línea de comandos",
+      "`slog`: registro estructurado en la biblioteca estándar",
+      "`regexp` y el costo de una expresión regular",
+      "`go:embed`: incrustar archivos en el binario",
+      "Paquete `testing`: primera prueba, `t.Run` y subpruebas",
+      "Pruebas orientadas a tabla: el idioma estándar de Go",
+      "Mocks, stubs y la interfaz pequeña que los hace fáciles",
+      "`httptest` para probar servidor y cliente HTTP",
+      "Benchmarks: escribirlos, leer el resultado y no engañarse",
+      "Cobertura de pruebas: medirla y saber lo que no dice"
+    ],
+    "prerequisites": "Exige el curso de Go: aquí se asumen sintaxis, interfaces y errores."
+  },
+  "go-production": {
+    "name": "Go en Producción: CLIs, Herramientas y Rendimiento",
+    "summary": "Las herramientas que hacen de Go el lenguaje de la infraestructura: línea de comandos, perfilado, compilación cruzada y los rincones avanzados.",
+    "syllabus": [
+      "Programas de línea de comandos con Cobra y bubbletea",
+      "Las herramientas completas: build, vet, linters y análisis de seguridad",
+      "Perfilado con pprof y trace: encontrar el cuello de botella real",
+      "Compilación cruzada y distribución de binarios",
+      "Generación de código, etiquetas de compilación y reflexión",
+      "Los rincones avanzados: escape analysis, `unsafe` y CGO"
+    ],
+    "topics": [
+      "Programa de línea de comandos: argumentos, subcomandos y salida",
+      "Cobra: comandos, flags, ayuda y autocompletado",
+      "urfave/cli como alternativa más liviana",
+      "bubbletea: interfaz de terminal interactiva",
+      "Comandos del día a día: `go run`, `build`, `install`, `test`, `doc`",
+      "`go fmt` y `goimports`: formato que termina con la discusión",
+      "`go vet`: lo que detecta antes que las pruebas",
+      "Linters: revive, staticcheck y golangci-lint en la tubería",
+      "`govulncheck`: vulnerabilidades conocidas en el árbol de dependencias",
+      "`go generate`: generación de código como parte del build",
+      "Etiquetas de compilación y restricciones por archivo, sistema y arquitectura",
+      "pprof: CPU, memoria, bloqueo y goroutines",
+      "Leer un perfil: la llamada más cara contra la más frecuente",
+      "`trace`: ver de verdad el planificador y la latencia",
+      "El detector de carreras en la tubería de integración continua",
+      "Compilación cruzada: `GOOS`, `GOARCH` y binario para otra máquina",
+      "Reducir el binario: flags del compilador y del enlazador",
+      "Distribuir: contenedor mínimo, `distroless` y firma",
+      "Gestión de memoria a fondo: pila, montículo y el recolector",
+      "Escape analysis: por qué esa variable terminó en el montículo",
+      "Reflexión (`reflect`): poder, costo y cuándo no usarla",
+      "Paquete `unsafe`: qué permite y cuál es el precio",
+      "CGO: llamar a C desde Go y qué se pierde al hacerlo",
+      "Plugins y carga dinámica: límites reales del enfoque"
+    ],
+    "prerequisites": "Exige concurrencia y algo de experiencia de proyecto: es el curso más avanzado de la ruta."
+  },
+  "sql-databases": {
+    "name": "Bases de Datos Relacionales y SQL",
+    "summary": "Modelá, consultá y protegé los datos que sostienen cualquier sistema.",
+    "syllabus": [
+      "Modelado relacional y normalización",
+      "SELECT, JOIN, agregaciones y subconsultas",
+      "Transacciones, ACID y modos de falla",
+      "ORMs, migraciones y el problema N+1",
+      "Índices y análisis de rendimiento de consultas",
+      "Panorama: PostgreSQL, MySQL, MariaDB, SQLite"
+    ],
+    "topics": [
+      "Modelo relacional: tablas, claves primarias y foráneas",
+      "Normalización hasta la tercera forma normal y cuándo desnormalizar",
+      "Creación y modificación de tablas, tipos de datos y restricciones",
+      "SELECT, WHERE, ORDER BY y LIMIT",
+      "JOINs: inner, left, right y full",
+      "Agregaciones, GROUP BY, HAVING y funciones de ventana",
+      "Subconsultas, CTEs y vistas",
+      "Transacciones, ACID, niveles de aislamiento y deadlocks",
+      "Índices: cuándo ayudan, cuándo estorban e índices de cobertura",
+      "Plan de ejecución y análisis de consultas lentas",
+      "ORMs, migraciones y el problema N+1",
+      "PostgreSQL, MySQL, MariaDB y SQLite: cuándo elegir cada uno",
+      "Oracle y el mundo corporativo"
+    ],
+    "prerequisites": "No exige programación: SQL se aprende sin saber programar."
+  },
+  "apis": {
+    "name": "APIs y Autenticación",
+    "summary": "La puerta de entrada de tu sistema: contratos claros, acceso controlado y seguridad.",
+    "syllabus": [
+      "Estilos de API: REST, JSON, GraphQL, gRPC y SOAP",
+      "Especificación con OpenAPI y documentación viva",
+      "Autenticación: básica, por token, sesión/cookie, JWT y OAuth",
+      "OpenID y SAML: cuándo aparecen",
+      "Algoritmos de hash (bcrypt, scrypt) y almacenamiento de contraseñas",
+      "Buenas prácticas de seguridad de API: CORS, HTTPS, CSP, riesgos de OWASP"
+    ],
+    "topics": [
+      "REST: recursos, verbos, códigos de estado y versionado",
+      "JSON y buenas prácticas de contrato",
+      "GraphQL: esquema, resolvers y el problema de la sobreconsulta",
+      "gRPC y Protocol Buffers",
+      "Panorama de SOAP e integración con sistemas heredados",
+      "OpenAPI y Swagger: especificación y documentación viva",
+      "Autenticación básica, por token y por clave de API",
+      "Sesión con cookie contra JWT: pros y contras",
+      "OAuth 2.0, OpenID Connect y SAML",
+      "Hash de contraseñas: bcrypt, scrypt y Argon2",
+      "Autorización: roles, permisos y ámbitos",
+      "Limitación de solicitudes (rate limiting) por cliente",
+      "CORS, HTTPS, CSP y el OWASP Top 10 aplicado a APIs"
+    ]
+  },
+  "servers-cache": {
+    "name": "Servidores Web y Caché",
+    "summary": "Poné la aplicación en línea y hacé que responda rápido bajo carga.",
+    "syllabus": [
+      "Servidores y proxies inversos: Nginx, Apache, Caddy",
+      "Certificados, SSL/TLS y seguridad del servidor",
+      "Caché HTTP: encabezados, validación e invalidación",
+      "Caché en el servidor con Redis y Memcached",
+      "Estrategias de caché y trampas comunes"
+    ],
+    "topics": [
+      "Servidores web: Nginx, Apache y Caddy",
+      "Proxy inverso, balanceo y entrega de archivos estáticos",
+      "Certificados TLS, emisión gratuita y renovación automática",
+      "Encabezados de seguridad y endurecimiento del servidor",
+      "Caché HTTP: Cache-Control, ETag y validación condicional",
+      "Invalidación de caché y el problema de los datos viejos",
+      "CDN: borde, origen y purga de contenido",
+      "Redis: estructuras de datos, expiración y persistencia",
+      "Memcached y comparación con Redis",
+      "Patrones de caché: cache-aside, write-through y write-behind",
+      "Avalancha de caché (stampede) y calentamiento"
+    ]
+  },
+  "testing-cicd": {
+    "name": "Pruebas Automatizadas y CI/CD",
+    "summary": "Entregá seguido y sin miedo: automatizá la verificación y la publicación.",
+    "syllabus": [
+      "Pruebas unitarias, de integración y funcionales",
+      "Dobles de prueba, fixtures y datos de prueba",
+      "Cobertura: qué dice y qué no dice",
+      "Tuberías de integración y entrega continua",
+      "Entornos, secretos y estrategias de release"
+    ],
+    "topics": [
+      "Pruebas unitarias, de integración, funcionales y de aceptación",
+      "Dobles de prueba: stub, mock, spy y fake",
+      "Fixtures, fábricas y masa de datos de prueba",
+      "Cobertura de código: qué mide y qué no mide",
+      "Integración continua: disparadores, jobs y ejecución en matriz",
+      "GitHub Actions y GitLab CI en la práctica",
+      "Entrega continua y despliegue continuo: la diferencia",
+      "Entornos de desarrollo, homologación y producción",
+      "Secretos en la tubería y principio de mínimo privilegio",
+      "Estrategias de release: blue-green, canario y feature flags",
+      "Reversión (rollback) y criterios de parada"
+    ]
+  },
+  "docker": {
+    "name": "Docker y Contenedores",
+    "summary": "Empaquetá tu aplicación una vez y ejecutala en cualquier lado — de la notebook del colega al servidor de producción.",
+    "syllabus": [
+      "Qué es un contenedor y por qué reemplazó a la máquina virtual",
+      "Imágenes, capas y Dockerfile con build eficiente",
+      "Volúmenes, bind mounts y persistencia de datos",
+      "Redes, Docker Compose y entorno de desarrollo completo",
+      "Registries, versionado de imágenes y seguridad",
+      "Panorama de publicación: Swarm, Nomad, Kubernetes y PaaS"
+    ],
+    "topics": [
+      "Qué es un contenedor y qué problema resuelve",
+      "Bare metal, máquina virtual y contenedor: qué cambia en cada uno",
+      "Docker y el estándar OCI: por qué importa la especificación",
+      "Namespaces, cgroups y sistemas de archivos en unión — la idea general",
+      "Instalación: Docker Desktop en Windows, Mac y Linux",
+      "Docker Engine en Linux y cuándo alcanza",
+      "Sistema de archivos efímero: qué se pierde cuando muere el contenedor",
+      "Volúmenes nombrados contra bind mounts: cuál usar en cada caso",
+      "Usar imágenes de terceros: bases de datos listas en segundos",
+      "Utilidades de línea de comandos sin instalar nada en la máquina",
+      "Dockerfile: instrucciones, contexto de build y `.dockerignore`",
+      "Caché de capas: el orden de las instrucciones cambia el tiempo de build",
+      "Build multietapa e imagen base mínima",
+      "Tamaño y seguridad de la imagen: usuario sin privilegios y superficie reducida",
+      "Registries: Docker Hub, GHCR, ECR, GCR, ACR y registry privado",
+      "Buenas prácticas de etiquetas: por qué `latest` no es una versión",
+      "`docker run`: puertos, variables, límites de recursos y reinicio",
+      "Opciones de configuración en tiempo de ejecución",
+      "Docker Compose: varios servicios, dependencias y un solo comando",
+      "Seguridad de la imagen: escaneo de vulnerabilidades y procedencia",
+      "Seguridad en ejecución: privilegios, capacidades y sistema de archivos de solo lectura",
+      "La CLI en el día a día: imágenes, contenedores, volúmenes y redes",
+      "Redes de Docker: bridge, host y comunicación entre contenedores",
+      "Recarga automática y depurador dentro del contenedor",
+      "Ejecutar la suite de pruebas en contenedor, igual que la tubería",
+      "Integración continua: construir y publicar la imagen en cada commit",
+      "Panorama de publicación: Docker Swarm, Nomad, Kubernetes y PaaS",
+      "Panorama de alternativas: Podman, containerd y LXC"
+    ],
+    "prerequisites": "Exige línea de comandos Linux. No exige saber programar en ningún lenguaje específico."
+  },
+  "kubernetes": {
+    "name": "Kubernetes: Orquestación en Producción",
+    "summary": "Un contenedor es fácil; cientos de ellos, con actualización sin caídas y escalado automático, es Kubernetes.",
+    "syllabus": [
+      "Arquitectura del clúster y la primera aplicación en línea",
+      "Deployments, servicios, Ingress y la red entre pods",
+      "Configuración, secretos y almacenamiento persistente con CSI",
+      "Recursos, planificación, sondas y escalado automático de pods y nodos",
+      "Seguridad del clúster: RBAC, políticas de red y seguridad de pods",
+      "Helm, patrones de release, extensión con CRDs y operación del día a día"
+    ],
+    "topics": [
+      "Por qué orquestar: lo que Compose no resuelve",
+      "Panorama de Kubernetes y el vocabulario del clúster",
+      "Alternativas: Swarm, Nomad, ECS y PaaS — cuándo Kubernetes es excesivo",
+      "Arquitectura: plano de control, etcd, kubelet, kube-proxy y CNI",
+      "Clúster local para estudiar: minikube, kind y k3d",
+      "Elegir un proveedor gestionado: EKS, AKS y GKE",
+      "`kubectl`: contextos, namespaces y el flujo declarativo",
+      "Publicar la primera aplicación, del manifiesto al acceso por el navegador",
+      "El Pod: la unidad real de ejecución, y por qué no se crea a mano",
+      "ReplicaSet y Deployment: el controlador que mantiene el número de réplicas",
+      "StatefulSet: cuando la aplicación tiene identidad y disco",
+      "DaemonSet, Job y CronJob",
+      "ConfigMap: inyectar configuración en el pod sin reconstruir la imagen",
+      "Secret: dato sensible en el clúster y los límites reales del base64",
+      "Service: ClusterIP, NodePort, LoadBalancer y descubrimiento por DNS",
+      "Acceso externo: Ingress, controlador de Ingress y Gateway API",
+      "Balanceo de carga dentro y fuera del clúster",
+      "Red del clúster: comunicación pod a pod, CNI y elección del plugin",
+      "Solicitudes y límites: qué pasa cuando falta CPU o memoria",
+      "Namespaces y cuotas de recursos por equipo",
+      "Medir y ajustar el consumo: `kubectl top`, metrics-server y desperdicio",
+      "Sondas de vitalidad, disponibilidad e inicio",
+      "RBAC: roles, vínculos y cuenta de servicio",
+      "Políticas de red y aislamiento entre namespaces",
+      "Seguridad de contenedor y de pod: contexto de seguridad, admisión y Pod Security Standards",
+      "Volúmenes, PersistentVolume, PersistentVolumeClaim y StorageClass",
+      "CSI: cómo el clúster conversa con el almacenamiento del proveedor",
+      "Aplicación con estado: ¿base de datos dentro o fuera del clúster?",
+      "Planificación: selectores de nodo, afinidad y antiafinidad",
+      "Taints y tolerations: reservar nodos para carga específica",
+      "Distribución por topología y prioridad de pods",
+      "Desalojo (eviction): presión de recursos y qué tira el clúster primero",
+      "Escalado automático de pods (HPA) por CPU, memoria y métrica externa",
+      "Escalado vertical (VPA) y escalado automático de nodos del clúster",
+      "Actualización gradual y reversión: maxSurge, maxUnavailable e historial",
+      "Canario y azul-verde dentro del clúster",
+      "Helm: charts, valores y versionado de releases",
+      "Kustomize y la configuración por entorno sin duplicar manifiestos",
+      "Tubería y GitOps aplicados al clúster: panorama de ArgoCD y Flux",
+      "Registros, eventos y diagnóstico de un pod que no arranca",
+      "Métricas, trazas y motores de observabilidad: panorama",
+      "Depurar en producción sin romper: `exec`, `port-forward` y copias efímeras",
+      "CRDs: extender la API del clúster con un objeto propio",
+      "Controladores y operadores: automatizar la operación en código",
+      "Planificador personalizado, extensores y APIs de extensión",
+      "Clúster propio o gestionado: la cuenta que decide",
+      "Instalar el plano de control y agregar nodos de trabajo",
+      "Varios clústeres: contexto múltiple, federación y estrategia de región"
+    ],
+    "prerequisites": "Exige Docker. Es el curso de infraestructura más avanzado del catálogo. GitOps, observabilidad y tuberías aparecen como panorama — cada uno tiene su propio curso después de este."
+  },
+  "architecture": {
+    "name": "Arquitectura de Sistemas",
+    "summary": "Las decisiones que definen si un sistema crece o se traba — y cómo comunicarlas.",
+    "syllabus": [
+      "Monolito, microservicios, SOA, serverless y service mesh",
+      "Los doce factores de las aplicaciones modernas",
+      "Mensajería asíncrona con Kafka y RabbitMQ",
+      "Motores de búsqueda: Elasticsearch y Solr",
+      "Datos en tiempo real: WebSockets, SSE y polling",
+      "Documentar y defender decisiones de arquitectura"
+    ],
+    "topics": [
+      "Monolito: cuándo sigue siendo la elección correcta",
+      "Microservicios: límites, comunicación y costo operativo",
+      "SOA, serverless y service mesh",
+      "Los doce factores de las aplicaciones modernas",
+      "Comunicación síncrona y asíncrona entre servicios",
+      "Mensajería: Kafka, RabbitMQ y colas gestionadas",
+      "Entrega garantizada, idempotencia y ordenamiento de mensajes",
+      "Motores de búsqueda: Elasticsearch, OpenSearch y Solr",
+      "Tiempo real: WebSockets, Server-Sent Events y long polling",
+      "Registro de servicios, descubrimiento y gateway de API",
+      "Registrar decisiones de arquitectura (ADRs) y defenderlas"
+    ]
+  },
+  "scale": {
+    "name": "Escala y Observabilidad",
+    "summary": "Qué pasa cuando el sistema crece — y cómo ver lo que está ocurriendo.",
+    "syllabus": [
+      "Escalar bases de datos: índices, réplicas, sharding y teorema CAP",
+      "Bases NoSQL: documento, clave-valor, columna, grafo y series temporales",
+      "Observabilidad: instrumentación, monitoreo y telemetría",
+      "Estrategias de mitigación: throttling, backpressure, circuit breaker",
+      "Degradación elegante y planificación de capacidad"
+    ],
+    "topics": [
+      "Escalado vertical y horizontal: el límite de cada uno",
+      "Réplicas de lectura, particionamiento y sharding",
+      "Teorema CAP y consistencia eventual",
+      "NoSQL por familia: documento, clave-valor, columna ancha, grafo y series temporales",
+      "MongoDB, DynamoDB, Cassandra, Neo4j e InfluxDB",
+      "Migraciones y cambios de esquema sin detener el sistema",
+      "Instrumentación de la aplicación: métricas, registros y trazas",
+      "Telemetría con OpenTelemetry",
+      "Throttling, backpressure y circuit breaker",
+      "Reintentos con retroceso exponencial y jitter",
+      "Degradación elegante y planificación de capacidad",
+      "Pruebas de carga y de estrés"
+    ]
+  },
+  "linux-terminal": {
+    "name": "Linux y Línea de Comandos",
+    "summary": "El sistema que hace funcionar internet: dominá la terminal y dejá de depender de la interfaz gráfica.",
+    "syllabus": [
+      "Sistemas operativos: Linux, Unix y Windows en la operación",
+      "Distribuciones: Ubuntu/Debian, RHEL y derivadas, SUSE",
+      "Terminal: navegación, permisos, usuarios y procesos",
+      "Scripting con Bash (y panorama de PowerShell)",
+      "Manipulación de texto: grep, sed, awk y pipes",
+      "Monitoreo de procesos y rendimiento desde la línea de comandos",
+      "Editores de terminal: Vim, Nano, Emacs"
+    ],
+    "topics": [
+      "Linux, Unix y Windows: diferencias en la operación diaria",
+      "Distribuciones: Ubuntu/Debian, RHEL, Rocky, Alma y SUSE",
+      "Sistema de archivos, rutas absolutas y relativas",
+      "Permisos, dueños, grupos, sudo y umask",
+      "Usuarios, servicios y systemd",
+      "Procesos: ps, top, htop, kill, jobs y señales",
+      "Gestores de paquetes: apt, dnf/yum y zypper",
+      "Texto: grep, sed, awk, cut, sort, uniq, pipes y redirección",
+      "Scripting en Bash: variables, condiciones, bucles y funciones",
+      "Panorama de PowerShell para entornos Windows",
+      "Rendimiento: CPU, memoria, disco y entrada/salida",
+      "Editores de terminal: Vim, Nano y Emacs",
+      "Programación de tareas: cron y temporizadores de systemd"
+    ]
+  },
+  "networks": {
+    "name": "Redes y Protocolos",
+    "summary": "Cómo viajan los datos — y qué hacer cuando dejan de viajar.",
+    "syllabus": [
+      "Modelo OSI y pila TCP/IP",
+      "DNS, HTTP, HTTPS y SSL/TLS en la práctica",
+      "SSH: acceso remoto, claves y túneles",
+      "Transferencia de archivos: FTP y SFTP",
+      "Protocolos de correo: SMTP, IMAP, POP3S, SPF, DKIM y DMARC",
+      "Diagnóstico de red: dig, traceroute, tcpdump"
+    ],
+    "topics": [
+      "Modelo OSI: las siete capas y qué vive en cada una",
+      "Modelo TCP/IP y su correspondencia con OSI",
+      "TCP y UDP: puertos, handshake y cuándo usar cada uno",
+      "DNS: registros A, AAAA, CNAME, MX, TXT y resolución recursiva",
+      "HTTP, HTTPS y el handshake TLS",
+      "SSL/TLS: certificados, autoridades certificantes y validez",
+      "SSH: claves, agentes, reenvío de puertos y túneles",
+      "Transferencia de archivos: FTP, SFTP y SCP",
+      "Correo: SMTP, IMAP, POP3S, SPF, DKIM y DMARC",
+      "Diagnóstico: ping, dig, nslookup, traceroute, mtr, netstat/ss y tcpdump"
+    ]
+  },
+  "cloud": {
+    "name": "Nube y Serverless",
+    "summary": "Donde vive la infraestructura hoy: proveedores, servicios gestionados y computación sin servidores.",
+    "syllabus": [
+      "Modelos de nube: IaaS, PaaS, SaaS",
+      "Panorama de proveedores: AWS, Azure, Google Cloud y alternativas",
+      "Cómputo, almacenamiento, red e identidad en la nube",
+      "Serverless: AWS Lambda, Cloudflare Workers, Vercel, Netlify",
+      "Costos: cómo estimarlos, medirlos y no llevarse sustos"
+    ],
+    "topics": [
+      "IaaS, PaaS y SaaS: qué entrega cada modelo y qué te queda a vos",
+      "Nube pública, privada e híbrida",
+      "Proveedores: AWS, Azure, Google Cloud, DigitalOcean, Hetzner y Linode",
+      "Cómputo: máquinas virtuales, imágenes y escalado automático",
+      "Almacenamiento: objetos, bloques y sistemas de archivos",
+      "Red en la nube: VPC, subredes, grupos de seguridad y balanceadores",
+      "Identidad y acceso (IAM): usuarios, roles y políticas",
+      "Serverless: AWS Lambda, Cloudflare Workers, Vercel y Netlify",
+      "Regiones, zonas de disponibilidad y su efecto en la latencia",
+      "Costos: modelos de cobro, presupuesto y alertas de gasto"
+    ]
+  },
+  "iac": {
+    "name": "Infraestructura como Código",
+    "summary": "Dejá de configurar servidores a mano: describí la infraestructura en archivos versionados.",
+    "syllabus": [
+      "Aprovisionamiento declarativo con Terraform",
+      "Panorama de Pulumi, CloudFormation y AWS CDK",
+      "Estado, planificación y aplicación segura de cambios",
+      "Gestión de configuración con Ansible (y panorama de Chef, Puppet, Salt)",
+      "Módulos reutilizables y entornos múltiples",
+      "Infraestructura efímera y reproducible"
+    ],
+    "topics": [
+      "Aprovisionamiento y gestión de configuración: dos tareas distintas",
+      "Terraform: providers, recursos, variables y salidas",
+      "Estado de Terraform: archivo de estado, backend remoto y bloqueo",
+      "Plan y apply: revisar el cambio antes de aplicarlo",
+      "Módulos reutilizables y entornos múltiples",
+      "Panorama de Pulumi, CloudFormation y AWS CDK",
+      "Ansible: inventario, playbooks, roles e idempotencia",
+      "Panorama de Chef, Puppet y Salt",
+      "Imágenes de máquina con Packer",
+      "Infraestructura inmutable, efímera y reproducible"
+    ]
+  },
+  "gitops": {
+    "name": "GitOps, Artefactos y Secretos",
+    "summary": "El repositorio como fuente de verdad: entregas rastreables, reversibles y seguras.",
+    "syllabus": [
+      "Principios de GitOps y flujo de aprobación",
+      "ArgoCD y FluxCD en la práctica",
+      "Gestión de artefactos: Artifactory, Nexus, registries de imágenes",
+      "Gestión de secretos: Vault, Sealed Secrets, SOPS y servicios de la nube",
+      "Rotación de credenciales y principio de mínimo privilegio"
+    ],
+    "topics": [
+      "Principios de GitOps: declarativo, versionado y reconciliado",
+      "El repositorio como fuente de verdad y el flujo de aprobación",
+      "ArgoCD: aplicaciones, sincronización y desvío de estado",
+      "FluxCD y comparación con ArgoCD",
+      "Estructura de repositorios: aplicación, entorno y configuración",
+      "Kustomize y Helm para parametrizar manifiestos",
+      "Artefactos: Artifactory, Nexus y registries de imágenes",
+      "Firma y verificación de artefactos",
+      "Secretos: HashiCorp Vault, Sealed Secrets y SOPS",
+      "Servicios de secretos de la nube e integración con el clúster",
+      "Rotación de credenciales y principio de mínimo privilegio",
+      "Auditoría: quién cambió qué, cuándo y por qué"
+    ]
+  },
+  "observability": {
+    "name": "Observabilidad y Operación",
+    "summary": "Ver lo que pasa en producción — y actuar antes de que el usuario lo note.",
+    "syllabus": [
+      "Métricas con Prometheus y tableros con Grafana",
+      "Centralización de registros: Elastic Stack, Loki, Graylog",
+      "Trazado distribuido con Jaeger y OpenTelemetry",
+      "Alertas útiles, guardia y postmortems sin culpables",
+      "Service mesh: Istio, Linkerd y Envoy",
+      "Patrones de diseño para la nube: disponibilidad, resiliencia y datos"
+    ],
+    "topics": [
+      "Los tres pilares: métricas, registros y trazas",
+      "Prometheus: recolección, PromQL, exporters y Alertmanager",
+      "Grafana: tableros, fuentes de datos y anotaciones",
+      "Registros centralizados: Elastic Stack, Loki y Graylog",
+      "Trazado distribuido: Jaeger, Zipkin y OpenTelemetry",
+      "Alertas útiles: síntoma en lugar de causa, ruido y fatiga de guardia",
+      "SLI, SLO y presupuesto de error",
+      "Guardia, escalamiento y postmortem sin culpables",
+      "Service mesh: Istio, Linkerd y Envoy",
+      "Patrones de diseño para la nube: disponibilidad, resiliencia y datos"
+    ]
+  },
+  "python": {
+    "name": "Python",
+    "summary": "El lenguaje recomendado para datos, automatización e IA — de lo básico a las estructuras que el mercado exige.",
+    "syllabus": [
+      "Sintaxis, tipos, colecciones y funciones",
+      "Orientación a objetos y módulos",
+      "Estructuras de datos y algoritmos: listas, diccionarios, complejidad",
+      "Manipulación de archivos, JSON y CSV",
+      "Entornos virtuales, paquetes y organización de proyectos",
+      "Bibliotecas esenciales: pandas y requests"
+    ],
+    "topics": [
+      "Instalación, intérprete y el primer script",
+      "Tipos, variables, operadores y formato de cadenas",
+      "Colecciones: listas, tuplas, diccionarios y conjuntos",
+      "Condiciones, bucles y comprensiones (list/dict comprehensions)",
+      "Funciones: argumentos, retorno, ámbito y lambdas",
+      "Orientación a objetos: clases, herencia y métodos especiales",
+      "Módulos, paquetes y la biblioteca estándar",
+      "Errores y excepciones: try, except, else y finally",
+      "Archivos, JSON y CSV",
+      "Entornos virtuales (venv), pip y requirements",
+      "Estructuras de datos y noción de complejidad (Big-O)",
+      "pandas para tablas y requests para consumir APIs"
+    ]
+  },
+  "data-fundamentals": {
+    "name": "Fundamentos de Ingeniería de Datos",
+    "summary": "El mapa de la profesión: qué hace un ingeniero de datos y cómo el dato recorre la empresa.",
+    "syllabus": [
+      "Qué es la ingeniería de datos y en qué difiere de la ciencia de datos",
+      "Habilidades, responsabilidades y cómo elegir tecnologías",
+      "El ciclo de vida del dato: generación, almacenamiento, ingesta y entrega",
+      "Fuentes de datos: bases, APIs, registros, aplicaciones e IoT",
+      "Consideraciones de recolección: volumen, frecuencia, calidad y costo",
+      "Nociones de sistemas distribuidos"
+    ],
+    "topics": [
+      "Qué hace un ingeniero de datos y en qué difiere del científico de datos",
+      "Responsabilidades, habilidades y criterios para elegir tecnología",
+      "El ciclo de vida del dato: generación, ingesta, almacenamiento, transformación y entrega",
+      "Fuentes: bases de datos, APIs, archivos, registros, aplicaciones e IoT",
+      "Datos estructurados, semiestructurados y no estructurados",
+      "Formatos: CSV, JSON, Parquet, Avro y ORC",
+      "Consideraciones de recolección: volumen, frecuencia, calidad y costo",
+      "Procesamiento por lotes y en flujo continuo",
+      "Sistemas distribuidos: particionamiento, replicación y tolerancia a fallas",
+      "Teorema CAP aplicado a plataformas de datos"
+    ]
+  },
+  "warehouse-modeling": {
+    "name": "Modelado de Datos y Data Warehouse",
+    "summary": "Organizá el dato para responder preguntas de negocio, no sólo para guardar registros.",
+    "syllabus": [
+      "OLTP y OLAP: dos mundos, dos modelados",
+      "Modelado dimensional: hechos, dimensiones, estrella y copo de nieve",
+      "Dimensiones que cambian con el tiempo (SCD)",
+      "Normalización, desnormalización y escala horizontal contra vertical",
+      "Data warehouse, data lake y lakehouse: BigQuery, Snowflake, Redshift, Delta Lake",
+      "Data mart, data mesh y arquitecturas orientadas a metadatos"
+    ],
+    "topics": [
+      "OLTP y OLAP: cargas distintas exigen modelados distintos",
+      "Modelado dimensional: tablas de hechos y tablas de dimensión",
+      "Esquema estrella y esquema copo de nieve",
+      "Granularidad, claves sustitutas y tablas puente",
+      "Dimensiones que cambian con el tiempo (SCD tipos 1, 2 y 3)",
+      "Normalización, desnormalización y el costo de cada elección",
+      "Escala vertical y horizontal en bases analíticas",
+      "Almacenamiento columnar y compresión",
+      "Data warehouse: BigQuery, Snowflake y Redshift",
+      "Data lake, lakehouse y Delta Lake",
+      "Data mart, data mesh y arquitecturas orientadas a metadatos",
+      "Catálogo de datos y diccionario de campos"
+    ]
+  },
+  "pipelines-etl": {
+    "name": "Tuberías de Datos y ETL",
+    "summary": "La columna vertebral de la profesión: mover y transformar datos de forma confiable y repetible.",
+    "syllabus": [
+      "Tipos de ingesta: por lotes, en tiempo real e híbrida",
+      "ETL y ELT: extraer, transformar y cargar",
+      "Orquestación con Apache Airflow: DAGs, programación y reintentos",
+      "Transformaciones versionadas con dbt",
+      "Panorama de Luigi y Prefect",
+      "Idempotencia, reprocesamiento y manejo de fallas"
+    ],
+    "topics": [
+      "Ingesta por lotes, en tiempo real e híbrida",
+      "ETL y ELT: dónde ocurre la transformación",
+      "Captura de cambios (CDC) y cargas incrementales",
+      "Airflow: DAGs, operadores, programación y sensores",
+      "Reintentos, alertas y SLA de tareas",
+      "dbt: modelos, pruebas, documentación y linaje",
+      "Panorama de Luigi, Prefect y Dagster",
+      "Idempotencia y reprocesamiento seguro",
+      "Calidad de datos: validación, contratos y pruebas de expectativa",
+      "Versionado de tuberías y separación de entornos",
+      "Costo y rendimiento de cargas grandes"
+    ]
+  },
+  "bigdata": {
+    "name": "Big Data y Computación Distribuida",
+    "summary": "Cuando el dato no entra en una máquina: procesalo en clúster.",
+    "syllabus": [
+      "Fundamentos de computación en clúster y planificación de tareas",
+      "Sistemas de archivos distribuidos y HDFS",
+      "Apache Spark: RDDs, DataFrames y procesamiento en memoria",
+      "Ecosistema Hadoop: YARN y MapReduce",
+      "Gestión de clúster con Kubernetes",
+      "Sistemas de mensajería para datos: Kafka, RabbitMQ, SQS y SNS"
+    ],
+    "topics": [
+      "Cuándo el dato deja de entrar en una máquina",
+      "Computación en clúster: nodos, planificador y tolerancia a fallas",
+      "Sistemas de archivos distribuidos y HDFS",
+      "MapReduce: el modelo y sus limitaciones",
+      "Apache Spark: RDDs, DataFrames y Spark SQL",
+      "Ejecución distribuida: particiones, shuffle y uso de memoria",
+      "Procesamiento de flujo con Spark Structured Streaming",
+      "Ecosistema Hadoop: YARN, Hive y HBase",
+      "Ejecución de cargas de datos en Kubernetes",
+      "Kafka: tópicos, particiones, productores y consumidores",
+      "RabbitMQ, Amazon SQS y SNS",
+      "Formatos columnares y optimización de lectura"
+    ]
+  },
+  "data-governance": {
+    "name": "Seguridad, Gobernanza y Privacidad de Datos",
+    "summary": "El dato es una responsabilidad: protegelo, rastrealo y cumplí la ley.",
+    "syllabus": [
+      "Autenticación y autorización en plataformas de datos",
+      "Cifrado en reposo y en tránsito",
+      "Tokenización, enmascaramiento y ofuscación de datos",
+      "Gobernanza: calidad, linaje, metadatos e interoperabilidad",
+      "La LGPD brasileña en la práctica (y panorama del GDPR y del AI Act europeo)",
+      "Políticas de retención y anonimización"
+    ],
+    "topics": [
+      "Autenticación y autorización en plataformas de datos",
+      "Control de acceso por rol, por atributo y por fila o columna",
+      "Cifrado en reposo y en tránsito",
+      "Gestión de claves y servicios de KMS",
+      "Tokenización, enmascaramiento, ofuscación y anonimización",
+      "Datos personales y datos sensibles: qué cambia en el tratamiento",
+      "LGPD: bases legales, derechos del titular e informe de impacto",
+      "Panorama del GDPR y del AI Act europeo",
+      "Gobernanza: calidad, linaje, metadatos y propiedad del dato",
+      "Políticas de retención, purga y traza de auditoría",
+      "Interoperabilidad y contratos de datos entre equipos"
+    ]
+  },
+  "analytics-bi": {
+    "name": "Analytics, BI y Reverse ETL",
+    "summary": "La punta que el negocio ve: transformar dato tratado en decisión.",
+    "syllabus": [
+      "Análisis exploratorio y las métricas que importan",
+      "Business intelligence y modelado para autoservicio",
+      "Tableros con Power BI (y panorama de Tableau, Looker, Streamlit)",
+      "Reverse ETL: devolver el dato tratado a las herramientas de operación",
+      "Herramientas: Hightouch, Census, Segment",
+      "Contar historias con datos sin engañar"
+    ],
+    "topics": [
+      "Análisis exploratorio: distribución, correlación y valores atípicos",
+      "Métricas, dimensiones y definiciones compartidas entre equipos",
+      "Capa semántica y modelado para autoservicio",
+      "Power BI: modelo de datos, medidas y publicación",
+      "Panorama de Tableau, Looker, Metabase y Streamlit",
+      "Buenas prácticas de tablero: jerarquía, contexto y claridad",
+      "Reverse ETL: devolver el dato tratado a las herramientas de operación",
+      "Hightouch, Census y Segment",
+      "Segmentación, cohortes y embudos",
+      "Contar historias con datos sin engañar: escalas, recortes y sesgos"
+    ]
+  },
+  "ml-mlops": {
+    "name": "Machine Learning y MLOps",
+    "summary": "Donde la ingeniería de datos se encuentra con la inteligencia artificial.",
+    "syllabus": [
+      "Panorama del aprendizaje automático: supervisado y no supervisado",
+      "El papel del ingeniero de datos en el ciclo de vida de un modelo",
+      "Feature stores y preparación de datos para entrenamiento",
+      "MLOps: versionado de modelos, despliegue y monitoreo",
+      "Detección de desvío (drift) y reentrenamiento"
+    ],
+    "topics": [
+      "Aprendizaje supervisado, no supervisado y por refuerzo",
+      "Tareas comunes: clasificación, regresión, agrupamiento y recomendación",
+      "División entrenamiento/validación/prueba y fuga de datos",
+      "Métricas de evaluación y la trampa de la exactitud",
+      "El papel del ingeniero de datos en el ciclo de vida del modelo",
+      "Feature stores y reproducibilidad de atributos",
+      "Versionado de datos y de modelos (MLflow, DVC)",
+      "Publicación de modelos: por lotes, en tiempo real y en el borde",
+      "Monitoreo en producción: rendimiento, latencia y costo",
+      "Detección de desvío de datos y de concepto, y reentrenamiento"
+    ]
+  },
+  "networks-addressing": {
+    "name": "Direccionamiento, Enrutamiento y Conmutación",
+    "summary": "El corazón de la red: dividir direcciones, elegir caminos y conectar los equipos que hacen llegar el paquete.",
+    "syllabus": [
+      "Equipos de red y el papel de cada uno",
+      "Topologías y principios de diseño de red",
+      "Direccionamiento IPv4 e IPv6 en la práctica",
+      "Subredes, máscaras y cálculo de CIDR",
+      "Enrutamiento estático y dinámico (OSPF, BGP)",
+      "Conmutación, VLANs y spanning tree",
+      "Laboratorios en simuladores (Packet Tracer, GNS3)"
+    ],
+    "topics": [
+      "Equipos: router, switch, hub, módem, punto de acceso, firewall y balanceador",
+      "Placa de red, repetidor, bridge y gateway",
+      "Topologías: bus, estrella, anillo, malla e híbrida",
+      "LAN, WAN, MAN, VLAN y VPN: cuándo aparece cada una",
+      "Cliente-servidor y punto a punto (P2P)",
+      "Principios de diseño: jerarquía, redundancia, escalabilidad y documentación",
+      "Simuladores: Cisco Packet Tracer, GNS3, EVE-NG y Mininet",
+      "IPv4: clases, direcciones públicas y privadas, loopback y broadcast",
+      "IPv6: notación, direcciones link-local y por qué importa la migración",
+      "Asignación estática y dinámica: DHCP, ámbitos y reservas",
+      "NAT y PAT: cómo la red interna alcanza internet",
+      "Máscaras de subred, CIDR y cálculo de hosts por rango",
+      "VLSM y división eficiente de bloques de direcciones",
+      "Tabla de rutas, gateway predeterminado y métricas",
+      "Enrutamiento estático: cuándo sigue siendo la respuesta correcta",
+      "Protocolos de enrutamiento interno: RIP, OSPF y EIGRP",
+      "Enrutamiento entre sistemas autónomos: BGP",
+      "Conmutación: tabla MAC, dominios de colisión y de difusión",
+      "VLANs, etiquetado 802.1Q y troncales (trunking)",
+      "Spanning Tree Protocol y prevención de bucles",
+      "Agregación de enlaces (LACP) y Power over Ethernet (PoE)",
+      "Enrutamiento entre VLANs y switches de capa 3"
+    ]
+  },
+  "networks-availability": {
+    "name": "VPNs, Wireless y Alta Disponibilidad",
+    "summary": "Red que no se cae y que llega a todos lados: túneles, wi-fi bien diseñado, redundancia y diagnóstico con captura de paquetes.",
+    "syllabus": [
+      "Túneles y VPNs: sitio a sitio y acceso remoto",
+      "Redes inalámbricas: estándares, canales y seguridad",
+      "Análisis de paquetes con Wireshark y tcpdump",
+      "Alta disponibilidad: redundancia y failover",
+      "Gestión de tráfico: QoS y balanceo de carga",
+      "Método de diagnóstico capa por capa"
+    ],
+    "topics": [
+      "Encapsulamiento y túneles: GRE e IP-in-IP",
+      "IPsec: modos de transporte y túnel, IKE y asociaciones de seguridad",
+      "VPN SSL/TLS y VPN de capa 2",
+      "WireGuard y OpenVPN en la práctica",
+      "VPN sitio a sitio y VPN de acceso remoto: cuándo usar cada una",
+      "Estándares 802.11 a/b/g/n/ac/ax y bandas de 2,4 GHz, 5 GHz y 6 GHz",
+      "Canales, superposición, interferencia y potencia de transmisión",
+      "SSID, autenticación WPA2/WPA3 y redes de invitados",
+      "Roaming, controladoras y puntos de acceso corporativos",
+      "Relevamiento de señal (site survey) y mapa de calor",
+      "Captura de paquetes con Wireshark: filtros de captura y de visualización",
+      "tcpdump en el servidor y lectura del archivo pcap",
+      "Analizar un handshake TCP, una consulta DNS y un TLS que falla",
+      "Alta disponibilidad: punto único de falla, redundancia y failover",
+      "VRRP y HSRP: gateway redundante",
+      "Clústeres, balanceo activo-activo y activo-pasivo",
+      "SLA, RTO y RPO: lo que la empresa promete y lo que puede cumplir",
+      "Calidad de servicio (QoS): clasificación, colas y prioridades",
+      "Balanceo de carga: round robin, menor conexión y persistencia de sesión",
+      "Modelado y limitación de tráfico (traffic shaping y policing)",
+      "Diagnóstico capa por capa: del cable a la aplicación",
+      "ping, traceroute, mtr, nslookup, iperf y pruebas de ancho de banda",
+      "Documentar el incidente: síntoma, hipótesis, prueba y corrección"
+    ]
+  },
+  "networks-security": {
+    "name": "Seguridad de Redes",
+    "summary": "Defender la red de verdad: firewall bien configurado, criptografía entendida, ataques conocidos y acceso por mínimo privilegio.",
+    "syllabus": [
+      "Firewalls, proxies y DMZ",
+      "Ataques comunes y cómo funciona cada uno",
+      "Fundamentos de criptografía y certificados",
+      "Detección y prevención de intrusiones (IDS/IPS)",
+      "Listas de control de acceso (ACLs)",
+      "Arquitectura Zero Trust y control de acceso a la red"
+    ],
+    "topics": [
+      "Firewall con y sin estado (stateful y stateless)",
+      "Firewall de nueva generación (NGFW) e inspección profunda de paquetes",
+      "Firewall de aplicaciones web (WAF) y proxy inverso",
+      "DMZ, segmentación y diseño de zonas de confianza",
+      "Escritura y orden de reglas: denegar por defecto",
+      "Denegación de servicio (DoS y DDoS) y mitigación",
+      "Hombre en el medio (MITM), sniffing y secuestro de sesión",
+      "Falsificación de dirección (spoofing), envenenamiento de ARP y de DNS",
+      "Phishing, ingeniería social y ransomware en la red corporativa",
+      "Criptografía simétrica y asimétrica: dónde entra cada una",
+      "Funciones de hash, firma digital e integridad",
+      "Infraestructura de clave pública (PKI), certificados y cadena de confianza",
+      "El handshake TLS paso a paso",
+      "IDS e IPS: detectar contra bloquear",
+      "Snort y Suricata: firmas y detección por anomalía",
+      "NIDS y HIDS: sensor en la red y sensor en el host",
+      "ACLs estándar y extendidas: filtros por origen, destino, puerto y protocolo",
+      "Orden de evaluación de las reglas y errores clásicos",
+      "Principio de mínimo privilegio aplicado a la red",
+      "Zero Trust: nunca confiar, siempre verificar",
+      "Microsegmentación y verificación continua de identidad",
+      "Control de acceso a la red (NAC) y autenticación 802.1X",
+      "Registro, auditoría y respuesta a incidentes"
+    ]
+  },
+  "networks-automation": {
+    "name": "Automatización de Redes",
+    "summary": "Dejá de configurar equipo por equipo: describí la red en código, validala y aplicala a escala.",
+    "syllabus": [
+      "APIs de red: REST, NETCONF, RESTCONF y gNMI",
+      "Modelado con YANG, JSON y XML",
+      "Automatización con Python: Netmiko, NAPALM y Nornir",
+      "Ansible aplicado a equipos de red",
+      "Plantillas de configuración con Jinja2",
+      "Fuente de verdad, respaldo y validación de configuración"
+    ],
+    "topics": [
+      "Por qué automatizar: error humano, escala y repetibilidad",
+      "APIs REST en equipos de red: autenticación, verbos y paginación",
+      "NETCONF y RESTCONF: configuración estructurada y transaccional",
+      "gNMI y telemetría por streaming",
+      "Modelado de datos con YANG",
+      "Formatos: JSON, XML y YAML en la configuración de red",
+      "Webhooks e integración con sistemas de tickets",
+      "Python para redes: Netmiko, NAPALM, Nornir y Paramiko",
+      "Ansible para redes: inventario, módulos de fabricante e idempotencia",
+      "Plantillas de configuración con Jinja2",
+      "Respaldo automatizado y comparación de configuraciones (diff)",
+      "Fuente de verdad e inventario con NetBox",
+      "Validación y pruebas antes de aplicar en producción",
+      "Integración continua aplicada a la red",
+      "Panorama de redes definidas por software (SDN) y controladoras"
+    ],
+    "prerequisites": "Los dos son necesarios."
+  },
+  "prompt-engineering": {
+    "name": "Ingeniería de Prompts",
+    "summary": "Conversar con un modelo es fácil; obtener siempre la respuesta correcta es técnica. Diseñá, configurá y probá prompts de verdad.",
+    "syllabus": [
+      "Cómo funciona un modelo de lenguaje y qué es un prompt",
+      "Terminología: tokens, contexto, alucinación, RAG y agentes",
+      "Parámetros de muestreo: temperatura, top-k y top-p",
+      "Control de salida: límite de tokens, secuencias de parada y penalizaciones",
+      "Salidas estructuradas en JSON, XML y Markdown",
+      "Técnicas: zero-shot, few-shot, cadena de pensamiento, ToT, ReAct",
+      "Generación automática de prompts con el propio modelo"
+    ],
+    "topics": [
+      "Qué es un modelo de lenguaje y cómo predice el siguiente token",
+      "Qué es un prompt y qué es la ingeniería de prompts",
+      "Tokens, tokenización y por qué el costo se mide así",
+      "Ventana de contexto: límites, truncamiento y estrategias",
+      "Alucinación: por qué ocurre y cómo reducirla",
+      "Agentes y herramientas: cuándo el modelo actúa en lugar de sólo responder",
+      "Inyección de prompts: el riesgo que se aprende desde el primer día",
+      "Pesos y parámetros del modelo: qué significan en la práctica",
+      "Ajuste fino (fine-tuning) contra ingeniería de prompts: costo y cuándo usar cada uno",
+      "IA y AGI: separar lo que existe de lo que es promesa",
+      "Generación aumentada por recuperación (RAG): la idea central",
+      "Modelos por proveedor: OpenAI, Google, Anthropic, Meta y xAI",
+      "Temperatura: determinismo contra creatividad",
+      "Top-K y Top-P (muestreo por núcleo)",
+      "Máximo de tokens de salida y control de costo",
+      "Secuencias de parada (stop sequences)",
+      "Penalización de frecuencia y penalización de presencia",
+      "Salidas estructuradas: JSON, XML, Markdown y CSV",
+      "Esquemas, validación de la respuesta y reparación de salidas inválidas",
+      "Zero-shot prompting",
+      "One-shot y few-shot prompting",
+      "System prompting: instrucciones de sistema",
+      "Role prompting: definir el papel que asume el modelo",
+      "Contextual prompting: aportar el contexto correcto",
+      "Step-back prompting: retroceder para generalizar antes de responder",
+      "Cadena de pensamiento (Chain of Thought)",
+      "Autoconsistencia (Self-Consistency)",
+      "Árbol de pensamientos (Tree of Thoughts)",
+      "ReAct: razonar y actuar con herramientas",
+      "Prompt tuning: prompts aprendidos en lugar de escritos",
+      "Ingeniería automática de prompts: usar el LLM para generar prompts"
+    ],
+    "prerequisites": "Saber usar computadora e internet en el día a día."
+  },
+  "prompt-reliability": {
+    "name": "Prompts Confiables: Evaluación y Buenas Prácticas",
+    "summary": "La distancia entre un prompt de demostración y uno que corre en producción: medir, versionar y no confiar en la suerte.",
+    "syllabus": [
+      "Las buenas prácticas que sostienen un prompt en producción",
+      "Delimitación, variables e instrucciones claras",
+      "Evaluación automatizada y pruebas de salida",
+      "Versionado y documentación de prompts",
+      "Confiabilidad: debiasing, ensembling y autoevaluación",
+      "Costo y latencia en tuberías reales"
+    ],
+    "topics": [
+      "Dar ejemplos few-shot para fijar estructura y estilo de salida",
+      "Mantener el prompt corto, directo y sin instrucciones contradictorias",
+      "Pedir salida estructurada cuando facilita el consumo",
+      "Usar variables y marcadores para reutilizar el mismo prompt",
+      "Preferir instrucciones claras a acumular restricciones",
+      "Controlar el tamaño máximo de la respuesta",
+      "Experimentar con formatos de entrada y estilos de escritura",
+      "Ajustar temperatura, top-k y top-p según la tarea",
+      "Delimitar secciones con comillas invertidas triples o marcas XML",
+      "Proteger contra inyección de prompts y sanear el texto del usuario",
+      "Automatizar la evaluación: conjuntos de prueba y pruebas unitarias de salida",
+      "Métricas de evaluación: exactitud, formato, tono y seguridad",
+      "LLM como juez: evaluación por modelo y sus límites",
+      "Versionar prompts y rastrear el efecto de cada cambio",
+      "Documentar decisiones, fallas y aprendizajes para quien venga después",
+      "Optimizar latencia y costo en tuberías de producción",
+      "Caché de prompts y reutilización de contexto",
+      "Debiasing: reducir sesgos introducidos por la formulación",
+      "Prompt ensembling: combinar múltiples prompts y votar",
+      "Autoevaluación del modelo (LLM self evaluation)",
+      "Calibración: alinear la confianza declarada con el acierto real"
+    ]
+  },
+  "ai-security": {
+    "name": "Seguridad en IA y Red Teaming",
+    "summary": "Los sistemas con IA fallan de formas nuevas. Aprendé a atacar los tuyos antes de que lo haga otro — y a defenderlos.",
+    "syllabus": [
+      "Cómo fallan y cómo se atacan las aplicaciones con LLM",
+      "Inyección de prompts directa e indirecta",
+      "Filtración de datos y de instrucciones del sistema",
+      "OWASP Top 10 para aplicaciones con LLM",
+      "Sesgo, equidad y moderación de contenido",
+      "Red teaming: planificar, ejecutar y reportar",
+      "Defensas: filtros, aislamiento de herramientas y revisión humana"
+    ],
+    "topics": [
+      "La superficie de ataque de una aplicación con LLM",
+      "Inyección directa de prompts: burlar las instrucciones del sistema",
+      "Inyección indirecta: contenido malicioso en páginas, archivos y correos",
+      "Jailbreak y evasión de políticas",
+      "Filtración del prompt de sistema y de datos sensibles",
+      "Envenenamiento de datos y de bases vectoriales",
+      "Uso indebido de herramientas y permisos excesivos de agentes",
+      "La alucinación como riesgo de seguridad y de negocio",
+      "Sesgo y equidad (fairness): de dónde vienen y cómo medirlos",
+      "OWASP Top 10 para aplicaciones con LLM",
+      "Red teaming: alcance, reglas de participación y autorización por escrito",
+      "Planificar escenarios de prueba y casos adversarios",
+      "Automatizar pruebas adversarias y medir la tasa de falla",
+      "Informe: evidencia, severidad y recomendación",
+      "Defensas: validación de entrada y de salida, listas y filtros",
+      "APIs de moderación de contenido",
+      "Identificar al usuario final en las llamadas al modelo (end-user IDs)",
+      "Conocer al cliente y el caso de uso antes de liberar el modelo",
+      "Restringir entradas y salidas: esquemas, listas y límites",
+      "Aislamiento de herramientas, mínimo privilegio y confirmación humana",
+      "Registro, auditoría y respuesta a incidentes en producción",
+      "La LGPD brasileña aplicada a los datos enviados a modelos de terceros"
+    ]
+  },
+  "ai-models": {
+    "name": "Modelos de IA: Elección, Plataformas y APIs",
+    "summary": "No existe el mejor modelo — existe el modelo correcto para tu tarea y tu presupuesto. Aprendé a elegir e integrar.",
+    "syllabus": [
+      "Tipos de modelo: preentrenado, cerrado, abierto y autoalojado",
+      "Cómo elegir el modelo correcto para cada tarea",
+      "Modelos cerrados: Claude, Gemini, GPT, Cohere y Mistral",
+      "Modelos abiertos: Llama, DeepSeek, Qwen y Gemma",
+      "Hugging Face, Ollama, LM Studio y OpenRouter",
+      "APIs y SDKs de los principales proveedores"
+    ],
+    "topics": [
+      "Modelos preentrenados: lo que ya viene listo",
+      "Modelos cerrados y de código abierto: licencia, costo y control",
+      "Modelos autoalojados: cuándo vale la pena ejecutarlos por cuenta propia",
+      "Criterios de elección: calidad, costo, latencia, contexto y privacidad",
+      "Evaluar modelos con tu propio conjunto de casos",
+      "Anthropic Claude",
+      "Google Gemini",
+      "OpenAI: familia GPT y serie o",
+      "Cohere y Mistral",
+      "Meta Llama",
+      "DeepSeek, Qwen y Gemma",
+      "Hugging Face: tareas, Hub y modelos de la comunidad",
+      "Transformers.js: modelos corriendo en el navegador",
+      "Ollama y LM Studio: modelos en tu propia máquina",
+      "OpenRouter: un endpoint para varios proveedores",
+      "OpenAI Responses API",
+      "Claude Messages API",
+      "Google Gemini API",
+      "Hugging Face Inference SDK",
+      "APIs compatibles con el estándar de OpenAI",
+      "Claves, cuotas, límites de solicitudes y control de gasto"
+    ],
+    "prerequisites": "Los dos son necesarios."
+  },
+  "embeddings-vectors": {
+    "name": "Embeddings y Bases Vectoriales",
+    "summary": "Búsqueda por significado, no por palabra. La base técnica que sostiene RAG, recomendación y clasificación.",
+    "syllabus": [
+      "Qué son los embeddings y por qué cambian la búsqueda",
+      "Casos de uso: búsqueda semántica, clasificación, recomendación y anomalías",
+      "Modelos de embedding propietarios y abiertos",
+      "Bases vectoriales: cómo elegirlas y operarlas",
+      "Indexación de embeddings y búsqueda por similitud"
+    ],
+    "topics": [
+      "Qué es un embedding: el significado convertido en vector",
+      "Dimensiones, distancia y similitud del coseno",
+      "Búsqueda semántica: encontrar por sentido, no por palabra exacta",
+      "Clasificación de datos con embeddings",
+      "Sistemas de recomendación",
+      "Detección de anomalías",
+      "OpenAI Embeddings API",
+      "Gemini Embedding y Cohere",
+      "Sentence Transformers y modelos abiertos en Hugging Face",
+      "Jina y alternativas",
+      "Propósito y funcionamiento de una base vectorial",
+      "Chroma, Pinecone y Weaviate",
+      "FAISS, LanceDB y Qdrant",
+      "Vectores en bases que ya usás: Supabase y MongoDB Atlas",
+      "Indexación de embeddings: índices aproximados y HNSW",
+      "Ejecutar búsqueda por similitud y ajustar el top-k",
+      "Combinar filtros de metadatos con búsqueda vectorial",
+      "Costo de almacenamiento y de reindexación"
+    ]
+  },
+  "rag": {
+    "name": "RAG e Ingeniería de Contexto",
+    "summary": "Hacé que el modelo responda sobre lo que nunca vio: los documentos de tu empresa, con la fuente citada.",
+    "syllabus": [
+      "Qué es RAG y cuándo resuelve mejor que el ajuste fino",
+      "La tubería completa: fragmentar, indexar, recuperar y generar",
+      "Frameworks: LangChain, LlamaIndex, Haystack y RAGFlow",
+      "Ingeniería de contexto: memoria externa y filtros dinámicos",
+      "Compactación y aislamiento de contexto"
+    ],
+    "topics": [
+      "El problema que resuelve RAG: conocimiento que el modelo no tiene",
+      "Casos de uso: documentación, soporte, legal y base interna",
+      "RAG contra ajuste fino: costo, actualización y trazabilidad",
+      "Fragmentación (chunking): tamaño, superposición y límites semánticos",
+      "Generar y almacenar los embeddings de los fragmentos",
+      "Proceso de recuperación: búsqueda, reordenamiento (reranking) y filtros",
+      "Generación con las fuentes recuperadas y cita de origen",
+      "Medir la calidad de la recuperación y de la respuesta final",
+      "Implementar directo con el SDK del proveedor",
+      "LangChain y LlamaIndex",
+      "Haystack y RAGFlow",
+      "Ingeniería de contexto: armar la ventana sólo con lo que importa",
+      "Memoria externa: historial, perfil y estado de la conversación",
+      "Filtros dinámicos por usuario, permiso y recorte de datos",
+      "Compactación de contexto: resumir sin perder lo esencial",
+      "Aislamiento de contexto: separar tareas y evitar contaminación",
+      "Costo por consulta y caché de recuperación"
+    ]
+  },
+  "agents-mcp": {
+    "name": "Agentes de IA y MCP",
+    "summary": "Cuando el modelo deja de responder y empieza a actuar: herramientas, bucle de decisión, multiagentes y el protocolo MCP.",
+    "syllabus": [
+      "Qué es un agente y cuándo es la respuesta correcta",
+      "Herramientas, llamada a funciones y el bucle de decisión",
+      "Sistemas multiagente y orquestación",
+      "SDKs de agente: Claude, OpenAI, Vertex AI y Google ADK",
+      "Model Context Protocol: host, cliente, servidor y transporte",
+      "Construir un servidor y un cliente MCP"
+    ],
+    "topics": [
+      "Agente, asistente y automatización: dónde está la diferencia",
+      "Casos de uso de agentes — y cuándo son exagerados",
+      "El bucle de razonar y actuar (ReAct) en la práctica",
+      "Herramientas y llamada a funciones: esquema, validación y errores",
+      "Planificación, límite de pasos y criterios de parada",
+      "Sistemas multiagente: orquestador, especialistas y traspaso de tareas",
+      "Implementación manual de un agente, desde cero",
+      "OpenAI AgentKit y Agents SDK",
+      "Claude Agent SDK",
+      "Vertex AI Agent Builder y Google ADK",
+      "Model Context Protocol: el problema que resuelve",
+      "Componentes: host, cliente y servidor MCP",
+      "Capa de datos y capa de transporte",
+      "Construir un servidor MCP y exponer herramientas",
+      "Construir un cliente MCP",
+      "Conectarse a un servidor local y a uno remoto",
+      "Permisos, mínimo privilegio y confirmación humana",
+      "Costo, latencia y límites de un agente en producción"
+    ]
+  },
+  "llm-observability": {
+    "name": "Observabilidad y Evaluación de LLM en Producción",
+    "summary": "«Funcionó en la demo» no es «funcionó»: instrumentá, evaluá y probá regresión en cada cambio.",
+    "syllabus": [
+      "Trazado y registro de llamadas a modelos",
+      "Monitoreo de costo, latencia y calidad en producción",
+      "Herramientas: LangSmith, Langfuse, Helicone y Arize AI",
+      "Tipos de evaluación: determinista, por modelo y humana",
+      "Métricas y herramientas de evaluación (DeepEval, RAGAS)",
+      "Prueba de regresión en cada cambio de prompt o de modelo"
+    ],
+    "topics": [
+      "Trazado (tracing) de una llamada y de una cadena de llamadas",
+      "Registro de entradas y salidas sin filtrar datos personales",
+      "Monitoreo de costo por solicitud, por usuario y por funcionalidad",
+      "Monitoreo de latencia, tiempo hasta el primer token y fallas",
+      "Monitoreo en producción: volumen, errores y señales de satisfacción",
+      "LangSmith y Langfuse",
+      "Helicone y Arize AI",
+      "Evaluación determinista: comparación exacta, formato y reglas",
+      "Evaluación por modelo (LLM como juez) y sus sesgos",
+      "Evaluación humana: rúbricas, muestreo y concordancia entre evaluadores",
+      "Métricas: precisión, exhaustividad, fidelidad y relevancia",
+      "DeepEval y RAGAS",
+      "Conjuntos de evaluación: construirlos, versionarlos y mantenerlos",
+      "Prueba de regresión al cambiar prompt, modelo o versión",
+      "Integrar la evaluación a la tubería de integración continua",
+      "Tableros y alertas ante caídas de calidad"
+    ]
+  },
+  "multimodal": {
+    "name": "IA Multimodal: Imagen, Audio y Video",
+    "summary": "El modelo también ve y escucha: leé documentos, generá imágenes, transcribí audio y entendé video.",
+    "syllabus": [
+      "Qué cambia cuando el modelo ve y escucha",
+      "Comprensión y generación de imágenes",
+      "Comprensión de video y procesamiento de audio",
+      "Texto a voz y voz a texto",
+      "APIs: Vision, DALL-E, Whisper y alternativas"
+    ],
+    "topics": [
+      "Casos de uso de IA multimodal en productos reales",
+      "Comprensión de imágenes: descripción, extracción y lectura de documentos",
+      "Generación de imágenes: prompt, estilo y límites",
+      "Comprensión de video: cuadros, transcripción y resumen",
+      "Procesamiento de audio: ruido, separación de hablantes y segmentación",
+      "Texto a voz (TTS): voces, entonación y latencia",
+      "Voz a texto (STT): precisión, idioma y vocabulario específico",
+      "OpenAI Vision API",
+      "DALL-E API y NanoBanana API",
+      "Whisper API",
+      "Modelos multimodales en Hugging Face",
+      "LangChain y LlamaIndex en aplicaciones multimodales",
+      "Costo, tamaño de archivo y límites de envío",
+      "Accesibilidad: subtítulos, audiodescripción y transcripción"
+    ]
+  },
+  "architecture-role": {
+    "name": "El Papel del Arquitecto de Software",
+    "summary": "El arquitecto no es el programador más antiguo de la sala: es quien decide, documenta y responde por las elecciones estructurales.",
+    "syllabus": [
+      "Qué es la arquitectura de software — y qué no es",
+      "Qué hace un arquitecto en el día a día",
+      "Niveles: arquitectura de aplicación, de solución y corporativa",
+      "Responsabilidades: decisiones técnicas, estándares y requisitos",
+      "Simplificar en lugar de complicar",
+      "El equilibrio entre técnica, plazo y costo"
+    ],
+    "topics": [
+      "Qué es la arquitectura de software: componentes, interacción y entorno",
+      "Qué no es la arquitectura: ni un diagrama lindo ni la tecnología de moda",
+      "Qué es un arquitecto de software y de dónde viene su autoridad",
+      "Niveles de arquitectura: aplicación, solución y corporativa (enterprise)",
+      "Responsabilidad: decisiones de tecnología y por qué documentarlas",
+      "Responsabilidad: decisiones de diseño y de arquitectura",
+      "Relevamiento de requisitos junto al negocio",
+      "Documentar y mantener la documentación viva",
+      "Definir y hacer cumplir estándares técnicos",
+      "Colaborar con equipos, producto y stakeholders",
+      "Asesorar y orientar a desarrolladores",
+      "Simplificar: reducir piezas en lugar de agregar",
+      "Equilibrio entre calidad técnica, plazo y costo",
+      "Estimar y evaluar esfuerzo, riesgo y alternativas",
+      "Por qué el arquitecto necesita seguir escribiendo código",
+      "Arquitecto, tech lead e ingeniero senior: fronteras del papel",
+      "Antipatrones: arquitecto de PowerPoint, torre de marfil y sobreingeniería"
+    ],
+    "prerequisites": "Ruta de Desarrollo Back-end completada — o experiencia equivalente."
+  },
+  "design-patterns": {
+    "name": "Patrones y Principios de Diseño",
+    "summary": "El vocabulario estructural de la profesión: SOLID, DDD, CQRS, TDD y los paradigmas que sostienen las decisiones de diseño.",
+    "syllabus": [
+      "Orientación a objetos más allá de la sintaxis",
+      "SOLID y los principios que sostienen código sustentable",
+      "Patrones de presentación: MVC, MVP y MVVM",
+      "CQRS, consistencia eventual y ACID contra CAP",
+      "Domain-Driven Design y desarrollo guiado por pruebas",
+      "Programación funcional, reactiva y el modelo de actores"
+    ],
+    "topics": [
+      "Orientación a objetos: encapsulamiento, herencia, polimorfismo y composición",
+      "Composición en lugar de herencia: por qué casi siempre",
+      "SOLID: responsabilidad única, abierto/cerrado, sustitución de Liskov",
+      "SOLID: segregación de interfaces e inversión de dependencias",
+      "Inyección de dependencias e inversión de control",
+      "Patrones de creación, estructura y comportamiento (GoF) en la práctica",
+      "MVC, MVP y MVVM: dónde tiene sentido cada uno",
+      "CQRS: separar lectura de escritura",
+      "Event sourcing y consistencia eventual",
+      "ACID y el teorema CAP: qué se gana y qué se pierde",
+      "Domain-Driven Design: lenguaje ubicuo y contextos delimitados",
+      "Entidades, agregados, objetos de valor y repositorios",
+      "Desarrollo guiado por pruebas (TDD): ciclo rojo-verde-refactorizar",
+      "Refactorización: señales de mal olor en el código y cómo actuar",
+      "Programación funcional: inmutabilidad, funciones puras y efectos secundarios",
+      "Programación reactiva: flujos, observables y contrapresión",
+      "Modelo de actores: estado aislado e intercambio de mensajes",
+      "Concurrencia y paralelismo: dónde fallan los patrones",
+      "Elegir el patrón por el problema, no por el currículum"
+    ]
+  },
+  "architecture-modeling": {
+    "name": "Modelado y Frameworks de Arquitectura",
+    "summary": "Dibujar para ser entendido: diagramas que comunican, decisiones registradas y los frameworks que exige el mercado corporativo.",
+    "syllabus": [
+      "UML y los diagramas que realmente se usan",
+      "Modelo C4: cuatro niveles de zoom de la arquitectura",
+      "Registros de decisión de arquitectura (ADRs)",
+      "TOGAF, IAF y arquitectura corporativa",
+      "BABOK y análisis de requisitos de negocio",
+      "Documentación que sobrevive al proyecto"
+    ],
+    "topics": [
+      "Para qué sirve un diagrama: comunicar, no decorar",
+      "UML: casos de uso, clases, secuencia, componentes y despliegue",
+      "Modelo C4: contexto, contenedores, componentes y código",
+      "Diagramas de flujo, de estado y mapas de contexto",
+      "Registros de decisión de arquitectura (ADRs): contexto, opciones y consecuencia",
+      "Requisitos funcionales y atributos de calidad (requisitos no funcionales)",
+      "BABOK: análisis de negocio y relevamiento estructurado de requisitos",
+      "TOGAF: el ciclo ADM y las capas de arquitectura corporativa",
+      "IAF (Integrated Architecture Framework) y alternativas",
+      "Zachman y panorama de los frameworks clásicos",
+      "Documentación viva: dónde vive, quién la mantiene y cuándo muere",
+      "Herramientas: diagramas como código (Mermaid, PlantUML, Structurizr)",
+      "Revisión de arquitectura y listas de verificación de evaluación",
+      "Presentar arquitectura a públicos técnicos y no técnicos"
+    ]
+  },
+  "enterprise-software": {
+    "name": "Software Corporativo e Integración",
+    "summary": "La realidad de las empresas grandes: ERP, CRM, BPM y el trabajo de integrar sistemas que nadie puede apagar.",
+    "syllabus": [
+      "El ecosistema corporativo: ERP, CRM, BPM y gestión documental",
+      "SAP, Salesforce y Microsoft Dynamics",
+      "Automatización de procesos con BPM y BPEL",
+      "Bus de servicios (ESB) e integración con sistemas heredados",
+      "Estrategias de migración y coexistencia"
+    ],
+    "topics": [
+      "Qué es un ERP y por qué condiciona la arquitectura",
+      "SAP: ERP, HANA y Business Objects",
+      "Microsoft Dynamics y el ecosistema Microsoft en la empresa",
+      "Salesforce: CRM, plataforma y personalización",
+      "Gestión documental (DMS) y el caso de EMC/OpenText",
+      "IBM BPM y herramientas de automatización de procesos",
+      "BPM y BPEL: modelar y ejecutar procesos de negocio",
+      "Bus de servicios (ESB) y SOAP en entornos heredados",
+      "Integración por archivo, por base de datos, por API y por evento",
+      "Colas y mensajería en la integración corporativa",
+      "Patrones de integración corporativa (EIP)",
+      "Sistemas que no pueden parar: ventanas, contratos y SLA",
+      "Estrangulamiento del legado (strangler fig) y coexistencia",
+      "Migración de datos: calidad, reconciliación y vuelta atrás",
+      "Comprar contra construir: cómo fundamentar la decisión"
+    ]
+  },
+  "process-management": {
+    "name": "Gestión, Procesos y Estimaciones",
+    "summary": "El arquitecto vive entre la técnica y la gestión: entendé los métodos, las ceremonias y cómo estimar sin inventar números.",
+    "syllabus": [
+      "Modelos ágiles: Scrum, Kanban y XP",
+      "Escala ágil: SAFe y LeSS",
+      "Modelos clásicos: PMI, Prince2, RUP e ITIL",
+      "Estimación, riesgo y priorización",
+      "Métricas de entrega que no se convierten en vigilancia",
+      "Panorama de las certificaciones del mercado"
+    ],
+    "topics": [
+      "Cascada, iterativo y ágil: qué asume cada uno sobre el mundo",
+      "Scrum: roles, ceremonias, artefactos y lo que suele salir mal",
+      "Kanban: flujo, límite de trabajo en curso y tiempo de ciclo",
+      "Extreme Programming (XP): prácticas técnicas del ágil",
+      "SAFe y LeSS: ágil en varios equipos",
+      "PMI/PMBOK: áreas de conocimiento y grupos de procesos",
+      "Prince2 y RUP: dónde aparecen todavía",
+      "ITIL: gestión de servicios, incidentes y cambios",
+      "Estimación por analogía, paramétrica y por tres puntos",
+      "Planning poker, story points y la falacia de la precisión",
+      "Riesgo: identificar, cuantificar y planificar la respuesta",
+      "Priorización: valor, costo, riesgo y deuda técnica",
+      "Métricas de entrega: throughput, tiempo de ciclo y DORA",
+      "Deuda técnica: registrarla, negociarla y pagarla",
+      "Certificaciones: PMI, ITIL, Prince2, Scrum y las de nube"
+    ]
+  },
+  "architect-communication": {
+    "name": "Comunicación, Consultoría y Liderazgo Técnico",
+    "summary": "La parte que tumba a más arquitectos que cualquier dificultad técnica: explicar, convencer, formar gente y decir que no.",
+    "syllabus": [
+      "Escribir para ser leído: documentación y propuestas",
+      "Presentar decisiones técnicas a quien no es técnico",
+      "Consultoría interna: diagnosticar antes de prescribir",
+      "Formar personas: mentoría, revisión de código y programación en pares",
+      "Negociar plazo, alcance y deuda técnica",
+      "Construir reputación técnica sin convertirse en vendedor"
+    ],
+    "topics": [
+      "Escribir con claridad: estructura, precisión y economía de palabras",
+      "Documento de una página, propuesta técnica y RFC interna",
+      "Adaptar el mensaje: dirección, producto, equipo y cliente",
+      "Traducir riesgo técnico en riesgo de negocio",
+      "Presentaciones: contar la historia de la decisión, no la lista de tecnologías",
+      "Escucha activa y relevamiento de la necesidad real",
+      "Consultoría interna: diagnosticar antes de proponer solución",
+      "Decir que no con alternativa: el arte de rechazar bien",
+      "Mediar conflictos técnicos entre personas y entre equipos",
+      "Mentoría y plan de desarrollo de desarrolladores",
+      "La revisión de código como herramienta de enseñanza",
+      "Programación en pares y en grupo (mob programming)",
+      "Negociar plazo, alcance, calidad y deuda técnica",
+      "Comunicar un incidente: durante, después y a quién",
+      "Postmortem sin culpables y cultura de aprendizaje",
+      "Reputación técnica: charlas, artículos y comunidad"
+    ]
+  },
+  "computing-essentials": {
+    "name": "Informática Esencial",
+    "summary": "El comienzo de todo: entender la computadora por dentro, dominar las herramientas del día a día y perderle el miedo.",
+    "syllabus": [
+      "Componentes de hardware y qué hace cada uno",
+      "Tipos de conexión: cable, Wi-Fi, Bluetooth, NFC",
+      "Windows, archivos, carpetas y organización",
+      "Suites de oficina: textos, planillas y presentaciones",
+      "Nube personal y trabajo colaborativo",
+      "Nociones de red doméstica y primeros diagnósticos"
+    ],
+    "topics": [
+      "Procesador, memoria RAM, almacenamiento y placa madre",
+      "Placa de video, fuente, refrigeración y gabinete",
+      "Periféricos: monitor, teclado, mouse, impresora y escáner",
+      "Puertos y conectores: USB, HDMI, DisplayPort, Ethernet y audio",
+      "Conexiones inalámbricas: Wi-Fi, Bluetooth, NFC e infrarrojo",
+      "Armar, encender y configurar una computadora desde cero",
+      "Sistema de archivos: carpetas, extensiones, accesos directos y búsqueda",
+      "Respaldo personal y organización de documentos",
+      "Suite Microsoft Office: Word, Excel y PowerPoint",
+      "Google Workspace: Documentos, Hojas de cálculo y Presentaciones",
+      "iCloud, OneDrive y Google Drive: sincronizar y compartir",
+      "Planillas en la práctica: fórmulas, filtros y gráficos",
+      "Nociones de red doméstica: módem, router y contraseña del Wi-Fi",
+      "Diagnóstico independiente del sistema: aislar, probar y cambiar",
+      "Señales de problemas de hardware y cuándo no insistir",
+      "Uso consciente: contraseñas, actualizaciones y estafas comunes"
+    ],
+    "prerequisites": "Ninguno. Es el primer curso de la escuela."
+  },
+  "operating-systems": {
+    "name": "Sistemas Operativos: Windows, Linux y macOS",
+    "summary": "Los tres sistemas que vas a encontrar en cualquier empresa — instalados, configurados y administrados por vos.",
+    "syllabus": [
+      "Instalación y configuración de los tres sistemas",
+      "Versiones, ediciones y diferencias entre ellas",
+      "Navegación por interfaz gráfica y por línea de comandos",
+      "Permisos, usuarios y cuentas",
+      "Instalación de programas y gestión de archivos",
+      "Comandos comunes y resolución de problemas"
+    ],
+    "topics": [
+      "Qué hace un sistema operativo: procesos, memoria y dispositivos",
+      "Instalación y configuración inicial de Windows",
+      "Instalación y configuración inicial de una distribución Linux",
+      "Instalación y configuración inicial de macOS",
+      "Versiones y ediciones de Windows y sus diferencias",
+      "Distribuciones Linux: familias, ciclos de vida y elección",
+      "Navegación por la interfaz gráfica de los tres sistemas",
+      "Navegación por línea de comandos: prompt, PowerShell y shell",
+      "Permisos de archivos y carpetas en cada sistema",
+      "Usuarios, grupos, cuentas administrativas y UAC",
+      "Instalación de programas: instaladores, tiendas y gestores de paquetes",
+      "Crear, leer, modificar y borrar archivos desde la línea de comandos",
+      "Comandos comunes equivalentes en los tres sistemas",
+      "Servicios, arranque y tareas programadas",
+      "Registro de Windows y archivos de configuración en Linux",
+      "Actualizaciones, controladores y compatibilidad",
+      "Diagnóstico: registros del sistema, modo seguro y recuperación"
+    ]
+  },
+  "virtualization": {
+    "name": "Virtualización y Laboratorios",
+    "summary": "Armá tu laboratorio: varias máquinas en una sola computadora, para probar, equivocarte y volver atrás sin miedo.",
+    "syllabus": [
+      "Qué es la virtualización y para qué sirve",
+      "Hipervisor, sistema anfitrión y sistema invitado",
+      "VirtualBox y VMware en la práctica",
+      "Proxmox y ESXi: virtualización de servidores",
+      "Snapshots, clones y redes virtuales",
+      "Armar un laboratorio de estudio desde cero"
+    ],
+    "topics": [
+      "Qué es una máquina virtual y qué te ahorra",
+      "Hipervisor tipo 1 y tipo 2: la diferencia que importa",
+      "Sistema anfitrión (host) y sistema invitado (guest)",
+      "VirtualBox: crear, configurar y optimizar una VM",
+      "VMware Workstation y Player",
+      "Proxmox VE: virtualización de servidores con interfaz web",
+      "VMware ESXi y panorama de Hyper-V",
+      "Recursos: CPU virtual, memoria, disco y aceleración",
+      "Snapshots: guardar y volver al estado anterior",
+      "Clones y plantillas de máquina",
+      "Redes virtuales: NAT, bridge y red interna aislada",
+      "Compartir carpetas y portapapeles",
+      "Contenedores y VMs: cuándo usar cada uno",
+      "Armar un laboratorio con cliente, servidor y objetivo de pruebas",
+      "Aislar el laboratorio de la red real"
+    ]
+  },
+  "tech-support": {
+    "name": "Soporte Técnico y Atención",
+    "summary": "La mitad del trabajo es técnica; la otra mitad es entender a la persona del otro lado y registrar lo que se hizo.",
+    "syllabus": [
+      "Método de diagnóstico: del síntoma a la causa",
+      "Atención al usuario sin jerga",
+      "Tickets, prioridad y escalamiento",
+      "Documentación y runbooks",
+      "Acceso remoto y herramientas de soporte",
+      "Ética, privacidad y límites del técnico"
+    ],
+    "topics": [
+      "Método de diagnóstico: reproducir, aislar, probar y confirmar",
+      "Preguntar bien: qué hizo el usuario, no qué creyó",
+      "Capas de causa: usuario, aplicación, sistema, red y hardware",
+      "Atención sin jerga: explicar sin hacer sentir menos a nadie",
+      "Registro de tickets: qué anotar y por qué",
+      "Prioridad, urgencia y acuerdo de nivel de servicio (SLA)",
+      "Escalamiento: cuándo pasar el caso y con qué información",
+      "Runbooks: procedimiento escrito para el problema recurrente",
+      "Base de conocimiento y documentación que otro técnico entienda",
+      "Acceso remoto: herramientas, consentimiento y registro",
+      "Inventario de equipos y control patrimonial",
+      "Comunicación con otras áreas: gestión, RR. HH., legales y proveedores",
+      "Ética y privacidad: lo que ves y lo que no contás",
+      "Límites del técnico: cuándo la respuesta es «no puedo hacer eso»",
+      "Panorama de las certificaciones de entrada: CompTIA A+, Linux+ y Network+"
+    ]
+  },
+  "security-fundamentals": {
+    "name": "Fundamentos de Seguridad de la Información",
+    "summary": "El vocabulario y la mentalidad del área: qué es el riesgo, qué es la defensa en capas y por qué la confianza es el problema.",
+    "syllabus": [
+      "La tríada CIA y qué orienta en la práctica",
+      "Riesgo: definición, evaluación y tratamiento",
+      "Defensa en profundidad y segmentación",
+      "Zero Trust: nunca confiar, siempre verificar",
+      "Equipos azul, rojo y púrpura",
+      "Normas y frameworks: ISO, NIST, CIS, CSF y RMF"
+    ],
+    "topics": [
+      "Tríada CIA: confidencialidad, integridad y disponibilidad",
+      "Definición de riesgo: amenaza, vulnerabilidad e impacto",
+      "Evaluar y tratar el riesgo: aceptar, mitigar, transferir o evitar",
+      "Defensa en profundidad: capas que se sostienen entre sí",
+      "Perímetro, DMZ y segmentación de red",
+      "Concepto de aislamiento y mínimo privilegio",
+      "Zero Trust: principios y qué cambia en la arquitectura",
+      "Autenticación y autorización: la diferencia que todos confunden",
+      "Autenticación multifactor (MFA) y de dos factores (2FA)",
+      "Equipos azul, rojo y púrpura: roles y cooperación",
+      "Falso positivo, falso negativo, verdadero positivo y verdadero negativo",
+      "Respaldos, resiliencia y prueba de restauración",
+      "El papel del cumplimiento (compliance) y de los auditores",
+      "Normas ISO 27001 y 27002",
+      "NIST Cybersecurity Framework (CSF) y el RMF",
+      "Controles del CIS y listas de verificación",
+      "La LGPD brasileña y el deber de proteger datos personales",
+      "Carreras del área: SOC, pentest, GRC, forense y AppSec"
+    ]
+  },
+  "cryptography": {
+    "name": "Criptografía Aplicada",
+    "summary": "Sin entender criptografía sólo repetís configuraciones de tutorial. Acá entendés qué protege cada opción.",
+    "syllabus": [
+      "Criptografía simétrica y asimétrica",
+      "Hash, sal y almacenamiento de contraseñas",
+      "Intercambio de claves e infraestructura de clave pública",
+      "Certificados, cadena de confianza y TLS en la práctica",
+      "Protocolos seguros y sus equivalentes inseguros",
+      "Criptografía en redes inalámbricas"
+    ],
+    "topics": [
+      "Criptografía simétrica: AES, modos de operación y vector de inicialización",
+      "Criptografía asimétrica: RSA, curvas elípticas y tamaño de clave",
+      "Clave pública y clave privada: quién cifra y quién verifica",
+      "Funciones de hash: MD5, SHA-1, SHA-2 y por qué cayeron las dos primeras",
+      "Sal (salting), pimienta y derivación de clave (bcrypt, Argon2)",
+      "Firma digital e integridad de mensaje (HMAC)",
+      "Intercambio de claves: Diffie-Hellman y secreto futuro (forward secrecy)",
+      "Infraestructura de clave pública (PKI) y autoridades certificantes",
+      "Certificados: campos, validez, revocación y cadena de confianza",
+      "Handshake TLS paso a paso y qué puede fallar",
+      "Ofuscación y codificación: por qué no son criptografía",
+      "Protocolos: FTP y SFTP, SSL y TLS, LDAP y LDAPS",
+      "IPsec, DNSSEC, SRTP y S/MIME",
+      "Cifrado en disco y en base de datos",
+      "Wi-Fi: WEP, WPA, WPA2 y WPA3",
+      "EAP, PEAP y autenticación en red corporativa",
+      "Errores clásicos: la clave en el código, el algoritmo propio y la reutilización de nonce"
+    ]
+  },
+  "attacks-threats": {
+    "name": "Ataques, Amenazas e Ingeniería Social",
+    "summary": "Conocer el ataque para reconocerlo: cómo funciona cada golpe, qué rastro deja y qué lo impide de verdad.",
+    "syllabus": [
+      "Ingeniería social: los golpes que no usan código",
+      "Ataques de red, de aplicación y de contraseña",
+      "Malware: tipos, comportamiento y propagación",
+      "Amenazas avanzadas, zero day y APT",
+      "Frameworks: Cyber Kill Chain, Diamond Model y MITRE ATT&CK",
+      "Web: OWASP Top 10 en la práctica"
+    ],
+    "topics": [
+      "Ingeniería social: por qué el ser humano es el camino más corto",
+      "Phishing, vishing (voz), smishing (SMS) y whaling (blanco grande)",
+      "Spam y spim: qué cambia y por qué importa",
+      "Shoulder surfing, tailgating y dumpster diving",
+      "Suplantación, pretexto y prueba social",
+      "Reconocimiento (recon) y recolección de información pública",
+      "Watering hole, drive-by download y typo squatting",
+      "Ataques de contraseña: fuerza bruta, diccionario y password spray",
+      "Pass the hash y reutilización de credenciales",
+      "DoS y DDoS: volumétrico, de protocolo y de aplicación",
+      "Hombre en el medio (MITM), replay y secuestro de sesión",
+      "Falsificación (spoofing) de IP, de correo y de ARP",
+      "Envenenamiento de DNS y de caché",
+      "Ataques en red inalámbrica: evil twin, deauth, rogue AP y WPS",
+      "VLAN hopping y ataques en capa 2",
+      "Inyección de SQL, XSS y CSRF",
+      "Directory traversal e inclusión de archivos",
+      "Desbordamiento de búfer (buffer overflow) y fuga de memoria",
+      "Escalamiento de privilegios local y de dominio",
+      "OWASP Top 10: las diez clases responsables de la mayoría de los casos",
+      "Malware: virus, gusano, troyano, ransomware, rootkit, spyware y botnet",
+      "Zero day, amenaza conocida y desconocida",
+      "Amenaza persistente avanzada (APT) y actores estatales",
+      "Cyber Kill Chain: las siete etapas de un ataque",
+      "Diamond Model: adversario, capacidad, infraestructura y víctima",
+      "MITRE ATT&CK: tácticas, técnicas y procedimientos"
+    ]
+  },
+  "defense-hardening": {
+    "name": "Defensa de Endpoints y Hardening",
+    "summary": "Reducir la superficie de ataque máquina por máquina: configuración endurecida, protección de endpoint y parches al día.",
+    "syllabus": [
+      "Endurecimiento (hardening) del sistema operativo",
+      "Políticas de grupo y configuración centralizada",
+      "Antivirus, antimalware, EDR y DLP",
+      "Sandboxing, honeypots y engaño activo",
+      "Gestión de vulnerabilidades y parches",
+      "Servidor de salto, control de acceso y segmentación de estaciones"
+    ],
+    "topics": [
+      "Hardening del sistema operativo: servicios, cuentas y funciones innecesarias",
+      "Guías de configuración segura (CIS Benchmarks) y automatización",
+      "Políticas de grupo (Group Policy) y configuración centralizada",
+      "Control de acceso basado en MAC y en NAC (802.1X)",
+      "Bloqueo de puertos y de dispositivos removibles",
+      "Listas de control de acceso (ACLs) en el sistema de archivos",
+      "Antivirus y antimalware: firma, heurística y límites",
+      "EDR: detección y respuesta en el endpoint",
+      "DLP: prevención de fuga de datos",
+      "Firewall de host y reglas por aplicación",
+      "HIPS y protección contra intrusiones en el anfitrión",
+      "Sandboxing y ejecución aislada de archivos sospechosos",
+      "Honeypots y honeytokens: detectar con carnada",
+      "Sinkholes de DNS y bloqueo por reputación",
+      "Servidor de salto (jump server) y acceso administrativo controlado",
+      "Gestión de vulnerabilidades: escaneo, priorización y plazos",
+      "Parches (patching): ventana, prueba, despliegue y excepciones",
+      "Inventario y configuración como base de cualquier defensa",
+      "Análisis de archivos y URLs: VirusTotal, urlscan, any.run, Joe Sandbox y WHOIS"
+    ]
+  },
+  "soc-response": {
+    "name": "SOC, Monitoreo y Respuesta a Incidentes",
+    "summary": "El trabajo del equipo azul: ver lo que está pasando, decidir si es incidente y conducir la respuesta hasta el informe.",
+    "syllabus": [
+      "Dónde están los registros y cómo leerlos",
+      "SIEM y SOAR: centralizar, correlacionar y automatizar",
+      "Caza de amenazas e inteligencia de amenazas",
+      "El proceso de respuesta a incidentes, etapa por etapa",
+      "Nociones de forense informático",
+      "Comunicación durante y después del incidente"
+    ],
+    "topics": [
+      "Fuentes de registro: logs de eventos, syslog, netflow, captura de paquetes y firewall",
+      "Dónde vive cada registro en Windows y en Linux",
+      "Retención, integridad y cadena de custodia del registro",
+      "SIEM: recolección, normalización, correlación y reglas",
+      "SOAR: automatizar la respuesta repetitiva",
+      "Tableros, alertas y el combate a la fatiga de alertas",
+      "Triaje: separar ruido de incidente real",
+      "Inteligencia de amenazas (threat intel) y OSINT",
+      "Indicadores de compromiso (IoC) y de ataque (IoA)",
+      "Caza de amenazas (threat hunting): hipótesis, búsqueda y validación",
+      "Respuesta a incidentes: preparación",
+      "Respuesta a incidentes: identificación y clasificación",
+      "Respuesta a incidentes: contención de corto y largo plazo",
+      "Respuesta a incidentes: erradicación y recuperación",
+      "Respuesta a incidentes: lecciones aprendidas y postmortem",
+      "Forense: adquisición de imagen con dd y FTK Imager",
+      "Forense: análisis con Autopsy, winhex y volcado de memoria",
+      "Análisis de tráfico con Wireshark y tcpdump",
+      "Comunicación con gestión, RR. HH., legales y cumplimiento",
+      "Informe de incidente: hecho, impacto, causa y recomendación",
+      "Notificación de filtración y obligaciones de la LGPD"
+    ]
+  },
+  "pentest": {
+    "name": "Test de Intrusión y Equipo Rojo",
+    "summary": "Atacar con autorización por escrito, método e informe. Sin contrato no es un test de intrusión — es un delito.",
+    "syllabus": [
+      "Reglas de participación, alcance y autorización",
+      "Kali Linux, ParrotOS y el arsenal del tester",
+      "Reconocimiento, escaneo y enumeración",
+      "Explotación, posexplotación y escalamiento de privilegios",
+      "Pruebas de aplicaciones web",
+      "Informe, evidencia y práctica en plataformas de CTF"
+    ],
+    "topics": [
+      "Reglas de participación: alcance, ventana, límites y contacto de emergencia",
+      "Autorización por escrito: el documento que separa la profesión del delito",
+      "Tipos de prueba: caja negra, gris y blanca; interna y externa",
+      "Metodologías: PTES, OSSTMM y OWASP Testing Guide",
+      "Distribuciones: Kali Linux y ParrotOS",
+      "Reconocimiento pasivo: WHOIS, DNS, filtraciones y redes sociales",
+      "Escaneo con nmap: descubrimiento, puertos, servicios y scripts",
+      "hping, netcat y herramientas de bajo nivel",
+      "Enumeración de servicios, recursos compartidos y usuarios",
+      "Escaneo de vulnerabilidades y validación manual del resultado",
+      "Frameworks de explotación: Metasploit y alternativas",
+      "Ataque a contraseñas: hashcat, John the Ripper y listas de palabras",
+      "Posexplotación: persistencia, movimiento lateral y pivoteo",
+      "Escalamiento de privilegios en Linux y en Windows",
+      "Vivir de la tierra: LOLBAS, GTFOBins y WADComs",
+      "Pruebas de aplicaciones web: Burp Suite y OWASP ZAP",
+      "Nociones de ingeniería inversa y análisis de binarios",
+      "Informe: evidencia reproducible, severidad y recomendación",
+      "Reprueba y seguimiento de la corrección",
+      "Práctica: HackTheBox, TryHackMe, VulnHub, picoCTF y pwn.college",
+      "Panorama de las certificaciones: OSCP, CEH, GPEN, GWAPT y CREST",
+      "Límites legales en Brasil y responsabilidad del tester"
+    ],
+    "prerequisites": "Los dos son necesarios."
+  },
+  "cloud-security": {
+    "name": "Seguridad en la Nube",
+    "summary": "En la nube la culpa se reparte, pero la cuenta es tuya: entendé el modelo de responsabilidad y dónde ocurren las fallas.",
+    "syllabus": [
+      "Nube y servidor local: qué cambia en la seguridad",
+      "Responsabilidad compartida con el proveedor",
+      "Identidad y acceso: el nuevo perímetro",
+      "Almacenamiento expuesto y configuración incorrecta",
+      "Seguridad de la infraestructura como código y serverless",
+      "Registro, auditoría y cumplimiento en la nube"
+    ],
+    "topics": [
+      "Diferencias entre la nube y la infraestructura local (on-premises)",
+      "Modelo de responsabilidad compartida: qué es tuyo y qué del proveedor",
+      "SaaS, PaaS e IaaS: dónde cambia tu porción de responsabilidad",
+      "Modelos de despliegue: nube privada, pública e híbrida",
+      "AWS, Google Cloud y Azure: equivalencias de servicios",
+      "Identidad y acceso (IAM): usuarios, roles, políticas y federación",
+      "Claves de acceso, secretos y rotación",
+      "Red en la nube: VPC, subredes, grupos de seguridad y endpoints privados",
+      "Almacenamiento expuesto: buckets públicos y el error más común de la década",
+      "Almacenamiento personal en la empresa: S3, OneDrive, Dropbox, Box, iCloud y Google Drive",
+      "Cifrado en reposo y en tránsito con claves gestionadas",
+      "Infraestructura como código: secretos en el repositorio y revisión del plan",
+      "Seguridad de serverless: permisos de función y dependencias",
+      "Flujo de publicación en la nube y puertas de calidad",
+      "Registro y auditoría: CloudTrail y equivalentes",
+      "Postura de seguridad en la nube (CSPM) y escaneo de configuración",
+      "Cumplimiento, región del dato y soberanía"
+    ]
+  },
+  "secure-code": {
+    "name": "Codificación Segura",
+    "summary": "La mayoría de las fallas no se invaden: se escriben. Aprendé a programar de modo que el ataque no tenga por dónde entrar.",
+    "syllabus": [
+      "Por qué la mayor parte de las fallas nace en el código",
+      "Validación de entrada y tratamiento de salida",
+      "Prevención de inyección de SQL y de comandos",
+      "Prevención de XSS, CSRF y fallas de sesión",
+      "Secretos, dependencias y código de terceros",
+      "Revisión de código con mirada de seguridad"
+    ],
+    "topics": [
+      "Dónde nace la falla: requisito, diseño o implementación",
+      "Nunca confíes en la entrada: validación por lista de permitidos",
+      "Validación en el cliente y en el servidor: por qué las dos",
+      "Tratamiento de salida: escape por contexto (HTML, atributo, JavaScript, URL)",
+      "Prevención de inyección de SQL: consultas parametrizadas y uso correcto del ORM",
+      "Inyección de comandos, de LDAP y de plantillas",
+      "Prevención de XSS: reflejado, almacenado y en el DOM",
+      "Content Security Policy como segunda línea de defensa",
+      "CSRF: token, atributo SameSite y verificación de origen",
+      "Sesiones: generación, expiración, rotación e invalidación",
+      "Contraseñas: bcrypt, Argon2 y una política que el usuario pueda cumplir",
+      "Control de acceso en el código: verificar siempre en el servidor",
+      "Referencia directa insegura a objetos (IDOR)",
+      "Deserialización insegura y carga de archivos",
+      "Mensajes de error y registros: lo que no puede filtrarse",
+      "Secretos: variables de entorno, bóveda y lo que nunca va al repositorio",
+      "Dependencias: vulnerabilidades conocidas, actualización y fijado de versiones",
+      "Revisión de código con mirada de seguridad: qué buscar primero",
+      "Pruebas de seguridad automatizadas dentro del proyecto",
+      "OWASP ASVS y las hojas de referencia (Cheat Sheets) en el día a día"
+    ]
+  },
+  "threat-modeling": {
+    "name": "Modelado de Amenazas y Riesgo",
+    "summary": "Descubrir la falla en el diseño cuesta una reunión; descubrirla en producción cuesta un incidente. Modelá antes de construir.",
+    "syllabus": [
+      "Modelar la amenaza antes de escribir código",
+      "STRIDE, PASTA y otras metodologías",
+      "Mapeo de la superficie de ataque",
+      "Cuantificación de riesgo y priorización",
+      "Auditoría, cumplimiento y mapeo de controles",
+      "Modelado continuo, no un documento muerto"
+    ],
+    "topics": [
+      "Qué es el modelado de amenazas y en qué momento hacerlo",
+      "Diagrama de flujo de datos y fronteras de confianza",
+      "STRIDE: suplantación, alteración, repudio, filtración, denegación y elevación",
+      "PASTA: las siete etapas orientadas al riesgo",
+      "Panorama de DREAD, LINDDUN y árboles de ataque",
+      "Mapeo de la superficie de ataque: entradas, salidas y dependencias",
+      "Activos, actores y casos de abuso (abuse cases)",
+      "Del riesgo identificado al requisito de seguridad",
+      "Cuantificación de riesgo: probabilidad, impacto y valor esperado",
+      "Panorama de FAIR y de las matrices cualitativas",
+      "Priorización: riesgo contra costo de la mitigación",
+      "Registro de decisiones y aceptación formal del riesgo",
+      "Mapeo de controles: ISO 27001, NIST CSF y SOC 2",
+      "Auditoría: alcance, evidencia y preparación",
+      "Modelado continuo: integrarlo al refinamiento y a la revisión de diseño"
+    ]
+  },
+  "secure-pipeline": {
+    "name": "Seguridad en la Tubería y la Cadena de Suministro",
+    "summary": "Seguridad que corre en cada commit: escaneo en la tubería, imagen endurecida, dependencias bajo control y política como código.",
+    "syllabus": [
+      "DevSecOps: qué cambia respecto de DevOps",
+      "SAST, DAST, SCA y escaneo de secretos en CI/CD",
+      "Seguridad de imágenes y de contenedores en ejecución",
+      "Cadena de suministro, SBOM y riesgo de dependencias",
+      "Endurecimiento de la tubería de build",
+      "Corrección automatizada y política como código"
+    ],
+    "topics": [
+      "DevSecOps y DevOps: qué cambia de verdad en la rutina",
+      "Desplazar la seguridad a la izquierda (shift left) sin trabar la entrega",
+      "Análisis estático (SAST): configurar, calibrar y convivir con el falso positivo",
+      "Análisis dinámico (DAST) en entorno de homologación",
+      "Análisis de composición (SCA) y vulnerabilidades en dependencias",
+      "Escaneo de secretos en el repositorio y en el historial de Git",
+      "Puertas de calidad: cuándo romper el build y cuándo sólo avisar",
+      "Escaneo de imágenes de contenedor e imágenes base mínimas",
+      "Ejecución segura: usuario sin privilegios, sistema de solo lectura y capacidades",
+      "Kubernetes: contexto de seguridad, políticas de admisión y límites",
+      "Herramientas de escaneo: Nessus, OpenVAS, Qualys y Trivy",
+      "Cadena de suministro de software: por dónde se rompe",
+      "SBOM: generar, almacenar y consultar (CycloneDX y SPDX)",
+      "Firma, verificación y procedencia de artefactos (SLSA y Sigstore)",
+      "Riesgo de dependencias: actualizar, fijar o reemplazar",
+      "Endurecimiento de la tubería: permisos del ejecutor, aislamiento y acciones confiables",
+      "Secretos en la tubería: bóveda, identidad federada y alcance mínimo",
+      "Corrección automatizada y actualización de dependencias por robot",
+      "Política como código: OPA, Conftest y verificación de infraestructura",
+      "Métricas: tiempo hasta corregir, cobertura de escaneo y deuda de seguridad"
+    ],
+    "prerequisites": "Los dos son necesarios."
+  },
+  "bi-business": {
+    "name": "BI para el Negocio: KPIs y Aplicaciones",
+    "summary": "Antes de la herramienta viene la pregunta. Entendé cómo funciona la empresa y qué número cambia realmente una decisión.",
+    "syllabus": [
+      "Qué es el business intelligence y por qué importa",
+      "Las funciones de la empresa: finanzas, marketing, operaciones y RR. HH.",
+      "Los cuatro tipos de análisis, del descriptivo al prescriptivo",
+      "Métricas y KPIs: elegir los pocos que importan",
+      "BI operativo, táctico y estratégico",
+      "Aplicaciones por sector: comercio, salud, industria y finanzas"
+    ],
+    "topics": [
+      "Qué es el business intelligence y qué no es",
+      "Por qué importa el BI: decidir por dato en lugar de por opinión",
+      "Analista de BI, analista de datos, ingeniero de datos y científico: quién hace qué",
+      "Habilidades y responsabilidades del analista de BI",
+      "Cómo funciona la empresa: finanzas, marketing, operaciones y recursos humanos",
+      "Análisis descriptivo: qué pasó",
+      "Análisis diagnóstico: por qué pasó",
+      "Análisis predictivo: qué va a pasar",
+      "Análisis prescriptivo: qué hacer al respecto",
+      "Métricas y KPIs: definición, meta, dueño y periodicidad",
+      "Elegir pocos indicadores y defender la elección",
+      "El indicador que engaña: promedio, vanidad y denominador escondido",
+      "Identificación de stakeholders y qué necesita ver cada uno",
+      "BI operativo: la decisión del día, el tablero de la operación",
+      "BI táctico: la decisión del mes, el análisis del área",
+      "BI estratégico: la decisión del año, la visión de la dirección",
+      "Aplicaciones en finanzas: riesgo, desempeño financiero, fraude y valor del cliente (CLV)",
+      "Aplicaciones en comercio y e-commerce: ventas, stock, campañas y cadena de suministro",
+      "Aplicaciones en salud: gestión de pacientes, eficiencia hospitalaria y salud pública",
+      "Aplicaciones en la industria: mantenimiento predictivo, producción y control de calidad",
+      "Informes de cumplimiento y obligaciones regulatorias"
+    ]
+  },
+  "excel-analytics": {
+    "name": "Excel para Análisis de Datos",
+    "summary": "La herramienta que toda empresa ya tiene — usada de verdad: tabla dinámica, Power Query y modelo de datos.",
+    "syllabus": [
+      "Fórmulas que resuelven problemas reales",
+      "Funciones de búsqueda y referencia",
+      "Tablas, validación y formato condicional",
+      "Tablas dinámicas y segmentaciones",
+      "Power Query: importar, limpiar y combinar",
+      "Power Pivot, medidas y tableros en Excel"
+    ],
+    "topics": [
+      "Organizar la planilla para el análisis: una fila por registro",
+      "Referencias relativas, absolutas y nombres definidos",
+      "Funciones lógicas: SI, Y, O y SI.ERROR",
+      "Funciones de búsqueda: BUSCARX, BUSCARV, ÍNDICE y COINCIDIR",
+      "Funciones de agregación condicional: SUMAR.SI.CONJUNTO, CONTAR.SI.CONJUNTO y PROMEDIO.SI.CONJUNTO",
+      "Funciones de texto y de fecha para limpieza",
+      "Tablas de Excel: rangos que crecen solos",
+      "Validación de datos y listas desplegables",
+      "Formato condicional que comunica",
+      "Tablas dinámicas: campos, valores, filtros y agrupamientos",
+      "Campos y elementos calculados, segmentaciones y línea de tiempo",
+      "Gráficos en Excel y minigráficos (sparklines)",
+      "Power Query: importar desde archivo, base de datos y web",
+      "Power Query: transformar, combinar, anexar y desdinamizar",
+      "Power Pivot: modelo de datos y relaciones",
+      "Medidas en DAX: conteos, sumas y comparaciones de período",
+      "Armar un tablero navegable en Excel",
+      "Límites de Excel y cuándo migrar a base de datos o plataforma de BI"
+    ]
+  },
+  "statistics": {
+    "name": "Estadística para Análisis de Datos",
+    "summary": "La base que separa a quien lee números de quien los entiende: describir, comparar, probar y no confundir correlación con causa.",
+    "syllabus": [
+      "Variables y tipos de dato",
+      "Estadística descriptiva: centro, dispersión y forma",
+      "Distribuciones y lo que revelan",
+      "Estadística inferencial: de la muestra a la población",
+      "Correlación, causalidad y regresión",
+      "Pruebas de hipótesis, valor p e intervalo de confianza"
+    ],
+    "topics": [
+      "Variables categóricas y numéricas",
+      "Variables discretas y continuas; escalas nominal, ordinal, de intervalo y de razón",
+      "Medidas de tendencia central: media, mediana y moda",
+      "Cuándo la media miente y la mediana salva",
+      "Medidas de dispersión: rango, varianza y desviación estándar",
+      "Cuartiles, rango intercuartílico (IQR) y boxplot",
+      "Forma de la distribución: asimetría (skewness) y curtosis",
+      "Distribución normal, uniforme, binomial y de Poisson",
+      "Valores atípicos (outliers): detectar, entender y decidir",
+      "Población y muestra; muestreo aleatorio, estratificado y por conveniencia",
+      "Teorema central del límite en lenguaje humano",
+      "Error estándar e intervalo de confianza",
+      "Prueba de hipótesis: hipótesis nula, alternativa y nivel de significancia",
+      "Valor p: qué dice y qué no dice",
+      "Error tipo I y tipo II; potencia de la prueba",
+      "Pruebas comunes: t, chi-cuadrado, ANOVA y pruebas no paramétricas",
+      "Correlación de Pearson y de Spearman",
+      "Correlación no es causalidad: variable de confusión y causalidad inversa",
+      "Regresión lineal simple y múltiple: coeficientes y R²",
+      "Diagnóstico de residuos y supuestos de la regresión",
+      "Más allá de la regresión lineal: logística y panorama de modelos",
+      "Significancia estadística contra relevancia práctica"
+    ]
+  },
+  "data-cleaning": {
+    "name": "Limpieza y Preparación de Datos",
+    "summary": "El ochenta por ciento del trabajo está acá: dato sucio entra, decisión equivocada sale. Aprendé a tratarlo antes de analizarlo.",
+    "syllabus": [
+      "Diagnóstico de la calidad del dato",
+      "Valores faltantes, duplicados e inconsistentes",
+      "Estandarización de formatos, textos y categorías",
+      "Valores atípicos: identificar y decidir",
+      "Transformación y enriquecimiento",
+      "Análisis exploratorio (EDA) como etapa de trabajo"
+    ],
+    "topics": [
+      "Dimensiones de la calidad del dato: exactitud, completitud, coherencia y actualidad",
+      "Perfilado (profiling): conocer la tabla antes de tocarla",
+      "Valores faltantes: por qué faltan y qué significa eso",
+      "Estrategias para faltantes: descartar, completar, imputar o marcar",
+      "Duplicados exactos y aproximados; correspondencia de registros",
+      "Estandarización de texto: mayúsculas, acentos, espacios y abreviaturas",
+      "Estandarización de fechas, monedas, unidades y códigos",
+      "Categorías inconsistentes y agrupamiento de etiquetas",
+      "Valores atípicos: error de tipeo, evento real o fraude",
+      "Tipos de dato equivocados y conversiones seguras",
+      "Unión de tablas: claves, cardinalidad y registros huérfanos",
+      "Transformaciones: normalización, discretización (binning) y variables derivadas",
+      "Pivotar y despivotar (formato ancho y largo)",
+      "Enriquecimiento con fuentes externas",
+      "Análisis exploratorio: distribuciones, relaciones y primeras hipótesis",
+      "Herramientas: Excel, SQL, pandas y dplyr",
+      "Registrar cada transformación: reproducibilidad y auditoría"
+    ],
+    "prerequisites": "Los dos son necesarios."
+  },
+  "visualization": {
+    "name": "Visualización de Datos",
+    "summary": "El gráfico correcto hace hablar al dato; el equivocado miente sin querer. Aprendé a elegir, dibujar y no engañar.",
+    "syllabus": [
+      "Fundamentos: qué entiende rápido el ojo",
+      "Categorías de gráfico y cuándo usar cada una",
+      "Teoría del color aplicada a datos",
+      "Accesibilidad y contraste",
+      "Gráficos que engañan — y cómo no hacerlos",
+      "Tableros responsivos y lectura en el celular"
+    ],
+    "topics": [
+      "Codificación visual: posición, longitud, ángulo, área, color y forma",
+      "Jerarquía de precisión: por qué la barra le gana a la torta",
+      "Gráfico de barras y de columnas: ordenamiento y línea de base en cero",
+      "Gráfico de líneas: tendencia, escala y ejes dobles (y por qué evitarlos)",
+      "Histograma y distribución: elección del intervalo (bin)",
+      "Dispersión (scatterplot), burbujas y línea de tendencia",
+      "Mapa de calor (heatmap) y matriz de correlación",
+      "Mapas geográficos: coroplético, símbolos y proyecciones",
+      "Boxplot, violín y gráficos de distribución",
+      "Pequeños múltiplos en lugar de un gráfico sobrecargado",
+      "Teoría del color: matiz, saturación y luminosidad",
+      "Paletas categóricas, secuenciales y divergentes",
+      "Color con significado y color decorativo: la diferencia",
+      "Accesibilidad: daltonismo, contraste y no depender sólo del color",
+      "Etiquetas, leyendas, títulos que afirman y anotaciones",
+      "Gráficos que engañan: eje truncado, escala doble, área proporcional equivocada",
+      "Relación dato-tinta y eliminación de ruido visual",
+      "Diseño de tablero: jerarquía, agrupamiento y recorrido del ojo",
+      "Responsividad: el tablero en el celular del director",
+      "Herramientas: Excel, Power BI, Tableau y bibliotecas de código"
+    ]
+  },
+  "bi-techniques": {
+    "name": "Técnicas Analíticas: Series Temporales, Pruebas A/B y Cohortes",
+    "summary": "Los tres análisis que más pide la empresa: hacia dónde vamos, qué versión es mejor y por qué se va el cliente.",
+    "syllabus": [
+      "Series temporales: tendencia, estacionalidad y ruido",
+      "Pronóstico y evaluación del error",
+      "Prueba A/B: diseño, tamaño de muestra y lectura",
+      "Análisis de cohortes y retención",
+      "Aprendizaje automático aplicado al BI",
+      "Reconocimiento del sesgo algorítmico"
+    ],
+    "topics": [
+      "Componentes de una serie temporal: tendencia, estacionalidad, ciclo y ruido",
+      "Descomposición y medias móviles",
+      "Suavizado exponencial y panorama de ARIMA y Prophet",
+      "Pronóstico (forecasting): horizonte, intervalo y revisión",
+      "Medir el error de pronóstico: MAE, RMSE y MAPE",
+      "Trampas: estacionalidad de feriados, cambio de régimen y dato incompleto",
+      "Prueba A/B: hipótesis, métrica principal y criterio de éxito",
+      "Cálculo del tamaño de muestra y duración de la prueba",
+      "Aleatorización, contaminación y efecto de novedad",
+      "Leer el resultado: significancia, efecto mínimo detectable y decisión",
+      "Pruebas múltiples y el problema de espiar antes de tiempo",
+      "Análisis de cohortes: definición del grupo y ventana de observación",
+      "Curvas de retención, churn y valor del cliente en el tiempo",
+      "Embudos de conversión y dónde abandona el usuario",
+      "Segmentación: RFM y agrupamiento (clustering)",
+      "Aprendizaje supervisado, no supervisado y por refuerzo: panorama",
+      "Clasificación y regresión aplicadas a problemas de negocio",
+      "Sesgo algorítmico: de dónde viene y cómo reconocerlo",
+      "Estrategias de mitigación y uso ético del modelo"
+    ]
+  },
+  "data-storytelling": {
+    "name": "Comunicación y Storytelling con Datos",
+    "summary": "Un análisis que nadie entiende no cambia nada. Aprendé a contar la historia del dato y a que te tomen en serio en la reunión.",
+    "syllabus": [
+      "La estructura de una historia con datos",
+      "Adaptar el mensaje al público",
+      "Diseño de presentaciones y de tableros",
+      "Resumen ejecutivo: una página que decide",
+      "Habilidades de negocio y pensamiento crítico",
+      "Gestión de stakeholders y del cambio"
+    ],
+    "topics": [
+      "Por qué el dato solo no convence",
+      "Estructura de la historia: contexto, conflicto, evidencia y recomendación",
+      "Empezar por la conclusión: la pirámide invertida",
+      "Adaptar al público: dirección, gerencia, área técnica y cliente",
+      "Un mensaje por diapositiva, un gráfico por mensaje",
+      "Diseño de presentaciones: contraste, alineación, repetición y espacio",
+      "Diseño de tablero para quien tiene treinta segundos",
+      "Resumen ejecutivo: una página con hallazgo, impacto y próximo paso",
+      "Escribir una recomendación accionable en lugar de una constatación",
+      "Anticipar la pregunta difícil y la objeción",
+      "Habilidad de negocio (business acumen): hablar el idioma de la empresa",
+      "Pensamiento crítico: cuestionar la fuente, la muestra y el incentivo",
+      "Gestión de stakeholders: expectativa, prioridad y comunicación continua",
+      "Gestión del cambio: por qué el área se resiste al número",
+      "Nociones de gestión de proyectos para entregas analíticas",
+      "Portafolio: un proyecto de análisis de punta a punta que muestre tu proceso"
+    ]
+  },
+  "qa-fundamentals": {
+    "name": "Fundamentos de Calidad de Software",
+    "summary": "Probar no es buscar defectos al final: es decidir qué vale la pena verificar, y cuándo.",
+    "syllabus": [
+      "Qué es el aseguramiento de calidad y qué no es",
+      "La mentalidad de quien prueba: duda sistemática, no desconfianza",
+      "Enfoques de prueba: caja negra, gris y blanca",
+      "Modelos de ciclo de vida: cascada, V, espiral y ágil",
+      "Metodologías: TDD, BDD, ATDD y análisis de causa raíz",
+      "Oráculos de prueba y priorización: por dónde empezar cuando falta tiempo"
+    ],
+    "topics": [
+      "Qué es el aseguramiento de calidad: prevenir contra detectar",
+      "Calidad del producto y calidad del proceso",
+      "Costo del defecto a lo largo del ciclo: por qué encontrarlo temprano es más barato",
+      "La mentalidad de quien prueba: hipótesis, evidencia y reproducción",
+      "El papel del QA en el equipo: no es el guardián del «no se puede subir»",
+      "Enfoque de caja negra: probar por el comportamiento",
+      "Enfoque de caja blanca: probar conociendo el código",
+      "Enfoque de caja gris: el término medio que más se usa",
+      "Modelo cascada y modelo V: la prueba como espejo del requisito",
+      "Modelo espiral y desarrollo iterativo",
+      "Modelo ágil: el papel de la prueba en ciclos cortos",
+      "Scrum: ceremonias, definición de terminado y la prueba dentro del sprint",
+      "Kanban: flujo, límite de trabajo en curso y calidad continua",
+      "XP y SAFe: qué cambia para quien prueba",
+      "Desarrollo guiado por pruebas (TDD): rojo, verde, refactorizar",
+      "Desarrollo guiado por comportamiento (BDD): Gherkin y lenguaje común",
+      "Desarrollo guiado por pruebas de aceptación (ATDD)",
+      "Análisis de causa raíz: los cinco porqués y el diagrama de Ishikawa",
+      "Oráculo de prueba: cómo saber que el resultado es correcto",
+      "Priorización: riesgo, impacto, frecuencia de uso e historial de defectos",
+      "Criterios de entrada y de salida de un ciclo de prueba",
+      "Métricas útiles y métricas que se vuelven teatro"
+    ],
+    "prerequisites": "No exige programación. Es el punto de entrada de la ruta de Calidad."
+  },
+  "manual-testing": {
+    "name": "Prueba Manual y Gestión de Pruebas",
+    "summary": "La parte del trabajo que ninguna herramienta hace: entender el producto, escribir el caso y probar el defecto.",
+    "syllabus": [
+      "Planificación de pruebas: alcance, riesgo, entorno y criterios",
+      "Casos y escenarios: escribir lo que otra persona pueda ejecutar",
+      "Verificación y validación, y pruebas de compatibilidad",
+      "Técnicas funcionales: regresión, humo, sanidad, exploratoria y UAT",
+      "Panorama de las técnicas no funcionales",
+      "Gestión: Jira, TestRail, Zephyr, informes y masa de datos"
+    ],
+    "topics": [
+      "Plan de pruebas: alcance, riesgo, recursos, entorno y cronograma",
+      "Casos y escenarios de prueba: precondición, paso, resultado esperado",
+      "Escribir un caso que otra persona ejecute sin preguntar nada",
+      "Técnicas de diseño de casos: partición de equivalencia y valores límite",
+      "Tabla de decisión y transición de estados",
+      "Verificación y validación: ¿lo construimos bien?, ¿construimos lo correcto?",
+      "Pruebas de compatibilidad: navegador, sistema, dispositivo y resolución",
+      "Prueba de humo: ¿la aplicación levanta?",
+      "Prueba de sanidad: ¿esa corrección específica funcionó?",
+      "Prueba de regresión: ¿lo que ya funcionaba sigue funcionando?",
+      "Prueba exploratoria: sesión con carta de misión y anotaciones",
+      "Prueba de aceptación del usuario (UAT) y el papel del cliente",
+      "Panorama de pruebas unitarias, de integración y el uso de dobles (mocking)",
+      "Panorama no funcional: carga, rendimiento, estrés, seguridad y accesibilidad",
+      "Reportar un defecto: reproducción, severidad, prioridad y evidencia",
+      "Ciclo de vida del defecto y triaje",
+      "Jira y Atlassian, Trello, YouTrack y Assembla",
+      "Gestión de casos: TestRail, qTest, TestLink y Zephyr",
+      "Informes: Allure, jUnit y lo que la dirección realmente lee",
+      "Masa de datos de prueba: generar, anonimizar y reutilizar",
+      "Entornos de prueba y el problema de «en mi máquina funciona»",
+      "Prueba de correo: Mailinator, Gmail Tester y flujos de confirmación"
+    ],
+    "prerequisites": "No exige programación."
+  },
+  "web-automation": {
+    "name": "Automatización de Pruebas Web",
+    "summary": "El robot que ejecuta toda la regresión en minutos — y que sólo compensa si no se rompe con cada cambio de pantalla.",
+    "syllabus": [
+      "Cómo funciona el navegador por dentro: DOM, red y renderizado",
+      "Selenium, Cypress y Playwright: cuándo sirve cada uno",
+      "Localizadores estables y el patrón Page Object",
+      "Espera, sincronismo y el combate a la prueba intermitente",
+      "Ejecución headless y en paralelo",
+      "La pirámide de pruebas: qué automatizar y qué no"
+    ],
+    "topics": [
+      "Herramientas de desarrollo del navegador: elementos, red y consola",
+      "DOM, selectores CSS y XPath: elegir un localizador que no se rompa",
+      "Ajax y carga asíncrona: por qué la prueba «parpadea»",
+      "La caché del navegador y su efecto en la prueba",
+      "Aplicaciones de página única, PWA y JAMStack",
+      "Renderizado en el cliente contra en el servidor: qué cambia para la prueba",
+      "Diseño responsivo y adaptativo: qué verificar en cada uno",
+      "Selenium WebDriver: arquitectura, drivers y la grilla de ejecución",
+      "Cypress: ejecución dentro del navegador, ventajas y límites",
+      "Playwright: múltiples navegadores, contexto y trazado",
+      "Panorama de Webdriver.io, Nightwatch, Puppeteer, Jasmine, Jest, Robot y QA Wolf",
+      "Patrón Page Object y componentes reutilizables",
+      "Espera explícita, implícita y la condición personalizada",
+      "Prueba intermitente (flaky): causas, diagnóstico y cuarentena",
+      "Datos de prueba en lo automatizado: aislamiento y limpieza",
+      "Capturas de pantalla, video y trazas para diagnosticar una falla",
+      "Ejecución headless: Chrome y Firefox sin interfaz",
+      "Panorama de Zombie.js y HTML Unit",
+      "Ejecución en paralelo y distribución de la suite",
+      "Grabadores: Selenium IDE, BugBug y Ghost Inspector — y por qué gana el código",
+      "La pirámide de pruebas: costo, velocidad y confianza en cada capa",
+      "Qué no automatizar: la prueba que cuesta más que el defecto"
+    ],
+    "prerequisites": "Exige lógica de programación y JavaScript básico."
+  },
+  "api-mobile-automation": {
+    "name": "Automatización de API y Mobile",
+    "summary": "Probar donde el defecto es más barato de encontrar: en la API, antes de la pantalla — y en la app, donde está el usuario.",
+    "syllabus": [
+      "HTTP, REST y contrato de API para quien prueba",
+      "Postman y Newman: de la colección manual a la ejecución en la tubería",
+      "REST Assured y Karate: pruebas de API en código",
+      "Contrato, esquema y pruebas de integración entre servicios",
+      "Automatización mobile: Appium, Espresso y Detox",
+      "Emulador, dispositivo real y nube de dispositivos"
+    ],
+    "topics": [
+      "HTTP para quien prueba: métodos, códigos de estado y encabezados",
+      "REST, JSON y el contrato que la API promete cumplir",
+      "Autenticación en API: clave, token, JWT y OAuth",
+      "Postman: solicitudes, variables, entornos y colecciones",
+      "Pruebas y aserciones dentro de Postman",
+      "Newman: correr la colección en la línea de comandos y en la tubería",
+      "REST Assured: prueba de API en Java con sintaxis fluida",
+      "Karate: escenarios en Gherkin sin escribir código de pegamento",
+      "Panorama de SoapUI y de servicios SOAP heredados",
+      "Validación de esquema JSON y prueba de contrato",
+      "Servicios simulados (mock server) y virtualización de servicios",
+      "Pruebas de integración entre servicios y el problema del orden",
+      "Idempotencia, reintentos y prueba deliberada del error",
+      "Automatización mobile: qué cambia respecto de la web",
+      "Appium: un driver para Android e iOS",
+      "Espresso: prueba nativa de Android",
+      "Detox: prueba de aplicaciones React Native",
+      "Panorama de SwiftTesting y XCUITest en iOS",
+      "Emulador, simulador y dispositivo real: cuándo miente cada uno",
+      "Nube de dispositivos y matriz de compatibilidad",
+      "Gestos, permisos y estados de la aplicación en la prueba",
+      "Probar la aplicación sin conexión y con red mala"
+    ],
+    "prerequisites": "Exige nociones de programación. No depende del curso de automatización web — los dos pueden hacerse en cualquier orden."
+  },
+  "non-functional-testing": {
+    "name": "Pruebas No Funcionales",
+    "summary": "El sistema hace lo que debe — pero ¿aguanta, es accesible y resiste a quien quiere romperlo a propósito?",
+    "syllabus": [
+      "Carga, estrés y rendimiento: planificar la prueba antes de ejecutarla",
+      "JMeter, K6, Gatling y Locust en la práctica",
+      "Rendimiento de front-end con Lighthouse y WebPageTest",
+      "Accesibilidad: WCAG, Wave, AXE y lector de pantalla",
+      "Pruebas de seguridad: OWASP Top 10, vectores y escaneo",
+      "Monitoreo y observación de lo que la prueba no atrapa"
+    ],
+    "topics": [
+      "El requisito no funcional: cómo transformar «tiene que ser rápido» en un número",
+      "Carga, estrés, pico, resistencia y escalabilidad: la diferencia",
+      "Modelar la carga: usuario virtual, tiempo de reflexión y rampa",
+      "JMeter: plan de prueba, muestreadores, oyentes y ejecución distribuida",
+      "K6: prueba de carga como código JavaScript",
+      "Gatling y Locust: alternativas en Scala y en Python",
+      "Panorama de Artillery y Vegeta",
+      "Leer el resultado: percentil, throughput, tasa de error y por qué el promedio engaña",
+      "Encontrar el cuello de botella: aplicación, base de datos, red o infraestructura",
+      "Rendimiento de front-end: Lighthouse, Core Web Vitals y WebPageTest",
+      "Presupuesto de rendimiento y regresión de rendimiento en la tubería",
+      "Accesibilidad: WCAG y los niveles A, AA y AAA",
+      "Wave, AXE y la auditoría de accesibilidad del navegador",
+      "Navegación por teclado, foco visible y orden de tabulación",
+      "Lector de pantalla: probar de verdad, no sólo pasar la herramienta",
+      "Pruebas de seguridad: qué hace el QA y dónde empieza el pentest",
+      "Autenticación y autorización: escalamiento de privilegios y sesión",
+      "Gestión de secretos: la clave en el repositorio y en variable de entorno",
+      "OWASP Top 10 aplicado al guion de pruebas",
+      "Vectores de ataque comunes: inyección, XSS, CSRF y carga maliciosa",
+      "Escaneo de vulnerabilidades y lectura del informe sin pánico",
+      "Monitoreo y registros: New Relic, Datadog, Grafana, Kibana y Sentry",
+      "RunScope y monitoreo sintético de API en producción",
+      "Alertas y guardia: el defecto que sólo aparece con usuarios reales"
+    ]
+  }
+};
+
+window.I18N.es.tracks = {
+  "frontend": {
+    "goal": "La formación completa de quien construye lo que el usuario ve: de la primera página estática a la aplicación publicada. Secuencia basada en el roadmap público de Front-end de la comunidad roadmap.sh, adaptada a nuestra metodología.",
+    "name": "Desarrollo Front-end",
+    "outcome": "Front-end Developer júnior"
+  },
+  "backend": {
+    "goal": "La formación de quien construye lo que sostiene la aplicación: datos, APIs, servidores y escala. Basada en el roadmap público de Back-end de la comunidad roadmap.sh — el lenguaje del servidor lo eliges tú, y el camino vuelve a unirse después.",
+    "name": "Desarrollo Back-end",
+    "outcome": "Back-end Developer júnior",
+    "steps": {
+      "3": {
+        "choice": "el lenguaje del servidor",
+        "note": "Domina uno bien antes de saltar a otro. El resto del itinerario es igual en cualquier camino.",
+        "options": [
+          "JavaScript / Node.js",
+          "Python",
+          "Java",
+          "Go"
+        ]
+      }
+    }
+  },
+  "devops": {
+    "goal": "La formación de quien sostiene la operación: sistemas, redes, nube, automatización y observabilidad. Secuencia basada en el roadmap público de DevOps de la comunidad roadmap.sh. La mitad de los cursos viene de itinerarios anteriores — quien ya hizo Front-end o Back-end entra con medio camino hecho.",
+    "name": "DevOps y SRE",
+    "outcome": "DevOps Engineer / SRE júnior"
+  },
+  "data": {
+    "goal": "La formación de quien construye la infraestructura que sostiene las decisiones: modelado, pipelines, big data y gobernanza. Secuencia basada en el roadmap público de Data Engineer de la comunidad roadmap.sh, que recomienda Python y SQL como requisitos previos. La mitad de los cursos viene de itinerarios anteriores.",
+    "name": "Ingeniería de Datos",
+    "outcome": "Data Engineer júnior"
+  },
+  "networks-infra": {
+    "goal": "La formación de quien hace que el paquete llegue: direccionamiento, enrutamiento, wi-fi, seguridad y automatización. Secuencia basada en el roadmap público de Network Engineer de la comunidad roadmap.sh — siete de los once cursos vienen de itinerarios anteriores.",
+    "name": "Redes e Infraestructura",
+    "outcome": "Network Engineer júnior"
+  },
+  "prompt": {
+    "goal": "El itinerario más corto del catálogo y el único que no exige saber programar: quien escribe, atiende, enseña o decide también lo necesita. Cubre entero el roadmap público de Prompt Engineering de la comunidad roadmap.sh, incluido el de AI Red Teaming que referencia.",
+    "name": "Ingeniería de Prompt",
+    "outcome": "Especialista en Ingeniería de Prompt"
+  },
+  "ai": {
+    "goal": "La formación de quien construye productos con IA: elección de modelo, embeddings, RAG, agentes, MCP, evaluación y multimodal. Secuencia basada en el roadmap público de AI Engineer de la comunidad roadmap.sh — la base de programación viene de Python.",
+    "name": "Ingeniería de IA",
+    "outcome": "AI Engineer júnior"
+  },
+  "software-architecture": {
+    "goal": "El único itinerario del catálogo que exige otro antes: es continuación de carrera, no puerta de entrada. Para quien ya desarrolla y va a pasar a decidir — patrones, modelado, integración corporativa, gestión y comunicación. Secuencia basada en el roadmap público de Software Architect de la comunidad roadmap.sh, que pide Back-end como requisito previo.",
+    "name": "Arquitectura de Software",
+    "outcome": "Arquitecto(a) de Software"
+  },
+  "it-support": {
+    "goal": "La puerta de entrada de la escuela y el primer itinerario que no exige nada: empieza con la torre abierta y termina contigo atendiendo, diagnosticando y documentando. Cubre los bloques Fundamental IT Skills y Operating Systems y la base de red del roadmap público de Cyber Security de la comunidad roadmap.sh.",
+    "name": "Fundamentos de TI y Soporte",
+    "outcome": "Técnico(a) de Soporte / Help Desk"
+  },
+  "security": {
+    "goal": "Ataque y defensa en el mismo camino: fundamentos, criptografía, amenazas, hardening, SOC, test de intrusión y nube. Es la mitad grande del roadmap público de Cyber Security de la comunidad roadmap.sh — la otra mitad se convirtió en el itinerario de Fundamentos de TI y Soporte, que le sirve de base.",
+    "name": "Seguridad Informática",
+    "outcome": "Analista de Seguridad de la Información"
+  },
+  "devsecops": {
+    "goal": "El itinerario más barato del catálogo: está en la intersección de DevOps y Seguridad, y el 80% ya existe. Seguridad que corre en cada commit — código seguro, modelado de amenazas, escaneo en la cadena de montaje, imagen endurecida y cadena de suministro bajo control. Secuencia basada en el roadmap público de DevSecOps de la comunidad roadmap.sh.",
+    "name": "DevSecOps",
+    "outcome": "Ingeniero(a) DevSecOps"
+  },
+  "bi": {
+    "goal": "El itinerario para quien quiere trabajar con datos sin volverse programador: estadística, Excel de verdad, SQL, visualización y la conversación con el negocio. Secuencia basada en el roadmap público de BI Analyst de la comunidad roadmap.sh. Es el itinerario que trajo la estadística que le faltaba a todo el catálogo.",
+    "name": "Business Intelligence",
+    "outcome": "Analista de BI / Analista de Datos"
+  },
+  "qa": {
+    "goal": "La formación de quien garantiza que el software hace lo que promete — y aguanta lo que prometieron por él. Secuencia basada en el roadmap público de QA Engineer de la comunidad roadmap.sh. Como en BI, nadie necesita programar para empezar: son 330h hasta el primer curso de programación, y es la segunda puerta de entrada del catálogo para quien cambia de carrera.",
+    "name": "Calidad y Pruebas de Software",
+    "outcome": "QA Engineer júnior"
+  },
+  "python-tech": {
+    "goal": "Para quien quiere dominar el lenguaje, no un puesto. El tronco es igual para todos — el lenguaje bien aprendido, con control de versiones — y al final eliges dónde aplicarlo: en el servidor, en datos o en IA. Basada en el roadmap público de Python de la comunidad roadmap.sh.",
+    "name": "Python",
+    "outcome": "Dominio de Python",
+    "steps": {
+      "3": {
+        "choice": "dónde aplicar Python",
+        "note": "Aquí el itinerario no vuelve a unirse: cada camino es una aplicación distinta del mismo lenguaje.",
+        "options": [
+          "Servidor y APIs",
+          "Datos",
+          "IA"
+        ]
+      }
+    }
+  },
+  "go-tech": {
+    "goal": "El lenguaje en el que se escribieron Docker, Kubernetes y Terraform. El tronco va de la sintaxis a la concurrencia — la parte de Go que no existe en otros lenguajes — y al final eliges el lado: construir servicios o la herramienta que los opera. Basada en el roadmap público de Go de roadmap.sh.",
+    "name": "Go",
+    "outcome": "Dominio de Go",
+    "steps": {
+      "3": {
+        "choice": "el lado de Go",
+        "note": "Los dos parten de la misma concurrencia: uno construye el servicio, el otro la herramienta que lo opera.",
+        "options": [
+          "Servicios y APIs",
+          "Herramientas e Infraestructura"
+        ]
+      }
+    }
+  },
+  "sql-tech": {
+    "goal": "La tecnología que más emplea y menos exige: SQL se aprende sin saber programar. Es el itinerario de quien viene de administración, contabilidad o gestión y se cansó de pedirle el informe a alguien. Después de la base de datos, eliges qué hacer con el dato. Basada en los roadmaps públicos de SQL y PostgreSQL de la comunidad roadmap.sh.",
+    "name": "SQL y Bases de Datos",
+    "outcome": "Dominio de SQL y bases de datos",
+    "steps": {
+      "2": {
+        "choice": "qué hacer con el dato",
+        "note": "Los dos caminos parten de la misma base: uno mira a la decisión, el otro al volumen.",
+        "options": [
+          "Análisis y BI",
+          "Ingeniería de Datos"
+        ]
+      }
+    }
+  }
+};
