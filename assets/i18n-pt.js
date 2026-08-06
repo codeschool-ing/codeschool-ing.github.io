@@ -122,7 +122,6 @@ window.I18N.pt.ui = {
   "by career": "por carreira",
   "by technology": "por tecnologia",
   "career tracks": "trilhas por carreira",
-  "codeschool.ing — Programming courses and learning tracks": "codeschool.ing — Cursos e trilhas de programação",
   "course": "curso",
   "course introduction": "apresentação do curso",
   "courses": "cursos",
