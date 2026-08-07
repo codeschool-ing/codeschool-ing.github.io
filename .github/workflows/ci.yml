@@ -1,0 +1,65 @@
+# Continuous integration.
+#
+# NOT aleogr/pipeline. The organisation's shared workflows are Go — ci-go.yml,
+# cd-go.yml and eight composite actions, all named for it — and there is no Go
+# here. Calling them would mean lint, test and build jobs with nothing to lint,
+# test or build. What this repository has instead is three tools of its own, and
+# what CI can usefully do is run them on every pull request rather than trusting
+# that somebody read the list in CLAUDE.md before pushing.
+#
+# There is no build step to guard: Pages serves the default branch as it is. So
+# these are checks, and every one of them is a rule the catalogue or the
+# dictionaries can break in a way nobody sees by reading a diff.
+
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  Checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: '22'
+
+      # A prerequisite naming a course that does not exist, a cycle, or a track
+      # listing a course before the one it depends on. None of the three is
+      # visible in a diff, and all three break the graph the site draws.
+      - name: The catalogue holds together
+        run: node tools/validate-catalog/validate-catalog.js
+
+      # Also the check that the four course dictionaries are still in step with
+      # the catalogue: it exports by POSITION, so one line out of step would
+      # give every lesson its neighbour's title, and it refuses rather than
+      # write that.
+      - name: The catalogue exports for the backend
+        run: node tools/catalog-snapshot/catalog-snapshot.js > /dev/null
+
+      - name: The version is readable, and is a version
+        run: |
+          set -euo pipefail
+          v="$(node tools/version/version.js --check)"
+          echo "version: $v"
+          case "$v" in
+            dev|[0-9]*.[0-9]*.[0-9]*) ;;
+            *) echo "the version is neither a semantic version nor \"dev\""; exit 1 ;;
+          esac
+
+      # The single file is what gets opened off a disk, and it is produced by a
+      # script that resolves every asset by hand. A bundle that stopped building
+      # is a deliverable nobody has until someone tries to send it.
+      - name: The single-file bundle still builds
+        run: python3 tools/bundle/bundle.py

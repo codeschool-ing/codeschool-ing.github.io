@@ -59,6 +59,9 @@ node tools/catalog-snapshot/catalog-snapshot.js > /dev/null   # dictionaries sti
 python3 tools/bundle/bundle.py                    # and open showcase.html from file://
 ```
 
+All of it also runs in CI on every pull request — `.github/workflows/ci.yml`. It is not
+`aleogr/pipeline`'s: the organisation's shared workflows are Go, and there is none here.
+
 Then load the page in all five languages and confirm no screen shows a raw translation key —
 an English string visible while another language is active, where the dictionary says the
 translation differs.
