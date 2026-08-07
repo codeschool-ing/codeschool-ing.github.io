@@ -57,7 +57,6 @@ jobs:
       - name: The catalogue still holds together
         run: |
           node tools/validate-catalog/validate-catalog.js
-          node tools/catalog-snapshot/catalog-snapshot.js > /dev/null
 
   Bundle:
     name: Attach the bundle to the release

@@ -47,15 +47,12 @@ Each in its own folder, with the executable at the root of it:
 
 - `tools/bundle/bundle.py` — packs the site into a single `showcase.html`
 - `tools/validate-catalog/validate-catalog.js` — checks `assets/catalog.js`
-- `tools/catalog-snapshot/catalog-snapshot.js` — exports the catalogue as JSON for
-  `codeschool-ing/portal-backend`'s `ingest`, translations included
 - `tools/version/version.js` — reads or sets the released version
 
 ## Before pushing
 
 ```sh
 node tools/validate-catalog/validate-catalog.js   # broken prerequisites, cycles, track order
-node tools/catalog-snapshot/catalog-snapshot.js > /dev/null   # dictionaries still in step
 python3 tools/bundle/bundle.py                    # and open showcase.html from file://
 ```
 
@@ -65,6 +62,18 @@ All of it also runs in CI on every pull request — `.github/workflows/ci.yml`. 
 Then load the page in all five languages and confirm no screen shows a raw translation key —
 an English string visible while another language is active, where the dictionary says the
 translation differs.
+
+## The backend's snapshot is not built here
+
+`codeschool-ing/portal-backend`'s `ingest` takes ONE file and prunes whatever is
+not in it, and the file needs SECTIONS — which are authored content and live in
+`codeschool-ing/portal-frontend`, not here. This repository used to export a
+catalogue-only version; ingesting it emptied the mirror's sections and left the
+portal unable to record a single one, so it is gone rather than kept as a
+second exporter that both repositories could reach for.
+
+`portal-frontend/tools/snapshot/snapshot.js` is the one, and it carries this
+catalogue, its four dictionaries and the sections together.
 
 ## Cutting a release
 
