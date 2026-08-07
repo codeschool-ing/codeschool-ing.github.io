@@ -3745,20 +3745,31 @@ const TRACKS = [
 
 /* The showcase has these and the portal does not: they sell, they do not teach.
    The bracketed markers are deliberate and are listed in the README as still to
-   be filled in — a made-up testimonial on a showcase is a claim, not a draft. */
+   be filled in — a made-up testimonial on a showcase is a claim, not a draft.
+
+   THE MARKER MOVED OUT OF THE QUOTE AND INTO THE ATTRIBUTION, and the two halves
+   are not the same kind of placeholder. The sentence is sample copy: it says what
+   this school would want said about it, and reading it is how anyone judges
+   whether the section works. The NAME is the part that cannot be invented — a
+   quotation is only evidence because someone is standing behind it, and nobody
+   is standing behind these yet. So the quote reads finished and the byline says,
+   in every language, that it is waiting for a person.
+
+   Filling in a name is therefore not a formatting job. It means having asked a
+   student, which is why the marker stays until someone has. */
 const TESTIMONIALS = [
   {
-    text: '[Edit: a real student testimonial.] I started not knowing what HTML was and finished the track with three projects published in my portfolio.',
+    text: 'I started not knowing what HTML was and finished the track with three projects published in my portfolio. What made the difference was never having to guess what to study next.',
     author: '[Student name]',
     context: 'Front-end Development track · class of [year]',
   },
   {
-    text: '[Edit: a real student testimonial.] The Git course changed the way I work — today I collaborate on projects without being afraid of breaking anything.',
+    text: 'The Git course changed the way I work: today I collaborate on projects without being afraid of breaking anything, and I can undo a mistake without asking anyone for help.',
     author: '[Student name]',
     context: 'Git and Version Control · class of [year]',
   },
   {
-    text: '[Edit: a real student testimonial.] The AI part of the Development track surprised me most: it changed my productivity at work.',
+    text: 'The AI part of the Development track was the biggest surprise. I came for the certificate and left with something I use every day at work.',
     author: '[Student name]',
     context: 'AI in Development · class of [year]',
   },

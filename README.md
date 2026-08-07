@@ -604,12 +604,12 @@ Submission is ready for a provider (Formspree, Web3Forms, Brevo...): paste the P
 
 ## What still needs filling in
 
-- Real testimonials (with the students' permission) — remembering that there are **five** places: `catalog.js` for the Portuguese and `i18n.js` for en, es, fr and it
+- Real testimonials (with the students' permission) — remembering that there are **five** places: `catalog.js` for the English and `i18n.js`/`i18n-pt.js` for pt, es, fr and it. The quotes themselves now read as finished copy; what is still missing is the **byline**, and that is the half that cannot be written by anyone but a student
 - Introduction videos: the YouTube id in each course's `video` field, in `catalog.js`
-- **The three plans are examples**: the prices are at `00` on purpose, and the listed benefits are plausible, not decided. See the "Plans" section below.
+- **The three plans are examples**: the numbers are invented and the benefits are the ones the portal grants, not ones anyone decided to sell. See the "Plans" section below.
 - A real e-mail address (today `contact@codeschool.ing`)
 - **Four FAQ answers are examples** and carry the marker in square brackets: cancellation, payment methods, standalone sales and terms for companies. The questions are the right ones — they are what everyone asks about a subscription — but the answers depend on a policy that does not exist yet, and a deadline or refund rule written on a showcase becomes a commitment somebody will hold you to.
-- The example testimonials sign off with "turma de [ano]", the vocabulary of enrolling in a cohort. When the real accounts come in, each one's sign-off has to match the enrolment model.
+- The example testimonials sign off with "class of [year]", the vocabulary of enrolling in a cohort. When the real accounts come in, each one's sign-off has to match the enrolment model.
 - Real social media profiles: the footer's five links point at `codeschool.ing`/`codeschool-ing` handles that still need to exist
 - A review of the syllabuses and workloads against the courses the school actually offers
 
@@ -617,9 +617,13 @@ Submission is ready for a provider (Formspree, Web3Forms, Brevo...): paste the P
 
 The `#planos` section replaced the old "Como funciona" — the four steps ("choose your track", "study when you can"…) described a method the whole page already demonstrates, and the space is worth more showing what costs what.
 
-**The three cards are placeholders.** The name, the strapline and the items are written as though they were real, because a card with "lorem ipsum" does not let you assess the layout; but the price is `R$ 00` on all three, and that is how it must stay until the billing decision. A made-up number on a showcase is not a draft: it is a promise, and somebody will hold you to it.
+**The three cards are the three plans the portal grants**, and that is the change worth recording, because it replaced something worse than a placeholder. The cards used to advertise **Essencial**, **Completo** and **Equipes**; `codeschool-ing/portal-frontend`'s `assets/plans.js` grants **student**, **pro** and **team**, with different benefits. Somebody could subscribe to "Completo" here, sign in, and find a plan by another name that did not include what this page had listed. Two sets of copy for one product diverge the day one of them is edited — and they had already diverged before anyone edited anything.
 
-What each one represents today — **Essencial** (one track), **Completo** (the whole catalogue, the highlighted one) and **Equipes** (a company, priced per person) — is a hypothesis of a ladder, not a decision. Swapping the three for another structure means editing `index.html` and the corresponding keys in `i18n.js`'s four dictionaries.
+So the names, the straplines, the benefit lines and the numbers are now `plans.js`'s, line for line. The benefit lines are literally its `FEATURES` sentences, which is why they read as a list of capabilities rather than as marketing. The ids behind them — `student`, `pro`, `team` — are stored in a student's browser and migrated in `state.js`, so they are the fixed point: this page follows them, never the other way round.
+
+**The prices are still invented**, and the `[sample plans — ...]` marker still says so on screen. They were `R$ 00` before, on the argument that a made-up number on a showcase is a promise somebody will hold you to; the marker is what carries that argument now, and it stays until the billing decision. What is no longer invented is the *relationship* between the three: `R$ 0` forever on the entry plan is not decoration but a description — a new account is given `PLANS[0]`, so a paid entry plan would mean every student silently holding a subscription nobody charged for.
+
+Swapping the three for another structure means editing `index.html`, the corresponding keys in the four dictionaries, **and `plans.js` in the portal**. All three, or they are back to describing different products.
 
 **The plan buttons open the signup modal** with the plan already in the heading — see "The signup modal" above.
 
@@ -631,7 +635,7 @@ It took over the screen that was the enrolment form's. There are eight questions
 
 At **861px and up** the questions sit in two columns. Eight accordions in a single column turned into a narrow ribbon in the middle of a wide screen. It is `grid`, not `columns`: CSS multi-column splits an open `<details>` down the middle.
 
-The four new answers carry the `[resposta de exemplo — ...]` marker at the end, in the same style as the prices and the testimonials. They are plausible, not decided — the criterion is the same as the `R$ 00`'s.
+The four new answers carry the `[sample answer — ...]` marker at the end, in the same style as the plans and the testimonials. They are plausible, not decided — the criterion is the same one the `[sample plans — ...]` marker carries.
 
 ## Contact
 
