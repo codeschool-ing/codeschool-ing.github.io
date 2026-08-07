@@ -13,8 +13,14 @@
 
 name: Continuous Integration
 
+# Also on main, and that is not symmetry for its own sake: the bundle this
+# builds is uploaded as an artefact, so every commit on main leaves a
+# downloadable showcase.html behind. Getting the current single file stops being
+# something anyone has to ask a person for.
 on:
   pull_request:
+    branches: [main]
+  push:
     branches: [main]
 
 permissions:
@@ -63,3 +69,14 @@ jobs:
       # is a deliverable nobody has until someone tries to send it.
       - name: The single-file bundle still builds
         run: python3 tools/bundle/bundle.py
+
+      # The point of keeping it. On a pull request it is the change, openable
+      # before merging; on main it is the current site in one file. 30 days,
+      # because a tagged release keeps its own copy for good and this one only
+      # has to outlive the reason somebody wanted it.
+      - name: Keep the bundle
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: showcase-html
+          path: showcase.html
+          retention-days: 30

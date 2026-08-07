@@ -1,0 +1,89 @@
+# Continuous delivery: check the tag, then publish the single-file bundle.
+#
+# THERE IS NO DEPLOYMENT STEP. Pages serves the default branch, so the site went
+# live the moment the merge landed. What a release adds is the one artefact this
+# repository produces that nobody can get from the branch: the self-contained
+# showcase.html, which is what gets sent to someone who should look at the site
+# without being handed a URL.
+#
+# And the check. The version is written in the repository rather than stamped on
+# the way out — there is nothing here that builds, so stamping would mean a
+# robot commit to the branch being served. The cost of that trade is drift, and
+# this is what pays it: a wrong version answers "what is deployed?" with
+# confidence and gets it wrong, so the release fails rather than warns.
+
+name: Continuous Delivery
+
+on:
+  push:
+    tags: ['v*']
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  Version:
+    name: The version matches the tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: '22'
+
+      - name: The version in the page must equal the tag
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME#v}"
+          page="$(node tools/version/version.js --check)"
+          echo "tag:  $tag"
+          echo "page: $page"
+          if [ "$tag" != "$page" ]; then
+            echo
+            echo "The release is tagged v$tag and the page says v$page."
+            echo "Whoever reads the footer would be told the wrong thing."
+            echo
+            echo "Fix it with:  node tools/version/version.js $tag"
+            echo "then commit, delete the tag and tag again."
+            exit 1
+          fi
+
+      - name: The catalogue still holds together
+        run: |
+          node tools/validate-catalog/validate-catalog.js
+          node tools/catalog-snapshot/catalog-snapshot.js > /dev/null
+
+  Bundle:
+    name: Attach the bundle to the release
+    needs: Version
+    # Only when a release exists to attach it to. The tag push fires this
+    # workflow too, and fires it FIRST — that run does the check above and
+    # stops here, which is what makes a bad tag fail before anything is
+    # published rather than after.
+    if: ${{ github.event_name == 'release' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Build the single file
+        run: python3 tools/bundle/bundle.py
+
+      # Named after the release, because a file called showcase.html in a
+      # downloads folder six months from now says nothing about which one it is.
+      - name: Name it after the release
+        run: mv showcase.html "showcase-${GITHUB_REF_NAME}.html"
+
+      - name: Attach it
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          gh release upload "$GITHUB_REF_NAME"
+          "showcase-${GITHUB_REF_NAME}.html" --clobber
