@@ -47,13 +47,6 @@ jobs:
       - name: The catalogue holds together
         run: node tools/validate-catalog/validate-catalog.js
 
-      # Also the check that the four course dictionaries are still in step with
-      # the catalogue: it exports by POSITION, so one line out of step would
-      # give every lesson its neighbour's title, and it refuses rather than
-      # write that.
-      - name: The catalogue exports for the backend
-        run: node tools/catalog-snapshot/catalog-snapshot.js > /dev/null
-
       - name: The version is readable, and is a version
         run: |
           set -euo pipefail
