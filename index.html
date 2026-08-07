@@ -149,9 +149,23 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
 </section>
 
 <!-- SCREEN 4 · PLANS -->
-<!-- Three example plans. The prices are deliberately zeroed: the billing model
-     has not been decided yet, and a made-up number on a showcase site becomes a
-     promise. See the README. -->
+<!-- THE SAME THREE PLANS THE PORTAL GRANTS, and that is the point of the shape
+     below. codeschool-ing/portal-frontend's assets/plans.js is the record a
+     signed-in student's account points at; its ids — student, pro, team — are
+     stored in a browser and migrated, so they are fixed. This page is where
+     somebody chooses one, and it used to advertise three OTHER plans (Essential,
+     Complete, Teams) at prices of 00. Whoever subscribed to "Complete" here
+     signed in and found a plan called "Pro" with different benefits.
+
+     The names, the pitches, the benefit lines and the numbers are now the ones
+     in plans.js, line for line — the benefit lines are its FEATURES sentences,
+     which is why they read as a list of capabilities rather than as copy.
+
+     THE PRICES ARE STILL INVENTED, and the marker below says so. What is no
+     longer invented is the relationship: R$ 0 forever on the entry plan is not
+     decoration, it is what the portal actually does — a new account gets
+     PLANS[0], so if the entry plan were paid, every student would silently hold
+     a paid subscription nobody charged for. -->
 <section id="plans" class="screen panel-sec">
   <div class="sec-head">
     <h2>Plans</h2>
@@ -159,39 +173,40 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
   </div>
   <div class="plans">
     <article class="plan">
-      <h3 class="plan-name">Essential</h3>
-      <p class="plan-pitch">For anyone who wants to start with a single subject.</p>
-      <p class="plan-price"><span class="plan-currency">R$</span><strong>00</strong><span class="plan-period">/month</span></p>
+      <h3 class="plan-name">Student</h3>
+      <p class="plan-pitch">To try the whole school before deciding.</p>
+      <p class="plan-price"><span class="plan-currency">R$</span><strong>0</strong><span class="plan-period">/month</span></p>
       <ul class="plan-items">
-        <li>One track of your choice</li>
-        <li>Recorded classes and support material</li>
-        <li>Exercises with automatic grading</li>
-        <li>A certificate for every course finished</li>
+        <li>The whole catalogue: 86 courses and 16 tracks</li>
+        <li>A guided track with a progress map</li>
+        <li>Exercises and assessments for every lesson</li>
       </ul>
       <button type="button" class="btn btn-ghost plan-btn">I want this plan →</button>
     </article>
     <article class="plan plan-featured">
       <span class="plan-seal">most chosen</span>
-      <h3 class="plan-name">Complete</h3>
-      <p class="plan-pitch">Access to the whole catalogue, without choosing now.</p>
-      <p class="plan-price"><span class="plan-currency">R$</span><strong>00</strong><span class="plan-period">/month</span></p>
+      <h3 class="plan-name">Pro</h3>
+      <p class="plan-pitch">The plan for someone studying to work with this.</p>
+      <p class="plan-price"><span class="plan-currency">R$</span><strong>49</strong><span class="plan-period">/month</span></p>
       <ul class="plan-items">
-        <li>Every track and every course</li>
-        <li>Live sessions for your questions</li>
-        <li>Projects reviewed by a teacher</li>
-        <li>A certificate for every course finished</li>
+        <li>Everything in the Student plan</li>
+        <li>Final course and track exams</li>
+        <li>Course and track certificates</li>
+        <li>Supporting material to download</li>
+        <li>Lessons to watch offline</li>
+        <li>A forum answered by instructors</li>
       </ul>
       <button type="button" class="btn btn-primary plan-btn">I want this plan →</button>
     </article>
     <article class="plan">
-      <h3 class="plan-name">Teams</h3>
-      <p class="plan-pitch">For companies training more than one person.</p>
-      <p class="plan-price"><span class="plan-currency">R$</span><strong>00</strong><span class="plan-period">/month per person</span></p>
+      <h3 class="plan-name">Team</h3>
+      <p class="plan-pitch">For teams and schools, with class tracking.</p>
+      <p class="plan-price"><span class="plan-currency">R$</span><strong>39</strong><span class="plan-period">/month per person</span></p>
       <ul class="plan-items">
-        <li>Everything in the Complete plan</li>
-        <li>A dashboard to follow the group</li>
-        <li>A track designed with the company</li>
-        <li>Invoicing and centralised payment</li>
+        <li>Everything in the Pro plan</li>
+        <li>Group mentoring, every week</li>
+        <li>Class reports and export</li>
+        <li>Invoicing and billing by company registration</li>
       </ul>
       <button type="button" class="btn btn-ghost plan-btn">Talk to us →</button>
     </article>
@@ -248,7 +263,7 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
     </details>
     <details>
       <summary>Can my company subscribe for the team?</summary>
-      <p>It can: that is the Teams plan, priced per person and with a dashboard to follow the group. <span class="mono dim">[sample answer — invoicing and terms are still to be defined]</span></p>
+      <p>It can: that is the Team plan, priced per person and with class reports to follow the group. <span class="mono dim">[sample answer — invoicing and terms are still to be defined]</span></p>
     </details>
   </div>
 </section>
