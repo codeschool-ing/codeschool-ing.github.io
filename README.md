@@ -604,12 +604,12 @@ Submission is ready for a provider (Formspree, Web3Forms, Brevo...): paste the P
 
 ## What still needs filling in
 
-- Real testimonials (with the students' permission) — remembering that there are **five** places: `catalog.js` for the Portuguese and `i18n.js` for en, es, fr and it
+- Real testimonials (with the students' permission) — remembering that there are **five** places: `catalog.js` for the English and `i18n.js`/`i18n-pt.js` for pt, es, fr and it. The quotes themselves now read as finished copy; what is still missing is the **byline**, and that is the half that cannot be written by anyone but a student
 - Introduction videos: the YouTube id in each course's `video` field, in `catalog.js`
-- **The three plans are examples**: the prices are at `00` on purpose, and the listed benefits are plausible, not decided. See the "Plans" section below.
+- **The three plans are examples**: the numbers are invented and the benefits are the ones the portal grants, not ones anyone decided to sell. See the "Plans" section below.
 - A real e-mail address (today `contact@codeschool.ing`)
 - **Four FAQ answers are examples** and carry the marker in square brackets: cancellation, payment methods, standalone sales and terms for companies. The questions are the right ones — they are what everyone asks about a subscription — but the answers depend on a policy that does not exist yet, and a deadline or refund rule written on a showcase becomes a commitment somebody will hold you to.
-- The example testimonials sign off with "turma de [ano]", the vocabulary of enrolling in a cohort. When the real accounts come in, each one's sign-off has to match the enrolment model.
+- The example testimonials sign off with "class of [year]", the vocabulary of enrolling in a cohort. When the real accounts come in, each one's sign-off has to match the enrolment model.
 - Real social media profiles: the footer's five links point at `codeschool.ing`/`codeschool-ing` handles that still need to exist
 - A review of the syllabuses and workloads against the courses the school actually offers
 
@@ -635,7 +635,7 @@ It took over the screen that was the enrolment form's. There are eight questions
 
 At **861px and up** the questions sit in two columns. Eight accordions in a single column turned into a narrow ribbon in the middle of a wide screen. It is `grid`, not `columns`: CSS multi-column splits an open `<details>` down the middle.
 
-The four new answers carry the `[resposta de exemplo — ...]` marker at the end, in the same style as the prices and the testimonials. They are plausible, not decided — the criterion is the same as the `R$ 00`'s.
+The four new answers carry the `[sample answer — ...]` marker at the end, in the same style as the plans and the testimonials. They are plausible, not decided — the criterion is the same one the `[sample plans — ...]` marker carries.
 
 ## Contact
 

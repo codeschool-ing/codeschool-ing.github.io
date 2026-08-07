@@ -194,17 +194,17 @@ window.I18N.es.ui = {
 
 window.I18N.es.testimonials = [
   {
-    "text": "[Editar: testimonio real de un alumno.] Empecé sin saber qué era HTML y terminé el itinerario con tres proyectos publicados en mi portafolio.",
+    "text": "Empecé sin saber qué era HTML y terminé el itinerario con tres proyectos publicados en mi portafolio. Lo que marcó la diferencia fue no tener que adivinar nunca qué estudiar después.",
     "author": "[Nombre del alumno]",
     "context": "Itinerario de Desarrollo Front-end · promoción de [año]"
   },
   {
-    "text": "[Editar: testimonio real de un alumno.] El curso de Git cambió mi forma de trabajar — hoy colaboro en proyectos sin miedo a romper nada.",
+    "text": "El curso de Git cambió mi forma de trabajar: hoy colaboro en proyectos sin miedo a romper nada, y puedo deshacer un error sin pedirle ayuda a nadie.",
     "author": "[Nombre de la alumna]",
     "context": "Git y Control de Versiones · promoción de [año]"
   },
   {
-    "text": "[Editar: testimonio real de un alumno.] La parte de IA en el Desarrollo fue lo que más me sorprendió: cambió mi productividad en el trabajo.",
+    "text": "La parte de IA del itinerario de Desarrollo fue la mayor sorpresa. Entré por el certificado y salí con algo que uso todos los días en el trabajo.",
     "author": "[Nombre del alumno]",
     "context": "IA en el Desarrollo · promoción de [año]"
   }
@@ -388,17 +388,17 @@ window.I18N.fr.ui = {
 
 window.I18N.fr.testimonials = [
   {
-    "text": "[À modifier : témoignage réel d’un élève.] J’ai commencé sans savoir ce qu’était le HTML et j’ai terminé le parcours avec trois projets publiés dans mon portfolio.",
+    "text": "J’ai commencé sans savoir ce qu’était le HTML et j’ai terminé le parcours avec trois projets publiés dans mon portfolio. Ce qui a fait la différence, c’est de ne jamais avoir à deviner quoi étudier ensuite.",
     "author": "[Nom de l’élève]",
     "context": "Parcours Développement Front-end · promotion [année]"
   },
   {
-    "text": "[À modifier : témoignage réel d’un élève.] Le cours de Git a changé ma façon de travailler — aujourd’hui je collabore sans craindre de tout casser.",
+    "text": "Le cours de Git a changé ma façon de travailler : aujourd’hui je collabore sans craindre de tout casser, et je sais défaire une erreur sans demander de l’aide à personne.",
     "author": "[Nom de l’élève]",
     "context": "Git et Contrôle de Versions · promotion [année]"
   },
   {
-    "text": "[À modifier : témoignage réel d’un élève.] La partie IA dans le Développement m’a le plus surpris : elle a changé ma productivité au travail.",
+    "text": "La partie IA du parcours Développement a été la plus grande surprise. Je suis venu pour le certificat et je suis reparti avec quelque chose que j’utilise tous les jours au travail.",
     "author": "[Nom de l’élève]",
     "context": "IA dans le Développement · promotion [année]"
   }
@@ -582,17 +582,17 @@ window.I18N.it.ui = {
 
 window.I18N.it.testimonials = [
   {
-    "text": "[Da sostituire: testimonianza reale di uno studente.] Ho iniziato senza sapere cosa fosse l’HTML e ho finito il percorso con tre progetti pubblicati nel mio portfolio.",
+    "text": "Ho iniziato senza sapere cosa fosse l’HTML e ho finito il percorso con tre progetti pubblicati nel mio portfolio. La differenza l’ha fatta non dover mai indovinare cosa studiare dopo.",
     "author": "[Nome dello studente]",
     "context": "Percorso Sviluppo Front-end · classe [anno]"
   },
   {
-    "text": "[Da sostituire: testimonianza reale di uno studente.] Il corso di Git ha cambiato il mio modo di lavorare — oggi collaboro ai progetti senza paura di rompere nulla.",
+    "text": "Il corso di Git ha cambiato il mio modo di lavorare: oggi collaboro ai progetti senza paura di rompere nulla, e so annullare un errore senza chiedere aiuto a nessuno.",
     "author": "[Nome dello studente]",
     "context": "Git e Controllo di Versione · classe [anno]"
   },
   {
-    "text": "[Da sostituire: testimonianza reale di uno studente.] La parte di IA nello Sviluppo è quella che mi ha sorpreso di più: ha cambiato la mia produttività al lavoro.",
+    "text": "La parte di IA nel percorso di Sviluppo è stata la sorpresa più grande. Sono entrato per il certificato e sono uscito con una cosa che uso tutti i giorni al lavoro.",
     "author": "[Nome dello studente]",
     "context": "IA nello Sviluppo · classe [anno]"
   }

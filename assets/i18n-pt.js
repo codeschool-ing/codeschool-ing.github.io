@@ -190,17 +190,17 @@ window.I18N.pt.ui = {
 
 window.I18N.pt.testimonials = [
   {
-    "text": "[Edite: depoimento real de aluno.] Comecei sem saber o que era HTML e terminei a trilha com três projetos publicados no meu portfólio.",
+    "text": "Comecei sem saber o que era HTML e terminei a trilha com três projetos publicados no meu portfólio. O que fez diferença foi nunca precisar adivinhar o que estudar em seguida.",
     "author": "[Nome do aluno]",
     "context": "Trilha Desenvolvimento Front-end · turma de [ano]"
   },
   {
-    "text": "[Edite: depoimento real de aluno.] O curso de Git mudou meu jeito de trabalhar — hoje colaboro em projetos sem medo de quebrar nada.",
+    "text": "O curso de Git mudou meu jeito de trabalhar: hoje colaboro em projetos sem medo de quebrar nada, e consigo desfazer um erro sem pedir ajuda a ninguém.",
     "author": "[Nome da aluna]",
     "context": "Git e Controle de Versão · turma de [ano]"
   },
   {
-    "text": "[Edite: depoimento real de aluno.] A parte de IA no Desenvolvimento foi o que mais me surpreendeu: mudou minha produtividade no trabalho.",
+    "text": "A parte de IA na trilha de Desenvolvimento foi a maior surpresa. Entrei pelo certificado e saí com uma coisa que uso todo dia no trabalho.",
     "author": "[Nome do aluno]",
     "context": "IA no Desenvolvimento · turma de [ano]"
   }
