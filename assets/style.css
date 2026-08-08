@@ -80,7 +80,7 @@ nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;height:64px;
   padding:0 clamp(20px,5vw,64px);
-  background:rgba(10,14,20,.78);backdrop-filter:blur(10px);
+  background:rgba(10,14,20,.78);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--wire);
   transition:background .3s ease;
 }
@@ -383,9 +383,10 @@ html[data-theme="light"] .drop-op.on{background:rgba(43,82,201,.09)}
 }
 .track-graph::-webkit-scrollbar{display:none}
 /* fades the edge where there is still graph, as with the tabs */
-.track-graph.fade-right{mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent)}
-.track-graph.fade-left{mask-image:linear-gradient(to left,#000 calc(100% - 26px),transparent)}
+.track-graph.fade-right{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent)}
+.track-graph.fade-left{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 26px),transparent)}
 .track-graph.fade-left.fade-right{
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 26px,#000 calc(100% - 26px),transparent);
   mask-image:linear-gradient(to right,transparent,#000 26px,#000 calc(100% - 26px),transparent);
 }
 .graph-edges{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
@@ -518,9 +519,9 @@ html[data-theme="light"] .fork{background:rgba(43,82,201,.045)}
 .chips{display:flex;gap:7px;flex-wrap:nowrap;flex:1 1 auto;min-width:0;
   overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
 .chips::-webkit-scrollbar{display:none}
-.chips.fade-right{mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent)}
-.chips.fade-left{mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent)}
-.chips.fade-left.fade-right{mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent)}
+.chips.fade-right{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 30px),transparent)}
+.chips.fade-left{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 30px),transparent)}
+.chips.fade-left.fade-right{-webkit-mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent)}
 .chip{flex:0 0 auto;white-space:nowrap}
 .chip{
   font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--paper-dim);
@@ -740,7 +741,7 @@ a.channel:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
 .modal[hidden]{display:none}
 .modal{
   position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;
-  background:rgba(4,6,10,.88);backdrop-filter:blur(6px);animation:appear .22s ease;
+  background:rgba(4,6,10,.88);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:appear .22s ease;
 }
 /* With the modal open the background does not scroll. Trapping only the wheel and
    touch in JavaScript was not enough: the browser's scrollbar, the trackpad's
@@ -966,7 +967,7 @@ html.modal-open .screen{overflow:hidden}
   .graph-arrow{display:none}
   .track-graph{max-height:46vh;height:auto;overflow-x:hidden}
   /* here the scrolling is vertical, so the fade that says "there is more" goes at the bottom */
-  .track-graph.fade-down{mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent)}
+  .track-graph.fade-down{-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent)}
   .graph-edges{display:none}
   .graph-levels{flex-direction:column;gap:12px;width:auto;height:auto}
   /* a single column: the sub-columns measured for the wide screen stop
