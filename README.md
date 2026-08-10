@@ -1,6 +1,6 @@
 # codeschool.ing — a showcase of courses and tracks
 
-The `codeschool.ing` site — **Stage 1: the showcase**. It presents courses, training tracks, the methodology and enrolment capture. There is no login, no payment and no student area: that is Stage 2 (the platform/LMS), which will be **built to measure** — an off-the-shelf platform has been ruled out.
+The `codeschool.ing` site — **Stage 1: the showcase**. It presents courses, training tracks, the methodology and enrolment capture. There is no login, no payment and no student area *here*: that is Stage 2, which was **built to measure** rather than bought off the shelf, and is live — the portal at `codeschool-ing/portal-frontend` and its API at `codeschool-ing/portal-backend` (`api.codeschool.ing`). The two are not wired together yet: this page's enrolment form is still in demonstration mode (`ENROL_URL` empty, see "The signup modal"), so a request captured here reaches nobody.
 
 **This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 86 courses and 16 tracks across programming, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `catalog.js` and the identity.
 
