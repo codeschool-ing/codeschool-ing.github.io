@@ -144,6 +144,7 @@ window.I18N.pt.ui = {
   "levels": "níveis",
   "made in Brazil · for anywhere": "feito no Brasil · para qualquer lugar",
   "privacy": "privacidade",
+  "terms": "termos",
   "Under development — content, prices and testimonials are illustrative.": "Em desenvolvimento — conteúdo, preços e depoimentos são ilustrativos.",
   "management": "gestao",
   "most chosen": "mais escolhido",
