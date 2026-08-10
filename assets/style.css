@@ -150,13 +150,22 @@ html[data-theme="light"] .lang-op.on{background:rgba(43,82,201,.09)}
    yet, and the colour sets it apart from the real navigation instead of making it
    compete with it. */
 .nav-student{
-  display:flex;align-items:center;gap:7px;cursor:default;white-space:nowrap;flex:0 0 auto;
+  display:flex;align-items:center;gap:7px;cursor:pointer;white-space:nowrap;flex:0 0 auto;
   font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--amber);
   border:1px solid var(--amber);border-radius:2px;padding:6px 11px;
   transition:background .2s,color .2s;
 }
 .nav-student:hover{background:var(--amber);color:var(--ink)}
 .nav-student svg{width:15px;height:15px;flex:0 0 auto}
+/* "Beta" beside the wordmark: the whole site is still in development, and this
+   is the one label that says so on every screen. Amber, the site's own attention
+   colour, and small enough to inform without shouting. */
+.brand-beta{
+  font-family:'IBM Plex Mono',monospace;font-size:.56rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--amber);border:1px solid var(--amber);
+  padding:1px 5px;border-radius:2px;margin-left:8px;flex:0 0 auto;
+}
 .nav-soon{
   font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
   color:var(--amber);border:1px solid var(--amber);border-radius:2px;padding:1px 5px;
@@ -733,6 +742,10 @@ a.channel:hover{border-color:var(--phosphor-dim);transform:translateY(-2px)}
   margin-top:24px;padding-top:16px;border-top:1px solid var(--wire);
   font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--paper-dim);
 }
+.foot-wip{
+  margin-top:24px;text-align:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;line-height:1.5;color:var(--amber);
+}
 .foot-links{display:flex;gap:16px}
 .foot-links a{color:var(--phosphor-dim);transition:color .2s}
 .foot-links a:hover{color:var(--phosphor)}
@@ -999,10 +1012,13 @@ html.modal-open .screen{overflow:hidden}
   .search{width:100%}
 }
 
-/* Below this the bar only fits the essentials. The student area is a placeholder
-   for future functionality: it is the first to go, before the burger menu. */
+/* Below this the bar only fits the essentials, so the student area drops its
+   label and rides as an icon — but it STAYS. It is the portal's front door now,
+   not the placeholder it once was, and a phone is exactly where a student
+   reaches for it. */
 @media(max-width:620px){
-  .nav-student{display:none}
+  .nav-student{padding:6px 9px}
+  .nav-student span:not(.nav-soon){display:none}
   .brand{font-size:.95rem}
 }
 
