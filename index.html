@@ -20,8 +20,20 @@ try{var t=localStorage.getItem('codeschool-theme')||{claro:'light',escuro:'dark'
 if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<!-- The local stylesheet first, and the only one that blocks the first paint.
+     It is same-origin, served from the same Pages edge as this HTML, so paint
+     waits on nothing we do not control. -->
 <link rel="stylesheet" href="assets/style.css" />
+<!-- Google Fonts off the critical path. It used to block the paint, which made
+     it the one render-blocking resource on a third-party host: when it stalled,
+     the page showed unstyled until it resolved (the "needs an F5" flash).
+     `media="print"` keeps it out of the render-blocking set; onload flips it to
+     `all` once it arrives; `display=swap` (in the URL) paints text in the
+     fallback face until then. <noscript> keeps the fonts without JavaScript. -->
+<link rel="stylesheet" media="print" onload="this.media='all'"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+<noscript><link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" /></noscript>
 </head>
 <body>
 
