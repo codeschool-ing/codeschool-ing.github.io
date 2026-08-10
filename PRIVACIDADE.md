@@ -48,8 +48,8 @@ que você exerce seus direitos e tira dúvidas sobre esta política.
   antes de você entrar, o seu progresso de estudo local — que é enviado para a
   sua conta no primeiro login.
 
-Não usamos cookies de publicidade nem rastreadores de terceiros.
-`[Confirmar se não há nenhuma ferramenta de analytics em uso.]`
+Não usamos cookies de publicidade, rastreadores de terceiros nem ferramentas
+de analytics.
 
 ## 4. Para que usamos, e com que base legal (LGPD, art. 7)
 
@@ -71,18 +71,22 @@ Não vendemos os seus dados. Compartilhamos com operadores que nos ajudam a
 prestar o serviço, apenas no necessário:
 
 - **Hospedagem e banco de dados:** Google Cloud (Cloud Run e Cloud SQL), com
-  dados em repouso na região `[southamerica-east1, São Paulo]`.
+  dados em repouso na região **us-central1 (Iowa, Estados Unidos)**.
 - **Site estático:** GitHub Pages (serve a vitrine e o portal).
-- **Envio de e-mails:** `[provedor de SMTP — ex.: Amazon SES, Brevo, SendGrid]`.
-- **Formulários da vitrine:** `[provedor do formulário de contato e da newsletter
-  — ex.: Formspree, Brevo]`.
+- **Envio de e-mails:** Brevo (Sendinblue), que entrega as mensagens
+  transacionais — confirmação de e-mail e redefinição de senha.
+- **Formulários da vitrine:** ainda em modo demonstração; os formulários de
+  contato e de newsletter não enviam dados a provedor nenhum enquanto não são
+  configurados. `[Preencher o provedor quando os formulários entrarem no ar.]`
 
 ## 6. Transferência internacional
 
-Alguns operadores acima têm operações fora do Brasil, então parte do tratamento
-pode ocorrer no exterior. Nesses casos, exigimos garantias compatíveis com a
-LGPD (art. 33). `[Confirmar a base de transferência internacional de cada
-provedor — cláusulas contratuais, adequação, etc.]`
+Parte do tratamento ocorre fora do Brasil: os dados do portal ficam hospedados
+nos **Estados Unidos** (Google Cloud, região us-central1) e o envio de e-mails
+passa pela **Brevo**, com operação na União Europeia. Nesses casos, a
+transferência se apoia nas garantias compatíveis com a LGPD (art. 33) oferecidas
+por esses provedores. `[Confirmar e documentar a base de cada transferência —
+cláusulas-padrão contratuais, decisão de adequação, etc.]`
 
 ## 7. Por quanto tempo guardamos
 
@@ -146,11 +150,18 @@ Este rascunho descreve o tratamento REAL de hoje, lido do código:
   • Cookies: portal_session; cookie curto de desafio no 2FA. localStorage:
     codeschool-language, codeschool-theme e o progresso local pré-login.
 
+Já preenchido a partir do que está no ar hoje:
+  • Hospedagem em us-central1 (Iowa, EUA) e SMTP pela Brevo — o que torna a
+    transferência internacional (§6) um ponto real, não hipotético.
+  • Ausência de analytics/rastreadores confirmada.
+
 Pendências que só você/assessoria resolvem (os [colchetes] acima):
   • Controlador (razão social, CNPJ, endereço) e encarregado(a)/DPO + canal.
-  • Provedores reais de SMTP e de formulário/newsletter, e a base de
-    transferência internacional de cada um.
-  • Prazos de retenção e o item de menores de idade.
-  • Confirmar ausência de analytics.
+  • Provedor de formulário/newsletter (só quando saírem do modo demonstração) e
+    a base documental de cada transferência internacional.
+  • Prazos de retenção e o item de menores de idade; data de vigência.
   • Traduzir para os outros idiomas do site, se a política for exibida neles.
+
+A versão publicada é privacidade.html (mesmo conteúdo, estilizada); mantenha os
+dois em sincronia, como style.css e o base.css do portal.
 -->
