@@ -576,6 +576,14 @@ html[data-theme="light"] .fork{background:rgba(43,82,201,.045)}
    lists of different sizes; the button drops to the foot of each one because of
    `margin-top:auto`. */
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+/* Two cards, not three: stretched across a wide screen they read as two
+   billboards rather than a choice, so the row stops growing and centres. */
+.plans-two{max-width:720px;margin-inline:auto}
+/* The instalment line sits under the price and belongs to it — the yearly
+   figure is the commitment, this is what actually leaves the account each
+   month, and hiding it is what makes R$ 490 look like a barrier. */
+.plan-instalments{font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  color:var(--phosphor-dim);margin:-6px 0 10px}
 .plan{
   position:relative;display:flex;flex-direction:column;
   background:var(--panel);border:1px solid var(--wire);border-radius:4px;
