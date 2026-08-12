@@ -1189,8 +1189,8 @@ function openCourse(id) {
     '</div>' +
     videoBlock(c) +
     '<p>' + c.summary + '</p>' +
-    '<div class="modal-actions"><button type="button" class="btn btn-primary" data-enrol="' + c.id + '">' +
-      txt('Start now →') + '</button></div>' +
+    '<div class="modal-actions"><a class="btn btn-primary" href="https://app.codeschool.ing">' +
+      txt('Start now →') + '</a></div>' +
     '</div>' +
     '<div class="modal-col modal-col-detail">' +
     '<div class="modal-block"><h4>' + txt('what you learn') + '</h4><ul>' +
@@ -1304,19 +1304,6 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  // the modal's button: a course is no longer a unit of purchase, so it does not
-  // pick a plan — it travels as the origin of the request
-  const enrolBtn = e.target.closest('[data-enrol]');
-  if (enrolBtn) { openSignup('', enrolBtn.dataset.enrol); return; }
-
-  // the three plan cards' buttons: they carry the chosen plan into the select
-  const planBtn = e.target.closest('.plan-btn');
-  if (planBtn) {
-    e.preventDefault();
-    openSignup(planBtn.closest('.plan').querySelector('.plan-name').textContent.trim());
-    return;
-  }
-
   // the video thumbnail: now it does load the player, already playing
   const thumb = e.target.closest('[data-video]');
   if (thumb) {
@@ -1349,157 +1336,7 @@ document.addEventListener('click', (e) => {
 
 $('#modal-close').addEventListener('click', closeModals);
 modal.addEventListener('click', (e) => { if (e.target === modal) closeModals(); });
-$('#subscribe-close').addEventListener('click', closeModals);
-$('#modal-subscribe').addEventListener('click', (e) => {
-  if (e.target === $('#modal-subscribe')) closeModals();
-});
-$('#cta-subscribe').addEventListener('click', () => openSignup());
 
-
-/* ==========================================================
-   ENROLMENT
-   Paste your form's POST URL into ENROL_URL (Formspree,
-   Web3Forms, Brevo...). Empty = demonstration mode.
-   ========================================================== */
-const ENROL_URL = '';
-
-/* The select lists the plans, and the list comes from the plan screen's own
-   cards — not from a parallel array here. So changing the cards in `index.html`
-   (adding a fourth plan, renaming one, removing one) adjusts the form by itself,
-   and there is no chance of the two disagreeing. Since it runs after
-   `applyTexts()`, the names already come in the current language. */
-const planSelect = $('#m-plan');
-const plansOnScreen = () =>
-  [...document.querySelectorAll('#plans .plan-name')].map((h) => h.textContent.trim());
-
-function buildPlanSelect() {
-  const before = planSelect.value;
-  planSelect.innerHTML =
-    '<option value="">' + txt('not sure yet — I would like guidance') + '</option>' +
-    plansOnScreen().map((n) => '<option value="' + n + '">' + n + '</option>').join('');
-  planSelect.value = before;
-}
-buildPlanSelect();
-
-/* Where the person came from, when they came from a course. The course is no
-   longer a unit of purchase, so it does not become an option in the select — but
-   knowing the request was born looking at "Kubernetes" is worth something to
-   whoever handles it. */
-let sourceCourse = '';
-
-/* Opens the signup modal. It comes from three places, and what changes between
-   them is only how much the form still has to ask:
-
-   - a plan's button   → the plan is the heading and the selector disappears.
-                         Two fields are left, which is the shortest possible form.
-   - "Comece agora"    → nobody has chosen a plan yet, so the selector appears,
-                         starting at "ainda não sei".
-   - a course modal's  → like the one above, but it keeps the course the person
-     button              was looking at so it travels along with the submission.
-
-   Focus goes to the × and not to the name field: on mobile, focusing an input on
-   open throws the virtual keyboard over the modal before the person has read
-   what it says. */
-const signupModal = $('#modal-subscribe');
-const signupPlan = $('#subscribe-plan');
-const planField = $('#field-plan');
-
-function openSignup(plan, origin) {
-  closeModals();
-  sourceCourse = origin || '';
-  enrolStatus.textContent = '';
-  const known = plan && plansOnScreen().includes(plan);
-  if (known) {
-    $('#subscribe-plan-name').textContent = plan;
-    planSelect.value = plan;
-  } else {
-    planSelect.value = '';
-  }
-  signupPlan.hidden = !known;
-  planField.hidden = !!known;
-  signupModal.hidden = false;
-  document.documentElement.classList.add('modal-open');
-  $('#subscribe-close').focus();
-}
-
-const enrolForm = $('#form-enrol');
-const enrolStatus = $('#form-status');
-
-/* ---------- the field accepts a whatsapp number OR an e-mail ----------
-   As long as what has been typed could be a phone number, the mask applies by
-   itself: (45) 90000-0000 for a nine-digit mobile, (45) 0000-0000 for a
-   landline. The moment a letter or an @ shows up, the mask comes undone and the
-   field goes back to being free text — otherwise "123abc@..." would turn into
-   "(12) 3abc@...". An international number (starting with +) also stays intact. */
-const contactEl = $('#m-contact');
-const digitsOnly = (s) => s.replace(/\D/g, '');
-const MASK_CHARS = /[()\s-]/g;
-
-function withPhoneMask(d) {
-  d = d.slice(0, 11);
-  if (d.length <= 2) return d ? '(' + d : '';
-  const rest = d.slice(2);
-  if (!rest.length) return '(' + d.slice(0, 2) + ') ';
-  if (rest.length <= 4) return '(' + d.slice(0, 2) + ') ' + rest;
-  const cut = rest.length > 8 ? 5 : 4;   // a mobile has nine digits, a landline eight
-  return '(' + d.slice(0, 2) + ') ' + rest.slice(0, cut) + '-' + rest.slice(cut);
-}
-
-contactEl.addEventListener('input', () => {
-  const v = contactEl.value;
-  const looksLikePhone = !/[^\d()\s-]/.test(v);
-  if (!looksLikePhone) {
-    // an e-mail (or an international number): strip whatever mask has crept in
-    const stripped = v.replace(MASK_CHARS, '');
-    if (stripped !== v && !/\s/.test(stripped)) contactEl.value = stripped;
-    return;
-  }
-  const pos = contactEl.selectionStart;
-  const digitsBefore = digitsOnly(v.slice(0, pos)).length;
-  const next = withPhoneMask(digitsOnly(v));
-  if (next === v) return;
-  contactEl.value = next;
-  // put the caret back after the same digit it was on
-  let i = 0;
-  for (let seen = 0; i < next.length && seen < digitsBefore; i += 1) {
-    if (/\d/.test(next[i])) seen += 1;
-  }
-  contactEl.setSelectionRange(i, i);
-});
-
-enrolForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const name = $('#m-name').value.trim();
-  const contact = $('#m-contact').value.trim();
-  if (!name || !contact) {
-    enrolStatus.textContent = txt('✗ fill in your name and contact');
-    return;
-  }
-  const data = {
-    name: name,
-    contact: contact,
-    plan: planSelect.value || 'no preference',
-  };
-  if (sourceCourse) data.origin = 'course:' + sourceCourse;
-  if (!ENROL_URL) {
-    enrolStatus.textContent = txt('✓ request recorded') + ' — ' + name + ' ' + txt('(demonstration mode: set ENROL_URL)');
-    enrolForm.reset();
-    return;
-  }
-  enrolStatus.textContent = txt('… sending');
-  fetch(ENROL_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-    .then(() => {
-      enrolStatus.textContent = txt('✓ we have your details — we will be in touch soon!');
-      enrolForm.reset();
-    })
-    .catch(() => {
-      enrolStatus.textContent = txt('✗ could not send — write to contact@codeschool.ing');
-    });
-});
 
 /* ==========================================================
    NEWSLETTER
@@ -1749,7 +1586,6 @@ function redrawAll() {
   buildFilterDropdown();
   buildCatalogue();
   buildTestimonials();
-  buildPlanSelect();
   openTrack(currentTrack, true);
   updateTabs();
   showHours();

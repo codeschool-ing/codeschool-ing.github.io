@@ -1,12 +1,12 @@
 # codeschool.ing — a showcase of courses and tracks
 
-The `codeschool.ing` site — **Stage 1: the showcase**. It presents courses, training tracks, the methodology and enrolment capture. There is no login, no payment and no student area *here*: that is Stage 2, which was **built to measure** rather than bought off the shelf, and is live — the portal at `codeschool-ing/portal-frontend` and its API at `codeschool-ing/portal-backend` (`api.codeschool.ing`). The two are not wired together yet: this page's enrolment form is still in demonstration mode (`ENROL_URL` empty, see "The signup modal"), so a request captured here reaches nobody.
+The `codeschool.ing` site — **Stage 1: the showcase**. It presents courses, training tracks and the methodology, and hands whoever is convinced to the portal. There is no login, no payment and no student area *here*: that is Stage 2, which was **built to measure** rather than bought off the shelf, and is live — the portal at `codeschool-ing/portal-frontend` and its API at `codeschool-ing/portal-backend` (`api.codeschool.ing`). **The school is self-service end to end**: every "start now" on this page is a link to `app.codeschool.ing`, where the person creates their own account. Nothing here collects a contact, because nobody gets back in touch — see "The way in is the portal".
 
 **This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 86 courses and 16 tracks across programming, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `catalog.js` and the identity.
 
 What the transfer required beyond the name: **the claims about history had to go**. "Since 1999", "who has been teaching for 25 years", "5,000+ graduates" and "from Medianeira to the world" are true about Televideo and would be a lie about a school that is just being born. In place of the student counter came the **catalogue's real total workload**, computed in `script.js` from `catalog.js` — a number that is already true on the day the site goes up and that grows by itself when a new course arrives.
 
-A dark/terminal identity, the brand's blue, an optional light theme and **fullpage** — each section fills the screen's height and scrolling (mouse, keyboard or touch) jumps smoothly between them, with side indicators. Long panels (the catalogue, a track on mobile, the testimonials, the enrolment form) scroll internally before switching screen. In plain HTML, CSS and JavaScript — no dependencies and no build.
+A dark/terminal identity, the brand's blue, an optional light theme and **fullpage** — each section fills the screen's height and scrolling (mouse, keyboard or touch) jumps smoothly between them, with side indicators. Long panels (the catalogue, a track on mobile, the testimonials) scroll internally before switching screen. In plain HTML, CSS and JavaScript — no dependencies and no build.
 
 A track is presented as a **dependency graph**: each column is a level and the edges show what unlocks what. The tracks come in two families — **by career** and **by technology** — each in its own row of tabs, both visible at once. Each row stays on **a single line**, with horizontal scrolling, arrows at the ends and a fade at the edge showing which side has more tabs. The active tab is brought into view by itself, so the picker copes with the next track without becoming two lines or leaving an orphan tab.
 
@@ -36,7 +36,7 @@ assets/i18n-courses-fr.js → the catalogue in French
 assets/i18n-courses-it.js → the catalogue in Italian
 assets/i18n-runtime.js→ language detection, switching and reapplication
 assets/style.css      → styles
-assets/script.js      → tracks, catalogue, course modal, signup modal
+assets/script.js      → tracks, catalogue, course modal, newsletter
 assets/favicon.svg    → a chevron and a prompt cursor, in the theme's colours
 .devcontainer/        → the development environment; needs Node and Python
                         (the bundler is Python, the catalogue validator is Node)
@@ -560,37 +560,34 @@ The Back-end track shows `760–840h` because it has a fork: the range comes fro
 
 The terminal **only appears above 1180px**, along with the menu on show. Below that the text column takes the full width.
 
-## The signup modal
+## The way in is the portal
 
-**The form is not a screen: it is a modal.** Before, clicking "Quero este plano" crossed the whole page to a section that asked again which plan the person wanted. Now the plan becomes the modal's heading and the form is left with **two fields**. The screen that was freed became the FAQ.
+**There is no enrolment form, and that is the model, not a gap.** The school is
+self-service: whoever wants in creates their own account at
+`app.codeschool.ing`, picks a track, studies, sits the exams and issues their own
+certificate. Changing an e-mail, a password or a name, exporting everything and
+deleting the account are all in the portal's account screen. Nobody is contacted,
+and nobody waits to be.
 
-It opens from **three places**, and what changes between them is only how much is still left to ask:
+So every "start now" on this page is an **anchor to the portal**, not a dialog:
+the navigation button, the three plan cards' buttons, and the button inside a
+course modal. There used to be a signup modal here — two fields and a plan
+selector, submitted to a form provider — and it is gone along with `ENROL_URL`,
+the phone mask and the plan selector that fed it. It collected a contact so that
+somebody could get back in touch, and there is nobody to get back in touch.
 
-| from where | plan | what the form shows |
-| --- | --- | --- |
-| a card's button | known | the plan in the heading, no selector: name and contact |
-| "Comece agora", at the top | none | a plan selector, starting at "ainda não sei" |
-| the course modal's button | none | like the one above, but it keeps the course as the origin |
+**The `#contact` section stayed, because the anchor is published**, but it says
+what is true: everything is self-service, here is the portal, and here is one
+address for what genuinely needs a person. That address promises no reply time
+and no opening hours, because there are none — an earlier version of this page
+offered "write to us and we will reply", which was inventing a service that does
+not exist.
 
-**The plan list comes from the Plans screen's own cards**, read from the DOM (`#planos .plano-nome`), not from a parallel array in `script.js`. Adding a fourth plan, renaming or removing one adjusts the selector by itself, and there is no chance of the two disagreeing. Since `buildPlanSelect()` runs after `applyTexts()`, the names already arrive in the current language.
-
-**The "Comece agora" at the top is a `<button>`, not an anchor.** It opens a dialog, it does not navigate — and it is the way in for whoever has not chosen a plan yet. Without it, the form would only exist inside a plan's modal, and whoever wants guidance before choosing would have no route. The three card buttons followed the same reasoning and became `<button>`s too.
-
-**The course modal's button records the origin.** It closes the course modal, opens the signup one with no plan and keeps the id in `sourceCourse`, which travels in the submission as `origem: 'curso:kubernetes'`. Knowing the request was born looking at Kubernetes is worth something to whoever handles it, even though the course is not what is being bought.
-
-**Focus goes to the × and not to the name field.** On mobile, focusing an input on open throws the virtual keyboard over the modal before the person has read what it says.
-
-**There are two modals now, and the scroll lock had to stop knowing only one.** `openModal()` returns whichever is open, and the wheel, touch and Esc consult that function instead of looking straight at the course modal. Without that, opening the signup one would leave the page scrolling underneath — exactly the defect that had already been fixed once.
-
-**Two of the course modal's rules leaked into the new one**: on screens of 1024px and up, the 1080px box and the two-column body. They were restricted with `:not(.modal-estreito)` and `:not(.assinar-corpo)` — the signup modal is 460px and a single column.
-
-**With little height, the subtitle disappears** (`@media(max-height:560px)`). A short height is almost always the virtual keyboard being open: the person is typing and needs to see the field and the button, not the explanation. Measured with the viewport shrunk to 420px and to 380px — without it, "Comece agora" fell below the fold inside the modal itself.
-
-**The contact field accepts a whatsapp number or an e-mail.** As long as what has been typed could still be a phone number, the mask applies by itself — `(45) 90000-0000` for a nine-digit mobile, `(45) 0000-0000` for a landline. The moment a letter or an `@` shows up, the mask comes undone and the field goes back to being free text; without that, whoever typed `123abc@…` would end up with `(12) 3abc@…`. The caret is put back after the same digit it was on, so you can correct the middle of a number without being thrown to the end.
-
-Inside the modal the form is **always stacked**: a 460px box has no width for two columns.
-
-Submission is ready for a provider (Formspree, Web3Forms, Brevo...): paste the POST URL into `ENROL_URL`, in the "ENROLMENT" block of `assets/script.js`. While it is empty, the form works in demonstration mode.
+**The e-mail is a line, not a card, on purpose.** Making it prominent invites
+people to write instead of doing the thing themselves, which is slower for them
+and for a school with no counter. It is still the address the privacy policy
+points at for a data request under the LGPD — which is the one kind of message
+that genuinely needs a person, and the reason the channel exists at all.
 
 ## Deliberately left out
 
@@ -625,11 +622,11 @@ So the names, the straplines, the benefit lines and the numbers are now `plans.j
 
 Swapping the three for another structure means editing `index.html`, the corresponding keys in the four dictionaries, **and `plans.js` in the portal**. All three, or they are back to describing different products.
 
-**The plan buttons open the signup modal** with the plan already in the heading — see "The signup modal" above.
+**The plan buttons link straight to the portal**, like every other "start now" on the page — see "The way in is the portal" above.
 
 ## FAQ
 
-It took over the screen that was the enrolment form's. There are eight questions: the four that already existed beside the form and four the subscription brought — cancellation, payment methods, standalone sales and contracting by a company.
+It took over the screen the enrolment form used to occupy. There are eight questions: the four that already existed beside the form and four the subscription brought — cancellation, payment methods, standalone sales and contracting by a company. Four of them are marked as examples, and they describe a policy that does not exist yet; **any answer that implies somebody replying needs rewriting**, because nobody does.
 
 **One question open at a time.** The `toggle` listener sits on the container and on the capture phase — `toggle` does not bubble — so it also covers questions added later, without one listener per `<details>`.
 
@@ -639,9 +636,11 @@ The four new answers carry the `[sample answer — ...]` marker at the end, in t
 
 ## Contact
 
-**One channel** is left: the e-mail. WhatsApp and the opening hours went — a phone number and "seg–sex · 8h às 18h" are a promise of synchronous support, and the school has no counter. The e-mail and the newsletter split the line in half (`.contato-linha`), and on mobile they stack.
+**The section leads with the portal**, because that is where the answer to almost everything is: account, track, exams, certificate, and the whole of the LGPD self-service — export and deletion included.
 
-The enrolment form still accepts a phone number with a mask: whoever prefers to be reached on WhatsApp says so there, and then the number is the student's, not the school's.
+**One human channel is left**, and it is a line rather than a card: `contact@codeschool.ing`, for what genuinely cannot be resolved alone. It promises no reply time and no opening hours. WhatsApp and "seg–sex · 8h às 18h" went long ago — a phone number and business hours are a promise of synchronous support, and the school has no counter. The heading that said "prefere falar com a gente?" and the line "escreva e a gente responde" went with them, for the same reason: they described a service nobody staffs.
+
+The newsletter keeps its half of the row (`.contact-row`), and on mobile they stack.
 
 ## Publishing on GitHub Pages
 

@@ -42,9 +42,11 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
     <span class="led"></span><span class="brand-name">codeschool<span class="brand-sep">.</span>ing</span><span class="brand-beta">Beta</span>
   </a>
   <div class="navlinks" id="menu">
-    <!-- a button, not an anchor: it opens the signup modal, it does not take
-         you anywhere. It is the way in for whoever has not chosen a plan yet. -->
-    <button type="button" class="nav-cta" id="cta-subscribe">Start now</button>
+    <!-- An anchor, because it does take you somewhere. The school is
+         self-service: whoever wants in creates their own account in the portal.
+         There is no counter here to leave a contact at. Its twin in nav-actions
+         is the same destination for whoever already has an account. -->
+    <a href="https://app.codeschool.ing" class="nav-cta" id="cta-subscribe">Start now</a>
     <a href="#tracks">Tracks</a>
     <a href="#courses">Courses</a>
     <a href="#plans">Plans</a>
@@ -195,7 +197,7 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
         <li>A guided track with a progress map</li>
         <li>Exercises and assessments for every lesson</li>
       </ul>
-      <button type="button" class="btn btn-ghost plan-btn">I want this plan →</button>
+      <a href="https://app.codeschool.ing" class="btn btn-ghost plan-btn">Start now →</a>
     </article>
     <article class="plan plan-featured">
       <span class="plan-seal">most chosen</span>
@@ -210,7 +212,7 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
         <li>Lessons to watch offline</li>
         <li>A forum answered by instructors</li>
       </ul>
-      <button type="button" class="btn btn-primary plan-btn">I want this plan →</button>
+      <a href="https://app.codeschool.ing" class="btn btn-primary plan-btn">Start now →</a>
     </article>
     <article class="plan">
       <h3 class="plan-name">Team</h3>
@@ -222,7 +224,7 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
         <li>Class reports and export</li>
         <li>Invoicing and billing by company registration</li>
       </ul>
-      <button type="button" class="btn btn-ghost plan-btn">Talk to us →</button>
+      <a href="https://app.codeschool.ing" class="btn btn-ghost plan-btn">Start now →</a>
     </article>
   </div>
 </section>
@@ -285,17 +287,20 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
 <!-- SCREEN 7 · CONTACT -->
 <section id="contact" class="screen">
   <div class="sec-head">
-    <h2>Rather talk to us?</h2>
-    <p>Questions about courses, tracks or certificates — write to us and we will reply.</p>
+    <h2>Everything is self-service</h2>
+    <p>Create your account, pick a track, study, sit the exams and issue your certificate — on your own, whenever you want. Changing your e-mail, your password or your name, exporting your data and deleting your account are all in the account screen.</p>
   </div>
 
-  <!-- e-mail and newsletter split the line in half; on mobile they stack -->
+  <!-- The portal first, because it is where the answer to almost everything is.
+       The e-mail stays as a channel for what genuinely needs a person, and it
+       promises nothing about how fast it is answered: the school has no counter
+       and no support hours, and saying otherwise would be inventing a service. -->
   <div class="contact-row">
-    <a class="channel channel-featured" href="mailto:contact@codeschool.ing">
+    <a class="channel channel-featured" href="https://app.codeschool.ing">
       <span class="channel-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
       </span>
-      <span><span class="channel-label">e-mail</span><span class="channel-value">contact@codeschool.ing</span></span>
+      <span><span class="channel-label">Student area</span><span class="channel-value">app.codeschool.ing</span></span>
     </a>
 
     <form class="news" id="news-form" novalidate>
@@ -311,6 +316,15 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
       <p class="news-status" id="news-status" aria-live="polite"></p>
     </form>
   </div>
+
+  <!-- The one address, for what the portal genuinely cannot resolve — a data
+       request under the LGPD, above all, which the privacy policy points here
+       for. Deliberately a line and not a card: making it prominent would invite
+       people to write instead of doing it themselves, which is slower for them
+       and for us. No hours and no reply time, because there are none. -->
+  <p class="contact-mail">
+    Something only a person can sort out? <a href="mailto:contact@codeschool.ing">contact@codeschool.ing</a>
+  </p>
 
   <div class="social-grid">
     <a class="social" href="https://www.linkedin.com/company/codeschool-ing">
@@ -363,40 +377,6 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
       <button class="modal-close" id="modal-close" aria-label="Close">×</button>
     </div>
     <div class="modal-body" id="modal-body"></div>
-  </div>
-</div>
-
-<!-- signup: opened by the plan buttons and by "Comece agora" at the top. When
-     it comes from a plan, the plan is the heading and the form is left with two
-     fields; when it comes from the top, the plan selector appears. -->
-<div class="modal" id="modal-subscribe" hidden>
-  <div class="modal-box modal-narrow" role="dialog" aria-modal="true" aria-labelledby="subscribe-title">
-    <div class="term-bar">
-      <span class="dot d-r"></span><span class="dot d-y"></span><span class="dot d-g"></span>
-      <span class="modal-file">subscription.new</span>
-      <button class="modal-close" id="subscribe-close" aria-label="Close">×</button>
-    </div>
-    <div class="modal-body subscribe-body">
-      <h3 id="subscribe-title">Start now</h3>
-      <p class="subscribe-sub">Leave your contact details: we will help you pick the right plan and explain the payment options. No commitment.</p>
-      <p class="subscribe-plan" id="subscribe-plan" hidden><span class="subscribe-plan-label">plan</span><strong id="subscribe-plan-name"></strong></p>
-      <form class="form-subscribe" id="form-enrol" novalidate>
-        <div class="field">
-          <label for="m-name">name</label>
-          <input type="text" id="m-name" required placeholder="your full name" autocomplete="name" />
-        </div>
-        <div class="field">
-          <label for="m-contact">whatsapp or e-mail</label>
-          <input type="text" id="m-contact" required placeholder="(45) 90000-0000" autocomplete="tel" />
-        </div>
-        <div class="field" id="field-plan">
-          <label for="m-plan">plan</label>
-          <select id="m-plan"></select>
-        </div>
-        <button type="submit" class="btn btn-primary">Start now →</button>
-        <p class="form-status" id="form-status" aria-live="polite"></p>
-      </form>
-    </div>
   </div>
 </div>
 
