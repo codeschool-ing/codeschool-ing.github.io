@@ -60,10 +60,33 @@ Você concorda em **não**:
 
 ## 6. Planos e pagamento
 
-Hoje o serviço é **gratuito**, em Beta: os planos exibidos (Estudante, Pro,
-Equipes) descrevem a intenção, mas **nenhuma cobrança é feita** e "assinar" um
-plano não gera pagamento. `[Quando houver cobrança, incluir aqui os termos de
-assinatura: preços, renovação, cancelamento, reembolso e a política de faturamento.]`
+O serviço tem um **plano gratuito permanente** e uma **assinatura paga**:
+
+- **Grátis:** o primeiro curso de cada trilha, com os exercícios e o mapa da
+  trilha. Sem prazo e sem cartão. Não inclui provas nem certificados.
+- **Pago:** todo o catálogo, provas, certificados, material e aulas offline.
+  Vendido em dois compromissos — **mensal** e **anual** —, que dão exatamente o
+  mesmo acesso e diferem apenas no prazo e no preço.
+
+**Hoje nenhuma cobrança é feita**, porque o meio de pagamento ainda não existe:
+enquanto for assim, "assinar" não gera pagamento algum. `[Quando a cobrança
+entrar no ar, preencher aqui: preços vigentes, forma de pagamento, data de
+renovação, prazo de arrependimento (art. 49 do CDG) e política de reembolso.]`
+
+Quando houver cobrança, valem as regras abaixo, que já descrevem como o serviço
+é construído:
+
+- **A renovação é automática** ao fim de cada período, no mesmo meio de
+  pagamento, até que você cancele.
+- **O cancelamento é feito por você**, na própria tela de conta, sem precisar
+  falar com ninguém. Ele encerra as renovações seguintes; **o acesso continua até
+  o fim do período já pago** e nada é cobrado depois disso.
+- **Certificados já emitidos continuam válidos para sempre**, mesmo depois do
+  cancelamento. Eles atestam um fato ocorrido, e o código de validação continua
+  respondendo — revogá-los por falta de pagamento destruiria a confiança de quem
+  consulta qualquer certificado nosso.
+- **Preços podem mudar**, mas nunca no meio de um período já pago: uma mudança
+  vale a partir da renovação seguinte, e é avisada antes.
 
 ## 7. Certificados
 
