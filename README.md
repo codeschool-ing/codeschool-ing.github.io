@@ -616,19 +616,26 @@ The `#planos` section replaced the old "Como funciona" — the four steps ("choo
 
 **The three cards are the three plans the portal grants**, and keeping them that way is the point: the cards used to advertise a set of names `plans.js` did not know, so somebody could subscribe to one here, sign in, and find a plan by another name including other things. The names, straplines, benefit lines and numbers are `plans.js`'s, line for line, and the benefit lines are literally its `FEATURES` sentences — which is why they read as capabilities rather than marketing.
 
-**The model the three cards describe.** The first course of every track is free, and everything else is one subscription sold at two commitments:
+**The model the two cards describe.** The first course of every track is free
+forever, and everything else is one subscription bought for a year:
 
-| card | id in `plans.js` | price | what differs |
+| card | id in `plans.js` | price | grants |
 | --- | --- | --- | --- |
-| Free | `student` | R$ 0 forever | the entry course of each track, exercises, the map |
-| Monthly | `pro` | R$ 49/month | the whole school |
-| Annual | `annual` | R$ 490/year | the same as Monthly — only the commitment |
+| Guest | `guest` | R$ 0 forever | the entry course of each track, exercises, the map |
+| Student | `student` | R$ 490/year, in 12 instalments | the whole school |
 
-**Monthly and Annual list different things on purpose, and include the same things on purpose.** There is no feature ladder: a school with nobody working in it cannot staff one, which is how the previous third plan ended up promising group mentoring and an instructor-answered forum. What a paying student chooses is a term, not a tier.
+**There is no monthly option, and that is the decision rather than an omission.**
+A track's median is twelve courses and about 720 hours — over a year of study —
+so monthly billing creates fourteen separate chances to cancel something
+unfinished. A yearly commitment matches the length of what is being bought, and
+the instalments are what keep the ticket from being the barrier: the student pays
+month by month, the school is committed to for a year. The instalment line sits
+under the price for exactly that reason, and hiding it is what would make R$ 490
+look like a wall.
 
 **Free is an entry course rather than a trial period** because a track's median is twelve courses and about 720 hours. Seven days measures nothing against fourteen months; one finished course does, and it leaves the student looking at the map with the rest of the track ahead — which is where this page's argument and the product's actually meet.
 
-**The ids are not the names.** `student` and `pro` are stored in `subscriptions.plan_id` in portal-backend, and `student` is that service's default for an account with no subscription. They were kept through the renaming for that reason: a card can be called anything, but changing an id orphans stored rows.
+**The ids are the names, and getting there cost a migration.** `guest` and `student` are what `subscriptions.plan_id` stores in portal-backend, matching what the cards say. The trap they were dug out of: `student` used to be the id of the FREE plan, so once the paid card took that name, any id left alone would have meant the opposite of what a reader expects. Migration 0013 over there moves the rows; `app/state.js` moves the ids kept in a browser, once and only once — that rename swaps two values, so a second pass would read the `student` it just wrote and demote a paying account.
 
 **The prices are decided and nothing is charged**, because there is no payment provider. The footer says so. `R$ 0` forever on the free plan is not decoration but a description — a new account is given `PLANS[0]`, so a paid entry plan would mean every student silently holding a subscription nobody charged for.
 

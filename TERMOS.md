@@ -62,11 +62,10 @@ Você concorda em **não**:
 
 O serviço tem um **plano gratuito permanente** e uma **assinatura paga**:
 
-- **Grátis:** o primeiro curso de cada trilha, com os exercícios e o mapa da
+- **Visitante (grátis):** o primeiro curso de cada trilha, com os exercícios e o mapa da
   trilha. Sem prazo e sem cartão. Não inclui provas nem certificados.
-- **Pago:** todo o catálogo, provas, certificados, material e aulas offline.
-  Vendido em dois compromissos — **mensal** e **anual** —, que dão exatamente o
-  mesmo acesso e diferem apenas no prazo e no preço.
+- **Aluno (pago):** todo o catálogo, provas, certificados, material e aulas
+  offline, por **um ano**, com pagamento parcelado no cartão.
 
 **Hoje nenhuma cobrança é feita**, porque o meio de pagamento ainda não existe:
 enquanto for assim, "assinar" não gera pagamento algum. `[Quando a cobrança
@@ -76,8 +75,8 @@ renovação, prazo de arrependimento (art. 49 do CDG) e política de reembolso.]
 Quando houver cobrança, valem as regras abaixo, que já descrevem como o serviço
 é construído:
 
-- **A renovação é automática** ao fim de cada período, no mesmo meio de
-  pagamento, até que você cancele.
+- **A renovação é automática** ao fim de cada ano, no mesmo meio de pagamento,
+  até que você cancele.
 - **O cancelamento é feito por você**, na própria tela de conta, sem precisar
   falar com ninguém. Ele encerra as renovações seguintes; **o acesso continua até
   o fim do período já pago** e nada é cobrado depois disso.
