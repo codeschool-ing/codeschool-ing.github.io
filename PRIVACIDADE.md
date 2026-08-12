@@ -34,9 +34,12 @@ que você exerce seus direitos e tira dúvidas sobre esta política.
 
 ### Na vitrine (site público)
 
-- **Formulário de contato/inscrição:** o seu nome, um contato (e-mail ou
-  telefone) e o plano de interesse, quando você pede para falar com a gente.
 - **Newsletter:** o seu e-mail, se você se inscreve para receber novidades.
+- **E-mail:** se você escrever para o endereço de contato, o que você mandar.
+
+A vitrine **não tem formulário de matrícula**. A escola é autoatendimento: quem
+quer estudar cria a própria conta no portal, e nada é coletado aqui para alguém
+entrar em contato depois.
 
 ### Cookies e armazenamento local
 
@@ -59,7 +62,7 @@ de analytics.
 | Autenticar acessos e proteger contas — limite de tentativas, verificação em dois fatores, registro de sessões | Execução de contrato e legítimo interesse (art. 7, V e IX) |
 | Enviar mensagens de confirmação e de redefinição de senha | Execução de contrato (art. 7, V) |
 | Emitir e validar certificados | Execução de contrato (art. 7, V) |
-| Formulário de contato/inscrição e newsletter na vitrine | Consentimento (art. 7, I) |
+| Newsletter na vitrine | Consentimento (art. 7, I) |
 | Cumprir obrigações legais e regulatórias | Obrigação legal (art. 7, II) |
 
 `[Revisar as bases legais com assessoria jurídica — em especial o legítimo
@@ -75,9 +78,9 @@ prestar o serviço, apenas no necessário:
 - **Site estático:** GitHub Pages (serve a vitrine e o portal).
 - **Envio de e-mails:** Brevo (Sendinblue), que entrega as mensagens
   transacionais — confirmação de e-mail e redefinição de senha.
-- **Formulários da vitrine:** ainda em modo demonstração; os formulários de
-  contato e de newsletter não enviam dados a provedor nenhum enquanto não são
-  configurados. `[Preencher o provedor quando os formulários entrarem no ar.]`
+- **Newsletter:** ainda em modo demonstração; o formulário não envia dados a
+  provedor nenhum enquanto não for configurado. `[Preencher o provedor quando a
+  newsletter entrar no ar.]`
 
 ## 6. Transferência internacional
 
