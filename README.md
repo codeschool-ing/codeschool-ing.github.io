@@ -603,9 +603,9 @@ that genuinely needs a person, and the reason the channel exists at all.
 
 - Real testimonials (with the students' permission) — remembering that there are **five** places: `catalog.js` for the English and `i18n.js`/`i18n-pt.js` for pt, es, fr and it. The quotes themselves now read as finished copy; what is still missing is the **byline**, and that is the half that cannot be written by anyone but a student
 - Introduction videos: the YouTube id in each course's `video` field, in `catalog.js`
-- **The three plans are examples**: the numbers are invented and the benefits are the ones the portal grants, not ones anyone decided to sell. See the "Plans" section below.
+- **The prices are decided but nothing is charged**: R$ 49 a month, R$ 490 a year, and no payment provider exists yet. See the "Plans" section below.
 - A real e-mail address (today `contact@codeschool.ing`)
-- **Four FAQ answers are examples** and carry the marker in square brackets: cancellation, payment methods, standalone sales and terms for companies. The questions are the right ones — they are what everyone asks about a subscription — but the answers depend on a policy that does not exist yet, and a deadline or refund rule written on a showcase becomes a commitment somebody will hold you to.
+- **One FAQ answer still carries a marker**: the payment methods, which cannot be stated until a provider is chosen. The other three — cancellation, standalone sales and companies — now describe the decided model and are no longer samples.
 - The example testimonials sign off with "class of [year]", the vocabulary of enrolling in a cohort. When the real accounts come in, each one's sign-off has to match the enrolment model.
 - Real social media profiles: the footer's five links point at `codeschool.ing`/`codeschool-ing` handles that still need to exist
 - A review of the syllabuses and workloads against the courses the school actually offers
@@ -614,11 +614,23 @@ that genuinely needs a person, and the reason the channel exists at all.
 
 The `#planos` section replaced the old "Como funciona" — the four steps ("choose your track", "study when you can"…) described a method the whole page already demonstrates, and the space is worth more showing what costs what.
 
-**The three cards are the three plans the portal grants**, and that is the change worth recording, because it replaced something worse than a placeholder. The cards used to advertise **Essencial**, **Completo** and **Equipes**; `codeschool-ing/portal-frontend`'s `assets/plans.js` grants **student**, **pro** and **team**, with different benefits. Somebody could subscribe to "Completo" here, sign in, and find a plan by another name that did not include what this page had listed. Two sets of copy for one product diverge the day one of them is edited — and they had already diverged before anyone edited anything.
+**The three cards are the three plans the portal grants**, and keeping them that way is the point: the cards used to advertise a set of names `plans.js` did not know, so somebody could subscribe to one here, sign in, and find a plan by another name including other things. The names, straplines, benefit lines and numbers are `plans.js`'s, line for line, and the benefit lines are literally its `FEATURES` sentences — which is why they read as capabilities rather than marketing.
 
-So the names, the straplines, the benefit lines and the numbers are now `plans.js`'s, line for line. The benefit lines are literally its `FEATURES` sentences, which is why they read as a list of capabilities rather than as marketing. The ids behind them — `student`, `pro`, `team` — are stored in a student's browser and migrated in `state.js`, so they are the fixed point: this page follows them, never the other way round.
+**The model the three cards describe.** The first course of every track is free, and everything else is one subscription sold at two commitments:
 
-**The prices are still invented**, and the `[sample plans — ...]` marker still says so on screen. They were `R$ 00` before, on the argument that a made-up number on a showcase is a promise somebody will hold you to; the marker is what carries that argument now, and it stays until the billing decision. What is no longer invented is the *relationship* between the three: `R$ 0` forever on the entry plan is not decoration but a description — a new account is given `PLANS[0]`, so a paid entry plan would mean every student silently holding a subscription nobody charged for.
+| card | id in `plans.js` | price | what differs |
+| --- | --- | --- | --- |
+| Free | `student` | R$ 0 forever | the entry course of each track, exercises, the map |
+| Monthly | `pro` | R$ 49/month | the whole school |
+| Annual | `annual` | R$ 490/year | the same as Monthly — only the commitment |
+
+**Monthly and Annual list different things on purpose, and include the same things on purpose.** There is no feature ladder: a school with nobody working in it cannot staff one, which is how the previous third plan ended up promising group mentoring and an instructor-answered forum. What a paying student chooses is a term, not a tier.
+
+**Free is an entry course rather than a trial period** because a track's median is twelve courses and about 720 hours. Seven days measures nothing against fourteen months; one finished course does, and it leaves the student looking at the map with the rest of the track ahead — which is where this page's argument and the product's actually meet.
+
+**The ids are not the names.** `student` and `pro` are stored in `subscriptions.plan_id` in portal-backend, and `student` is that service's default for an account with no subscription. They were kept through the renaming for that reason: a card can be called anything, but changing an id orphans stored rows.
+
+**The prices are decided and nothing is charged**, because there is no payment provider. The footer says so. `R$ 0` forever on the free plan is not decoration but a description — a new account is given `PLANS[0]`, so a paid entry plan would mean every student silently holding a subscription nobody charged for.
 
 Swapping the three for another structure means editing `index.html`, the corresponding keys in the four dictionaries, **and `plans.js` in the portal**. All three, or they are back to describing different products.
 
@@ -626,13 +638,21 @@ Swapping the three for another structure means editing `index.html`, the corresp
 
 ## FAQ
 
-It took over the screen the enrolment form used to occupy. There are eight questions: the four that already existed beside the form and four the subscription brought — cancellation, payment methods, standalone sales and contracting by a company. Four of them are marked as examples, and they describe a policy that does not exist yet; **any answer that implies somebody replying needs rewriting**, because nobody does.
+It took over the screen the enrolment form used to occupy. There are eight questions: the four that already existed beside the form and four the subscription brought — cancellation, payment methods, standalone sales and contracting by a company.
 
 **One question open at a time.** The `toggle` listener sits on the container and on the capture phase — `toggle` does not bubble — so it also covers questions added later, without one listener per `<details>`.
 
 At **861px and up** the questions sit in two columns. Eight accordions in a single column turned into a narrow ribbon in the middle of a wide screen. It is `grid`, not `columns`: CSS multi-column splits an open `<details>` down the middle.
 
-The four new answers carry the `[sample answer — ...]` marker at the end, in the same style as the plans and the testimonials. They are plausible, not decided — the criterion is the same one the `[sample plans — ...]` marker carries.
+**Three of the four now describe decided policy**, and are no longer samples:
+
+- *cancellation* — done on your own account screen, access to the end of the paid period, and **certificates already earned stay valid forever**, because they record something that happened and revoking them for non-payment would break every validation code's credibility;
+- *standalone sales* — no, and the answer says why rather than just refusing: what is sold is the track, and a course bought alone loses the order that makes it a track;
+- *companies* — not yet, each person subscribes their own account, and a team plan waits for a company to ask.
+
+**Only payment methods keeps a marker**, because a provider has not been chosen and a payment method written on a showcase is a commitment somebody will hold you to.
+
+The answer about live classes is not a sample either, and it is the one worth reading twice: it says there are **no** live sessions. Whatever a FAQ answer promises, somebody has to deliver, and here the only thing that delivers is the software.
 
 ## Contact
 
