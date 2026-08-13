@@ -2891,6 +2891,165 @@ window.I18N.it.courses = {
       "Avviso di budget collegato a un’azione, e non a un’e-mail",
       "La fattura come segnale di monitoraggio: il picco che significa incidente"
     ]
+  },
+  "aws-foundations": {
+    "name": "AWS: Fondamenti, Identità e Rete",
+    "summary": "Il piano terra di AWS: come si organizzano gli account, chi può fare cosa, quanto costa e da dove passano i pacchetti.",
+    "syllabus": [
+      "Account, Organizations, Control Tower e la landing zone",
+      "IAM: utenti, ruoli, criteri e un privilegio minimo che sopravvive a un audit",
+      "Ruoli al posto delle chiavi di accesso, e come smettere di distribuire credenziali",
+      "Fatturazione: budget, Cost Explorer e la lettura di una fattura arrivata sbagliata",
+      "VPC, security group, Route 53 e i bilanciatori",
+      "La CLI, CloudShell e l’API che la console sta chiamando"
+    ],
+    "topics": [
+      "Regioni, zone di disponibilità e il loro effetto su latenza, disponibilità e prezzo",
+      "L’account come unità di isolamento, e perché non è mai uno solo",
+      "AWS Organizations: unità organizzative e fatturazione consolidata",
+      "Service control policy: barriere ereditate lungo l’albero",
+      "Control Tower e la landing zone: un account che nasce già giusto",
+      "Identità IAM: utente, gruppo, ruolo e identità federata",
+      "Criteri gestiti, inline e gestiti dal cliente",
+      "Valutazione del criterio: consenso, negazione esplicita e permission boundary",
+      "Ruoli: assumerne uno, la trust policy e l’accesso fra account",
+      "Instance profile e IRSA: credenziali senza chiave statica",
+      "IAM Identity Center e la federazione con un provider di identità",
+      "Chiavi di accesso: perché sono l’ultima risorsa, e la rotazione quando non se ne esce",
+      "Budget, avvisi, tag di allocazione dei costi e Cost Explorer",
+      "Leggere la fattura: su richiesta, Savings Plans e istanze riservate",
+      "Il Cost and Usage Report e la risposta a chi ha speso cosa",
+      "VPC: sottoreti, intervalli CIDR, pubbliche e private",
+      "Tabelle di routing, internet gateway e NAT gateway",
+      "Security group e network ACL: due filtri con compiti diversi",
+      "VPC endpoint e PrivateLink: raggiungere un servizio senza passare da internet",
+      "VPC peering e Transit Gateway",
+      "Route 53: zone ospitate, record, health check e criteri di routing",
+      "Elastic Load Balancing: application, network e gateway",
+      "CloudFront: punti di presenza, origini e invalidazione",
+      "Direct Connect e Site-to-Site VPN: la via d’ingresso dal datacenter",
+      "La CLI di AWS: profili, account con nome e CloudShell",
+      "SDK, API REST e la console come un client fra tanti"
+    ],
+    "prerequisites": "Cloud e Serverless, o equivalente: sapere cosa sono IaaS, IAM e una VPC."
+  },
+  "aws-compute": {
+    "name": "AWS: Calcolo e Applicazioni",
+    "summary": "Tutti i modi in cui AWS esegue il tuo codice — dalla macchina virtuale alla funzione che esiste solo finché dura la richiesta — e il conto che ne sceglie uno.",
+    "syllabus": [
+      "EC2: famiglie di istanze, AMI, archiviazione e auto scaling group",
+      "ECS e Fargate: container senza un cluster da accudire",
+      "EKS: Kubernetes gestito e quello che ti lascia comunque",
+      "Lambda: trigger, concorrenza e quanto costa davvero l’avvio a freddo",
+      "API Gateway, Step Functions, SQS, SNS ed EventBridge",
+      "Scegliere fra loro con costo, avvio a freddo e vincolo sul tavolo"
+    ],
+    "topics": [
+      "EC2: famiglie di istanze, dimensioni e a cosa serve ciascuna",
+      "AMI, snapshot e la costruzione di un’immagine propria",
+      "Volumi EBS, instance store ed EFS",
+      "Launch template e auto scaling group",
+      "Scalare per metrica, per calendario e per previsione",
+      "Istanze spot e la gestione dell’interruzione: lo sconto e il suo prezzo",
+      "User data, metadati dell’istanza e IMDSv2",
+      "ECS: task definition, task, servizi e cluster",
+      "Fargate: container senza istanze da amministrare",
+      "ECR: dove vive l’immagine prima di essere eseguita",
+      "EKS: node group, add-on gestiti e aggiornamenti di versione",
+      "EKS su Fargate, e Karpenter per il provisioning dei nodi",
+      "IRSA: un pod con un ruolo invece di una chiave statica",
+      "Lambda: handler, runtime, layer e il pacchetto di distribuzione",
+      "Trigger: API Gateway, S3, SQS, EventBridge e DynamoDB Streams",
+      "Concorrenza: riservata, provvisionata e il limite dell’account",
+      "Avvio a freddo: cosa lo causa davvero e cosa lo riduce",
+      "Lambda dentro una VPC, e il costo che ha avuto a lungo",
+      "API Gateway: API REST, HTTP e WebSocket",
+      "Step Functions: macchine a stati e orchestrazione di lunga durata",
+      "SQS, SNS ed EventBridge: coda, argomento e bus di eventi",
+      "App Runner ed Elastic Beanstalk: cosa ne resta, e quando convengono",
+      "Scegliere il calcolo: profilo di richiesta, modello di costo e sforzo di migrazione",
+      "Il vincolo al fornitore come decisione, non come incidente"
+    ]
+  },
+  "aws-data": {
+    "name": "AWS: Dati, Archiviazione e Analytics",
+    "summary": "Dove il dato atterra, dove vive e dove gli si fanno domande: dall’oggetto in un bucket alla query che percorre un terabyte.",
+    "syllabus": [
+      "S3: classi, ciclo di vita, URL prefirmati e il costo di leggere",
+      "RDS e Aurora: il relazionale gestito, e dove Aurora giustifica il prezzo",
+      "DynamoDB: chiave di partizione, schemi di accesso e la tabella che non scala",
+      "Redshift e Athena: il warehouse, e il lake interrogato dov’è",
+      "Kinesis e MSK: flussi che arrivano tardi e fuori ordine",
+      "Glue, EMR e MWAA: la pipeline che deve girare alle tre di notte"
+    ],
+    "topics": [
+      "S3: bucket, oggetti, prefissi e uno schema di nomi che regge",
+      "Classi di archiviazione: standard, accesso infrequente, Glacier e Deep Archive",
+      "Regole di ciclo di vita, versionamento, Object Lock e conservazione",
+      "URL prefirmati, Block Public Access e il bucket che è trapelato",
+      "Traffico in uscita e costo per richiesta: perché leggere può costare più che conservare",
+      "RDS: PostgreSQL, MySQL, MariaDB, Oracle e SQL Server",
+      "Multi-AZ, repliche di lettura e ripristino a un istante preciso",
+      "Aurora: il livello di archiviazione che lo distingue, e Aurora Serverless",
+      "DynamoDB: chiave di partizione, chiave di ordinamento e single-table design",
+      "Indici secondari globali e la query che degenera in una scansione",
+      "Capacità: provvisionata, su richiesta e con autoscaling",
+      "DynamoDB Streams e l’elaborazione innescata dal cambiamento",
+      "ElastiCache: Redis e Memcached gestiti",
+      "Redshift: nodi, chiavi di distribuzione, chiavi di ordinamento e Serverless",
+      "Athena: interrogare S3 dov’è, partizioni e byte percorsi",
+      "Glue Data Catalog, crawler ed evoluzione dello schema",
+      "Glue ETL: un job Spark senza un cluster tuo",
+      "Lake Formation: i permessi sul lake",
+      "Parquet, ORC e partizionamento: le due decisioni che definiscono la fattura",
+      "Kinesis Data Streams: shard, ordinamento e conservazione",
+      "Kinesis Data Firehose: consegna su S3 senza scrivere codice",
+      "MSK: Kafka gestito, e quando batte Kinesis",
+      "Garanzie di consegna: almeno una volta e l’idempotenza che impone",
+      "EMR: Spark e Hadoop gestiti, e quando batte Glue",
+      "MWAA: Airflow gestito e il costo di lasciarlo inattivo",
+      "DMS e la cattura delle modifiche da un database legacy",
+      "Scegliere l’archiviazione: schema di accesso, coerenza, scala e prezzo"
+    ]
+  },
+  "aws-operations": {
+    "name": "AWS: Consegna, Esercizio e Costo",
+    "summary": "La parte che comincia dopo il deploy: pipeline, monitoraggio, incidente, irrobustimento e la fattura che arriva a fine mese.",
+    "syllabus": [
+      "CodePipeline, CodeBuild e un deploy che si può annullare",
+      "CloudFormation, CDK e Terraform contro AWS",
+      "CloudWatch, X-Ray e log che si possono davvero interrogare",
+      "SLO, budget di errore e avviso sul sintomo invece che sulla causa",
+      "WAF, Shield, Secrets Manager, KMS e GuardDuty",
+      "FinOps: Savings Plans, ridimensionamento e la risorsa che non ha padrone"
+    ],
+    "topics": [
+      "CodePipeline, CodeBuild e CodeDeploy: la catena nativa",
+      "Costruire e inviare a ECR, tag immutabili e scansione dell’immagine",
+      "Rilasci blue/green e canary con CodeDeploy",
+      "CloudFormation: template, stack, change set e drift",
+      "CDK: infrastruttura in un linguaggio vero, e cosa genera",
+      "Terraform contro AWS: provider, stato su S3 e blocco su DynamoDB",
+      "L’incidente dello stato perduto, e come sopravvivergli",
+      "CloudWatch: metriche, dashboard e metriche personalizzate",
+      "CloudWatch Logs: gruppi, conservazione, Insights e filtri di metrica",
+      "Allarmi, allarmi compositi e notifica tramite SNS",
+      "X-Ray, tracciamento distribuito e OpenTelemetry contro AWS",
+      "SLI, SLO e budget di errore costruiti su CloudWatch",
+      "Incidente: rilevamento, comunicazione e postmortem senza colpevoli",
+      "Reperibilità, escalation e affaticamento da avvisi",
+      "WAF: regole, limitazione di frequenza e gruppi di regole gestiti",
+      "Shield e Shield Advanced: protezione DDoS e quanto costa",
+      "Secrets Manager e Parameter Store: due risposte a prezzi diversi",
+      "KMS: chiavi, cifratura a busta e chiavi gestite dal cliente",
+      "GuardDuty, Security Hub e Inspector: rilevazioni, e da cosa partire",
+      "CloudTrail: il log di audit, e la risposta a chi ha fatto questo",
+      "AWS Config e conformance pack: conformità come codice",
+      "Savings Plans e istanze riservate: dov’è lo sconto vero",
+      "Compute Optimizer, ridimensionamento e rilevamento di risorse inattive",
+      "Tag di allocazione dei costi, Cost Categories e la risorsa senza padrone",
+      "La fattura come segnale di monitoraggio: il picco che significa incidente"
+    ]
   }
 };
 
@@ -3025,6 +3184,21 @@ window.I18N.it.tracks = {
     "steps": {
       "7": {
         "choice": "il percorso dentro Google Cloud",
+        "note": "Il tronco è la stessa piattaforma per tutti. I percorsi non si riuniscono più: ognuno è una certificazione diversa e un insieme di servizi diverso.",
+        "options": [
+          "Cloud Engineer",
+          "Data Engineer"
+        ]
+      }
+    }
+  },
+  "aws": {
+    "name": "Amazon Web Services",
+    "goal": "Il cloud più grande del mercato brasiliano, e quello che gli annunci di lavoro nominano di più. I quattro corsi del fornitore poggiano su Linux, reti e container, perché il materiale ufficiale dà per scontato che tu li abbia già — ed è esattamente ciò che manca quando un deploy si rompe e nessuno sa dire perché. Sequenza allineata alle certificazioni associate: alla fine scegli quella a cui punti.",
+    "outcome": "Padronanza di AWS",
+    "steps": {
+      "7": {
+        "choice": "il percorso dentro AWS",
         "note": "Il tronco è la stessa piattaforma per tutti. I percorsi non si riuniscono più: ognuno è una certificazione diversa e un insieme di servizi diverso.",
         "options": [
           "Cloud Engineer",
