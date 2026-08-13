@@ -603,7 +603,7 @@ that genuinely needs a person, and the reason the channel exists at all.
 
 - Real testimonials (with the students' permission) — remembering that there are **five** places: `catalog.js` for the English and `i18n.js`/`i18n-pt.js` for pt, es, fr and it. The quotes themselves now read as finished copy; what is still missing is the **byline**, and that is the half that cannot be written by anyone but a student
 - Introduction videos: the YouTube id in each course's `video` field, in `catalog.js`
-- **The prices are decided but nothing is charged**: R$ 49 a month, R$ 490 a year, and no payment provider exists yet. See the "Plans" section below.
+- **The price is decided but nothing is charged**: R$ 490 a year, in 12 instalments, and no payment provider exists yet. The monthly option was dropped — see the "Plans" section below. The currency is also still an open question, since the site speaks five languages and the audience is not only Brazilian.
 - A real e-mail address (today `contact@codeschool.ing`)
 - **One FAQ answer still carries a marker**: the payment methods, which cannot be stated until a provider is chosen. The other three — cancellation, standalone sales and companies — now describe the decided model and are no longer samples.
 - The example testimonials sign off with "class of [year]", the vocabulary of enrolling in a cohort. When the real accounts come in, each one's sign-off has to match the enrolment model.
