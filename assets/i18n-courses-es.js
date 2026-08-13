@@ -250,19 +250,24 @@ window.I18N.es.courses = {
   },
   "front-multiplatform": {
     "name": "Apps de Escritorio y Móviles con Web",
-    "summary": "Llevá lo que ya sabés de web a las tiendas de aplicaciones y al escritorio — envolviendo lo que construiste, o escribiendo nativo.",
+    "summary": "Llevá a las tiendas y al escritorio la aplicación web que ya construiste — y sabé cuándo envolverla no alcanza y tiene que ser nativa.",
     "syllabus": [
-      "Aplicaciones móviles con React Native",
-      "Panorama de Flutter e Ionic",
+      "Capacitor: la aplicación que ya construiste, en cualquier framework, como proyecto nativo",
+      "Recursos del dispositivo por el puente, y un plugin propio cuando falte",
+      "React Native y Expo: el camino nativo, y qué compra sobre el envoltorio",
       "Aplicaciones de escritorio con Electron y Tauri",
       "Empaquetado, firma y publicación",
-      "Proyecto final: una app publicada en tu portafolio"
+      "Proyecto final: una aplicación publicada en el portafolio"
     ],
     "topics": [
       "Dos caminos a la tienda: envolver la aplicación web que tenés, o escribir una nativa",
-      "Capacitor: llevar a las tiendas la aplicación que ya construiste, en cualquier framework",
-      "React Native: componentes, navegación y estilos",
-      "Acceso a recursos del dispositivo: cámara, notificaciones y almacenamiento",
+      "Capacitor: la aplicación que ya construiste, en cualquier framework, como proyecto nativo",
+      "Los proyectos iOS y Android que genera, y cuándo tenés que abrirlos",
+      "Plugins: cámara, sistema de archivos, notificaciones, geolocalización y preferencias",
+      "Escribir tu propio plugin cuando el puente no tiene lo que necesitás",
+      "Lo que una aplicación envuelta no puede hacer, y cómo enterarte antes que la tienda",
+      "React Native: el camino nativo, y qué compra sobre el envoltorio",
+      "Componentes, navegación y estilos en React Native",
       "Expo: desarrollo, build y actualizaciones remotas",
       "Panorama de Flutter, Ionic y NativeScript",
       "Electron: proceso principal, renderizador y comunicación entre ellos",
@@ -272,7 +277,7 @@ window.I18N.es.courses = {
       "Actualizaciones automáticas y versionado",
       "Proyecto final: una aplicación publicada en el portafolio"
     ],
-    "prerequisites": "Exige una aplicación propia. Capacitor envuelve cualquiera de los cuatro; React Native es el camino nativo, y reutiliza el JavaScript que ya escribís."
+    "prerequisites": "Exige una aplicación propia, en cualquiera de los cuatro frameworks — Capacitor la lleva tal como está. React Native es el otro camino, y reutiliza el JavaScript que ya escribís."
   },
   "node": {
     "name": "Node.js: JavaScript en el Servidor",

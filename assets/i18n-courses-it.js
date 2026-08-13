@@ -250,19 +250,24 @@ window.I18N.it.courses = {
   },
   "front-multiplatform": {
     "name": "App Desktop e Mobile con il Web",
-    "summary": "Porta ciò che già sai del web negli store e sul desktop — impacchettando quello che hai costruito, o scrivendo nativo.",
+    "summary": "Porta negli store e sul desktop l’applicazione web che hai già costruito — e sappi quando impacchettarla non basta e deve essere nativa.",
     "syllabus": [
-      "Applicazioni mobili con React Native",
-      "Panorama di Flutter e Ionic",
+      "Capacitor: l’applicazione che hai già costruito, in qualsiasi framework, come progetto nativo",
+      "Le risorse del dispositivo attraverso il ponte, e un plugin tuo quando manca",
+      "React Native ed Expo: la via nativa, e cosa aggiunge rispetto all’involucro",
       "Applicazioni desktop con Electron e Tauri",
       "Impacchettamento, firma e pubblicazione",
-      "Progetto finale: un’app pubblicata nel tuo portfolio"
+      "Progetto finale: un’applicazione pubblicata nel portfolio"
     ],
     "topics": [
       "Due strade per lo store: impacchettare l’applicazione web che hai, o scriverne una nativa",
-      "Capacitor: portare negli store l’applicazione che hai già costruito, in qualsiasi framework",
-      "React Native: componenti, navigazione e stili",
-      "Accesso alle risorse del dispositivo: fotocamera, notifiche e archiviazione",
+      "Capacitor: l’applicazione che hai già costruito, in qualsiasi framework, come progetto nativo",
+      "I progetti iOS e Android che genera, e quando devi aprirli",
+      "Plugin: fotocamera, filesystem, notifiche, geolocalizzazione e preferenze",
+      "Scrivere un plugin tuo quando il ponte non ha ciò che serve",
+      "Cosa un’applicazione impacchettata non può fare, e come scoprirlo prima dello store",
+      "React Native: la via nativa, e cosa aggiunge rispetto all’involucro",
+      "Componenti, navigazione e stili in React Native",
       "Expo: sviluppo, build e aggiornamenti da remoto",
       "Panorama di Flutter, Ionic e NativeScript",
       "Electron: processo principale, renderer e comunicazione tra i due",
@@ -272,7 +277,7 @@ window.I18N.it.courses = {
       "Aggiornamenti automatici e versionamento",
       "Progetto finale: un’applicazione pubblicata nel portfolio"
     ],
-    "prerequisites": "Richiede una tua applicazione. Capacitor impacchetta uno qualsiasi dei quattro; React Native è la via nativa, e riusa il JavaScript che già scrivi."
+    "prerequisites": "Richiede una tua applicazione, in uno qualsiasi dei quattro framework — Capacitor la prende com’è. React Native è l’altra via, e riusa il JavaScript che già scrivi."
   },
   "node": {
     "name": "Node.js: JavaScript sul Server",
