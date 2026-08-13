@@ -3274,6 +3274,160 @@ window.I18N.es.courses = {
       "La factura como señal de monitoreo: el pico que significa incidente"
     ],
     "prerequisites": "Se exigen los dos: el cómputo que vas a operar, y Terraform."
+  },
+  "db-administration": {
+    "name": "Servidor de Base de Datos: Instalación y Mantenimiento",
+    "summary": "Instalar, configurar y mantener vivo un servidor de base de datos — el trabajo que empieza donde termina la escritura de consultas.",
+    "syllabus": [
+      "Instalación, configuración inicial y los parámetros que de verdad importan",
+      "Memoria, disposición del almacenamiento y el sistema de archivos debajo",
+      "Roles, grants y privilegio mínimo dentro de la propia base",
+      "Mantenimiento de rutina: estadísticas, vacuum, bloat y reconstrucción de índices",
+      "Upgrades y migración de versión sin perder un fin de semana",
+      "PostgreSQL a fondo, con MySQL, SQL Server y Oracle al lado"
+    ],
+    "topics": [
+      "De qué responde un DBA, y qué es del desarrollador",
+      "PostgreSQL, MySQL, SQL Server y Oracle: un oficio, cuatro vocabularios",
+      "Instalación: paquetes, contenedores y el servicio gestionado",
+      "El directorio de datos, tablespaces y dónde viven los archivos de verdad",
+      "El archivo de configuración y el puñado de parámetros que vale tocar",
+      "Shared buffers, memoria de trabajo y la cuenta que los dimensiona",
+      "El write-ahead log: qué es y por qué todo lo demás depende de él",
+      "Checkpoints, fsync y el ajuste de durabilidad que nadie debería relajar",
+      "Sistema de archivos, tamaño de bloque y el disco que una base merece",
+      "Conexiones: el máximo, y por qué subirlo rara vez es la solución",
+      "Roles, usuarios y grupos, y en qué difieren de los del sistema operativo",
+      "GRANT y REVOKE sobre esquemas, tablas, columnas y filas",
+      "Privilegios por defecto: el permiso que aparece con la próxima tabla",
+      "Autovacuum: qué hace, cuándo se atrasa y cómo darse cuenta",
+      "Bloat de tabla y de índice: medirlo antes de arreglarlo",
+      "ANALYZE, estadísticas y un planificador decidiendo con números viejos",
+      "Reconstrucción de índices, versión concurrente y el bloqueo que toma cada una",
+      "Extensiones que vale conocer: estadística de consultas, criptografía, geoespacial",
+      "Log: qué registrar, en qué nivel, y cuánto cuesta",
+      "Upgrades menores y mayores: en el lugar, dump y restore, replicación lógica",
+      "Migrar entre motores: lo que siempre se rompe",
+      "Cambiar el esquema de una tabla en producción sin caída",
+      "Configuración versionada y aprovisionamiento reproducible",
+      "El runbook: anotar lo que hiciste a las tres de la mañana"
+    ],
+    "prerequisites": "Se exigen los dos: el lenguaje y la terminal. Ningún lenguaje de programación más allá de SQL."
+  },
+  "db-performance": {
+    "name": "Rendimiento y Escala de Bases de Datos",
+    "summary": "Hacer que la base responda rápido cuando llega la carga — y saber cuál de los tres sospechosos está realmente lento.",
+    "syllabus": [
+      "Medir antes de tocar: qué consulta, con qué frecuencia, por cuánto tiempo",
+      "Planes de ejecución, estadísticas y las decisiones del planificador",
+      "Índices más allá del B-tree, y los que cuestan más de lo que ahorran",
+      "Bloqueos, concurrencia y el nivel de aislamiento bajo carga real",
+      "Particionado, sharding y réplicas de lectura",
+      "Capacidad, benchmark y una prueba de carga que diga algo"
+    ],
+    "topics": [
+      "Los tres sospechosos: la consulta, el esquema y la máquina",
+      "Estadística de consultas: hallar lo que más cuesta en total, no por ejecución",
+      "EXPLAIN y EXPLAIN ANALYZE: leer el plan en vez de adivinar",
+      "Escaneo secuencial, por índice y por bitmap: cuándo cabe cada uno",
+      "Nested loop, hash join y merge join, y por qué el planificador elige uno",
+      "Filas estimadas contra reales: la señal de que la estadística está mal",
+      "Histogramas, conteo de distintos y estadísticas extendidas",
+      "B-tree, hash, GIN, GiST y BRIN: el índice para cada pregunta",
+      "Índices parciales e índices sobre expresión",
+      "Índices de cobertura y el escaneo sólo por índice",
+      "Índices sin uso, duplicados y superpuestos: el impuesto que cobran en la escritura",
+      "Bloqueos: de fila, de tabla y consultivos, y qué bloquea qué",
+      "Descubrir quién está bloqueando a quién, mientras está pasando",
+      "Niveles de aislamiento bajo concurrencia real, y el fallo de serialización",
+      "Transacciones largas y el costo que imponen a todo lo demás",
+      "Saturación de conexiones, y por qué el pooling le gana a subir el límite",
+      "Particionado declarativo: por rango, por lista y por hash",
+      "Poda de particiones, y la consulta que ignora el particionado",
+      "Sharding: cuándo se vuelve inevitable, y lo que cuesta para siempre",
+      "Réplicas de lectura, retraso de replicación y leer tu propia escritura",
+      "Un caché delante de la base, y la invalidación que hereda",
+      "Benchmark con una carga que reproduce la real",
+      "Capacidad: crecimiento, holgura y una alerta que llega antes de la pared",
+      "La optimización que no hacía falta: medir la ganancia después"
+    ],
+    "prerequisites": "Exige administración: ajustás un servidor que ya sabés configurar."
+  },
+  "db-reliability": {
+    "name": "Backup, Replicación y Alta Disponibilidad",
+    "summary": "Lo que separa un incidente de una carta de renuncia: un backup que restaura, una réplica que asume y un plan que se ensayó.",
+    "syllabus": [
+      "Backup completo, incremental y continuo, y dónde falla cada uno",
+      "Recuperación a un punto en el tiempo, y el ensayo que casi nadie hace",
+      "RPO y RTO: acordar el número antes del incidente, no durante",
+      "Replicación por streaming y lógica, síncrona o no",
+      "Failover, split-brain y pooling de conexiones",
+      "Recuperación ante desastres y un runbook que sobreviva a quien lo escribió"
+    ],
+    "topics": [
+      "El único backup que cuenta es el que ya restauraste",
+      "Backup lógico: para qué sirve y dónde deja de alcanzar",
+      "Backup físico: base backup, snapshot y el sistema de archivos congelado",
+      "Archivado continuo del write-ahead log: el backup que nunca termina",
+      "Herramientas de backup: retención, compresión y verificación automática",
+      "Recuperación a un punto en el tiempo: el objetivo, la línea de tiempo y el ensayo",
+      "Ensayos de restauración: con qué frecuencia, y medir cuánto tardó",
+      "RPO y RTO: convertir una promesa en un número que alguien firmó",
+      "Dónde vive el backup: fuera del sitio, inmutable y tras otra credencial",
+      "Ransomware, y el backup que se cifró junto con todo lo demás",
+      "Replicación por streaming: primario, standby y slots de replicación",
+      "Síncrona y asíncrona: la latencia que se paga por la garantía",
+      "Retraso de replicación: medir, alertar, y la lectura desactualizada",
+      "Replicación lógica, y replicar selectivamente entre versiones",
+      "Failover: manual, automático, y la promoción que no puede pasar dos veces",
+      "El gestor de clúster: quién decide qué nodo es el primario",
+      "Split-brain: cómo ocurre, y cuánto cuesta el fencing",
+      "Pooling de conexiones: modos, alcance de transacción y las trampas",
+      "IP virtual, DNS y la aplicación que tiene que notar el cambio",
+      "Múltiples regiones, réplicas retrasadas y escala de lectura",
+      "Alta disponibilidad del servicio gestionado: qué promete el proveedor de verdad",
+      "El incidente: detectar, decidir, comunicar y escribir después",
+      "Matar el primario a propósito, en un ensayo, antes de que pase en serio",
+      "Documentar para que la recuperación no dependa de una persona despierta"
+    ],
+    "prerequisites": "Exige administración. Es el curso que separa una base que sobrevive de una que tuvo suerte."
+  },
+  "nosql-operations": {
+    "name": "NoSQL: Modelado y Operación",
+    "summary": "Las otras familias de base, y qué cambia cuando hay que modelar y operar una: documento, clave-valor y columna ancha.",
+    "syllabus": [
+      "Cuándo el modelo relacional es la herramienta equivocada — y cuándo no",
+      "MongoDB: documentos, índices, replica set y sharding",
+      "Redis: estructuras, persistencia, desalojo y clúster",
+      "Cassandra: clave de partición, consistencia ajustable y repair",
+      "Backup y monitoreo en cada uno de los tres",
+      "Elegir: el patrón de acceso decide, no la marca"
+    ],
+    "topics": [
+      "CAP, PACELC y la garantía a la que renunciás a propósito",
+      "Las familias: documento, clave-valor, columna ancha, grafo y serie temporal",
+      "Modelar por patrón de acceso en vez de por entidad",
+      "Desnormalización, duplicación y grabar el mismo dato dos veces a propósito",
+      "Consistencia eventual: lo que la aplicación tiene que tolerar",
+      "MongoDB: colecciones, documentos y el esquema que existe igual",
+      "Índices, índices compuestos y el orden que los hace funcionar",
+      "Pipeline de agregación, y dónde le gana a un bucle en la aplicación",
+      "Replica set: primario, secundarios, elecciones y preferencia de lectura",
+      "Sharding: la shard key, el balanceador y la clave que después no se cambia",
+      "Backup por dump y por snapshot, y por qué no son equivalentes",
+      "Redis: strings, hashes, listas, sets, sorted sets y streams",
+      "Persistencia: snapshot, archivo append-only y la durabilidad de cada uno",
+      "Políticas de desalojo: Redis como caché contra Redis como base",
+      "Redis Cluster, Sentinel y failover",
+      "Cassandra: clave de partición, clave de agrupamiento y escribir la consulta primero",
+      "Consistencia ajustable: quórum, uno y todos",
+      "Compactación, tombstones y el borrado que vuelve",
+      "Repair, hinted handoff y anti-entropía",
+      "Monitorear los tres: qué métrica significa problema en cada uno",
+      "Operarlos como servicio gestionado: qué cambia y qué no",
+      "Elegir entre ellos, y la respuesta honesta de que debería seguir siendo relacional"
+    ],
+    "prerequisites": "Exige administración: el vocabulario operativo se traslada, el modelo no."
   }
 };
 
@@ -3336,6 +3490,11 @@ window.I18N.es.tracks = {
         ]
       }
     }
+  },
+  "dba": {
+    "name": "Administración de Bases de Datos",
+    "goal": "La carrera de quien responde por la base que no puede parar — aquella en la que la empresa escribe, no la copia que lee para analizar. Instalación y tuning, roles y grants, un backup que de verdad restaura, replicación y failover, y las otras familias de base. No exige programación: SQL se aprende sin ella, y por eso esta es la tercera puerta del catálogo para quien está cambiando de carrera. PostgreSQL se enseña a fondo, con MySQL, SQL Server y Oracle al lado, porque el oficio es el mismo y sólo cambia el vocabulario.",
+    "outcome": "DBA júnior"
   },
   "networks-infra": {
     "goal": "La formación de quien hace que el paquete llegue: direccionamiento, enrutamiento, wi-fi, seguridad y automatización. Secuencia basada en el roadmap público de Network Engineer de la comunidad roadmap.sh — siete de los once cursos vienen de itinerarios anteriores.",
@@ -3420,10 +3579,11 @@ window.I18N.es.tracks = {
     "steps": {
       "2": {
         "choice": "qué hacer con el dato",
-        "note": "Los dos caminos parten de la misma base: uno mira a la decisión, el otro al volumen.",
+        "note": "Los tres caminos parten de la misma base: uno mira la decisión, el segundo el volumen, el tercero la base misma.",
         "options": [
           "Análisis y BI",
-          "Ingeniería de Datos"
+          "Ingeniería de Datos",
+          "Administración"
         ]
       }
     }

@@ -3274,6 +3274,160 @@ window.I18N.fr.courses = {
       "La facture comme signal de supervision : le pic qui signifie un incident"
     ],
     "prerequisites": "Les deux sont exigés : le calcul que vous allez exploiter, et Terraform."
+  },
+  "db-administration": {
+    "name": "Serveur de Base de Données : Installation et Maintenance",
+    "summary": "Installer, configurer et maintenir en vie un serveur de base de données — le travail qui commence là où l’écriture de requêtes s’arrête.",
+    "syllabus": [
+      "Installation, configuration initiale et les paramètres qui comptent vraiment",
+      "Mémoire, disposition du stockage et le système de fichiers en dessous",
+      "Rôles, grants et moindre privilège à l’intérieur de la base elle-même",
+      "Maintenance de routine : statistiques, vacuum, bloat et reconstruction d’index",
+      "Montées de version et migration sans y perdre un week-end",
+      "PostgreSQL en profondeur, avec MySQL, SQL Server et Oracle à côté"
+    ],
+    "topics": [
+      "De quoi répond un DBA, et ce qui revient au développeur",
+      "PostgreSQL, MySQL, SQL Server et Oracle : un métier, quatre vocabulaires",
+      "Installation : paquets, conteneurs et le service managé",
+      "Le répertoire de données, les tablespaces et où vivent vraiment les fichiers",
+      "Le fichier de configuration et la poignée de paramètres qu’il vaut la peine de toucher",
+      "Shared buffers, mémoire de travail et le calcul qui les dimensionne",
+      "Le write-ahead log : ce que c’est et pourquoi tout le reste en dépend",
+      "Checkpoints, fsync et le réglage de durabilité que personne ne devrait relâcher",
+      "Système de fichiers, taille de bloc et le disque qu’une base mérite",
+      "Connexions : le maximum, et pourquoi l’augmenter est rarement la solution",
+      "Rôles, utilisateurs et groupes, et en quoi ils diffèrent de ceux du système",
+      "GRANT et REVOKE sur les schémas, tables, colonnes et lignes",
+      "Privilèges par défaut : la permission qui apparaît avec la table suivante",
+      "Autovacuum : ce qu’il fait, quand il prend du retard et comment s’en apercevoir",
+      "Bloat de table et d’index : le mesurer avant de le corriger",
+      "ANALYZE, statistiques et un planificateur qui décide sur des chiffres périmés",
+      "Reconstruction d’index, version concurrente et le verrou que chacune prend",
+      "Extensions à connaître : statistiques de requêtes, cryptographie, géospatial",
+      "Journalisation : quoi enregistrer, à quel niveau, et à quel coût",
+      "Montées mineures et majeures : sur place, dump et restore, réplication logique",
+      "Migrer entre moteurs : ce qui casse à chaque fois",
+      "Changer le schéma d’une table en production sans coupure",
+      "Configuration versionnée et provisionnement reproductible",
+      "Le runbook : noter ce que vous avez fait à trois heures du matin"
+    ],
+    "prerequisites": "Les deux sont exigés : le langage et le terminal. Aucun langage de programmation au-delà de SQL."
+  },
+  "db-performance": {
+    "name": "Performance et Mise à l’Échelle des Bases de Données",
+    "summary": "Faire répondre la base vite quand la charge arrive — et savoir lequel des trois suspects est réellement lent.",
+    "syllabus": [
+      "Mesurer avant de toucher : quelle requête, à quelle fréquence, pendant combien de temps",
+      "Plans d’exécution, statistiques et les décisions du planificateur",
+      "Index au-delà du B-tree, et ceux qui coûtent plus qu’ils ne rapportent",
+      "Verrous, concurrence et le niveau d’isolation sous charge réelle",
+      "Partitionnement, sharding et réplicas de lecture",
+      "Capacité, benchmark et un test de charge qui veut dire quelque chose"
+    ],
+    "topics": [
+      "Les trois suspects : la requête, le schéma et la machine",
+      "Statistiques de requêtes : trouver ce qui coûte le plus au total, pas par exécution",
+      "EXPLAIN et EXPLAIN ANALYZE : lire le plan au lieu de deviner",
+      "Parcours séquentiel, par index et par bitmap : quand chacun convient",
+      "Nested loop, hash join et merge join, et pourquoi le planificateur en choisit un",
+      "Lignes estimées contre réelles : le signe que les statistiques sont fausses",
+      "Histogrammes, nombre de valeurs distinctes et statistiques étendues",
+      "B-tree, hash, GIN, GiST et BRIN : l’index pour chaque question",
+      "Index partiels et index sur expression",
+      "Index couvrants et le parcours par index seul",
+      "Index inutilisés, dupliqués et redondants : la taxe qu’ils prélèvent sur l’écriture",
+      "Verrous : de ligne, de table et consultatifs, et ce qui bloque quoi",
+      "Trouver qui bloque qui, pendant que cela se produit",
+      "Niveaux d’isolation sous concurrence réelle, et l’échec de sérialisation",
+      "Transactions longues et le coût qu’elles imposent à tout le reste",
+      "Saturation des connexions, et pourquoi le pooling bat l’augmentation de la limite",
+      "Partitionnement déclaratif : par plage, par liste et par hachage",
+      "Élagage de partitions, et la requête qui ignore le partitionnement",
+      "Sharding : quand cela devient inévitable, et ce que cela coûte pour toujours",
+      "Réplicas de lecture, retard de réplication et lire sa propre écriture",
+      "Un cache devant la base, et l’invalidation dont il hérite",
+      "Benchmark avec une charge qui reproduit la vraie",
+      "Capacité : croissance, marge et une alerte qui arrive avant le mur",
+      "L’optimisation qui n’était pas nécessaire : mesurer le gain après coup"
+    ],
+    "prerequisites": "Exige l’administration : on règle un serveur que l’on sait déjà configurer."
+  },
+  "db-reliability": {
+    "name": "Sauvegarde, Réplication et Haute Disponibilité",
+    "summary": "Ce qui sépare un incident d’une lettre de démission : une sauvegarde qui restaure, un réplica qui prend le relais et un plan qui a été répété.",
+    "syllabus": [
+      "Sauvegarde complète, incrémentale et continue, et où chacune échoue",
+      "Restauration à un instant donné, et la répétition que presque personne ne fait",
+      "RPO et RTO : convenir du chiffre avant l’incident, pas pendant",
+      "Réplication en flux et logique, synchrone ou non",
+      "Bascule, split-brain et pooling de connexions",
+      "Reprise après sinistre et un runbook qui survit à celui qui l’a écrit"
+    ],
+    "topics": [
+      "La seule sauvegarde qui compte est celle que vous avez déjà restaurée",
+      "Sauvegarde logique : à quoi elle sert et où elle cesse de suffire",
+      "Sauvegarde physique : base backup, instantané et le système de fichiers figé",
+      "Archivage continu du write-ahead log : la sauvegarde qui ne finit jamais",
+      "Outils de sauvegarde : rétention, compression et vérification automatique",
+      "Restauration à un instant donné : la cible, la timeline et la répétition",
+      "Répétitions de restauration : à quelle fréquence, et mesurer le temps réel",
+      "RPO et RTO : transformer une promesse en un chiffre que quelqu’un a signé",
+      "Où vit la sauvegarde : hors site, immuable et derrière un autre identifiant",
+      "Rançongiciel, et la sauvegarde chiffrée en même temps que le reste",
+      "Réplication en flux : primaire, standby et slots de réplication",
+      "Synchrone et asynchrone : la latence payée pour la garantie",
+      "Retard de réplication : mesurer, alerter, et la lecture périmée",
+      "Réplication logique, et répliquer sélectivement entre versions",
+      "Bascule : manuelle, automatique, et la promotion qui ne doit pas arriver deux fois",
+      "Le gestionnaire de cluster : qui décide quel nœud est le primaire",
+      "Split-brain : comment cela arrive, et ce que coûte le fencing",
+      "Pooling de connexions : modes, portée transactionnelle et les pièges",
+      "IP virtuelle, DNS et l’application qui doit remarquer le changement",
+      "Plusieurs régions, réplicas retardés et mise à l’échelle des lectures",
+      "Haute disponibilité du service managé : ce que le fournisseur promet vraiment",
+      "L’incident : détecter, décider, communiquer, et écrire ensuite",
+      "Tuer le primaire exprès, en répétition, avant que cela n’arrive pour de vrai",
+      "Documenter pour que la reprise ne dépende pas d’une personne réveillée"
+    ],
+    "prerequisites": "Exige l’administration. C’est le cours qui sépare une base qui survit d’une base qui a eu de la chance."
+  },
+  "nosql-operations": {
+    "name": "NoSQL : Modélisation et Exploitation",
+    "summary": "Les autres familles de bases, et ce qui change quand il faut en modéliser et en exploiter une : document, clé-valeur et colonne large.",
+    "syllabus": [
+      "Quand le modèle relationnel est le mauvais outil — et quand il ne l’est pas",
+      "MongoDB : documents, index, replica set et sharding",
+      "Redis : structures, persistance, éviction et cluster",
+      "Cassandra : clé de partition, cohérence ajustable et repair",
+      "Sauvegarde et supervision dans chacun des trois",
+      "Choisir : le motif d’accès décide, pas la marque"
+    ],
+    "topics": [
+      "CAP, PACELC et la garantie à laquelle on renonce exprès",
+      "Les familles : document, clé-valeur, colonne large, graphe et série temporelle",
+      "Modéliser par motif d’accès plutôt que par entité",
+      "Dénormalisation, duplication et écrire deux fois la même donnée exprès",
+      "Cohérence à terme : ce que l’application doit tolérer",
+      "MongoDB : collections, documents et le schéma qui existe quand même",
+      "Index, index composés et l’ordre qui les rend efficaces",
+      "Le pipeline d’agrégation, et où il bat une boucle applicative",
+      "Replica set : primaire, secondaires, élections et préférence de lecture",
+      "Sharding : la shard key, le balancer et la clé qu’on ne change plus après",
+      "Sauvegarde par dump et par instantané, et pourquoi ce n’est pas équivalent",
+      "Redis : chaînes, hachages, listes, ensembles, ensembles triés et streams",
+      "Persistance : instantané, fichier append-only et la durabilité de chacun",
+      "Politiques d’éviction : Redis comme cache contre Redis comme base",
+      "Redis Cluster, Sentinel et bascule",
+      "Cassandra : clé de partition, clé de regroupement et écrire la requête d’abord",
+      "Cohérence ajustable : quorum, un et tous",
+      "Compaction, tombstones et la suppression qui revient",
+      "Repair, hinted handoff et anti-entropie",
+      "Superviser les trois : quelle métrique signale un problème dans chacun",
+      "Les exploiter en service managé : ce qui change et ce qui ne change pas",
+      "Choisir entre eux, et la réponse honnête que cela devrait rester relationnel"
+    ],
+    "prerequisites": "Exige l’administration : le vocabulaire d’exploitation se transpose, le modèle non."
   }
 };
 
@@ -3336,6 +3490,11 @@ window.I18N.fr.tracks = {
         ]
       }
     }
+  },
+  "dba": {
+    "name": "Administration de Bases de Données",
+    "goal": "Le métier de qui répond de la base qui ne peut pas s’arrêter — celle dans laquelle l’entreprise écrit, pas la copie qu’elle lit pour analyser. Installation et réglage, rôles et grants, une sauvegarde qui restaure vraiment, réplication et bascule, et les autres familles de bases. Aucune programmation requise : SQL s’apprend sans elle, ce qui fait de ce parcours la troisième porte du catalogue pour une reconversion. PostgreSQL est enseigné en profondeur, avec MySQL, SQL Server et Oracle à côté, parce que le métier est le même et que seul le vocabulaire change.",
+    "outcome": "Administrateur de Bases de Données junior"
   },
   "networks-infra": {
     "name": "Réseaux et Infrastructure",
@@ -3420,10 +3579,11 @@ window.I18N.fr.tracks = {
     "steps": {
       "2": {
         "choice": "quoi faire de la donnée",
-        "note": "Les deux chemins partent de la même base : l’un regarde la décision, l’autre le volume.",
+        "note": "Les trois chemins partent de la même base : l’un regarde la décision, le deuxième le volume, le troisième la base elle-même.",
         "options": [
           "Analyse et BI",
-          "Ingénierie des Données"
+          "Ingénierie des Données",
+          "Administration"
         ]
       }
     }
