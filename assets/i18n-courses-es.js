@@ -3146,6 +3146,21 @@ window.I18N.es.tracks = {
     "name": "DevOps y SRE",
     "outcome": "DevOps Engineer / SRE júnior"
   },
+  "cloud-engineering": {
+    "name": "Ingeniería de Computación en la Nube",
+    "goal": "La formación de quien construye y opera lo que la empresa alquila en vez de poseer: identidad, red, cómputo, entrega, monitoreo y la factura a fin de mes. El proveedor es elección tuya y cambia cuatro cursos — los otros siete son iguales en ambos caminos, porque el suelo debajo de los dos es el mismo, y es justamente el suelo que el material gratuito de los proveedores presupone que ya tenés. Secuencia alineada con las certificaciones associate.",
+    "outcome": "Cloud Engineer júnior",
+    "steps": {
+      "7": {
+        "choice": "el proveedor",
+        "note": "Dominá uno bien antes de mirar el otro. Los conceptos se trasladan; la consola, la línea de comandos y el examen, no.",
+        "options": [
+          "AWS",
+          "Google Cloud"
+        ]
+      }
+    }
+  },
   "data": {
     "goal": "La formación de quien construye la infraestructura que sostiene las decisiones: modelado, pipelines, big data y gobernanza. Secuencia basada en el roadmap público de Data Engineer de la comunidad roadmap.sh, que recomienda Python y SQL como requisitos previos. La mitad de los cursos viene de itinerarios anteriores.",
     "name": "Ingeniería de Datos",
@@ -3244,30 +3259,30 @@ window.I18N.es.tracks = {
   },
   "gcp": {
     "name": "Google Cloud Platform",
-    "goal": "La plataforma, no un paseo por la consola. Los cuatro cursos de proveedor se apoyan en Linux, redes y contenedores, porque el material oficial da por sentado que ya los tenés — y es justo lo que falta cuando un deploy se rompe y nadie sabe decir por qué. Secuencia alineada con las rutas de certificación del propio Google: al final elegís hacia cuál vas.",
+    "goal": "La plataforma sola, para quien necesita Google Cloud y no el cargo: el proyecto, la red, el cómputo, y después el lado en el que trabajás. Es el camino corto — la Ingeniería de Computación en la Nube pone Linux, redes y Kubernetes alrededor de estos mismos cursos y termina en un rol.",
     "outcome": "Dominio de Google Cloud",
     "steps": {
-      "7": {
-        "choice": "el camino dentro de Google Cloud",
-        "note": "El tronco es la misma plataforma para todos. Los caminos no vuelven a juntarse: cada uno es una certificación distinta y un conjunto de servicios distinto.",
+      "5": {
+        "choice": "el lado de Google Cloud",
+        "note": "Los dos parten del mismo proyecto y la misma red: uno opera lo que corre, el otro guarda y responde preguntas sobre lo que eso produce.",
         "options": [
-          "Cloud Engineer",
-          "Data Engineer"
+          "Operación",
+          "Datos"
         ]
       }
     }
   },
   "aws": {
     "name": "Amazon Web Services",
-    "goal": "La nube más grande del mercado brasileño, y la que más aparece nombrada en los avisos de empleo. Los cuatro cursos de proveedor se apoyan en Linux, redes y contenedores, porque el material oficial da por sentado que ya los tenés — y es justo lo que falta cuando un deploy se rompe y nadie sabe decir por qué. Secuencia alineada con las certificaciones associate: al final elegís hacia cuál vas.",
+    "goal": "La nube más grande de este mercado, sola, para quien necesita AWS y no el cargo: la cuenta, la red, el cómputo, y después el lado en el que trabajás. Es el camino corto — la Ingeniería de Computación en la Nube pone Linux, redes y Kubernetes alrededor de estos mismos cursos y termina en un rol.",
     "outcome": "Dominio de AWS",
     "steps": {
-      "7": {
-        "choice": "el camino dentro de AWS",
-        "note": "El tronco es la misma plataforma para todos. Los caminos no vuelven a juntarse: cada uno es una certificación distinta y un conjunto de servicios distinto.",
+      "5": {
+        "choice": "el lado de AWS",
+        "note": "Los dos parten de la misma cuenta y la misma red: uno opera lo que corre, el otro guarda y responde preguntas sobre lo que eso produce.",
         "options": [
-          "Cloud Engineer",
-          "Data Engineer"
+          "Operación",
+          "Datos"
         ]
       }
     }
