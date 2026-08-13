@@ -993,6 +993,109 @@ document.addEventListener('scroll', (e) => {
   updateRow(scroller.closest('.tabs-box, .chips-box'));
 }, true);
 
+/* ---------- a click pages, a hold glides ----------
+
+   A screenful per click is right for crossing a long track and wrong for the
+   last stretch of it: it overshoots, and the card you were trying to reach ends
+   up cut in half against the edge. Holding the arrow down scrolls continuously
+   instead, and stops the instant you let go — so the fine adjustment the click
+   cannot make is made by not letting go yet.
+
+   The two do not fight. Nothing happens until HOLD_DELAY has passed, so a normal
+   click is untouched; once the glide has started, the click that the release
+   would otherwise produce is swallowed, so a long press never also pages.
+
+   It ramps. Starting at the full speed would overshoot exactly like the click
+   does; starting slow gives a few pixels of control, and holding on gets you
+   across the graph without a second press. */
+const HOLD_DELAY = 300;   // ms before a press stops counting as a click
+const HOLD_FROM = 0.22;   // px per ms at the moment the glide starts
+const HOLD_TO = 0.95;     // px per ms it works up to
+const HOLD_RAMP = 700;    // ms to get from one to the other
+
+const holding = { timer: 0, raf: 0, active: false, swallow: false };
+
+/* Which scroller an arrow drives, and in which direction. Both families of
+   arrow — the graph's and the tab rows' — answer the same question, and the
+   catalogue's filter chips use ids instead of `data-scroll`. */
+function arrowTarget(b) {
+  if (b.classList.contains('graph-arrow')) {
+    return { scroller: panelEl.querySelector('.track-graph'), dir: Number(b.dataset.scroll) };
+  }
+  const box = b.closest('.tabs-box, .chips-box');
+  return {
+    scroller: box && box.querySelector('.track-tabs, .chips'),
+    dir: (b.id === 'chips-left' || b.dataset.scroll === '-1') ? -1 : 1,
+  };
+}
+
+function stopHold() {
+  clearTimeout(holding.timer);
+  cancelAnimationFrame(holding.raf);
+  holding.timer = 0;
+  holding.raf = 0;
+  holding.active = false;
+}
+
+function glide(scroller, dir) {
+  const started = performance.now();
+  let last = started;
+  const step = (now) => {
+    // a tab that was in the background comes back with a huge delta: clamp it,
+    // or the graph jumps the width of the wait
+    const dt = Math.min(64, now - last);
+    last = now;
+    const ramp = Math.min(1, (now - started) / HOLD_RAMP);
+    const before = scroller.scrollLeft;
+    scroller.scrollLeft = before + dir * (HOLD_FROM + (HOLD_TO - HOLD_FROM) * ramp) * dt;
+    // the end of the track: nothing moved, so there is nothing left to do
+    if (scroller.scrollLeft === before) { stopHold(); return; }
+    holding.raf = requestAnimationFrame(step);
+  };
+  holding.raf = requestAnimationFrame(step);
+}
+
+document.addEventListener('pointerdown', (e) => {
+  if (e.button !== 0) return;
+  const b = e.target.closest('.graph-arrow[data-scroll], .tabs-arrow[data-scroll], #chips-left, #chips-right');
+  if (!b || b.disabled) return;
+  holding.swallow = false;
+  const { scroller, dir } = arrowTarget(b);
+  if (!scroller) return;
+  holding.timer = setTimeout(() => {
+    holding.timer = 0;
+    holding.active = true;
+    holding.swallow = true;
+    // keep receiving the release even if the pointer wanders off the button
+    if (b.setPointerCapture) { try { b.setPointerCapture(e.pointerId); } catch (err) { /* not captured */ } }
+    glide(scroller, dir);
+  }, HOLD_DELAY);
+});
+
+['pointerup', 'pointercancel'].forEach((type) =>
+  document.addEventListener(type, stopHold));
+// a press that scrolls away from the button still ends the glide when released
+window.addEventListener('blur', stopHold);
+
+/* The release fires a click. After a glide that click would page on top of what
+   the hold already did, so it is stopped here — in the capture phase, before the
+   two handlers that would act on it. */
+document.addEventListener('click', (e) => {
+  if (!holding.swallow) return;
+  holding.swallow = false;
+  if (e.target.closest('.graph-arrow, .tabs-arrow, #chips-left, #chips-right')) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+}, true);
+
+// on a touchscreen a long press opens the callout menu; while gliding it must not
+document.addEventListener('contextmenu', (e) => {
+  if (holding.active && e.target.closest('.graph-arrow, .tabs-arrow, #chips-left, #chips-right')) {
+    e.preventDefault();
+  }
+});
+
 function openTrack(i, noAnimation) {
   currentTrack = i;
   // both rows are always on show: it is enough to mark the right tab and bring
