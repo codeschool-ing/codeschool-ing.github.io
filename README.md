@@ -136,7 +136,7 @@ The detour is local: it passes just above the highest card in the way, or just b
 
 The curve's two rises have independent widths, computed from **each endpoint's real clearance**. With sub-columns the gap between cards falls from 48px to 14px, and a fixed 26px rise went straight through the neighbour — it was precisely through that rise that the line entered the card.
 
-This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **1,672 edges across 18 tracks, every branch of every fork, at four screen sizes — zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
+This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **1,852 edges across 18 tracks, every branch of every fork, at four screen sizes — zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
 
 Each edge is a `<g>` with two paths — one transparent and thick, only to catch the cursor, and the visible one. Hovering **the line** highlights it; hovering **the card** lights up every edge entering and leaving it.
 
@@ -177,6 +177,25 @@ The two do not collide. Nothing happens for the first 300ms, so an ordinary clic
 Both families of arrow answer to it — the graph's and the tab rows' — because two identical-looking controls that behave differently is worse than either behaviour. The frame delta is clamped to 64ms, or a tab returning from the background would jump the width of however long it was away, and the loop stops itself when `scrollLeft` stops changing, which is the end of the track.
 
 Breaking into sub-columns is **measured in JavaScript**, in `splitLevels()`: each `.nivel` gets one `.subcol` per column, and the function measures each card's real `offsetHeight` to fill a sub-column up to the limit before opening the next. It is not fussiness — neither `flex-wrap` in `flex-direction: column` nor CSS multi-column expands the container's width, so the cards left over ended up **on top of the neighbouring level**. That is what scrambled the Front-end graph, whose level 05 has four courses. The function runs before `drawEdges()`, and collapses everything back into a single sub-column when the CSS is in list mode.
+
+### The corridor the router could not see
+
+Not crossing a card and taking a sensible route are two different things, and only the first was checked. An edge from Linux and the Command Line to Web Servers and Caching, on Back-end at 1920×950, was **1,132px long for a 682px gap** and climbed to y=6 — the lane above the entire graph — to get there. It crossed nothing. It also went nowhere near the straight line, and it only did it at some window heights, because it depends on how the level splits into sub-columns.
+
+The router knew two ways past an obstacle: above every card in the way, or below every one of them. Between two of them was not a case it had. So when a fork block sat above a course card with a gap between them, the edge went over the top of the block instead of through the gap.
+
+Now every free horizontal corridor across the span is a candidate — above, below, and each gap between merged obstacles — and the cheapest by deviation from the two endpoints wins. Any corridor between them costs exactly the height difference the edge had to cover anyway, so a corridor beats going around whenever one exists.
+
+**The threshold is not `CLEARANCE`.** That constant is how far a detour stays from a card it goes *around*, with open space on the far side; threading needs only enough room to read as a corridor. Set at 32px, it rejected every real gap — the layout leaves about 17px between a fork block and the card beneath it — and the first attempt at this improved nothing: 88 crooked edges became 82. At 14px:
+
+| | before | after |
+| --- | --- | --- |
+| crookedness across 1,852 edges | 1.1488 | **1.1113** |
+| edges over 1.35× their straight line | 88 | **5** |
+| the worst one | 2.20× | **1.40×** |
+| the edge in the report, at 1920×950 | 1,132px, rising to y=6 | **700px, ratio 1.03** |
+
+The graph test prints the crookedness ratio now. It does not fail on it — a threshold there would be arbitrary — but a change that makes the graph more tangled shows up as a number in CI instead of as a complaint about a screenshot.
 
 When a course has **no prerequisite inside that track**, it inherits the previous item in the `courses` list as a dependency. Without that, courses like `cloud` and `testing-cicd` — whose real prerequisites are in other tracks — would all land on the Data track's first level. The declared order still applies where there is no better information.
 

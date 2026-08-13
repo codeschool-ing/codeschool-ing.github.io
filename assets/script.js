@@ -825,6 +825,13 @@ function drawEdges(t) {
      curve into an arc. The `.subcol` opened up alongside, otherwise the corridor
      between two stacked cards would not fit the larger clearance. */
   const CLEARANCE = 16;
+  /* The narrowest gap between two cards a line may thread. It is not CLEARANCE:
+     that is how far a detour stays from a card it goes AROUND, with open space
+     on the other side. Threading needs only enough room to read as a corridor —
+     half of this on each side of a 1.5px line — and the gap the layout actually
+     leaves between a fork block and the card under it is around 17px. Demanding
+     32 there rejected every real corridor and sent the edge over the top. */
+  const CORRIDOR = 14;
   // the detour lane sits just above and just below the cards, not at the
   // container's edges: short curves instead of arcs crossing the screen
   let yTop = Infinity, yBottom = -Infinity;
@@ -856,6 +863,32 @@ function drawEdges(t) {
      travels through. It is what limits the width of the rise: with sub-columns
      the gap beside the card falls from 48px to 14px, and a 26px rise would pass
      straight through the neighbour. */
+  /* The horizontal corridors that cross a span with nothing in them: above the
+     cards in the way, below them, and every gap between them wide enough to
+     take the line plus its clearance on both sides. Overlapping cards are
+     merged first, or the gap between two cards in the same column would be
+     offered as a corridor when a third card spans across it. */
+  const freeLanes = (xa, xb, ignore) => {
+    const spans = boxes
+      .filter((c) => ignore.indexOf(c.id) < 0 && c.x + c.w > xa && c.x < xb)
+      .map((c) => [c.y, c.y + c.h])
+      .sort((a, b) => a[0] - b[0]);
+    if (!spans.length) return [];
+    const merged = [spans[0].slice()];
+    spans.forEach((s) => {
+      const last = merged[merged.length - 1];
+      if (s[0] <= last[1]) last[1] = Math.max(last[1], s[1]);
+      else merged.push(s.slice());
+    });
+    const lanes = [merged[0][0] - CLEARANCE, merged[merged.length - 1][1] + CLEARANCE];
+    for (let i = 0; i < merged.length - 1; i++) {
+      if (merged[i + 1][0] - merged[i][1] >= CORRIDOR) {
+        lanes.push((merged[i][1] + merged[i + 1][0]) / 2);
+      }
+    }
+    return lanes;
+  };
+
   const clearance = (x, ya, yb, ignore, rightwards) => {
     let lim = Infinity;
     boxes.forEach((c) => {
@@ -884,17 +917,31 @@ function drawEdges(t) {
       const obstacles = inTheWay(x1 + 2, x2 - 2, Math.min(y1, y2) - 4, Math.max(y1, y2) + 4, ignore);
 
       if (obstacles.length) {
-        /* go around the outside, on the cheaper side — above the highest card in
-           the way, or below the lowest. It stays a short, local arc instead of
-           one crossing the whole graph. */
-        const top = Math.min.apply(null, obstacles.map((c) => c.y));
-        const bottom = Math.max.apply(null, obstacles.map((c) => c.y + c.h));
-        const overTheTop = (y1 - top) + (y2 - top) <= (bottom - y1) + (bottom - y2);
-        let yD = overTheTop ? top - CLEARANCE : bottom + CLEARANCE;
-        // the local detour may bump into another card: then the free lane above
-        // or below the whole graph applies, which is always clear. The side is
-        // re-evaluated — the cheaper one for the short detour rarely is the same
-        if (inTheWay(x1 + 2, x2 - 2, yD - 3, yD + 3, ignore).length) {
+        /* WHICH LANE TO CROSS IN.
+           The first version knew two: above every card in the way, or below
+           every one of them. That is what sent an edge riding over the whole
+           fork block when there was a clear corridor between that block and the
+           card beneath it — a longer and more crooked line than the geometry
+           asked for, and one that only appeared at some window heights, because
+           it depends on how the levels split into sub-columns.
+
+           Every free horizontal corridor across the span is a candidate now:
+           above the cards in the way, below them, and each gap between them
+           wide enough to hold the line and its clearance. The one that deviates
+           least from the two endpoints wins — which is any corridor lying
+           between them, since the cost is then exactly the height difference
+           the edge had to cover anyway. */
+        const lanes = freeLanes(x1 + 2, x2 - 2, ignore);
+        let yD = null, cheapest = Infinity;
+        lanes.forEach((y) => {
+          if (inTheWay(x1 + 2, x2 - 2, y - 3, y + 3, ignore).length) return;
+          const cost = Math.abs(y1 - y) + Math.abs(y2 - y) +
+            Math.abs(y - (y1 + y2) / 2) / 1000;
+          if (cost < cheapest) { cheapest = cost; yD = y; }
+        });
+        // nothing free between the two: the lane above or below the whole graph
+        // is, and it always is
+        if (yD === null) {
           yD = (y1 - detourUp) + (y2 - detourUp) <= (detourDown - y1) + (detourDown - y2)
             ? detourUp : detourDown;
         }

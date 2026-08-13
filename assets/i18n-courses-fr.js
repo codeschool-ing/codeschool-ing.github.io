@@ -250,19 +250,24 @@ window.I18N.fr.courses = {
   },
   "front-multiplatform": {
     "name": "Applications Bureau et Mobiles avec le Web",
-    "summary": "Emmenez ce que vous savez du web vers les magasins d’applications et le bureau — en emballant ce que vous avez construit, ou en écrivant du natif.",
+    "summary": "Emmenez vers les magasins et le bureau l’application web que vous avez déjà construite — et sachez quand l’emballer ne suffit pas et qu’il faut du natif.",
     "syllabus": [
-      "Applications mobiles avec React Native",
-      "Panorama de Flutter et Ionic",
+      "Capacitor : l’application déjà construite, dans n’importe quel framework, comme projet natif",
+      "Les ressources de l’appareil par le pont, et un plugin à vous quand il manque",
+      "React Native et Expo : la voie native, et ce qu’elle apporte de plus que l’emballage",
       "Applications de bureau avec Electron et Tauri",
       "Empaquetage, signature et publication",
-      "Projet final : une application publiée dans votre portfolio"
+      "Projet final : une application publiée dans le portfolio"
     ],
     "topics": [
       "Deux chemins vers le magasin : emballer l’application web que vous avez, ou en écrire une native",
-      "Capacitor : emmener dans les magasins l’application déjà construite, quel que soit le framework",
-      "React Native : composants, navigation et styles",
-      "Accès aux ressources de l’appareil : caméra, notifications et stockage",
+      "Capacitor : l’application déjà construite, dans n’importe quel framework, comme projet natif",
+      "Les projets iOS et Android qu’il génère, et quand il faut les ouvrir",
+      "Plugins : caméra, système de fichiers, notifications, géolocalisation et préférences",
+      "Écrire son propre plugin quand le pont n’a pas ce qu’il faut",
+      "Ce qu’une application emballée ne peut pas faire, et comment le découvrir avant le magasin",
+      "React Native : la voie native, et ce qu’elle apporte de plus que l’emballage",
+      "Composants, navigation et styles en React Native",
       "Expo : développement, build et mises à jour à distance",
       "Panorama de Flutter, Ionic et NativeScript",
       "Electron : processus principal, moteur de rendu et communication entre eux",
@@ -272,7 +277,7 @@ window.I18N.fr.courses = {
       "Mises à jour automatiques et versionnement",
       "Projet final : une application publiée dans le portfolio"
     ],
-    "prerequisites": "Exige une application à vous. Capacitor emballe n’importe lequel des quatre ; React Native est la voie native, et réutilise le JavaScript que vous écrivez déjà."
+    "prerequisites": "Exige une application à vous, dans n’importe lequel des quatre frameworks — Capacitor la prend telle quelle. React Native est l’autre voie, et réutilise le JavaScript que vous écrivez déjà."
   },
   "node": {
     "name": "Node.js : JavaScript côté Serveur",

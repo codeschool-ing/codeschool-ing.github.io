@@ -40,7 +40,8 @@ const TOLERANCE = 1;
 (async () => {
   const browser = await chromium.launch(
     process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
-  let checked = 0, crossings = 0;
+  let checked = 0, crossings = 0, drawnTotal = 0, directTotal = 0;
+  const crookedest = [];
 
   for (const size of SIZES) {
     const ctx = await browser.newContext({ viewport: { width: size.w, height: size.h } });
@@ -81,6 +82,11 @@ const TOLERANCE = 1;
           });
 
           const hits = [];
+          // how far the drawn line is from the straight line between its two
+          // ends: 1.0 is dead straight, and a graph that gets more crooked
+          // shows up here before anyone notices it on the screen
+          let drawn = 0, direct = 0;
+          const crooked = [];
           const edges = svg.querySelectorAll('.edge');
           edges.forEach((g) => {
             const from = g.dataset.from, to = g.dataset.to;
@@ -88,6 +94,10 @@ const TOLERANCE = 1;
             if (!p) return;
             const len = p.getTotalLength();
             if (!len) return;
+            const a = p.getPointAtLength(0), z = p.getPointAtLength(len);
+            const line = Math.max(1, Math.hypot(z.x - a.x, z.y - a.y));
+            drawn += len; direct += line;
+            if (len / line > 1.5) crooked.push({ from, to, ratio: +(len / line).toFixed(2) });
             for (let s = 0; s <= SAMPLES; s++) {
               const pt = p.getPointAtLength((len * s) / SAMPLES);
               for (const c of cards) {
@@ -100,10 +110,12 @@ const TOLERANCE = 1;
               }
             }
           });
-          return { edges: edges.length, hits };
+          return { edges: edges.length, hits, drawn, direct, crooked };
         }, { i: t.i, branch, SAMPLES, TOLERANCE });
 
         checked += found.edges;
+        drawnTotal += found.drawn; directTotal += found.direct;
+        found.crooked.forEach((c) => crookedest.push({ size: size.w + '×' + size.h, track: t.id, ...c }));
         for (const h of found.hits) {
           console.log('CROSSING: ' + size.w + '×' + size.h + '  ' + t.id +
             (t.branches > 1 ? ' [branch ' + (branch + 1) + ']' : '') +
@@ -123,6 +135,14 @@ const TOLERANCE = 1;
 
   await browser.close();
   console.log(checked + ' edges sampled at ' + SAMPLES + ' points, across ' + SIZES.length + ' screen sizes');
+  console.log('crookedness ' + (drawnTotal / directTotal).toFixed(4) +
+    ' — the drawn length over the straight line between the ends, 1.0 being every edge straight');
+  if (crookedest.length) {
+    crookedest.sort((a, b) => b.ratio - a.ratio);
+    console.log(crookedest.length + ' edge' + (crookedest.length > 1 ? 's' : '') + ' over 1.5×:');
+    crookedest.slice(0, 6).forEach((c) =>
+      console.log('  ' + c.ratio + '×  ' + c.size + '  ' + c.track + '  ' + c.from + ' → ' + c.to));
+  }
   console.log(crossings ? crossings + ' crossings' : 'OK — no edge crosses a card it does not belong to');
   if (crossings) process.exit(1);
 })();
