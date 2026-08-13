@@ -166,6 +166,16 @@ The `h2` "Um caminho, não uma lista de cursos" and the paragraph explaining the
 
 With 402px instead of 207px, **three courses fit in a column** where one used to. Of the 16 tracks, at 1920×950 none breaks into sub-columns; at 1366×768 only one is left — Front-end's level 05, which has four courses and genuinely does not fit. `splitLevels()` now subtracts the lane's real padding instead of a constant, because the magic number would silence any future gain.
 
+### The arrows: a click pages, a hold glides
+
+A screenful per click is the right size for crossing a long track and the wrong size for arriving at one. The last press overshoots, and the card you were reaching for ends up cut in half against the edge of the lane — the graph scrolls in pixels, and a level does not divide into screenfuls.
+
+Snapping the jump to a card boundary was the obvious fix and is not the one taken: it changes what a click does, and a click that sometimes moves 1,018px and sometimes 840px is harder to predict than one that always moves the same amount. The behaviour was added underneath instead. **Press and hold and the graph glides**, continuously, stopping the instant the button is released — the adjustment a click cannot make is made by not letting go yet.
+
+The two do not collide. Nothing happens for the first 300ms, so an ordinary click is untouched; once the glide has started, the click that the release would otherwise fire is swallowed in the capture phase, before either handler sees it. It ramps from 0.22px/ms to 0.95px/ms over 700ms: at full speed from the first frame it would overshoot exactly like the click does, and without the ramp holding on would never get you across a twelve-level track.
+
+Both families of arrow answer to it — the graph's and the tab rows' — because two identical-looking controls that behave differently is worse than either behaviour. The frame delta is clamped to 64ms, or a tab returning from the background would jump the width of however long it was away, and the loop stops itself when `scrollLeft` stops changing, which is the end of the track.
+
 Breaking into sub-columns is **measured in JavaScript**, in `splitLevels()`: each `.nivel` gets one `.subcol` per column, and the function measures each card's real `offsetHeight` to fill a sub-column up to the limit before opening the next. It is not fussiness — neither `flex-wrap` in `flex-direction: column` nor CSS multi-column expands the container's width, so the cards left over ended up **on top of the neighbouring level**. That is what scrambled the Front-end graph, whose level 05 has four courses. The function runs before `drawEdges()`, and collapses everything back into a single sub-column when the CSS is in list mode.
 
 When a course has **no prerequisite inside that track**, it inherits the previous item in the `courses` list as a dependency. Without that, courses like `cloud` and `testing-cicd` — whose real prerequisites are in other tracks — would all land on the Data track's first level. The declared order still applies where there is no better information.
