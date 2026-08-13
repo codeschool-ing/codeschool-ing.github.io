@@ -73,3 +73,27 @@ jobs:
           name: showcase-html
           path: showcase.html
           retention-days: 30
+
+  # Its own job because it is the only thing here that needs a dependency: a real
+  # browser, to lay the graph out and measure where the curves actually went. The
+  # checks above stay dependency-free and finish in seconds; this one takes a
+  # minute to install Chromium and should not hold them up.
+  Graph:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      # An edge passing through a card it has nothing to do with is invisible in a
+      # diff and obvious on the screen. The README claimed this was verified; until
+      # this job existed, nothing verified it.
+      - name: No edge crosses a card
+        run: node tools/graph-test/graph-test.js

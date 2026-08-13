@@ -136,7 +136,7 @@ The detour is local: it passes just above the highest card in the way, or just b
 
 The curve's two rises have independent widths, computed from **each endpoint's real clearance**. With sub-columns the gap between cards falls from 48px to 14px, and a fixed 26px rise went straight through the neighbour — it was precisely through that rise that the line entered the card.
 
-This is verifiable: the detector in the test file samples 120 points of each rendered path and checks whether any falls inside a card that is not an endpoint of that edge. **16 tracks × 5 screen formats = zero.**
+This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **1,672 edges across 18 tracks, every branch of every fork, at four screen sizes — zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
 
 Each edge is a `<g>` with two paths — one transparent and thick, only to catch the cursor, and the visible one. Hovering **the line** highlights it; hovering **the card** lights up every edge entering and leaving it.
 
@@ -184,6 +184,31 @@ SQL does not require a server language — but in the Back-end track it comes af
 A step with a fork enters the graph as **a single node** — it is a decision, not a course. Whoever depends on a course inside the block (`sql-databases` depends on `node`) receives the edge from the whole block, so the graph stays correct on whichever path is chosen.
 
 In the modal, `requires` becomes **prerequisite** buttons (red, pointing backwards) and its inverse becomes **"abre caminho para"** (blue, pointing forwards) — you can navigate the catalogue by its dependencies.
+
+### `requires` was doing two jobs
+
+The field said "what this course depends on", and the catalogue used it for two different things: **content** — you cannot understand Kubernetes without Docker — and **curriculum order** — in the Data track, governance comes after big data. The second is not a property of the course, it is a property of one track, and `links` already existed for exactly that.
+
+The cost of the conflation was measured before it was fixed. A check was added first — *a prerequisite absent from the track showing the course* — and it found **30** of them: places where a card displayed `← Big Data` on a track that does not contain Big Data. The arrow pointed at nothing.
+
+Reading all 115 edges against the rule split them cleanly:
+
+**26 of the 102 courses had their `requires` rewritten: 27 edges removed, 16 put back pointing at what the course actually needs.** The graph went from 115 edges to 104.
+
+| what it turned out to be | what happened |
+| --- | --- |
+| curriculum order in disguise | dropped from `requires`. Six tracks gained a `links` entry, where the earlier position would have taught the course out of order |
+| content, but naming the wrong course | repointed — `pentest` needs the attacks course, not the SOC one; `soc-response` needs attacks, not hardening |
+| content, and the track had a hole | the missing course went in: `linux-terminal` into Back-end, `networks` into Data, `sql-databases` into Architecture, `prompt-engineering` into Security |
+| content, correct as written | untouched — the large majority |
+
+The worst offenders were chains: `multimodal ← llm-observability ← agents-mcp ← rag` put 500h in front of a course about reading images, and `data-governance ← bigdata` put Spark in front of LGPD. Neither is knowledge the course needs.
+
+**Nothing floated loose.** A node with no dependency inside its track falls back to the previous step — the graph already did that, and it is what made deleting an edge safe while adding a false one is not.
+
+The levels moved in both directions, which is the sign the edges were wrong rather than merely inconvenient. Back-end went from 9 levels to 7 and BI from 7 to 6, because work that was genuinely parallel had been serialised. Software Architecture went from 9 to 12 and Data Engineering from 9 to 11, because a course whose false prerequisite sat early in the track had been floating up to meet it, and the fallback to the previous step is a stronger constraint than the lie it replaced. Eight of the eighteen tracks did not move at all.
+
+Fifteen `prerequisites` sentences were rewritten in the same pass, in five languages: a sentence promising an API that is no longer required is the same lie in prose.
 
 The `prerequisites` field is left for what the ids do not say: `'Basta um dos dois — SQL não exige programação.'`, `'Este curso ensina a linguagem do zero.'`, `'Nenhum. É o primeiro curso da escola.'` It used to be empty in 59 of the courses; all 102 carry one now, because a student who lands on a single course has only that sentence to tell them whether they can start there.
 
@@ -415,7 +440,7 @@ Eight of the thirteen pass 720h. That is a lot of time with no milestone of arri
 
 **Alura stacks; here the families sit side by side.** There it goes `Career ⊃ Track ⊃ Course`: the Track is a slice by subject *inside* a Career, and it is what the certificate attaches to. Here, `career` and `technology` are two species at the same level, and below them there is only the course.
 
-The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **47 of the 102 courses are in two or more tracks** — `web-fundamentals` is in 12, `linux-terminal` in 10, `sql-databases` in 9. That is 229 slots for 102 distinct courses, a reuse factor of 2.25×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
+The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **47 of the 102 courses are in two or more tracks** — `web-fundamentals` is in 13, `linux-terminal` in 12, `sql-databases` and `networks` in 9. That is 233 slots for 102 distinct courses, a reuse factor of 2.28×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
 
 In other words: the split by family solves **where to come in**; Alura's Track solves **how to know you have advanced**. They are orthogonal problems, and only the first one is solved here.
 

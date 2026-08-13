@@ -89,7 +89,7 @@ window.I18N.fr.courses = {
       "npm, pnpm et yarn : installer, versionner et publier des paquets",
       "Débogage dans le navigateur et gestion des exceptions"
     ],
-    "prerequisites": "Exige HTML et CSS — la page doit exister avant le script qui la modifie."
+    "prerequisites": "Aucune programmation préalable requise. HTML et CSS ne sont pas présupposés non plus, même si tout finit ici sur une page."
   },
   "ai-dev": {
     "name": "L’IA dans le Développement",
@@ -115,7 +115,7 @@ window.I18N.fr.courses = {
       "Fournisseurs : Anthropic, OpenAI et Google — clés, limites et coût",
       "Risques : hallucination, fuite de données et injection de prompt"
     ],
-    "prerequisites": "L’un des deux langages suffit."
+    "prerequisites": "JavaScript ou Python suffit. Le cours apporte la partie IA, pas le langage."
   },
   "html-css": {
     "name": "HTML et CSS",
@@ -713,7 +713,7 @@ window.I18N.fr.courses = {
       "Patrons de cache : cache-aside, write-through et write-behind",
       "Ruée sur le cache (stampede) et préchauffage"
     ],
-    "prerequisites": "Exige une API à vous : c’est la couche qui se place devant elle."
+    "prerequisites": "Exige la ligne de commande Linux. Une application à vous à placer derrière le serveur aide, mais n’est pas présupposée."
   },
   "testing-cicd": {
     "name": "Tests Automatisés et CI/CD",
@@ -738,7 +738,7 @@ window.I18N.fr.courses = {
       "Stratégies de mise en production : blue-green, canari et feature flags",
       "Retour arrière (rollback) et critères d’arrêt"
     ],
-    "prerequisites": "Exige une API à tester et un dépôt Git où faire tourner la chaîne."
+    "prerequisites": "Exige un dépôt à vous et quelque chose dedans à tester. Aucun langage en particulier : la chaîne est la même pour tous."
   },
   "docker": {
     "name": "Docker et Conteneurs",
@@ -1050,7 +1050,7 @@ window.I18N.fr.courses = {
       "Service mesh : Istio, Linkerd et Envoy",
       "Patrons de conception pour le cloud : disponibilité, résilience et données"
     ],
-    "prerequisites": "Exige quelque chose en production à observer, et une chaîne pour déployer l’agent."
+    "prerequisites": "Exige quelque chose qui tourne déjà à observer. La chaîne qui déploie l’agent n’est pas présupposée."
   },
   "python": {
     "name": "Python",
@@ -1182,7 +1182,7 @@ window.I18N.fr.courses = {
       "RabbitMQ, Amazon SQS et SNS",
       "Formats en colonnes et optimisation de la lecture"
     ],
-    "prerequisites": "Exige les pipelines et Python : Spark s’écrit dans un langage que vous connaissez déjà."
+    "prerequisites": "Exige Python : Spark s’écrit dans un langage que vous connaissez déjà. Aucune expérience de pipeline présupposée."
   },
   "data-governance": {
     "name": "Sécurité, Gouvernance et Confidentialité des Données",
@@ -1208,7 +1208,7 @@ window.I18N.fr.courses = {
       "Politiques de conservation, de purge et piste d’audit",
       "Interopérabilité et contrats de données entre équipes"
     ],
-    "prerequisites": "Exige un pipeline à vous à gouverner. Le droit et la technique sont traités ensemble."
+    "prerequisites": "Exige SQL — on gouverne une donnée qui vit quelque part. Le droit et la technique sont traités ensemble."
   },
   "analytics-bi": {
     "name": "Analytique, BI et Reverse ETL",
@@ -1371,7 +1371,7 @@ window.I18N.fr.courses = {
       "Contrôle d’accès au réseau (NAC) et authentification 802.1X",
       "Journalisation, audit et réponse aux incidents"
     ],
-    "prerequisites": "Exige toute la base réseau : on ne défend pas une topologie qu’on ne sait pas dessiner."
+    "prerequisites": "Exige les réseaux : on ne défend pas une topologie qu’on ne sait pas dessiner."
   },
   "networks-automation": {
     "name": "Automatisation des Réseaux",
@@ -1522,7 +1522,7 @@ window.I18N.fr.courses = {
       "Journalisation, audit et réponse aux incidents en production",
       "La LGPD brésilienne appliquée aux données envoyées à des modèles tiers"
     ],
-    "prerequisites": "Exige l’ingénierie de prompt et son évaluation. Aucune expérience en sécurité offensive présupposée."
+    "prerequisites": "Exige l’ingénierie de prompt. Aucune expérience en sécurité offensive présupposée."
   },
   "ai-models": {
     "name": "Modèles d’IA : Choix, Plateformes et API",
@@ -1713,7 +1713,7 @@ window.I18N.fr.courses = {
       "Coût, taille de fichier et limites d’envoi",
       "Accessibilité : sous-titres, audiodescription et transcription"
     ],
-    "prerequisites": "Exige toute la base IA : choix du modèle, évaluation et instrumentation sont présupposés ici."
+    "prerequisites": "Exige de savoir comment se choisit un modèle. Le multimodal se choisit de la même façon, sur d’autres critères."
   },
   "architecture-role": {
     "name": "Le Rôle de l’Architecte Logiciel",
@@ -1837,7 +1837,7 @@ window.I18N.fr.courses = {
       "Migration de données : qualité, réconciliation et retour arrière",
       "Acheter ou construire : comment fonder la décision"
     ],
-    "prerequisites": "Exige la modélisation. Aucune expérience d’ERP ou de CRM présupposée : c’est à cela que sert le cours."
+    "prerequisites": "Aucune expérience d’ERP ou de CRM présupposée — c’est à cela que sert le cours. Il suppose en revanche d’avoir déjà conçu un système."
   },
   "process-management": {
     "name": "Gestion, Processus et Estimations",
@@ -1961,7 +1961,7 @@ window.I18N.fr.courses = {
       "Mises à jour, pilotes et compatibilité",
       "Diagnostic : journaux système, mode sans échec et récupération"
     ],
-    "prerequisites": "Exige l’informatique essentielle. Aucune programmation requise."
+    "prerequisites": "Aucune programmation requise. Il suppose que vous savez vous servir d’un ordinateur, pas que vous savez comment il marche — il installe les trois depuis zéro."
   },
   "virtualization": {
     "name": "Virtualisation et Laboratoires",
@@ -2021,7 +2021,7 @@ window.I18N.fr.courses = {
       "Limites du technicien : quand la réponse est « je ne peux pas faire cela »",
       "Panorama des certifications d’entrée : CompTIA A+, Linux+ et Network+"
     ],
-    "prerequisites": "Exige le laboratoire. La moitié de ce cours n’est pas technique — c’est la conversation avec la personne en face."
+    "prerequisites": "Exige les trois systèmes d’exploitation. La moitié de ce cours n’est pas technique — c’est la conversation avec la personne en face."
   },
   "security-fundamentals": {
     "name": "Fondamentaux de la Sécurité de l’Information",
@@ -2197,7 +2197,7 @@ window.I18N.fr.courses = {
       "Rapport d’incident : faits, impact, cause et recommandation",
       "Notification de violation et obligations de la LGPD"
     ],
-    "prerequisites": "Exige le durcissement et les réseaux : c’est la journée de la blue team, de bout en bout."
+    "prerequisites": "Exige les attaques et les menaces : le SOC lit, dans les journaux, ce que l’attaquant a fait."
   },
   "pentest": {
     "name": "Test d’Intrusion et Équipe Rouge",
@@ -2573,7 +2573,7 @@ window.I18N.fr.courses = {
       "Biais algorithmique : d’où il vient et comment le reconnaître",
       "Stratégies d’atténuation et usage éthique du modèle"
     ],
-    "prerequisites": "Exige les statistiques et la visualisation. Ce sont les trois analyses que les entreprises demandent le plus."
+    "prerequisites": "Exige les statistiques. La visualisation aide mais n’est pas présupposée — ce sont les trois analyses que les entreprises demandent le plus."
   },
   "data-storytelling": {
     "name": "Communication et Storytelling avec les Données",

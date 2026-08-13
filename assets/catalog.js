@@ -91,9 +91,7 @@ const COURSES = [
     '.gitignore, submodules and large files (Git LFS)',
     'Commit messages and the Conventional Commits standard',
   ],
-  requires: [
-    'web-fundamentals',
-  ],
+  requires: [],
   prerequisites: 'No programming required: version control comes before the first language.',
 },
 {
@@ -124,10 +122,8 @@ const COURSES = [
     'npm, pnpm and yarn: installing, versioning and publishing packages',
     'Debugging in the browser and exception handling',
   ],
-  requires: [
-    'html-css',
-  ],
-  prerequisites: 'Requires HTML and CSS — the page has to exist before the script that changes it.',
+  requires: [],
+  prerequisites: 'No previous programming required. HTML and CSS are not assumed either, though everything here ends up on a page.',
 },
 {
   id: 'ai-dev',
@@ -157,11 +153,8 @@ const COURSES = [
     'Providers: Anthropic, OpenAI and Google — keys, limits and cost',
     'Risks: hallucination, data leakage and prompt injection',
   ],
-  requires: [
-    'javascript',
-    'python',
-  ],
-  prerequisites: 'Either one of the two languages is enough.',
+  requires: [],
+  prerequisites: 'Either JavaScript or Python is enough. The course brings the AI part, not the language.',
 },
 {
   id: 'html-css',
@@ -880,9 +873,9 @@ const COURSES = [
     'Cache stampede and warming',
   ],
   requires: [
-    'apis',
+    'linux-terminal',
   ],
-  prerequisites: 'Requires an API of your own: this is the layer that sits in front of it.',
+  prerequisites: 'Requires the Linux command line. An application of your own to put behind the server helps, but is not assumed.',
 },
 {
   id: 'testing-cicd',
@@ -912,9 +905,9 @@ const COURSES = [
     'Rollback and stop criteria',
   ],
   requires: [
-    'apis',
+    'git',
   ],
-  prerequisites: 'Requires an API to test and a Git repository to run the pipeline on.',
+  prerequisites: 'Requires a repository of your own and something in it to test. No particular language: the pipeline is the same for all of them.',
 },
 {
   id: 'docker',
@@ -1133,9 +1126,7 @@ const COURSES = [
     'Terminal editors: Vim, Nano and Emacs',
     'Scheduling tasks: cron and systemd timers',
   ],
-  requires: [
-    'web-fundamentals',
-  ],
+  requires: [],
   prerequisites: 'No programming required. It is the base of every infrastructure, data and security track.',
 },
 {
@@ -1294,9 +1285,9 @@ const COURSES = [
     'Cloud design patterns: availability, resilience and data',
   ],
   requires: [
-    'gitops',
+    'cloud',
   ],
-  prerequisites: 'Requires something running in production to observe, and a pipeline to deploy the agent with.',
+  prerequisites: 'Requires something already running to observe. The pipeline that deploys the agent is not assumed.',
 },
 {
   id: 'python',
@@ -1327,9 +1318,7 @@ const COURSES = [
     'Data structures and a sense of complexity (Big-O)',
     'pandas for tables and requests for consuming APIs',
   ],
-  requires: [
-    'web-fundamentals',
-  ],
+  requires: [],
   prerequisites: 'No previous programming required: Python is taught here from the first line.',
 },
 {
@@ -1461,9 +1450,9 @@ const COURSES = [
     'Columnar formats and read optimisation',
   ],
   requires: [
-    'pipelines-etl',
+    'python',
   ],
-  prerequisites: 'Requires pipelines and Python: Spark is written against a language you already know.',
+  prerequisites: 'Requires Python: Spark is written against a language you already know. No pipeline experience assumed.',
 },
 {
   id: 'data-governance',
@@ -1494,9 +1483,9 @@ const COURSES = [
     'Interoperability and data contracts between teams',
   ],
   requires: [
-    'bigdata',
+    'sql-databases',
   ],
-  prerequisites: 'Requires a pipeline of your own to govern. Law and technique are covered together.',
+  prerequisites: 'Requires SQL — you govern data that lives somewhere. Law and technique are covered together.',
 },
 {
   id: 'analytics-bi',
@@ -1557,7 +1546,8 @@ const COURSES = [
     'Detecting data and concept drift, and retraining',
   ],
   requires: [
-    'analytics-bi',
+    'python',
+    'pipelines-etl',
   ],
   prerequisites: 'Requires Python, SQL and a pipeline. This is engineering applied to models, not a statistics course.',
 },
@@ -1692,9 +1682,9 @@ const COURSES = [
     'Logging, auditing and incident response',
   ],
   requires: [
-    'networks-availability',
+    'networks',
   ],
-  prerequisites: 'Requires the whole network foundation: you cannot defend a topology you cannot draw.',
+  prerequisites: 'Requires networks: you cannot defend a topology you cannot draw.',
 },
 {
   id: 'networks-automation',
@@ -1870,9 +1860,9 @@ const COURSES = [
     'Brazil’s LGPD applied to data sent to third-party models',
   ],
   requires: [
-    'prompt-reliability',
+    'prompt-engineering',
   ],
-  prerequisites: 'Requires prompt engineering and its evaluation. No offensive security background assumed.',
+  prerequisites: 'Requires prompt engineering. No offensive security background assumed.',
 },
 {
   id: 'ai-models',
@@ -2069,7 +2059,7 @@ const COURSES = [
     'Dashboards and alerts for quality drops',
   ],
   requires: [
-    'agents-mcp',
+    'rag',
   ],
   prerequisites: 'Requires an agent or a RAG application already running — there is nothing to instrument before that.',
 },
@@ -2104,9 +2094,9 @@ const COURSES = [
     'Accessibility: captions, audio description and transcription',
   ],
   requires: [
-    'llm-observability',
+    'ai-models',
   ],
-  prerequisites: 'Requires the whole AI foundation: model choice, evaluation and instrumentation are assumed here.',
+  prerequisites: 'Requires knowing how a model is chosen. The multimodal one is chosen the same way, on different criteria.',
 },
 {
   id: 'architecture-role',
@@ -2181,9 +2171,7 @@ const COURSES = [
     'Concurrency and parallelism: where the patterns break down',
     'Choosing the pattern for the problem, not for your CV',
   ],
-  requires: [
-    'architecture-role',
-  ],
+  requires: [],
   prerequisites: 'Requires back-end experience: the patterns are read in code you have already written.',
 },
 {
@@ -2253,10 +2241,8 @@ const COURSES = [
     'Data migration: quality, reconciliation and rollback',
     'Buy versus build: how to justify the decision',
   ],
-  requires: [
-    'architecture-modeling',
-  ],
-  prerequisites: 'Requires modelling. No experience with ERP or CRM assumed: that is what the course is for.',
+  requires: [],
+  prerequisites: 'No experience with ERP or CRM assumed — that is what the course is for. It does assume you have designed a system before.',
 },
 {
   id: 'process-management',
@@ -2403,10 +2389,8 @@ const COURSES = [
     'Updates, drivers and compatibility',
     'Diagnosis: system logs, safe mode and recovery',
   ],
-  requires: [
-    'computing-essentials',
-  ],
-  prerequisites: 'Requires essential computing. No programming required.',
+  requires: [],
+  prerequisites: 'No programming required. It assumes you can use a computer, not that you know how one works — it installs all three from scratch.',
 },
 {
   id: 'virtualization',
@@ -2478,9 +2462,9 @@ const COURSES = [
     'An overview of entry-level certifications: CompTIA A+, Linux+ and Network+',
   ],
   requires: [
-    'virtualization',
+    'operating-systems',
   ],
-  prerequisites: 'Requires the lab. Half of this course is not technical — it is the conversation with the person on the other side.',
+  prerequisites: 'Requires the three operating systems. Half of this course is not technical — it is the conversation with the person on the other side.',
 },
 {
   id: 'security-fundamentals',
@@ -2517,9 +2501,7 @@ const COURSES = [
     'Brazil’s LGPD and the duty to protect personal data',
     'Careers in the field: SOC, pentest, GRC, forensics and AppSec',
   ],
-  requires: [
-    'web-fundamentals',
-  ],
+  requires: [],
   prerequisites: 'No programming required. It is the entry point of both security tracks.',
 },
 {
@@ -2689,9 +2671,9 @@ const COURSES = [
     'Breach notification and LGPD obligations',
   ],
   requires: [
-    'defense-hardening',
+    'attacks-threats',
   ],
-  prerequisites: 'Requires hardening and networks: this is the blue team’s day, end to end.',
+  prerequisites: 'Requires attacks and threats: the SOC reads, in the logs, what the attacker did.',
 },
 {
   id: 'pentest',
@@ -2733,7 +2715,7 @@ const COURSES = [
     'Legal limits in Brazil and the tester’s liability',
   ],
   requires: [
-    'soc-response',
+    'attacks-threats',
     'python',
   ],
   prerequisites: 'Both are required.',
@@ -3021,9 +3003,7 @@ const COURSES = [
     'Beyond linear regression: logistic regression and an overview of models',
     'Statistical significance versus practical relevance',
   ],
-  requires: [
-    'computing-essentials',
-  ],
+  requires: [],
   prerequisites: 'No programming required. It comes before Python on the BI track, on purpose.',
 },
 {
@@ -3145,9 +3125,9 @@ const COURSES = [
     'Mitigation strategies and ethical use of the model',
   ],
   requires: [
-    'visualization',
+    'statistics',
   ],
-  prerequisites: 'Requires statistics and visualisation. These are the three analyses companies ask for most.',
+  prerequisites: 'Requires statistics. Visualisation helps but is not assumed — these are the three analyses companies ask for most.',
 },
 {
   id: 'data-storytelling',
@@ -3183,7 +3163,7 @@ const COURSES = [
     'Portfolio: an end-to-end analysis project that shows your process',
   ],
   requires: [
-    'bi-techniques',
+    'visualization',
   ],
   prerequisites: 'Requires an analysis of your own to tell. It is the least technical course of the BI track.',
 },
@@ -3226,9 +3206,7 @@ const COURSES = [
     'Entry and exit criteria for a test cycle',
     'Useful metrics and metrics that turn into theatre',
   ],
-  requires: [
-    'web-fundamentals',
-  ],
+  requires: [],
   prerequisites: 'No programming required. This is the entry point of the Quality track.',
 },
 {
@@ -4200,6 +4178,7 @@ const TRACKS = [
     'web-fundamentals',
     'html-css',
     'git',
+    'linux-terminal',
     {
       choice: 'the server language',
       note: 'Master one properly before jumping to another. The rest of the track is the same on any path.',
@@ -4233,7 +4212,7 @@ const TRACKS = [
     'architecture',
     'scale',
   ],
-  links: {"sql-databases":[3],"apis":[3]},
+  links: {"sql-databases":[3],"apis":[3],"testing-cicd":["apis"]},
 },
 {
   id: 'devops',
@@ -4256,6 +4235,7 @@ const TRACKS = [
     'gitops',
     'observability',
   ],
+  links: {"testing-cicd":["iac"],"observability":["gitops"]},
 },
 {
   id: 'cloud-engineering',
@@ -4303,6 +4283,7 @@ const TRACKS = [
   courses: [
     'web-fundamentals',
     'linux-terminal',
+    'networks',
     'git',
     'python',
     'data-fundamentals',
@@ -4337,7 +4318,7 @@ const TRACKS = [
       ],
     },
   ],
-  links: {"sql-databases":["statistics"]},
+  links: {"sql-databases":["statistics"],"bigdata":["pipelines-etl"]},
 },
 {
   id: 'dba',
@@ -4380,6 +4361,7 @@ const TRACKS = [
     'iac',
     'observability',
   ],
+  links: {"networks-security":["networks-availability"]},
 },
 {
   id: 'prompt',
@@ -4415,6 +4397,7 @@ const TRACKS = [
     'llm-observability',
     'multimodal',
   ],
+  links: {"multimodal":["llm-observability"]},
 },
 {
   id: 'software-architecture',
@@ -4431,11 +4414,13 @@ const TRACKS = [
     'cloud',
     'iac',
     'observability',
+    'sql-databases',
     'warehouse-modeling',
     'enterprise-software',
     'process-management',
     'architect-communication',
   ],
+  links: {"process-management":["enterprise-software"]},
 },
 {
   id: 'it-support',
@@ -4473,6 +4458,7 @@ const TRACKS = [
     'cloud',
     'cloud-security',
     'python',
+    'prompt-engineering',
     'pentest',
     'ai-security',
   ],
