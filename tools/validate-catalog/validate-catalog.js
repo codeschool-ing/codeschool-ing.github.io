@@ -56,17 +56,36 @@ console.log(outOfOrder ? outOfOrder + ' dependencies out of order' : 'OK — no 
  *   - the edge is really curriculum order, not content, and belongs in the track's `links`;
  *   - the edge is real and the track has a hole, and the missing course should go in.
  *
- * Either way it is a decision somebody has to make, and it is invisible in a diff. */
+ * Either way it is a decision somebody has to make, and it is invisible in a diff.
+ *
+ * It is checked per PATH, not per track. Once a track forks, "on this track" is
+ * too weak: React sits on the Front-end track but not on the path of the student
+ * who chose Svelte, and a course after the fork requiring it would point at
+ * something that student never takes. Every complete way through the track is
+ * checked separately. */
+const certificateSets = (t) => {
+  let sets = [[]];
+  t.courses.forEach(i => {
+    sets = isChoice(i)
+      ? sets.flatMap(s => i.options.map(o => s.concat(o.courses)))
+      : sets.map(s => s.concat(i));
+  });
+  return sets.map(s => [...new Set(s)]);
+};
 let dangling = 0;
 TRACKS.forEach(t => {
-  const has = new Set(allOf(t));
-  allOf(t).forEach(id => (COURSES.find(c => c.id === id) || {}).requires
-    ?.forEach(d => {
-      if (!has.has(d)) {
-        console.log('ABSENT:', t.id, '—', id, 'requires', d, 'which is not on this track');
-        dangling++;
-      }
-    }));
+  const paths = certificateSets(t);
+  paths.forEach((path, i) => {
+    const has = new Set(path);
+    path.forEach(id => (COURSES.find(c => c.id === id) || {}).requires
+      ?.forEach(d => {
+        if (!has.has(d)) {
+          console.log('ABSENT:', t.id + (paths.length > 1 ? ' [path ' + (i + 1) + ' of ' + paths.length + ']' : ''),
+            '—', id, 'requires', d, 'which is not on it');
+          dangling++;
+        }
+      }));
+  });
 });
 console.log(dangling ? dangling + ' prerequisites absent from the track showing them'
   : 'OK — every prerequisite is on every track that shows the course');

@@ -196,7 +196,7 @@ window.I18N.it.courses = {
       "ARIA, screen reader e testo alternativo",
       "Contrasto, dimensione del bersaglio e rispetto del movimento ridotto"
     ],
-    "prerequisites": "Richiede una tua applicazione React: il corso porta i test, non l’applicazione."
+    "prerequisites": "Richiede una tua applicazione da testare, in uno qualsiasi dei quattro framework. Il corso porta i test, non l’applicazione."
   },
   "front-performance": {
     "name": "Rendering, Prestazioni e PWA",
@@ -210,7 +210,7 @@ window.I18N.it.courses = {
     ],
     "topics": [
       "Rendering lato client, lato server (SSR) e ibrido",
-      "Next.js: routing, server component e generazione statica",
+      "I meta-framework: Next.js, Nuxt, SvelteKit e Angular SSR — rotte, rendering lato server e generazione statica",
       "Generazione di siti statici (SSG) e rigenerazione incrementale",
       "Idratazione, streaming e componenti asincroni",
       "Core Web Vitals: LCP, INP e CLS",
@@ -221,7 +221,7 @@ window.I18N.it.courses = {
       "Service worker e strategie di cache offline",
       "Progressive Web App: manifest, installazione e notifiche"
     ],
-    "prerequisites": "Richiede React e qualcosa di già costruito — le prestazioni si misurano su una pagina che gira."
+    "prerequisites": "Richiede qualcosa di già costruito, in uno qualsiasi dei quattro framework — le prestazioni si misurano su una pagina che gira."
   },
   "front-delivery": {
     "name": "Deploy, Design System e GraphQL",
@@ -246,11 +246,11 @@ window.I18N.it.courses = {
       "Client GraphQL: Apollo e Relay",
       "Monitoraggio degli errori lato client e segnalazione dei crash"
     ],
-    "prerequisites": "Richiede React e un repository Git: qui tutto comincia dal push."
+    "prerequisites": "Richiede un’applicazione e un repository Git: qui tutto comincia dal push, qualunque framework l’abbia costruita."
   },
   "front-multiplatform": {
     "name": "App Desktop e Mobile con il Web",
-    "summary": "Porta quello che già sai del web negli store di applicazioni e sul desktop.",
+    "summary": "Porta ciò che già sai del web negli store e sul desktop — impacchettando quello che hai costruito, o scrivendo nativo.",
     "syllabus": [
       "Applicazioni mobili con React Native",
       "Panorama di Flutter e Ionic",
@@ -259,10 +259,12 @@ window.I18N.it.courses = {
       "Progetto finale: un’app pubblicata nel tuo portfolio"
     ],
     "topics": [
+      "Due strade per lo store: impacchettare l’applicazione web che hai, o scriverne una nativa",
+      "Capacitor: portare negli store l’applicazione che hai già costruito, in qualsiasi framework",
       "React Native: componenti, navigazione e stili",
       "Accesso alle risorse del dispositivo: fotocamera, notifiche e archiviazione",
       "Expo: sviluppo, build e aggiornamenti da remoto",
-      "Panorama di Flutter e Ionic",
+      "Panorama di Flutter, Ionic e NativeScript",
       "Electron: processo principale, renderer e comunicazione tra i due",
       "Tauri: applicazioni desktop leggere con tecnologie web",
       "Impacchettamento, icone e installer",
@@ -270,7 +272,7 @@ window.I18N.it.courses = {
       "Aggiornamenti automatici e versionamento",
       "Progetto finale: un’applicazione pubblicata nel portfolio"
     ],
-    "prerequisites": "Richiede React: React Native riusa il linguaggio, i componenti e gli hook."
+    "prerequisites": "Richiede una tua applicazione. Capacitor impacchetta uno qualsiasi dei quattro; React Native è la via nativa, e riusa il JavaScript che già scrivi."
   },
   "node": {
     "name": "Node.js: JavaScript sul Server",
@@ -3428,21 +3430,145 @@ window.I18N.it.courses = {
       "Scegliere fra loro, e la risposta onesta che dovrebbe restare relazionale"
     ],
     "prerequisites": "Richiede l’amministrazione: il vocabolario operativo si trasferisce, il modello no."
+  },
+  "angular": {
+    "name": "Front-end con Angular",
+    "summary": "Il framework della banca, dell’assicurazione e della pubblica amministrazione: prescrittivo, completo, e TypeScript dalla prima riga.",
+    "syllabus": [
+      "Componenti, template e reattività con i signal",
+      "Iniezione delle dipendenze: l’idea attorno a cui è costruito l’intero framework",
+      "Form reattivi, tipizzati, con una validazione che regge alla crescita",
+      "Router, guard, lazy loading e componenti standalone",
+      "HttpClient, interceptor e RxJS dove si ripaga davvero",
+      "Lo stato con signal e servizi, e una panoramica di NgRx"
+    ],
+    "topics": [
+      "Perché Angular è un framework dove React è una libreria, e cosa comporta",
+      "La CLI di Angular: generare, compilare, testare e cambiare versione",
+      "Componenti standalone, e il codice con NgModule che incontrerai comunque",
+      "Template: interpolazione, property binding ed event binding",
+      "Controllo di flusso nel template: @if, @for e @switch",
+      "Signal: stato, computed ed effect",
+      "Rilevamento delle modifiche: zone.js, OnPush e dove si va senza zone",
+      "Comunicazione fra componenti: input, output e proiezione del contenuto",
+      "Gli hook del ciclo di vita, e quali servono davvero",
+      "Iniezione delle dipendenze: provider, token e injector gerarchici",
+      "Servizi, singleton e l’ambito che un’istanza ha realmente",
+      "HttpClient: richieste tipizzate, interceptor e gestione degli errori",
+      "RxJS: gli operatori che si ripagano, e quando basta un signal",
+      "Form reattivi: controlli tipizzati, gruppi e array",
+      "Validatori personalizzati, validazione asincrona e messaggi di errore",
+      "Form basati su template, e perché i reattivi vincono quando il form cresce",
+      "Router: parametri, rotte figlie, resolver e redirect",
+      "Guard, lazy loading e strategie di precaricamento",
+      "Pipe: integrate, pure, impure e le tue",
+      "Direttive, strutturali e di attributo",
+      "Angular Material e il CDK",
+      "Stato: servizi con signal, e una panoramica di NgRx",
+      "Rendering lato server e idratazione con Angular SSR",
+      "Test: TestBed, harness e cosa appartiene a ciascun livello",
+      "Uno sguardo a React, Vue e Svelte, da dove sta Angular"
+    ],
+    "prerequisites": "Sono richiesti entrambi. TypeScript si insegna qui da zero: Angular lo dà per scontato, quindi questo corso no."
+  },
+  "vue": {
+    "name": "Front-end con Vue",
+    "summary": "Quello che si adotta una pagina alla volta: la curva più dolce dei quattro, con una risposta full-stack propria in Nuxt.",
+    "syllabus": [
+      "Componenti a file singolo e la Composition API",
+      "Reattività: ref, reactive, computed e le trappole",
+      "Props, emit, slot e provide/inject",
+      "Vue Router e Pinia",
+      "Nuxt: rotte per file, modalità di rendering e recupero dei dati",
+      "TypeScript in Vue, e dove costa qualcosa"
+    ],
+    "topics": [
+      "Componenti a file singolo: template, script setup e stile con ambito",
+      "Il sistema di reattività: ref, reactive, e in cosa differisce da quello di React",
+      "Proprietà calcolate, e quando un watcher è lo strumento sbagliato",
+      "Watcher: watch, watchEffect e la pulizia successiva",
+      "Direttive: v-if, v-for, v-model, e la key che conta",
+      "Props, emit e un contratto tipizzato fra componenti",
+      "Slot: predefiniti, con nome e con ambito",
+      "provide e inject: la via di fuga e quanto costa",
+      "Il ciclo di vita nella Composition API",
+      "Composable: la risposta di Vue all’hook personalizzato",
+      "La Options API, perché il codice esistente ne è pieno",
+      "Vue Router: rotte, guard, viste annidate e lazy loading",
+      "Pinia: store, stato, getter e action",
+      "Form, validazione e il contratto di v-model",
+      "Teleport, Suspense e transizioni",
+      "TypeScript in Vue: defineProps, defineEmits e il componente generico",
+      "Vite: scritto dall’autore di Vue, oggi usato da tutti",
+      "Nuxt: rotte per file, layout e import automatici",
+      "Modalità di rendering: SSR, SSG, ISR e solo lato client",
+      "I dati in Nuxt: useFetch, useAsyncData e il payload che attraversa",
+      "Test con Vitest e Vue Test Utils",
+      "Uno sguardo a React, Angular e Svelte, da dove sta Vue"
+    ],
+    "prerequisites": "Sono richiesti entrambi. È il più facile dei quattro da cui partire, e l’unico che si adotta un pezzo alla volta su una pagina esistente."
+  },
+  "svelte": {
+    "name": "Front-end con Svelte",
+    "summary": "Quello che si compila fino a sparire: niente DOM virtuale, quasi nessun runtime spedito, e una reattività che si legge come il linguaggio in cui è scritta.",
+    "syllabus": [
+      "Rune: la reattività che ha sostituito la magia",
+      "Componenti, props, snippet ed eventi",
+      "SvelteKit: rotte, load function e form action",
+      "Rendering: SSR, prerendering e l’adapter con cui si pubblica",
+      "Store e contesto: stato che sopravvive al componente",
+      "TypeScript, test, e ciò che il compilatore regala"
+    ],
+    "topics": [
+      "Il compilatore come framework: ciò che sparisce prima che il browser lo veda",
+      "Niente DOM virtuale, e cosa cambia nel modo di ragionare",
+      "Rune: $state, $derived, $effect e $props",
+      "Cosa ha cambiato Svelte 5, e il codice Svelte 4 ancora in giro",
+      "Componenti, props e binding bidirezionale",
+      "Snippet e render tag, dove gli altri framework mettono gli slot",
+      "Eventi, modificatori e callback fra componenti",
+      "Controllo di flusso: each, if, await e blocchi con chiave",
+      "Transizioni, animazione e movimento, nel framework invece che in una libreria",
+      "Store: writable, readable, derived — e quando basta una rune",
+      "Contesto: setContext e getContext",
+      "SvelteKit: rotte per file, layout e gruppi di rotta",
+      "Load function: universale e solo lato server, e la differenza che morde",
+      "Form action, e miglioramento progressivo che funziona con JavaScript spento",
+      "Rendering: SSR, CSR, prerendering e la scelta dell’adapter",
+      "Hook: handle, handleFetch e la gestione degli errori",
+      "Endpoint: le rotte API che stanno accanto alle pagine",
+      "TypeScript in Svelte, e il controllo che il compilatore fa comunque",
+      "Test con Vitest e Playwright",
+      "Uno sguardo a React, Angular e Vue, da dove sta Svelte"
+    ],
+    "prerequisites": "Sono richiesti entrambi. Il più piccolo dei quattro da imparare e il più piccolo da spedire — il compilatore fa ciò che gli altri fanno a runtime."
   }
 };
 
 window.I18N.it.tracks = {
   "frontend": {
     "name": "Sviluppo Front-end",
-    "goal": "La formazione completa di chi costruisce ciò che l’utente vede: dalla prima pagina statica all’applicazione pubblicata. Sequenza basata sulla roadmap pubblica Front-end della comunità roadmap.sh, adattata al nostro metodo.",
-    "outcome": "Sviluppatore Front-end junior"
+    "goal": "La formazione completa di chi costruisce ciò che l’utente vede: dalla prima pagina statica all’applicazione pubblicata. Il framework è una tua scelta e cambia un corso — tutto ciò che viene dopo è uguale su qualsiasi percorso, perché qualità, prestazioni, consegna e store non guardano quale hai preso. Sequenza basata sulla roadmap pubblica di Front-end della comunità roadmap.sh, adattata al nostro metodo.",
+    "outcome": "Sviluppatore Front-end junior",
+    "steps": {
+      "5": {
+        "choice": "il framework",
+        "note": "Padroneggiane uno prima di guardare gli altri. Quello che ne porti via — componenti, stato, rotte, build — è la stessa idea quattro volte, e il quarto che incontrerai in carriera ti costerà una settimana.",
+        "options": [
+          "React + TypeScript",
+          "Angular",
+          "Vue",
+          "Svelte"
+        ]
+      }
+    }
   },
   "backend": {
     "name": "Sviluppo Back-end",
     "goal": "La formazione di chi costruisce ciò che regge l’applicazione: dati, API, server e scalabilità. Basata sulla roadmap pubblica Back-end di roadmap.sh — il linguaggio del server lo scegli tu, e poi il percorso torna a unirsi.",
     "outcome": "Sviluppatore Back-end junior",
     "steps": {
-      "3": {
+      "4": {
         "choice": "il linguaggio del server",
         "note": "Impara bene uno prima di passare a un altro. Il resto del percorso è identico su qualsiasi strada.",
         "options": [
@@ -3480,7 +3606,7 @@ window.I18N.it.tracks = {
     "goal": "La formazione di chi costruisce l’infrastruttura che sostiene le decisioni: modellazione, pipeline, big data e governance. Sequenza basata sulla roadmap pubblica Data Engineer di roadmap.sh, che raccomanda Python e SQL come prerequisiti. Metà dei corsi viene dai percorsi precedenti.",
     "outcome": "Ingegnere dei Dati junior",
     "steps": {
-      "17": {
+      "18": {
         "choice": "il cloud in cui vive il dato",
         "note": "L’ingegneria fino a qui è la stessa ovunque. Ciò che cambia è il servizio gestito che ti danno: il warehouse, il flusso e l’orchestratore hanno un altro nome e un’altra fattura presso ogni fornitore.",
         "options": [

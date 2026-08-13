@@ -2,7 +2,7 @@
 
 The `codeschool.ing` site — **Stage 1: the showcase**. It presents courses, training tracks and the methodology, and hands whoever is convinced to the portal. There is no login, no payment and no student area *here*: that is Stage 2, which was **built to measure** rather than bought off the shelf, and is live — the portal at `codeschool-ing/portal-frontend` and its API at `codeschool-ing/portal-backend` (`api.codeschool.ing`). **The school is self-service end to end**: every "start now" on this page is a link to `app.codeschool.ing`, where the person creates their own account. Nothing here collects a contact, because nobody gets back in touch — see "The way in is the portal".
 
-**This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 102 courses and 18 tracks across programming, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `catalog.js` and the identity.
+**This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 105 courses and 18 tracks across programming, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `catalog.js` and the identity.
 
 What the transfer required beyond the name: **the claims about history had to go**. "Since 1999", "who has been teaching for 25 years", "5,000+ graduates" and "from Medianeira to the world" are true about Televideo and would be a lie about a school that is just being born. In place of the student counter came the **catalogue's real total workload**, computed in `script.js` from `catalog.js` — a number that is already true on the day the site goes up and that grows by itself when a new course arrives.
 
@@ -69,7 +69,7 @@ The site speaks **English, Portuguese, Spanish, French and Italian**. The picker
 
 The catalogue's data does not go through a translation function: on a language switch, the `COURSES`, `TRACKS` and `TESTIMONIALS` objects are **rewritten in place** from a copy of the English stored on load. That way all the rest of the code goes on reading `c.name` without knowing a translation exists, and each field falls back to English on its own when the translated version is missing.
 
-**Everything is translated, in all four non-source languages**: the interface (163 keys), all 18 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 102 courses. That is **2,886 strings per language**, over eleven thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
+**Everything is translated, in all four non-source languages**: the interface (163 keys), all 18 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 105 courses. That is **2,988 strings per language**, close to twelve thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
 
 Adding a language is: one line in `LANGUAGES` (in `i18n-runtime.js`), a `ui`/`testimonials` block in `i18n.js` and a `tracks` block in the catalogue file and a catalogue file. The check that runs against the source flags any missing field and any topic list whose length differs from the original — that is how the five languages closed with no gaps.
 
@@ -195,6 +195,16 @@ A step with a fork enters the graph as **a single node** — it is a decision, n
 
 In the modal, `requires` becomes **prerequisite** buttons (red, pointing backwards) and its inverse becomes **"abre caminho para"** (blue, pointing forwards) — you can navigate the catalogue by its dependencies.
 
+### The step key is a position, and positions move
+
+A track's fork is translated under `steps`, keyed by **the index of the choice in `courses`**. Inserting a step before it moves the key, and nothing in the file says so.
+
+That shipped. The `requires` audit put `linux-terminal` into Back-end and `networks` into Data; both forks moved one place along; the dictionaries kept the old keys. The label of the Back-end fork — *you choose the server language* — and of the Data one fell back to English in Portuguese, Spanish, French and Italian. The page rendered, nothing threw, and the only way to see it was to open the track in another language and read the strip.
+
+That fallback is correct behaviour: a missing key is what a half-finished translation looks like, and falling back to the source beats an empty label. It is also what makes the mistake invisible, which is why it had to become a check rather than a habit. `tools/validate-i18n/validate-i18n.js` compares the four dictionaries against the catalogue: every course present, `syllabus` and `topics` the same length as the source, every track's fork translated at the position it actually forks at, and no translated step at a position that does not fork. It exits non-zero and runs in CI beside the catalogue check.
+
+It found the two shipped labels, and it fails on them again if the key is moved back.
+
 ### `requires` was doing two jobs
 
 The field said "what this course depends on", and the catalogue used it for two different things: **content** — you cannot understand Kubernetes without Docker — and **curriculum order** — in the Data track, governance comes after big data. The second is not a property of the course, it is a property of one track, and `links` already existed for exactly that.
@@ -220,7 +230,7 @@ The levels moved in both directions, which is the sign the edges were wrong rath
 
 Fifteen `prerequisites` sentences were rewritten in the same pass, in five languages: a sentence promising an API that is no longer required is the same lie in prose.
 
-The `prerequisites` field is left for what the ids do not say: `'Basta um dos dois — SQL não exige programação.'`, `'Este curso ensina a linguagem do zero.'`, `'Nenhum. É o primeiro curso da escola.'` It used to be empty in 59 of the courses; all 102 carry one now, because a student who lands on a single course has only that sentence to tell them whether they can start there.
+The `prerequisites` field is left for what the ids do not say: `'Basta um dos dois — SQL não exige programação.'`, `'Este curso ensina a linguagem do zero.'`, `'Nenhum. É o primeiro curso da escola.'` It used to be empty in 59 of the courses; all 105 carry one now, because a student who lands on a single course has only that sentence to tell them whether they can start there.
 
 **Mind the order.** A course must not depend on another that comes *after* it in a track's `courses` list: that closes a cycle, the level computation does not terminate and the whole track stops rendering. That is what happened with the old `containers` (now split into `docker` and `kubernetes`), which depended on `testing-cicd` even though it came before it in three tracks.
 
@@ -428,7 +438,7 @@ The order sustains the division: in DevOps, the three come **after** Kubernetes 
 
 The syllabus **condenses**; the topics **list**. It is `topics` that carries the roadmap's fine items — the little beige squares hanging under each yellow topic (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — without turning the modal into a wall of technical terms. The field is optional: a course with no `topics` does not show the block. The catalogue's search looks in both.
 
-**All 102 courses have `topics` filled in — 1,899 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
+**All 105 courses have `topics` filled in — 1,968 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
 
 ### The language of the names
 
@@ -450,7 +460,7 @@ Eight of the thirteen pass 720h. That is a lot of time with no milestone of arri
 
 **Alura stacks; here the families sit side by side.** There it goes `Career ⊃ Track ⊃ Course`: the Track is a slice by subject *inside* a Career, and it is what the certificate attaches to. Here, `career` and `technology` are two species at the same level, and below them there is only the course.
 
-The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **47 of the 102 courses are in two or more tracks** — `web-fundamentals` is in 13, `linux-terminal` in 12, `sql-databases` and `networks` in 9. That is 233 slots for 102 distinct courses, a reuse factor of 2.28×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
+The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **47 of the 105 courses are in two or more tracks** — `web-fundamentals` is in 13, `linux-terminal` in 12, `sql-databases` and `networks` in 9. That is 236 slots for 105 distinct courses, a reuse factor of 2.25×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
 
 In other words: the split by family solves **where to come in**; Alura's Track solves **how to know you have advanced**. They are orthogonal problems, and only the first one is solved here.
 
@@ -602,7 +612,7 @@ Four commands, and **not one hand-written response**: the numbers, the track nam
 
 ```
 $ codeschool --status
-✓ 102 cursos · 18 trilhas · 6.400 horas de conteúdo
+✓ 105 cursos · 18 trilhas · 6.640 horas de conteúdo
 
 $ codeschool tracks --career
 → Desenvolvimento Front-end · 590h

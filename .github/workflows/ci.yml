@@ -47,6 +47,13 @@ jobs:
       - name: The catalogue holds together
         run: node tools/validate-catalog/validate-catalog.js
 
+      # A missing key is not an error at runtime — the field falls back to English,
+      # the page renders and nothing throws. That is right for a half-finished
+      # translation and wrong for a mistake, so it has to be a check. It exists
+      # because a fork's label fell back to English in four languages and shipped.
+      - name: The four dictionaries match the catalogue
+        run: node tools/validate-i18n/validate-i18n.js
+
       - name: The version is readable, and is a version
         run: |
           set -euo pipefail

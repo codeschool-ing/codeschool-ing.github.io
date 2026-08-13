@@ -61,6 +61,7 @@ Each in its own folder, with the executable at the root of it:
 
 - `tools/bundle/bundle.py` — packs the site into a single `showcase.html`
 - `tools/validate-catalog/validate-catalog.js` — checks `assets/catalog.js`, exits non-zero
+- `tools/validate-i18n/validate-i18n.js` — checks the four dictionaries against the catalogue
 - `tools/graph-test/graph-test.js` — renders every track and checks no edge crosses a card
 - `tools/version/version.js` — reads or sets the released version
 
@@ -68,8 +69,14 @@ Each in its own folder, with the executable at the root of it:
 
 ```sh
 node tools/validate-catalog/validate-catalog.js   # broken prerequisites, cycles, track order
+node tools/validate-i18n/validate-i18n.js         # the dictionaries against the catalogue
 python3 tools/bundle/bundle.py                    # and open showcase.html from file://
+node tools/graph-test/graph-test.js               # needs npm ci + npx playwright install
 ```
+
+**A track's `steps` translations are keyed by POSITION in `courses`.** Inserting a step
+moves every fork after it, and the dictionaries do not follow on their own — that is what
+`validate-i18n.js` catches, and it exists because exactly that shipped once.
 
 All of it also runs in CI on every pull request — `.github/workflows/ci.yml`. It is not
 `aleogr/pipeline`'s: the organisation's shared workflows are Go, and there is none here.
