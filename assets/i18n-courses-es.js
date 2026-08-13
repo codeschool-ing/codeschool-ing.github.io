@@ -2733,6 +2733,164 @@ window.I18N.es.courses = {
       "RunScope y monitoreo sintético de API en producción",
       "Alertas y guardia: el defecto que sólo aparece con usuarios reales"
     ]
+  },
+  "gcp-foundations": {
+    "name": "Google Cloud: Fundamentos, Identidad y Red",
+    "summary": "La planta baja de Google Cloud: cómo se organiza el entorno, quién puede hacer qué, cuánto cuesta y por dónde andan los paquetes.",
+    "syllabus": [
+      "La jerarquía de recursos: organización, carpetas, proyectos y etiquetas",
+      "IAM: identidades, roles y un privilegio mínimo que sobrevive a una auditoría",
+      "Cuentas de servicio, y cómo dejar de repartir claves de larga duración",
+      "Facturación: presupuestos, alertas y la lectura de una factura que vino mal",
+      "VPC, reglas de firewall, Cloud DNS y balanceo de carga",
+      "gcloud, Cloud Shell y la API a la que la consola le está hablando"
+    ],
+    "topics": [
+      "Regiones, zonas y su efecto sobre latencia, disponibilidad y precio",
+      "La jerarquía de recursos: organización, carpetas, proyectos y recursos",
+      "Proyectos: creación, cuotas, etiquetas y ciclo de vida",
+      "Políticas de la organización: barreras heredadas hacia abajo del árbol",
+      "Identidades en IAM: usuario, grupo, cuenta de servicio y workload identity",
+      "Roles básicos, predefinidos y personalizados: cuál usar en cada caso",
+      "Políticas de permiso, de denegación y cómo se resuelve la herencia",
+      "Cuentas de servicio: suplantación, y por qué la clave descargada es el último recurso",
+      "Workload Identity Federation: autenticarse desde afuera sin clave",
+      "Cloud Identity, Google Workspace y sincronización de directorio",
+      "Cuentas de facturación, su vínculo con los proyectos y quién paga qué",
+      "Presupuestos, alertas, cuotas y límites de gasto",
+      "Leer la factura: SKU, descuento por uso sostenido y por compromiso",
+      "Exportar la facturación a BigQuery y responder quién gastó qué",
+      "VPC: subredes, rangos de IP y por qué la red es global",
+      "Reglas de firewall: etiquetas, cuentas de servicio y orden de prioridad",
+      "Rutas, Cloud NAT y Private Google Access",
+      "VPC compartida y peering: una red entre varios proyectos",
+      "Cloud DNS: zonas públicas, zonas privadas y registros",
+      "Balanceo de carga: global y regional, y cómo elegir",
+      "Cloud VPN y Cloud Interconnect: el camino de entrada desde el datacenter",
+      "gcloud: configuraciones, contextos y más de una cuenta",
+      "Cloud Shell, el editor y la máquina efímera que viene con él",
+      "Bibliotecas cliente y la API REST debajo de todo",
+      "Cloud Asset Inventory: descubrir lo que de verdad existe en el entorno",
+      "Consola, línea de comandos e infraestructura declarada: tres puertas, una API"
+    ],
+    "prerequisites": "Nube y Serverless, o equivalente: saber qué son IaaS, IAM y una VPC."
+  },
+  "gcp-compute": {
+    "name": "Google Cloud: Cómputo y Aplicaciones",
+    "summary": "Todas las formas en que Google Cloud ejecuta tu código — de la máquina virtual al contenedor que baja a cero — y la cuenta que elige una.",
+    "syllabus": [
+      "Compute Engine: tipos de máquina, imágenes, discos y grupos de instancias",
+      "Cloud Run: contenedores que bajan a cero, revisiones y división de tráfico",
+      "GKE Autopilot y Standard: Kubernetes gestionado y lo que igual te deja",
+      "Cloud Functions y código disparado por un evento",
+      "App Engine, Cloud Tasks y Cloud Scheduler",
+      "Elegir entre ellos con costo, arranque en frío y dependencia sobre la mesa"
+    ],
+    "topics": [
+      "Compute Engine: familias de máquina, tipos personalizados y para qué sirve cada uno",
+      "Imágenes públicas, imágenes personalizadas y familias con GPU",
+      "Discos persistentes, SSD local y snapshots",
+      "Plantillas de instancia y grupos gestionados de instancias",
+      "Escalado automático por métrica, por agenda y por predicción",
+      "Instancias spot y preemptibles: el descuento y su precio",
+      "Scripts de arranque, metadatos y la cuenta de servicio de la instancia",
+      "Cloud Run: petición, contenedor y el modelo que baja a cero",
+      "Revisiones, división de tráfico y despliegue gradual",
+      "Jobs en Cloud Run: trabajo que termina en vez de atender",
+      "Concurrencia, asignación de CPU y lo que el arranque en frío cuesta de verdad",
+      "Cloud Run y la VPC: acceso privado a una base de datos",
+      "GKE Standard: pools de nodos, upgrades y ventanas de mantenimiento",
+      "GKE Autopilot: lo que Google asume y lo que cobra por ello",
+      "Workload Identity en el clúster: pods sin clave estática",
+      "Ingress, Gateway API y el balanceador que GKE crea por vos",
+      "Cloud Functions: disparadores por HTTP, por evento y por Pub/Sub",
+      "Eventarc y los eventos que vienen de la propia plataforma",
+      "App Engine standard y flexible: lo que quedó, y cuándo sirve",
+      "Cloud Tasks y Cloud Scheduler: cola y cron dentro de la plataforma",
+      "Artifact Registry: dónde vive la imagen antes de ejecutarse",
+      "Elegir el cómputo: perfil de petición, modelo de costo y esfuerzo de migración",
+      "La dependencia del proveedor como decisión, no como accidente"
+    ]
+  },
+  "gcp-data": {
+    "name": "Google Cloud: Datos, Almacenamiento y Analytics",
+    "summary": "Dónde cae el dato, dónde vive y dónde se lo interroga: del objeto en un bucket a la consulta que recorre un terabyte.",
+    "syllabus": [
+      "Cloud Storage: clases, ciclo de vida, URLs firmadas y el costo de leer",
+      "Cloud SQL, AlloyDB y Spanner: tres respuestas a \"necesito una base relacional\"",
+      "Firestore y Bigtable: cuándo gana el documento o la columna ancha",
+      "BigQuery: particionado, clustering y la consulta que cuesta una fortuna",
+      "Pub/Sub y Dataflow: flujos que llegan tarde y fuera de orden",
+      "Dataproc, Composer y el pipeline que tiene que correr a las tres de la mañana"
+    ],
+    "topics": [
+      "Cloud Storage: buckets, objetos y un esquema de nombres que sobrevive",
+      "Clases de almacenamiento: standard, nearline, coldline y archive",
+      "Reglas de ciclo de vida, versionado y políticas de retención",
+      "URLs firmadas, acceso público y el bucket que se filtró",
+      "Egreso: por qué leer puede costar más que guardar",
+      "Cloud SQL: PostgreSQL, MySQL y SQL Server como servicio gestionado",
+      "Alta disponibilidad, réplicas de lectura y recuperación a un punto en el tiempo",
+      "AlloyDB: dónde entra entre Cloud SQL y Spanner",
+      "Spanner: escala horizontal con transacciones, y lo que cobra por eso",
+      "Firestore: documentos, colecciones y consulta por índice",
+      "Bigtable: columna ancha, diseño de la clave de fila y patrones de acceso",
+      "Memorystore: Redis y Memcached gestionados",
+      "BigQuery: almacenamiento, cómputo y por qué se cobran aparte",
+      "Bajo demanda y slots: dos modelos de precio y cómo elegir",
+      "Particionado y clustering: las dos decisiones que definen la factura",
+      "Leer el plan de consulta y los bytes realmente recorridos",
+      "Tablas externas, BigLake y consultar sin ingerir",
+      "Vistas materializadas, consultas programadas y BI Engine",
+      "Pub/Sub: tópicos, suscripciones, orden y cola de mensajes muertos",
+      "Garantías de entrega: al menos una vez y la idempotencia que obliga",
+      "Dataflow y Apache Beam: el mismo pipeline en lote y en flujo",
+      "Ventanas, marcas de agua y dato que llega tarde",
+      "Dataproc: Spark y Hadoop gestionados, y cuándo le gana a Dataflow",
+      "Cloud Composer: Airflow gestionado y el costo de dejarlo ocioso",
+      "Datastream, Data Transfer Service y captura de cambios",
+      "Dataplex, Data Catalog y linaje en todo el entorno",
+      "Elegir el almacenamiento: patrón de acceso, consistencia, escala y precio"
+    ]
+  },
+  "gcp-operations": {
+    "name": "Google Cloud: Entrega, Operación y Costo",
+    "summary": "La parte que empieza después del deploy: pipeline, monitoreo, incidente, endurecimiento y la factura que llega a fin de mes.",
+    "syllabus": [
+      "Cloud Build, Artifact Registry y Cloud Deploy",
+      "Terraform contra Google Cloud, y el estado que no se puede perder",
+      "Cloud Monitoring, Cloud Logging y Error Reporting",
+      "SLO, presupuesto de error y alerta sobre el síntoma en vez de la causa",
+      "Cloud Armor, Secret Manager, KMS y VPC Service Controls",
+      "FinOps: compromisos, redimensionado y el recurso que no tiene dueño"
+    ],
+    "topics": [
+      "Cloud Build: disparadores, pasos, sustituciones y caché de build",
+      "Artifact Registry: repositorios, tags inmutables y escaneo de vulnerabilidades",
+      "Cloud Deploy: promoción entre entornos y puertas de aprobación",
+      "Binary Authorization: ejecutar sólo la imagen que fue firmada",
+      "Terraform contra Google Cloud: provider, proyecto y credenciales",
+      "Estado remoto en Cloud Storage, bloqueo y el accidente del estado perdido",
+      "Config Connector e Infrastructure Manager: las opciones nativas de la plataforma",
+      "Cloud Monitoring: métricas, tableros y chequeos de disponibilidad",
+      "Cloud Logging: destinos, filtros, retención y exportación",
+      "Métricas derivadas de log y alertas armadas sobre una línea de texto",
+      "Error Reporting, Cloud Trace y Cloud Profiler",
+      "OpenTelemetry contra Google Cloud, y la portabilidad de la instrumentación",
+      "SLI, SLO y presupuesto de error declarados en la propia plataforma",
+      "Políticas de alerta, canales de notificación y fatiga de guardia",
+      "Incidente: detección, comunicación y postmortem sin culpables",
+      "Cloud Armor: reglas de WAF, limitación de tasa y protección contra DDoS",
+      "Secret Manager: versiones, rotación y acceso por cuenta de servicio",
+      "Cloud KMS: claves, llaveros y cifrado gestionado por el cliente",
+      "VPC Service Controls: un perímetro alrededor del dato",
+      "Security Command Center: hallazgos, postura y qué atender primero",
+      "Descuento por compromiso y por uso sostenido: dónde está el descuento real",
+      "Recomendaciones de redimensionado y detección de recursos ociosos",
+      "Atribución de costo por etiqueta, por proyecto y por carpeta",
+      "Alerta de presupuesto conectada a una acción, y no a un correo",
+      "La factura como señal de monitoreo: el pico que significa incidente"
+    ]
   }
 };
 
@@ -2856,6 +3014,21 @@ window.I18N.es.tracks = {
         "options": [
           "Análisis y BI",
           "Ingeniería de Datos"
+        ]
+      }
+    }
+  },
+  "gcp": {
+    "name": "Google Cloud Platform",
+    "goal": "La plataforma, no un paseo por la consola. Los cuatro cursos de proveedor se apoyan en Linux, redes y contenedores, porque el material oficial da por sentado que ya los tenés — y es justo lo que falta cuando un deploy se rompe y nadie sabe decir por qué. Secuencia alineada con las rutas de certificación del propio Google: al final elegís hacia cuál vas.",
+    "outcome": "Dominio de Google Cloud",
+    "steps": {
+      "7": {
+        "choice": "el camino dentro de Google Cloud",
+        "note": "El tronco es la misma plataforma para todos. Los caminos no vuelven a juntarse: cada uno es una certificación distinta y un conjunto de servicios distinto.",
+        "options": [
+          "Cloud Engineer",
+          "Data Engineer"
         ]
       }
     }
