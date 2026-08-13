@@ -78,9 +78,11 @@ prestar o serviço, apenas no necessário:
 - **Site estático:** GitHub Pages (serve a vitrine e o portal).
 - **Envio de e-mails:** Brevo (Sendinblue), que entrega as mensagens
   transacionais — confirmação de e-mail e redefinição de senha.
-- **Newsletter:** ainda em modo demonstração; o formulário não envia dados a
-  provedor nenhum enquanto não for configurado. `[Preencher o provedor quando a
-  newsletter entrar no ar.]`
+- **Newsletter:** Brevo (Sendinblue) — a mesma que entrega as mensagens
+  transacionais. O formulário da vitrine envia o seu e-mail para lá, e a
+  inscrição só se completa quando você clica no link de confirmação que a Brevo
+  manda (*double opt-in*). Antes desse clique nada é gravado na lista, e esse
+  clique é o registro do seu consentimento.
 
 ## 6. Transferência internacional
 
@@ -147,9 +149,9 @@ Este rascunho descreve o tratamento REAL de hoje, lido do código:
   • Portal: conta (nome, e-mail, senha Argon2id), progresso, anotações,
     provas, certificados, metadados de sessão (IP/UA), 2FA (segredo cifrado
     + hashes de códigos de recuperação), e-mails transacionais.
-  • Vitrine: formulário de contato (nome + contato + plano → provedor externo)
-    e newsletter (e-mail → provedor externo); ambos em "modo demonstração" até
-    as URLs serem configuradas em assets/script.js (ENROL_URL / NEWSLETTER_URL).
+  • Vitrine: só a newsletter (e-mail → Brevo, com double opt-in). O formulário
+    de matrícula foi REMOVIDO — a escola é autoatendimento e não capta contato
+    para retornar depois.
   • Cookies: portal_session; cookie curto de desafio no 2FA. localStorage:
     codeschool-language, codeschool-theme e o progresso local pré-login.
 
@@ -160,8 +162,8 @@ Já preenchido a partir do que está no ar hoje:
 
 Pendências que só você/assessoria resolvem (os [colchetes] acima):
   • Controlador (razão social, CNPJ, endereço) e encarregado(a)/DPO + canal.
-  • Provedor de formulário/newsletter (só quando saírem do modo demonstração) e
-    a base documental de cada transferência internacional.
+  • A base documental de cada transferência internacional. O provedor da
+    newsletter já está resolvido: Brevo, a mesma do SMTP.
   • Prazos de retenção e o item de menores de idade; data de vigência.
   • Traduzir para os outros idiomas do site, se a política for exibida neles.
 

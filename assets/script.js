@@ -1340,10 +1340,19 @@ modal.addEventListener('click', (e) => { if (e.target === modal) closeModals(); 
 
 /* ==========================================================
    NEWSLETTER
-   Paste the provider's POST URL into NEWSLETTER_URL (Brevo,
-   Mailchimp, MailerLite...). Empty = demonstration mode.
+
+   Brevo's subscription-form endpoint. NOT a secret — it is designed to sit in
+   public markup, and it only accepts a subscription; it reads nothing back.
+   Empty would put the form in demonstration mode, which is what it was in until
+   this URL existed.
+
+   DOUBLE OPT-IN IS ON, and it is what the message below has to respect: the
+   address is NOT subscribed when this POST returns. Brevo sends a confirmation
+   link and adds the contact only when it is clicked — which is also the record
+   that proves consent, the legal basis the privacy policy declares for this
+   list.
    ========================================================== */
-const NEWSLETTER_URL = '';
+const NEWSLETTER_URL = 'https://8b3d65a8.sibforms.com/serve/MUIFAM5syFfU88XAFU01XQjwn3TcF079HC8nNn8FCguQlixQ8pT_0g_6YeMjx058TPi6_oH9FXk9MoOsLor7d9MFPyyENqUVcK7MyA-dzwrWUW5qA7KQZY_MPllsyRaSxate1yLIt4wkDiJcOm6jvtG1J33_8NuUFryYQHwEOIlpI0ae126hn69lCbRI0TIyi8H6rSM1PcvCJdYhYg==';
 
 const newsForm = $('#news-form');
 const newsEmail = $('#news-email');
@@ -1364,9 +1373,14 @@ newsForm.addEventListener('submit', (e) => {
   newsStatus.textContent = txt('… sending');
   const data = new FormData();
   data.append('EMAIL', email);
+  /* `no-cors` means the response is opaque: this resolves whether Brevo accepted
+     the address or refused it, and only a dead network rejects. So the message
+     cannot claim success — it says what was attempted and what the person still
+     has to do, which is true either way and is the same shape the password-reset
+     endpoint uses for the same reason. */
   fetch(NEWSLETTER_URL, { method: 'POST', mode: 'no-cors', body: data })
     .then(() => {
-      newsStatus.textContent = txt('✓ subscription confirmed — welcome aboard!');
+      newsStatus.textContent = txt('✓ check your inbox — click the link to confirm');
       newsForm.reset();
     })
     .catch(() => {
