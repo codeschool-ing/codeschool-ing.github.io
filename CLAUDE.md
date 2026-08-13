@@ -41,12 +41,27 @@ bookmarks, possibly links this repository does not control. They were renamed fr
 and `MOVED_ANCHORS` in `script.js` redirects the old fragment on load and on hashchange. That
 map never expires, because an inbound link does not either.
 
+## `requires` is knowledge, `links` is sequence
+
+A course's `requires` names **only what the student has to know first**. If the reason is
+"in this track it comes after that one", it belongs in the track's `links`, which draws the
+same arrow in that track and nowhere else.
+
+The two were conflated once and it cost 18 false edges: a course looked like it needed 500h
+before it, so it could not be reused in another track, and the site drew arrows at
+prerequisites that track did not contain. `validate-catalog.js` now fails on that last case —
+a prerequisite absent from a track showing the course — which is the symptom that catches it.
+
+A course whose `requires` is empty does not float: the graph falls back to the previous step
+of the track. Deleting a false edge is safe; adding one that is not real is not.
+
 ## Tools
 
 Each in its own folder, with the executable at the root of it:
 
 - `tools/bundle/bundle.py` — packs the site into a single `showcase.html`
-- `tools/validate-catalog/validate-catalog.js` — checks `assets/catalog.js`
+- `tools/validate-catalog/validate-catalog.js` — checks `assets/catalog.js`, exits non-zero
+- `tools/graph-test/graph-test.js` — renders every track and checks no edge crosses a card
 - `tools/version/version.js` — reads or sets the released version
 
 ## Before pushing

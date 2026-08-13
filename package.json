@@ -1,0 +1,13 @@
+{
+  "name": "codeschool-ing-site",
+  "private": true,
+  "description": "The showcase site has no build step and no runtime dependencies. This file exists for one tool: tools/graph-test/graph-test.js, which has to render the tracks in a real browser to check that no edge crosses a card. Nothing here ships to the site.",
+  "scripts": {
+    "check": "node tools/validate-catalog/validate-catalog.js",
+    "bundle": "python3 tools/bundle/bundle.py",
+    "graph-test": "node tools/graph-test/graph-test.js"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
