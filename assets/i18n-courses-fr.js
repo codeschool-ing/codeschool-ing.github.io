@@ -3146,6 +3146,21 @@ window.I18N.fr.tracks = {
     "goal": "La formation de celui qui fait tourner l’exploitation : systèmes, réseaux, cloud, automatisation et observabilité. Séquence fondée sur la feuille de route DevOps publique de roadmap.sh. La moitié des cours vient des parcours précédents — qui a fait Front-end ou Back-end démarre à mi-chemin.",
     "outcome": "Ingénieur DevOps / SRE junior"
   },
+  "cloud-engineering": {
+    "name": "Ingénierie du Cloud",
+    "goal": "La formation de qui construit et exploite ce que l’entreprise loue au lieu de posséder : identité, réseau, calcul, livraison, supervision et la facture en fin de mois. Le fournisseur est votre choix et il change quatre cours — les sept autres sont identiques dans les deux cas, parce que le sol sous les deux est le même, et c’est justement le sol que le matériel gratuit des éditeurs suppose acquis. Séquence alignée sur les certifications associate.",
+    "outcome": "Ingénieur Cloud junior",
+    "steps": {
+      "7": {
+        "choice": "le fournisseur",
+        "note": "Maîtrisez-en un avant de regarder l’autre. Les concepts se transposent ; la console, la ligne de commande et l’examen, non.",
+        "options": [
+          "AWS",
+          "Google Cloud"
+        ]
+      }
+    }
+  },
   "data": {
     "name": "Ingénierie des Données",
     "goal": "La formation de celui qui construit l’infrastructure des décisions : modélisation, pipelines, big data et gouvernance. Séquence fondée sur la feuille de route Data Engineer publique de roadmap.sh, qui recommande Python et SQL comme prérequis. La moitié des cours vient des parcours précédents.",
@@ -3244,30 +3259,30 @@ window.I18N.fr.tracks = {
   },
   "gcp": {
     "name": "Google Cloud Platform",
-    "goal": "La plateforme, pas une visite guidée de la console. Les quatre cours éditeur reposent sur Linux, les réseaux et les conteneurs, parce que le matériel officiel suppose que vous les avez déjà — et c’est précisément ce qui manque quand un déploiement casse sans que personne sache dire pourquoi. Séquence alignée sur les parcours de certification de Google : à la fin, vous choisissez celui que vous visez.",
+    "goal": "La plateforme seule, pour qui a besoin de Google Cloud et non du titre : le projet, le réseau, le calcul, puis le côté où vous travaillez. C’est la voie courte — l’Ingénierie du Cloud place Linux, les réseaux et Kubernetes autour de ces mêmes cours et débouche sur un métier.",
     "outcome": "Maîtrise de Google Cloud",
     "steps": {
-      "7": {
-        "choice": "le parcours dans Google Cloud",
-        "note": "Le tronc est la même plateforme pour tout le monde. Les parcours ne se rejoignent plus : chacun est une certification différente et un ensemble de services différent.",
+      "5": {
+        "choice": "le côté de Google Cloud",
+        "note": "Les deux partent du même projet et du même réseau : l’un exploite ce qui tourne, l’autre stocke et interroge ce que cela produit.",
         "options": [
-          "Cloud Engineer",
-          "Data Engineer"
+          "Exploitation",
+          "Données"
         ]
       }
     }
   },
   "aws": {
     "name": "Amazon Web Services",
-    "goal": "Le plus grand cloud du marché brésilien, et celui que les offres d’emploi nomment le plus. Les quatre cours éditeur reposent sur Linux, les réseaux et les conteneurs, parce que le matériel officiel suppose que vous les avez déjà — et c’est précisément ce qui manque quand un déploiement casse sans que personne sache dire pourquoi. Séquence alignée sur les certifications associate : à la fin, vous choisissez celle que vous visez.",
+    "goal": "Le plus grand cloud de ce marché, seul, pour qui a besoin d’AWS et non du titre : le compte, le réseau, le calcul, puis le côté où vous travaillez. C’est la voie courte — l’Ingénierie du Cloud place Linux, les réseaux et Kubernetes autour de ces mêmes cours et débouche sur un métier.",
     "outcome": "Maîtrise d’AWS",
     "steps": {
-      "7": {
-        "choice": "le parcours dans AWS",
-        "note": "Le tronc est la même plateforme pour tout le monde. Les parcours ne se rejoignent plus : chacun est une certification différente et un ensemble de services différent.",
+      "5": {
+        "choice": "le côté d’AWS",
+        "note": "Les deux partent du même compte et du même réseau : l’un exploite ce qui tourne, l’autre stocke et interroge ce que cela produit.",
         "options": [
-          "Cloud Engineer",
-          "Data Engineer"
+          "Exploitation",
+          "Données"
         ]
       }
     }

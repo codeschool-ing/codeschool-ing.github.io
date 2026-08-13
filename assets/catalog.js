@@ -3885,6 +3885,38 @@ const TRACKS = [
   ],
 },
 {
+  id: 'cloud-engineering',
+  name: 'Cloud Engineering',
+  family: 'career',
+  goal: 'Training for whoever builds and runs what the company rents instead of owning: identity, network, compute, delivery, monitoring and the bill at the end of the month. The provider is your choice and it changes four courses — the other seven are the same either way, because the ground under both is the same, and it is the ground the vendors\' own free material assumes you already have. Sequenced against the associate certifications.',
+  outcome: 'Junior Cloud Engineer',
+  courses: [
+    'web-fundamentals',
+    'linux-terminal',
+    'networks',
+    'cloud',
+    'docker',
+    'kubernetes',
+    'iac',
+    {
+      choice: 'the provider',
+      note: 'Learn one properly before looking at the other. The concepts carry over; the console, the command line and the exam do not.',
+      options: [
+        { name: 'AWS', courses: [
+            'aws-foundations',
+            'aws-compute',
+            'aws-operations',
+          ] },
+        { name: 'Google Cloud', courses: [
+            'gcp-foundations',
+            'gcp-compute',
+            'gcp-operations',
+          ] },
+      ],
+    },
+  ],
+},
+{
   id: 'data',
   name: 'Data Engineering',
   family: 'career',
@@ -4189,30 +4221,25 @@ const TRACKS = [
   id: 'aws',
   name: 'Amazon Web Services',
   family: 'technology',
-  goal: 'The largest cloud in the Brazilian market, and the one most job adverts name. The four vendor courses sit on top of Linux, networking and containers, because the official material assumes you already have those — and they are exactly what is missing when a deployment fails and nobody can say why. Sequenced against the associate certifications: at the end you pick which one you are heading for.',
+  goal: 'The largest cloud in this market, on its own, for whoever needs AWS and not the job title: the account, the network, the compute, and then the side you work on. It is the short way in — Cloud Engineering puts Linux, networks and Kubernetes around these same courses and ends in a role.',
   outcome: 'Command of AWS',
   courses: [
     'web-fundamentals',
-    'linux-terminal',
-    'networks',
     'cloud',
-    'aws-foundations',
     'docker',
+    'aws-foundations',
     'aws-compute',
     {
-      choice: 'which path through AWS',
-      note: 'The trunk is the same platform for everyone. The paths do not converge again: each one is a different certification and a different set of services.',
+      choice: 'which side of AWS',
+      note: 'Both start from the same account and the same network: one operates what runs, the other stores and answers questions about what it produces.',
       options: [
-        { name: 'Cloud Engineer', courses: [
-            'kubernetes',
+        { name: 'Operations', courses: [
             'iac',
             'aws-operations',
           ] },
-        { name: 'Data Engineer', courses: [
+        { name: 'Data', courses: [
             'sql-databases',
             'aws-data',
-            'warehouse-modeling',
-            'pipelines-etl',
           ] },
       ],
     },
@@ -4222,30 +4249,25 @@ const TRACKS = [
   id: 'gcp',
   name: 'Google Cloud Platform',
   family: 'technology',
-  goal: 'The platform, not a tour of the console. The four vendor courses sit on top of Linux, networking and containers, because the official material assumes you already have those — and they are exactly what is missing when a deployment fails and nobody can say why. Sequenced against Google\'s own certification paths: at the end you pick which one you are heading for.',
+  goal: 'The platform on its own, for whoever needs Google Cloud and not the job title: the project, the network, the compute, and then the side you work on. It is the short way in — Cloud Engineering puts Linux, networks and Kubernetes around these same courses and ends in a role.',
   outcome: 'Command of Google Cloud',
   courses: [
     'web-fundamentals',
-    'linux-terminal',
-    'networks',
     'cloud',
-    'gcp-foundations',
     'docker',
+    'gcp-foundations',
     'gcp-compute',
     {
-      choice: 'which path through Google Cloud',
-      note: 'The trunk is the same platform for everyone. The paths do not converge again: each one is a different certification and a different set of services.',
+      choice: 'which side of Google Cloud',
+      note: 'Both start from the same project and the same network: one operates what runs, the other stores and answers questions about what it produces.',
       options: [
-        { name: 'Cloud Engineer', courses: [
-            'kubernetes',
+        { name: 'Operations', courses: [
             'iac',
             'gcp-operations',
           ] },
-        { name: 'Data Engineer', courses: [
+        { name: 'Data', courses: [
             'sql-databases',
             'gcp-data',
-            'warehouse-modeling',
-            'pipelines-etl',
           ] },
       ],
     },
