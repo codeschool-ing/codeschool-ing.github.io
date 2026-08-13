@@ -59,7 +59,8 @@ window.I18N.pt.courses = {
       "Fluxos de trabalho: feature branch, trunk based e Git Flow",
       ".gitignore, submódulos e arquivos grandes (Git LFS)",
       "Mensagens de commit e o padrão de commits convencionais"
-    ]
+    ],
+    "prerequisites": "Não exige programação: versionamento vem antes da primeira linguagem."
   },
   "javascript": {
     "name": "JavaScript",
@@ -84,7 +85,8 @@ window.I18N.pt.courses = {
       "Web APIs: localStorage, sessionStorage, geolocalização e notificações",
       "npm, pnpm e yarn: instalar, versionar e publicar pacotes",
       "Depuração no navegador e tratamento de exceções"
-    ]
+    ],
+    "prerequisites": "Exige HTML e CSS — a página precisa existir antes do script que a modifica."
   },
   "ai-dev": {
     "name": "IA no Desenvolvimento",
@@ -136,7 +138,8 @@ window.I18N.pt.courses = {
       "Responsividade: mobile first, media queries e container queries",
       "Transições, animações e transformações",
       "Tailwind CSS: utilitários, configuração e componentes"
-    ]
+    ],
+    "prerequisites": "Não exige programação. É o primeiro curso de quem constrói para a web."
   },
   "react-ts": {
     "name": "Front-end com React e TypeScript",
@@ -189,7 +192,8 @@ window.I18N.pt.courses = {
       "Navegação por teclado, foco visível e ordem de tabulação",
       "ARIA, leitores de tela e texto alternativo",
       "Contraste, tamanho de alvo e respeito ao movimento reduzido"
-    ]
+    ],
+    "prerequisites": "Exige uma aplicação React sua: o curso traz os testes, não a aplicação."
   },
   "front-performance": {
     "name": "Renderização, Performance e PWA",
@@ -213,7 +217,8 @@ window.I18N.pt.courses = {
       "Cache do navegador, CDN e cabeçalhos de cache",
       "Service workers e estratégias de cache offline",
       "Progressive Web App: manifesto, instalação e notificações"
-    ]
+    ],
+    "prerequisites": "Exige React e algo já construído — desempenho se mede em página que roda."
   },
   "front-delivery": {
     "name": "Deploy, Design Systems e GraphQL",
@@ -237,7 +242,8 @@ window.I18N.pt.courses = {
       "GraphQL: consultas, mutações e fragmentos",
       "Clientes GraphQL: Apollo e Relay",
       "Monitoramento de erros no cliente e relatórios de falha"
-    ]
+    ],
+    "prerequisites": "Exige React e um repositório Git: tudo aqui começa no push."
   },
   "front-multiplatform": {
     "name": "Apps Desktop e Mobile com Web",
@@ -260,7 +266,8 @@ window.I18N.pt.courses = {
       "Assinatura de código e publicação nas lojas",
       "Atualizações automáticas e versionamento",
       "Projeto final: um aplicativo publicado no portfólio"
-    ]
+    ],
+    "prerequisites": "Exige React: o React Native reaproveita a linguagem, os componentes e os hooks."
   },
   "node": {
     "name": "Node.js: JavaScript no Servidor",
@@ -677,7 +684,8 @@ window.I18N.pt.courses = {
       "Autorização: papéis, permissões e escopos",
       "Limitação de requisições (rate limiting) por cliente",
       "CORS, HTTPS, CSP e o OWASP Top 10 aplicado a APIs"
-    ]
+    ],
+    "prerequisites": "Exige SQL e uma linguagem de servidor — qualquer uma das quatro que a trilha de Back-end oferece."
   },
   "servers-cache": {
     "name": "Servidores Web e Cache",
@@ -701,7 +709,8 @@ window.I18N.pt.courses = {
       "Memcached e comparação com Redis",
       "Padrões de cache: cache-aside, write-through e write-behind",
       "Estouro de cache (stampede) e aquecimento"
-    ]
+    ],
+    "prerequisites": "Exige uma API sua: esta é a camada que fica na frente dela."
   },
   "testing-cicd": {
     "name": "Testes Automatizados e CI/CD",
@@ -725,7 +734,8 @@ window.I18N.pt.courses = {
       "Segredos no pipeline e princípio do menor privilégio",
       "Estratégias de release: blue-green, canário e feature flags",
       "Reversão (rollback) e critérios de parada"
-    ]
+    ],
+    "prerequisites": "Exige uma API para testar e um repositório Git para rodar a esteira."
   },
   "docker": {
     "name": "Docker e Containers",
@@ -856,7 +866,8 @@ window.I18N.pt.courses = {
       "Tempo real: WebSockets, Server-Sent Events e long polling",
       "Registro de serviços, descoberta e gateway de API",
       "Registrar decisões de arquitetura (ADRs) e defendê-las"
-    ]
+    ],
+    "prerequisites": "Exige Docker e experiência de back-end: este curso decide entre desenhos, não ensina linguagem."
   },
   "scale": {
     "name": "Escala e Observabilidade",
@@ -881,7 +892,8 @@ window.I18N.pt.courses = {
       "Novas tentativas com recuo exponencial e jitter",
       "Degradação graciosa e planejamento de capacidade",
       "Teste de carga e teste de estresse"
-    ]
+    ],
+    "prerequisites": "Exige arquitetura — não há o que escalar antes de o sistema ter forma."
   },
   "linux-terminal": {
     "name": "Linux e Linha de Comando",
@@ -909,7 +921,8 @@ window.I18N.pt.courses = {
       "Desempenho: CPU, memória, disco e entrada/saída",
       "Editores de terminal: Vim, Nano e Emacs",
       "Agendamento de tarefas: cron e systemd timers"
-    ]
+    ],
+    "prerequisites": "Não exige programação. É a base de toda trilha de infraestrutura, dados e segurança."
   },
   "networks": {
     "name": "Redes e Protocolos",
@@ -933,7 +946,8 @@ window.I18N.pt.courses = {
       "Transferência de arquivos: FTP, SFTP e SCP",
       "E-mail: SMTP, IMAP, POP3S, SPF, DKIM e DMARC",
       "Diagnóstico: ping, dig, nslookup, traceroute, mtr, netstat/ss e tcpdump"
-    ]
+    ],
+    "prerequisites": "Exige a linha de comando do Linux: todo diagnóstico aqui sai de um terminal."
   },
   "cloud": {
     "name": "Nuvem e Serverless",
@@ -956,7 +970,8 @@ window.I18N.pt.courses = {
       "Serverless: AWS Lambda, Cloudflare Workers, Vercel e Netlify",
       "Regiões, zonas de disponibilidade e o efeito na latência",
       "Custos: modelos de cobrança, orçamento e alertas de gasto"
-    ]
+    ],
+    "prerequisites": "Exige redes: uma VPC é uma rede, e IAM só faz sentido depois que você tem uma."
   },
   "iac": {
     "name": "Infraestrutura como Código",
@@ -980,7 +995,8 @@ window.I18N.pt.courses = {
       "Panorama de Chef, Puppet e Salt",
       "Imagens de máquina com Packer",
       "Infraestrutura imutável, efêmera e reprodutível"
-    ]
+    ],
+    "prerequisites": "Exige nuvem e uma conta em um provedor — o curso provisiona infraestrutura de verdade."
   },
   "gitops": {
     "name": "GitOps, Artefatos e Segredos",
@@ -1005,7 +1021,8 @@ window.I18N.pt.courses = {
       "Serviços de segredos da nuvem e integração com o cluster",
       "Rotação de credenciais e princípio do menor privilégio",
       "Auditoria: quem mudou o quê, quando e por quê"
-    ]
+    ],
+    "prerequisites": "Exige infraestrutura como código e Git: GitOps é o encontro dos dois."
   },
   "observability": {
     "name": "Observabilidade e Operação",
@@ -1029,7 +1046,8 @@ window.I18N.pt.courses = {
       "Plantão, escalonamento e postmortem sem culpados",
       "Service mesh: Istio, Linkerd e Envoy",
       "Padrões de projeto para nuvem: disponibilidade, resiliência e dados"
-    ]
+    ],
+    "prerequisites": "Exige algo em produção para observar, e uma esteira para instalar o agente."
   },
   "python": {
     "name": "Python",
@@ -1055,7 +1073,8 @@ window.I18N.pt.courses = {
       "Ambientes virtuais (venv), pip e requirements",
       "Estruturas de dados e noção de complexidade (Big-O)",
       "pandas para tabelas e requests para consumir APIs"
-    ]
+    ],
+    "prerequisites": "Não exige programação anterior: Python é ensinado aqui desde a primeira linha."
   },
   "data-fundamentals": {
     "name": "Fundamentos de Engenharia de Dados",
@@ -1079,7 +1098,8 @@ window.I18N.pt.courses = {
       "Processamento em lote e em fluxo contínuo",
       "Sistemas distribuídos: particionamento, replicação e tolerância a falhas",
       "Teorema CAP aplicado a plataformas de dados"
-    ]
+    ],
+    "prerequisites": "Exige Python. Não pressupõe banco de dados — este é o mapa da profissão, antes das ferramentas."
   },
   "warehouse-modeling": {
     "name": "Modelagem de Dados e Data Warehouse",
@@ -1105,7 +1125,8 @@ window.I18N.pt.courses = {
       "Data lake, lakehouse e Delta Lake",
       "Data mart, data mesh e arquiteturas orientadas a metadados",
       "Catálogo de dados e dicionário de campos"
-    ]
+    ],
+    "prerequisites": "Exige SQL, e nenhuma linguagem de programação além dele."
   },
   "pipelines-etl": {
     "name": "Pipelines de Dados e ETL",
@@ -1130,7 +1151,8 @@ window.I18N.pt.courses = {
       "Qualidade de dados: validação, contratos e testes de expectativa",
       "Versionamento de pipelines e separação de ambientes",
       "Custo e desempenho de cargas grandes"
-    ]
+    ],
+    "prerequisites": "Exige modelagem e SQL, mais Python para o orquestrador."
   },
   "bigdata": {
     "name": "Big Data e Computação Distribuída",
@@ -1156,7 +1178,8 @@ window.I18N.pt.courses = {
       "Kafka: tópicos, partições, produtores e consumidores",
       "RabbitMQ, Amazon SQS e SNS",
       "Formatos colunares e otimização de leitura"
-    ]
+    ],
+    "prerequisites": "Exige pipelines e Python: Spark se escreve numa linguagem que você já conhece."
   },
   "data-governance": {
     "name": "Segurança, Governança e Privacidade de Dados",
@@ -1181,7 +1204,8 @@ window.I18N.pt.courses = {
       "Governança: qualidade, linhagem, metadados e propriedade do dado",
       "Políticas de retenção, expurgo e trilha de auditoria",
       "Interoperabilidade e contratos de dados entre times"
-    ]
+    ],
+    "prerequisites": "Exige um pipeline seu para governar. Lei e técnica são tratadas juntas."
   },
   "analytics-bi": {
     "name": "Analytics, BI e Reverse ETL",
@@ -1205,7 +1229,8 @@ window.I18N.pt.courses = {
       "Hightouch, Census e Segment",
       "Segmentação, coortes e funis",
       "Contar histórias com dados sem enganar: escalas, recortes e vieses"
-    ]
+    ],
+    "prerequisites": "Exige SQL. Não exige programação: as ferramentas aqui são as do analista, não as do desenvolvedor."
   },
   "ml-mlops": {
     "name": "Machine Learning e MLOps",
@@ -1228,7 +1253,8 @@ window.I18N.pt.courses = {
       "Publicação de modelos: em lote, em tempo real e na borda",
       "Monitoramento em produção: desempenho, latência e custo",
       "Detecção de desvio de dados e de conceito, e retreino"
-    ]
+    ],
+    "prerequisites": "Exige Python, SQL e um pipeline. É engenharia aplicada a modelos, não um curso de estatística."
   },
   "networks-addressing": {
     "name": "Endereçamento, Roteamento e Comutação",
@@ -1265,7 +1291,8 @@ window.I18N.pt.courses = {
       "Spanning Tree Protocol e prevenção de loops",
       "Agregação de links (LACP) e Power over Ethernet (PoE)",
       "Roteamento entre VLANs e switches de camada 3"
-    ]
+    ],
+    "prerequisites": "Exige redes: endereçamento é onde a teoria do curso anterior vira configuração."
   },
   "networks-availability": {
     "name": "VPNs, Wireless e Alta Disponibilidade",
@@ -1302,7 +1329,8 @@ window.I18N.pt.courses = {
       "Diagnóstico camada por camada: do cabo à aplicação",
       "ping, traceroute, mtr, nslookup, iperf e testes de banda",
       "Documentar o incidente: sintoma, hipótese, teste e correção"
-    ]
+    ],
+    "prerequisites": "Exige endereçamento e roteamento — rede redundante se constrói sobre uma que já funciona."
   },
   "networks-security": {
     "name": "Segurança de Redes",
@@ -1339,7 +1367,8 @@ window.I18N.pt.courses = {
       "Microssegmentação e verificação contínua de identidade",
       "Controle de acesso à rede (NAC) e autenticação 802.1X",
       "Registro, auditoria e resposta a incidentes"
-    ]
+    ],
+    "prerequisites": "Exige toda a base de redes: não se defende uma topologia que não se sabe desenhar."
   },
   "networks-automation": {
     "name": "Automação de Redes",
@@ -1451,7 +1480,8 @@ window.I18N.pt.courses = {
       "Prompt ensembling: combinar múltiplos prompts e votar",
       "Autoavaliação do modelo (LLM self evaluation)",
       "Calibração: alinhar a confiança declarada ao acerto real"
-    ]
+    ],
+    "prerequisites": "Exige engenharia de prompt. Não exige programação, embora um pouco ajude na bancada de avaliação."
   },
   "ai-security": {
     "name": "Segurança em IA e Red Teaming",
@@ -1488,7 +1518,8 @@ window.I18N.pt.courses = {
       "Isolamento de ferramentas, menor privilégio e confirmação humana",
       "Registro, auditoria e resposta a incidentes em produção",
       "LGPD aplicada aos dados enviados a modelos de terceiros"
-    ]
+    ],
+    "prerequisites": "Exige engenharia de prompt e a avaliação dela. Não pressupõe experiência em segurança ofensiva."
   },
   "ai-models": {
     "name": "Modelos de IA: Escolha, Plataformas e APIs",
@@ -1555,7 +1586,8 @@ window.I18N.pt.courses = {
       "Executar busca por similaridade e ajustar o top-k",
       "Combinar filtros de metadados com busca vetorial",
       "Custo de armazenamento e de reindexação"
-    ]
+    ],
+    "prerequisites": "Exige Python e as APIs de modelo: tudo aqui se mede em código."
   },
   "rag": {
     "name": "RAG e Engenharia de Contexto",
@@ -1585,7 +1617,8 @@ window.I18N.pt.courses = {
       "Compactação de contexto: resumir sem perder o essencial",
       "Isolamento de contexto: separar tarefas e evitar contaminação",
       "Custo por consulta e cache de recuperação"
-    ]
+    ],
+    "prerequisites": "Exige embeddings e um banco vetorial — RAG é o que se constrói em cima deles."
   },
   "agents-mcp": {
     "name": "Agentes de IA e MCP",
@@ -1617,7 +1650,8 @@ window.I18N.pt.courses = {
       "Conectar a um servidor local e a um servidor remoto",
       "Permissões, menor privilégio e confirmação humana",
       "Custo, latência e limites de um agente em produção"
-    ]
+    ],
+    "prerequisites": "Exige RAG e Python: o agente se constrói sobre a recuperação que você já tem."
   },
   "llm-observability": {
     "name": "Observabilidade e Avaliação de LLM em Produção",
@@ -1647,7 +1681,8 @@ window.I18N.pt.courses = {
       "Teste de regressão ao trocar prompt, modelo ou versão",
       "Integrar a avaliação ao pipeline de integração contínua",
       "Painéis e alertas para queda de qualidade"
-    ]
+    ],
+    "prerequisites": "Exige um agente ou uma aplicação de RAG já rodando — antes disso não há o que instrumentar."
   },
   "multimodal": {
     "name": "IA Multimodal: Imagem, Áudio e Vídeo",
@@ -1674,7 +1709,8 @@ window.I18N.pt.courses = {
       "LangChain e LlamaIndex em aplicações multimodais",
       "Custo, tamanho de arquivo e limites de envio",
       "Acessibilidade: legendas, audiodescrição e transcrição"
-    ]
+    ],
+    "prerequisites": "Exige toda a base de IA: escolha de modelo, avaliação e instrumentação são pressupostas aqui."
   },
   "architecture-role": {
     "name": "O Papel do Arquiteto de Software",
@@ -1739,7 +1775,8 @@ window.I18N.pt.courses = {
       "Modelo de atores: estado isolado e troca de mensagens",
       "Concorrência e paralelismo: onde os padrões falham",
       "Escolher o padrão pelo problema, não pelo currículo"
-    ]
+    ],
+    "prerequisites": "Exige experiência de back-end: os padrões se leem em código que você já escreveu."
   },
   "architecture-modeling": {
     "name": "Modelagem e Frameworks de Arquitetura",
@@ -1767,7 +1804,8 @@ window.I18N.pt.courses = {
       "Ferramentas: diagramas como código (Mermaid, PlantUML, Structurizr)",
       "Revisão de arquitetura e checklists de avaliação",
       "Apresentar arquitetura para técnicos e para não técnicos"
-    ]
+    ],
+    "prerequisites": "Exige padrões e princípios — você desenha a decisão depois de saber tomá-la."
   },
   "enterprise-software": {
     "name": "Software Corporativo e Integração",
@@ -1795,7 +1833,8 @@ window.I18N.pt.courses = {
       "Estrangulamento do legado (strangler fig) e coexistência",
       "Migração de dados: qualidade, reconciliação e volta atrás",
       "Compra versus construção: como fundamentar a decisão"
-    ]
+    ],
+    "prerequisites": "Exige modelagem. Não pressupõe experiência com ERP ou CRM: é para isso que o curso serve."
   },
   "process-management": {
     "name": "Gestão, Processos e Estimativas",
@@ -1824,7 +1863,8 @@ window.I18N.pt.courses = {
       "Métricas de entrega: vazão, tempo de ciclo e DORA",
       "Dívida técnica: registrar, negociar e pagar",
       "Certificações: PMI, ITIL, Prince2, Scrum e as de nuvem"
-    ]
+    ],
+    "prerequisites": "Exige o papel do arquiteto. Não pressupõe formação em gestão."
   },
   "architect-communication": {
     "name": "Comunicação, Consultoria e Liderança Técnica",
@@ -1854,7 +1894,8 @@ window.I18N.pt.courses = {
       "Comunicar incidente: durante, depois e para quem",
       "Postmortem sem culpados e cultura de aprendizado",
       "Reputação técnica: palestras, artigos e comunidade"
-    ]
+    ],
+    "prerequisites": "Exige o curso de gestão. É o curso menos técnico do catálogo, e aquele em que mais arquiteto tropeça."
   },
   "computing-essentials": {
     "name": "Informática Essencial",
@@ -1916,7 +1957,8 @@ window.I18N.pt.courses = {
       "Registro do Windows e arquivos de configuração no Linux",
       "Atualizações, drivers e compatibilidade",
       "Diagnóstico: logs do sistema, modo de segurança e recuperação"
-    ]
+    ],
+    "prerequisites": "Exige computação essencial. Não exige programação."
   },
   "virtualization": {
     "name": "Virtualização e Laboratórios",
@@ -1945,7 +1987,8 @@ window.I18N.pt.courses = {
       "Containers e VMs: quando usar cada um",
       "Montar um laboratório com cliente, servidor e alvo de testes",
       "Isolar o laboratório da rede real"
-    ]
+    ],
+    "prerequisites": "Exige os três sistemas operacionais: o laboratório se monta sobre máquinas que você já sabe instalar."
   },
   "tech-support": {
     "name": "Suporte Técnico e Atendimento",
@@ -1974,7 +2017,8 @@ window.I18N.pt.courses = {
       "Ética e privacidade: o que você vê e o que não conta",
       "Limites do técnico: quando a resposta é \"não posso fazer isso\"",
       "Panorama das certificações de entrada: CompTIA A+, Linux+ e Network+"
-    ]
+    ],
+    "prerequisites": "Exige o laboratório. Metade deste curso não é técnica — é a conversa com a pessoa do outro lado."
   },
   "security-fundamentals": {
     "name": "Fundamentos de Segurança da Informação",
@@ -2006,7 +2050,8 @@ window.I18N.pt.courses = {
       "Controles do CIS e listas de verificação",
       "LGPD e o dever de proteger dado pessoal",
       "Carreiras da área: SOC, pentest, GRC, forense e AppSec"
-    ]
+    ],
+    "prerequisites": "Não exige programação. É a porta de entrada das duas trilhas de segurança."
   },
   "cryptography": {
     "name": "Criptografia Aplicada",
@@ -2037,7 +2082,8 @@ window.I18N.pt.courses = {
       "Wi-Fi: WEP, WPA, WPA2 e WPA3",
       "EAP, PEAP e autenticação em rede corporativa",
       "Erros clássicos: chave no código, algoritmo próprio e reuso de nonce"
-    ]
+    ],
+    "prerequisites": "Exige fundamentos de segurança. A matemática fica no nível necessário para escolher, não para provar."
   },
   "attacks-threats": {
     "name": "Ataques, Ameaças e Engenharia Social",
@@ -2077,7 +2123,8 @@ window.I18N.pt.courses = {
       "Cyber Kill Chain: as sete etapas de um ataque",
       "Diamond Model: adversário, capacidade, infraestrutura e vítima",
       "MITRE ATT&CK: táticas, técnicas e procedimentos"
-    ]
+    ],
+    "prerequisites": "Exige criptografia: um ataque se lê contra a defesa que ele derrota."
   },
   "defense-hardening": {
     "name": "Defesa de Endpoint e Hardening",
@@ -2110,7 +2157,8 @@ window.I18N.pt.courses = {
       "Correções (patching): janela, teste, implantação e exceção",
       "Inventário e configuração como base de qualquer defesa",
       "Análise de arquivos e URLs: VirusTotal, urlscan, any.run, Joe Sandbox e WHOIS"
-    ]
+    ],
+    "prerequisites": "Exige ataques e ameaças — você endurece contra algo que sabe nomear."
   },
   "soc-response": {
     "name": "SOC, Monitoramento e Resposta a Incidentes",
@@ -2145,7 +2193,8 @@ window.I18N.pt.courses = {
       "Comunicação com gestão, RH, jurídico e conformidade",
       "Relatório de incidente: fato, impacto, causa e recomendação",
       "Notificação de vazamento e obrigações da LGPD"
-    ]
+    ],
+    "prerequisites": "Exige hardening e redes: este é o dia do time azul, do começo ao fim."
   },
   "pentest": {
     "name": "Teste de Intrusão e Time Vermelho",
@@ -2213,7 +2262,8 @@ window.I18N.pt.courses = {
       "Registro e auditoria: CloudTrail e equivalentes",
       "Postura de segurança na nuvem (CSPM) e varredura de configuração",
       "Conformidade, região do dado e soberania"
-    ]
+    ],
+    "prerequisites": "Exige nuvem: o modelo de responsabilidade compartilhada pressupõe que você saiba qual metade é sua."
   },
   "secure-code": {
     "name": "Codificação Segura",
@@ -2247,7 +2297,8 @@ window.I18N.pt.courses = {
       "Revisão de código com olhar de segurança: o que procurar primeiro",
       "Testes de segurança automatizados dentro do projeto",
       "OWASP ASVS e as folhas de referência (Cheat Sheets) no dia a dia"
-    ]
+    ],
+    "prerequisites": "Exige ataques e ameaças, e uma linguagem sua para escrever a falha."
   },
   "threat-modeling": {
     "name": "Modelagem de Ameaças e Risco",
@@ -2276,7 +2327,8 @@ window.I18N.pt.courses = {
       "Mapeamento de controles: ISO 27001, NIST CSF e SOC 2",
       "Auditoria: escopo, evidência e preparação",
       "Modelagem contínua: integrar ao refinamento e à revisão de projeto"
-    ]
+    ],
+    "prerequisites": "Exige código seguro. É feito antes de o código existir, e é isso que o torna barato."
   },
   "secure-pipeline": {
     "name": "Segurança na Esteira e Cadeia de Suprimentos",
@@ -2346,7 +2398,8 @@ window.I18N.pt.courses = {
       "Aplicações em saúde: gestão de pacientes, eficiência hospitalar e saúde pública",
       "Aplicações na indústria: manutenção preditiva, produção e controle de qualidade",
       "Relatórios de conformidade e obrigações regulatórias"
-    ]
+    ],
+    "prerequisites": "Não exige programação nem SQL. É a porta de entrada da trilha de BI."
   },
   "excel-analytics": {
     "name": "Excel para Análise de Dados",
@@ -2378,7 +2431,8 @@ window.I18N.pt.courses = {
       "Medidas em DAX: contagens, somas e comparações de período",
       "Montar um painel navegável no Excel",
       "Limites do Excel e quando migrar para banco ou plataforma de BI"
-    ]
+    ],
+    "prerequisites": "Não exige programação. Pressupõe Excel básico; tabela dinâmica, não."
   },
   "statistics": {
     "name": "Estatística para Análise de Dados",
@@ -2414,7 +2468,8 @@ window.I18N.pt.courses = {
       "Diagnóstico de resíduos e pressupostos da regressão",
       "Além da regressão linear: logística e panorama de modelos",
       "Significância estatística versus relevância prática"
-    ]
+    ],
+    "prerequisites": "Não exige programação. Vem antes do Python na trilha de BI, de propósito."
   },
   "data-cleaning": {
     "name": "Limpeza e Preparação de Dados",
@@ -2480,7 +2535,8 @@ window.I18N.pt.courses = {
       "Design de painel: hierarquia, agrupamento e caminho do olho",
       "Responsividade: o painel no celular do diretor",
       "Ferramentas: Excel, Power BI, Tableau e bibliotecas de código"
-    ]
+    ],
+    "prerequisites": "Exige dado limpo para desenhar. Não exige programação: os princípios valem em qualquer ferramenta."
   },
   "bi-techniques": {
     "name": "Técnicas Analíticas: Séries Temporais, Testes A/B e Coortes",
@@ -2513,7 +2569,8 @@ window.I18N.pt.courses = {
       "Classificação e regressão aplicadas a problemas de negócio",
       "Viés algorítmico: de onde vem e como reconhecer",
       "Estratégias de mitigação e uso ético do modelo"
-    ]
+    ],
+    "prerequisites": "Exige estatística e visualização. São as três análises que as empresas mais pedem."
   },
   "data-storytelling": {
     "name": "Comunicação e Storytelling com Dados",
@@ -2543,7 +2600,8 @@ window.I18N.pt.courses = {
       "Gestão de mudança: por que a área resiste ao número",
       "Noções de gestão de projeto para entregas analíticas",
       "Portfólio: projeto de análise de ponta a ponta que mostra o seu processo"
-    ]
+    ],
+    "prerequisites": "Exige uma análise sua para contar. É o curso menos técnico da trilha de BI."
   },
   "qa-fundamentals": {
     "name": "Fundamentos de Qualidade de Software",
@@ -2729,7 +2787,331 @@ window.I18N.pt.courses = {
       "Monitoramento e logs: New Relic, Datadog, Grafana, Kibana e Sentry",
       "RunScope e monitoramento sintético de API em produção",
       "Alerta e plantão: o defeito que só aparece com usuário real"
-    ]
+    ],
+    "prerequisites": "Exige automação web e uma suíte que já passa verde."
+  },
+  "gcp-foundations": {
+    "name": "Google Cloud: Fundamentos, Identidade e Rede",
+    "summary": "O térreo do Google Cloud: como o ambiente se organiza, quem pode fazer o quê, quanto custa e por onde os pacotes andam.",
+    "syllabus": [
+      "A hierarquia de recursos: organização, pastas, projetos e rótulos",
+      "IAM: identidades, papéis e um privilégio mínimo que sobrevive a auditoria",
+      "Contas de serviço, e como parar de distribuir chave de longa duração",
+      "Faturamento: orçamentos, alertas e a leitura de uma fatura que veio errada",
+      "VPC, regras de firewall, Cloud DNS e balanceamento de carga",
+      "gcloud, Cloud Shell e a API que o console está chamando"
+    ],
+    "topics": [
+      "Regiões, zonas e o efeito delas sobre latência, disponibilidade e preço",
+      "A hierarquia de recursos: organização, pastas, projetos e recursos",
+      "Projetos: criação, cotas, rótulos e ciclo de vida",
+      "Políticas da organização: barreiras herdadas árvore abaixo",
+      "Identidades no IAM: usuário, grupo, conta de serviço e workload identity",
+      "Papéis básicos, predefinidos e personalizados: qual usar em cada caso",
+      "Políticas de permissão, de negação e como a herança se resolve",
+      "Contas de serviço: personificação, e por que a chave baixada é o último recurso",
+      "Workload Identity Federation: autenticar de fora sem chave",
+      "Cloud Identity, Google Workspace e sincronização de diretório",
+      "Contas de faturamento, o vínculo com os projetos e quem paga o quê",
+      "Orçamentos, alertas, cotas e limites de gasto",
+      "Ler a fatura: SKU, desconto por uso contínuo e por compromisso",
+      "Exportar o faturamento para o BigQuery e responder quem gastou o quê",
+      "VPC: sub-redes, faixas de IP e por que a rede é global",
+      "Regras de firewall: tags, contas de serviço e ordem de prioridade",
+      "Rotas, Cloud NAT e Private Google Access",
+      "VPC compartilhada e peering: uma rede entre vários projetos",
+      "Cloud DNS: zonas públicas, zonas privadas e registros",
+      "Balanceamento de carga: global e regional, e como escolher",
+      "Cloud VPN e Cloud Interconnect: o caminho de entrada do datacenter",
+      "gcloud: configurações, contextos e mais de uma conta",
+      "Cloud Shell, o editor e a máquina efêmera que vem junto",
+      "Bibliotecas cliente e a API REST embaixo de tudo",
+      "Cloud Asset Inventory: descobrir o que de fato existe no ambiente",
+      "Console, linha de comando e infraestrutura declarada: três portas, uma API"
+    ],
+    "prerequisites": "Cloud e Serverless, ou equivalente: saber o que são IaaS, IAM e uma VPC."
+  },
+  "gcp-compute": {
+    "name": "Google Cloud: Computação e Aplicações",
+    "summary": "Todas as formas de o Google Cloud rodar o seu código — da máquina virtual ao contêiner que desce a zero — e a conta que escolhe uma delas.",
+    "syllabus": [
+      "Compute Engine: tipos de máquina, imagens, discos e grupos de instâncias",
+      "Cloud Run: contêineres que descem a zero, revisões e divisão de tráfego",
+      "GKE Autopilot e Standard: Kubernetes gerenciado e o que ainda sobra para você",
+      "Cloud Functions e código disparado por evento",
+      "App Engine, Cloud Tasks e Cloud Scheduler",
+      "Escolher entre eles com custo, partida a frio e aprisionamento na mesa"
+    ],
+    "topics": [
+      "Compute Engine: famílias de máquina, tipos personalizados e para que serve cada um",
+      "Imagens públicas, imagens personalizadas e famílias com GPU",
+      "Discos persistentes, SSD local e snapshots",
+      "Modelos de instância e grupos gerenciados de instâncias",
+      "Escalonamento automático por métrica, por agenda e por previsão",
+      "Instâncias spot e preemptivas: o desconto e o preço dele",
+      "Scripts de inicialização, metadados e a conta de serviço da instância",
+      "Cloud Run: requisição, contêiner e o modelo que desce a zero",
+      "Revisões, divisão de tráfego e liberação gradual",
+      "Jobs no Cloud Run: trabalho que termina em vez de atender",
+      "Concorrência, alocação de CPU e o que a partida a frio custa de verdade",
+      "Cloud Run e a VPC: acesso privado a um banco de dados",
+      "GKE Standard: pools de nós, upgrades e janelas de manutenção",
+      "GKE Autopilot: o que o Google assume e o que ele cobra por isso",
+      "Workload Identity no cluster: pods sem chave estática",
+      "Ingress, Gateway API e o balanceador que o GKE cria por você",
+      "Cloud Functions: gatilhos por HTTP, por evento e por Pub/Sub",
+      "Eventarc e os eventos que vêm da própria plataforma",
+      "App Engine standard e flexible: o que restou, e quando serve",
+      "Cloud Tasks e Cloud Scheduler: fila e cron dentro da plataforma",
+      "Artifact Registry: onde a imagem mora antes de rodar",
+      "Escolher a computação: perfil de requisição, modelo de custo e esforço de migração",
+      "Aprisionamento como decisão, não como acidente"
+    ],
+    "prerequisites": "Os dois são exigidos: a base da plataforma, e contêineres."
+  },
+  "gcp-data": {
+    "name": "Google Cloud: Dados, Armazenamento e Analytics",
+    "summary": "Onde o dado cai, onde ele mora e onde ele é perguntado: do objeto num bucket à consulta que varre um terabyte.",
+    "syllabus": [
+      "Cloud Storage: classes, ciclo de vida, URLs assinadas e o custo de ler",
+      "Cloud SQL, AlloyDB e Spanner: três respostas para \"preciso de um banco relacional\"",
+      "Firestore e Bigtable: quando o documento ou a coluna larga ganha",
+      "BigQuery: particionamento, clustering e a consulta que custa uma fortuna",
+      "Pub/Sub e Dataflow: fluxos que chegam atrasados e fora de ordem",
+      "Dataproc, Composer e o pipeline que precisa rodar às três da manhã"
+    ],
+    "topics": [
+      "Cloud Storage: buckets, objetos e um esquema de nomes que sobrevive",
+      "Classes de armazenamento: standard, nearline, coldline e archive",
+      "Regras de ciclo de vida, versionamento e políticas de retenção",
+      "URLs assinadas, acesso público e o bucket que vazou",
+      "Egresso: por que ler pode custar mais do que guardar",
+      "Cloud SQL: PostgreSQL, MySQL e SQL Server como serviço gerenciado",
+      "Alta disponibilidade, réplicas de leitura e recuperação para um ponto no tempo",
+      "AlloyDB: onde ele entra entre o Cloud SQL e o Spanner",
+      "Spanner: escala horizontal com transações, e o que ele cobra por isso",
+      "Firestore: documentos, coleções e consulta por índice",
+      "Bigtable: coluna larga, desenho da chave de linha e padrões de acesso",
+      "Memorystore: Redis e Memcached gerenciados",
+      "BigQuery: armazenamento, processamento e por que são cobrados à parte",
+      "Sob demanda e slots: dois modelos de preço e como escolher",
+      "Particionamento e clustering: as duas decisões que definem a fatura",
+      "Ler o plano de consulta e os bytes efetivamente varridos",
+      "Tabelas externas, BigLake e consultar sem ingerir",
+      "Visões materializadas, consultas agendadas e BI Engine",
+      "Pub/Sub: tópicos, assinaturas, ordenação e fila de mensagens mortas",
+      "Garantias de entrega: ao menos uma vez e a idempotência que isso obriga",
+      "Dataflow e Apache Beam: o mesmo pipeline em lote e em fluxo",
+      "Janelas, marcas d’água e dado que chega atrasado",
+      "Dataproc: Spark e Hadoop gerenciados, e quando ele ganha do Dataflow",
+      "Cloud Composer: Airflow gerenciado e o custo de deixá-lo ocioso",
+      "Datastream, Data Transfer Service e captura de mudanças",
+      "Dataplex, Data Catalog e linhagem no ambiente inteiro",
+      "Escolher o armazenamento: padrão de acesso, consistência, escala e preço"
+    ],
+    "prerequisites": "Os dois são exigidos. Modelagem de dados ajuda, mas não é pressuposta."
+  },
+  "gcp-operations": {
+    "name": "Google Cloud: Entrega, Operação e Custo",
+    "summary": "A parte que começa depois do deploy: esteira, monitoramento, incidente, endurecimento e a fatura que chega no fim do mês.",
+    "syllabus": [
+      "Cloud Build, Artifact Registry e Cloud Deploy",
+      "Terraform contra o Google Cloud, e o estado que não pode se perder",
+      "Cloud Monitoring, Cloud Logging e Error Reporting",
+      "SLO, orçamento de erro e alerta no sintoma em vez da causa",
+      "Cloud Armor, Secret Manager, KMS e VPC Service Controls",
+      "FinOps: compromissos, redimensionamento e o recurso que não tem dono"
+    ],
+    "topics": [
+      "Cloud Build: gatilhos, passos, substituições e cache de build",
+      "Artifact Registry: repositórios, tags imutáveis e varredura de vulnerabilidades",
+      "Cloud Deploy: promoção entre ambientes e portões de aprovação",
+      "Binary Authorization: só rodar imagem que foi assinada",
+      "Terraform contra o Google Cloud: provider, projeto e credenciais",
+      "Estado remoto no Cloud Storage, trava e o acidente do estado perdido",
+      "Config Connector e Infrastructure Manager: as opções nativas da plataforma",
+      "Cloud Monitoring: métricas, painéis e verificações de disponibilidade",
+      "Cloud Logging: destinos, filtros, retenção e exportação",
+      "Métricas derivadas de log e alertas montados sobre uma linha de texto",
+      "Error Reporting, Cloud Trace e Cloud Profiler",
+      "OpenTelemetry contra o Google Cloud, e a portabilidade da instrumentação",
+      "SLI, SLO e orçamento de erro declarados na própria plataforma",
+      "Políticas de alerta, canais de notificação e fadiga de plantão",
+      "Incidente: detecção, comunicação e postmortem sem culpados",
+      "Cloud Armor: regras de WAF, limitação de taxa e proteção contra DDoS",
+      "Secret Manager: versões, rotação e acesso por conta de serviço",
+      "Cloud KMS: chaves, chaveiros e criptografia gerenciada pelo cliente",
+      "VPC Service Controls: um perímetro em volta do dado",
+      "Security Command Center: achados, postura e o que tratar primeiro",
+      "Desconto por compromisso e por uso contínuo: onde está o desconto real",
+      "Recomendações de redimensionamento e detecção de recurso ocioso",
+      "Atribuição de custo por rótulo, por projeto e por pasta",
+      "Alerta de orçamento ligado a uma ação, e não a um e-mail",
+      "A fatura como sinal de monitoramento: o pico que significa incidente"
+    ],
+    "prerequisites": "Os dois são exigidos: a computação que você vai operar, e o Terraform."
+  },
+  "aws-foundations": {
+    "name": "AWS: Fundamentos, Identidade e Rede",
+    "summary": "O térreo da AWS: como as contas se organizam, quem pode fazer o quê, quanto custa e por onde os pacotes andam.",
+    "syllabus": [
+      "Contas, Organizations, Control Tower e a landing zone",
+      "IAM: usuários, papéis, políticas e um privilégio mínimo que sobrevive a auditoria",
+      "Papéis no lugar de chaves de acesso, e como parar de distribuir credencial",
+      "Faturamento: orçamentos, Cost Explorer e a leitura de uma fatura que veio errada",
+      "VPC, security groups, Route 53 e os balanceadores",
+      "A CLI, o CloudShell e a API que o console está chamando"
+    ],
+    "topics": [
+      "Regiões, zonas de disponibilidade e o efeito delas sobre latência, disponibilidade e preço",
+      "A conta como unidade de isolamento, e por que nunca é só uma",
+      "AWS Organizations: unidades organizacionais e faturamento consolidado",
+      "Service control policies: barreiras herdadas árvore abaixo",
+      "Control Tower e a landing zone: uma conta que já nasce certa",
+      "Identidades no IAM: usuário, grupo, papel e identidade federada",
+      "Políticas gerenciadas, inline e gerenciadas pelo cliente",
+      "Avaliação de política: permissão, negação explícita e permission boundary",
+      "Papéis: assumir um, a trust policy e o acesso entre contas",
+      "Instance profiles e IRSA: credencial sem chave estática",
+      "IAM Identity Center e federação com um provedor de identidade",
+      "Chaves de acesso: por que são o último recurso, e a rotação quando não dá para evitar",
+      "Orçamentos, alertas, tags de alocação de custo e Cost Explorer",
+      "Ler a fatura: sob demanda, Savings Plans e instâncias reservadas",
+      "O Cost and Usage Report e a resposta para quem gastou o quê",
+      "VPC: sub-redes, faixas CIDR, públicas e privadas",
+      "Tabelas de rota, internet gateway e NAT gateway",
+      "Security groups e network ACLs: dois filtros com funções diferentes",
+      "VPC endpoints e PrivateLink: alcançar um serviço sem passar pela internet",
+      "VPC peering e Transit Gateway",
+      "Route 53: zonas hospedadas, registros, health checks e políticas de roteamento",
+      "Elastic Load Balancing: application, network e gateway",
+      "CloudFront: pontos de presença, origens e invalidação",
+      "Direct Connect e Site-to-Site VPN: o caminho de entrada do datacenter",
+      "A CLI da AWS: perfis, contas nomeadas e CloudShell",
+      "SDKs, a API REST e o console como mais um cliente entre vários"
+    ],
+    "prerequisites": "Cloud e Serverless, ou equivalente: saber o que são IaaS, IAM e uma VPC."
+  },
+  "aws-compute": {
+    "name": "AWS: Computação e Aplicações",
+    "summary": "Todas as formas de a AWS rodar o seu código — da máquina virtual à função que só existe enquanto a requisição dura — e a conta que escolhe uma delas.",
+    "syllabus": [
+      "EC2: famílias de instância, AMIs, armazenamento e auto scaling groups",
+      "ECS e Fargate: contêineres sem cluster para cuidar",
+      "EKS: Kubernetes gerenciado e o que ainda sobra para você",
+      "Lambda: gatilhos, concorrência e o que a partida a frio custa de verdade",
+      "API Gateway, Step Functions, SQS, SNS e EventBridge",
+      "Escolher entre eles com custo, partida a frio e aprisionamento na mesa"
+    ],
+    "topics": [
+      "EC2: famílias de instância, tamanhos e para que serve cada um",
+      "AMIs, snapshots e a construção de uma imagem própria",
+      "Volumes EBS, instance store e EFS",
+      "Launch templates e auto scaling groups",
+      "Escalar por métrica, por agenda e por previsão",
+      "Instâncias spot e o tratamento da interrupção: o desconto e o preço dele",
+      "User data, metadados da instância e IMDSv2",
+      "ECS: task definitions, tarefas, serviços e clusters",
+      "Fargate: contêineres sem instância para administrar",
+      "ECR: onde a imagem mora antes de rodar",
+      "EKS: node groups, add-ons gerenciados e upgrades de versão",
+      "EKS no Fargate, e o Karpenter para provisionar nós",
+      "IRSA: um pod com papel em vez de chave estática",
+      "Lambda: handler, runtimes, layers e o pacote de implantação",
+      "Gatilhos: API Gateway, S3, SQS, EventBridge e DynamoDB Streams",
+      "Concorrência: reservada, provisionada e o limite da conta",
+      "Partida a frio: o que de fato a causa e o que a reduz",
+      "Lambda dentro de uma VPC, e o custo que isso já teve",
+      "API Gateway: APIs REST, HTTP e WebSocket",
+      "Step Functions: máquinas de estado e orquestração demorada",
+      "SQS, SNS e EventBridge: fila, tópico e barramento de eventos",
+      "App Runner e Elastic Beanstalk: o que restou, e quando servem",
+      "Escolher a computação: perfil de requisição, modelo de custo e esforço de migração",
+      "Aprisionamento como decisão, não como acidente"
+    ],
+    "prerequisites": "Os dois são exigidos: a base da plataforma, e contêineres."
+  },
+  "aws-data": {
+    "name": "AWS: Dados, Armazenamento e Analytics",
+    "summary": "Onde o dado cai, onde ele mora e onde ele é perguntado: do objeto num bucket à consulta que varre um terabyte.",
+    "syllabus": [
+      "S3: classes, ciclo de vida, URLs pré-assinadas e o custo de ler",
+      "RDS e Aurora: relacional gerenciado, e onde o Aurora justifica o preço",
+      "DynamoDB: chave de partição, padrões de acesso e a tabela que não escala",
+      "Redshift e Athena: o warehouse, e o lake consultado onde ele está",
+      "Kinesis e MSK: fluxos que chegam atrasados e fora de ordem",
+      "Glue, EMR e MWAA: o pipeline que precisa rodar às três da manhã"
+    ],
+    "topics": [
+      "S3: buckets, objetos, prefixos e um esquema de nomes que sobrevive",
+      "Classes de armazenamento: standard, acesso infrequente, Glacier e Deep Archive",
+      "Regras de ciclo de vida, versionamento, Object Lock e retenção",
+      "URLs pré-assinadas, Block Public Access e o bucket que vazou",
+      "Egresso e cobrança por requisição: por que ler pode custar mais do que guardar",
+      "RDS: PostgreSQL, MySQL, MariaDB, Oracle e SQL Server",
+      "Multi-AZ, réplicas de leitura e recuperação para um ponto no tempo",
+      "Aurora: a camada de armazenamento que o distingue, e o Aurora Serverless",
+      "DynamoDB: chave de partição, chave de ordenação e single-table design",
+      "Índices secundários globais e a consulta que degenera em varredura",
+      "Capacidade: provisionada, sob demanda e com autoscaling",
+      "DynamoDB Streams e processamento disparado por mudança",
+      "ElastiCache: Redis e Memcached gerenciados",
+      "Redshift: nós, chaves de distribuição, chaves de ordenação e Serverless",
+      "Athena: consultar o S3 onde ele está, partições e bytes varridos",
+      "Glue Data Catalog, crawlers e evolução de esquema",
+      "Glue ETL: um job Spark sem cluster seu",
+      "Lake Formation: permissões sobre o lake",
+      "Parquet, ORC e particionamento: as duas decisões que definem a fatura",
+      "Kinesis Data Streams: shards, ordenação e retenção",
+      "Kinesis Data Firehose: entrega no S3 sem escrever código",
+      "MSK: Kafka gerenciado, e quando ele ganha do Kinesis",
+      "Garantias de entrega: ao menos uma vez e a idempotência que isso obriga",
+      "EMR: Spark e Hadoop gerenciados, e quando ele ganha do Glue",
+      "MWAA: Airflow gerenciado e o custo de deixá-lo ocioso",
+      "DMS e captura de mudanças a partir de um banco legado",
+      "Escolher o armazenamento: padrão de acesso, consistência, escala e preço"
+    ],
+    "prerequisites": "Os dois são exigidos. Modelagem de dados ajuda, mas não é pressuposta."
+  },
+  "aws-operations": {
+    "name": "AWS: Entrega, Operação e Custo",
+    "summary": "A parte que começa depois do deploy: esteira, monitoramento, incidente, endurecimento e a fatura que chega no fim do mês.",
+    "syllabus": [
+      "CodePipeline, CodeBuild e um deploy que dá para reverter",
+      "CloudFormation, CDK e Terraform contra a AWS",
+      "CloudWatch, X-Ray e logs que dá para consultar",
+      "SLO, orçamento de erro e alerta no sintoma em vez da causa",
+      "WAF, Shield, Secrets Manager, KMS e GuardDuty",
+      "FinOps: Savings Plans, redimensionamento e o recurso que não tem dono"
+    ],
+    "topics": [
+      "CodePipeline, CodeBuild e CodeDeploy: a esteira nativa",
+      "Construir e enviar para o ECR, tags imutáveis e varredura de imagem",
+      "Liberações blue/green e canário com o CodeDeploy",
+      "CloudFormation: templates, stacks, change sets e drift",
+      "CDK: infraestrutura numa linguagem de verdade, e o que ele gera",
+      "Terraform contra a AWS: provider, estado no S3 e trava no DynamoDB",
+      "O acidente do estado perdido, e como sobreviver a ele",
+      "CloudWatch: métricas, painéis e métricas personalizadas",
+      "CloudWatch Logs: grupos, retenção, Insights e filtros de métrica",
+      "Alarmes, alarmes compostos e notificação via SNS",
+      "X-Ray, rastreamento distribuído e OpenTelemetry contra a AWS",
+      "SLI, SLO e orçamento de erro construídos sobre o CloudWatch",
+      "Incidente: detecção, comunicação e postmortem sem culpados",
+      "Plantão, escalonamento e fadiga de alerta",
+      "WAF: regras, limitação de taxa e grupos de regras gerenciados",
+      "Shield e Shield Advanced: proteção contra DDoS e o que ela custa",
+      "Secrets Manager e Parameter Store: duas respostas a preços diferentes",
+      "KMS: chaves, criptografia por envelope e chaves gerenciadas pelo cliente",
+      "GuardDuty, Security Hub e Inspector: achados, e o que tratar primeiro",
+      "CloudTrail: o log de auditoria, e a resposta para quem fez isso",
+      "AWS Config e conformance packs: conformidade como código",
+      "Savings Plans e instâncias reservadas: onde está o desconto real",
+      "Compute Optimizer, redimensionamento e detecção de recurso ocioso",
+      "Tags de alocação de custo, Cost Categories e o recurso que não tem dono",
+      "A fatura como sinal de monitoramento: o pico que significa incidente"
+    ],
+    "prerequisites": "Os dois são exigidos: a computação que você vai operar, e o Terraform."
   }
 };
 
@@ -2853,6 +3235,36 @@ window.I18N.pt.tracks = {
         "options": [
           "Análise e BI",
           "Engenharia de Dados"
+        ]
+      }
+    }
+  },
+  "gcp": {
+    "name": "Google Cloud Platform",
+    "goal": "A plataforma, não um passeio pelo console. Os quatro cursos de fornecedor se apoiam em Linux, redes e contêineres, porque o material oficial pressupõe que você já tem isso — e é exatamente o que falta quando um deploy quebra e ninguém sabe dizer por quê. Sequência alinhada às trilhas de certificação do próprio Google: no fim você escolhe para qual delas está indo.",
+    "outcome": "Domínio do Google Cloud",
+    "steps": {
+      "7": {
+        "choice": "o caminho dentro do Google Cloud",
+        "note": "O tronco é a mesma plataforma para todo mundo. Os caminhos não voltam a se juntar: cada um é uma certificação diferente e um conjunto de serviços diferente.",
+        "options": [
+          "Cloud Engineer",
+          "Data Engineer"
+        ]
+      }
+    }
+  },
+  "aws": {
+    "name": "Amazon Web Services",
+    "goal": "A maior nuvem do mercado brasileiro, e a que mais aparece nomeada em vaga. Os quatro cursos de fornecedor se apoiam em Linux, redes e contêineres, porque o material oficial pressupõe que você já tem isso — e é exatamente o que falta quando um deploy quebra e ninguém sabe dizer por quê. Sequência alinhada às certificações associate: no fim você escolhe para qual delas está indo.",
+    "outcome": "Domínio da AWS",
+    "steps": {
+      "7": {
+        "choice": "o caminho dentro da AWS",
+        "note": "O tronco é a mesma plataforma para todo mundo. Os caminhos não voltam a se juntar: cada um é uma certificação diferente e um conjunto de serviços diferente.",
+        "options": [
+          "Cloud Engineer",
+          "Data Engineer"
         ]
       }
     }

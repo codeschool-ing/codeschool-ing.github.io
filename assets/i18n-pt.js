@@ -14,6 +14,8 @@
 window.I18N = window.I18N || {};
 window.I18N.pt = window.I18N.pt || {};
 window.I18N.pt.ui = {
+  "finished on the way": "concluído no caminho",
+  "at level": "no nível",
   "✓ check your inbox — click the link to confirm": "✓ confira seu e-mail — clique no link para confirmar",
   "The first course of every track is free, forever. Everything else is one subscription, for a year.": "O primeiro curso de cada trilha é grátis, para sempre. O resto é uma assinatura, por um ano.",
   "Guest": "Visitante",

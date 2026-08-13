@@ -341,6 +341,48 @@ function hoursRange(t) {
   return { min, max };
 }
 
+/* ---------- the certificate sets ----------
+   Every complete way through a track: the fixed steps plus one branch of each
+   choice. It is what "all the courses of the track" has to mean once a track
+   forks — Back-end lists 21 courses and nobody takes 21. */
+function certificateSets(t) {
+  let sets = [[]];
+  t.courses.forEach((i) => {
+    sets = isChoice(i)
+      ? sets.flatMap((s) => i.options.map((o) => s.concat(o.courses)))
+      : sets.map((s) => s.concat(i));
+  });
+  return sets.map((s) => Array.from(new Set(s)));
+}
+
+/* ---------- the tracks finished on the way ----------
+
+   NOTHING DECLARES THIS, and nothing should: a track whose every course
+   already sits on this one's path is completed by whoever finishes this one,
+   and that is a fact about the catalogue, not an editorial decision. Prompt
+   Engineering sits whole inside AI Engineering, and SQL and Databases inside
+   Business Intelligence — both were built that way and neither said so.
+
+   It is the intermediate milestone these tracks were missing. A career track
+   runs from 590h to 1,040h with the certificate at the very end; this hands
+   the student a second one with a name of its own, part of the way in.
+
+   A forked track counts as earned as soon as ONE of its branches fits. */
+function tracksOnTheWay(t, path, g) {
+  const has = new Set(path);
+  const levelOf = (c) => g.level[(g.nodes.find((n) => n.courses.includes(c)) || {}).id];
+  return TRACKS
+    .filter((m) => m.id !== t.id)
+    .map((m) => {
+      const fits = certificateSets(m).find((s) => s.every((c) => has.has(c)));
+      if (!fits) return null;
+      const levels = fits.map(levelOf).filter((v) => v !== undefined);
+      return levels.length ? { track: m, level: Math.max(...levels) + 1 } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.level - b.level);
+}
+
 // in how many tracks a course appears (the same course can serve several)
 const tracksOfCourse = (id) => TRACKS.filter((t) => allCourses(t).includes(id));
 // the inverse of `depende`: which courses this one unlocks
@@ -637,6 +679,24 @@ function buildTrack(t) {
 
   const parallel = g.columns.slice(0, -1).filter((c) => c.length > 1).length;
 
+  const onTheWay = tracksOnTheWay(t, path, g);
+  const milestones = onTheWay.length
+    ? '<p class="track-milestones">' +
+        '<span class="milestone-seal" aria-hidden="true">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+          'stroke-linecap="round" stroke-linejoin="round">' +
+          '<circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 22l5-2.5L17 22l-1.5-8.5"/></svg>' +
+        '</span>' +
+        '<span>' + txt('finished on the way') + ' ' +
+          onTheWay
+            .map((m) => '<button type="button" class="milestone-go" data-goto-track="' +
+              TRACKS.indexOf(m.track) + '">' + m.track.name + '</button> <i>' +
+              txt('at level') + ' ' + String(m.level).padStart(2, '0') + '</i>')
+            .join(' · ') +
+        '</span>' +
+      '</p>'
+    : '';
+
   return (
     '<div class="track-top">' +
       '<div>' +
@@ -652,6 +712,7 @@ function buildTrack(t) {
         '<span><b>→</b>' + t.outcome + '</span>' +
       '</div>' +
     '</div>' +
+    milestones +
     '<div class="graph-box">' +
       '<button class="graph-arrow left" type="button" data-scroll="-1" aria-label="See the previous levels">←</button>' +
       '<div class="track-graph"><svg class="graph-edges" aria-hidden="true"></svg>' +
@@ -1288,6 +1349,11 @@ document.addEventListener('click', (e) => {
     if (scroller) scroller.scrollBy({ left: Number(scroll.dataset.scroll) * Math.max(240, scroller.clientWidth - 120), behavior: reduceMotion ? 'auto' : 'smooth' });
     return;
   }
+
+  // a track finished on the way: opens it, because naming it and leaving the
+  // student to find it in the tab row is worse than not naming it
+  const goto = e.target.closest('[data-goto-track]');
+  if (goto) { openTrack(Number(goto.dataset.gotoTrack)); return; }
 
   // a step with a fork: swaps the path without moving from the spot
   const fork = e.target.closest('[data-fork]');

@@ -94,6 +94,7 @@ const COURSES = [
   requires: [
     'web-fundamentals',
   ],
+  prerequisites: 'No programming required: version control comes before the first language.',
 },
 {
   id: 'javascript',
@@ -126,6 +127,7 @@ const COURSES = [
   requires: [
     'html-css',
   ],
+  prerequisites: 'Requires HTML and CSS — the page has to exist before the script that changes it.',
 },
 {
   id: 'ai-dev',
@@ -193,6 +195,7 @@ const COURSES = [
   requires: [
     'web-fundamentals',
   ],
+  prerequisites: 'No programming required. It is the first course anyone building for the web takes.',
 },
 {
   id: 'react-ts',
@@ -261,6 +264,7 @@ const COURSES = [
   requires: [
     'react-ts',
   ],
+  prerequisites: 'Requires a React application of your own: the course brings the tests, not the app.',
 },
 {
   id: 'front-performance',
@@ -292,6 +296,7 @@ const COURSES = [
   requires: [
     'react-ts',
   ],
+  prerequisites: 'Requires React and something already built — performance is measured on a page that runs.',
 },
 {
   id: 'front-delivery',
@@ -323,6 +328,7 @@ const COURSES = [
   requires: [
     'react-ts',
   ],
+  prerequisites: 'Requires React and a Git repository: everything here starts at the push.',
 },
 {
   id: 'front-multiplatform',
@@ -353,6 +359,7 @@ const COURSES = [
   requires: [
     'react-ts',
   ],
+  prerequisites: 'Requires React: React Native reuses the language, the components and the hooks.',
 },
 {
   id: 'node',
@@ -843,6 +850,7 @@ const COURSES = [
   requires: [
     'sql-databases',
   ],
+  prerequisites: 'Requires SQL and a server language — any of the four the Back-end track offers.',
 },
 {
   id: 'servers-cache',
@@ -874,6 +882,7 @@ const COURSES = [
   requires: [
     'apis',
   ],
+  prerequisites: 'Requires an API of your own: this is the layer that sits in front of it.',
 },
 {
   id: 'testing-cicd',
@@ -905,6 +914,7 @@ const COURSES = [
   requires: [
     'apis',
   ],
+  prerequisites: 'Requires an API to test and a Git repository to run the pipeline on.',
 },
 {
   id: 'docker',
@@ -1057,6 +1067,7 @@ const COURSES = [
   requires: [
     'docker',
   ],
+  prerequisites: 'Requires Docker and back-end experience: this course decides between designs, it does not teach a language.',
 },
 {
   id: 'scale',
@@ -1089,6 +1100,7 @@ const COURSES = [
   requires: [
     'architecture',
   ],
+  prerequisites: 'Requires architecture — there is nothing to scale before the system has a shape.',
 },
 {
   id: 'linux-terminal',
@@ -1124,6 +1136,7 @@ const COURSES = [
   requires: [
     'web-fundamentals',
   ],
+  prerequisites: 'No programming required. It is the base of every infrastructure, data and security track.',
 },
 {
   id: 'networks',
@@ -1155,6 +1168,7 @@ const COURSES = [
   requires: [
     'linux-terminal',
   ],
+  prerequisites: 'Requires the Linux command line: every diagnosis here is run from a terminal.',
 },
 {
   id: 'cloud',
@@ -1185,6 +1199,7 @@ const COURSES = [
   requires: [
     'networks',
   ],
+  prerequisites: 'Requires networks: a VPC is a network, and IAM only makes sense once you have one.',
 },
 {
   id: 'iac',
@@ -1216,6 +1231,7 @@ const COURSES = [
   requires: [
     'cloud',
   ],
+  prerequisites: 'Requires cloud and an account with a provider — the course provisions real infrastructure.',
 },
 {
   id: 'gitops',
@@ -1248,6 +1264,7 @@ const COURSES = [
   requires: [
     'iac',
   ],
+  prerequisites: 'Requires infrastructure as code and Git: GitOps is where the two meet.',
 },
 {
   id: 'observability',
@@ -1279,6 +1296,7 @@ const COURSES = [
   requires: [
     'gitops',
   ],
+  prerequisites: 'Requires something running in production to observe, and a pipeline to deploy the agent with.',
 },
 {
   id: 'python',
@@ -1312,6 +1330,7 @@ const COURSES = [
   requires: [
     'web-fundamentals',
   ],
+  prerequisites: 'No previous programming required: Python is taught here from the first line.',
 },
 {
   id: 'data-fundamentals',
@@ -1343,6 +1362,7 @@ const COURSES = [
   requires: [
     'python',
   ],
+  prerequisites: 'Requires Python. No database experience assumed — this is the map of the profession, before the tools.',
 },
 {
   id: 'warehouse-modeling',
@@ -1376,6 +1396,7 @@ const COURSES = [
   requires: [
     'sql-databases',
   ],
+  prerequisites: 'Requires SQL, and no programming language beyond it.',
 },
 {
   id: 'pipelines-etl',
@@ -1408,6 +1429,7 @@ const COURSES = [
   requires: [
     'warehouse-modeling',
   ],
+  prerequisites: 'Requires modelling and SQL, plus Python for the orchestrator.',
 },
 {
   id: 'bigdata',
@@ -1441,6 +1463,7 @@ const COURSES = [
   requires: [
     'pipelines-etl',
   ],
+  prerequisites: 'Requires pipelines and Python: Spark is written against a language you already know.',
 },
 {
   id: 'data-governance',
@@ -1473,6 +1496,7 @@ const COURSES = [
   requires: [
     'bigdata',
   ],
+  prerequisites: 'Requires a pipeline of your own to govern. Law and technique are covered together.',
 },
 {
   id: 'analytics-bi',
@@ -1504,6 +1528,7 @@ const COURSES = [
   requires: [
     'sql-databases',
   ],
+  prerequisites: 'Requires SQL. No programming required: the tools here are the analyst’s, not the developer’s.',
 },
 {
   id: 'ml-mlops',
@@ -1534,6 +1559,7 @@ const COURSES = [
   requires: [
     'analytics-bi',
   ],
+  prerequisites: 'Requires Python, SQL and a pipeline. This is engineering applied to models, not a statistics course.',
 },
 {
   id: 'networks-addressing',
@@ -1578,6 +1604,7 @@ const COURSES = [
   requires: [
     'networks',
   ],
+  prerequisites: 'Requires networks: addressing is where the previous course’s theory becomes configuration.',
 },
 {
   id: 'networks-availability',
@@ -1622,6 +1649,7 @@ const COURSES = [
   requires: [
     'networks-addressing',
   ],
+  prerequisites: 'Requires addressing and routing — a redundant network is built on top of one that already works.',
 },
 {
   id: 'networks-security',
@@ -1666,6 +1694,7 @@ const COURSES = [
   requires: [
     'networks-availability',
   ],
+  prerequisites: 'Requires the whole network foundation: you cannot defend a topology you cannot draw.',
 },
 {
   id: 'networks-automation',
@@ -1798,6 +1827,7 @@ const COURSES = [
   requires: [
     'prompt-engineering',
   ],
+  prerequisites: 'Requires prompt engineering. No programming required, though a little helps with the evaluation harness.',
 },
 {
   id: 'ai-security',
@@ -1842,6 +1872,7 @@ const COURSES = [
   requires: [
     'prompt-reliability',
   ],
+  prerequisites: 'Requires prompt engineering and its evaluation. No offensive security background assumed.',
 },
 {
   id: 'ai-models',
@@ -1924,6 +1955,7 @@ const COURSES = [
   requires: [
     'ai-models',
   ],
+  prerequisites: 'Requires Python and the model APIs: everything here is measured in code.',
 },
 {
   id: 'rag',
@@ -1961,6 +1993,7 @@ const COURSES = [
   requires: [
     'embeddings-vectors',
   ],
+  prerequisites: 'Requires embeddings and a vector database — RAG is what gets built on top of them.',
 },
 {
   id: 'agents-mcp',
@@ -2000,6 +2033,7 @@ const COURSES = [
   requires: [
     'rag',
   ],
+  prerequisites: 'Requires RAG and Python: the agent is built on the retrieval you already have.',
 },
 {
   id: 'llm-observability',
@@ -2037,6 +2071,7 @@ const COURSES = [
   requires: [
     'agents-mcp',
   ],
+  prerequisites: 'Requires an agent or a RAG application already running — there is nothing to instrument before that.',
 },
 {
   id: 'multimodal',
@@ -2071,6 +2106,7 @@ const COURSES = [
   requires: [
     'llm-observability',
   ],
+  prerequisites: 'Requires the whole AI foundation: model choice, evaluation and instrumentation are assumed here.',
 },
 {
   id: 'architecture-role',
@@ -2148,6 +2184,7 @@ const COURSES = [
   requires: [
     'architecture-role',
   ],
+  prerequisites: 'Requires back-end experience: the patterns are read in code you have already written.',
 },
 {
   id: 'architecture-modeling',
@@ -2183,6 +2220,7 @@ const COURSES = [
   requires: [
     'design-patterns',
   ],
+  prerequisites: 'Requires patterns and principles — you draw the decision after you know how to make it.',
 },
 {
   id: 'enterprise-software',
@@ -2218,6 +2256,7 @@ const COURSES = [
   requires: [
     'architecture-modeling',
   ],
+  prerequisites: 'Requires modelling. No experience with ERP or CRM assumed: that is what the course is for.',
 },
 {
   id: 'process-management',
@@ -2254,6 +2293,7 @@ const COURSES = [
   requires: [
     'architecture-role',
   ],
+  prerequisites: 'Requires the architect’s role. No management background assumed.',
 },
 {
   id: 'architect-communication',
@@ -2291,6 +2331,7 @@ const COURSES = [
   requires: [
     'process-management',
   ],
+  prerequisites: 'Requires the management course. It is the least technical course in the catalogue, and the one architects fail on most.',
 },
 {
   id: 'computing-essentials',
@@ -2365,6 +2406,7 @@ const COURSES = [
   requires: [
     'computing-essentials',
   ],
+  prerequisites: 'Requires essential computing. No programming required.',
 },
 {
   id: 'virtualization',
@@ -2401,6 +2443,7 @@ const COURSES = [
   requires: [
     'operating-systems',
   ],
+  prerequisites: 'Requires the three operating systems: the lab is built on machines you already know how to install.',
 },
 {
   id: 'tech-support',
@@ -2437,6 +2480,7 @@ const COURSES = [
   requires: [
     'virtualization',
   ],
+  prerequisites: 'Requires the lab. Half of this course is not technical — it is the conversation with the person on the other side.',
 },
 {
   id: 'security-fundamentals',
@@ -2476,6 +2520,7 @@ const COURSES = [
   requires: [
     'web-fundamentals',
   ],
+  prerequisites: 'No programming required. It is the entry point of both security tracks.',
 },
 {
   id: 'cryptography',
@@ -2514,6 +2559,7 @@ const COURSES = [
   requires: [
     'security-fundamentals',
   ],
+  prerequisites: 'Requires security fundamentals. The mathematics stays at the level needed to choose, not to prove.',
 },
 {
   id: 'attacks-threats',
@@ -2561,6 +2607,7 @@ const COURSES = [
   requires: [
     'cryptography',
   ],
+  prerequisites: 'Requires cryptography: an attack is read against the defence it defeats.',
 },
 {
   id: 'defense-hardening',
@@ -2601,6 +2648,7 @@ const COURSES = [
   requires: [
     'attacks-threats',
   ],
+  prerequisites: 'Requires attacks and threats — you harden against something you can name.',
 },
 {
   id: 'soc-response',
@@ -2643,6 +2691,7 @@ const COURSES = [
   requires: [
     'defense-hardening',
   ],
+  prerequisites: 'Requires hardening and networks: this is the blue team’s day, end to end.',
 },
 {
   id: 'pentest',
@@ -2726,6 +2775,7 @@ const COURSES = [
   requires: [
     'cloud',
   ],
+  prerequisites: 'Requires cloud: the shared responsibility model assumes you know which half is yours.',
 },
 {
   id: 'secure-code',
@@ -2767,6 +2817,7 @@ const COURSES = [
   requires: [
     'attacks-threats',
   ],
+  prerequisites: 'Requires attacks and threats, and a language of your own to write the flaw in.',
 },
 {
   id: 'threat-modeling',
@@ -2803,6 +2854,7 @@ const COURSES = [
   requires: [
     'secure-code',
   ],
+  prerequisites: 'Requires secure coding. It is done before the code exists, which is what makes it cheap.',
 },
 {
   id: 'secure-pipeline',
@@ -2888,6 +2940,7 @@ const COURSES = [
   requires: [
     'computing-essentials',
   ],
+  prerequisites: 'No programming and no SQL required. It is the entry point of the BI track.',
 },
 {
   id: 'excel-analytics',
@@ -2927,6 +2980,7 @@ const COURSES = [
   requires: [
     'computing-essentials',
   ],
+  prerequisites: 'No programming required. Basic Excel is assumed; the pivot table is not.',
 },
 {
   id: 'statistics',
@@ -2970,6 +3024,7 @@ const COURSES = [
   requires: [
     'computing-essentials',
   ],
+  prerequisites: 'No programming required. It comes before Python on the BI track, on purpose.',
 },
 {
   id: 'data-cleaning',
@@ -3051,6 +3106,7 @@ const COURSES = [
   requires: [
     'data-cleaning',
   ],
+  prerequisites: 'Requires clean data to draw. No programming required: the principles hold in any tool.',
 },
 {
   id: 'bi-techniques',
@@ -3091,6 +3147,7 @@ const COURSES = [
   requires: [
     'visualization',
   ],
+  prerequisites: 'Requires statistics and visualisation. These are the three analyses companies ask for most.',
 },
 {
   id: 'data-storytelling',
@@ -3128,6 +3185,7 @@ const COURSES = [
   requires: [
     'bi-techniques',
   ],
+  prerequisites: 'Requires an analysis of your own to tell. It is the least technical course of the BI track.',
 },
 {
   id: 'qa-fundamentals',
@@ -3350,6 +3408,392 @@ const COURSES = [
   requires: [
     'web-automation',
   ],
+  prerequisites: 'Requires web automation and a suite that already runs green.',
+},
+{
+  id: 'gcp-foundations',
+  name: 'Google Cloud: Foundations, Identity and Network',
+  category: 'infra',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'The ground floor of Google Cloud: how the estate is organised, who is allowed to do what, what it costs and how the packets move.',
+  syllabus: [
+    'The resource hierarchy: organisation, folders, projects and labels',
+    'IAM: principals, roles and a least privilege that survives an audit',
+    'Service accounts, and how to stop shipping long-lived keys',
+    'Billing: budgets, alerts and reading a bill that arrived wrong',
+    'VPC, firewall rules, Cloud DNS and load balancing',
+    'gcloud, Cloud Shell and the API the console is calling',
+  ],
+  topics: [
+    'Regions, zones and their effect on latency, availability and price',
+    'The resource hierarchy: organisation, folders, projects and resources',
+    'Projects: creation, quotas, labels and life cycle',
+    'Organisation policies: guardrails inherited down the tree',
+    'IAM principals: user, group, service account and workload identity',
+    'Basic, predefined and custom roles: which one to reach for',
+    'Allow policies, deny policies and how inheritance resolves',
+    'Service accounts: impersonation, and why a downloaded key is the last resort',
+    'Workload Identity Federation: authenticating from outside without a key',
+    'Cloud Identity, Google Workspace and directory synchronisation',
+    'Billing accounts, their link to projects and who pays for what',
+    'Budgets, alerts, quotas and spending limits',
+    'Reading the bill: SKU, sustained use and committed use discounts',
+    'Exporting billing to BigQuery and answering "who spent this?"',
+    'VPC: subnets, ranges, and why the network is global',
+    'Firewall rules: tags, service accounts and priority order',
+    'Routes, Cloud NAT and Private Google Access',
+    'Shared VPC and VPC peering: one network across several projects',
+    'Cloud DNS: public zones, private zones and records',
+    'Load balancing: global and regional, and choosing between them',
+    'Cloud VPN and Cloud Interconnect: the road in from the datacentre',
+    'gcloud: configurations, contexts and more than one account',
+    'Cloud Shell, the editor and the ephemeral machine that comes with it',
+    'Client libraries and the REST API underneath everything',
+    'Cloud Asset Inventory: finding what actually exists in the estate',
+    'Console, command line and declared infrastructure: three doors, one API',
+  ],
+  requires: [
+    'cloud',
+  ],
+  prerequisites: 'Cloud and Serverless, or the equivalent: knowing what IaaS, IAM and a VPC are.',
+},
+{
+  id: 'gcp-compute',
+  name: 'Google Cloud: Compute and Applications',
+  category: 'infra',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'Every way Google Cloud runs your code — from a virtual machine to a container that scales to zero — and the arithmetic that picks one.',
+  syllabus: [
+    'Compute Engine: machine types, images, disks and instance groups',
+    'Cloud Run: containers that scale to zero, revisions and traffic splitting',
+    'GKE Autopilot and Standard: managed Kubernetes and what it still leaves you',
+    'Cloud Functions and code triggered by an event',
+    'App Engine, Cloud Tasks and Cloud Scheduler',
+    'Choosing between them with cost, cold start and lock-in on the table',
+  ],
+  topics: [
+    'Compute Engine: machine families, custom types and what each one is for',
+    'Public images, custom images and machine families with a GPU',
+    'Persistent disks, local SSD and snapshots',
+    'Instance templates and managed instance groups',
+    'Autoscaling by metric, by schedule and by prediction',
+    'Spot and preemptible instances: the discount and its price',
+    'Startup scripts, metadata and the instance service account',
+    'Cloud Run: request, container and the scale-to-zero model',
+    'Revisions, traffic splitting and gradual rollout',
+    'Cloud Run jobs: work that finishes instead of serving',
+    'Concurrency, CPU allocation and what cold start actually costs',
+    'Cloud Run and the VPC: private access to a database',
+    'GKE Standard: node pools, upgrades and maintenance windows',
+    'GKE Autopilot: what Google takes over and what it charges for',
+    'Workload Identity in the cluster: pods without a static key',
+    'Ingress, Gateway API and the load balancer GKE creates for you',
+    'Cloud Functions: triggers by HTTP, by event and by Pub/Sub',
+    'Eventarc and events coming from the platform itself',
+    'App Engine standard and flexible: what remains, and when it fits',
+    'Cloud Tasks and Cloud Scheduler: queues and cron in the platform',
+    'Artifact Registry: where the image lives before it runs',
+    'Choosing the compute: request profile, cost model and effort to migrate',
+    'Lock-in as a decision, not an accident',
+  ],
+  requires: [
+    'gcp-foundations',
+    'docker',
+  ],
+  prerequisites: 'Both are required: the platform’s foundation, and containers.',
+},
+{
+  id: 'gcp-data',
+  name: 'Google Cloud: Data, Storage and Analytics',
+  category: 'data',
+  level: 'advanced',
+  hours: 70,
+  summary: 'Where the data lands, where it lives and where it gets asked questions: from an object in a bucket to a query across a terabyte.',
+  syllabus: [
+    'Cloud Storage: classes, life cycle, signed URLs and the cost of reading',
+    'Cloud SQL, AlloyDB and Spanner: three answers to "I need a relational database"',
+    'Firestore and Bigtable: when the document or the wide column wins',
+    'BigQuery: partitioning, clustering and the query that costs a fortune',
+    'Pub/Sub and Dataflow: streams that arrive late and out of order',
+    'Dataproc, Composer and the pipeline that has to run at three in the morning',
+  ],
+  topics: [
+    'Cloud Storage: buckets, objects and a naming scheme that survives',
+    'Storage classes: standard, nearline, coldline and archive',
+    'Life-cycle rules, versioning and retention policies',
+    'Signed URLs, public access and the bucket that leaked',
+    'Egress: why reading can cost more than storing',
+    'Cloud SQL: PostgreSQL, MySQL and SQL Server as a managed service',
+    'High availability, read replicas and point-in-time recovery',
+    'AlloyDB: where it fits between Cloud SQL and Spanner',
+    'Spanner: horizontal scale with transactions, and what it charges for',
+    'Firestore: documents, collections and querying by index',
+    'Bigtable: wide column, row key design and access patterns',
+    'Memorystore: managed Redis and Memcached',
+    'BigQuery: storage, compute and why they are billed apart',
+    'On-demand and slots: two pricing models and how to choose',
+    'Partitioning and clustering: the two decisions that define the bill',
+    'Reading the query plan and the bytes actually scanned',
+    'External tables, BigLake and querying without ingesting',
+    'Materialised views, scheduled queries and BI Engine',
+    'Pub/Sub: topics, subscriptions, ordering and dead-letter queues',
+    'Delivery guarantees: at-least-once and the idempotency it forces',
+    'Dataflow and Apache Beam: the same pipeline in batch and in stream',
+    'Windows, watermarks and late-arriving data',
+    'Dataproc: managed Spark and Hadoop, and when it beats Dataflow',
+    'Cloud Composer: managed Airflow and the cost of leaving it idle',
+    'Datastream, Data Transfer Service and change data capture',
+    'Dataplex, Data Catalog and lineage across the estate',
+    'Choosing the store: access pattern, consistency, scale and price',
+  ],
+  requires: [
+    'gcp-foundations',
+    'sql-databases',
+  ],
+  prerequisites: 'Both are required. Data modelling helps but is not assumed.',
+},
+{
+  id: 'gcp-operations',
+  name: 'Google Cloud: Delivery, Operations and Cost',
+  category: 'infra',
+  level: 'advanced',
+  hours: 60,
+  summary: 'The part that begins after the deploy: pipeline, monitoring, incident, hardening and the bill that arrives at the end of the month.',
+  syllabus: [
+    'Cloud Build, Artifact Registry and Cloud Deploy',
+    'Terraform against Google Cloud, and the state that must not be lost',
+    'Cloud Monitoring, Cloud Logging and Error Reporting',
+    'SLO, error budget and alerting on the symptom instead of the cause',
+    'Cloud Armor, Secret Manager, KMS and VPC Service Controls',
+    'FinOps: commitments, rightsizing and the resource nobody owns',
+  ],
+  topics: [
+    'Cloud Build: triggers, steps, substitutions and build cache',
+    'Artifact Registry: repositories, immutable tags and vulnerability scanning',
+    'Cloud Deploy: promotion between environments and approval gates',
+    'Binary Authorization: only running an image that was signed',
+    'Terraform against Google Cloud: provider, project and credentials',
+    'Remote state in Cloud Storage, locking and the lost-state accident',
+    'Config Connector and Infrastructure Manager: the platform-native options',
+    'Cloud Monitoring: metrics, dashboards and uptime checks',
+    'Cloud Logging: log sinks, filters, retention and export',
+    'Log-based metrics and alerts built from a line of text',
+    'Error Reporting, Cloud Trace and Cloud Profiler',
+    'OpenTelemetry against Google Cloud, and portability of instrumentation',
+    'SLI, SLO and error budget declared in the platform itself',
+    'Alert policies, notification channels and on-call fatigue',
+    'Incident: detection, communication and blameless postmortem',
+    'Cloud Armor: WAF rules, rate limiting and DDoS protection',
+    'Secret Manager: versions, rotation and access by service account',
+    'Cloud KMS: keys, key rings and customer-managed encryption',
+    'VPC Service Controls: a perimeter around the data',
+    'Security Command Center: findings, posture and what to act on first',
+    'Committed use discounts and sustained use: where the real discount is',
+    'Rightsizing recommendations and idle resource detection',
+    'Cost attribution by label, by project and by folder',
+    'Budget alerts wired to an action rather than an email',
+    'The bill as a monitoring signal: the spike that means an incident',
+  ],
+  requires: [
+    'gcp-compute',
+    'iac',
+  ],
+  prerequisites: 'Both are required: the compute you are going to operate, and Terraform.',
+},
+{
+  id: 'aws-foundations',
+  name: 'AWS: Foundations, Identity and Network',
+  category: 'infra',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'The ground floor of AWS: how the accounts are organised, who is allowed to do what, what it costs and how the packets move.',
+  syllabus: [
+    'Accounts, Organizations, Control Tower and the landing zone',
+    'IAM: users, roles, policies and a least privilege that survives an audit',
+    'Roles instead of access keys, and how to stop shipping credentials',
+    'Billing: budgets, Cost Explorer and reading a bill that arrived wrong',
+    'VPC, security groups, Route 53 and the load balancers',
+    'The CLI, CloudShell and the API the console is calling',
+  ],
+  topics: [
+    'Regions, availability zones and their effect on latency, availability and price',
+    'The account as the unit of isolation, and why there is never just one',
+    'AWS Organizations: organisational units and consolidated billing',
+    'Service control policies: guardrails inherited down the tree',
+    'Control Tower and the landing zone: an account that starts out right',
+    'IAM principals: user, group, role and federated identity',
+    'Managed, inline and customer-managed policies',
+    'Policy evaluation: allow, explicit deny and permission boundaries',
+    'Roles: assuming one, the trust policy and cross-account access',
+    'Instance profiles and IRSA: credentials without a static key',
+    'IAM Identity Center and federation with an identity provider',
+    'Access keys: why they are the last resort, and rotation when unavoidable',
+    'Budgets, alerts, cost allocation tags and Cost Explorer',
+    'Reading the bill: on demand, Savings Plans and Reserved Instances',
+    'The Cost and Usage Report and answering who spent what',
+    'VPC: subnets, CIDR ranges, public and private',
+    'Route tables, internet gateway and NAT gateway',
+    'Security groups and network ACLs: two filters with different jobs',
+    'VPC endpoints and PrivateLink: reaching a service without the internet',
+    'VPC peering and Transit Gateway',
+    'Route 53: hosted zones, records, health checks and routing policies',
+    'Elastic Load Balancing: application, network and gateway',
+    'CloudFront: edge locations, origins and invalidation',
+    'Direct Connect and Site-to-Site VPN: the road in from the datacentre',
+    'The AWS CLI: profiles, named accounts and CloudShell',
+    'SDKs, the REST API and the console as one client among several',
+  ],
+  requires: [
+    'cloud',
+  ],
+  prerequisites: 'Cloud and Serverless, or the equivalent: knowing what IaaS, IAM and a VPC are.',
+},
+{
+  id: 'aws-compute',
+  name: 'AWS: Compute and Applications',
+  category: 'infra',
+  level: 'intermediate',
+  hours: 60,
+  summary: 'Every way AWS runs your code — from a virtual machine to a function that only exists while the request lasts — and the arithmetic that picks one.',
+  syllabus: [
+    'EC2: instance families, AMIs, storage and auto scaling groups',
+    'ECS and Fargate: containers without a cluster to look after',
+    'EKS: managed Kubernetes and what it still leaves you',
+    'Lambda: triggers, concurrency and what a cold start really costs',
+    'API Gateway, Step Functions, SQS, SNS and EventBridge',
+    'Choosing between them with cost, cold start and lock-in on the table',
+  ],
+  topics: [
+    'EC2: instance families, sizes and what each one is for',
+    'AMIs, snapshots and building an image of your own',
+    'EBS volumes, instance store and EFS',
+    'Launch templates and auto scaling groups',
+    'Scaling by metric, by schedule and by prediction',
+    'Spot instances and handling the interruption: the discount and its price',
+    'User data, instance metadata and IMDSv2',
+    'ECS: task definitions, tasks, services and clusters',
+    'Fargate: containers with no instance to manage',
+    'ECR: where the image lives before it runs',
+    'EKS: node groups, managed add-ons and version upgrades',
+    'EKS on Fargate, and Karpenter for provisioning nodes',
+    'IRSA: a pod with a role instead of a static key',
+    'Lambda: handler, runtimes, layers and the deployment package',
+    'Triggers: API Gateway, S3, SQS, EventBridge and DynamoDB Streams',
+    'Concurrency: reserved, provisioned and the account limit',
+    'Cold start: what actually causes it and what reduces it',
+    'Lambda inside a VPC, and the cost that used to carry',
+    'API Gateway: REST, HTTP and WebSocket APIs',
+    'Step Functions: state machines and long-running orchestration',
+    'SQS, SNS and EventBridge: queue, topic and event bus',
+    'App Runner and Elastic Beanstalk: what remains, and when they fit',
+    'Choosing the compute: request profile, cost model and effort to migrate',
+    'Lock-in as a decision, not an accident',
+  ],
+  requires: [
+    'aws-foundations',
+    'docker',
+  ],
+  prerequisites: 'Both are required: the platform’s foundation, and containers.',
+},
+{
+  id: 'aws-data',
+  name: 'AWS: Data, Storage and Analytics',
+  category: 'data',
+  level: 'advanced',
+  hours: 70,
+  summary: 'Where the data lands, where it lives and where it gets asked questions: from an object in a bucket to a query across a terabyte.',
+  syllabus: [
+    'S3: classes, life cycle, presigned URLs and the cost of reading',
+    'RDS and Aurora: managed relational, and where Aurora earns its price',
+    'DynamoDB: partition key, access patterns and the table that will not scale',
+    'Redshift and Athena: the warehouse, and the lake queried where it lies',
+    'Kinesis and MSK: streams that arrive late and out of order',
+    'Glue, EMR and MWAA: the pipeline that has to run at three in the morning',
+  ],
+  topics: [
+    'S3: buckets, objects, prefixes and a naming scheme that survives',
+    'Storage classes: standard, infrequent access, Glacier and Deep Archive',
+    'Life-cycle rules, versioning, Object Lock and retention',
+    'Presigned URLs, Block Public Access and the bucket that leaked',
+    'Egress and request charges: why reading can cost more than storing',
+    'RDS: PostgreSQL, MySQL, MariaDB, Oracle and SQL Server',
+    'Multi-AZ, read replicas and point-in-time recovery',
+    'Aurora: the storage layer that sets it apart, and Aurora Serverless',
+    'DynamoDB: partition key, sort key and single-table design',
+    'Global secondary indexes and the query that degenerates into a scan',
+    'Capacity: provisioned, on demand and autoscaling',
+    'DynamoDB Streams and change-driven processing',
+    'ElastiCache: managed Redis and Memcached',
+    'Redshift: nodes, distribution keys, sort keys and Serverless',
+    'Athena: querying S3 in place, partitions and the bytes scanned',
+    'Glue Data Catalog, crawlers and schema evolution',
+    'Glue ETL: a Spark job with no cluster of your own',
+    'Lake Formation: permissions over the lake',
+    'Parquet, ORC and partitioning: the two decisions that define the bill',
+    'Kinesis Data Streams: shards, ordering and retention',
+    'Kinesis Data Firehose: delivery into S3 without writing code',
+    'MSK: managed Kafka, and when it beats Kinesis',
+    'Delivery guarantees: at-least-once and the idempotency it forces',
+    'EMR: managed Spark and Hadoop, and when it beats Glue',
+    'MWAA: managed Airflow and the cost of leaving it idle',
+    'DMS and change data capture out of a legacy database',
+    'Choosing the store: access pattern, consistency, scale and price',
+  ],
+  requires: [
+    'aws-foundations',
+    'sql-databases',
+  ],
+  prerequisites: 'Both are required. Data modelling helps but is not assumed.',
+},
+{
+  id: 'aws-operations',
+  name: 'AWS: Delivery, Operations and Cost',
+  category: 'infra',
+  level: 'advanced',
+  hours: 60,
+  summary: 'The part that begins after the deploy: pipeline, monitoring, incident, hardening and the bill that arrives at the end of the month.',
+  syllabus: [
+    'CodePipeline, CodeBuild and a deployment that can be rolled back',
+    'CloudFormation, CDK and Terraform against AWS',
+    'CloudWatch, X-Ray and logs you can actually query',
+    'SLO, error budget and alerting on the symptom instead of the cause',
+    'WAF, Shield, Secrets Manager, KMS and GuardDuty',
+    'FinOps: Savings Plans, rightsizing and the resource nobody owns',
+  ],
+  topics: [
+    'CodePipeline, CodeBuild and CodeDeploy: the native chain',
+    'Building and pushing to ECR, immutable tags and image scanning',
+    'Blue/green and canary releases with CodeDeploy',
+    'CloudFormation: templates, stacks, change sets and drift',
+    'CDK: infrastructure in a real language, and what it generates',
+    'Terraform against AWS: provider, state in S3 and locking in DynamoDB',
+    'The lost-state accident, and surviving it',
+    'CloudWatch: metrics, dashboards and custom metrics',
+    'CloudWatch Logs: log groups, retention, Insights and metric filters',
+    'Alarms, composite alarms and notification through SNS',
+    'X-Ray, distributed tracing and OpenTelemetry against AWS',
+    'SLI, SLO and error budget built on top of CloudWatch',
+    'Incident: detection, communication and blameless postmortem',
+    'On-call, escalation and alert fatigue',
+    'WAF: rules, rate limiting and managed rule groups',
+    'Shield and Shield Advanced: DDoS protection and what it costs',
+    'Secrets Manager and Parameter Store: two answers at different prices',
+    'KMS: keys, envelope encryption and customer-managed keys',
+    'GuardDuty, Security Hub and Inspector: findings, and what to act on first',
+    'CloudTrail: the audit log, and answering "who did this?"',
+    'AWS Config and conformance packs: compliance as code',
+    'Savings Plans and Reserved Instances: where the real discount is',
+    'Compute Optimizer, rightsizing and idle resource detection',
+    'Cost allocation tags, Cost Categories and the resource nobody owns',
+    'The bill as a monitoring signal: the spike that means an incident',
+  ],
+  requires: [
+    'aws-compute',
+    'iac',
+  ],
+  prerequisites: 'Both are required: the compute you are going to operate, and Terraform.',
 },
 ];
 
@@ -3734,6 +4178,72 @@ const TRACKS = [
             'analytics-bi',
           ] },
         { name: 'Data Engineering', courses: [
+            'warehouse-modeling',
+            'pipelines-etl',
+          ] },
+      ],
+    },
+  ],
+},
+{
+  id: 'aws',
+  name: 'Amazon Web Services',
+  family: 'technology',
+  goal: 'The largest cloud in the Brazilian market, and the one most job adverts name. The four vendor courses sit on top of Linux, networking and containers, because the official material assumes you already have those — and they are exactly what is missing when a deployment fails and nobody can say why. Sequenced against the associate certifications: at the end you pick which one you are heading for.',
+  outcome: 'Command of AWS',
+  courses: [
+    'web-fundamentals',
+    'linux-terminal',
+    'networks',
+    'cloud',
+    'aws-foundations',
+    'docker',
+    'aws-compute',
+    {
+      choice: 'which path through AWS',
+      note: 'The trunk is the same platform for everyone. The paths do not converge again: each one is a different certification and a different set of services.',
+      options: [
+        { name: 'Cloud Engineer', courses: [
+            'kubernetes',
+            'iac',
+            'aws-operations',
+          ] },
+        { name: 'Data Engineer', courses: [
+            'sql-databases',
+            'aws-data',
+            'warehouse-modeling',
+            'pipelines-etl',
+          ] },
+      ],
+    },
+  ],
+},
+{
+  id: 'gcp',
+  name: 'Google Cloud Platform',
+  family: 'technology',
+  goal: 'The platform, not a tour of the console. The four vendor courses sit on top of Linux, networking and containers, because the official material assumes you already have those — and they are exactly what is missing when a deployment fails and nobody can say why. Sequenced against Google\'s own certification paths: at the end you pick which one you are heading for.',
+  outcome: 'Command of Google Cloud',
+  courses: [
+    'web-fundamentals',
+    'linux-terminal',
+    'networks',
+    'cloud',
+    'gcp-foundations',
+    'docker',
+    'gcp-compute',
+    {
+      choice: 'which path through Google Cloud',
+      note: 'The trunk is the same platform for everyone. The paths do not converge again: each one is a different certification and a different set of services.',
+      options: [
+        { name: 'Cloud Engineer', courses: [
+            'kubernetes',
+            'iac',
+            'gcp-operations',
+          ] },
+        { name: 'Data Engineer', courses: [
+            'sql-databases',
+            'gcp-data',
             'warehouse-modeling',
             'pipelines-etl',
           ] },

@@ -18,6 +18,8 @@ window.I18N = window.I18N || {};
 
 window.I18N.es = window.I18N.es || {};
 window.I18N.es.ui = {
+  "finished on the way": "terminado por el camino",
+  "at level": "en el nivel",
   "✓ check your inbox — click the link to confirm": "✓ revisa tu correo — haz clic en el enlace para confirmar",
   "The first course of every track is free, forever. Everything else is one subscription, for a year.": "El primer curso de cada itinerario es gratis, para siempre. Lo demás es una suscripción, por un año.",
   "Guest": "Visitante",
@@ -201,6 +203,8 @@ window.I18N.es.testimonials = [
 
 window.I18N.fr = window.I18N.fr || {};
 window.I18N.fr.ui = {
+  "finished on the way": "terminé en chemin",
+  "at level": "au niveau",
   "✓ check your inbox — click the link to confirm": "✓ vérifiez votre boîte mail — cliquez sur le lien pour confirmer",
   "The first course of every track is free, forever. Everything else is one subscription, for a year.": "Le premier cours de chaque parcours est gratuit, pour toujours. Le reste est un abonnement, pour un an.",
   "Guest": "Visiteur",
@@ -384,6 +388,8 @@ window.I18N.fr.testimonials = [
 
 window.I18N.it = window.I18N.it || {};
 window.I18N.it.ui = {
+  "finished on the way": "completato lungo la strada",
+  "at level": "al livello",
   "✓ check your inbox — click the link to confirm": "✓ controlla la tua e-mail — clicca sul link per confermare",
   "The first course of every track is free, forever. Everything else is one subscription, for a year.": "Il primo corso di ogni percorso è gratis, per sempre. Il resto è un abbonamento, per un anno.",
   "Guest": "Visitatore",
