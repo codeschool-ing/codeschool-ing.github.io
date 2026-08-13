@@ -3115,6 +3115,165 @@ window.I18N.fr.courses = {
       "La facture comme signal de supervision : le pic qui signifie un incident"
     ],
     "prerequisites": "Les deux sont exigés : le calcul que vous allez exploiter, et Terraform."
+  },
+  "azure-foundations": {
+    "name": "Azure : Fondamentaux, Identité et Réseau",
+    "summary": "Le rez-de-chaussée d’Azure : comment le tenant se divise, qui a le droit de faire quoi, ce que cela coûte et par où passent les paquets.",
+    "syllabus": [
+      "Tenant, groupes d’administration, abonnements et groupes de ressources",
+      "Microsoft Entra ID : utilisateurs, groupes, service principals et identités managées",
+      "RBAC et Azure Policy : la permission et le garde-fou sont deux choses différentes",
+      "Cost Management : budgets, étiquettes et la lecture d’une facture erronée",
+      "VNet, network security groups, Private Link et les répartiteurs de charge",
+      "Azure CLI, Cloud Shell et le Resource Manager sous tout cela"
+    ],
+    "topics": [
+      "Régions, zones de disponibilité et régions appairées",
+      "Tenant, groupes d’administration, abonnements et groupes de ressources",
+      "Quelles ressources changent de groupe, et lesquelles jamais",
+      "Azure Policy : garde-fous hérités le long de la hiérarchie",
+      "Blueprints, landing zones et le Cloud Adoption Framework",
+      "Microsoft Entra ID : utilisateurs, groupes et unités administratives",
+      "Service principals et enregistrements d’application",
+      "Identités managées : affectées par le système et par l’utilisateur",
+      "RBAC : rôles intégrés, rôles personnalisés, portée et héritage",
+      "Privileged Identity Management et élévation à la demande",
+      "Accès conditionnel et authentification multifacteur",
+      "Entra ID et Active Directory local : synchronisation et fédération",
+      "Cost Management : budgets, alertes et analyse des coûts",
+      "Lire la facture : paiement à l’usage, réservations et Azure Hybrid Benefit",
+      "Étiquettes, affectation des coûts et export de la consommation",
+      "VNet : espace d’adressage, sous-réseaux et délégation",
+      "Network security groups et application security groups",
+      "Azure Firewall, tables de routage et tunnel forcé",
+      "Private Link, private endpoints et service endpoints",
+      "Peering de VNet et topologie hub-and-spoke",
+      "Azure DNS : zones publiques, zones privées et enregistrements",
+      "Load Balancer, Application Gateway, Front Door et Traffic Manager",
+      "ExpressRoute et VPN Gateway : la route d’entrée depuis le datacentre",
+      "Azure CLI, Azure PowerShell et Cloud Shell",
+      "Resource Manager : l’API par laquelle passe chaque porte",
+      "Portail, ligne de commande et infrastructure déclarée : trois portes, une API"
+    ],
+    "prerequisites": "Cloud et Serverless, ou l’équivalent : savoir ce que sont IaaS, IAM et un réseau virtuel."
+  },
+  "azure-compute": {
+    "name": "Azure : Calcul et Applications",
+    "summary": "Toutes les façons dont Azure exécute votre code — de la machine virtuelle au conteneur qui descend à zéro — et le calcul qui en désigne une.",
+    "syllabus": [
+      "Machines virtuelles, scale sets, images et disques",
+      "Container Apps et Container Instances : des conteneurs sans cluster",
+      "AKS : Kubernetes managé et ce qu’il vous laisse encore",
+      "Functions : déclencheurs, bindings et le plan qui décide du démarrage à froid",
+      "App Service, Logic Apps, Service Bus et Event Grid",
+      "Choisir entre eux avec le coût, le démarrage à froid et l’enfermement sur la table"
+    ],
+    "topics": [
+      "Machines virtuelles : séries, tailles et à quoi sert chacune",
+      "Images du marketplace, images personnalisées et la Compute Gallery",
+      "Disques managés, disque d’OS éphémère et Azure Files",
+      "Virtual Machine Scale Sets et mise à l’échelle automatique",
+      "Machines spot et politique d’éviction",
+      "Availability sets, zones de disponibilité et ce que chacun protège",
+      "Container Instances : un conteneur sans orchestrateur",
+      "Container Apps : descendre à zéro, révisions et répartition du trafic",
+      "Dapr dans Container Apps, et quand l’abstraction est rentable",
+      "Azure Container Registry : tasks, géoréplication et analyse",
+      "AKS : node pools, mises à niveau et fenêtres de maintenance",
+      "AKS Automatic, et ce que Microsoft prend en charge",
+      "Workload identity dans le cluster : des pods sans secret statique",
+      "Application Gateway Ingress Controller et la Gateway API",
+      "Functions : déclencheurs et bindings, et pourquoi les bindings sont l’essentiel",
+      "Plans Consumption, Premium et Dedicated : le calcul du démarrage à froid",
+      "Durable Functions : orchestration, fan-out et état de longue durée",
+      "App Service : plans, slots et swap avec préchauffage",
+      "Logic Apps et l’intégration écrite sans code",
+      "Service Bus, Event Grid et Event Hubs : file, événement et flux",
+      "Choisir le calcul : profil de requête, modèle de coût et effort de migration",
+      "L’enfermement comme décision, pas comme accident"
+    ],
+    "prerequisites": "Les deux sont exigés : la base de la plateforme, et les conteneurs."
+  },
+  "azure-data": {
+    "name": "Azure : Données, Stockage et Analytique",
+    "summary": "Où la donnée atterrit, où elle vit et où on l’interroge : du blob dans un conteneur à la requête qui parcourt un téraoctet.",
+    "syllabus": [
+      "Blob Storage et ADLS Gen2 : niveaux, cycle de vie et le coût de la lecture",
+      "Azure SQL, Managed Instance et les serveurs flexibles",
+      "Cosmos DB : clé de partition, niveaux de cohérence et request units",
+      "Synapse et Microsoft Fabric : l’entrepôt et le lac interrogé sur place",
+      "Event Hubs et Stream Analytics : des flux qui arrivent en retard",
+      "Data Factory et Databricks : le pipeline qui doit tourner à trois heures du matin"
+    ],
+    "topics": [
+      "Comptes de stockage : types, réplication et un nommage qui tient",
+      "Blob Storage : conteneurs, blobs et les trois types de blob",
+      "ADLS Gen2 : espace de noms hiérarchique et pourquoi il compte en analytique",
+      "Niveaux d’accès : hot, cool, cold et archive, avec l’attente de réhydratation",
+      "Règles de cycle de vie, versionnement, suppression réversible et immuabilité",
+      "Jetons SAS, clés partagées et le conteneur qui a fuité",
+      "Sortie de données et coût par transaction : pourquoi lire peut coûter plus que stocker",
+      "Azure SQL Database : DTU et vCore, serverless et pools élastiques",
+      "SQL Managed Instance : ce qu’il apporte de plus que le service de base",
+      "Serveurs flexibles PostgreSQL et MySQL",
+      "Cosmos DB : clé de partition, et la conception qui décide de tout le reste",
+      "Les cinq niveaux de cohérence et ce que chacun coûte",
+      "Request units, autoscale et la requête limitée",
+      "Change feed de Cosmos DB et traitement piloté par l’événement",
+      "Azure Cache for Redis : niveaux et clustering",
+      "Synapse Analytics : pools SQL dédiés et serverless",
+      "Microsoft Fabric : OneLake, lakehouse et entrepôt au même endroit",
+      "Delta Lake, partitionnement et la disposition des fichiers qui fait la facture",
+      "Data Factory : pipelines, datasets, linked services et integration runtime",
+      "Mapping data flows contre notebooks : quand chacun l’emporte",
+      "Azure Databricks : espaces de travail, clusters et Unity Catalog",
+      "Event Hubs : partitions, groupes de consommateurs et capture vers le stockage",
+      "Stream Analytics : fenêtres, filigranes et donnée arrivée en retard",
+      "Garanties de livraison : au moins une fois et l’idempotence qu’elle impose",
+      "Microsoft Purview : catalogue, traçabilité et classification",
+      "Choisir le stockage : motif d’accès, cohérence, échelle et prix"
+    ],
+    "prerequisites": "Les deux sont exigés. La modélisation des données aide, mais n’est pas présupposée."
+  },
+  "azure-operations": {
+    "name": "Azure : Livraison, Exploitation et Coût",
+    "summary": "La partie qui commence après le déploiement : chaîne, supervision, incident, durcissement et la facture qui arrive en fin de mois.",
+    "syllabus": [
+      "Azure Pipelines et GitHub Actions face à Azure",
+      "Bicep, ARM et Terraform, et l’état qu’il ne faut pas perdre",
+      "Azure Monitor, Log Analytics et KQL",
+      "SLO, budget d’erreur et alerte sur le symptôme plutôt que la cause",
+      "Defender for Cloud, Key Vault, WAF et private endpoints",
+      "FinOps : réservations, redimensionnement et la ressource sans propriétaire"
+    ],
+    "topics": [
+      "Azure Pipelines : stages, jobs, templates et environments",
+      "GitHub Actions avec fédération OIDC : déployer sans secret stocké",
+      "Approbations, gates et déploiement en slot avec retour arrière",
+      "Modèles ARM et ce que Bicep corrige chez eux",
+      "Bicep : modules, paramètres, what-if et deployment stack",
+      "Terraform face à Azure : provider, état dans un storage account et verrou",
+      "L’accident de l’état perdu, et comment y survivre",
+      "Azure Monitor : métriques, diagnostic settings et data collection rules",
+      "Espaces de travail Log Analytics, rétention et le coût de l’ingestion",
+      "KQL : le langage de requête dans lequel toute la plateforme répond",
+      "Application Insights : traces, dépendances et métriques en direct",
+      "Règles d’alerte, action groups et alert processing rules",
+      "OpenTelemetry face à Azure Monitor, et la portabilité de l’instrumentation",
+      "SLI, SLO et budget d’erreur bâtis sur l’espace de travail",
+      "Incident : détection, communication et postmortem sans coupable",
+      "Defender for Cloud : secure score, recommandations et par quoi commencer",
+      "Key Vault : secrets, clés, certificats et rotation",
+      "Web Application Firewall sur Application Gateway et sur Front Door",
+      "DDoS Protection et le périmètre réseau",
+      "Private endpoints et la fermeture définitive du chemin public",
+      "Journal d’activité Azure : la piste d’audit, et la réponse à « qui a fait cela »",
+      "Réservations, savings plans et Azure Hybrid Benefit",
+      "Advisor, redimensionnement et détection de ressources inactives",
+      "Étiquettes, affectation des coûts et la ressource sans propriétaire",
+      "La facture comme signal de supervision : le pic qui signifie un incident"
+    ],
+    "prerequisites": "Les deux sont exigés : le calcul que vous allez exploiter, et Terraform."
   }
 };
 
@@ -3153,10 +3312,11 @@ window.I18N.fr.tracks = {
     "steps": {
       "7": {
         "choice": "le fournisseur",
-        "note": "Maîtrisez-en un avant de regarder l’autre. Les concepts se transposent ; la console, la ligne de commande et l’examen, non.",
+        "note": "Maîtrisez-en un avant de regarder les autres. Les concepts se transposent ; la console, la ligne de commande et l’examen, non.",
         "options": [
           "AWS",
-          "Google Cloud"
+          "Google Cloud",
+          "Azure"
         ]
       }
     }
@@ -3164,7 +3324,18 @@ window.I18N.fr.tracks = {
   "data": {
     "name": "Ingénierie des Données",
     "goal": "La formation de celui qui construit l’infrastructure des décisions : modélisation, pipelines, big data et gouvernance. Séquence fondée sur la feuille de route Data Engineer publique de roadmap.sh, qui recommande Python et SQL comme prérequis. La moitié des cours vient des parcours précédents.",
-    "outcome": "Ingénieur Données junior"
+    "outcome": "Ingénieur Données junior",
+    "steps": {
+      "17": {
+        "choice": "le cloud où vit la donnée",
+        "note": "L’ingénierie jusqu’ici est la même partout. Ce qui change est le service managé qu’on vous donne : l’entrepôt, le flux et l’orchestrateur portent un autre nom et une autre facture chez chaque fournisseur.",
+        "options": [
+          "AWS",
+          "Google Cloud",
+          "Azure"
+        ]
+      }
+    }
   },
   "networks-infra": {
     "name": "Réseaux et Infrastructure",
@@ -3253,36 +3424,6 @@ window.I18N.fr.tracks = {
         "options": [
           "Analyse et BI",
           "Ingénierie des Données"
-        ]
-      }
-    }
-  },
-  "gcp": {
-    "name": "Google Cloud Platform",
-    "goal": "La plateforme seule, pour qui a besoin de Google Cloud et non du titre : le projet, le réseau, le calcul, puis le côté où vous travaillez. C’est la voie courte — l’Ingénierie du Cloud place Linux, les réseaux et Kubernetes autour de ces mêmes cours et débouche sur un métier.",
-    "outcome": "Maîtrise de Google Cloud",
-    "steps": {
-      "5": {
-        "choice": "le côté de Google Cloud",
-        "note": "Les deux partent du même projet et du même réseau : l’un exploite ce qui tourne, l’autre stocke et interroge ce que cela produit.",
-        "options": [
-          "Exploitation",
-          "Données"
-        ]
-      }
-    }
-  },
-  "aws": {
-    "name": "Amazon Web Services",
-    "goal": "Le plus grand cloud de ce marché, seul, pour qui a besoin d’AWS et non du titre : le compte, le réseau, le calcul, puis le côté où vous travaillez. C’est la voie courte — l’Ingénierie du Cloud place Linux, les réseaux et Kubernetes autour de ces mêmes cours et débouche sur un métier.",
-    "outcome": "Maîtrise d’AWS",
-    "steps": {
-      "5": {
-        "choice": "le côté d’AWS",
-        "note": "Les deux partent du même compte et du même réseau : l’un exploite ce qui tourne, l’autre stocke et interroge ce que cela produit.",
-        "options": [
-          "Exploitation",
-          "Données"
         ]
       }
     }
