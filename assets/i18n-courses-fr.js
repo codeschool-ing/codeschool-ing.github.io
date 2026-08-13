@@ -62,7 +62,8 @@ window.I18N.fr.courses = {
       "Flux de travail : feature branch, trunk based et Git Flow",
       ".gitignore, sous-modules et gros fichiers (Git LFS)",
       "Messages de commit et la norme Conventional Commits"
-    ]
+    ],
+    "prerequisites": "Aucune programmation requise : le versionnement vient avant le premier langage."
   },
   "javascript": {
     "name": "JavaScript",
@@ -87,7 +88,8 @@ window.I18N.fr.courses = {
       "API web : localStorage, sessionStorage, géolocalisation et notifications",
       "npm, pnpm et yarn : installer, versionner et publier des paquets",
       "Débogage dans le navigateur et gestion des exceptions"
-    ]
+    ],
+    "prerequisites": "Exige HTML et CSS — la page doit exister avant le script qui la modifie."
   },
   "ai-dev": {
     "name": "L’IA dans le Développement",
@@ -139,7 +141,8 @@ window.I18N.fr.courses = {
       "Responsive : mobile first, media queries et container queries",
       "Transitions, animations et transformations",
       "Tailwind CSS : utilitaires, configuration et composants"
-    ]
+    ],
+    "prerequisites": "Aucune programmation requise. C’est le premier cours de qui construit pour le web."
   },
   "react-ts": {
     "name": "Front-end avec React et TypeScript",
@@ -192,7 +195,8 @@ window.I18N.fr.courses = {
       "Navigation au clavier, focus visible et ordre de tabulation",
       "ARIA, lecteurs d’écran et texte alternatif",
       "Contraste, taille de cible et respect du mouvement réduit"
-    ]
+    ],
+    "prerequisites": "Exige une application React à vous : le cours apporte les tests, pas l’application."
   },
   "front-performance": {
     "name": "Rendu, Performance et PWA",
@@ -216,7 +220,8 @@ window.I18N.fr.courses = {
       "Cache du navigateur, CDN et en-têtes de cache",
       "Service workers et stratégies de cache hors ligne",
       "Progressive Web App : manifeste, installation et notifications"
-    ]
+    ],
+    "prerequisites": "Exige React et quelque chose de déjà construit — la performance se mesure sur une page qui tourne."
   },
   "front-delivery": {
     "name": "Déploiement, Design Systems et GraphQL",
@@ -240,7 +245,8 @@ window.I18N.fr.courses = {
       "GraphQL : requêtes, mutations et fragments",
       "Clients GraphQL : Apollo et Relay",
       "Surveillance des erreurs côté client et rapports de plantage"
-    ]
+    ],
+    "prerequisites": "Exige React et un dépôt Git : tout commence ici au push."
   },
   "front-multiplatform": {
     "name": "Applications Bureau et Mobiles avec le Web",
@@ -263,7 +269,8 @@ window.I18N.fr.courses = {
       "Signature de code et publication sur les boutiques",
       "Mises à jour automatiques et versionnement",
       "Projet final : une application publiée dans le portfolio"
-    ]
+    ],
+    "prerequisites": "Exige React : React Native réutilise le langage, les composants et les hooks."
   },
   "node": {
     "name": "Node.js : JavaScript côté Serveur",
@@ -680,7 +687,8 @@ window.I18N.fr.courses = {
       "Autorisation : rôles, permissions et portées",
       "Limitation du débit (rate limiting) par client",
       "CORS, HTTPS, CSP et l’OWASP Top 10 appliqué aux API"
-    ]
+    ],
+    "prerequisites": "Exige SQL et un langage serveur — l’un des quatre que propose le parcours Back-end."
   },
   "servers-cache": {
     "name": "Serveurs Web et Cache",
@@ -704,7 +712,8 @@ window.I18N.fr.courses = {
       "Memcached et comparaison avec Redis",
       "Patrons de cache : cache-aside, write-through et write-behind",
       "Ruée sur le cache (stampede) et préchauffage"
-    ]
+    ],
+    "prerequisites": "Exige une API à vous : c’est la couche qui se place devant elle."
   },
   "testing-cicd": {
     "name": "Tests Automatisés et CI/CD",
@@ -728,7 +737,8 @@ window.I18N.fr.courses = {
       "Secrets dans la chaîne et principe du moindre privilège",
       "Stratégies de mise en production : blue-green, canari et feature flags",
       "Retour arrière (rollback) et critères d’arrêt"
-    ]
+    ],
+    "prerequisites": "Exige une API à tester et un dépôt Git où faire tourner la chaîne."
   },
   "docker": {
     "name": "Docker et Conteneurs",
@@ -859,7 +869,8 @@ window.I18N.fr.courses = {
       "Temps réel : WebSockets, Server-Sent Events et long polling",
       "Registre de services, découverte et passerelle d’API",
       "Consigner les décisions d’architecture (ADR) et les défendre"
-    ]
+    ],
+    "prerequisites": "Exige Docker et de l’expérience back-end : ce cours arbitre entre des conceptions, il n’enseigne pas un langage."
   },
   "scale": {
     "name": "Montée en Charge et Observabilité",
@@ -884,7 +895,8 @@ window.I18N.fr.courses = {
       "Nouvelles tentatives avec recul exponentiel et gigue",
       "Dégradation en douceur et planification de capacité",
       "Test de charge et test de résistance"
-    ]
+    ],
+    "prerequisites": "Exige l’architecture — il n’y a rien à mettre à l’échelle avant que le système ait une forme."
   },
   "linux-terminal": {
     "name": "Linux et Ligne de Commande",
@@ -912,7 +924,8 @@ window.I18N.fr.courses = {
       "Performance : CPU, mémoire, disque et entrées/sorties",
       "Éditeurs en terminal : Vim, Nano et Emacs",
       "Planification de tâches : cron et minuteries systemd"
-    ]
+    ],
+    "prerequisites": "Aucune programmation requise. C’est la base de tout parcours d’infrastructure, de données et de sécurité."
   },
   "networks": {
     "name": "Réseaux et Protocoles",
@@ -936,7 +949,8 @@ window.I18N.fr.courses = {
       "Transfert de fichiers : FTP, SFTP et SCP",
       "Courrier : SMTP, IMAP, POP3S, SPF, DKIM et DMARC",
       "Diagnostic : ping, dig, nslookup, traceroute, mtr, netstat/ss et tcpdump"
-    ]
+    ],
+    "prerequisites": "Exige la ligne de commande Linux : ici, tout diagnostic part d’un terminal."
   },
   "cloud": {
     "name": "Cloud et Serverless",
@@ -959,7 +973,8 @@ window.I18N.fr.courses = {
       "Serverless : AWS Lambda, Cloudflare Workers, Vercel et Netlify",
       "Régions, zones de disponibilité et leur effet sur la latence",
       "Coûts : modèles de facturation, budget et alertes de dépense"
-    ]
+    ],
+    "prerequisites": "Exige les réseaux : un VPC est un réseau, et IAM n’a de sens qu’une fois qu’on en a un."
   },
   "iac": {
     "name": "Infrastructure as Code",
@@ -983,7 +998,8 @@ window.I18N.fr.courses = {
       "Panorama de Chef, Puppet et Salt",
       "Images de machine avec Packer",
       "Infrastructure immuable, éphémère et reproductible"
-    ]
+    ],
+    "prerequisites": "Exige le cloud et un compte chez un fournisseur — le cours provisionne de la vraie infrastructure."
   },
   "gitops": {
     "name": "GitOps, Artefacts et Secrets",
@@ -1008,7 +1024,8 @@ window.I18N.fr.courses = {
       "Services de secrets du cloud et intégration avec le cluster",
       "Rotation des identifiants et principe du moindre privilège",
       "Audit : qui a changé quoi, quand et pourquoi"
-    ]
+    ],
+    "prerequisites": "Exige l’infrastructure as code et Git : GitOps est la rencontre des deux."
   },
   "observability": {
     "name": "Observabilité et Exploitation",
@@ -1032,7 +1049,8 @@ window.I18N.fr.courses = {
       "Astreinte, escalade et post-mortem sans coupables",
       "Service mesh : Istio, Linkerd et Envoy",
       "Patrons de conception pour le cloud : disponibilité, résilience et données"
-    ]
+    ],
+    "prerequisites": "Exige quelque chose en production à observer, et une chaîne pour déployer l’agent."
   },
   "python": {
     "name": "Python",
@@ -1058,7 +1076,8 @@ window.I18N.fr.courses = {
       "Environnements virtuels (venv), pip et requirements",
       "Structures de données et notion de complexité (Big-O)",
       "pandas pour les tableaux et requests pour consommer des API"
-    ]
+    ],
+    "prerequisites": "Aucune programmation préalable requise : Python est enseigné ici dès la première ligne."
   },
   "data-fundamentals": {
     "name": "Fondamentaux de l’Ingénierie des Données",
@@ -1082,7 +1101,8 @@ window.I18N.fr.courses = {
       "Traitement par lots et en flux continu",
       "Systèmes distribués : partitionnement, réplication et tolérance aux pannes",
       "Théorème CAP appliqué aux plateformes de données"
-    ]
+    ],
+    "prerequisites": "Exige Python. Aucune base de données présupposée — c’est la carte du métier, avant les outils."
   },
   "warehouse-modeling": {
     "name": "Modélisation des Données et Entrepôt",
@@ -1108,7 +1128,8 @@ window.I18N.fr.courses = {
       "Lac de données, lakehouse et Delta Lake",
       "Data mart, data mesh et architectures orientées métadonnées",
       "Catalogue de données et dictionnaire des champs"
-    ]
+    ],
+    "prerequisites": "Exige SQL, et aucun langage de programmation au-delà."
   },
   "pipelines-etl": {
     "name": "Chaînes de Données et ETL",
@@ -1133,7 +1154,8 @@ window.I18N.fr.courses = {
       "Qualité des données : validation, contrats et tests d’attente",
       "Versionnement des chaînes et séparation des environnements",
       "Coût et performance des gros chargements"
-    ]
+    ],
+    "prerequisites": "Exige la modélisation et SQL, plus Python pour l’orchestrateur."
   },
   "bigdata": {
     "name": "Big Data et Calcul Distribué",
@@ -1159,7 +1181,8 @@ window.I18N.fr.courses = {
       "Kafka : sujets, partitions, producteurs et consommateurs",
       "RabbitMQ, Amazon SQS et SNS",
       "Formats en colonnes et optimisation de la lecture"
-    ]
+    ],
+    "prerequisites": "Exige les pipelines et Python : Spark s’écrit dans un langage que vous connaissez déjà."
   },
   "data-governance": {
     "name": "Sécurité, Gouvernance et Confidentialité des Données",
@@ -1184,7 +1207,8 @@ window.I18N.fr.courses = {
       "Gouvernance : qualité, lignage, métadonnées et propriété de la donnée",
       "Politiques de conservation, de purge et piste d’audit",
       "Interopérabilité et contrats de données entre équipes"
-    ]
+    ],
+    "prerequisites": "Exige un pipeline à vous à gouverner. Le droit et la technique sont traités ensemble."
   },
   "analytics-bi": {
     "name": "Analytique, BI et Reverse ETL",
@@ -1208,7 +1232,8 @@ window.I18N.fr.courses = {
       "Hightouch, Census et Segment",
       "Segmentation, cohortes et entonnoirs",
       "Raconter avec les données sans tromper : échelles, cadrages et biais"
-    ]
+    ],
+    "prerequisites": "Exige SQL. Aucune programmation requise : les outils ici sont ceux de l’analyste, pas du développeur."
   },
   "ml-mlops": {
     "name": "Apprentissage Automatique et MLOps",
@@ -1231,7 +1256,8 @@ window.I18N.fr.courses = {
       "Déploiement des modèles : par lots, en temps réel et en périphérie",
       "Supervision en production : performance, latence et coût",
       "Détection de dérive des données et du concept, et réentraînement"
-    ]
+    ],
+    "prerequisites": "Exige Python, SQL et un pipeline. C’est de l’ingénierie appliquée aux modèles, pas un cours de statistiques."
   },
   "networks-addressing": {
     "name": "Adressage, Routage et Commutation",
@@ -1268,7 +1294,8 @@ window.I18N.fr.courses = {
       "Spanning Tree Protocol et prévention des boucles",
       "Agrégation de liens (LACP) et Power over Ethernet (PoE)",
       "Routage inter-VLAN et commutateurs de couche 3"
-    ]
+    ],
+    "prerequisites": "Exige les réseaux : l’adressage est là où la théorie du cours précédent devient configuration."
   },
   "networks-availability": {
     "name": "VPN, Sans-fil et Haute Disponibilité",
@@ -1305,7 +1332,8 @@ window.I18N.fr.courses = {
       "Diagnostic couche par couche : du câble à l’application",
       "ping, traceroute, mtr, nslookup, iperf et tests de débit",
       "Documenter l’incident : symptôme, hypothèse, test et correction"
-    ]
+    ],
+    "prerequisites": "Exige l’adressage et le routage — un réseau redondant se bâtit sur un réseau qui marche déjà."
   },
   "networks-security": {
     "name": "Sécurité des Réseaux",
@@ -1342,7 +1370,8 @@ window.I18N.fr.courses = {
       "Micro-segmentation et vérification continue de l’identité",
       "Contrôle d’accès au réseau (NAC) et authentification 802.1X",
       "Journalisation, audit et réponse aux incidents"
-    ]
+    ],
+    "prerequisites": "Exige toute la base réseau : on ne défend pas une topologie qu’on ne sait pas dessiner."
   },
   "networks-automation": {
     "name": "Automatisation des Réseaux",
@@ -1454,7 +1483,8 @@ window.I18N.fr.courses = {
       "Ensembles de prompts : combiner plusieurs prompts et voter",
       "Auto-évaluation du modèle (LLM self evaluation)",
       "Calibration : aligner la confiance annoncée sur la justesse réelle"
-    ]
+    ],
+    "prerequisites": "Exige l’ingénierie de prompt. Aucune programmation requise, même si un peu aide pour le banc d’évaluation."
   },
   "ai-security": {
     "name": "Sécurité de l’IA et Red Teaming",
@@ -1491,7 +1521,8 @@ window.I18N.fr.courses = {
       "Isolation des outils, moindre privilège et confirmation humaine",
       "Journalisation, audit et réponse aux incidents en production",
       "La LGPD brésilienne appliquée aux données envoyées à des modèles tiers"
-    ]
+    ],
+    "prerequisites": "Exige l’ingénierie de prompt et son évaluation. Aucune expérience en sécurité offensive présupposée."
   },
   "ai-models": {
     "name": "Modèles d’IA : Choix, Plateformes et API",
@@ -1558,7 +1589,8 @@ window.I18N.fr.courses = {
       "Lancer une recherche par similarité et régler le top-k",
       "Combiner filtres de métadonnées et recherche vectorielle",
       "Coût de stockage et de réindexation"
-    ]
+    ],
+    "prerequisites": "Exige Python et les API de modèles : tout se mesure ici en code."
   },
   "rag": {
     "name": "RAG et Ingénierie du Contexte",
@@ -1588,7 +1620,8 @@ window.I18N.fr.courses = {
       "Compaction du contexte : résumer sans perdre l’essentiel",
       "Isolation du contexte : séparer les tâches et éviter la contamination",
       "Coût par requête et cache de récupération"
-    ]
+    ],
+    "prerequisites": "Exige les embeddings et une base vectorielle — le RAG est ce qui se bâtit dessus."
   },
   "agents-mcp": {
     "name": "Agents d’IA et MCP",
@@ -1620,7 +1653,8 @@ window.I18N.fr.courses = {
       "Se connecter à un serveur local et à un serveur distant",
       "Permissions, moindre privilège et confirmation humaine",
       "Coût, latence et limites d’un agent en production"
-    ]
+    ],
+    "prerequisites": "Exige le RAG et Python : l’agent se bâtit sur la recherche que vous avez déjà."
   },
   "llm-observability": {
     "name": "Observabilité et Évaluation des LLM en Production",
@@ -1650,7 +1684,8 @@ window.I18N.fr.courses = {
       "Test de non-régression au changement de prompt, de modèle ou de version",
       "Intégrer l’évaluation à la chaîne d’intégration continue",
       "Tableaux de bord et alertes en cas de baisse de qualité"
-    ]
+    ],
+    "prerequisites": "Exige un agent ou une application RAG déjà en fonctionnement — avant cela il n’y a rien à instrumenter."
   },
   "multimodal": {
     "name": "IA Multimodale : Image, Audio et Vidéo",
@@ -1677,7 +1712,8 @@ window.I18N.fr.courses = {
       "LangChain et LlamaIndex dans les applications multimodales",
       "Coût, taille de fichier et limites d’envoi",
       "Accessibilité : sous-titres, audiodescription et transcription"
-    ]
+    ],
+    "prerequisites": "Exige toute la base IA : choix du modèle, évaluation et instrumentation sont présupposés ici."
   },
   "architecture-role": {
     "name": "Le Rôle de l’Architecte Logiciel",
@@ -1742,7 +1778,8 @@ window.I18N.fr.courses = {
       "Modèle d’acteurs : état isolé et échange de messages",
       "Concurrence et parallélisme : là où les patrons échouent",
       "Choisir le patron pour le problème, pas pour son CV"
-    ]
+    ],
+    "prerequisites": "Exige de l’expérience back-end : les patrons se lisent dans du code que vous avez déjà écrit."
   },
   "architecture-modeling": {
     "name": "Modélisation et Cadres d’Architecture",
@@ -1770,7 +1807,8 @@ window.I18N.fr.courses = {
       "Outils : diagrammes en tant que code (Mermaid, PlantUML, Structurizr)",
       "Revue d’architecture et listes de vérification",
       "Présenter l’architecture à un public technique et non technique"
-    ]
+    ],
+    "prerequisites": "Exige les patrons et les principes — on dessine la décision après avoir su la prendre."
   },
   "enterprise-software": {
     "name": "Logiciel d’Entreprise et Intégration",
@@ -1798,7 +1836,8 @@ window.I18N.fr.courses = {
       "Étranglement du patrimoine (strangler fig) et coexistence",
       "Migration de données : qualité, réconciliation et retour arrière",
       "Acheter ou construire : comment fonder la décision"
-    ]
+    ],
+    "prerequisites": "Exige la modélisation. Aucune expérience d’ERP ou de CRM présupposée : c’est à cela que sert le cours."
   },
   "process-management": {
     "name": "Gestion, Processus et Estimations",
@@ -1827,7 +1866,8 @@ window.I18N.fr.courses = {
       "Indicateurs de livraison : débit, temps de cycle et DORA",
       "Dette technique : la consigner, la négocier et la rembourser",
       "Certifications : PMI, ITIL, Prince2, Scrum et celles du cloud"
-    ]
+    ],
+    "prerequisites": "Exige le rôle de l’architecte. Aucune formation en gestion présupposée."
   },
   "architect-communication": {
     "name": "Communication, Conseil et Leadership Technique",
@@ -1857,7 +1897,8 @@ window.I18N.fr.courses = {
       "Communiquer un incident : pendant, après et à qui",
       "Post-mortem sans coupables et culture de l’apprentissage",
       "Réputation technique : conférences, articles et communauté"
-    ]
+    ],
+    "prerequisites": "Exige le cours de gestion. C’est le cours le moins technique du catalogue, et celui sur lequel les architectes échouent le plus."
   },
   "computing-essentials": {
     "name": "Informatique Essentielle",
@@ -1919,7 +1960,8 @@ window.I18N.fr.courses = {
       "Registre Windows et fichiers de configuration sous Linux",
       "Mises à jour, pilotes et compatibilité",
       "Diagnostic : journaux système, mode sans échec et récupération"
-    ]
+    ],
+    "prerequisites": "Exige l’informatique essentielle. Aucune programmation requise."
   },
   "virtualization": {
     "name": "Virtualisation et Laboratoires",
@@ -1948,7 +1990,8 @@ window.I18N.fr.courses = {
       "Conteneurs et VM : quand utiliser chacun",
       "Monter un labo avec client, serveur et cible de test",
       "Isoler le laboratoire du réseau réel"
-    ]
+    ],
+    "prerequisites": "Exige les trois systèmes d’exploitation : le laboratoire se monte sur des machines que vous savez déjà installer."
   },
   "tech-support": {
     "name": "Support Technique et Assistance",
@@ -1977,7 +2020,8 @@ window.I18N.fr.courses = {
       "Éthique et confidentialité : ce que vous voyez et ce que vous ne répétez pas",
       "Limites du technicien : quand la réponse est « je ne peux pas faire cela »",
       "Panorama des certifications d’entrée : CompTIA A+, Linux+ et Network+"
-    ]
+    ],
+    "prerequisites": "Exige le laboratoire. La moitié de ce cours n’est pas technique — c’est la conversation avec la personne en face."
   },
   "security-fundamentals": {
     "name": "Fondamentaux de la Sécurité de l’Information",
@@ -2009,7 +2053,8 @@ window.I18N.fr.courses = {
       "Contrôles du CIS et listes de vérification",
       "La LGPD brésilienne et le devoir de protéger les données personnelles",
       "Les métiers du domaine : SOC, test d’intrusion, GRC, forensique et AppSec"
-    ]
+    ],
+    "prerequisites": "Aucune programmation requise. C’est la porte d’entrée des deux parcours de sécurité."
   },
   "cryptography": {
     "name": "Cryptographie Appliquée",
@@ -2040,7 +2085,8 @@ window.I18N.fr.courses = {
       "Wi-Fi : WEP, WPA, WPA2 et WPA3",
       "EAP, PEAP et authentification sur le réseau d’entreprise",
       "Erreurs classiques : la clé dans le code, l’algorithme maison et la réutilisation du nonce"
-    ]
+    ],
+    "prerequisites": "Exige les fondamentaux de la sécurité. Les mathématiques restent au niveau qu’il faut pour choisir, pas pour démontrer."
   },
   "attacks-threats": {
     "name": "Attaques, Menaces et Ingénierie Sociale",
@@ -2080,7 +2126,8 @@ window.I18N.fr.courses = {
       "Cyber Kill Chain : les sept étapes d’une attaque",
       "Diamond Model : adversaire, capacité, infrastructure et victime",
       "MITRE ATT&CK : tactiques, techniques et procédures"
-    ]
+    ],
+    "prerequisites": "Exige la cryptographie : une attaque se lit face à la défense qu’elle met en échec."
   },
   "defense-hardening": {
     "name": "Défense des Postes et Durcissement",
@@ -2113,7 +2160,8 @@ window.I18N.fr.courses = {
       "Correctifs : fenêtre, test, déploiement et exception",
       "Inventaire et configuration comme base de toute défense",
       "Analyse de fichiers et d’URL : VirusTotal, urlscan, any.run, Joe Sandbox et WHOIS"
-    ]
+    ],
+    "prerequisites": "Exige les attaques et les menaces — on durcit contre ce que l’on sait nommer."
   },
   "soc-response": {
     "name": "SOC, Supervision et Réponse aux Incidents",
@@ -2148,7 +2196,8 @@ window.I18N.fr.courses = {
       "Communication avec la direction, les RH, le juridique et la conformité",
       "Rapport d’incident : faits, impact, cause et recommandation",
       "Notification de violation et obligations de la LGPD"
-    ]
+    ],
+    "prerequisites": "Exige le durcissement et les réseaux : c’est la journée de la blue team, de bout en bout."
   },
   "pentest": {
     "name": "Test d’Intrusion et Équipe Rouge",
@@ -2216,7 +2265,8 @@ window.I18N.fr.courses = {
       "Journalisation et audit : CloudTrail et équivalents",
       "Posture de sécurité cloud (CSPM) et analyse de configuration",
       "Conformité, région de la donnée et souveraineté"
-    ]
+    ],
+    "prerequisites": "Exige le cloud : le modèle de responsabilité partagée suppose que vous sachiez quelle moitié est la vôtre."
   },
   "secure-code": {
     "name": "Codage Sécurisé",
@@ -2250,7 +2300,8 @@ window.I18N.fr.courses = {
       "Revue de code avec un œil sécurité : quoi chercher en premier",
       "Tests de sécurité automatisés dans le projet",
       "OWASP ASVS et les aide-mémoire (Cheat Sheets) au quotidien"
-    ]
+    ],
+    "prerequisites": "Exige les attaques et les menaces, et un langage à vous pour y écrire la faille."
   },
   "threat-modeling": {
     "name": "Modélisation des Menaces et Risque",
@@ -2279,7 +2330,8 @@ window.I18N.fr.courses = {
       "Correspondance des contrôles : ISO 27001, NIST CSF et SOC 2",
       "Audit : périmètre, preuves et préparation",
       "Modélisation continue : l’intégrer au raffinement et à la revue de conception"
-    ]
+    ],
+    "prerequisites": "Exige le code sécurisé. Cela se fait avant que le code existe, et c’est ce qui le rend bon marché."
   },
   "secure-pipeline": {
     "name": "Sécurité de la Chaîne et de l’Approvisionnement",
@@ -2349,7 +2401,8 @@ window.I18N.fr.courses = {
       "Applications en santé : gestion des patients, efficience hospitalière et santé publique",
       "Applications dans l’industrie : maintenance prédictive, production et contrôle qualité",
       "Rapports de conformité et obligations réglementaires"
-    ]
+    ],
+    "prerequisites": "Aucune programmation ni SQL requis. C’est la porte d’entrée du parcours BI."
   },
   "excel-analytics": {
     "name": "Excel pour l’Analyse de Données",
@@ -2381,7 +2434,8 @@ window.I18N.fr.courses = {
       "Mesures en DAX : comptages, sommes et comparaisons de période",
       "Monter un tableau de bord navigable dans Excel",
       "Les limites d’Excel et quand passer à une base ou à une plateforme de BI"
-    ]
+    ],
+    "prerequisites": "Aucune programmation requise. Excel de base est présupposé ; le tableau croisé dynamique, non."
   },
   "statistics": {
     "name": "Statistiques pour l’Analyse de Données",
@@ -2417,7 +2471,8 @@ window.I18N.fr.courses = {
       "Diagnostic des résidus et hypothèses de la régression",
       "Au-delà de la régression linéaire : régression logistique et panorama des modèles",
       "Signification statistique contre pertinence pratique"
-    ]
+    ],
+    "prerequisites": "Aucune programmation requise. Il vient avant Python dans le parcours BI, délibérément."
   },
   "data-cleaning": {
     "name": "Nettoyage et Préparation des Données",
@@ -2483,7 +2538,8 @@ window.I18N.fr.courses = {
       "Conception de tableau de bord : hiérarchie, regroupement et parcours de l’œil",
       "Responsive : le tableau de bord sur le téléphone du directeur",
       "Outils : Excel, Power BI, Tableau et bibliothèques de code"
-    ]
+    ],
+    "prerequisites": "Exige des données propres à dessiner. Aucune programmation requise : les principes valent dans n’importe quel outil."
   },
   "bi-techniques": {
     "name": "Techniques Analytiques : Séries Temporelles, Tests A/B et Cohortes",
@@ -2516,7 +2572,8 @@ window.I18N.fr.courses = {
       "Classification et régression appliquées à des problèmes métier",
       "Biais algorithmique : d’où il vient et comment le reconnaître",
       "Stratégies d’atténuation et usage éthique du modèle"
-    ]
+    ],
+    "prerequisites": "Exige les statistiques et la visualisation. Ce sont les trois analyses que les entreprises demandent le plus."
   },
   "data-storytelling": {
     "name": "Communication et Storytelling avec les Données",
@@ -2546,7 +2603,8 @@ window.I18N.fr.courses = {
       "Gestion du changement : pourquoi un service résiste au chiffre",
       "Notions de gestion de projet pour les livrables analytiques",
       "Portfolio : un projet d’analyse de bout en bout qui montre votre démarche"
-    ]
+    ],
+    "prerequisites": "Exige une analyse à vous à raconter. C’est le cours le moins technique du parcours BI."
   },
   "qa-fundamentals": {
     "name": "Fondamentaux de la Qualité Logicielle",
@@ -2732,7 +2790,8 @@ window.I18N.fr.courses = {
       "Supervision et journaux : New Relic, Datadog, Grafana, Kibana et Sentry",
       "RunScope et supervision synthétique d’API en production",
       "Alerte et astreinte : le défaut qui n’apparaît qu’avec de vrais utilisateurs"
-    ]
+    ],
+    "prerequisites": "Exige l’automatisation web et une suite qui passe déjà au vert."
   },
   "gcp-foundations": {
     "name": "Google Cloud : Fondamentaux, Identité et Réseau",
@@ -2810,7 +2869,8 @@ window.I18N.fr.courses = {
       "Artifact Registry : où vit l’image avant de s’exécuter",
       "Choisir le calcul : profil de requête, modèle de coût et effort de migration",
       "L’enfermement comme décision, pas comme accident"
-    ]
+    ],
+    "prerequisites": "Les deux sont exigés : la base de la plateforme, et les conteneurs."
   },
   "gcp-data": {
     "name": "Google Cloud : Données, Stockage et Analytique",
@@ -2851,7 +2911,8 @@ window.I18N.fr.courses = {
       "Datastream, Data Transfer Service et capture des changements",
       "Dataplex, Data Catalog et traçabilité sur tout l’environnement",
       "Choisir le stockage : motif d’accès, cohérence, échelle et prix"
-    ]
+    ],
+    "prerequisites": "Les deux sont exigés. La modélisation des données aide, mais n’est pas présupposée."
   },
   "gcp-operations": {
     "name": "Google Cloud : Livraison, Exploitation et Coût",
@@ -2890,7 +2951,8 @@ window.I18N.fr.courses = {
       "Attribution du coût par libellé, par projet et par dossier",
       "Alerte de budget branchée sur une action, et non sur un e-mail",
       "La facture comme signal de supervision : le pic qui signifie un incident"
-    ]
+    ],
+    "prerequisites": "Les deux sont exigés : le calcul que vous allez exploiter, et Terraform."
   },
   "aws-foundations": {
     "name": "AWS : Fondamentaux, Identité et Réseau",
@@ -2969,7 +3031,8 @@ window.I18N.fr.courses = {
       "App Runner et Elastic Beanstalk : ce qu’il en reste, et quand cela convient",
       "Choisir le calcul : profil de requête, modèle de coût et effort de migration",
       "L’enfermement comme décision, pas comme accident"
-    ]
+    ],
+    "prerequisites": "Les deux sont exigés : la base de la plateforme, et les conteneurs."
   },
   "aws-data": {
     "name": "AWS : Données, Stockage et Analytique",
@@ -3010,7 +3073,8 @@ window.I18N.fr.courses = {
       "MWAA : Airflow managé et le coût de le laisser inactif",
       "DMS et la capture des changements depuis une base héritée",
       "Choisir le stockage : motif d’accès, cohérence, échelle et prix"
-    ]
+    ],
+    "prerequisites": "Les deux sont exigés. La modélisation des données aide, mais n’est pas présupposée."
   },
   "aws-operations": {
     "name": "AWS : Livraison, Exploitation et Coût",
@@ -3049,7 +3113,8 @@ window.I18N.fr.courses = {
       "Compute Optimizer, redimensionnement et détection de ressources inactives",
       "Tags d’allocation de coût, Cost Categories et la ressource sans propriétaire",
       "La facture comme signal de supervision : le pic qui signifie un incident"
-    ]
+    ],
+    "prerequisites": "Les deux sont exigés : le calcul que vous allez exploiter, et Terraform."
   }
 };
 

@@ -361,6 +361,27 @@ html[data-theme="light"] .drop-op.on{background:rgba(43,82,201,.09)}
 .track-summary b{display:block;color:var(--phosphor);font-size:1.2rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
 .track-summary i{display:block;font-style:normal;font-size:.68rem;color:var(--phosphor-dim);margin-top:2px}
 
+/* A track finished on the way inside another one. It sits between the heading and
+   the graph because it answers a question about the whole track, not about one
+   level of it — and it is the only line on this screen that hands the student
+   something before the end. It is drawn by the catalogue, never authored: the
+   line only exists for the two tracks that really are contained in another. */
+.track-milestones{
+  display:flex;align-items:center;gap:9px;flex:0 0 auto;
+  margin:-6px 0 16px;padding:8px 12px;
+  border:1px dashed var(--wire);border-radius:4px;
+  font-size:.8rem;line-height:1.4;color:var(--paper-dim);
+}
+.milestone-go{
+  background:none;border:0;padding:0;cursor:pointer;font:inherit;
+  color:var(--phosphor);font-weight:600;text-decoration:underline;
+  text-decoration-style:dotted;text-underline-offset:3px;
+}
+.milestone-go:hover{text-decoration-style:solid}
+.track-milestones i{font-style:normal;font-size:.72rem;color:var(--phosphor-dim)}
+.milestone-seal{display:flex;flex-shrink:0;color:var(--phosphor-dim)}
+.milestone-seal svg{width:17px;height:17px}
+
 /* ---------- THE TRACK GRAPH ----------
    Each column is a level: everything in the same column can be done at the same
    time, because nothing there depends on anything else there. The edges are drawn
