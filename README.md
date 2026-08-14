@@ -132,6 +132,26 @@ It costs ~1.5 ms per track, once per page open. **Result across the 16 tracks: 5
 
 The detour is local: it passes just above the highest card in the way, or just below the lowest, on the cheaper side. If that short detour bumps into another card, the line retreats to the free lane above or below the whole graph — which is always clear, and that is what `.grafo-niveis` has `padding: 20px 0` for. The side is re-evaluated on that retreat, because the cheaper one for the short detour is almost never the same as for the long one.
 
+### How far apart the cards sit
+
+The spacing was raised once legibility became the question rather than routing: **26px between cards in a level, 20px between sub-columns, 60px between levels** (they were 16, 14 and 48). Measured over the eighteen tracks, the three do not do the same work:
+
+| | crookedness | edges over 1.5× | courses visible without scrolling |
+| --- | --- | --- | --- |
+| before, 1920×950 | 1.110 | 1 | 111 of 233 |
+| after, 1920×950 | **1.095** | **0** | 111 of 233 |
+| before, 1080×1920 | 1.258 | 21 | 216 of 233 |
+| after, 1080×1920 | **1.244** | **18** | 209 of 233 |
+
+**The gap between neighbouring cards is the one that matters least.** Taking it from 16 to 28 on its own moved crookedness by 0.001 and changed nothing else: the column re-packs, the box hugs, and the graph comes out the same width. It is worth having for the eye, not for the drawing. **The gap between levels is where the edges live**, and it is what bought the last crooked edge in landscape. The cost is 7 courses of 233 no longer visible at once on a portrait screen, and none at all in landscape.
+
+**And it broke the graph, which is how two ordering bugs surfaced.** The test caught `docker → @saida` drawn straight through the fork block on Data at 1366×768. The block was at y = **-1**: its column had come out taller than the box, `align-items:center` centred the overflow, and above it there was no room left for the lane the edge detours through. Both causes were in the order things are measured:
+
+- `splitLevels()` packed against the height the graph had **before** the split, and the box changes height as a result of the split. `available` is now measured again on every pass, and the pass repeats while a column is over.
+- `drawEdges()` decided whether to show *read the whole objective* **after** laying the graph out — and that button changes the height of the block above the graph. It is now the first thing it does.
+
+Neither was introduced by the spacing; the spacing is what made a column overflow by 28px and turned them into a visible defect.
+
 **The detour's clearance is 16px, not 11.** At 11 some lines passed within 2px of a card that was not one of their endpoints — measuring point by point along each curve, the worst case in the whole catalogue was 1.8px. Raising the clearance on its own was not enough: the corridor between two stacked cards was 10px, and would not fit 16 on each side. That is why `.subcol` opened up to 16px alongside. The worst case went from 1.8px to 8px, and the median settled around 33px.
 
 The curve's two rises have independent widths, computed from **each endpoint's real clearance**. With sub-columns the gap between cards falls from 48px to 14px, and a fixed 26px rise went straight through the neighbour — it was precisely through that rise that the line entered the card.
@@ -263,7 +283,7 @@ Which layout is in force is **decided by the CSS and read back by the JS**, so t
 - **The fork block stacks its courses in portrait.** Left as a row it is 700px wide in a column of 238px cards, and every edge between the level above it and the level below had to travel around it — the worst was 4.05× its straight line. Stacked, it is barely wider than a card and the edges pass beside it.
 - **The gap between levels is 48px**, the same as the landscape gap between levels, because that is the distance the curve's rise is fitted to.
 
-Crookedness in portrait settles at **1.26 against 1.10** in landscape, and that difference is geometry rather than a defect: an edge that skips levels has to detour to the outside of the graph, and in portrait the outside is half of 970px away instead of half of 400px. The graph test renders **both orientations** — six viewport sizes now, four landscape and two portrait — and the crossing count is zero in all of them.
+Crookedness in portrait settles at **1.24 against 1.10** in landscape, and that difference is geometry rather than a defect: an edge that skips levels has to detour to the outside of the graph, and in portrait the outside is half of 970px away instead of half of 400px. The graph test renders **both orientations** — six viewport sizes now, four landscape and two portrait — and the crossing count is zero in all of them.
 
 ### The step key is a position, and positions move
 

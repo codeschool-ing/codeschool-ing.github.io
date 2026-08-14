@@ -422,17 +422,20 @@ html[data-theme="light"] .drop-op.on{background:rgba(43,82,201,.09)}
 .edge:hover .tip,.edge.on .tip{r:4.5}
 /* the top and bottom lanes stay clear: that is where the edges that skip columns
    travel, instead of crossing the cards in between */
-.graph-levels{position:relative;display:flex;align-items:stretch;gap:48px;width:max-content;min-width:100%;height:100%;padding:20px 0}
+.graph-levels{position:relative;display:flex;align-items:stretch;gap:60px;width:max-content;min-width:100%;height:100%;padding:20px 0}
 /* a level with many courses breaks into sub-columns instead of stretching
    downwards: the graph grows horizontally, which is where the arrows are */
 /* A level is a band of sub-columns. How many, and what goes in each, is decided
    in the script after measuring the available height — neither flex-wrap nor
    multi-column expands the container's width in the column direction, and the
    cards ended up overlapping the neighbouring level. */
-.level{display:flex;align-items:center;gap:14px;flex:0 0 auto;height:100%}
-/* 16px, not 10: this corridor is where the lines that go around a card travel,
-   and at 10 they grazed the neighbours */
-.subcol{display:flex;flex-direction:column;gap:16px;justify-content:center;flex:0 0 auto}
+.level{display:flex;align-items:center;gap:20px;flex:0 0 auto;height:100%}
+/* 26px, and it was 10 once: this corridor is where the lines that go around a
+   card travel. At 10 they grazed the neighbours; 16 cleared them; 26 is legibility
+   rather than geometry — measured, the extra 10px buys almost nothing in the
+   routing and costs nothing on the screen, because the column re-packs and the
+   graph is the same width. */
+.subcol{display:flex;flex-direction:column;gap:26px;justify-content:center;flex:0 0 auto}
 /* inside a column the main axis is vertical: the card's 195px flex-basis would
    become HEIGHT. Here it goes back to being width, with natural height. */
 .subcol > .course-node{flex:0 0 auto;width:238px}
@@ -625,11 +628,11 @@ html[data-theme="light"] .fork{background:rgba(43,82,201,.045)}
   .graph-levels{
     flex-direction:column;align-items:stretch;
     width:auto;min-width:0;height:max-content;min-height:100%;
-    gap:48px;padding:20px 24px;
+    gap:60px;padding:20px 24px;
   }
   /* a level is a stack of rows, and a row is cards side by side */
-  .level{flex-direction:column;align-items:center;gap:14px;height:auto;width:100%}
-  .subcol{flex-direction:row;align-items:stretch;justify-content:center;gap:16px;width:auto;max-width:100%}
+  .level{flex-direction:column;align-items:center;gap:20px;height:auto;width:100%}
+  .subcol{flex-direction:row;align-items:stretch;justify-content:center;gap:26px;width:auto;max-width:100%}
   .track-graph{overflow-x:hidden;overflow-y:auto}
   /* nothing to page sideways: the scroll is vertical and belongs to the wheel */
   .graph-arrow{display:none}
