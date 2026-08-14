@@ -72,7 +72,7 @@ The site speaks **English, Portuguese, Spanish, French and Italian**. The picker
 
 The catalogue's data does not go through a translation function: on a language switch, the `COURSES`, `TRACKS` and `TESTIMONIALS` objects are **rewritten in place** from a copy of the English stored on load. That way all the rest of the code goes on reading `c.name` without knowing a translation exists, and each field falls back to English on its own when the translated version is missing.
 
-**Everything is translated, in all four non-source languages**: the interface (163 keys), all 19 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 122 courses. That is **3,691 strings per language**, better than fourteen thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
+**Everything is translated, in all four non-source languages**: the interface (163 keys), all 19 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 122 courses. That is **3,703 strings per language**, better than fourteen thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
 
 Adding a language is: one line in `LANGUAGES` (in `i18n-runtime.js`), a `ui`/`testimonials` block in `i18n.js` and a `tracks` block in the catalogue file and a catalogue file. The check that runs against the source flags any missing field and any topic list whose length differs from the original — that is how the five languages closed with no gaps.
 
@@ -198,6 +198,10 @@ Snapping the jump to a card boundary was the obvious fix and is not the one take
 The two do not collide. Nothing happens for the first 300ms, so an ordinary click is untouched; once the glide has started, the click that the release would otherwise fire is swallowed in the capture phase, before either handler sees it. It ramps from 0.22px/ms to 0.95px/ms over 700ms: at full speed from the first frame it would overshoot exactly like the click does, and without the ramp holding on would never get you across a twelve-level track.
 
 Both families of arrow answer to it — the graph's and the tab rows' — because two identical-looking controls that behave differently is worse than either behaviour. The frame delta is clamped to 64ms, or a tab returning from the background would jump the width of however long it was away, and the loop stops itself when `scrollLeft` stops changing, which is the end of the track.
+
+**And a drag pans.** Both of the above still make you find a button first; taking hold of the graph and pulling says the same thing directly, and it is what a map has taught everybody to try. It costs one threshold: a press on a card has to stay a click that opens the course, so nothing moves until the pointer has travelled **5px**, and past that the click the release would fire is swallowed in the capture phase — the same mechanism the glide already uses, for the same reason.
+
+Two decisions inside it are worth naming. **Touch is left alone**: the graph is an ordinary scroller there and the browser's inertia is better than anything reimplemented on top of it, so the handler ignores `pointerType === 'touch'` and only serves the mouse and the pen, which have no such gesture of their own. And **both axes move at once**, which is what makes it work in portrait without a second code path: the graph flows downwards there, the drag follows it, and nothing has to ask which layout is in force. The cursor is the only affordance, and it only appears when there is somewhere to go — `can-pan` is set in the same function that decides whether the arrows are enabled, from the overflow on either axis.
 
 Breaking into sub-columns is **measured in JavaScript**, in `splitLevels()`: each `.nivel` gets one `.subcol` per column, and the function measures each card's real `offsetHeight` to fill a sub-column up to the limit before opening the next. It is not fussiness — neither `flex-wrap` in `flex-direction: column` nor CSS multi-column expands the container's width, so the cards left over ended up **on top of the neighbouring level**. That is what scrambled the Front-end graph, whose level 05 has four courses. The function runs before `drawEdges()`, and collapses everything back into a single sub-column when the CSS is in list mode.
 
@@ -525,7 +529,7 @@ The order sustains the division: in DevOps, the three come **after** Kubernetes 
 
 The syllabus **condenses**; the topics **list**. It is `topics` that carries the roadmap's fine items — the little beige squares hanging under each yellow topic (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — without turning the modal into a wall of technical terms. The field is optional: a course with no `topics` does not show the block. The catalogue's search looks in both.
 
-**All 122 courses have `topics` filled in — 2,335 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
+**All 122 courses have `topics` filled in — 2,347 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
 
 ### The language of the names
 
@@ -754,6 +758,29 @@ That is the Full Stack test failing: a track that brings no course, no order and
 
 **And the graph test rejected the first version of it.** With the provider fork at the end of the track, next to `observability`, it drew `cloud → observability` straight through the language fork's block on the whole screen, at three landscape sizes, on all three branches. The cause is geometric: a fork block is 594px wide against a card's 238px, and level 4 was left with a 73px corridor between `iac` and the block, so the edge's only way through was a band the language fork already occupied. **Moving the fork to sit right after `cloud`** cleared it — and that is where it belonged anyway, since `iac` then points Terraform at a provider the student has chosen. DevOps' own crookedness fell from 1.174 to 1.144 in the move.
 
+### Four frameworks, and the one course that was not carrying its weight
+
+The Front-end fork offers React, Angular, Vue and Svelte — **330h, 35% of everything that track has to produce**, four routes to one job title. It looked like the same call the Mobile track made when it turned Flutter down, and measuring it said otherwise twice over.
+
+**The comparison with Flutter does not hold.** Mobile has three branches and Flutter would have been a fourth route to coverage React Native already gives. Here the first three answer **different employers**: React is where the startup and the product company are, Angular is where the bank, the insurer and the government are — the course says exactly that, and it is true of the Brazilian market specifically — and Vue sits in the middle. That is not the same vacancy four times.
+
+The one that fails the ruler is **Svelte**: around 7% of developers use it against React's 45%, its hiring market is roughly a quarter the size, and the employers who hire for it are largely the ones who hire for React. It has the highest satisfaction of the four and the fastest percentage growth, which is why it is not being cut.
+
+**And the fact that reframes the whole question: nothing is produced yet.** No course has a video. So "Svelte's 70h are already paid for" is false — all 330h are future cost, and the decision that matters is not which branch to delete but **which order to build them in**. The fork's option order is that order: React, Angular, Vue, Svelte. Svelte is last, and being last means it never blocks the track from shipping. Cutting it would save 70h of production that is at the back of the queue anyway.
+
+**What the measurement did find is a defect, and it was in the branch most students take.** `react-ts` was 90h against **12 topics** — 7.5h a topic where the catalogue averages 3.66, the shallowest course in the whole catalogue for its size, and the only 90h course with 12 topics when the other five carry 22 to 25:
+
+| | before | after |
+| --- | --- | --- |
+| `react-ts` | 90h, 12 topics, 7.5 h/topic | 90h, **24 topics**, 3.75 h/topic |
+| `angular` | 90h, 25 topics | unchanged |
+| `vue` | 80h, 22 topics | unchanged |
+| `svelte` | 70h, 20 topics | unchanged |
+
+It was the old `go-back` and the old `bigdata` again: a large course with a small course's contents. What was missing was not detail for its own sake — it was **Next.js**, which had no mention at all while the Vue course gives four topics to Nuxt and the Svelte course six to SvelteKit; the rendering model and what actually re-renders; the rules of hooks; error boundaries and Suspense; Server Components and actions; and testing, which the other three all have. The mirror topic Angular already carried — *why Angular is a framework where React is a library* — now has its counterpart.
+
+**Six older courses read as shallow by the same measure** — `iac`, `observability`, `javascript`, `python`, `architecture`, `pipelines-etl`, all above 6h a topic. They are from before the density rose and none of them is as far out as `react-ts` was, but the measure is `hours ÷ topics` and it is worth running when a course is touched.
+
 **Courses shared today** (they show the "em N trilhas" badge):
 
 | Course | No. of tracks |
@@ -820,6 +847,21 @@ The list's ceiling is **measured in JavaScript**, not fixed in CSS. A fixed ceil
 It was meant to be pure CSS (`flex:1 1 auto` on the list inside a `<details>` in `display:flex`), and it does not work: Chrome wraps the `<details>` content in a slot, so the `ul` does **not** become a flex item. The computed style accepts the rule and the layout ignores it — the list ended up 1387px inside a 246px block and spilled over the rest. Measuring is what showed that; looking at the CSS there was no way to know.
 
 On mobile none of this applies: there, a single screen scroll is more natural than a box scrolling inside another.
+
+**The two columns do not hold the same amount, and no split makes them.** The left is a frame, a sentence and a button — near enough the same height for all 122 courses. The right runs from **419px to 650px** depending on how many blocks of chips a course earns: `javascript` is in six tracks and opens the way to six courses, and left 191px of the left column empty at 1920×950, while `react-ts` and `kubernetes` fill both sides to the pixel.
+
+Moving a block across was the obvious fix and it is not one: the arithmetic was done for each candidate, and every constant addition to the left balances the crowded courses and unbalances the sparse ones. Prerequisites moved across fixes `javascript` and leaves `react-ts` 213px out the other way. It trades one gap for another.
+
+So the slack is not removed, it is spent, in two steps:
+
+| | |
+| --- | --- |
+| the frame takes it first | up to **4:3** and no further — past that a 16:9 thumbnail is being cropped to fill a shape it was never framed for |
+| the button takes the rest | `margin-top:auto` drops it to the floor of the column, level with the bottom of the right one |
+
+The cap is measured in JS (`fitVideo`) rather than written in CSS for the same reason `fitTopics` is: it depends on the column's width, and only the layout knows that. The gap it reads is the distance between the summary and the button, **not** the column's own overflow — the auto margin means the column always reports itself full, so the slack exists only as that distance. Resetting the frame's height before measuring is what keeps the reading honest across a resize.
+
+At 1366×768 it closes the gap outright; at 1920×950 `javascript` keeps 107px, which is the cap doing its job rather than a failure.
 
 **With the modal open, the background does not scroll.** Trapping only the wheel and touch in JavaScript was not enough — the handlers had a bare `return` before the `preventDefault()`, and the browser's scrollbar and the trackpad's inertia were still left over. It is two halves: a class on `<html>` cuts the overflow of the document and of the screen (handling the scrollbar and the inertia) and the handlers let through only what has its own scrolling **inside** the modal (handling the chaining). The page's position stays exactly where it was, because nothing is repositioned.
 

@@ -1096,6 +1096,8 @@ function updateGraphArrows() {
   // on a narrow screen the graph is a list and scrolls downwards: the fade says there is more
   const overflowY = scroller.scrollHeight - scroller.clientHeight;
   scroller.classList.toggle('fade-down', overflowY > 4 && scroller.scrollTop < overflowY - 4);
+  // and if there is anywhere to go on either axis, it can be dragged there
+  scroller.classList.toggle('can-pan', overflow > 4 || overflowY > 4);
 }
 
 /* A row scrolls when the tabs do not fit: arrows at the ends and a fade showing
@@ -1237,6 +1239,87 @@ document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
   }
 });
+
+/* ---------- and a drag pans ----------
+
+   The arrows page and a hold glides, and both make you find a button first.
+   Taking hold of the graph itself says the same thing directly, and it is what
+   a map has taught everybody to try.
+
+   It costs one threshold. A press on a card has to stay a click that opens the
+   course, so nothing moves until the pointer has travelled DRAG_FROM pixels;
+   past that the press is a drag, and the click the release would fire is
+   swallowed the same way the glide's is.
+
+   Touch is left alone on purpose: the graph is an ordinary scroller there, and
+   the browser's own inertia is better than anything reimplemented here. This is
+   for the mouse and the pen, which have no such gesture of their own.
+
+   Both axes move, which is what makes it work in portrait too — the graph flows
+   down there and the same drag follows it, with no mode to ask about. */
+const DRAG_FROM = 5;   // px of travel before a press stops being a click
+
+const dragging = { on: false, el: null, id: -1, x: 0, y: 0, left: 0, top: 0, swallow: false };
+
+function endDrag() {
+  if (dragging.el) {
+    if (dragging.el.releasePointerCapture) {
+      try { dragging.el.releasePointerCapture(dragging.id); } catch (err) { /* already released */ }
+    }
+    dragging.el.classList.remove('is-dragging');
+  }
+  dragging.on = false;
+  dragging.el = null;
+  dragging.id = -1;
+}
+
+document.addEventListener('pointerdown', (e) => {
+  // touch scrolls natively, and a middle or right button is not a drag
+  if (e.button !== 0 || e.pointerType === 'touch') return;
+  const el = e.target.closest('.track-graph.can-pan');
+  if (!el) return;
+  dragging.swallow = false;
+  dragging.el = el;
+  dragging.id = e.pointerId;
+  dragging.x = e.clientX;
+  dragging.y = e.clientY;
+  dragging.left = el.scrollLeft;
+  dragging.top = el.scrollTop;
+  dragging.on = false;
+});
+
+document.addEventListener('pointermove', (e) => {
+  if (!dragging.el || e.pointerId !== dragging.id) return;
+  const dx = e.clientX - dragging.x;
+  const dy = e.clientY - dragging.y;
+  if (!dragging.on) {
+    if (Math.hypot(dx, dy) < DRAG_FROM) return;
+    dragging.on = true;
+    dragging.swallow = true;
+    dragging.el.classList.add('is-dragging');
+    // keep the move and the release even when the pointer leaves the graph
+    if (dragging.el.setPointerCapture) {
+      try { dragging.el.setPointerCapture(e.pointerId); } catch (err) { /* not captured */ }
+    }
+  }
+  dragging.el.scrollLeft = dragging.left - dx;
+  dragging.el.scrollTop = dragging.top - dy;
+});
+
+['pointerup', 'pointercancel'].forEach((type) => document.addEventListener(type, endDrag));
+window.addEventListener('blur', endDrag);
+
+/* The release fires a click, and after a drag that click would open whatever
+   card the pointer happened to land on. Swallowed in the capture phase, before
+   the handler that opens a course sees it. */
+document.addEventListener('click', (e) => {
+  if (!dragging.swallow) return;
+  dragging.swallow = false;
+  if (e.target.closest('.track-graph')) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+}, true);
 
 function openTrack(i, noAnimation) {
   currentTrack = i;
@@ -1530,6 +1613,7 @@ function openCourse(id) {
      background. They are the two halves of the same problem — the class handles
      the scrollbar and the inertia, the handlers handle the chaining. */
   document.documentElement.classList.add('modal-open');
+  fitVideo();
   fitTopics();
   $('#modal-close').focus();
 }
@@ -1557,9 +1641,42 @@ function fitTopics() {
   const overflow = col.scrollHeight - col.clientHeight;
   if (overflow > 0) list.style.maxHeight = Math.max(140, list.clientHeight - overflow) + 'px';
 }
-addEventListener('resize', fitTopics);
+
+/* THE SLACK IN THE LEFT COLUMN GOES TO THE VIDEO.
+   The right column runs from 419px to 650px depending on how many blocks of
+   chips a course earns — six tracks and six courses it opens the way to is two
+   tall blocks — while the left is always a frame, a sentence and a button.
+   `javascript` left 191px empty at 1920×950; `react-ts` and `kubernetes` fill
+   both sides exactly. Moving a block across balances the first and unbalances
+   the others, so instead the frame takes the leftover.
+   Capped at 4:3, because past that a 16:9 thumbnail is being cropped to fill a
+   shape it was never framed for, and the reserved reading of the empty state
+   turns into a hole. Measured rather than written in CSS for the usual reason:
+   the cap depends on the column's width, which only the layout knows. */
+function fitVideo() {
+  const video = modalBody.querySelector('.modal-video');
+  if (!video) return;
+  video.style.height = '';
+  const col = video.closest('.modal-col-intro');
+  if (!col || !matchMedia('(min-width:1024px)').matches) return;
+  /* The gap is read between the summary and the button rather than from the
+     column's own overflow: the button is pushed to the floor by `margin-top:
+     auto`, so the column always reports itself full and the slack only exists
+     as the distance between those two. Resetting the height above is what makes
+     this measurement the untouched one. */
+  const actions = col.querySelector('.modal-actions');
+  const above = actions && actions.previousElementSibling;
+  if (!actions || !above) return;
+  const spare = actions.getBoundingClientRect().top - above.getBoundingClientRect().bottom;
+  if (spare < 40) return;
+  const wide = video.clientWidth * 9 / 16;         // what 16:9 gives it now
+  const tall = video.clientWidth * 3 / 4;          // as far as it may grow
+  video.style.height = Math.round(Math.min(tall, wide + spare)) + 'px';
+}
+addEventListener('resize', () => { fitVideo(); fitTopics(); });
 modalBody.addEventListener('toggle', (e) => {
-  if (e.target.classList.contains('modal-topics')) fitTopics();
+  // opening the list changes the box's height, and with it what the frame may take
+  if (e.target.classList.contains('modal-topics')) { fitVideo(); fitTopics(); }
 }, true);
 
 function closeModal() { closeModals(); }
