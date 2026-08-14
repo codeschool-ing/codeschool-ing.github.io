@@ -3,7 +3,7 @@
 # NOT aleogr/pipeline. The organisation's shared workflows are Go — ci-go.yml,
 # cd-go.yml and eight composite actions, all named for it — and there is no Go
 # here. Calling them would mean lint, test and build jobs with nothing to lint,
-# test or build. What this repository has instead is three tools of its own, and
+# test or build. What this repository has instead is five tools of its own, and
 # what CI can usefully do is run them on every pull request rather than trusting
 # that somebody read the list in CLAUDE.md before pushing.
 #
@@ -81,13 +81,15 @@ jobs:
           path: showcase.html
           retention-days: 30
 
-  # Its own job because it is the only thing here that needs a dependency: a real
-  # browser, to lay the graph out and measure where the curves actually went. The
+  # Its own job because these are the only things here that need a dependency: a
+  # real browser, to lay the page out and measure where things actually went. The
   # checks above stay dependency-free and finish in seconds; this one takes a
   # minute to install Chromium and should not hold them up.
-  Graph:
+  Rendered:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Two browser checks now, and the graph one alone runs close to ten minutes:
+    # 19 tracks, every branch, six sizes, both layouts.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
@@ -104,3 +106,11 @@ jobs:
       # this job existed, nothing verified it.
       - name: No edge crosses a card
         run: node tools/graph-test/graph-test.js
+
+      # Same browser, same reason, different screen: the course modal is laid out
+      # by measurement too, and it failed once in the way nothing catches — the
+      # detailed contents opened on click and the same pass shut it again, on five
+      # courses, without throwing. A sweep that only opened modals saw nothing,
+      # because the opening state was right. This one clicks.
+      - name: Every course's modal holds its shape, and obeys a click
+        run: node tools/modal-test/modal-test.js

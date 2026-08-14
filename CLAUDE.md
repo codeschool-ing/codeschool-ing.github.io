@@ -70,6 +70,8 @@ Each in its own folder, with the executable at the root of it:
 - `tools/validate-i18n/validate-i18n.js` — checks the four dictionaries against the catalogue
 - `tools/graph-test/graph-test.js` — renders every track, in the panel and on the whole
   screen, landscape and portrait, and checks no edge crosses a card
+- `tools/modal-test/modal-test.js` — opens every course's modal, checks it keeps one
+  height and neither column scrolls, and clicks the detailed contents to see it obey
 - `tools/version/version.js` — reads or sets the released version
 
 ## Before pushing
@@ -79,6 +81,7 @@ node tools/validate-catalog/validate-catalog.js   # broken prerequisites, cycles
 node tools/validate-i18n/validate-i18n.js         # the dictionaries against the catalogue
 python3 tools/bundle/bundle.py                    # and open showcase.html from file://
 node tools/graph-test/graph-test.js               # needs npm ci + npx playwright install
+node tools/modal-test/modal-test.js               # same browser; ~3 minutes
 ```
 
 **A track's `steps` translations are keyed by POSITION in `courses`.** Inserting a step
