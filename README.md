@@ -72,7 +72,7 @@ The site speaks **English, Portuguese, Spanish, French and Italian**. The picker
 
 The catalogue's data does not go through a translation function: on a language switch, the `COURSES`, `TRACKS` and `TESTIMONIALS` objects are **rewritten in place** from a copy of the English stored on load. That way all the rest of the code goes on reading `c.name` without knowing a translation exists, and each field falls back to English on its own when the translated version is missing.
 
-**Everything is translated, in all four non-source languages**: the interface (163 keys), all 19 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 122 courses. That is **3,703 strings per language**, better than fourteen thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
+**Everything is translated, in all four non-source languages**: the interface (163 keys), all 19 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 122 courses. That is **3,764 strings per language**, better than fourteen thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
 
 Adding a language is: one line in `LANGUAGES` (in `i18n-runtime.js`), a `ui`/`testimonials` block in `i18n.js` and a `tracks` block in the catalogue file and a catalogue file. The check that runs against the source flags any missing field and any topic list whose length differs from the original — that is how the five languages closed with no gaps.
 
@@ -529,7 +529,7 @@ The order sustains the division: in DevOps, the three come **after** Kubernetes 
 
 The syllabus **condenses**; the topics **list**. It is `topics` that carries the roadmap's fine items — the little beige squares hanging under each yellow topic (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — without turning the modal into a wall of technical terms. The field is optional: a course with no `topics` does not show the block. The catalogue's search looks in both.
 
-**All 122 courses have `topics` filled in — 2,347 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
+**All 122 courses have `topics` filled in — 2,403 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
 
 ### The language of the names
 
@@ -542,10 +542,10 @@ The syllabus **condenses**; the topics **list**. It is `topics` that carries the
 
 | track | steps | hours |
 | --- | --- | --- |
-| Segurança Cibernética | 20 | 1,230h |
-| DevSecOps | 19 | 1,140h |
-| Business Intelligence | 18 | 1,100h |
-| Engenharia de Dados | 16 | 1,030h |
+| Segurança Cibernética | 20 | 1,240h |
+| DevSecOps | 19 | 1,140–1,150h |
+| Business Intelligence | 18 | 1,110h |
+| Engenharia de Dados | 16 | 1,040h |
 
 Thirteen of the nineteen pass 720h. That is a lot of time with no milestone of arrival — and it is exactly the hole Alura fills with the extra level it has.
 
@@ -566,7 +566,7 @@ In other words: the track solves **where to come in**; Alura's Track solves **ho
 3. **The certificate's anchor.** A fork's branches make the question: a career certificate is every fixed step plus one complete branch per choice, which is what `certificateSets()` computes. The retired technology tracks made it sharper, because their fork was terminal and the paths never came back together — certifying "Domínio de Python" would have had to say which branch.
 4. **The translation cost.** A block name is a translatable string. Thirteen tracks with three or four blocks each is ~45 new names × 4 languages.
 
-**The benefit that would already exist today** — 1,230h on a single screen is intimidating on a showcase whose job is to convert an enrolment — is a *presentation* problem, and does not require inventing the unit of certification to be solved.
+**The benefit that would already exist today** — 1,240h on a single screen is intimidating on a showcase whose job is to convert an enrolment — is a *presentation* problem, and does not require inventing the unit of certification to be solved.
 
 ## Expansion map
 
@@ -779,7 +779,35 @@ The one that fails the ruler is **Svelte**: around 7% of developers use it again
 
 It was the old `go-back` and the old `bigdata` again: a large course with a small course's contents. What was missing was not detail for its own sake — it was **Next.js**, which had no mention at all while the Vue course gives four topics to Nuxt and the Svelte course six to SvelteKit; the rendering model and what actually re-renders; the rules of hooks; error boundaries and Suspense; Server Components and actions; and testing, which the other three all have. The mirror topic Angular already carried — *why Angular is a framework where React is a library* — now has its counterpart.
 
-**Six older courses read as shallow by the same measure** — `iac`, `observability`, `javascript`, `python`, `architecture`, `pipelines-etl`, all above 6h a topic. They are from before the density rose and none of them is as far out as `react-ts` was, but the measure is `hours ÷ topics` and it is worth running when a course is touched.
+### `hours ÷ topics`, run across the whole catalogue
+
+`react-ts` was found by dividing hours by topics, and the same division named six more: `iac`, `observability`, `javascript`, `python`, `architecture` and `pipelines-etl`, all above 6h a topic against an average of 3.66. They were audited **against the roadmap.sh sources**, one by one — the site is unreachable from this environment, but the roadmaps are open at `kamranahmedse/developer-roadmap` and their content is a directory of markdown files per node, which is the authoritative thing to compare with.
+
+**The audit split them in two, and that is the part worth keeping.** Being shallow by the measure does not say which kind of shallow:
+
+| | courses | what was wrong | hours |
+| --- | --- | --- | --- |
+| **under-declared** | `javascript`, `pipelines-etl` | the teaching is there, the list did not say so | unchanged |
+| **missing content** | `python`, `iac`, `observability`, `architecture` | whole blocks of the roadmap absent | **+10h each** |
+
+The distinction is checkable rather than a matter of taste. **No course of 80h of JavaScript fails to teach the event loop and hoisting** — they were simply never listed, along with iterators, `Map`/`Set`, `call`/`apply`/`bind`, memory and garbage collection. `pipelines-etl` was the same: what looked missing (reverse ETL, lineage, metadata) lives in `analytics-bi` and `data-governance`, and what it actually needed was granularity — Airflow had one topic and now has two, dbt had one and now has two.
+
+The other four were genuinely incomplete, and `python` — **in nine tracks, the most reused of the six** — was the worst of it:
+
+| course | what the roadmap has and the course did not |
+| --- | --- |
+| `python` | type hints and the checkers that read them, pytest, decorators, generators, context managers, regular expressions, black and ruff, concurrency and the GIL |
+| `iac` | testing modules, scanning what the code exposes (Checkov, Trivy, tfsec), Terraform inside a pipeline, workspaces, `for_each`/`count`/`lifecycle`, data sources, importing, cost |
+| `architecture` | the resilience patterns — circuit breaker, retry, bulkhead, throttling — plus CQRS, event sourcing, saga, and CAP/consistency/replication/sharding |
+| `observability` | instrumenting your own service (the OpenTelemetry SDK, spans, context propagation), structured logging, cardinality and cost, health checks, commercial APM, incident management |
+
+A Python course in 2026 that never mentions a type hint or `pytest` is incomplete, and that one appears in nine tracks.
+
+**One topic was in the wrong course.** `observability` carried *cloud design patterns: availability, resilience and data*, which is not its subject — it is `architecture`'s, and that is where it went, expanded into the resilience and cloud-pattern topics listed above.
+
+The result: **no course in the catalogue is above 6h a topic any more**, the average is 3.52, and the price was 40h of new content against 180h more delivered.
+
+**It has one visible side effect.** `python` at 90h against `go` and `javascript` at 80h means the automation-language fork's three branches are no longer the same length, so DevOps and DevSecOps show a range — 1,030–1,040h and 1,140–1,150h — where they showed one number. That is honest rather than tidy: Python *is* the bigger course now, and the Back-end fork has always shown a range for the same reason.
 
 **Courses shared today** (they show the "em N trilhas" badge):
 
@@ -798,7 +826,7 @@ It was the old `go-back` and the old `bigdata` again: a large course with a smal
 | `html-css` · `ai-dev` · `kubernetes` · `statistics` · `warehouse-modeling` · `computing-essentials` · `cryptography` · `prompt-engineering` · `ai-security` | 3 |
 | `servers-cache` · `aws-foundations` · `gcp-foundations` · `azure-foundations` · `pipelines-etl` · `data-governance` · `analytics-bi` · `data-cleaning` · `visualization` · `bi-techniques` · `data-storytelling` · `networks-security` · `prompt-reliability` · `process-management` · `architect-communication` · `operating-systems` · `attacks-threats` · `secure-code` · `soc-response` · `cloud-security` | 2 |
 
-**The model's economics**: added up, the nineteen tracks deliver up to 15,540 hours of training — but the content to produce is 7,840 hours, because a shared course is made once. **50% savings**, and it moves with every track: it fell to 41% when Mobile came in, because six of its eight new courses belong to one branch of one track, and it came back up when two courses of 110h between them went into sixteen tracks at once. That is the mechanism in one line — the indicator rewards content that serves everybody and charges for content that serves one branch of one track.
+**The model's economics**: added up, the nineteen tracks deliver up to 15,710 hours of training — but the content to produce is 7,880 hours, because a shared course is made once. **50% savings**, and it moves with every track: it fell to 41% when Mobile came in, because six of its eight new courses belong to one branch of one track, and it came back up when two courses of 110h between them went into sixteen tracks at once. That is the mechanism in one line — the indicator rewards content that serves everybody and charges for content that serves one branch of one track.
 
 The number is computed over every track, which today is every career. While the technology family existed it was excluded from this figure: those tracks were 100% reuse by construction, and including them would have pushed the savings up without the school having produced a single hour. The indicator is the same one now that there is nothing to exclude.
 
@@ -807,32 +835,32 @@ How that appears in practice, track by track (exclusive hours = content only it 
 | Track | Workload | Exclusive to it | Reused |
 | --- | --- | --- | --- |
 | Front-end Development | 690–710h | 560h | 41% |
-| Back-end Development | 950–1100h | 750h | 53% |
+| Back-end Development | 960–1110h | 760h | 53% |
 | Mobile Development | 650h | 610h | 38% |
-| DevOps and SRE | 1010h | 60h | 95% |
-| Cloud Engineering | 760h | 360h | 68% |
-| Data Engineering | 1030h | 260h | 80% |
-| Data Platform | 440h | 190h | 57% |
-| Data Science | 890h | 230h | 74% |
+| DevOps and SRE | 1030–1040h | 60h | 95% |
+| Cloud Engineering | 770h | 360h | 68% |
+| Data Engineering | 1040h | 260h | 80% |
+| Data Platform | 450h | 190h | 58% |
+| Data Science | 900h | 230h | 74% |
 | Database Administration | 900h | 270h | 70% |
-| Networks and Infrastructure | 930h | 210h | 77% |
+| Networks and Infrastructure | 960h | 210h | 78% |
 | Prompt Engineering | 310h | 0h | 100% |
-| AI Engineering | 850h | 370h | 56% |
-| Software Architecture | 810h | 230h | 72% |
+| AI Engineering | 860h | 370h | 57% |
+| Software Architecture | 830h | 230h | 72% |
 | Technical Leadership | 280h | 170h | 39% |
 | IT Fundamentals and Support | 510h | 100h | 80% |
-| Cyber Security | 1230h | 150h | 88% |
-| DevSecOps | 1140h | 120h | 91% |
-| Business Intelligence | 1100h | 120h | 89% |
+| Cyber Security | 1240h | 150h | 88% |
+| DevSecOps | 1140–1150h | 120h | 91% |
+| Business Intelligence | 1110h | 120h | 89% |
 | Software Quality and Testing | 890h | 310h | 65% |
 
 The exclusive column counts **everything the track needs produced**, which for a forked track is every branch — Mobile's 610h against a 600h path is the three platforms, only one of which any student takes.
 
-**DevOps e SRE costs 60 hours of new content** and delivers 1,010 — it is the model's extreme case. And **Engenharia de Prompt costs zero**: it is entirely a slice of Engenharia de IA.
+**DevOps e SRE costs 60 hours of new content** and delivers 1,030 — it is the model's extreme case. And **Engenharia de Prompt costs zero**: it is entirely a slice of Engenharia de IA.
 
 Note the cross effect: when DevSecOps went in, Segurança Cibernética's exclusive hours fell from 450h to 150h; when BI went in, Engenharia de Dados fell from 360h to 170h. It is not that they lost content — they started sharing it. **Every new track makes the old ones cheaper.**
 
-The Go and Java cases go in the opposite direction and show the other side of the arithmetic: `go`, `go-concurrency`, `java` and `java-functional` only appear in Back-end within the career family, so its exclusive hours rose from 480h to 830h. It fell back to **750h** when the automation fork put `go` into DevOps and DevSecOps, which is the same arithmetic seen from the other side. Back-end is still the catalogue's most expensive track — and that is fair, because it is the one bankrolling four server languages. A language course is expensive precisely because it does **not** get shared.
+The Go and Java cases go in the opposite direction and show the other side of the arithmetic: `go`, `go-concurrency`, `java` and `java-functional` only appear in Back-end within the career family, so its exclusive hours rose from 480h to 830h. It fell back to **760h** when the automation fork put `go` into DevOps and DevSecOps, which is the same arithmetic seen from the other side. Back-end is still the catalogue's most expensive track — and that is fair, because it is the one bankrolling four server languages. A language course is expensive precisely because it does **not** get shared.
 
 That is why Docker was born as its own course instead of becoming a block inside another: today `docker` serves five tracks.
 
@@ -873,11 +901,11 @@ Four commands, and **not one hand-written response**: the numbers, the track nam
 
 ```
 $ codeschool --status
-✓ 122 cursos · 19 trilhas · 7.840 horas de conteúdo
+✓ 122 cursos · 19 trilhas · 7.880 horas de conteúdo
 
 $ codeschool tracks
 → Desenvolvimento Front-end · 690–710h
-→ Desenvolvimento Back-end · 950–1100h
+→ Desenvolvimento Back-end · 960–1110h
 → Desenvolvimento Mobile · 650h
   … e mais 16 trilhas
 
@@ -888,7 +916,7 @@ $ codeschool course kubernetes --info
 $ codeschool start▊
 ```
 
-The Back-end track shows `950–1100h` because it has a fork: the range comes from `hoursRange()`, the same computation the tracks screen uses. The course in the third response is fixed (`SHOWCASE_COURSE`) and chosen for being advanced **and** having a prerequisite — that way the card shows both. If the id disappears from the catalogue, it falls back to the first course with `requires` filled in.
+The Back-end track shows `960–1110h` because it has a fork: the range comes from `hoursRange()`, the same computation the tracks screen uses. The course in the third response is fixed (`SHOWCASE_COURSE`) and chosen for being advanced **and** having a prerequisite — that way the card shows both. If the id disappears from the catalogue, it falls back to the first course with `requires` filled in.
 
 **The animation delay is computed, not written by position.** It used to be six `nth-child` rules with each line's delay; the terminal has thirteen now, and everything past the sixth appeared at once. `buildTerminal()` writes the position into `--i` and the CSS does `calc(.2s + var(--i) * .16s)` — the staggering comes to apply to however many lines there are.
 
