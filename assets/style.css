@@ -663,9 +663,20 @@ html[data-theme="light"] .fork{background:rgba(43,82,201,.045)}
 .search input{
   width:100%;font-family:'IBM Plex Mono',monospace;font-size:.8rem;
   background:var(--panel);border:1px solid var(--wire);border-radius:2px;
-  color:var(--paper);padding:9px 12px 9px 32px;
+  color:var(--paper);padding:9px 30px 9px 32px;
 }
 .search input:focus{outline:none;border-color:var(--phosphor)}
+/* the browser's own clear button on type="search" would sit beside ours, in a
+   style this page does not control */
+.search input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+#search-clear{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  width:22px;height:22px;display:grid;place-items:center;
+  background:none;border:0;border-radius:2px;cursor:pointer;
+  color:var(--paper-dim);font-size:1.1rem;line-height:1;transition:color .2s;
+}
+#search-clear:hover{color:var(--amber)}
+#search-clear:focus-visible{outline:1px solid var(--phosphor);outline-offset:1px}
 .chips{display:flex;gap:7px;flex-wrap:nowrap;flex:1 1 auto;min-width:0;
   overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
 .chips::-webkit-scrollbar{display:none}
@@ -1076,7 +1087,11 @@ html.modal-open .screen{overflow:hidden}
      the button drops to the floor of the column, level with the bottom of the
      right one, and the space lands above it instead of below everything. */
   .modal-col-intro .modal-actions{padding-top:8px;justify-content:center;margin-top:auto}
-  .modal-video{max-width:none;margin-inline:0}
+  /* The frame keeps its 16:9. As a flex item in a column that now also carries
+     the syllabus it was being squeezed to 3:1 on a 768px screen — a letterbox
+     strip where a video should be. It does not shrink; `fitVideo` decides its
+     height deliberately, and what gives instead is the column, which scrolls. */
+  .modal-video{max-width:none;margin-inline:0;flex-shrink:0}
   .modal-body:not(.subscribe-body) h3{font-size:1.55rem}
 
   /* The topic list scrolls inside itself, and its ceiling is measured in JS

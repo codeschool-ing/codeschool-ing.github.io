@@ -4387,7 +4387,7 @@ window.I18N.it.tracks = {
   },
   "software-architecture": {
     "name": "Architettura del Software",
-    "goal": "L’unico percorso del catalogo che ne richiede un altro prima: è un seguito di carriera, non una porta d’ingresso. Per chi già sviluppa e passerà a decidere — pattern, modellazione, integrazione aziendale, gestione e comunicazione. Sequenza basata sulla roadmap pubblica Software Architect di roadmap.sh, che chiede il Back-end come prerequisito.",
+    "goal": "Il primo dei tre percorsi che ne richiedono un altro prima: è un seguito di carriera, non una porta d’ingresso. Per chi già sviluppa e passerà a decidere — pattern, modellazione, integrazione aziendale, gestione e comunicazione. Sequenza basata sulla roadmap pubblica Software Architect di roadmap.sh, che chiede il Back-end come prerequisito.",
     "outcome": "Architetto del software"
   },
   "it-support": {

@@ -4387,7 +4387,7 @@ window.I18N.fr.tracks = {
   },
   "software-architecture": {
     "name": "Architecture Logicielle",
-    "goal": "Le seul parcours du catalogue qui en exige un autre avant : c’est une suite de carrière, pas une porte d’entrée. Pour qui développe déjà et va se mettre à décider — patrons, modélisation, intégration en entreprise, gestion et communication. Séquence fondée sur la feuille de route Software Architect publique de roadmap.sh, qui demande le Back-end comme prérequis.",
+    "goal": "Le premier des trois parcours qui en exigent un autre avant : c’est une suite de carrière, pas une porte d’entrée. Pour qui développe déjà et va se mettre à décider — patrons, modélisation, intégration en entreprise, gestion et communication. Séquence fondée sur la feuille de route Software Architect publique de roadmap.sh, qui demande le Back-end comme prérequis.",
     "outcome": "Architecte logiciel"
   },
   "it-support": {

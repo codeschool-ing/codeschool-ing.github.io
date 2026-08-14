@@ -4384,7 +4384,7 @@ window.I18N.pt.tracks = {
   },
   "software-architecture": {
     "name": "Arquitetura de Software",
-    "goal": "A única trilha do catálogo que exige outra antes: é continuação de carreira, não porta de entrada. Para quem já desenvolve e vai passar a decidir — padrões, modelagem, integração corporativa, gestão e comunicação. Sequência baseada no roadmap público de Software Architect da comunidade roadmap.sh, que pede Back-end como pré-requisito.",
+    "goal": "A primeira das três trilhas que exigem outra antes: é continuação de carreira, não porta de entrada. Para quem já desenvolve e vai passar a decidir — padrões, modelagem, integração corporativa, gestão e comunicação. Sequência baseada no roadmap público de Software Architect da comunidade roadmap.sh, que pede Back-end como pré-requisito.",
     "outcome": "Arquiteto(a) de Software"
   },
   "it-support": {

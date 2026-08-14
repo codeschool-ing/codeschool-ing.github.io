@@ -4386,7 +4386,7 @@ window.I18N.es.tracks = {
     "outcome": "AI Engineer júnior"
   },
   "software-architecture": {
-    "goal": "El único itinerario del catálogo que exige otro antes: es continuación de carrera, no puerta de entrada. Para quien ya desarrolla y va a pasar a decidir — patrones, modelado, integración corporativa, gestión y comunicación. Secuencia basada en el roadmap público de Software Architect de la comunidad roadmap.sh, que pide Back-end como requisito previo.",
+    "goal": "El primero de los tres itinerarios que exigen otro antes: es continuación de carrera, no puerta de entrada. Para quien ya desarrolla y va a pasar a decidir — patrones, modelado, integración corporativa, gestión y comunicación. Secuencia basada en el roadmap público de Software Architect de la comunidad roadmap.sh, que pide Back-end como requisito previo.",
     "name": "Arquitectura de Software",
     "outcome": "Arquitecto(a) de Software"
   },

@@ -1376,6 +1376,7 @@ if (document.fonts && document.fonts.ready) {
 const grid = $('#courses-grid');
 const emptyEl = $('#courses-empty');
 const searchEl = $('#search');
+const searchClear = $('#search-clear');
 const chipsEl = $('#chips-category');
 let category = 'all';
 
@@ -1448,12 +1449,18 @@ function buildCatalogue() {
     const okCat = category === 'all' || c.category === category;
     const okTerm =
       !term ||
+      /* the id is searchable because it is the name the rest of the project uses:
+         it is in the modal's file line, in the URL a track links to, and in every
+         conversation about the catalogue. It does not get translated, so it also
+         finds a course when you only remember the English. */
+      c.id.toLowerCase().includes(term) ||
       c.name.toLowerCase().includes(term) ||
       c.summary.toLowerCase().includes(term) ||
       c.syllabus.join(' ').toLowerCase().includes(term) ||
       (c.topics || []).join(' ').toLowerCase().includes(term);
     return okCat && okTerm;
   });
+  searchClear.hidden = !searchEl.value;
 
   grid.innerHTML = list
     .map((c) => {
@@ -1490,6 +1497,24 @@ function alignSearch() {
 }
 addEventListener('resize', alignSearch);
 searchEl.addEventListener('input', buildCatalogue);
+
+/* Clearing the filter is one click instead of selecting and deleting. The focus
+   goes back to the field, because whoever cleared it is about to type again, and
+   Escape does the same thing from the keyboard — the dropdowns already answer to
+   Escape, and this one only takes it when the field has something in it. */
+searchClear.addEventListener('click', () => {
+  searchEl.value = '';
+  buildCatalogue();
+  searchEl.focus();
+});
+searchEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && searchEl.value) {
+    e.stopPropagation();
+    searchEl.value = '';
+    buildCatalogue();
+  }
+});
+
 buildCatalogue();
 
 /* ==========================================================
@@ -1562,9 +1587,9 @@ function openCourse(id) {
   const tracks = tracksOfCourse(id);
   modalFile.textContent = id + '.curso';
   /* Two columns wherever they fit (see style.css): on the left what convinces —
-     what the course is, who speaks about it and the button; on the right what
-     details it — syllabus, topics, prerequisites and tracks. In a single column,
-     the HTML order is already the right reading order. */
+     what the course is, the video, what you will learn and the button; on the
+     right what details it — the topic by topic list, prerequisites and tracks.
+     In a single column, the HTML order is already the right reading order. */
   modalBody.innerHTML =
     '<div class="modal-col modal-col-intro">' +
     '<h3 id="modal-title">' + c.name + '</h3>' +
@@ -1574,14 +1599,18 @@ function openCourse(id) {
       '<span>' + txt('workload') + ': <b>' + c.hours + ' ' + txt('hours') + '</b></span>' +
     '</div>' +
     videoBlock(c) +
-    '<p>' + c.summary + '</p>' +
+    /* The syllabus sits under the video, where the one-line summary used to.
+       The summary said in a sentence what the video is there to say properly,
+       and it is still on the catalogue card that got you here; what belongs
+       beside the enrolment button is what you will actually learn. It balances
+       the two columns as a side effect — the left was the shorter one. */
+    '<div class="modal-block modal-syllabus"><h4>' + txt('what you learn') + '</h4><ul>' +
+      c.syllabus.map((e) => '<li>' + e + '</li>').join('') +
+    '</ul></div>' +
     '<div class="modal-actions"><a class="btn btn-primary" href="https://app.codeschool.ing">' +
       txt('Start now →') + '</a></div>' +
     '</div>' +
     '<div class="modal-col modal-col-detail">' +
-    '<div class="modal-block"><h4>' + txt('what you learn') + '</h4><ul>' +
-      c.syllabus.map((e) => '<li>' + e + '</li>').join('') +
-    '</ul></div>' +
     // the full technical list — collapsed, for whoever wants to check it topic by topic
     (c.topics && c.topics.length
       ? '<details class="modal-topics"><summary>' + txt('detailed contents') +
@@ -1613,6 +1642,7 @@ function openCourse(id) {
      background. They are the two halves of the same problem — the class handles
      the scrollbar and the inertia, the handlers handle the chaining. */
   document.documentElement.classList.add('modal-open');
+  fitColumns();
   fitVideo();
   fitTopics();
   $('#modal-close').focus();
@@ -1653,6 +1683,27 @@ function fitTopics() {
    shape it was never framed for, and the reserved reading of the empty state
    turns into a hole. Measured rather than written in CSS for the usual reason:
    the cap depends on the column's width, which only the layout knows. */
+/* THE SYLLABUS GOES ON THE LEFT ONLY WHERE IT FITS.
+   Under the video is where it belongs: it is what the enrolment button is being
+   pressed for, and the summary it replaced said in one line what the video is
+   there to say properly. But the left column is capped by the box (86vh), and on
+   a 768px screen the video, a seven-line syllabus and the button come to 106px
+   more than there is — which would put the button below the fold, in the one
+   column that exists to get it pressed.
+   So it is measured. Where it does not fit, the block goes back to the top of the
+   detail column, which is where it used to live. Nothing is lost either way; what
+   changes is which column runs long. */
+function fitColumns() {
+  const intro = modalBody.querySelector('.modal-col-intro');
+  const detail = modalBody.querySelector('.modal-col-detail');
+  const block = modalBody.querySelector('.modal-syllabus');
+  if (!intro || !detail || !block) return;
+  const actions = intro.querySelector('.modal-actions');
+  if (actions) intro.insertBefore(block, actions);        // start from the left, always
+  if (!matchMedia('(min-width:1024px)').matches) return;
+  if (intro.scrollHeight > intro.clientHeight + 1) detail.insertBefore(block, detail.firstChild);
+}
+
 function fitVideo() {
   const video = modalBody.querySelector('.modal-video');
   if (!video) return;
@@ -1673,7 +1724,7 @@ function fitVideo() {
   const tall = video.clientWidth * 3 / 4;          // as far as it may grow
   video.style.height = Math.round(Math.min(tall, wide + spare)) + 'px';
 }
-addEventListener('resize', () => { fitVideo(); fitTopics(); });
+addEventListener('resize', () => { fitColumns(); fitVideo(); fitTopics(); });
 modalBody.addEventListener('toggle', (e) => {
   // opening the list changes the box's height, and with it what the frame may take
   if (e.target.classList.contains('modal-topics')) { fitVideo(); fitTopics(); }
