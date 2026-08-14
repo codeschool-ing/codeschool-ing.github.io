@@ -771,8 +771,12 @@ function splitLevels() {
   const pad = (s) => across
     ? parseFloat(s.paddingLeft) + parseFloat(s.paddingRight)
     : parseFloat(s.paddingTop) + parseFloat(s.paddingBottom);
-  const available = (across ? scroller.clientWidth : scroller.clientHeight) -
+  // measured again on every pass, because packing changes the box: a column
+  // that fitted at the height the graph had before the split can stop fitting
+  // at the height it has after it
+  const measure = () => (across ? scroller.clientWidth : scroller.clientHeight) -
     pad(cs) - pad(sp) - 2;
+  let available = measure();
   panelEl.querySelectorAll('.level').forEach((lvl) => {
     const items = [];
     lvl.querySelectorAll(':scope > .subcol').forEach((sc) => {
@@ -789,23 +793,40 @@ function splitLevels() {
       return;
     }
 
-    const cols = [[]];
-    let used = 0;
-    items.forEach((el) => {
-      const h = across ? el.offsetWidth : el.offsetHeight;
-      const current = cols[cols.length - 1];
-      if (current.length && used + gap + h > available) { cols.push([]); used = 0; }
-      cols[cols.length - 1].push(el);
-      used += (used ? gap : 0) + h;
-    });
+    /* Packed against the sizes the cards have RIGHT NOW — and re-packed if the
+       result does not fit, because a card can change size by being moved. A fork
+       block re-wraps when its column changes width and comes out taller than it
+       measured; the column then overflowed the lane, `align-items:center`
+       centred the overflow, and a block ended up at y = -1. Above it there was
+       no room left for the lane an edge detours through, and the edge was drawn
+       through the block. Two passes settle every case in the catalogue; the
+       third is there so a future one cannot loop. */
+    for (let pass = 0; pass < 3; pass++) {
+      available = measure();
+      const cols = [[]];
+      let used = 0;
+      items.forEach((el) => {
+        const h = across ? el.offsetWidth : el.offsetHeight;
+        const current = cols[cols.length - 1];
+        if (current.length && used + gap + h > available) { cols.push([]); used = 0; }
+        cols[cols.length - 1].push(el);
+        used += (used ? gap : 0) + h;
+      });
 
-    lvl.textContent = '';
-    cols.forEach((col) => {
-      const sc = document.createElement('div');
-      sc.className = 'subcol';
-      col.forEach((el) => sc.appendChild(el));
-      lvl.appendChild(sc);
-    });
+      lvl.textContent = '';
+      cols.forEach((col) => {
+        const sc = document.createElement('div');
+        sc.className = 'subcol';
+        col.forEach((el) => sc.appendChild(el));
+        lvl.appendChild(sc);
+      });
+
+      let over = 0;
+      lvl.querySelectorAll(':scope > .subcol').forEach((sc) => {
+        over = Math.max(over, (across ? sc.offsetWidth : sc.offsetHeight) - available);
+      });
+      if (over <= 0) break;
+    }
   });
 
   /* The lane hugs the graph instead of taking up all the height left over.
@@ -837,6 +858,17 @@ function splitLevels() {
    Drawn after the layout exists: each node is measured and the prerequisite's
    right edge is joined to the left edge of whoever depends on it. */
 function drawEdges(t) {
+  /* Before anything is measured. "Read the whole objective" only appears where
+     there is something left to read — today that is all eighteen tracks, since
+     the shortest objective still runs past three lines, but a shorter one would
+     get a link that opens nothing. It goes first because showing or hiding it
+     changes the height of the block above the graph, and the split downstream
+     is decided by the height the graph is left with. */
+  const goal = panelEl.querySelector('.track-top p.goal');
+  const more = panelEl.querySelector('.goal-more');
+  if (goal && more && !goal.classList.contains('open')) {
+    more.hidden = goal.scrollHeight <= goal.clientHeight + 2;
+  }
   splitLevels();
   const cont = panelEl.querySelector('.track-graph');
   const svg = cont && cont.querySelector('.graph-edges');
@@ -992,7 +1024,15 @@ function drawEdges(t) {
           yD = (y1 - detourUp) + (y2 - detourUp) <= (detourDown - y1) + (detourDown - y2)
             ? detourUp : detourDown;
         }
-        yD = Math.max(6, Math.min(far - 6, yD));
+        // the clamp keeps the lane inside the drawing, and can therefore push it
+        // into a card that sits against the edge. When it does, the other side
+        // is tried before a line is drawn through anything.
+        const clamp = (y) => Math.max(6, Math.min(far - 6, y));
+        yD = clamp(yD);
+        if (inTheWay(x1 + 2, x2 - 2, yD - 3, yD + 3, ignore).length) {
+          const other = clamp(yD <= (detourUp + detourDown) / 2 ? detourDown : detourUp);
+          if (!inTheWay(x1 + 2, x2 - 2, other - 3, other + 3, ignore).length) yD = other;
+        }
         // each endpoint uses the clearance it actually has: the rise out of the
         // prerequisite fits the gap to its right, the one into the dependent
         // fits the gap to its left
@@ -1030,15 +1070,6 @@ function drawEdges(t) {
   if (toggle) {
     toggle.setAttribute('aria-label', txt(document.body.classList.contains('graph-full')
       ? 'leave the whole screen' : 'see the graph on the whole screen'));
-  }
-  // "read the whole objective" only where there is something left to read.
-  // Today that is all eighteen — the shortest objective still runs past three
-  // lines — but a shorter one would get a link that opens nothing, and the
-  // number of lines is a property of the text, not something to keep track of.
-  const goal = panelEl.querySelector('.track-top p.goal');
-  const more = panelEl.querySelector('.goal-more');
-  if (goal && more && !goal.classList.contains('open')) {
-    more.hidden = goal.scrollHeight <= goal.clientHeight + 2;
   }
 }
 
