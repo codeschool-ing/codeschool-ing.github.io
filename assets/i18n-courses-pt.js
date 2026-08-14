@@ -4230,7 +4230,27 @@ window.I18N.pt.tracks = {
   "devops": {
     "name": "DevOps e SRE",
     "goal": "A formação de quem sustenta a operação: sistemas, redes, nuvem, automação e observabilidade. Sequência baseada no roadmap público de DevOps da comunidade roadmap.sh. Metade dos cursos vem das trilhas anteriores — quem já fez Front-end ou Back-end entra com meio caminho andado.",
-    "outcome": "DevOps Engineer / SRE júnior"
+    "outcome": "DevOps Engineer / SRE júnior",
+    "steps": {
+      "3": {
+        "choice": "a linguagem de automação",
+        "note": "O roadmap não escolhe, e esta trilha também não. O que o trabalho exige é uma linguagem em que você automatize bem: Python é o que a maioria dos times de infraestrutura escreve, Go é a linguagem em que o próprio Docker, o Kubernetes e o Terraform foram escritos, e JavaScript é a que você talvez já tenha da web.",
+        "options": [
+          "Python",
+          "Go",
+          "JavaScript / Node.js"
+        ]
+      },
+      "9": {
+        "choice": "a nuvem que você opera",
+        "note": "Tudo até aqui é deliberadamente independente de fornecedor — containers, Terraform, a esteira — e essa é a graça do ferramental. É aqui que ele para: as contas, as permissões, a rede e a fatura têm formato diferente em cada provedor, e o Terraform precisa apontar para um deles. Ir fundo num provedor só — os serviços de computação e a operação gerenciada — é a trilha de Engenharia de Computação em Nuvem.",
+        "options": [
+          "AWS",
+          "Google Cloud",
+          "Azure"
+        ]
+      }
+    }
   },
   "cloud-engineering": {
     "name": "Engenharia de Computação em Nuvem",
@@ -4307,7 +4327,18 @@ window.I18N.pt.tracks = {
   "devsecops": {
     "name": "DevSecOps",
     "goal": "A trilha mais barata do catálogo: fica na interseção de DevOps e Segurança, e 80% dela já existe. Segurança que roda a cada commit — código seguro, modelagem de ameaças, varredura na esteira, imagem endurecida e cadeia de suprimentos sob controle. Sequência baseada no roadmap público de DevSecOps da comunidade roadmap.sh.",
-    "outcome": "Engenheiro(a) DevSecOps"
+    "outcome": "Engenheiro(a) DevSecOps",
+    "steps": {
+      "2": {
+        "choice": "a linguagem de automação",
+        "note": "A mesma escolha que a trilha de DevOps oferece, pelo mesmo motivo. Python domina o ferramental de segurança e é o padrão seguro aqui, Go é a linguagem da pilha de containers, e JavaScript é a que você talvez já tenha.",
+        "options": [
+          "Python",
+          "Go",
+          "JavaScript / Node.js"
+        ]
+      }
+    }
   },
   "bi": {
     "name": "Business Intelligence",

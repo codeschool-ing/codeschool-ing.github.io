@@ -4233,7 +4233,27 @@ window.I18N.es.tracks = {
   "devops": {
     "goal": "La formación de quien sostiene la operación: sistemas, redes, nube, automatización y observabilidad. Secuencia basada en el roadmap público de DevOps de la comunidad roadmap.sh. La mitad de los cursos viene de itinerarios anteriores — quien ya hizo Front-end o Back-end entra con medio camino hecho.",
     "name": "DevOps y SRE",
-    "outcome": "DevOps Engineer / SRE júnior"
+    "outcome": "DevOps Engineer / SRE júnior",
+    "steps": {
+      "3": {
+        "choice": "el lenguaje de automatización",
+        "note": "El roadmap no elige, y este itinerario tampoco. Lo que el trabajo exige es un lenguaje en el que automatices bien: Python es lo que escribe la mayoría de los equipos de infraestructura, Go es el lenguaje en que están escritos Docker, Kubernetes y Terraform, y JavaScript es el que quizás ya traigas de la web.",
+        "options": [
+          "Python",
+          "Go",
+          "JavaScript / Node.js"
+        ]
+      },
+      "9": {
+        "choice": "la nube que operás",
+        "note": "Todo hasta acá es deliberadamente independiente del proveedor — contenedores, Terraform, la cadena de montaje — y ese es el punto del herramental. Acá se detiene: las cuentas, los permisos, la red y la factura tienen otra forma en cada proveedor, y Terraform tiene que apuntar a alguno. Ir a fondo en un solo proveedor — sus servicios de cómputo y su operación gestionada — es el itinerario de Ingeniería en la Nube.",
+        "options": [
+          "AWS",
+          "Google Cloud",
+          "Azure"
+        ]
+      }
+    }
   },
   "cloud-engineering": {
     "name": "Ingeniería de Computación en la Nube",
@@ -4310,7 +4330,18 @@ window.I18N.es.tracks = {
   "devsecops": {
     "goal": "El itinerario más barato del catálogo: está en la intersección de DevOps y Seguridad, y el 80% ya existe. Seguridad que corre en cada commit — código seguro, modelado de amenazas, escaneo en la cadena de montaje, imagen endurecida y cadena de suministro bajo control. Secuencia basada en el roadmap público de DevSecOps de la comunidad roadmap.sh.",
     "name": "DevSecOps",
-    "outcome": "Ingeniero(a) DevSecOps"
+    "outcome": "Ingeniero(a) DevSecOps",
+    "steps": {
+      "2": {
+        "choice": "el lenguaje de automatización",
+        "note": "La misma elección que ofrece el itinerario de DevOps, por la misma razón. Python domina las herramientas de seguridad y es la opción segura acá, Go es el lenguaje de la pila de contenedores, y JavaScript es el que quizás ya tengas.",
+        "options": [
+          "Python",
+          "Go",
+          "JavaScript / Node.js"
+        ]
+      }
+    }
   },
   "bi": {
     "goal": "El itinerario para quien quiere trabajar con datos sin volverse programador: estadística, Excel de verdad, SQL, visualización y la conversación con el negocio. Secuencia basada en el roadmap público de BI Analyst de la comunidad roadmap.sh. Es el itinerario que trajo la estadística que le faltaba a todo el catálogo.",

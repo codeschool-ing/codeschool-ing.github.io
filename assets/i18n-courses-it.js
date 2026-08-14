@@ -4233,7 +4233,27 @@ window.I18N.it.tracks = {
   "devops": {
     "name": "DevOps e SRE",
     "goal": "La formazione di chi tiene in piedi l’esercizio: sistemi, reti, cloud, automazione e osservabilità. Sequenza basata sulla roadmap pubblica DevOps di roadmap.sh. Metà dei corsi viene dai percorsi precedenti — chi ha fatto Front-end o Back-end parte già a metà strada.",
-    "outcome": "Ingegnere DevOps / SRE junior"
+    "outcome": "Ingegnere DevOps / SRE junior",
+    "steps": {
+      "3": {
+        "choice": "il linguaggio di automazione",
+        "note": "La roadmap non sceglie, e nemmeno questo percorso. Quello che il lavoro richiede è un linguaggio in cui automatizzi bene: Python è ciò che scrive la maggior parte dei team di infrastruttura, Go è il linguaggio in cui sono scritti Docker, Kubernetes e Terraform stessi, e JavaScript è quello che forse hai già dal web.",
+        "options": [
+          "Python",
+          "Go",
+          "JavaScript / Node.js"
+        ]
+      },
+      "9": {
+        "choice": "il cloud che gestisci",
+        "note": "Tutto fin qui è deliberatamente indipendente dal fornitore — container, Terraform, la catena — ed è proprio questo il senso di quegli strumenti. È qui che si ferma: gli account, i permessi, la rete e la fattura hanno una forma diversa su ogni fornitore, e Terraform deve puntare a uno di essi. Andare a fondo su un solo fornitore — i suoi servizi di calcolo e la sua operatività gestita — è il percorso di Ingegneria del Cloud.",
+        "options": [
+          "AWS",
+          "Google Cloud",
+          "Azure"
+        ]
+      }
+    }
   },
   "cloud-engineering": {
     "name": "Ingegneria del Cloud",
@@ -4310,7 +4330,18 @@ window.I18N.it.tracks = {
   "devsecops": {
     "name": "DevSecOps",
     "goal": "Il percorso più economico del catalogo: sta all’incrocio tra DevOps e Sicurezza, e l’80% esiste già. Sicurezza che gira a ogni commit — codice sicuro, modellazione delle minacce, scansione nella pipeline, immagine irrobustita e catena di fornitura sotto controllo. Sequenza basata sulla roadmap pubblica DevSecOps di roadmap.sh.",
-    "outcome": "Ingegnere DevSecOps"
+    "outcome": "Ingegnere DevSecOps",
+    "steps": {
+      "2": {
+        "choice": "il linguaggio di automazione",
+        "note": "La stessa scelta che offre il percorso DevOps, per la stessa ragione. Python domina gli strumenti di sicurezza ed è la scelta sicura qui, Go è il linguaggio dello stack dei container, e JavaScript è quello che forse hai già.",
+        "options": [
+          "Python",
+          "Go",
+          "JavaScript / Node.js"
+        ]
+      }
+    }
   },
   "bi": {
     "name": "Business Intelligence",

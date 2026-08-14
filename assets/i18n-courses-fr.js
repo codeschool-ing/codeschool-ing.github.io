@@ -4233,7 +4233,27 @@ window.I18N.fr.tracks = {
   "devops": {
     "name": "DevOps et SRE",
     "goal": "La formation de celui qui fait tourner l’exploitation : systèmes, réseaux, cloud, automatisation et observabilité. Séquence fondée sur la feuille de route DevOps publique de roadmap.sh. La moitié des cours vient des parcours précédents — qui a fait Front-end ou Back-end démarre à mi-chemin.",
-    "outcome": "Ingénieur DevOps / SRE junior"
+    "outcome": "Ingénieur DevOps / SRE junior",
+    "steps": {
+      "3": {
+        "choice": "le langage d’automatisation",
+        "note": "Le roadmap ne choisit pas, et ce parcours non plus. Ce que le métier exige, c’est un langage dans lequel vous automatisez bien : Python est ce qu’écrivent la plupart des équipes d’infrastructure, Go est le langage dans lequel Docker, Kubernetes et Terraform sont eux-mêmes écrits, et JavaScript est celui que vous avez peut-être déjà du web.",
+        "options": [
+          "Python",
+          "Go",
+          "JavaScript / Node.js"
+        ]
+      },
+      "9": {
+        "choice": "le cloud que vous exploitez",
+        "note": "Tout ce qui précède est volontairement indépendant du fournisseur — conteneurs, Terraform, la chaîne — et c’est tout l’intérêt de cet outillage. C’est ici qu’il s’arrête : les comptes, les permissions, le réseau et la facture n’ont pas la même forme d’un fournisseur à l’autre, et Terraform doit viser l’un d’eux. Aller en profondeur chez un seul — ses services de calcul et son exploitation managée — c’est le parcours Ingénierie du Cloud.",
+        "options": [
+          "AWS",
+          "Google Cloud",
+          "Azure"
+        ]
+      }
+    }
   },
   "cloud-engineering": {
     "name": "Ingénierie du Cloud",
@@ -4310,7 +4330,18 @@ window.I18N.fr.tracks = {
   "devsecops": {
     "name": "DevSecOps",
     "goal": "Le parcours le moins coûteux du catalogue : il se situe à l’intersection de DevOps et de la Sécurité, et 80 % existe déjà. De la sécurité qui tourne à chaque commit — code sûr, modélisation des menaces, analyse dans la chaîne, image durcie et chaîne d’approvisionnement sous contrôle. Séquence fondée sur la feuille de route DevSecOps publique de roadmap.sh.",
-    "outcome": "Ingénieur DevSecOps"
+    "outcome": "Ingénieur DevSecOps",
+    "steps": {
+      "2": {
+        "choice": "le langage d’automatisation",
+        "note": "Le même choix que propose le parcours DevOps, pour la même raison. Python domine l’outillage de sécurité et reste la valeur sûre ici, Go est le langage de la pile de conteneurs, et JavaScript est celui que vous avez peut-être déjà.",
+        "options": [
+          "Python",
+          "Go",
+          "JavaScript / Node.js"
+        ]
+      }
+    }
   },
   "bi": {
     "name": "Business Intelligence",

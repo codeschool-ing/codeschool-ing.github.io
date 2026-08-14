@@ -72,7 +72,7 @@ The site speaks **English, Portuguese, Spanish, French and Italian**. The picker
 
 The catalogue's data does not go through a translation function: on a language switch, the `COURSES`, `TRACKS` and `TESTIMONIALS` objects are **rewritten in place** from a copy of the English stored on load. That way all the rest of the code goes on reading `c.name` without knowing a translation exists, and each field falls back to English on its own when the translated version is missing.
 
-**Everything is translated, in all four non-source languages**: the interface (163 keys), all 19 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 122 courses. That is **3,676 strings per language**, better than fourteen thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
+**Everything is translated, in all four non-source languages**: the interface (163 keys), all 19 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 122 courses. That is **3,691 strings per language**, better than fourteen thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
 
 Adding a language is: one line in `LANGUAGES` (in `i18n-runtime.js`), a `ui`/`testimonials` block in `i18n.js` and a `tracks` block in the catalogue file and a catalogue file. The check that runs against the source flags any missing field and any topic list whose length differs from the original — that is how the five languages closed with no gaps.
 
@@ -159,7 +159,7 @@ Neither was introduced by the spacing; the spacing is what made a column overflo
 
 The curve's two rises have independent widths, computed from **each endpoint's real clearance**. With sub-columns the gap between cards falls from 48px to 14px, and a fixed 26px rise went straight through the neighbour — it was precisely through that rise that the line entered the card.
 
-This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **6,132 edges across 19 tracks, every branch of every fork, at six screen sizes — four landscape and two portrait — in the panel and on the whole screen: zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
+This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **7,440 edges across 19 tracks, every branch of every fork, at six screen sizes — four landscape and two portrait — in the panel and on the whole screen: zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
 
 Each edge is a `<g>` with two paths — one transparent and thick, only to catch the cursor, and the visible one. Hovering **the line** highlights it; hovering **the card** lights up every edge entering and leaving it.
 
@@ -538,16 +538,16 @@ The syllabus **condenses**; the topics **list**. It is `topics` that carries the
 
 | track | steps | hours |
 | --- | --- | --- |
-| Segurança Cibernética | 19 | 1,180h |
-| DevSecOps | 18 | 1,090h |
-| Business Intelligence | 17 | 1,050h |
-| Engenharia de Dados | 15 | 980h |
+| Segurança Cibernética | 20 | 1,230h |
+| DevSecOps | 19 | 1,140h |
+| Business Intelligence | 18 | 1,100h |
+| Engenharia de Dados | 16 | 1,030h |
 
 Thirteen of the nineteen pass 720h. That is a lot of time with no milestone of arrival — and it is exactly the hole Alura fills with the extra level it has.
 
 **Alura stacks; here it is flat.** There it goes `Career ⊃ Track ⊃ Course`: the Track is a slice by subject *inside* a Career, and it is what the certificate attaches to. Here there is the track and, below it, the course — nothing in between.
 
-The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **44 of the 122 courses are in two or more tracks** — `portfolio-project` and `first-job` are in 16, `git` in 13, `web-fundamentals` in 12, `linux-terminal` in 10. That is 273 slots for 122 distinct courses, a reuse factor of 2.24×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
+The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **45 of the 122 courses are in two or more tracks** — `portfolio-project` and `first-job` are in 16, `git` in 13, `web-fundamentals` and `ai-dev` in 12, `linux-terminal` in 10. That is 289 slots for 122 distinct courses, a reuse factor of 2.37×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
 
 In other words: the track solves **where to come in**; Alura's Track solves **how to know you have advanced**. They are orthogonal problems, and only the first one is solved here.
 
@@ -562,7 +562,7 @@ In other words: the track solves **where to come in**; Alura's Track solves **ho
 3. **The certificate's anchor.** A fork's branches make the question: a career certificate is every fixed step plus one complete branch per choice, which is what `certificateSets()` computes. The retired technology tracks made it sharper, because their fork was terminal and the paths never came back together — certifying "Domínio de Python" would have had to say which branch.
 4. **The translation cost.** A block name is a translatable string. Thirteen tracks with three or four blocks each is ~45 new names × 4 languages.
 
-**The benefit that would already exist today** — 1,180h on a single screen is intimidating on a showcase whose job is to convert an enrolment — is a *presentation* problem, and does not require inventing the unit of certification to be solved.
+**The benefit that would already exist today** — 1,230h on a single screen is intimidating on a showcase whose job is to convert an enrolment — is a *presentation* problem, and does not require inventing the unit of certification to be solved.
 
 ## Expansion map
 
@@ -731,13 +731,36 @@ So a track can now declare `continues: 'data'`, and the check reads the base tra
 
 The site needed no change at all: `script.js` already falls back to the previous step when a course has no prerequisite inside the track, and already filters the card footer's "depois de X" to courses the track contains. The field is data, not behaviour — Software Architecture and Technical Leadership still declare their prerequisite in prose, in `goal`, and could carry it too.
 
+### Three changes that cost nothing and raised the reuse
+
+The catalogue reached the point where the audit stopped finding missing careers and started finding inconsistencies inside the tracks that exist. Three of them were fixed in one pass, with **zero new content**: reuse went from 2.24× to **2.37×** and the savings from 48% to **50%**.
+
+**The assistant goes where a language is taught.** `ai-dev` — coding assistants in the editor, prompting for programming tasks, agents and MCP, cost and safety — was in three tracks. Twelve tracks teach a programming language, so it is in twelve now: Mobile, DevOps, Data Engineering, Data Science, Networks, Security, DevSecOps, BI and QA gained it. The rule is checkable rather than a matter of taste, which is the point: **the course goes wherever the track teaches somebody to write code**. The tracks that do not — Cloud Engineering, DBA, Prompt, IT Support, and the three continuations — did not get it.
+
+**The automation language stopped being picked by the school.** DevOps taught JavaScript and DevSecOps taught Python, for the same job — automating infrastructure — and neither track said why. The roadmap does not choose either. Both are now a fork of **Python / Go / JavaScript**, all three 80h, so no path is longer than another. This is the fork the expansion map had listed as a candidate since DevSecOps was written.
+
+It paid for itself on the other side of the ledger: `go` was in Back-end and nowhere else, which is why the README above says Back-end bankrolls four server languages. It is in three tracks now, and Back-end's exclusive hours fell from 830h to 750h without losing a single course. **A fork option is a reuse mechanism, not only a choice**, and that was not obvious until this one was measured.
+
+**DevOps meets a provider, and stops at the ground floor.** The track taught Terraform, Kubernetes and a pipeline without ever showing an IAM policy, an account structure or a bill — `iac` pointed at the generic `cloud` course and nothing else. It now forks on the provider after `cloud`, taking `aws-foundations`, `gcp-foundations` or `azure-foundations`.
+
+**Only the foundations, and that is the whole design.** Giving DevOps the same three-course set Cloud Engineering has was the obvious version and it is wrong twice over. Mechanically, `*-operations` requires `*-compute`, so foundations+operations is not a valid pair. Structurally — and this is the real reason — those nine vendor courses are **the only thing Cloud Engineering has that DevOps does not**:
+
+| | |
+| --- | --- |
+| in Cloud Engineering, not in DevOps, before this change | the nine vendor courses, and nothing else |
+| if DevOps took all three | **nothing** |
+
+That is the Full Stack test failing: a track that brings no course, no order and no outcome the others do not already deliver. So DevOps gets the ground floor — accounts, IAM, network, the bill — and going deep on one provider stays what the Cloud Engineering track is *for*. The fork's own note says so on the screen, which is the only place a student would ever wonder.
+
+**And the graph test rejected the first version of it.** With the provider fork at the end of the track, next to `observability`, it drew `cloud → observability` straight through the language fork's block on the whole screen, at three landscape sizes, on all three branches. The cause is geometric: a fork block is 594px wide against a card's 238px, and level 4 was left with a 73px corridor between `iac` and the block, so the edge's only way through was a band the language fork already occupied. **Moving the fork to sit right after `cloud`** cleared it — and that is where it belonged anyway, since `iac` then points Terraform at a provider the student has chosen. DevOps' own crookedness fell from 1.174 to 1.144 in the move.
+
 **Courses shared today** (they show the "em N trilhas" badge):
 
 | Course | No. of tracks |
 | --- | --- |
 | `portfolio-project` · `first-job` | 16 |
 | `git` | 13 |
-| `web-fundamentals` | 12 |
+| `web-fundamentals` · `ai-dev` | 12 |
 | `linux-terminal` | 10 |
 | `networks` | 9 |
 | `python` · `cloud` | 8 |
@@ -748,7 +771,7 @@ The site needed no change at all: `script.js` already falls back to the previous
 | `html-css` · `ai-dev` · `kubernetes` · `statistics` · `warehouse-modeling` · `computing-essentials` · `cryptography` · `prompt-engineering` · `ai-security` | 3 |
 | `servers-cache` · `aws-foundations` · `gcp-foundations` · `azure-foundations` · `pipelines-etl` · `data-governance` · `analytics-bi` · `data-cleaning` · `visualization` · `bi-techniques` · `data-storytelling` · `networks-security` · `prompt-reliability` · `process-management` · `architect-communication` · `operating-systems` · `attacks-threats` · `secure-code` · `soc-response` · `cloud-security` | 2 |
 
-**The model's economics**: added up, the nineteen tracks deliver up to 15,030 hours of training — but the content to produce is 7,840 hours, because a shared course is made once. **48% savings**, and it moves with every track: it fell to 41% when Mobile came in, because six of its eight new courses belong to one branch of one track, and it came back up when two courses of 110h between them went into sixteen tracks at once. That is the mechanism in one line — the indicator rewards content that serves everybody and charges for content that serves one branch of one track.
+**The model's economics**: added up, the nineteen tracks deliver up to 15,540 hours of training — but the content to produce is 7,840 hours, because a shared course is made once. **50% savings**, and it moves with every track: it fell to 41% when Mobile came in, because six of its eight new courses belong to one branch of one track, and it came back up when two courses of 110h between them went into sixteen tracks at once. That is the mechanism in one line — the indicator rewards content that serves everybody and charges for content that serves one branch of one track.
 
 The number is computed over every track, which today is every career. While the technology family existed it was excluded from this figure: those tracks were 100% reuse by construction, and including them would have pushed the savings up without the school having produced a single hour. The indicator is the same one now that there is nothing to exclude.
 
@@ -757,32 +780,32 @@ How that appears in practice, track by track (exclusive hours = content only it 
 | Track | Workload | Exclusive to it | Reused |
 | --- | --- | --- | --- |
 | Front-end Development | 690–710h | 560h | 41% |
-| Back-end Development | 950–1100h | 830h | 48% |
-| Mobile Development | 600h | 610h | 35% |
-| DevOps and SRE | 900h | 60h | 93% |
+| Back-end Development | 950–1100h | 750h | 53% |
+| Mobile Development | 650h | 610h | 38% |
+| DevOps and SRE | 1010h | 60h | 95% |
 | Cloud Engineering | 760h | 360h | 68% |
-| Data Engineering | 980h | 260h | 79% |
+| Data Engineering | 1030h | 260h | 80% |
 | Data Platform | 440h | 190h | 57% |
-| Data Science | 840h | 230h | 73% |
+| Data Science | 890h | 230h | 74% |
 | Database Administration | 900h | 270h | 70% |
-| Networks and Infrastructure | 880h | 210h | 76% |
+| Networks and Infrastructure | 930h | 210h | 77% |
 | Prompt Engineering | 310h | 0h | 100% |
 | AI Engineering | 850h | 370h | 56% |
 | Software Architecture | 810h | 230h | 72% |
 | Technical Leadership | 280h | 170h | 39% |
 | IT Fundamentals and Support | 510h | 100h | 80% |
-| Cyber Security | 1180h | 150h | 87% |
-| DevSecOps | 1090h | 120h | 89% |
-| Business Intelligence | 1050h | 120h | 89% |
-| Software Quality and Testing | 840h | 310h | 63% |
+| Cyber Security | 1230h | 150h | 88% |
+| DevSecOps | 1140h | 120h | 91% |
+| Business Intelligence | 1100h | 120h | 89% |
+| Software Quality and Testing | 890h | 310h | 65% |
 
 The exclusive column counts **everything the track needs produced**, which for a forked track is every branch — Mobile's 610h against a 600h path is the three platforms, only one of which any student takes.
 
-**DevOps e SRE costs 60 hours of new content** and delivers 900 — it is the model's extreme case. And **Engenharia de Prompt costs zero**: it is entirely a slice of Engenharia de IA.
+**DevOps e SRE costs 60 hours of new content** and delivers 1,010 — it is the model's extreme case. And **Engenharia de Prompt costs zero**: it is entirely a slice of Engenharia de IA.
 
 Note the cross effect: when DevSecOps went in, Segurança Cibernética's exclusive hours fell from 450h to 150h; when BI went in, Engenharia de Dados fell from 360h to 170h. It is not that they lost content — they started sharing it. **Every new track makes the old ones cheaper.**
 
-The Go and Java cases go in the opposite direction and show the other side of the arithmetic: `go`, `go-concurrency`, `java` and `java-functional` only appear in Back-end within the career family, so its exclusive hours rose from 480h to **830h**, more than any other track's. Back-end is the catalogue's most expensive track — and that is fair, because it is the one bankrolling four server languages. A language course is expensive precisely because it does **not** get shared.
+The Go and Java cases go in the opposite direction and show the other side of the arithmetic: `go`, `go-concurrency`, `java` and `java-functional` only appear in Back-end within the career family, so its exclusive hours rose from 480h to 830h. It fell back to **750h** when the automation fork put `go` into DevOps and DevSecOps, which is the same arithmetic seen from the other side. Back-end is still the catalogue's most expensive track — and that is fair, because it is the one bankrolling four server languages. A language course is expensive precisely because it does **not** get shared.
 
 That is why Docker was born as its own course instead of becoming a block inside another: today `docker` serves five tracks.
 
@@ -813,7 +836,7 @@ $ codeschool --status
 $ codeschool tracks
 → Desenvolvimento Front-end · 690–710h
 → Desenvolvimento Back-end · 950–1100h
-→ Desenvolvimento Mobile · 600h
+→ Desenvolvimento Mobile · 650h
   … e mais 16 trilhas
 
 $ codeschool course kubernetes --info
