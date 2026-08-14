@@ -15,6 +15,12 @@
    A course may appear in as many tracks as needed — cite its `id` in the
    track's sequence and the site works out the "in N tracks" badge on its own.
 
+   EVERY TRACK IS A CAREER. There was a second family, `technology` — Python, Go
+   and SQL — and it was retired: of the 30 course slots in those three tracks, 29
+   were already in a career track, and only Go's fan flowed nowhere but Back-end,
+   which is the test this catalogue applies to Java. What is left is one question
+   for the student, which profession, and no `family` field to answer it with.
+
    Each course carries two levels of content:
      `syllabus` — 5 to 7 lines, the commercial read: what the student takes away.
      `topics`   — the complete technical list, shown in the modal inside a
@@ -4287,7 +4293,6 @@ const TRACKS = [
 {
   id: 'frontend',
   name: 'Front-end Development',
-  family: 'career',
   goal: 'The complete training for whoever builds what the user sees: from the first static page to the published app. The framework is your choice and it changes one course — everything after it is the same on any path, because quality, performance, delivery and the app stores do not care which one you picked. Sequence based on the community Front-end roadmap at roadmap.sh, adapted to our method.',
   outcome: 'Junior Front-end Developer',
   courses: [
@@ -4324,7 +4329,6 @@ const TRACKS = [
 {
   id: 'backend',
   name: 'Back-end Development',
-  family: 'career',
   goal: 'Training for whoever builds what holds the application up: data, APIs, servers and scale. Based on the community Back-end roadmap at roadmap.sh — the server language is your choice, and the path converges again after it.',
   outcome: 'Junior Back-end Developer',
   courses: [
@@ -4353,6 +4357,7 @@ const TRACKS = [
             'go',
             'go-concurrency',
             'go-back',
+            'go-production',
           ] },
       ],
     },
@@ -4370,7 +4375,6 @@ const TRACKS = [
 {
   id: 'devops',
   name: 'DevOps and SRE',
-  family: 'career',
   goal: 'Training for whoever keeps the operation running: systems, networks, cloud, automation and observability. Sequence based on the community DevOps roadmap at roadmap.sh. Half the courses come from earlier tracks — anyone who did Front-end or Back-end starts halfway there.',
   outcome: 'Junior DevOps Engineer / SRE',
   courses: [
@@ -4393,7 +4397,6 @@ const TRACKS = [
 {
   id: 'cloud-engineering',
   name: 'Cloud Engineering',
-  family: 'career',
   goal: 'Training for whoever builds and runs what the company rents instead of owning: identity, network, compute, delivery, monitoring and the bill at the end of the month. The provider is your choice and it changes four courses — the other seven are the same either way, because the ground under both is the same, and it is the ground the vendors\' own free material assumes you already have. Sequenced against the associate certifications.',
   outcome: 'Junior Cloud Engineer',
   courses: [
@@ -4430,7 +4433,6 @@ const TRACKS = [
 {
   id: 'data',
   name: 'Data Engineering',
-  family: 'career',
   goal: 'Training for whoever builds the infrastructure behind decisions: modelling, pipelines, big data and governance. Sequence based on the community Data Engineer roadmap at roadmap.sh, which recommends Python and SQL as prerequisites. Half the courses come from earlier tracks.',
   outcome: 'Junior Data Engineer',
   courses: [
@@ -4476,7 +4478,6 @@ const TRACKS = [
 {
   id: 'dba',
   name: 'Database Administration',
-  family: 'career',
   goal: 'The career of whoever answers for the database that cannot stop — the one the company writes to, not the copy it reads for analysis. Installation and tuning, roles and grants, a backup that actually restores, replication and failover, and the other database families. It needs no programming: SQL is learned without it, which makes this the catalogue\'s third door for someone changing careers. PostgreSQL is taught in depth with MySQL, SQL Server and Oracle alongside, because the job is the same and only the vocabulary changes.',
   outcome: 'Junior Database Administrator',
   courses: [
@@ -4498,7 +4499,6 @@ const TRACKS = [
 {
   id: 'networks-infra',
   name: 'Networks and Infrastructure',
-  family: 'career',
   goal: 'Training for whoever gets the packet through: addressing, routing, wi-fi, security and automation. Sequence based on the community Network Engineer roadmap at roadmap.sh — seven of the eleven courses come from earlier tracks.',
   outcome: 'Junior Network Engineer',
   courses: [
@@ -4519,7 +4519,6 @@ const TRACKS = [
 {
   id: 'prompt',
   name: 'Prompt Engineering',
-  family: 'career',
   goal: 'The shortest track in the catalogue and the only one that needs no programming: whoever writes, supports, teaches or decides needs this too. Covers the whole community Prompt Engineering roadmap at roadmap.sh, including the AI Red Teaming one it references.',
   outcome: 'Prompt Engineering Specialist',
   courses: [
@@ -4532,7 +4531,6 @@ const TRACKS = [
 {
   id: 'ai',
   name: 'AI Engineering',
-  family: 'career',
   goal: 'Training for whoever builds products with AI: model choice, embeddings, RAG, agents, MCP, evaluation and multimodal. Sequence based on the community AI Engineer roadmap at roadmap.sh — the programming foundation comes from Python.',
   outcome: 'Junior AI Engineer',
   courses: [
@@ -4555,7 +4553,6 @@ const TRACKS = [
 {
   id: 'software-architecture',
   name: 'Software Architecture',
-  family: 'career',
   goal: 'The only track in the catalogue that requires another one first: it is a career continuation, not an entry point. For whoever already develops and is about to start deciding — patterns, modelling, enterprise integration, management and communication. Sequence based on the community Software Architect roadmap at roadmap.sh, which asks for Back-end as a prerequisite.',
   outcome: 'Software Architect',
   courses: [
@@ -4578,7 +4575,6 @@ const TRACKS = [
 {
   id: 'it-support',
   name: 'IT Fundamentals and Support',
-  family: 'career',
   goal: 'The school\'s entry point and the first track that requires nothing: it starts with the case open and ends with you supporting, diagnosing and documenting. Covers the Fundamental IT Skills and Operating Systems blocks and the networking base of the community Cyber Security roadmap at roadmap.sh.',
   outcome: 'Support Technician / Help Desk',
   courses: [
@@ -4594,7 +4590,6 @@ const TRACKS = [
 {
   id: 'security',
   name: 'Cyber Security',
-  family: 'career',
   goal: 'Attack and defence on the same path: fundamentals, cryptography, threats, hardening, SOC, penetration testing and cloud. It is the larger half of the community Cyber Security roadmap at roadmap.sh — the other half became the IT Fundamentals and Support track, which serves as its base.',
   outcome: 'Information Security Analyst',
   courses: [
@@ -4619,7 +4614,6 @@ const TRACKS = [
 {
   id: 'devsecops',
   name: 'DevSecOps',
-  family: 'career',
   goal: 'The cheapest track in the catalogue: it sits at the intersection of DevOps and Security, and 80% of it already exists. Security that runs on every commit — secure code, threat modelling, pipeline scanning, hardened images and a supply chain under control. Sequence based on the community DevSecOps roadmap at roadmap.sh.',
   outcome: 'DevSecOps Engineer',
   courses: [
@@ -4644,7 +4638,6 @@ const TRACKS = [
 {
   id: 'bi',
   name: 'Business Intelligence',
-  family: 'career',
   goal: 'The track for whoever wants to work with data without becoming a programmer: statistics, real Excel, SQL, visualisation and the conversation with the business. Sequence based on the community BI Analyst roadmap at roadmap.sh. It is the track that brought in the statistics the whole catalogue was missing.',
   outcome: 'BI Analyst / Data Analyst',
   courses: [
@@ -4668,7 +4661,6 @@ const TRACKS = [
 {
   id: 'qa',
   name: 'Software Quality and Testing',
-  family: 'career',
   goal: 'Training for whoever makes sure the software does what it promises — and holds up to what was promised for it. Sequence based on the community QA Engineer roadmap at roadmap.sh. As in BI, nobody needs to program to start: there are 330h before the first programming course, and it is the catalogue\'s second entry point for career changers.',
   outcome: 'Junior QA Engineer',
   courses: [
@@ -4686,97 +4678,6 @@ const TRACKS = [
     'testing-cicd',
   ],
   links: {"security-fundamentals":["non-functional-testing"],"testing-cicd":["non-functional-testing"]},
-},
-{
-  id: 'python-tech',
-  name: 'Python',
-  family: 'technology',
-  goal: 'For whoever wants to master the language, not a job title. The trunk is the same for everyone — the language properly learned, with version control — and at the end you choose where to apply it: on the server, in data or in AI. Based on the community Python roadmap at roadmap.sh.',
-  outcome: 'Command of Python',
-  courses: [
-    'web-fundamentals',
-    'python',
-    'git',
-    {
-      choice: 'where to apply Python',
-      note: 'The track does not converge again here: each path is a different application of the same language.',
-      options: [
-        { name: 'Server and APIs', courses: [
-            'sql-databases',
-            'python-back',
-            'apis',
-          ] },
-        { name: 'Data', courses: [
-            'sql-databases',
-            'data-fundamentals',
-            'warehouse-modeling',
-          ] },
-        { name: 'AI', courses: [
-            'prompt-engineering',
-            'ai-models',
-            'embeddings-vectors',
-          ] },
-      ],
-    },
-  ],
-},
-{
-  id: 'go-tech',
-  name: 'Go',
-  family: 'technology',
-  goal: 'The language Docker, Kubernetes and Terraform were written in. The trunk runs from syntax to concurrency — the part of Go that does not exist in other languages — and at the end you pick your side: build services, or build the tooling. Based on the public Go roadmap at roadmap.sh.',
-  outcome: 'Command of Go',
-  courses: [
-    'web-fundamentals',
-    'go',
-    'go-concurrency',
-    {
-      choice: 'which side of Go',
-      note: 'Both start from the same concurrency: one builds the service, the other builds the tooling that runs it.',
-      options: [
-        { name: 'Services and APIs', courses: [
-            'sql-databases',
-            'go-back',
-            'apis',
-          ] },
-        { name: 'Tooling and Infrastructure', courses: [
-            'linux-terminal',
-            'go-production',
-            'docker',
-          ] },
-      ],
-    },
-  ],
-},
-{
-  id: 'sql-tech',
-  name: 'SQL and Databases',
-  family: 'technology',
-  goal: 'The technology that employs the most and demands the least: SQL is learned without knowing how to program. It is the track for whoever comes from admin, accounting or management and is tired of asking someone else for a report. After the database, you choose what to do with the data. Based on the community SQL and PostgreSQL roadmaps at roadmap.sh.',
-  outcome: 'Command of SQL and databases',
-  courses: [
-    'computing-essentials',
-    'sql-databases',
-    {
-      choice: 'what to do with the data',
-      note: 'The three paths start from the same database: one looks at the decision, the second at the volume, the third at the database itself.',
-      options: [
-        { name: 'Analytics and BI', courses: [
-            'bi-business',
-            'excel-analytics',
-            'analytics-bi',
-          ] },
-        { name: 'Data Engineering', courses: [
-            'warehouse-modeling',
-            'pipelines-etl',
-          ] },
-        { name: 'Administration', courses: [
-            'linux-terminal',
-            'db-administration',
-          ] },
-      ],
-    },
-  ],
 },
 ];
 

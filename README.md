@@ -2,13 +2,13 @@
 
 The `codeschool.ing` site — **Stage 1: the showcase**. It presents courses, training tracks and the methodology, and hands whoever is convinced to the portal. There is no login, no payment and no student area *here*: that is Stage 2, which was **built to measure** rather than bought off the shelf, and is live — the portal at `codeschool-ing/portal-frontend` and its API at `codeschool-ing/portal-backend` (`api.codeschool.ing`). **The school is self-service end to end**: every "start now" on this page is a link to `app.codeschool.ing`, where the person creates their own account. Nothing here collects a contact, because nobody gets back in touch — see "The way in is the portal".
 
-**This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 105 courses and 18 tracks across programming, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `catalog.js` and the identity.
+**This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 105 courses and 15 tracks across programming, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `catalog.js` and the identity.
 
 What the transfer required beyond the name: **the claims about history had to go**. "Since 1999", "who has been teaching for 25 years", "5,000+ graduates" and "from Medianeira to the world" are true about Televideo and would be a lie about a school that is just being born. In place of the student counter came the **catalogue's real total workload**, computed in `script.js` from `catalog.js` — a number that is already true on the day the site goes up and that grows by itself when a new course arrives.
 
 A dark/terminal identity, the brand's blue, an optional light theme and **fullpage** — each section fills the screen's height and scrolling (mouse, keyboard or touch) jumps smoothly between them, with side indicators. Long panels (the catalogue, a track on mobile, the testimonials) scroll internally before switching screen. In plain HTML, CSS and JavaScript — no dependencies and no build.
 
-A track is presented as a **dependency graph**: each column is a level and the edges show what unlocks what. The tracks come in two families — **by career** and **by technology** — each in its own row of tabs, both visible at once. Each row stays on **a single line**, with horizontal scrolling, arrows at the ends and a fade at the edge showing which side has more tabs. The active tab is brought into view by itself, so the picker copes with the next track without becoming two lines or leaving an orphan tab.
+A track is presented as a **dependency graph**: each column is a level and the edges show what unlocks what. Every track is a career, in one row of tabs. The row stays on **a single line**, with horizontal scrolling, arrows at the ends and a fade at the edge showing which side has more tabs. The active tab is brought into view by itself, so the picker copes with the next track without becoming two lines or leaving an orphan tab.
 
 ## A note on language
 
@@ -51,7 +51,7 @@ Three scrollable rows become a **dropdown menu** where they do not fit — below
 
 | where | wide screen | narrow screen |
 | --- | --- | --- |
-| tracks | two rows of tabs, one per family | a single menu, with the list grouped by family |
+| tracks | one row of tabs | a single menu with the same list |
 | catalogue filters | chips on one line with arrows | a menu with the current category and the count |
 | top menu | links on show | burger menu (below 1180px) |
 
@@ -69,7 +69,7 @@ The site speaks **English, Portuguese, Spanish, French and Italian**. The picker
 
 The catalogue's data does not go through a translation function: on a language switch, the `COURSES`, `TRACKS` and `TESTIMONIALS` objects are **rewritten in place** from a copy of the English stored on load. That way all the rest of the code goes on reading `c.name` without knowing a translation exists, and each field falls back to English on its own when the translated version is missing.
 
-**Everything is translated, in all four non-source languages**: the interface (163 keys), all 18 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 105 courses. That is **2,988 strings per language**, close to twelve thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
+**Everything is translated, in all four non-source languages**: the interface (161 keys), all 15 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 105 courses. That is **3,140 strings per language**, better than twelve thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
 
 Adding a language is: one line in `LANGUAGES` (in `i18n-runtime.js`), a `ui`/`testimonials` block in `i18n.js` and a `tracks` block in the catalogue file and a catalogue file. The check that runs against the source flags any missing field and any topic list whose length differs from the original — that is how the five languages closed with no gaps.
 
@@ -136,7 +136,7 @@ The detour is local: it passes just above the highest card in the way, or just b
 
 The curve's two rises have independent widths, computed from **each endpoint's real clearance**. With sub-columns the gap between cards falls from 48px to 14px, and a fixed 26px rise went straight through the neighbour — it was precisely through that rise that the line entered the card.
 
-This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **3,704 edges across 18 tracks, every branch of every fork, at four screen sizes, in the panel and on the whole screen — zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
+This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **3,440 edges across 15 tracks, every branch of every fork, at four screen sizes, in the panel and on the whole screen — zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
 
 Each edge is a `<g>` with two paths — one transparent and thick, only to catch the cursor, and the visible one. Hovering **the line** highlights it; hovering **the card** lights up every edge entering and leaving it.
 
@@ -162,7 +162,7 @@ Three layout rules keep the graph inside the screen, with no scrollbar on show:
 | track top (name, objective, numbers) | 120px | 98px |
 | **the graph's lane** | **207px** | **402px** |
 
-The `h2` "Um caminho, não uma lista de cursos" and the paragraph explaining the graph metaphor **were removed from this section** — they are the only screens on the site without a complete `.sec-head`. The `// TRACKS DE FORMAÇÃO` tag shares the line with the family switcher, so the section keeps its identity at zero height cost. The explanatory text was lost on purpose: the `N níveis · 4 deles com ordem livre` strip already says the track is not a queue, and the graph shows it.
+The `h2` "Um caminho, não uma lista de cursos" and the paragraph explaining the graph metaphor **were removed from this section** — they are the only screens on the site without a complete `.sec-head`. The explanatory text was lost on purpose: the `N níveis · 4 deles com ordem livre` strip already says the track is not a queue, and the graph shows it.
 
 With 402px instead of 207px, **three courses fit in a column** where one used to. Of the 16 tracks, at 1920×950 none breaks into sub-columns; at 1366×768 only one is left — Front-end's level 05, which has four courses and genuinely does not fit. `splitLevels()` now subtracts the lane's real padding instead of a constant, because the magic number would silence any future gain.
 
@@ -321,33 +321,25 @@ What this changes in the rest of the code:
 
 **When creating a new track, use a fork when the roadmap does not choose for you.** Candidates already mapped: the scripting language in DevSecOps (Ruby, Python, Rust, Go, JS), Python or R in Business Intelligence, and the cloud provider (AWS, Azure, GCP) in DevOps.
 
-### The two track families
+### There were two families, and now there is one
 
-roadmap.sh separates its roadmaps **by role** and **by skill**. They are different questions, and the site answers both with the `family` field:
+roadmap.sh separates its roadmaps **by role** and **by skill**, and for a while the site answered both: a `family` field, two rows of tabs, `career` tracks ending in a job title and `technology` tracks ending in a mastery — `Domínio de Python`. Python, Go and SQL were built that way. **All three were retired**, and the field with them; the sections below are the reasoning that produced them and then took them apart, kept because the tests in them are the ones the next candidate has to pass.
 
-```js
-{ id: 'backend',    familia: 'carreira',   nome: 'Desenvolvimento Back-end', … }
-{ id: 'python-tech', familia: 'tecnologia', nome: 'Python', … }
-```
+The measurement that ended it, taken over the three tracks as they stood:
 
-| | answers | outcome |
+| | the fan flows to | new courses it cost |
 | --- | --- | --- |
-| `career` | which profession do I want | a role — `Back-end Developer júnior` |
-| `technology` | which tool do I want to master | the mastery — `Domínio de Python` |
+| Python | Back-end, Data, AI, BI, Prompt, Security — 6 careers | 0 |
+| SQL and Databases | BI, Data, DBA, Back-end — 4 careers | 0 |
+| **Go** | **Back-end, and nowhere else** | 220h |
 
-On screen, a switcher above the picker changes the row of tabs. It is not decoration: 14 tabs do not fit in a single row, and the separation is the message itself — whoever does not yet know which career they want can come in via a technology.
+Of the **30 course slots** in the three tracks, **29 were already in a career track**. Only `go-production` lived nowhere else, and it joined the Go branch of the Back-end fork, which now runs `go → go-concurrency → go-back → go-production`, 290h against 140h for the JavaScript and Python branches. That is what a language track costs when it is paid for inside the career that uses it.
 
-**A technology track always has the same shape: a short trunk and a fan at the end.** The trunk teaches the technology in depth; the final fork opens up the applications, assembled from courses that already exist. A queue of three courses in a straight line would be worse than the old list and would contradict the section's promise. The fan is what a career track cannot say: one technology opens more than one door.
+And Go, measured by the site's own Java test — *a language with a single outcome becomes courses inside the career that uses it* — was Java with another name. It had been let in without being made to take the test.
 
-Unlike the Back-end fork, **here the paths do not come back together** — the step's `note` says so. It is the only place on the site where the choice is terminal, and it works because the finish node connects to the whole step.
+What was lost is real and worth naming: the answer to "I want to learn Python", for a student who does not want a job title yet. What replaced it is the course catalogue with its filters, and the modal's *faz parte de N trilhas*, which is a weaker door. The reason for accepting that: three tabs sitting under fifteen, with nothing on the screen explaining what a second family was, were not doing that job either.
 
-**Which technology deserves a track.** roadmap.sh has ~45 skill roadmaps; becoming a track is the exception, not the rule. It has to pass three criteria:
-
-1. **It already has 2+ courses in the catalogue** that fall into it — or they are worth producing.
-2. **It opens more than one professional outcome** — otherwise the career track already covers it and the technology one is redundant.
-3. **It has an audience on the internet.** The criterion was born geographic, when the target was one town; the school is 100% online and the criterion stopped being about maps.
-
-Python and SQL pass all three and cost **zero new courses**. Go passes too, and cost 220h — see below.
+**The shape those tracks had**, since two of the cases below refer to it: a short trunk that taught the technology in depth, and a terminal fork at the end whose branches did not come back together — the only place on the site where a choice was final. The fan was what a career track cannot say: one technology opens more than one door. The test was whether the fan had anywhere to flow.
 
 ### Dividing by capability, not by level: the Go case
 
@@ -374,7 +366,7 @@ Concurrency got its own course on purpose: it is ~16 topics, it is the hardest p
 
 **That fixed the Back-end fork's asymmetry for free**: the Go option became `['go','go-concurrency','go-back']`, in the same format as `['python','python-back']`. The option became the longest in the step, and that laid bare that `java-back` was making the same mistake — 90h for the language, Spring, security, tests and deployment. That was the debt the Java case, just below, paid off.
 
-**Go is the first technology track that costs new content: 220h.** Python and SQL cost zero. It is the catalogue's single largest addition — for comparison, the whole DevSecOps track cost 120h. Worth knowing that this is the price of a language track done properly, and that the same price will apply to Java, Rust or C# when their turn comes. Better treated as policy ("one deep track per major language") than case by case.
+**Go is the first technology track that costs new content: 220h.** Python and SQL cost zero. It is the catalogue's single largest addition — for comparison, the whole DevSecOps track cost 120h. That price was the warning: a language whose track has to be paid for is a language whose fan is not there yet, and Go's never was. The 220h stayed, inside Back-end, which is where a language with one outcome belongs.
 
 ### The redundant fan: the Java case
 
@@ -421,7 +413,7 @@ Then the Java test was applied to what was left, and it fails the same way:
 
 Criterion 2 is explicit — *it opens more than one professional outcome, otherwise the career track already covers it and the technology one is redundant*. Before Cloud Engineering existed the question did not arise, because the vendor track was standing in for a career that had not been written. Once it was written, the technology track had nothing left to say that the career did not say better, with a job title at the end.
 
-**A postscript, from the other direction.** The DBA career came in afterwards, and it gave the SQL technology track a third branch — administration — for the price of listing two courses that already existed. Its fan now reaches BI, Data Engineering and Database Administration. The test cuts both ways: writing a career can retire a technology track, as it did for the two clouds, or it can be what finally justifies one.
+**A postscript, from the other direction.** The DBA career came in afterwards, and it gave the SQL technology track a third branch — administration — for the price of listing two courses that already existed. Its fan then reached BI, Data Engineering and Database Administration. The test cuts both ways: writing a career can retire a technology track, as it did for the two clouds, or it can be what keeps one alive. In the end it did neither for long — the whole family went, for the reason recorded above — but the mechanism is the one to reach for the next time a track looks like it is standing in for a career nobody has written yet.
 
 **The rule that comes out of it**: a technology gets a track when its fan reaches more than one career. A cloud provider's fan reaches one, because operating it *is* the career. The three vendor course sets stay — they are 12 courses and 780h, reachable from two careers — and the tracks named after the vendors do not.
 
@@ -477,7 +469,7 @@ The order sustains the division: in DevOps, the three come **after** Kubernetes 
 
 The syllabus **condenses**; the topics **list**. It is `topics` that carries the roadmap's fine items — the little beige squares hanging under each yellow topic (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — without turning the modal into a wall of technical terms. The field is optional: a course with no `topics` does not show the block. The catalogue's search looks in both.
 
-**All 105 courses have `topics` filled in — 1,968 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
+**All 105 courses have `topics` filled in — 1,972 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
 
 ### The language of the names
 
@@ -497,11 +489,11 @@ The syllabus **condenses**; the topics **list**. It is `topics` that carries the
 
 Eight of the thirteen pass 720h. That is a lot of time with no milestone of arrival — and it is exactly the hole Alura fills with the extra level it has.
 
-**Alura stacks; here the families sit side by side.** There it goes `Career ⊃ Track ⊃ Course`: the Track is a slice by subject *inside* a Career, and it is what the certificate attaches to. Here, `career` and `technology` are two species at the same level, and below them there is only the course.
+**Alura stacks; here it is flat.** There it goes `Career ⊃ Track ⊃ Course`: the Track is a slice by subject *inside* a Career, and it is what the certificate attaches to. Here there is the track and, below it, the course — nothing in between.
 
-The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **47 of the 105 courses are in two or more tracks** — `web-fundamentals` is in 13, `linux-terminal` in 12, `sql-databases` and `networks` in 9. That is 236 slots for 105 distinct courses, a reuse factor of 2.25×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
+The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **36 of the 105 courses are in two or more tracks** — `web-fundamentals` is in 11, `linux-terminal` in 10, `networks` in 9 and `cloud` in 8. That is 208 slots for 105 distinct courses, a reuse factor of 1.98×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
 
-In other words: the split by family solves **where to come in**; Alura's Track solves **how to know you have advanced**. They are orthogonal problems, and only the first one is solved here.
+In other words: the track solves **where to come in**; Alura's Track solves **how to know you have advanced**. They are orthogonal problems, and only the first one is solved here.
 
 **Why not now.** The change is additive — a new field in `TRACKS` does not invalidate the `courses` that already exists, nothing migrates and no link dies. The cost only jumps at the **first certificate issued to a real student**, because from then on changing the unit of certification becomes a reissue or an exception. That deadline belongs to the LMS, not to the showcase.
 
@@ -511,7 +503,7 @@ In other words: the split by family solves **where to come in**; Alura's Track s
 
 1. **The axis.** If it is not level, what is it? The candidate consistent with the rest of the catalogue is *capability* — each block delivers something the student can now do, like the four Go courses. The more ambitious candidate is *a partial employable outcome*: the block ends where you can already work at something.
 2. **The name.** "Trilha" is already used up one level above and "etapa" already names the graph's columns. That leaves *módulo* and *bloco*.
-3. **The certificate's anchor.** The topology here creates a question Alura's does not have: the technology tracks end in a **fan with a terminal choice**, where the paths do not come back together. Certifying "Domínio de Python" certifies which branch — all of them, or the chosen one?
+3. **The certificate's anchor.** A fork's branches make the question: a career certificate is every fixed step plus one complete branch per choice, which is what `certificateSets()` computes. The retired technology tracks made it sharper, because their fork was terminal and the paths never came back together — certifying "Domínio de Python" would have had to say which branch.
 4. **The translation cost.** A block name is a translatable string. Thirteen tracks with three or four blocks each is ~45 new names × 4 languages.
 
 **The benefit that would already exist today** — 1,040h on a single screen is intimidating on a showcase whose job is to convert an enrolment — is a *presentation* problem, and does not require inventing the unit of certification to be solved.
@@ -530,8 +522,7 @@ The roadmaps that appear **in blue** inside roadmap.sh's roadmaps are whole othe
 | A roadmap with two audiences | Cyber Security | **two tracks**, one serving as the base for the other |
 | The intersection of two careers | DevSecOps | its own **track**, if it brings a course neither of the two has |
 | The same subject for another audience | BI Analyst | its own **track**, with a path that does not go through programming |
-| A language with several outcomes | Python, SQL, Go, JavaScript | a **`technology`-family track** — a short trunk and a fan of applications |
-| A language with a single outcome | Java | **courses** inside the career track that uses it — the fan would be redundant |
+| A language, whatever its reach | Python, SQL, Go, Java, JavaScript | **courses** inside the career tracks that use it. A `technology` family existed for the languages with several outcomes and was retired — see above |
 | A tool with a single outcome | Docker, Kubernetes, Terraform, Spring Boot | a shared **course** — the fan does not exist, and a track would be padding |
 
 ### The same subject for another audience: the BI Analyst case
@@ -601,7 +592,7 @@ The ruler, refined after the Prompt/AI case: **combining complete tracks does no
 
 **The model's economics**: added up, the thirteen career tracks deliver up to 9,610 hours of training — but the content to produce is 5,310 hours, because the shared courses are made only once. **45% savings**, and it grows with every new track.
 
-The number is computed **only over the `career` family** — both the delivered workload and the "exclusive to it" column below. The technology tracks are 100% reuse by construction: including them would push the savings up without the school having produced a single hour, and the indicator would stop measuring what matters. That is why the table below did not move when Python and SQL went in; the Back-end line changed for another reason — the Go option gained two courses, which are exclusive to it and dropped the reuse from 37% to 25%.
+The number is computed over every track, which today is every career. While the technology family existed it was excluded from this figure: those tracks were 100% reuse by construction, and including them would have pushed the savings up without the school having produced a single hour. The indicator is the same one now that there is nothing to exclude.
 
 How that appears in practice, track by track (exclusive hours = content only it uses):
 
@@ -651,13 +642,13 @@ Four commands, and **not one hand-written response**: the numbers, the track nam
 
 ```
 $ codeschool --status
-✓ 105 cursos · 18 trilhas · 6.640 horas de conteúdo
+✓ 105 cursos · 15 trilhas · 6.640 horas de conteúdo
 
-$ codeschool tracks --career
-→ Desenvolvimento Front-end · 590h
-→ Desenvolvimento Back-end · 760–840h
+$ codeschool tracks
+→ Desenvolvimento Front-end · 570–590h
+→ Desenvolvimento Back-end · 830–980h
 → DevOps e SRE · 780h
-  … e mais 11 trilhas de carreira
+  … e mais 12 trilhas
 
 $ codeschool course kubernetes --info
 → Kubernetes: Orquestração em Produção · 80h · avançado
@@ -707,8 +698,8 @@ that genuinely needs a person, and the reason the channel exists at all.
 - **Big Data in the Architecture track**: the roadmap cites Hadoop, Spark and MapReduce. The architect needs the overview, which `warehouse-modeling` gives; `bigdata`'s 70h stayed only in the Data track so as not to inflate the track with content they will not operate.
 - **Certifications** (PMI, ITIL, Prince2, Scrum, CompTIA, OSCP, CISSP…) are presented as an overview in `process-management`, `tech-support` and `pentest`; the school does not prepare anyone for a certifier's exam.
 - **A red team track separate from the blue team one**: the Cyber Security roadmap does not separate them, and dividing now would create two 400h tracks with half the content repeated. `pentest` (offensive) and `soc-response` (defensive) coexist in the same track, each with 70-80h. If demand justifies it, the split can be done later without redoing a single course.
-- **A technology track for every skill roadmap**: there are ~45 on roadmap.sh. Only those that pass the three criteria above go in; the rest go on being a course inside a career track, which is where they already were.
-- **Standalone courses, outside any track**: the catalogue is good for finding a course you already know you want, but a course with no track loses the "em N trilhas" badge, loses the "faz parte de" block in the modal and becomes a dead end in the navigation. Today there are **zero standalone courses**, and it is worth keeping it that way — it was the alternative discarded when the technology tracks were designed.
+- **A track for every skill roadmap**: there are ~45 on roadmap.sh. A skill becomes a course inside the career that uses it, which is where it already was; the family that existed to hold the exceptions was retired.
+- **Standalone courses, outside any track**: the catalogue is good for finding a course you already know you want, but a course with no track loses the "em N trilhas" badge, loses the "faz parte de" block in the modal and becomes a dead end in the navigation. Today there are **zero standalone courses**, and it is worth keeping it that way — it was the alternative discarded when the technology tracks were designed, and retiring them did not create a single one: of their 30 slots, 29 were already in a career and the thirtieth moved into one.
 - **`ai-security` went into the Cyber Security track** even though it is not in the Cyber Security roadmap: application security with LLMs is the subject a 2026 analyst will run into, and the course already existed. It is the only deliberate deviation from the roadmap in that track.
 
 ## What still needs filling in

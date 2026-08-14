@@ -14,6 +14,9 @@
 window.I18N = window.I18N || {};
 window.I18N.pt = window.I18N.pt || {};
 window.I18N.pt.ui = {
+  "part of {n} track": "faz parte de {n} trilha",
+  "part of {n} tracks": "faz parte de {n} trilhas",
+  "… and {n} more tracks": "… e mais {n} trilhas",
   "see the graph on the whole screen": "ver o grafo na tela inteira",
   "leave the whole screen": "sair da tela inteira",
   "read the whole objective": "ler o objetivo inteiro",
@@ -111,15 +114,12 @@ window.I18N.pt.ui = {
   "after": "depois de",
   "ai": "ia",
   "all": "todas",
-  "and of {n} technology track": "e de {n} trilha de tecnologia",
-  "and of {n} technology tracks": "e de {n} trilhas de tecnologia",
   "architecture": "arquitetura",
   "area": "área",
   "backend": "backend",
   "beginner": "iniciante",
   "by career": "por carreira",
   "by technology": "por tecnologia",
-  "career tracks": "trilhas por carreira",
   "course": "curso",
   "course introduction": "apresentação do curso",
   "courses": "cursos",
@@ -149,10 +149,6 @@ window.I18N.pt.ui = {
   "of them in free order": "deles com ordem livre",
   "on this path": "neste caminho",
   "opens the way to": "abre caminho para",
-  "part of {n} career track": "faz parte de {n} trilha de carreira",
-  "part of {n} career tracks": "faz parte de {n} trilhas de carreira",
-  "part of {n} technology track": "faz parte de {n} trilha de tecnologia",
-  "part of {n} technology tracks": "faz parte de {n} trilhas de tecnologia",
   "plan": "plano",
   "prerequisites": "pré-requisitos",
   "programming": "programacao",
@@ -164,7 +160,6 @@ window.I18N.pt.ui = {
   "subscribe --email": "inscrever --email",
   "subscribe →": "assinar →",
   "subscription.new": "assinatura.novo",
-  "technology tracks": "trilhas por tecnologia",
   "the right track from day one": "a trilha certa do começo",
   "to": "a",
   "topics": "tópicos",
@@ -180,7 +175,6 @@ window.I18N.pt.ui = {
   "you choose": "você escolhe",
   "you@example.com": "voce@exemplo.com",
   "your e-mail": "seu e-mail",
-  "… and {n} more career tracks": "… e mais {n} trilhas de carreira"
 };
 
 window.I18N.pt.testimonials = [
