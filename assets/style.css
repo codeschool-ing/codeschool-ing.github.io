@@ -405,6 +405,10 @@ html[data-theme="light"] .drop-op.on{background:rgba(43,82,201,.09)}
   height:100%;
 }
 .track-graph::-webkit-scrollbar{display:none}
+/* it can be taken hold of and pulled — the cursor is the only thing that says so,
+   and it only says it when there is somewhere to go (`can-pan`, set in JS) */
+.track-graph.can-pan{cursor:grab}
+.track-graph.can-pan.is-dragging{cursor:grabbing;user-select:none;-webkit-user-select:none}
 /* fades the edge where there is still graph, as with the tabs */
 .track-graph.fade-right{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 26px),transparent)}
 .track-graph.fade-left{-webkit-mask-image:linear-gradient(to left,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(to left,#000 calc(100% - 26px),transparent)}
@@ -1061,8 +1065,17 @@ html.modal-open .screen{overflow:hidden}
   }
   .modal-col{min-height:0;display:flex;flex-direction:column}
   .modal-col-intro{margin-bottom:0;overflow-y:auto}
-  /* the button sits centred under the video, which fills the whole column */
-  .modal-col-intro .modal-actions{padding-top:8px;justify-content:center}
+  /* THE TWO COLUMNS DO NOT HOLD THE SAME AMOUNT, AND NO SPLIT MAKES THEM.
+     The left is a video, a sentence and a button — near enough the same height
+     for every course. The right runs from 419px to 650px depending on how many
+     blocks of chips the course earns: `javascript` is in six tracks and opens
+     the way to six courses, and left 191px of the left column empty; `react-ts`
+     and `kubernetes` fill both sides exactly. Moving a block across balances
+     those two and unbalances these, which is trading one gap for another.
+     So the slack is not removed, it is put somewhere it reads as deliberate:
+     the button drops to the floor of the column, level with the bottom of the
+     right one, and the space lands above it instead of below everything. */
+  .modal-col-intro .modal-actions{padding-top:8px;justify-content:center;margin-top:auto}
   .modal-video{max-width:none;margin-inline:0}
   .modal-body:not(.subscribe-body) h3{font-size:1.55rem}
 
