@@ -1382,7 +1382,7 @@ function buildCatalogue() {
           '<h3>' + c.name + '</h3>' +
           '<p>' + c.summary + '</p>' +
           '<span class="course-foot"><span>' + c.hours + ' ' + txt('hours') + '</span>' +
-          '<span class="tracks-count">' + (nT ? txt('in') + ' ' + nT + ' ' + txt(nT > 1 ? 'tracks' : 'trilha') : txt('standalone course')) + '</span></span>' +
+          '<span class="tracks-count">' + (nT ? txt('in') + ' ' + nT + ' ' + txt(nT > 1 ? 'tracks' : 'track') : txt('standalone course')) + '</span></span>' +
         '</button>'
       );
     })
@@ -1521,8 +1521,6 @@ function openCourse(id) {
         unlockedBy(c.id).map((p) => '<button type="button" data-course="' + p.id + '">' + p.name + ' →</button>').join('') +
         '</div></div>'
       : '') +
-    // the two families appear separately: "in 5 tracks" does not say the same
-    // thing if 3 are careers and 2 are technologies
     trackBlock(tracks) +
     '</div>';
   modalBody.scrollTop = 0;

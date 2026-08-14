@@ -28,6 +28,32 @@ console.log('courses with 2+ prerequisites:', COURSES.filter(c => c.requires.len
 const isChoice = (i) => typeof i === 'object' && Array.isArray(i.options);
 const allOf = (t) => [...new Set(t.courses.flatMap(i => (isChoice(i) ? i.options.flatMap(o => o.courses) : [i])))];
 
+/* A CONTINUATION TRACK DOES NOT REPEAT ITS BASE.
+ *
+ * `continues` names the track a student has to have finished first. Software Architecture
+ * and Technical Leadership have always said that in prose, in `goal`, and it cost them
+ * nothing because their courses depend on almost nothing. Data Platform cannot: every one
+ * of its seven courses names a prerequisite that lives in Data Engineering, and listing
+ * those back would rebuild the entry track inside the continuation — 520h of it.
+ *
+ * So the field is the declaration, and the checks below read it. It is followed to the end
+ * of the chain, and a track that continues itself, or continues nothing, is an error.
+ *
+ * The base goes in as ALL of its paths rather than one at a time, which is looser than the
+ * per-path check below it: a continuation course requiring a course that only exists on one
+ * branch of the base's fork would pass here and be wrong for two students in three. Nothing
+ * does that today, and the honest fix if something ever does is to make the branch a
+ * prerequisite of the whole continuation, not to cross-product the two tracks' paths. */
+const trackById = Object.fromEntries(TRACKS.map(t => [t.id, t]));
+const inherited = (t, seen = new Set([t.id])) => {
+  const base = trackById[t.continues];
+  if (!t.continues) return [];
+  if (!base) { console.log('missing continues:', t.id, '->', t.continues); errors++; return []; }
+  if (seen.has(base.id)) { console.log('CYCLE in continues:', [...seen].join(' -> '), '->', base.id); errors++; return []; }
+  seen.add(base.id);
+  return allOf(base).concat(inherited(base, seen));
+};
+
 /* A dependency declared AFTER the course that requires it makes a cycle in the track's graph —
    and before the fix it stopped the whole track from rendering. */
 let outOfOrder = 0;
@@ -75,8 +101,9 @@ const certificateSets = (t) => {
 let dangling = 0;
 TRACKS.forEach(t => {
   const paths = certificateSets(t);
+  const base = inherited(t);
   paths.forEach((path, i) => {
-    const has = new Set(path);
+    const has = new Set(path.concat(base));
     path.forEach(id => (COURSES.find(c => c.id === id) || {}).requires
       ?.forEach(d => {
         if (!has.has(d)) {
