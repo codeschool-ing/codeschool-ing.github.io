@@ -14,6 +14,10 @@
 window.I18N = window.I18N || {};
 window.I18N.pt = window.I18N.pt || {};
 window.I18N.pt.ui = {
+  "see the graph on the whole screen": "ver o grafo na tela inteira",
+  "leave the whole screen": "sair da tela inteira",
+  "read the whole objective": "ler o objetivo inteiro",
+  "shorten the objective": "encurtar o objetivo",
   "finished on the way": "concluído no caminho",
   "at level": "no nível",
   "✓ check your inbox — click the link to confirm": "✓ confira seu e-mail — clique no link para confirmar",

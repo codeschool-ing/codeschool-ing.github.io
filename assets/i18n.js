@@ -18,6 +18,10 @@ window.I18N = window.I18N || {};
 
 window.I18N.es = window.I18N.es || {};
 window.I18N.es.ui = {
+  "see the graph on the whole screen": "ver el grafo en toda la pantalla",
+  "leave the whole screen": "salir de la pantalla completa",
+  "read the whole objective": "leer el objetivo entero",
+  "shorten the objective": "acortar el objetivo",
   "finished on the way": "terminado por el camino",
   "at level": "en el nivel",
   "✓ check your inbox — click the link to confirm": "✓ revisa tu correo — haz clic en el enlace para confirmar",
@@ -203,6 +207,10 @@ window.I18N.es.testimonials = [
 
 window.I18N.fr = window.I18N.fr || {};
 window.I18N.fr.ui = {
+  "see the graph on the whole screen": "voir le graphe en plein écran",
+  "leave the whole screen": "quitter le plein écran",
+  "read the whole objective": "lire l'objectif en entier",
+  "shorten the objective": "raccourcir l'objectif",
   "finished on the way": "terminé en chemin",
   "at level": "au niveau",
   "✓ check your inbox — click the link to confirm": "✓ vérifiez votre boîte mail — cliquez sur le lien pour confirmer",
@@ -388,6 +396,10 @@ window.I18N.fr.testimonials = [
 
 window.I18N.it = window.I18N.it || {};
 window.I18N.it.ui = {
+  "see the graph on the whole screen": "vedere il grafo a schermo intero",
+  "leave the whole screen": "uscire dallo schermo intero",
+  "read the whole objective": "leggere l'obiettivo intero",
+  "shorten the objective": "accorciare l'obiettivo",
   "finished on the way": "completato lungo la strada",
   "at level": "al livello",
   "✓ check your inbox — click the link to confirm": "✓ controlla la tua e-mail — clicca sul link per confermare",
