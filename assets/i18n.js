@@ -18,6 +18,11 @@ window.I18N = window.I18N || {};
 
 window.I18N.es = window.I18N.es || {};
 window.I18N.es.ui = {
+  "foundations": "fundamentos",
+  "mobile": "móvil",
+  "part of {n} track": "forma parte de {n} itinerario",
+  "part of {n} tracks": "forma parte de {n} itinerarios",
+  "… and {n} more tracks": "… y {n} itinerarios más",
   "see the graph on the whole screen": "ver el grafo en toda la pantalla",
   "leave the whole screen": "salir de la pantalla completa",
   "read the whole objective": "leer el objetivo entero",
@@ -115,15 +120,12 @@ window.I18N.es.ui = {
   "after": "después de",
   "ai": "ia",
   "all": "todas",
-  "and of {n} technology track": "y de {n} itinerario de tecnología",
-  "and of {n} technology tracks": "y de {n} itinerarios de tecnología",
   "architecture": "arquitectura",
   "area": "área",
   "backend": "backend",
   "beginner": "inicial",
   "by career": "por carrera",
   "by technology": "por tecnología",
-  "career tracks": "itinerarios por carrera",
   "course": "curso",
   "course introduction": "presentación del curso",
   "courses": "cursos",
@@ -153,10 +155,6 @@ window.I18N.es.ui = {
   "of them in free order": "de ellos en orden libre",
   "on this path": "en este camino",
   "opens the way to": "abre camino a",
-  "part of {n} career track": "forma parte de {n} itinerario de carrera",
-  "part of {n} career tracks": "forma parte de {n} itinerarios de carrera",
-  "part of {n} technology track": "forma parte de {n} itinerario de tecnología",
-  "part of {n} technology tracks": "forma parte de {n} itinerarios de tecnología",
   "plan": "plan",
   "prerequisites": "requisitos previos",
   "programming": "programación",
@@ -168,7 +166,6 @@ window.I18N.es.ui = {
   "subscribe --email": "suscribir --correo",
   "subscribe →": "suscribirse →",
   "subscription.new": "suscripcion.nueva",
-  "technology tracks": "itinerarios por tecnología",
   "the right track from day one": "el itinerario correcto desde el principio",
   "to": "a",
   "topics": "temas",
@@ -184,7 +181,6 @@ window.I18N.es.ui = {
   "you choose": "tú eliges",
   "you@example.com": "tu@ejemplo.com",
   "your e-mail": "tu correo",
-  "… and {n} more career tracks": "… y {n} itinerarios de carrera más"
 };
 
 window.I18N.es.testimonials = [
@@ -207,6 +203,10 @@ window.I18N.es.testimonials = [
 
 window.I18N.fr = window.I18N.fr || {};
 window.I18N.fr.ui = {
+  "foundations": "fondamentaux",
+  "part of {n} track": "fait partie de {n} parcours",
+  "part of {n} tracks": "fait partie de {n} parcours",
+  "… and {n} more tracks": "… et {n} autres parcours",
   "see the graph on the whole screen": "voir le graphe en plein écran",
   "leave the whole screen": "quitter le plein écran",
   "read the whole objective": "lire l'objectif en entier",
@@ -304,15 +304,12 @@ window.I18N.fr.ui = {
   "after": "après",
   "ai": "ia",
   "all": "tous",
-  "and of {n} technology track": "et de {n} parcours technologique",
-  "and of {n} technology tracks": "et de {n} parcours technologiques",
   "architecture": "architecture",
   "area": "domaine",
   "backend": "backend",
   "beginner": "débutant",
   "by career": "par métier",
   "by technology": "par technologie",
-  "career tracks": "parcours par métier",
   "course": "cours",
   "course introduction": "présentation du cours",
   "courses": "cours",
@@ -342,10 +339,6 @@ window.I18N.fr.ui = {
   "of them in free order": "dont l’ordre est libre",
   "on this path": "sur ce chemin",
   "opens the way to": "ouvre la voie vers",
-  "part of {n} career track": "fait partie de {n} parcours métier",
-  "part of {n} career tracks": "fait partie de {n} parcours métier",
-  "part of {n} technology track": "fait partie de {n} parcours technologique",
-  "part of {n} technology tracks": "fait partie de {n} parcours technologiques",
   "plan": "formule",
   "prerequisites": "prérequis",
   "programming": "programmation",
@@ -357,7 +350,6 @@ window.I18N.fr.ui = {
   "subscribe --email": "abonner --email",
   "subscribe →": "s’abonner →",
   "subscription.new": "abonnement.nouveau",
-  "technology tracks": "parcours par technologie",
   "the right track from day one": "le bon parcours dès le départ",
   "to": "à",
   "topics": "sujets",
@@ -373,7 +365,6 @@ window.I18N.fr.ui = {
   "you choose": "vous choisissez",
   "you@example.com": "vous@exemple.com",
   "your e-mail": "votre e-mail",
-  "… and {n} more career tracks": "… et {n} autres parcours métier"
 };
 
 window.I18N.fr.testimonials = [
@@ -396,6 +387,10 @@ window.I18N.fr.testimonials = [
 
 window.I18N.it = window.I18N.it || {};
 window.I18N.it.ui = {
+  "foundations": "fondamenti",
+  "part of {n} track": "fa parte di {n} percorso",
+  "part of {n} tracks": "fa parte di {n} percorsi",
+  "… and {n} more tracks": "… e altri {n} percorsi",
   "see the graph on the whole screen": "vedere il grafo a schermo intero",
   "leave the whole screen": "uscire dallo schermo intero",
   "read the whole objective": "leggere l'obiettivo intero",
@@ -493,15 +488,12 @@ window.I18N.it.ui = {
   "after": "dopo",
   "ai": "ia",
   "all": "tutti",
-  "and of {n} technology track": "e di {n} percorso tecnologico",
-  "and of {n} technology tracks": "e di {n} percorsi tecnologici",
   "architecture": "architettura",
   "area": "area",
   "backend": "backend",
   "beginner": "principiante",
   "by career": "per carriera",
   "by technology": "per tecnologia",
-  "career tracks": "percorsi per carriera",
   "course": "corso",
   "course introduction": "presentazione del corso",
   "courses": "corsi",
@@ -531,10 +523,6 @@ window.I18N.it.ui = {
   "of them in free order": "di questi in ordine libero",
   "on this path": "su questo percorso",
   "opens the way to": "apre la strada a",
-  "part of {n} career track": "fa parte di {n} percorso di carriera",
-  "part of {n} career tracks": "fa parte di {n} percorsi di carriera",
-  "part of {n} technology track": "fa parte di {n} percorso tecnologico",
-  "part of {n} technology tracks": "fa parte di {n} percorsi tecnologici",
   "plan": "piano",
   "prerequisites": "prerequisiti",
   "programming": "programmazione",
@@ -546,7 +534,6 @@ window.I18N.it.ui = {
   "subscribe --email": "iscrivi --email",
   "subscribe →": "iscriviti →",
   "subscription.new": "abbonamento.nuovo",
-  "technology tracks": "percorsi per tecnologia",
   "the right track from day one": "il percorso giusto fin dall’inizio",
   "to": "a",
   "topics": "argomenti",
@@ -562,7 +549,6 @@ window.I18N.it.ui = {
   "you choose": "scegli tu",
   "you@example.com": "tu@esempio.com",
   "your e-mail": "la tua e-mail",
-  "… and {n} more career tracks": "… e altri {n} percorsi di carriera"
 };
 
 window.I18N.it.testimonials = [

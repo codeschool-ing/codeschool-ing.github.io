@@ -452,15 +452,14 @@ function buildTerminal() {
     COURSES.length + ' ' + txt('courses ·') + ' ' + TRACKS.length + ' ' + txt('tracks ·') +
     ' ' + TOTAL_HOURS.toLocaleString(currentLocale()) + ' ' + txt('hours of content'));
 
-  const career = TRACKS.filter((t) => t.family === 'career');
-  const list = career.slice(0, 3).map((t) => {
+  const list = TRACKS.slice(0, 3).map((t) => {
     const f = hoursRange(t);
     return arrow('→', 'pr', t.name + ' · ' + (f.min === f.max ? f.min : f.min + '–' + f.max) + 'h');
   }).join('');
-  const rest = career.length - 3;
+  const rest = TRACKS.length - 3;
   const moreTracks = rest > 0
     ? '<div class="term-line"><span class="cm">  ' +
-      txt('… and {n} more career tracks').replace('{n}', rest) + '</span></div>'
+      txt('… and {n} more tracks').replace('{n}', rest) + '</span></div>'
     : '';
 
   const c = courseById(SHOWCASE_COURSE) || COURSES.find((x) => (x.requires || []).length);
@@ -475,7 +474,7 @@ function buildTerminal() {
 
   body.innerHTML =
     cmd('codeschool --status') + status + blank +
-    cmd('codeschool tracks --career') + list + moreTracks + blank +
+    cmd('codeschool tracks') + list + moreTracks + blank +
     card + blank +
     cmd('codeschool start<span class="cursor"></span>');
   // each line's position becomes its animation delay
@@ -551,54 +550,39 @@ const panelEl = $('#track-panel');
 let currentTrack = 0;
 let swapT = null;
 
-/* Two families of track: "carreira" answers which profession the student wants,
-   "tecnologia" answers which tool they want to master. Each has its own row of
-   tabs, with its own label and arrows — since there are only two, the switcher
-   that used to be there cost more height than it conveyed. The index used
-   throughout this section is still the one into TRACKS. */
-const FAMILIES = ['career', 'technology'];
-const familyOf = (t) => t.family || 'career';
-const indicesOfFamily = (f) => TRACKS.map((t, i) => (familyOf(t) === f ? i : -1)).filter((i) => i >= 0);
-const familyBox = (f) => document.querySelector('.tabs-box[data-family="' + f + '"]');
-const familyTabs = (f) => $('#tabs-' + f);
+/* One row of tracks, because every track is a career. There were two families
+   and two rows — the other one asked which technology you wanted to master —
+   and dropping it gave the remaining row the 104px the label was taking.
 
-/* The tracks dropdown (mobile): the two scrollable rows become a single list,
-   grouped by family. Same data source, same opening function. */
+/* The tracks dropdown (mobile): the scrollable row becomes a list. Same data
+   source, same opening function. */
 const trackDrop = $('#drop-tracks');
 function buildTrackDropdown() {
   const list = $('#drop-tracks-list');
   list.textContent = '';
-  FAMILIES.forEach((f) => {
-    const h = document.createElement('div');
-    h.className = 'drop-group';
-    h.textContent = txt(f === 'career' ? 'career tracks' : 'technology tracks');
-    list.appendChild(h);
-    indicesOfFamily(f).forEach((i) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'drop-op' + (i === currentTrack ? ' on' : '');
-      b.textContent = TRACKS[i].name;
-      b.addEventListener('click', () => { openTrack(i); closeDropdowns(); });
-      list.appendChild(b);
-    });
+  TRACKS.forEach((t, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'drop-op' + (i === currentTrack ? ' on' : '');
+    b.textContent = t.name;
+    b.addEventListener('click', () => { openTrack(i); closeDropdowns(); });
+    list.appendChild(b);
   });
   trackDrop.querySelector('.drop-current').textContent = TRACKS[currentTrack].name;
 }
 
 function buildTabs() {
-  FAMILIES.forEach((f) => {
-    const el = familyTabs(f);
-    el.textContent = '';
-    indicesOfFamily(f).forEach((i) => {
-      const b = document.createElement('button');
-      b.className = 'track-tab' + (i === currentTrack ? ' on' : '');
-      b.type = 'button';
-      b.dataset.idx = i;
-      b.setAttribute('role', 'tab');
-      b.textContent = TRACKS[i].name;
-      b.addEventListener('click', () => openTrack(i));
-      el.appendChild(b);
-    });
+  const el = $('#tabs');
+  el.textContent = '';
+  TRACKS.forEach((t, i) => {
+    const b = document.createElement('button');
+    b.className = 'track-tab' + (i === currentTrack ? ' on' : '');
+    b.type = 'button';
+    b.dataset.idx = i;
+    b.setAttribute('role', 'tab');
+    b.textContent = t.name;
+    b.addEventListener('click', () => openTrack(i));
+    el.appendChild(b);
   });
 }
 
@@ -1059,7 +1043,7 @@ function updateRow(box) {
   box.classList.toggle('no-arrows', overflow <= 4);
 }
 function updateTabs() {
-  FAMILIES.forEach((f) => updateRow(familyBox(f)));
+  updateRow($('.tabs-box'));
   updateRow($('.chips-box'));
 }
 
@@ -1382,18 +1366,17 @@ function closeModals() {
   document.documentElement.classList.remove('modal-open');
 }
 
-/* "faz parte de 3 tracks de carreira" + "e de 2 tracks de tecnologia"
+/* "faz parte de 3 trilhas"
 
    The whole sentence is ONE translation key, with `{n}` in place of the number —
-   not a prefix plus the noun plus a suffix. Assembling it from pieces works in
-   Portuguese, where the qualifier comes after ("tracks de carreira"), and breaks
-   in English, where it comes before ("career tracks"): out came "part of 2 tracks
-   career tracks". Word order is something only the whole sentence settles. */
-function trackBlock(list, family, continuation) {
+   not a prefix plus a noun. It used to be assembled from pieces, and that works
+   in Portuguese, where the qualifier comes after, and breaks in English, where it
+   comes before: out came "part of 2 tracks career tracks". Word order is
+   something only the whole sentence settles. */
+function trackBlock(list) {
   if (!list.length) return '';
   const n = list.length;
-  const key = (continuation ? 'and of {n} ' : 'part of {n} ') +
-    family + (n > 1 ? ' tracks' : ' track');
+  const key = 'part of {n} track' + (n > 1 ? 's' : '');
   return '<div class="modal-block"><h4>' + txt(key).replace('{n}', n) +
     '</h4><div class="modal-tracks">' +
     list.map((t) => '<button type="button" data-track="' + t.id + '">' + t.name + ' →</button>').join('') +
@@ -1421,8 +1404,6 @@ function openCourse(id) {
   const c = courseById(id);
   if (!c) return;
   const tracks = tracksOfCourse(id);
-  const career = tracks.filter((t) => familyOf(t) === 'career');
-  const technology = tracks.filter((t) => familyOf(t) === 'technology');
   modalFile.textContent = id + '.curso';
   /* Two columns wherever they fit (see style.css): on the left what convinces —
      what the course is, who speaks about it and the button; on the right what
@@ -1469,8 +1450,7 @@ function openCourse(id) {
       : '') +
     // the two families appear separately: "in 5 tracks" does not say the same
     // thing if 3 are careers and 2 are technologies
-    trackBlock(career, 'career', false) +
-    trackBlock(technology, 'technology', career.length > 0) +
+    trackBlock(tracks) +
     '</div>';
   modalBody.scrollTop = 0;
   modal.hidden = false;
@@ -1825,10 +1805,8 @@ window.addEventListener('keydown', (e) => {
     e.preventDefault(); goTo(screens.length - 1);
   } else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && screens[current].id === 'tracks') {
     e.preventDefault();
-    // the arrows move within the open track's family, not through the whole list
-    const ofFamily = indicesOfFamily(familyOf(TRACKS[currentTrack]));
-    const pos = ofFamily.indexOf(currentTrack) + (e.key === 'ArrowRight' ? 1 : -1);
-    openTrack(ofFamily[Math.max(0, Math.min(ofFamily.length - 1, pos))]);
+    const pos = currentTrack + (e.key === 'ArrowRight' ? 1 : -1);
+    openTrack(Math.max(0, Math.min(TRACKS.length - 1, pos)));
   }
 });
 

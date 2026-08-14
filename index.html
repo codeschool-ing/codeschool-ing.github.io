@@ -110,26 +110,19 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
 
 <!-- SCREEN 2 · TRACKS -->
 <section id="tracks" class="screen panel-sec">
-  <!-- Two rows: one per family. No heading, no tag and no switcher — every
-       pixel above the graph is one course fewer per column. -->
-  <!-- on mobile the two rows become a single menu: at 360px wide,
-       "← trilha trilha →" showed half a tab at a time -->
+  <!-- One row of tracks. No heading, no tag and no switcher — every pixel above
+       the graph is one course fewer per column. -->
+  <!-- on mobile the row becomes a menu: at 360px wide, "← trilha trilha →"
+       showed half a tab at a time -->
   <div class="drop" id="drop-tracks">
     <button class="drop-btn" type="button" aria-expanded="false" aria-label="Choose a track">
       <span class="drop-current"></span><span class="drop-arrow" aria-hidden="true">▾</span>
     </button>
     <div class="drop-list" id="drop-tracks-list" role="menu"></div>
   </div>
-  <div class="tabs-box" data-family="career">
-    <span class="tabs-label">career tracks</span>
+  <div class="tabs-box">
     <button class="tabs-arrow left" type="button" data-scroll="-1" aria-label="Previous tracks">←</button>
-    <div class="track-tabs" id="tabs-career" role="tablist" aria-label="Tracks by career"></div>
-    <button class="tabs-arrow right" type="button" data-scroll="1" aria-label="Next tracks">→</button>
-  </div>
-  <div class="tabs-box" data-family="technology">
-    <span class="tabs-label">technology tracks</span>
-    <button class="tabs-arrow left" type="button" data-scroll="-1" aria-label="Previous tracks">←</button>
-    <div class="track-tabs" id="tabs-technology" role="tablist" aria-label="Tracks by technology"></div>
+    <div class="track-tabs" id="tabs" role="tablist" aria-label="Tracks"></div>
     <button class="tabs-arrow right" type="button" data-scroll="1" aria-label="Next tracks">→</button>
   </div>
   <div class="track-panel" id="track-panel" aria-live="polite"></div>

@@ -250,24 +250,12 @@ html[data-theme="light"] .lang-op.on{background:rgba(43,82,201,.09)}
 /* ---------- TRACKS ---------- */
 /* the picker grows with every new track: one line with arrows at the ends,
    instead of wrapping and leaving an orphan tab on a second line */
-/* Family switcher: "by career" and "by technology" are different questions
-   (which profession do I want / which tool do I want to master), and the 14 tabs
-   would not fit in a single row. It sits above the picker, discreetly. */
-/* Two rows of tabs, one per family, each with its own label and arrows. Since
-   there are only two families and they are not meant to grow, showing both at
-   once conveys more and costs less height than the switcher that was there. */
-.tabs-box{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex:0 0 auto}
-/* the last row opens the same breathing room the top of the track leaves for the
-   graph: the name+objective block ends up centred between the two */
-.tabs-box[data-family="technology"]{margin-bottom:18px}
-/* "TRACKS BY TECHNOLOGY" on a single line would eat 165px of the tabs. Letting
-   it wrap onto two lines costs the label the same ~100px of width, and the height
-   is already the tab button's — it pushes nothing. */
-.tabs-label{
-  font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--paper-dim);
-  flex:0 0 104px;line-height:1.3;
-}
+/* One row, with its arrows. There were two — one per family of track — each
+   with a label taking 104px off the width; the row got that back when the
+   technology family was retired. The bottom margin is the breathing room the top
+   of the track leaves for the graph, so the name+objective block ends up centred
+   between the two. */
+.tabs-box{display:flex;align-items:center;gap:8px;margin-bottom:18px;flex:0 0 auto}
 .chips-box{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0}
 
 /* ---------- DROPDOWN MENU (mobile) ----------
@@ -297,6 +285,7 @@ html[data-theme="light"] .lang-op.on{background:rgba(43,82,201,.09)}
    options' colour it disappeared among them; here it becomes a band: accent
    colour, its own background and a hairline above separating it from the
    previous group. */
+/* kept for the catalogue's own dropdowns; the tracks list is flat */
 .drop-group{
   font-family:'IBM Plex Mono',monospace;font-size:.64rem;font-weight:600;
   letter-spacing:.14em;text-transform:uppercase;color:var(--amber);

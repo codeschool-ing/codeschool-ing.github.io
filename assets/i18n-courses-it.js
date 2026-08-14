@@ -15,6 +15,509 @@
 
 window.I18N.it = window.I18N.it || {};
 window.I18N.it.courses = {
+  "people-leadership": {
+    "name": "Guidare le Persone: 1:1, Feedback e Selezione",
+    "summary": "La metà del lavoro a cui nessuna promozione prepara. Uno a uno che non sono riunioni di stato, feedback che cambia qualcosa, selezione senza teatro e le conversazioni che nessuno vuole avere.",
+    "syllabus": [
+      "I primi novanta giorni: dal fare il lavoro al risponderne",
+      "Uno a uno: una riunione che non è un rapporto di stato",
+      "Il feedback che cambia un comportamento, e quello che solo ti solleva",
+      "Crescita: livelli, aspettative e la conversazione sulla promozione",
+      "Selezione: colloquio, calibrazione e il costo di sbagliare",
+      "Conversazioni difficili: prestazioni, conflitto e separazione"
+    ],
+    "topics": [
+      "Cosa cambia quando la tua produzione diventa quella degli altri",
+      "Chi guida senza uscire dal codice e chi gestisce: le due forme del ruolo",
+      "Delegare un risultato invece di un compito, con il contesto che lo accompagna",
+      "Autonomia contro allineamento: quanta corda, e chi decide",
+      "Uno a uno: cadenza, di chi è l'agenda e cosa resta scritto",
+      "Le domande che vanno oltre il «va tutto bene»",
+      "Il seguito: la riunione vale quello che succede dopo",
+      "Feedback: situazione, comportamento, impatto — e chiedere prima di dire",
+      "Il feedback positivo come calibrazione, non come decorazione",
+      "Quando il feedback smette di esserlo e diventa un colloquio di prestazioni",
+      "Livelli di carriera: cosa significa «senior» quando è scritto",
+      "Aspettative, prove e un caso di promozione che regge davanti a un comitato",
+      "Crescere senza promozione: ambito, profondità e lavoro visibile",
+      "Selezione: la descrizione del ruolo, l'imbuto e il tempo che serve davvero",
+      "Colloquio strutturato, e le domande che non prevedono nulla",
+      "Esercizio a casa, programmazione in coppia o dal vivo: cosa misura ciascuno",
+      "Calibrazione fra chi seleziona, e il pregiudizio che sopravvive alle buone intenzioni",
+      "Inserimento: la prima settimana, il primo commit e il primo turno di reperibilità",
+      "Prestazioni insufficienti: diagnosticare prima di decidere qualsiasi cosa",
+      "Il piano di miglioramento, scritto con onestà",
+      "Separarsi da qualcuno: la procedura, la persona e la squadra il mattino dopo",
+      "Conflitto: fra persone, fra squadre e con il prodotto",
+      "Perché le persone se ne vanno davvero, e quanto di questo dipende da te",
+      "Gestire verso l'alto: la tua direzione, i pari e la promessa che non puoi fare"
+    ],
+    "prerequisites": "Nessun prerequisito tecnico. Presuppone che tu abbia lavorato in squadra e visto un progetto andare male — il tema sono le persone, e gli esempi vengono dal software."
+  },
+  "delivery-metrics": {
+    "name": "Consegna e Metriche: Flusso, DORA e Incidenti",
+    "summary": "Rispondere a «quando è pronto» e «come stiamo andando» con qualcosa di diverso da un'opinione: flusso, le quattro metriche DORA, gli incidenti e la reperibilità che qualcuno deve portarsi dietro.",
+    "syllabus": [
+      "Flusso: lavoro in corso, code e tempo di ciclo",
+      "Le quattro metriche DORA, e come vengono aggirate",
+      "Prevedere senza fingere di indovinare",
+      "Incidenti: gravità, comando e il postmortem",
+      "Reperibilità: turni, stanchezza da allarmi e il costo del cercapersone",
+      "Rendere conto verso l'alto: cosa dimostra un cruscotto e cosa no"
+    ],
+    "topics": [
+      "La legge di Little nella lingua della squadra: lavoro in corso, portata e tempo di attraversamento",
+      "Tempo di ciclo e tempo di attraversamento, e dove sta davvero l'attesa",
+      "Flusso cumulato, grafico di invecchiamento e l'elemento che nessuno guarda",
+      "Limitare il lavoro in corso: finire prima di cominciare",
+      "Le quattro metriche DORA: frequenza di rilascio, tempo di attraversamento, tasso di fallimento e tempo di ripristino",
+      "Cosa misura DORA e cosa no — la metrica come sintomo",
+      "Aggirare la metrica: lotti più piccoli per il grafico, e altre bugie presentabili",
+      "SPACE, e la trappola di misurare la produttività individuale",
+      "Stimare a punti, a tempo o contando gli elementi; #NoEstimates nella pratica",
+      "Previsione dallo storico: Monte Carlo invece di sommare stime",
+      "Una roadmap con intervalli di confidenza, e la conversazione sulle date",
+      "Capacità, margine e l'illusione della squadra allocata al 100%",
+      "Gravità dell'incidente, chi comanda e un solo canale di comunicazione",
+      "Cronologia, mitigare prima di diagnosticare e la persona incaricata di scrivere",
+      "Postmortem senza colpevoli, azioni e ciò che fa sì che vengano fatte",
+      "Budget di errore: SLI, SLO e la discussione che sostituiscono",
+      "Reperibilità: turni, escalation, passaggio di consegne e compenso",
+      "Stanchezza da allarmi: cosa merita di svegliare qualcuno e cosa merita una riga di log",
+      "La revisione trimestrale: il grafico che sopravvive al «e quindi?»",
+      "A cosa possono servire i numeri di una squadra, e a cosa non devono servire"
+    ],
+    "prerequisites": "Richiede processo e stima. Presuppone che tu abbia già consegnato software in squadra, con pipeline e produzione — non insegna a rilasciare, insegna a misurare e decidere."
+  },
+  "tech-strategy": {
+    "name": "Strategia Tecnica: Debito, Budget e Comprare o Costruire",
+    "summary": "Decidere dove va il denaro dell'ingegneria: il debito tecnico come voce di budget, comprare invece di costruire e un piano che sopravvive al contatto con il trimestre.",
+    "syllabus": [
+      "Cos'è una strategia tecnica, e perché una roadmap non lo è",
+      "Debito tecnico: quello deliberato, quello accidentale e come metterci un prezzo",
+      "Costruire, comprare o adottare: la decisione e il costo su tre anni",
+      "Il budget: cloud, licenze, persone e cosa significa tagliare",
+      "Piattaforma e strade asfaltate: standardizzare senza fare i vigili",
+      "Allinearsi con il prodotto, e dire di no con una ragione allegata"
+    ],
+    "topics": [
+      "Una strategia è diagnosi, linea guida e azione coerente — non un elenco di obiettivi",
+      "Visione, strategia, roadmap e backlog: quattro documenti diversi",
+      "Scrivere la pagina unica che la squadra sa ripeterti",
+      "Debito tecnico: deliberato e accidentale, prudente e imprudente",
+      "Dare un prezzo al debito come interesse pagato ogni sprint, non come numero in un foglio",
+      "La riscrittura che non conviene mai, e i due casi in cui conviene",
+      "Lo schema strangler: migrare con la produzione in funzione",
+      "Costruire, comprare o adottare open source: il confronto che guarda a tre anni",
+      "Costo totale di proprietà: licenza, integrazione, esercizio e uscita",
+      "Il vincolo al fornitore come rischio con un prezzo, non come slogan",
+      "Il budget dell'ingegneria: cloud, strumenti, licenze e persone",
+      "FinOps per chi guida: costo unitario, riaddebito e la fattura che nessuno legge",
+      "Dare priorità quando tutto è prioritario: costo del ritardo e costo opportunità",
+      "Squadre di piattaforma e percorsi d'oro: lo standard che passa perché è più facile",
+      "Lo strumento interno che nessuno usa, e perché è stato costruito lo stesso",
+      "Decisioni tecniche che sono decisioni di prodotto travestite",
+      "I registri delle decisioni di architettura come memoria della squadra",
+      "Lavorare con il prodotto: scoperta, compromessi e una roadmap con due autori",
+      "Dire di no: l'alternativa, il costo e la data",
+      "Presentare alla direzione: rischio, denaro e una slide"
+    ],
+    "prerequisites": "Richiede esperienza di un sistema in produzione e della settimana di una squadra. Gli esempi presuppongono che tu abbia già visto una migrazione, una proposta di riscrittura e una fattura del cloud."
+  },
+  "python-data": {
+    "name": "Python per la Data Science: NumPy, pandas e Notebook",
+    "summary": "Lo stack scientifico in mano: array che non hanno bisogno di cicli, DataFrame che reggono un set di dati vero e un notebook che un'altra persona riesce a eseguire.",
+    "syllabus": [
+      "Jupyter, e un notebook che si esegue dall'alto in basso",
+      "NumPy: array, vettorizzazione e broadcasting",
+      "pandas: Series, DataFrame, selezione e tipi",
+      "Raggruppare, unire e rimodellare i dati",
+      "Grafici con matplotlib e seaborn",
+      "Riproducibilità: ambienti, semi e dati che non si muovono"
+    ],
+    "topics": [
+      "Jupyter e JupyterLab: il notebook come documento di lavoro",
+      "Celle, ordine di esecuzione e il notebook che funziona solo in disordine",
+      "Ambienti virtuali, requirements e conda",
+      "NumPy: ndarray, dtype e come occupa memoria",
+      "Operazioni vettorizzate al posto dei cicli Python",
+      "Broadcasting: la regola, e gli errori che produce",
+      "Indicizzazione, slicing e maschere booleane",
+      "Numeri casuali, semi e un risultato che si riproduce",
+      "pandas: Series, DataFrame e l'indice che nessuno legge",
+      "Leggere CSV, Excel, JSON, Parquet e SQL",
+      "Selezionare con loc e iloc, e il SettingWithCopyWarning",
+      "Tipi, categorie, date e valori mancanti in pandas",
+      "groupby: dividere, applicare, combinare",
+      "merge, join e concat: chiavi, cardinalità e le righe che si sono duplicate",
+      "pivot e melt: il formato largo e quello lungo",
+      "Finestre mobili e spostamenti per una serie nel tempo",
+      "apply e map, e perché sono la strada lenta",
+      "matplotlib: figure, axes e un grafico che vale la pena pubblicare",
+      "seaborn: distribuzioni, relazioni e categorie in una riga",
+      "Memoria e velocità: dtypes, blocchi e quando pandas è lo strumento sbagliato",
+      "Dal notebook allo script: parametri, funzioni e un progetto che gira altrove"
+    ],
+    "prerequisites": "Richiede Python — il linguaggio, non le librerie. La statistica aiuta e non è presupposta: qui i grafici si disegnano prima di interpretarli."
+  },
+  "machine-learning": {
+    "name": "Machine Learning: Modelli, Valutazione e Messa in Servizio",
+    "summary": "Addestrare il modello è la parte facile. Qui c'è la divisione che non lascia trapelare nulla, la metrica che corrisponde alla decisione, la variabile che viene dal business — e il modello che esce dietro un endpoint.",
+    "syllabus": [
+      "Inquadramento: cosa decide il modello e quanto costa sbagliare",
+      "Apprendimento supervisionato: regressione, classificazione e le loro metriche",
+      "Alberi e insiemi: il modello che di solito vince nella pratica",
+      "Ingegneria delle variabili, pipeline e fuga di dati",
+      "Apprendimento non supervisionato: clustering e riduzione della dimensionalità",
+      "Dal notebook al servizio: un modello che altri possono chiamare"
+    ],
+    "topics": [
+      "Inquadrare il problema: previsione, decisione e il costo di ogni tipo di errore",
+      "La linea di base: la regola banale che il modello deve battere",
+      "Addestramento, validazione e test; validazione incrociata e la divisione che rispetta il tempo",
+      "Fuga di dati: da dove entra e come appare nelle metriche",
+      "Regressione lineare e logistica: regolarizzazione e lettura dei coefficienti",
+      "k vicini, naive Bayes e macchine a vettori di supporto",
+      "Alberi di decisione: profondità, purezza e leggerne uno ad alta voce",
+      "Foreste casuali, gradient boosting, XGBoost e LightGBM",
+      "Iperparametri: ricerca a griglia, casuale e bayesiana",
+      "Metriche di classificazione: accuratezza, precisione, richiamo, F1 e ROC AUC",
+      "La soglia è una decisione di business, non lo 0,5 predefinito",
+      "Metriche di regressione: MAE, RMSE, MAPE e R²",
+      "Classi sbilanciate: ricampionamento, pesi e ciò che la metrica nasconde",
+      "Ingegneria delle variabili: codifica, scalatura, date e testo",
+      "Pipeline di scikit-learn: trasformatori, selezione di colonne e riproducibilità",
+      "Clustering: k-means, DBSCAN e gerarchico — e come leggere il risultato",
+      "Riduzione della dimensionalità: PCA, t-SNE e UMAP",
+      "Raccomandazione: filtraggio collaborativo e l'avvio a freddo",
+      "Interpretabilità: coefficienti, importanza delle variabili, SHAP e dipendenza parziale",
+      "Pregiudizio ed equità: l'attributo protetto che hai tolto e la variabile sostitutiva rimasta",
+      "Serializzare un modello e servirlo dietro un'API",
+      "Punteggio a lotti, monitoraggio e la deriva che arriva senza avvisare"
+    ],
+    "prerequisites": "Richiede lo stack scientifico in Python e la statistica — inferenza, non solo medie. L'ingegneria intorno al modello in produzione, con feature store e riaddestramento, è il ml-mlops dell'Ingegneria dei Dati."
+  },
+  "deep-learning": {
+    "name": "Deep Learning: Reti Neurali nella Pratica",
+    "summary": "La parte dell'apprendimento automatico che divora dati e ore di GPU: cosa impara davvero una rete, come addestrarla senza perdere una settimana e quando un modello di boosting sarebbe stata la risposta migliore.",
+    "syllabus": [
+      "Dal perceptron alla retropropagazione, con la matematica che conta",
+      "Addestramento: funzione di perdita, ottimizzatore, tasso di apprendimento e sovradattamento",
+      "PyTorch: tensori, autograd e il ciclo di addestramento",
+      "Reti convoluzionali per le immagini",
+      "Sequenze, attenzione e transformer",
+      "Transfer learning, messa a punto e quando non usare niente di tutto questo"
+    ],
+    "topics": [
+      "Il perceptron, le funzioni di attivazione e cosa calcola davvero uno strato",
+      "Passaggio in avanti, perdita e discesa del gradiente in una dimensione",
+      "La retropropagazione, senza giri di parole",
+      "Funzioni di perdita: MSE, entropia incrociata e quella adatta al compito",
+      "Ottimizzatori: SGD, momento, Adam e il tasso di apprendimento sopra ogni cosa",
+      "Dimensione del lotto, epoche e leggere bene una curva di addestramento",
+      "Sovradattamento: regolarizzazione, dropout, arresto anticipato e aumento dei dati",
+      "Normalizzazione: per lotto, per strato e perché stabilizza l'addestramento",
+      "PyTorch: tensori, autograd, moduli e il ciclo di addestramento",
+      "Dataset e dataloader, e la GPU ferma ad aspettare i dati",
+      "Convoluzione: filtri, passo, riempimento e pooling",
+      "Le architetture classiche: ResNet, EfficientNet e cosa ha cambiato ciascuna",
+      "Aumento dei dati e transfer learning per le immagini",
+      "Sequenze: RNN e LSTM, e perché sono state sostituite",
+      "L'attenzione e il transformer, dall'interno",
+      "Embedding, token e cosa legge il modello al posto del testo",
+      "Mettere a punto un modello preaddestrato, e quali strati congelare",
+      "Tracciare gli esperimenti: esecuzioni, semi e sapere cosa ha fatto la differenza",
+      "Costo: GPU, precisione mista e tempo di addestramento contro il guadagno",
+      "Quando non usare il deep learning: dati tabellari, pochi dati e la linea di base del boosting"
+    ],
+    "prerequisites": "Richiede il machine learning: la divisione, le metriche e il sovradattamento sono dati per acquisiti. Algebra lineare e derivate compaiono, spiegate dove servono."
+  },
+  "kotlin": {
+    "name": "Kotlin",
+    "summary": "Il linguaggio su cui gira Android, imparato per bene: sicurezza sul null che elimina un'intera famiglia di crash, coroutine al posto delle callback e una libreria standard che accorcia una riga su due.",
+    "syllabus": [
+      "Sintassi, tipi e un compilatore che non lascia passare il null",
+      "Funzioni, lambda e la libreria di collezioni",
+      "Classi, data class, sealed class e object",
+      "Coroutine: funzioni sospese, ambiti e concorrenza strutturata",
+      "Flow, per valori che arrivano nel tempo",
+      "Test, moduli e Kotlin fuori da Android"
+    ],
+    "topics": [
+      "val, var e inferenza di tipo",
+      "Tipi nullabili: chiamata sicura, operatore elvis e il !! che nessuno dovrebbe scrivere",
+      "Funzioni: argomenti predefiniti, argomenti con nome e corpo a espressione singola",
+      "Lambda, funzioni di ordine superiore e la lambda in coda alla chiamata",
+      "Collezioni: map, filter, fold e la sequence pigra",
+      "Funzioni di ambito: let, run, with, apply e also",
+      "Classi, costruttori, proprietà e blocchi init",
+      "Data class, destrutturazione e copy",
+      "Sealed class, e il when che il compilatore obbliga a completare",
+      "Object, companion object e singleton",
+      "Interfacce, delega e funzioni di estensione",
+      "Generici, varianza e parametri di tipo reificati",
+      "Eccezioni, Result e gestire il fallimento senza lanciare",
+      "Coroutine: suspend, launch, async e il dispatcher",
+      "Concorrenza strutturata: ambito, job e cancellazione",
+      "Flow: flussi freddi, operatori e raccolta",
+      "StateFlow e SharedFlow per lo stato osservato",
+      "Test con JUnit, kotlin.test e le utilità di test per le coroutine",
+      "Gradle, moduli e la catena di strumenti Kotlin",
+      "Kotlin oltre Android: server, multipiattaforma e scripting"
+    ],
+    "prerequisites": "Nessun Kotlin precedente. Programmare in un qualsiasi linguaggio aiuta: il corso passa in fretta sulla sintassi che ti sembrerà già familiare."
+  },
+  "swift": {
+    "name": "Swift",
+    "summary": "Il linguaggio di Apple, dalla sintassi alle parti che danno forma a ogni app iOS: opzionali, semantica di valore, protocolli e la concorrenza arrivata con async/await.",
+    "syllabus": [
+      "Sintassi, tipi, opzionali e un compilatore che insiste",
+      "Struct e classi: semantica di valore e di riferimento",
+      "Protocolli, generici e progettazione orientata ai protocolli",
+      "Errori, Result e il fallimento che era previsto",
+      "Concorrenza: async/await, task e attori",
+      "Test, pacchetti e la catena di strumenti Swift"
+    ],
+    "topics": [
+      "let, var, inferenza di tipo e la tipizzazione forte che si fa sentire subito",
+      "Opzionali: if let, guard let e lo scarto forzato che manda in crash",
+      "Funzioni, etichette degli argomenti, closure e la closure in coda",
+      "Collezioni, map/filter/reduce e sequenze pigre",
+      "Struct contro classe: semantica di valore e di riferimento nella pratica",
+      "Proprietà: memorizzate, calcolate, osservate e lazy",
+      "Enum con valori associati, e corrispondenza di schemi",
+      "Protocolli, estensioni e implementazioni predefinite",
+      "Generici, tipi associati e tipi di ritorno opachi",
+      "Programmazione orientata ai protocolli: composizione invece di ereditarietà",
+      "Memoria: ARC, strong, weak, unowned e il ciclo di ritenzione",
+      "Errori: throws, do/catch, Result e rethrows",
+      "Codable: JSON in entrambe le direzioni, con il compilatore che fa il lavoro",
+      "Concorrenza: async/await, Task e cancellazione",
+      "Attori, Sendable e la corsa ai dati che il compilatore intercetta",
+      "Property wrapper e result builder, visti da fuori",
+      "Controllo di accesso, moduli e spazi dei nomi",
+      "Test con XCTest e Swift Testing",
+      "Swift Package Manager, dipendenze e la catena di strumenti",
+      "Dove gira Swift oltre all'iPhone: macOS, server e Linux"
+    ],
+    "prerequisites": "Nessuno Swift precedente. Serve un Mac per il lavoro di piattaforma del corso successivo; il linguaggio in sé compila ovunque."
+  },
+  "mobile-fundamentals": {
+    "name": "Fondamenti dello Sviluppo Mobile",
+    "summary": "Cosa cambia in un programma che vive nella tasca di qualcuno: un ciclo di vita controllato dal sistema, uno schermo che cambia dimensione e orientamento, permessi, una rete che va e viene e una batteria che non è tua da spendere.",
+    "syllabus": [
+      "Il panorama: nativo, multipiattaforma e web, e quanto costa ciascuno",
+      "Il ciclo di vita dell'app, e il sistema che uccide il tuo processo",
+      "Layout che sopravvivono a ogni schermo e a entrambi gli orientamenti",
+      "Navigazione: pile, schede e link profondi",
+      "Permessi, privacy e i dati sul dispositivo",
+      "Linee guida di design, accessibilità e revisione dello store"
+    ],
+    "topics": [
+      "Android e iOS: le due piattaforme, e cosa cambia davvero fra loro",
+      "Nativo, multipiattaforma (React Native, Flutter, Kotlin Multiplatform) e involucri web",
+      "Scegliere l'approccio: squadra, prestazioni, funzioni del dispositivo e tempi",
+      "Il ciclo di vita: primo piano, secondo piano, sospesa, terminata",
+      "Salvare e ripristinare lo stato quando il sistema si porta via il processo",
+      "Il thread principale, gli scatti e il budget di 16 ms per fotogramma",
+      "Densità dello schermo: punti, dp e la stessa risorsa in tre misure",
+      "Layout che si allungano: telefono, tablet, pieghevole e orizzontale",
+      "Aree sicure, notch, tastiera e la barra in basso",
+      "Navigazione: pila, schede, cassetto e il tasto indietro che ha solo Android",
+      "Link profondi, link universali e aprire l'app da fuori",
+      "Permessi: chiederli al momento giusto, e il rifiuto che è definitivo",
+      "Privacy: cosa lo store obbliga a dichiarare e i dati che non conviene raccogliere",
+      "Connettività: offline, rete lenta e la richiesta che non torna mai",
+      "Batteria, lavoro in secondo piano e ciò che il sistema non lascia eseguire",
+      "Archiviazione sul dispositivo: file, preferenze e la sandbox",
+      "Notifiche push: come arrivano e perché non sono un canale da abusare",
+      "Material Design e le Human Interface Guidelines, una accanto all'altra",
+      "Accessibilità su schermo tattile: etichette, contrasto, area di tocco e lettori di schermo",
+      "Gli store: revisione, rifiuto, versionamento e cosa cambia dopo la pubblicazione"
+    ],
+    "prerequisites": "Nessuna esperienza mobile. Un po' di programmazione, in qualsiasi linguaggio: gli esempi leggono codice senza insegnarlo qui."
+  },
+  "android-apps": {
+    "name": "App Android con Jetpack Compose",
+    "summary": "Un'app Android vera: interfaccia dichiarativa in Compose, stato che sopravvive alla rotazione, dati dalla rete e dal database, e una build che arriva al Play Store.",
+    "syllabus": [
+      "Compose: composable, stato e ricomposizione",
+      "Architettura: ViewModel, flusso di dati a senso unico e iniezione",
+      "Dati: Retrofit, Room e il repository fra i due",
+      "Navigazione, liste e le schermate di un'app vera",
+      "Lavoro in secondo piano, notifiche e permessi",
+      "Build, varianti, firma e la pubblicazione su Play"
+    ],
+    "topics": [
+      "Il progetto Android: moduli, manifest, Gradle e risorse",
+      "Activity, il processo e dove si inserisce Compose",
+      "Composable: funzioni che disegnano, e quelle che non dovrebbero",
+      "Stato, remember, rememberSaveable e la rotazione che distruggeva tutto",
+      "Ricomposizione: cosa la innesca e come evitare quella inutile",
+      "Layout in Compose: Column, Row, Box, vincoli e modificatori",
+      "Material 3: tema, modalità scura e colore dinamico",
+      "Liste con LazyColumn: chiavi, scorrimento e paginazione",
+      "Navigation Compose: rotte, argomenti e la pila di ritorno",
+      "ViewModel, stato della schermata e flusso di dati a senso unico",
+      "Coroutine e Flow nell'interfaccia, consapevoli del ciclo di vita",
+      "Iniezione delle dipendenze con Hilt",
+      "Retrofit e OkHttp: chiamate, errori, nuovi tentativi e intercettori",
+      "JSON con kotlinx.serialization o Moshi",
+      "Room: entità, DAO, migrazioni e query che restituiscono un Flow",
+      "Il repository: una sola fonte di verità, cache e aggiornamento",
+      "Immagini con Coil, e la memoria che divora una lista di foto",
+      "WorkManager, per il lavoro che deve sopravvivere alla chiusura",
+      "Notifiche, canali e il permesso introdotto da Android 13",
+      "Permessi a runtime, e il percorso quando l'utente rifiuta due volte",
+      "Test: unitari, di interfaccia in Compose e di cattura schermo",
+      "Tipi di build, varianti di prodotto, firma, R8 e l'app bundle"
+    ],
+    "prerequisites": "Richiede Kotlin, coroutine e Flow compresi — l'interfaccia è costruita su di essi. Il ciclo di vita che presuppone è quello dei fondamenti mobile."
+  },
+  "ios-apps": {
+    "name": "App iOS con SwiftUI",
+    "summary": "Un'app per iPhone vera: SwiftUI, stato che il framework osserva, dati dalla rete e da SwiftData, e un archivio che passa la revisione dell'App Store.",
+    "syllabus": [
+      "SwiftUI: viste, stato e il sistema di layout",
+      "Flusso di dati: State, Binding, Observable e l'ambiente",
+      "Rete con URLSession, persistenza con SwiftData",
+      "Navigazione, liste e le schermate di un'app vera",
+      "Secondo piano, notifiche e permessi",
+      "Firma, TestFlight e la revisione dell'App Store"
+    ],
+    "topics": [
+      "Il progetto in Xcode: target, schemi, bundle id e Info.plist",
+      "Il ciclo di vita in SwiftUI: App, Scene e la gerarchia di viste",
+      "Viste come valori, e un body che viene eseguito di nuovo",
+      "Layout: stack, frame, allineamento, spacer e GeometryReader",
+      "Modificatori: l'ordine conta, e quelli che si somigliano soltanto",
+      "State e Binding: una sola fonte di verità",
+      "Observable, oggetti d'ambiente e passare lo stato verso il basso",
+      "Liste, ForEach, identità e prestazioni",
+      "NavigationStack: percorsi, sheet e schermate intere",
+      "Moduli, campi di testo, fuoco e la tastiera",
+      "Animazione, transizioni e geometria abbinata",
+      "URLSession con async/await: decodifica e lo stato di errore",
+      "SwiftData: modelli, query, relazioni e migrazione",
+      "Il repository fra la rete e l'archivio",
+      "Immagini: AsyncImage, cache e memoria",
+      "Attività in secondo piano e aggiornamento: cosa iOS permette davvero",
+      "Notifiche: locali, remote, il permesso e il delegato",
+      "Testi di privacy e permessi: fotocamera, posizione, foto e tracciamento",
+      "Accessibilità: etichette, tratti, Dynamic Type e VoiceOver",
+      "Test: unitari, di interfaccia e le preview come strumento di lavoro",
+      "Firma: certificati, profili di provisioning e l'archivio",
+      "TestFlight, App Store Connect e la revisione che respinge"
+    ],
+    "prerequisites": "Richiede Swift, async/await compreso. Serve un Mac con Xcode — la piattaforma non compila altrove."
+  },
+  "react-native": {
+    "name": "App Mobile con React Native",
+    "summary": "Una base di codice, due store: React Native ed Expo con il JavaScript che già scrivi — e il racconto onesto di quanto costa il ponte e di quando bisogna aprire il progetto nativo.",
+    "syllabus": [
+      "React Native ed Expo: il progetto, il runtime e gli strumenti",
+      "Componenti, stile e layout con Flexbox",
+      "Navigazione, stato e dati da un'API",
+      "Funzioni del dispositivo: fotocamera, archiviazione, posizione e notifiche",
+      "Moduli nativi, per quando la libreria non esiste",
+      "Build, aggiornamenti over-the-air e i due store"
+    ],
+    "topics": [
+      "Come gira React Native: JavaScript, la nuova architettura e il lato nativo",
+      "Expo contro React Native puro: cosa si guadagna e a cosa si rinuncia",
+      "Il progetto, Metro, la build di sviluppo e il simulatore",
+      "Componenti di base: View, Text, Image, ScrollView — quelli che non sono HTML",
+      "Stile: StyleSheet, Flexbox e il CSS che qui non esiste",
+      "Differenze di piattaforma: Platform.select e il file che finisce in .ios.js",
+      "Liste: FlatList, SectionList, chiavi e virtualizzazione",
+      "React Navigation: pila, schede, parametri e link profondi",
+      "Stato: hook, contesto e uno store quando il contesto non basta",
+      "Recupero, cache e offline con TanStack Query",
+      "Moduli, validazione e una tastiera che copre il campo",
+      "Animazione: Reanimated, gesti e 60fps fuori dal thread JavaScript",
+      "Fotocamera, selettore di immagini, file e permessi",
+      "Archiviazione: AsyncStorage, MMKV, SQLite e la cassaforte sicura",
+      "Posizione, mappe e localizzazione in secondo piano",
+      "Notifiche push, con Expo e con Firebase",
+      "Moduli nativi: chiamare Kotlin e Swift da JavaScript",
+      "Debug: DevTools, log e il bug che capita solo in release",
+      "Prestazioni: ri-render, liste che scattano, memoria delle immagini e dimensione del bundle",
+      "EAS Build: credenziali e compilare senza un Mac nella stanza",
+      "Aggiornamenti over-the-air: cosa può passare di lì e cosa no",
+      "Uno sguardo a Flutter e Kotlin Multiplatform: le altre strade multipiattaforma"
+    ],
+    "prerequisites": "Richiede JavaScript, React compreso — i componenti, gli hook e lo stato sono le stesse idee. Nessuna esperienza nativa."
+  },
+  "mobile-offline": {
+    "name": "Dati sul Dispositivo: Offline, Sincronizzazione e Conflitti",
+    "summary": "La rete è opzionale, l'app no. Archiviazione locale, architettura offline-first, una sincronizzazione che riprende e il conflitto che due dispositivi finiscono sempre per creare.",
+    "syllabus": [
+      "Cosa vive sul dispositivo, e la sandbox in cui vive",
+      "Database locali, e la query che tiene veloce l'interfaccia",
+      "Offline-first: la scrittura locale come fonte di verità",
+      "Sincronizzazione: coda, nuovo tentativo, idempotenza e delta",
+      "Conflitti: vince l'ultima scrittura, versionamento e CRDT",
+      "Cifratura sul dispositivo, e i dati che non dovrebbero starci"
+    ],
+    "topics": [
+      "La sandbox dell'app: file, preferenze, cache e cosa si porta via il backup",
+      "Archiviazione chiave-valore: preferenze, MMKV e UserDefaults",
+      "Database locali: SQLite, Room, SwiftData e Realm",
+      "Modellare per un dispositivo: normalizzare meno, leggere più in fretta",
+      "Migrazioni su un dispositivo in cui non puoi entrare",
+      "Leggere su un thread secondario, e la lista che si inceppa",
+      "Offline-first: scrivere in locale prima, avvisare la persona dopo",
+      "La coda in uscita: operazioni in attesa della rete",
+      "Nuovo tentativo, arretramento esponenziale e la richiesta che non deve ripetersi",
+      "Chiavi di idempotenza, e il pagamento inviato due volte",
+      "Sincronizzazione a delta: cursori, marche temporali e l'orologio sbagliato",
+      "Risincronizzazione completa: quando ricominciare costa meno",
+      "Conflitti: vince l'ultima scrittura, e cosa butta via in silenzio",
+      "Numeri di versione, orologi vettoriali e fusione campo per campo",
+      "CRDT, e le librerie che li implementano",
+      "Sincronizzare in secondo piano: cosa permettono Android e iOS, e cosa uccidono",
+      "Cache: cosa scade, cosa resta fissato e fino a che dimensione",
+      "Immagini e file offline, e il disco che si riempie",
+      "Cifratura a riposo, il portachiavi e lo sblocco biometrico",
+      "Dati che non dovrebbero mai stare sul dispositivo, e cosa lo store obbliga a dichiarare"
+    ],
+    "prerequisites": "Richiede un'app che legge già da un'API — il tema è cosa succede quando quell'API non c'è. Una qualsiasi delle tre piattaforme: gli esempi vengono da tutte."
+  },
+  "mobile-delivery": {
+    "name": "Pubblicare e Gestire un'App Mobile",
+    "summary": "Dalla build firmata alla versione già sul telefono delle persone: store, revisione, rilascio a scaglioni, rapporti di crash e la metrica che dice se qualcuno è tornato.",
+    "syllabus": [
+      "Firma, certificati e le chiavi che non si possono perdere",
+      "Gli store: scheda, revisione e il rifiuto che si ripete",
+      "Rilasciare a scaglioni, e il ritorno indietro che non esiste",
+      "Crash: simboli, traccia di chiamate e il bug che ha solo la release",
+      "Analytics, imbuti e ritenzione su mobile",
+      "Convivere con versioni sparse nel mondo: aggiornamento forzato e dismissione"
+    ],
+    "topics": [
+      "Firma su Android: keystore, Play App Signing e la chiave che non si può perdere",
+      "Firma su iOS: certificati, profili di provisioning e la scadenza che blocca la build",
+      "Play Console e App Store Connect: account, ruoli e costi",
+      "La scheda sullo store: schermate, descrizione, parole chiave e materiali",
+      "Etichette di privacy, dichiarazione dei dati e il permesso da giustificare",
+      "Revisione: i rifiuti più comuni, il ricorso e i tempi",
+      "Test interno, chiuso e aperto; TestFlight",
+      "Rilascio a scaglioni, e fermare una versione che sta andando in crash",
+      "Versionamento: nome della versione, numero di build e la semantica che le persone leggono",
+      "CI per il mobile: un Mac ospitato, la cache e la firma dentro la pipeline",
+      "Fastlane: build, schermate, metadati e invio",
+      "Rapporti di crash con Crashlytics o Sentry, e il caricamento dei simboli",
+      "Leggere una traccia di chiamate da una build di release minificata",
+      "ANR, terminazioni da watchdog e il crash che non è un crash",
+      "Prestazioni sul campo: tempo di avvio, fotogrammi persi e batteria",
+      "Analytics: eventi, imbuti e una misura che non è sorveglianza",
+      "Ritenzione, DAU/MAU e l'abbandono che ha davvero un'app mobile",
+      "Dimensione dell'app, conversione di installazione e cosa mostra lo store prima del download",
+      "Aggiornamento forzato, configurazione remota e feature flag",
+      "Supportare versioni sparse nel mondo: il contratto dell'API e l'app che non si aggiorna mai"
+    ],
+    "prerequisites": "Richiede un'app funzionante e una pipeline. Non insegna a costruirla — copre tutto quello che succede dopo che la build è andata a buon fine."
+  },
   "web-fundamentals": {
     "name": "Fondamenti del Web e di Internet",
     "summary": "Capisci cosa succede tra il momento in cui digiti un indirizzo e quello in cui appare la pagina — la base di qualsiasi carriera web.",
@@ -3551,6 +4054,32 @@ window.I18N.it.courses = {
 };
 
 window.I18N.it.tracks = {
+  "mobile": {
+    "name": "Sviluppo Mobile",
+    "goal": "L'app nella tasca di qualcuno, dalla prima schermata fino allo store. Il tronco è uguale per tutti — come funziona il web, il controllo di versione e i fondamenti che separano un'app mobile da un programma con una finestra — e poi scegli la piattaforma: Android con Kotlin, iOS con Swift o entrambe insieme con React Native. I percorsi si ricongiungono nella parte a cui nessuno sfugge: i dati sul dispositivo, i test e la pubblicazione. Basato sulle roadmap pubbliche Android e iOS della comunità roadmap.sh.",
+    "outcome": "Sviluppatore(trice) Mobile junior",
+    "steps": {
+      "3": {
+        "choice": "quale piattaforma",
+        "note": "I tre percorsi si ritrovano: quello che viene dopo è uguale per tutti.",
+        "options": [
+          "Android con Kotlin",
+          "iOS con Swift",
+          "Multipiattaforma con React Native"
+        ]
+      }
+    }
+  },
+  "data-science": {
+    "name": "Data Science",
+    "goal": "Chi trasforma una domanda in un numero su cui si può agire. Python e statistica prima di qualsiasi modello, i dati puliti e guardati, poi i modelli — prima i classici, le reti neurali dopo — e il risultato raccontato in modo da cambiare una decisione. L'Ingegneria dei Dati costruisce la pipeline; qui il lavoro è l'analisi. Basato sulle roadmap pubbliche Data Analyst e AI/Data Scientist della comunità roadmap.sh.",
+    "outcome": "Data Scientist junior"
+  },
+  "tech-lead": {
+    "name": "Leadership Tecnica",
+    "goal": "Il secondo percorso che ne richiede un altro prima: non avvia una carriera, ne prosegue una. Per chi sviluppa e si sente chiedere di rispondere per una squadra — processo e stima, la parte delle persone (uno a uno, feedback, selezione), la consegna misurata dal flusso e dalle metriche DORA, la comunicazione con chi non è tecnico e una strategia tecnica che sopravvive al trimestre. Basato sulla roadmap pubblica Engineering Manager della comunità roadmap.sh.",
+    "outcome": "Tech Lead / Engineering Manager"
+  },
   "frontend": {
     "name": "Sviluppo Front-end",
     "goal": "La formazione completa di chi costruisce ciò che l’utente vede: dalla prima pagina statica all’applicazione pubblicata. Il framework è una tua scelta e cambia un corso — tutto ciò che viene dopo è uguale su qualsiasi percorso, perché qualità, prestazioni, consegna e store non guardano quale hai preso. Sequenza basata sulla roadmap pubblica di Front-end della comunità roadmap.sh, adattata al nostro metodo.",
@@ -3672,51 +4201,4 @@ window.I18N.it.tracks = {
     "goal": "La formazione di chi garantisce che il software faccia ciò che promette — e regga ciò che è stato promesso al posto suo. Sequenza basata sulla roadmap pubblica QA Engineer di roadmap.sh. Come in BI, non serve programmare per iniziare: ci sono 330 ore prima del primo corso di programmazione, ed è la seconda porta d’ingresso del catalogo per chi cambia carriera.",
     "outcome": "Ingegnere QA junior"
   },
-  "python-tech": {
-    "name": "Python",
-    "goal": "Per chi vuole padroneggiare il linguaggio, non un ruolo. Il tronco è uguale per tutti — il linguaggio imparato bene, con il versionamento — e alla fine scegli dove applicarlo: al server, ai dati o all’IA. Basato sulla roadmap pubblica Python di roadmap.sh.",
-    "outcome": "Padronanza di Python",
-    "steps": {
-      "3": {
-        "choice": "dove applicare Python",
-        "note": "Qui il percorso non torna a unirsi: ogni strada è un’applicazione diversa dello stesso linguaggio.",
-        "options": [
-          "Server e API",
-          "Dati",
-          "IA"
-        ]
-      }
-    }
-  },
-  "go-tech": {
-    "name": "Go",
-    "goal": "Il linguaggio in cui sono scritti Docker, Kubernetes e Terraform. Il tronco va dalla sintassi alla concorrenza — la parte di Go che non esiste altrove — e alla fine scegli il lato: costruire servizi o lo strumento di infrastruttura. Basato sulla roadmap pubblica Go di roadmap.sh.",
-    "outcome": "Padronanza di Go",
-    "steps": {
-      "3": {
-        "choice": "il lato di Go",
-        "note": "I due partono dalla stessa concorrenza: uno costruisce il servizio, l’altro costruisce lo strumento che lo gestisce.",
-        "options": [
-          "Servizi e API",
-          "Strumenti e Infrastruttura"
-        ]
-      }
-    }
-  },
-  "sql-tech": {
-    "name": "SQL e Basi di Dati",
-    "goal": "La tecnologia che impiega di più e richiede di meno: SQL si impara senza saper programmare. È il percorso di chi viene dall’amministrazione, dalla contabilità o dalla gestione ed è stanco di chiedere un report a qualcun altro. Dopo la base di dati, scegli cosa farne del dato. Basato sulle roadmap pubbliche SQL e PostgreSQL di roadmap.sh.",
-    "outcome": "Padronanza di SQL e basi di dati",
-    "steps": {
-      "2": {
-        "choice": "cosa fare del dato",
-        "note": "I tre percorsi partono dallo stesso database: uno guarda alla decisione, il secondo al volume, il terzo al database stesso.",
-        "options": [
-          "Analisi e BI",
-          "Ingegneria dei Dati",
-          "Amministrazione"
-        ]
-      }
-    }
-  }
 };
