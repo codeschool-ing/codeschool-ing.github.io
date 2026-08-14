@@ -1750,31 +1750,65 @@ window.I18N.it.courses = {
     "prerequisites": "Richiede modellazione e SQL, più Python per l’orchestratore."
   },
   "bigdata": {
-    "name": "Big Data e Calcolo Distribuito",
-    "summary": "Quando il dato non entra in una macchina: elaboralo in cluster.",
+    "name": "Big Data ed Elaborazione Distribuita",
+    "summary": "Quando il dato non entra in una macchina: elaboralo in cluster, e scopri perché il job ci ha messo quattro ore.",
     "syllabus": [
-      "Fondamenti del calcolo in cluster e pianificazione dei task",
-      "File system distribuiti e HDFS",
-      "Apache Spark: RDD, DataFrame ed elaborazione in memoria",
-      "Ecosistema Hadoop: YARN e MapReduce",
-      "Gestione del cluster con Kubernetes",
-      "Sistemi di messaggistica per i dati: Kafka, RabbitMQ, SQS e SNS"
+      "Calcolo in cluster: scheduling, tolleranza ai guasti e archiviazione distribuita",
+      "Apache Spark: RDD, DataFrame, Spark SQL e il pianificatore di query",
+      "Esecuzione distribuita: partizionamento, shuffle, dati sbilanciati e memoria",
+      "Formati a colonne e formati di tabella aperti: Parquet, Delta Lake, Iceberg e Hudi",
+      "Ecosistema Hadoop: YARN, Hive e HBase",
+      "Eseguire e ottimizzare Spark: Kubernetes, servizi gestiti e quanto costa"
     ],
     "topics": [
       "Quando il dato smette di entrare in una macchina",
       "Calcolo in cluster: nodi, scheduler e tolleranza ai guasti",
-      "File system distribuiti e HDFS",
+      "File system distribuiti, HDFS e object storage come data lake",
       "MapReduce: il modello e i suoi limiti",
       "Apache Spark: RDD, DataFrame e Spark SQL",
+      "Il pianificatore di query: Catalyst, predicate pushdown e potatura delle colonne",
       "Esecuzione distribuita: partizioni, shuffle e uso della memoria",
-      "Elaborazione di flussi con Spark Structured Streaming",
+      "Dati sbilanciati, broadcast join e ripartizionamento",
+      "Cache, persistenza e checkpoint",
+      "Formati a colonne e ottimizzazione della lettura: Parquet e ORC",
+      "Formati di tabella aperti: Delta Lake, Iceberg e Hudi",
       "Ecosistema Hadoop: YARN, Hive e HBase",
-      "Esecuzione dei carichi di dati su Kubernetes",
-      "Kafka: topic, partizioni, produttori e consumatori",
-      "RabbitMQ, Amazon SQS e SNS",
-      "Formati a colonne e ottimizzazione della lettura"
+      "Eseguire Spark su Kubernetes e su servizi gestiti",
+      "Ottimizzare un job, e quanto costa un'ora di cluster"
     ],
     "prerequisites": "Richiede Python: Spark si scrive in un linguaggio che già conosci. Non presuppone esperienza con le pipeline."
+  },
+  "streaming": {
+    "name": "Streaming ed Elaborazione di Eventi",
+    "summary": "Dati che non aspettano il caricamento notturno: eventi che arrivano di continuo, elaborati al volo — e corretti anche quando uno arriva in ritardo.",
+    "syllabus": [
+      "Eventi, il log e i topic: il modello dello streaming",
+      "Apache Kafka: partizioni, produttori, consumatori e gruppi di consumo",
+      "Garanzie di consegna: al massimo una volta, almeno una volta ed esattamente una volta",
+      "Tempo dell’evento, finestre, watermark e dati in ritardo",
+      "Elaborare il flusso: Spark Structured Streaming, Flink e Kafka Streams",
+      "Change data capture, e gestire un flusso in produzione"
+    ],
+    "topics": [
+      "Batch e streaming: cosa cambia quando il dato non aspetta",
+      "Eventi, il log come struttura dati, e perché l’ordine conta",
+      "Kafka: topic, partizioni, offset e retention",
+      "Produttori, consumatori e gruppi di consumo",
+      "Replica, repliche sincronizzate e quanto costa la caduta di un broker",
+      "Schemi e schema registry: far evolvere un evento senza rompere chi lo legge",
+      "Garanzie di consegna: al massimo una volta, almeno una volta ed esattamente una volta",
+      "Idempotenza e deduplicazione a valle",
+      "Tempo dell’evento contro tempo di elaborazione",
+      "Finestre: fisse, scorrevoli e di sessione",
+      "Watermark, dati in ritardo, e cosa deciderne",
+      "Spark Structured Streaming: micro-batch e continuo",
+      "Panoramica di Apache Flink e Kafka Streams",
+      "Change data capture con Debezium: il database come flusso",
+      "RabbitMQ, Amazon SQS e SNS: quando una coda batte un log",
+      "Gestire un flusso: lag del consumatore, backpressure, replay e rielaborazione",
+      "Costo: retention, throughput e la fattura di una pipeline che non dorme mai"
+    ],
+    "prerequisites": "Richiede Python. Presuppone anche che tu abbia già costruito una pipeline in batch: lo streaming è il secondo modo di spostare i dati, e quasi ogni sua decisione è una reazione a ciò che il batch non riesce a fare."
   },
   "data-governance": {
     "name": "Sicurezza, Governance e Riservatezza dei Dati",
@@ -4219,10 +4253,10 @@ window.I18N.it.tracks = {
   },
   "data": {
     "name": "Ingegneria dei Dati",
-    "goal": "La formazione di chi costruisce l’infrastruttura che sostiene le decisioni: modellazione, pipeline, big data e governance. Sequenza basata sulla roadmap pubblica Data Engineer di roadmap.sh, che raccomanda Python e SQL come prerequisiti. Metà dei corsi viene dai percorsi precedenti.",
+    "goal": "Il percorso d’ingresso di chi costruisce l’infrastruttura che sostiene le decisioni: modellazione, warehouse, pipeline e il cloud dove vive il dato. Finisce dove si assume un data engineer junior — la piattaforma su larga scala, lo streaming, la governance e l’MLOps proseguono in Piattaforma Dati. Sequenza basata sulla roadmap pubblica Data Engineer della comunità roadmap.sh, che raccomanda Python e SQL come prerequisiti. La maggior parte dei corsi viene dai percorsi precedenti.",
     "outcome": "Ingegnere dei Dati junior",
     "steps": {
-      "18": {
+      "12": {
         "choice": "il cloud in cui vive il dato",
         "note": "L’ingegneria fino a qui è la stessa ovunque. Ciò che cambia è il servizio gestito che ti danno: il warehouse, il flusso e l’orchestratore hanno un altro nome e un’altra fattura presso ogni fornitore.",
         "options": [
@@ -4232,6 +4266,11 @@ window.I18N.it.tracks = {
         ]
       }
     }
+  },
+  "data-platform": {
+    "name": "Piattaforma Dati",
+    "goal": "Il terzo percorso che ne richiede un altro prima: non avvia una carriera, ne continua una. Per chi già costruisce pipeline e si trova a rispondere della piattaforma che sta sotto — elaborazione che non entra in una macchina, dati che arrivano di continuo invece che di notte, la catena che testa e rilascia le pipeline, uno SLO su un insieme di dati, la legge che vi si applica, e modelli serviti a partire da esso.",
+    "outcome": "Data Platform Engineer"
   },
   "dba": {
     "name": "Amministrazione di Database",

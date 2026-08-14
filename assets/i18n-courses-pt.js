@@ -1747,31 +1747,65 @@ window.I18N.pt.courses = {
     "prerequisites": "Exige modelagem e SQL, mais Python para o orquestrador."
   },
   "bigdata": {
-    "name": "Big Data e Computação Distribuída",
-    "summary": "Quando o dado não cabe em uma máquina: processe em cluster.",
+    "name": "Big Data e Processamento Distribuído",
+    "summary": "Quando o dado não cabe em uma máquina: processe em cluster — e saiba por que o job levou quatro horas.",
     "syllabus": [
-      "Fundamentos de computação em cluster e agendamento de tarefas",
-      "Sistemas de arquivos distribuídos e HDFS",
-      "Apache Spark: RDDs, DataFrames e processamento em memória",
-      "Ecossistema Hadoop: YARN e MapReduce",
-      "Gerenciamento de cluster com Kubernetes",
-      "Sistemas de mensageria para dados: Kafka, RabbitMQ, SQS e SNS"
+      "Computação em cluster: agendamento, tolerância a falhas e armazenamento distribuído",
+      "Apache Spark: RDDs, DataFrames, Spark SQL e o planejador de consultas",
+      "Execução distribuída: particionamento, shuffle, dados desbalanceados e memória",
+      "Formatos colunares e formatos de tabela abertos: Parquet, Delta Lake, Iceberg e Hudi",
+      "Ecossistema Hadoop: YARN, Hive e HBase",
+      "Rodar e afinar o Spark: Kubernetes, serviços gerenciados e quanto custa"
     ],
     "topics": [
       "Quando o dado deixa de caber em uma máquina",
       "Computação em cluster: nós, agendador e tolerância a falhas",
-      "Sistemas de arquivos distribuídos e HDFS",
+      "Sistemas de arquivos distribuídos, HDFS e object storage como data lake",
       "MapReduce: o modelo e suas limitações",
       "Apache Spark: RDDs, DataFrames e Spark SQL",
+      "O planejador de consultas: Catalyst, predicate pushdown e poda de colunas",
       "Execução distribuída: partições, shuffle e uso de memória",
-      "Processamento de fluxo com Spark Structured Streaming",
+      "Dados desbalanceados, broadcast join e reparticionamento",
+      "Cache, persistência e checkpoint",
+      "Formatos colunares e otimização de leitura: Parquet e ORC",
+      "Formatos de tabela abertos: Delta Lake, Iceberg e Hudi",
       "Ecossistema Hadoop: YARN, Hive e HBase",
-      "Execução de cargas de dados em Kubernetes",
-      "Kafka: tópicos, partições, produtores e consumidores",
-      "RabbitMQ, Amazon SQS e SNS",
-      "Formatos colunares e otimização de leitura"
+      "Rodar Spark em Kubernetes e em serviços gerenciados",
+      "Afinar um job, e quanto custa uma hora de cluster"
     ],
     "prerequisites": "Exige Python: Spark se escreve numa linguagem que você já conhece. Não pressupõe experiência com pipelines."
+  },
+  "streaming": {
+    "name": "Streaming e Processamento de Eventos",
+    "summary": "Dado que não espera a carga da madrugada: eventos chegando o tempo todo, processados na hora — e ainda certos quando um chega atrasado.",
+    "syllabus": [
+      "Eventos, o log e os tópicos: o modelo de streaming",
+      "Apache Kafka: partições, produtores, consumidores e grupos de consumo",
+      "Garantias de entrega: no máximo uma vez, ao menos uma vez e exatamente uma vez",
+      "Tempo do evento, janelas, watermarks e dado atrasado",
+      "Processar o fluxo: Spark Structured Streaming, Flink e Kafka Streams",
+      "Change data capture, e operar um fluxo em produção"
+    ],
+    "topics": [
+      "Batch e streaming: o que muda quando o dado não espera",
+      "Eventos, o log como estrutura de dados, e por que a ordem importa",
+      "Kafka: tópicos, partições, offsets e retenção",
+      "Produtores, consumidores e grupos de consumo",
+      "Replicação, réplicas em sincronia e quanto custa a queda de um broker",
+      "Schemas e schema registry: evoluir um evento sem quebrar quem lê",
+      "Garantias de entrega: no máximo uma vez, ao menos uma vez e exatamente uma vez",
+      "Idempotência e deduplicação lá na frente",
+      "Tempo do evento contra tempo de processamento",
+      "Janelas: fixas, deslizantes e de sessão",
+      "Watermarks, dado atrasado, e decidir o que fazer com ele",
+      "Spark Structured Streaming: micro-batch e contínuo",
+      "Visão geral de Apache Flink e Kafka Streams",
+      "Change data capture com Debezium: o banco como fluxo",
+      "RabbitMQ, Amazon SQS e SNS: quando uma fila é melhor que um log",
+      "Operar um fluxo: lag do consumidor, backpressure, replay e reprocessamento",
+      "Custo: retenção, vazão e a fatura de um pipeline que nunca dorme"
+    ],
+    "prerequisites": "Exige Python. Também pressupõe que você já construiu um pipeline em batch: streaming é o segundo jeito de mover dado, e quase toda decisão dele é reação ao que o batch não consegue fazer."
   },
   "data-governance": {
     "name": "Segurança, Governança e Privacidade de Dados",
@@ -4216,10 +4250,10 @@ window.I18N.pt.tracks = {
   },
   "data": {
     "name": "Engenharia de Dados",
-    "goal": "A formação de quem constrói a infraestrutura que sustenta decisões: modelagem, pipelines, big data e governança. Sequência baseada no roadmap público de Data Engineer da comunidade roadmap.sh, que recomenda Python e SQL como pré-requisitos. Metade dos cursos vem das trilhas anteriores.",
+    "goal": "A trilha de entrada de quem constrói a infraestrutura que sustenta decisões: modelagem, warehouse, pipelines e a nuvem onde o dado mora. Termina onde se contrata um engenheiro de dados júnior — a plataforma em escala, o streaming, a governança e o MLOps continuam em Plataforma de Dados. Sequência baseada no roadmap público de Data Engineer da comunidade roadmap.sh, que recomenda Python e SQL como pré-requisitos. A maior parte dos cursos vem das trilhas anteriores.",
     "outcome": "Data Engineer júnior",
     "steps": {
-      "18": {
+      "12": {
         "choice": "a nuvem onde o dado mora",
         "note": "A engenharia até aqui é a mesma em qualquer lugar. O que muda é o serviço gerenciado que te dão: o warehouse, o fluxo e o orquestrador têm outro nome e outra fatura em cada provedor.",
         "options": [
@@ -4229,6 +4263,11 @@ window.I18N.pt.tracks = {
         ]
       }
     }
+  },
+  "data-platform": {
+    "name": "Plataforma de Dados",
+    "goal": "A terceira trilha que exige outra antes: não começa uma carreira, continua uma. Para quem já constrói pipelines e passou a responder pela plataforma embaixo deles — processamento que não cabe em uma máquina, dado que chega o tempo todo em vez de de madrugada, a esteira que testa e publica as esteiras, um SLO sobre um conjunto de dados, a lei que se aplica a ele, e modelos servidos a partir dele.",
+    "outcome": "Data Platform Engineer"
   },
   "dba": {
     "name": "Administração de Bancos de Dados",

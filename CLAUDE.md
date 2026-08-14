@@ -52,6 +52,12 @@ before it, so it could not be reused in another track, and the site drew arrows 
 prerequisites that track did not contain. `validate-catalog.js` now fails on that last case —
 a prerequisite absent from a track showing the course — which is the symptom that catches it.
 
+**The one exception is `continues`.** A track that declares `continues: '<other track id>'`
+borrows that track's courses for this check, because a student on it has taken them. That is
+what lets `data-platform` require `python` without listing the entry track's 520h again. It
+is followed to the end of the chain; a track that continues itself, or continues nothing, is
+an error. A prerequisite in neither track still fails.
+
 A course whose `requires` is empty does not float: the graph falls back to the previous step
 of the track. Deleting a false edge is safe; adding one that is not real is not.
 
