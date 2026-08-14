@@ -63,7 +63,7 @@ Each in its own folder, with the executable at the root of it:
 - `tools/validate-catalog/validate-catalog.js` — checks `assets/catalog.js`, exits non-zero
 - `tools/validate-i18n/validate-i18n.js` — checks the four dictionaries against the catalogue
 - `tools/graph-test/graph-test.js` — renders every track, in the panel and on the whole
-  screen, and checks no edge crosses a card
+  screen, landscape and portrait, and checks no edge crosses a card
 - `tools/version/version.js` — reads or sets the released version
 
 ## Before pushing
