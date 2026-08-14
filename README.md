@@ -96,6 +96,8 @@ Everything lives in `assets/catalog.js`:
 - **`TRACKS`**: each track has `name`, `goal`, `outcome` (the role or outcome) and `courses`, an array of ids **in the order they should be taken**. The same course can be in as many tracks as it likes: the site works out by itself how many tracks contain each course and shows the "em N trilhas" badge.
 - **`TESTIMONIALS`**: text, author and context.
 
+**The catalogue's search reads the id too**, and the box has an × that clears it. The id is the name the rest of the project uses — it is in the modal's file line, in every conversation about the catalogue, and in `MOVED_IDS` over in the portal — and it is the one field that is never translated, so typing `web-fundamentals` finds the course from any of the five languages. Escape clears the field as well, and only when there is something in it, so it does not swallow the key the dropdowns already answer to.
+
 Adding a course to a track is just including the `id` in the sequence — the total workload, the number of steps, the badges and the form's selector all update automatically.
 
 ### A track is a graph, not a queue
@@ -733,7 +735,9 @@ The split needed one piece of machinery. `validate-catalog.js` fails a track tha
 
 So a track can now declare `continues: 'data'`, and the check reads the base track's courses as available. It is followed to the end of the chain, and a track that continues itself or continues nothing is an error. The relaxation is exactly that wide — a prerequisite in neither track still fails, which was verified by putting one there on purpose.
 
-The site needed no change at all: `script.js` already falls back to the previous step when a course has no prerequisite inside the track, and already filters the card footer's "depois de X" to courses the track contains. The field is data, not behaviour — Software Architecture and Technical Leadership still declare their prerequisite in prose, in `goal`, and could carry it too.
+The site needed no change at all: `script.js` already falls back to the previous step when a course has no prerequisite inside the track, and already filters the card footer's "depois de X" to courses the track contains. The field is data, not behaviour.
+
+**Software Architecture carries it now too — and Technical Leadership does not, on purpose.** The audit that found the omission also found the symptom in the data: five advanced courses with no prerequisite at all (`architecture-role`, `design-patterns`, `enterprise-software`, `people-leadership`, `tech-strategy`), which is what a continuation track looks like from the data's point of view with nothing saying so. Architecture continues Back-end, the roadmap says so, and the field now says so. Technical Leadership does not continue *a* track: the engineer asked to answer for a team can arrive from Front-end, DevOps, Data or anywhere else, and naming one of them would assert something false to save a line. It keeps its prerequisite in prose, which is the honest place for a prerequisite that is a career rather than a track.
 
 ### Three changes that cost nothing and raised the reuse
 
@@ -879,6 +883,11 @@ On mobile none of this applies: there, a single screen scroll is more natural th
 **The two columns do not hold the same amount, and no split makes them.** The left is a frame, a sentence and a button — near enough the same height for all 122 courses. The right runs from **419px to 650px** depending on how many blocks of chips a course earns: `javascript` is in six tracks and opens the way to six courses, and left 191px of the left column empty at 1920×950, while `react-ts` and `kubernetes` fill both sides to the pixel.
 
 Moving a block across was the obvious fix and it is not one: the arithmetic was done for each candidate, and every constant addition to the left balances the crowded courses and unbalances the sparse ones. Prerequisites moved across fixes `javascript` and leaves `react-ts` 213px out the other way. It trades one gap for another.
+
+**The summary went, and the syllabus took its place.** The one-line summary under the video said in a sentence what the video is there to say properly, and it is still on the catalogue card that got you here; what belongs beside the enrolment button is what you will actually learn. It moved the balance the right way — the left column was the shorter one — and it cost two fixes:
+
+- **The frame stopped being a flex item that shrinks.** With the syllabus below it, the video was squeezed to **3:1** on a 768px screen — a letterbox strip where a video should be. `flex-shrink:0`, and what gives instead is the column.
+- **It only moves where it fits.** The box is capped at 86vh, and on a 768px screen the video, a seven-line syllabus and the button come to **106px more than there is** — which would put the button below the fold, in the one column that exists to get it pressed. `fitColumns()` measures, and where it does not fit the block goes back to the top of the detail column, which is where it used to live. At 1920×950 the left ends flush and the right carries the slack; at 1366×768 it is the other way round, which is where it was before.
 
 So the slack is not removed, it is spent, in two steps:
 

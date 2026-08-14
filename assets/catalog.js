@@ -5472,8 +5472,9 @@ const TRACKS = [
 {
   id: 'software-architecture',
   name: 'Software Architecture',
-  goal: 'The only track in the catalogue that requires another one first: it is a career continuation, not an entry point. For whoever already develops and is about to start deciding — patterns, modelling, enterprise integration, management and communication. Sequence based on the community Software Architect roadmap at roadmap.sh, which asks for Back-end as a prerequisite.',
+  goal: 'The first of the three tracks that require another one first: it is a career continuation, not an entry point. For whoever already develops and is about to start deciding — patterns, modelling, enterprise integration, management and communication. Sequence based on the community Software Architect roadmap at roadmap.sh, which asks for Back-end as a prerequisite.',
   outcome: 'Software Architect',
+  continues: 'backend',
   courses: [
     'architecture-role',
     'design-patterns',
@@ -5666,7 +5667,7 @@ const TESTIMONIALS = [
   {
     text: 'The Git course changed the way I work: today I collaborate on projects without being afraid of breaking anything, and I can undo a mistake without asking anyone for help.',
     author: '[Student name]',
-    context: 'Git and Version Control · class of [year]',
+    context: 'Git and Teamwork · class of [year]',
   },
   {
     text: 'The AI part of the Development track was the biggest surprise. I came for the certificate and left with something I use every day at work.',

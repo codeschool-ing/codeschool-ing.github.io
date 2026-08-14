@@ -155,7 +155,8 @@ window.I18N.pt.ui = {
   "prerequisites": "pré-requisitos",
   "programming": "programacao",
   "quality": "qualidade",
-  "search courses...": "buscar curso...",
+  "search courses or ids...": "buscar curso ou id...",
+  "Clear the search": "Limpar a busca",
   "security": "seguranca",
   "standalone course": "curso avulso",
   "student@codeschool:~": "aluno@codeschool:~",
@@ -188,7 +189,7 @@ window.I18N.pt.testimonials = [
   {
     "text": "O curso de Git mudou meu jeito de trabalhar: hoje colaboro em projetos sem medo de quebrar nada, e consigo desfazer um erro sem pedir ajuda a ninguém.",
     "author": "[Nome da aluna]",
-    "context": "Git e Controle de Versão · turma de [ano]"
+    "context": "Git e Trabalho em Equipe · turma de [ano]"
   },
   {
     "text": "A parte de IA na trilha de Desenvolvimento foi a maior surpresa. Entrei pelo certificado e saí com uma coisa que uso todo dia no trabalho.",
