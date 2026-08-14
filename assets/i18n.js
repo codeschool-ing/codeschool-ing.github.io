@@ -18,6 +18,7 @@ window.I18N = window.I18N || {};
 
 window.I18N.es = window.I18N.es || {};
 window.I18N.es.ui = {
+  "career": "carrera",
   "foundations": "fundamentos",
   "mobile": "móvil",
   "part of {n} track": "forma parte de {n} itinerario",
@@ -203,6 +204,7 @@ window.I18N.es.testimonials = [
 
 window.I18N.fr = window.I18N.fr || {};
 window.I18N.fr.ui = {
+  "career": "carrière",
   "foundations": "fondamentaux",
   "part of {n} track": "fait partie de {n} parcours",
   "part of {n} tracks": "fait partie de {n} parcours",
@@ -387,6 +389,7 @@ window.I18N.fr.testimonials = [
 
 window.I18N.it = window.I18N.it || {};
 window.I18N.it.ui = {
+  "career": "carriera",
   "foundations": "fondamenti",
   "part of {n} track": "fa parte di {n} percorso",
   "part of {n} tracks": "fa parte di {n} percorsi",

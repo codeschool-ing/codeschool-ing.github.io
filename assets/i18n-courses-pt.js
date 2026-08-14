@@ -12,6 +12,79 @@
 
 window.I18N.pt = window.I18N.pt || {};
 window.I18N.pt.courses = {
+  "portfolio-project": {
+    "name": "O Projeto de Portfólio: do Briefing ao Deploy",
+    "summary": "A coisa que você pode mostrar. Escolher um projeto que prove o que a trilha ensinou, cortá-lo até caber, e terminá-lo — no ar, documentado e explicado em dois minutos.",
+    "syllabus": [
+      "Escolher o projeto: o que ele precisa provar, e para quem",
+      "Escopo que cabe: a menor versão que ainda vale a pena mostrar",
+      "Trabalhar como um time de uma pessoa: quadro, commits, autorrevisão",
+      "A qualidade que quem revisa percebe: erros, testes, acessibilidade",
+      "Deploy, README e uma demo que roda na máquina de outra pessoa",
+      "Contar em dois minutos, e as perguntas que vêm depois"
+    ],
+    "topics": [
+      "Para que serve um portfólio: prova, não museu",
+      "Um projeto terminado contra cinco tutoriais terminados",
+      "Escolher pela trilha: o que quem contrata na sua área realmente abre",
+      "Ler um briefing de verdade, e escrever um que não seja trivial",
+      "Escopo: a menor versão que ainda prova alguma coisa",
+      "Cortar funcionalidade sem cortar o ponto",
+      "Marcos, e um prazo que você mesmo estabelece",
+      "Um quadro para uma pessoa só: o que vale acompanhar e o que é teatro",
+      "Commits que se leem como uma história, porque alguém vai ler",
+      "Revisar o próprio pull request antes de qualquer outra pessoa",
+      "Erros, estados vazios e os caminhos que ninguém demonstra",
+      "Onde os testes valem o esforço em um projeto pequeno",
+      "Acessibilidade e responsividade como piso, não como acabamento",
+      "Segredos e chaves: o que nunca pode chegar ao repositório",
+      "Deploy: camada gratuita, domínio, e algo que continue no ar",
+      "O README que faz entender o projeto em sessenta segundos",
+      "Capturas de tela, vídeo de demonstração e dados que não sejam \"teste teste\"",
+      "Licença, contribuições e o que um repositório público diz sobre você",
+      "Apresentar em dois minutos: problema, decisão, trade-off, resultado",
+      "As perguntas que vêm depois, e responder \"por que você fez assim\"",
+      "Uma retrospectiva escrita: o que você faria diferente"
+    ],
+    "prerequisites": "Requer a trilha que você está fazendo — é aqui que ela é usada. O curso é o mesmo em qualquer trilha; o que muda é o que você constrói."
+  },
+  "first-job": {
+    "name": "Do Estudo ao Emprego: Currículo, Entrevistas e os Primeiros 90 Dias",
+    "summary": "A parte que vem depois do último curso: um currículo que é lido, um perfil que é encontrado, uma entrevista sem surpresas e os primeiros noventa dias que ninguém explica.",
+    "syllabus": [
+      "O mercado em que você está entrando: cargos, senioridade e o que de fato se contrata",
+      "Um currículo que sobrevive a dez segundos, e um perfil que é encontrado",
+      "Candidatar-se: onde, quantas vezes e como dar seguimento",
+      "A entrevista técnica: live coding, desafio em casa e as perguntas por trás",
+      "Falar de dinheiro sem chutar",
+      "Os primeiros noventa dias, e a experiência que ninguém explica"
+    ],
+    "topics": [
+      "O que é uma vaga júnior de verdade, e o que o anúncio quer dizer com isso",
+      "Onde estão as vagas: produto, agência, consultoria, freelance e fora do país",
+      "O currículo de uma página: o que cortar e o que provar",
+      "Descrever um projeto pelo resultado, não pela tecnologia usada",
+      "O perfil no GitHub que alguém abre, e o que faz fechar",
+      "LinkedIn: o título, o resumo e o ruído",
+      "A carta de apresentação, e quando vale escrever uma",
+      "Candidatar-se em volume sem candidatar-se às cegas",
+      "Indicação: pedir sem constrangimento",
+      "Dar seguimento, e como ler um silêncio",
+      "A conversa de triagem: o que está sendo checado de verdade",
+      "Live coding sem travar, e pensar em voz alta",
+      "O desafio em casa: escopo, tempo gasto e o que entregar",
+      "Perguntas de sistema e de desenho, no nível em que realmente são feitas",
+      "Entrevista comportamental, e uma resposta estruturada que não é decorada",
+      "As perguntas para fazer a eles, e o que as respostas entregam",
+      "Salário: pesquisar uma faixa e responder \"qual é a sua pretensão\"",
+      "Ler uma proposta: CLT, PJ, benefícios, equity e as letras miúdas",
+      "Recusa: pedir devolutiva e manter o funil vivo",
+      "Os primeiros noventa dias: perguntar, o primeiro commit, o primeiro erro",
+      "Experiência, expectativas e o 1:1 que você deveria pedir",
+      "Continuar empregável: o que seguir aprendendo quando o estudo deixa de ser uma trilha"
+    ],
+    "prerequisites": "Sem pré-requisito além de ter algo para mostrar, que é o que o projeto de portfólio produz. O curso é o mesmo venha você de qual trilha for — o mercado muda menos que a tecnologia."
+  },
   "people-leadership": {
     "name": "Liderar Pessoas: 1:1, Feedback e Contratação",
     "summary": "A metade do trabalho para a qual promoção nenhuma prepara. 1:1 que não é reunião de status, feedback que muda alguma coisa, contratação sem teatro e as conversas que ninguém quer ter.",
@@ -541,13 +614,14 @@ window.I18N.pt.courses = {
     "prerequisites": "Saber usar computador e internet no dia a dia."
   },
   "git": {
-    "name": "Git e Controle de Versão",
-    "summary": "Versione seu código, trabalhe em equipe e nunca mais perca trabalho.",
+    "name": "Git e Trabalho em Equipe: Versionamento, Revisão e Processo",
+    "summary": "Versione seu código, nunca mais perca trabalho — e aprenda como um time move uma tarefa de verdade: o quadro, o ticket, a revisão e o que \"pronto\" significa para outra pessoa.",
     "syllabus": [
       "Repositórios, commits e histórico",
       "Branches, merge e resolução de conflitos",
       "GitHub e GitLab: remotos, pull requests e code review",
       "Fluxos de trabalho em equipe (feature branch, trunk based)",
+      "Como um time trabalha: quadro, ticket, revisão e definição de pronto",
       "Boas práticas de mensagens e organização"
     ],
     "topics": [
@@ -561,9 +635,17 @@ window.I18N.pt.courses = {
       "GitHub, GitLab e Bitbucket: issues, pull requests e code review",
       "Fluxos de trabalho: feature branch, trunk based e Git Flow",
       ".gitignore, submódulos e arquivos grandes (Git LFS)",
-      "Mensagens de commit e o padrão de commits convencionais"
+      "Mensagens de commit e o padrão de commits convencionais",
+      "A vida de uma tarefa: ticket, branch, pull request, revisão, merge, release",
+      "Revisar o código de outra pessoa: o que comentar e o que deixar passar",
+      "Receber uma revisão sem levar para o pessoal",
+      "Sprint, kanban e o quadro: o vocabulário da semana",
+      "Refinamento, estimativa e o ticket que não estava pronto para começar",
+      "Definição de pronto, e quanto custa ao time o \"na minha máquina funciona\"",
+      "Daily, planning e retrospectiva: as reuniões, e para que servem",
+      "Trabalhar ao lado de produto, design e QA sem surpresa no fim"
     ],
-    "prerequisites": "Não exige programação: versionamento vem antes da primeira linguagem."
+    "prerequisites": "Não exige programação: versionamento vem antes da primeira linguagem, e saber como um time leva uma tarefa da ideia à produção também."
   },
   "javascript": {
     "name": "JavaScript",
@@ -4121,7 +4203,7 @@ window.I18N.pt.tracks = {
     "goal": "A formação de quem constrói e opera o que a empresa aluga em vez de possuir: identidade, rede, computação, entrega, monitoramento e a fatura no fim do mês. O provedor é escolha sua e muda quatro cursos — os outros sete são iguais nos dois caminhos, porque o chão embaixo dos dois é o mesmo, e é justamente o chão que o material gratuito dos fornecedores pressupõe que você já tem. Sequência alinhada às certificações associate.",
     "outcome": "Cloud Engineer júnior",
     "steps": {
-      "7": {
+      "8": {
         "choice": "o provedor",
         "note": "Domine um bem antes de olhar para os outros. Os conceitos atravessam; o console, a linha de comando e a prova, não.",
         "options": [
@@ -4161,7 +4243,7 @@ window.I18N.pt.tracks = {
   "prompt": {
     "name": "Engenharia de Prompt",
     "goal": "A trilha curta do catálogo e a única que não exige saber programar: quem escreve, atende, ensina ou decide também precisa disso. Cobre o roadmap público de Prompt Engineering da comunidade roadmap.sh por inteiro, incluindo o de AI Red Teaming que ele referencia.",
-    "outcome": "Especialista em Engenharia de Prompt"
+    "outcome": "Especialista em IA aplicada"
   },
   "ai": {
     "name": "Engenharia de IA",

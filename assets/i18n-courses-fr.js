@@ -15,6 +15,79 @@
 
 window.I18N.fr = window.I18N.fr || {};
 window.I18N.fr.courses = {
+  "portfolio-project": {
+    "name": "Le Projet de Portfolio : du Brief au Déploiement",
+    "summary": "La chose que vous pouvez montrer. Choisir un projet qui prouve ce que le parcours a enseigné, le réduire jusqu’à ce qu’il tienne, et le terminer — en ligne, documenté et expliqué en deux minutes.",
+    "syllabus": [
+      "Choisir le projet : ce qu’il doit prouver, et à qui",
+      "Un périmètre qui tient : la plus petite version qui vaille encore d’être montrée",
+      "Travailler comme une équipe d’une personne : tableau, commits, auto-revue",
+      "La qualité que remarque celui qui relit : erreurs, tests, accessibilité",
+      "Déploiement, README et une démo qui tourne sur la machine d’un autre",
+      "Le raconter en deux minutes, et les questions qui suivent"
+    ],
+    "topics": [
+      "À quoi sert un portfolio : une preuve, pas un musée",
+      "Un projet terminé contre cinq tutoriels terminés",
+      "Choisir selon le parcours : ce que celui qui recrute dans votre domaine ouvre vraiment",
+      "Lire un vrai brief, et en écrire un qui ne soit pas trivial",
+      "Périmètre : la plus petite version qui prouve encore quelque chose",
+      "Couper des fonctionnalités sans couper l’intérêt",
+      "Des jalons, et une échéance que vous vous fixez",
+      "Un tableau pour une seule personne : ce qui vaut d’être suivi et ce qui est du théâtre",
+      "Des commits qui se lisent comme une histoire, parce que quelqu’un les lira",
+      "Relire sa propre pull request avant tout le monde",
+      "Erreurs, états vides et les chemins que personne ne montre",
+      "Là où les tests valent leur coût dans un petit projet",
+      "Accessibilité et adaptabilité comme plancher, pas comme finition",
+      "Secrets et clés : ce qui ne doit jamais atteindre le dépôt",
+      "Déploiement : offre gratuite, nom de domaine, et quelque chose qui reste en ligne",
+      "Le README qui fait comprendre le projet en soixante secondes",
+      "Captures d’écran, vidéo de démonstration et des données qui ne soient pas « test test »",
+      "Licence, contributions, et ce qu’un dépôt public dit de vous",
+      "Présenter en deux minutes : problème, décision, compromis, résultat",
+      "Les questions qui suivent, et répondre à « pourquoi avoir fait comme ça »",
+      "Une rétrospective écrite : ce que vous feriez autrement"
+    ],
+    "prerequisites": "Demande le parcours que vous suivez — c’est ici qu’il sert. Le cours est le même quel que soit le parcours ; ce qui change, c’est ce que vous construisez."
+  },
+  "first-job": {
+    "name": "Des Études à l’Embauche : CV, Entretiens et les 90 Premiers Jours",
+    "summary": "La partie qui vient après le dernier cours : un CV qui se lit, un profil qui se trouve, un entretien sans surprise et les quatre-vingt-dix premiers jours que personne n’explique.",
+    "syllabus": [
+      "Le marché où vous entrez : postes, séniorité et ce qui se recrute vraiment",
+      "Un CV qui survit à dix secondes, et un profil qu’on trouve",
+      "Postuler : où, combien de fois et comment relancer",
+      "L’entretien technique : live coding, exercice à la maison et les questions derrière",
+      "Parler d’argent sans deviner",
+      "Les quatre-vingt-dix premiers jours, et la période d’essai que personne n’explique"
+    ],
+    "topics": [
+      "Ce qu’est vraiment un poste junior, et ce que l’annonce entend par là",
+      "Où sont les postes : produit, agence, conseil, freelance et à l’étranger",
+      "Le CV d’une page : ce qu’on coupe, ce qu’on prouve",
+      "Décrire un projet par son résultat, pas par la technologie employée",
+      "Le profil GitHub qu’on ouvre, et celui qu’on referme",
+      "LinkedIn : le titre, le résumé et le bruit",
+      "La lettre de motivation, et quand elle vaut la peine",
+      "Postuler en nombre sans postuler à l’aveugle",
+      "La cooptation : demander sans gêne",
+      "Relancer, et savoir lire un silence",
+      "L’entretien de préqualification : ce qui est réellement vérifié",
+      "Le live coding sans se figer, et penser à voix haute",
+      "L’exercice à la maison : périmètre, temps passé et ce qu’on rend",
+      "Questions de système et de conception, au niveau où elles sont vraiment posées",
+      "Entretien comportemental, et une réponse structurée qui ne soit pas un script",
+      "Les questions à leur poser, et ce que les réponses révèlent",
+      "Salaire : chercher une fourchette et répondre à « quelles sont vos prétentions »",
+      "Lire une offre : contrat, avantages, actions et les petites lignes",
+      "Le refus : demander un retour et garder le pipeline vivant",
+      "Les quatre-vingt-dix premiers jours : poser des questions, le premier commit, la première erreur",
+      "Période d’essai, attentes, et l’entretien individuel qu’il faut demander",
+      "Rester employable : quoi continuer à apprendre quand l’étude cesse d’être un parcours"
+    ],
+    "prerequisites": "Aucun prérequis au-delà d’avoir quelque chose à montrer, ce que produit le projet de portfolio. Le cours est le même d’où que vous veniez — le marché change moins souvent que la technologie."
+  },
   "people-leadership": {
     "name": "Diriger des personnes : entretiens individuels, feedback et recrutement",
     "summary": "La moitié du métier à laquelle aucune promotion ne prépare. Des entretiens individuels qui ne sont pas des points d'avancement, un feedback qui change quelque chose, un recrutement sans théâtre et les conversations que personne ne veut avoir.",
@@ -544,13 +617,14 @@ window.I18N.fr.courses = {
     "prerequisites": "Savoir utiliser un ordinateur et internet au quotidien."
   },
   "git": {
-    "name": "Git et Contrôle de Versions",
-    "summary": "Versionnez votre code, travaillez en équipe et ne perdez plus jamais votre travail.",
+    "name": "Git et Travail en Équipe : Versions, Revue et Processus",
+    "summary": "Versionnez votre code, ne perdez plus jamais votre travail — et apprenez comment une équipe fait vraiment avancer une tâche : le tableau, le ticket, la revue, et ce que « terminé » veut dire pour quelqu’un d’autre.",
     "syllabus": [
       "Dépôts, commits et historique",
       "Branches, fusion et résolution de conflits",
       "GitHub et GitLab : dépôts distants, pull requests et revue de code",
       "Flux de travail en équipe (feature branch, trunk based)",
+      "Comment une équipe travaille : tableau, ticket, revue et définition de terminé",
       "Bonnes pratiques de messages et d’organisation"
     ],
     "topics": [
@@ -564,9 +638,17 @@ window.I18N.fr.courses = {
       "GitHub, GitLab et Bitbucket : issues, pull requests et revue de code",
       "Flux de travail : feature branch, trunk based et Git Flow",
       ".gitignore, sous-modules et gros fichiers (Git LFS)",
-      "Messages de commit et la norme Conventional Commits"
+      "Messages de commit et la norme Conventional Commits",
+      "La vie d’une tâche : ticket, branche, pull request, revue, merge, mise en production",
+      "Relire le code de quelqu’un d’autre : ce qu’on commente et ce qu’on laisse passer",
+      "Recevoir une revue sans le prendre personnellement",
+      "Sprint, kanban et le tableau : le vocabulaire de la semaine",
+      "Affinage, estimation, et le ticket qui n’était pas prêt à démarrer",
+      "Définition de terminé, et ce que « chez moi ça marche » coûte à l’équipe",
+      "Mêlée, planification et rétrospective : les réunions, et à quoi elles servent",
+      "Travailler avec le produit, le design et la QA sans surprise à la fin"
     ],
-    "prerequisites": "Aucune programmation requise : le versionnement vient avant le premier langage."
+    "prerequisites": "Aucune programmation requise : le versionnement vient avant le premier langage, et savoir comment une équipe mène une tâche de l’idée à la production aussi."
   },
   "javascript": {
     "name": "JavaScript",
@@ -4124,7 +4206,7 @@ window.I18N.fr.tracks = {
     "goal": "La formation de qui construit et exploite ce que l’entreprise loue au lieu de posséder : identité, réseau, calcul, livraison, supervision et la facture en fin de mois. Le fournisseur est votre choix et il change quatre cours — les sept autres sont identiques dans les deux cas, parce que le sol sous les deux est le même, et c’est justement le sol que le matériel gratuit des éditeurs suppose acquis. Séquence alignée sur les certifications associate.",
     "outcome": "Ingénieur Cloud junior",
     "steps": {
-      "7": {
+      "8": {
         "choice": "le fournisseur",
         "note": "Maîtrisez-en un avant de regarder les autres. Les concepts se transposent ; la console, la ligne de commande et l’examen, non.",
         "options": [
@@ -4164,7 +4246,7 @@ window.I18N.fr.tracks = {
   "prompt": {
     "name": "Ingénierie de Prompt",
     "goal": "Le parcours le plus court du catalogue et le seul qui n’exige pas de savoir programmer : qui écrit, conseille, enseigne ou décide en a besoin aussi. Il couvre entièrement la feuille de route Prompt Engineering publique de roadmap.sh, y compris celle d’AI Red Teaming qu’elle référence.",
-    "outcome": "Spécialiste en ingénierie de prompt"
+    "outcome": "Spécialiste en IA appliquée"
   },
   "ai": {
     "name": "Ingénierie de l’IA",

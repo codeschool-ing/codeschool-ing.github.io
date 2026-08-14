@@ -2,7 +2,7 @@
 
 The `codeschool.ing` site — **Stage 1: the showcase**. It presents courses, training tracks and the methodology, and hands whoever is convinced to the portal. There is no login, no payment and no student area *here*: that is Stage 2, which was **built to measure** rather than bought off the shelf, and is live — the portal at `codeschool-ing/portal-frontend` and its API at `codeschool-ing/portal-backend` (`api.codeschool.ing`). **The school is self-service end to end**: every "start now" on this page is a link to `app.codeschool.ing`, where the person creates their own account. Nothing here collects a contact, because nobody gets back in touch — see "The way in is the portal".
 
-**This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 119 courses and 18 tracks across programming, mobile, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `catalog.js` and the identity.
+**This code was born as Televideo Informática's showcase and was transferred to codeschool.ing.** The catalogue — 121 courses and 18 tracks across programming, mobile, data, infrastructure, security and AI — was always this school's: the audience is whoever wants to work in technology. Televideo serves another audience (computing as a user, without becoming a programmer) and will get its own version from this same base, swapping `catalog.js` and the identity.
 
 What the transfer required beyond the name: **the claims about history had to go**. "Since 1999", "who has been teaching for 25 years", "5,000+ graduates" and "from Medianeira to the world" are true about Televideo and would be a lie about a school that is just being born. In place of the student counter came the **catalogue's real total workload**, computed in `script.js` from `catalog.js` — a number that is already true on the day the site goes up and that grows by itself when a new course arrives.
 
@@ -43,6 +43,9 @@ assets/favicon.svg    → a chevron and a prompt cursor, in the theme's colours
 tools/                → utilities, outside the site; one folder per tool
   bundle/             → builds the single HTML file; writes at the root
   validate-catalog/   → checks `requires`: non-existent ids and cycles
+  validate-i18n/      → the four dictionaries against the catalogue
+  graph-test/         → renders every track in Chromium; fails on a crossed edge
+  version/            → reads or sets the version in `<meta name="version">`
 ```
 
 ## Components that change shape with the width
@@ -69,7 +72,7 @@ The site speaks **English, Portuguese, Spanish, French and Italian**. The picker
 
 The catalogue's data does not go through a translation function: on a language switch, the `COURSES`, `TRACKS` and `TESTIMONIALS` objects are **rewritten in place** from a copy of the English stored on load. That way all the rest of the code goes on reading `c.name` without knowing a translation exists, and each field falls back to English on its own when the translated version is missing.
 
-**Everything is translated, in all four non-source languages**: the interface (162 keys), all 18 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 119 courses. That is **3,574 strings per language**, better than fourteen thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
+**Everything is translated, in all four non-source languages**: the interface (163 keys), all 18 tracks in full (name, objective, outcome, the fork's label, the note and the option names), the testimonials and the whole catalogue — `name`, `summary`, `syllabus`, `topics` and `prerequisites` for all 121 courses. That is **3,645 strings per language**, better than fourteen thousand in total. The catalogue lives in its own file per language (`i18n-courses-<code>.js`) because on its own it weighs more than the rest of the site put together.
 
 Adding a language is: one line in `LANGUAGES` (in `i18n-runtime.js`), a `ui`/`testimonials` block in `i18n.js` and a `tracks` block in the catalogue file and a catalogue file. The check that runs against the source flags any missing field and any topic list whose length differs from the original — that is how the five languages closed with no gaps.
 
@@ -156,7 +159,7 @@ Neither was introduced by the spacing; the spacing is what made a column overflo
 
 The curve's two rises have independent widths, computed from **each endpoint's real clearance**. With sub-columns the gap between cards falls from 48px to 14px, and a fixed 26px rise went straight through the neighbour — it was precisely through that rise that the line entered the card.
 
-This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **5,748 edges across 18 tracks, every branch of every fork, at six screen sizes — four landscape and two portrait — in the panel and on the whole screen: zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
+This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **6,516 edges across 18 tracks, every branch of every fork, at six screen sizes — four landscape and two portrait — in the panel and on the whole screen: zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
 
 Each edge is a `<g>` with two paths — one transparent and thick, only to catch the cursor, and the visible one. Hovering **the line** highlights it; hovering **the card** lights up every edge entering and leaving it.
 
@@ -320,7 +323,7 @@ The levels moved in both directions, which is the sign the edges were wrong rath
 
 Fifteen `prerequisites` sentences were rewritten in the same pass, in five languages: a sentence promising an API that is no longer required is the same lie in prose.
 
-The `prerequisites` field is left for what the ids do not say: `'Basta um dos dois — SQL não exige programação.'`, `'Este curso ensina a linguagem do zero.'`, `'Nenhum. É o primeiro curso da escola.'` It used to be empty in 59 of the courses; all 119 carry one now, because a student who lands on a single course has only that sentence to tell them whether they can start there.
+The `prerequisites` field is left for what the ids do not say: `'Basta um dos dois — SQL não exige programação.'`, `'Este curso ensina a linguagem do zero.'`, `'Nenhum. É o primeiro curso da escola.'` It used to be empty in 59 of the courses; all 121 carry one now, because a student who lands on a single course has only that sentence to tell them whether they can start there.
 
 **And it happens again whenever a course is reused somewhere new.** Technical Leadership borrows `process-management` from Software Architecture, and `process-management` declared `requires: ['architecture-role']` — which is not knowledge. Management, process and estimation do not need the architect's role explained first; the edge existed because on the Architecture track it comes after it, and that track already says so with a `links` entry. It was dropped. The symptom that would have shown it, had it been left, is the one the validator checks: a prerequisite absent from a track showing the course.
 
@@ -522,7 +525,7 @@ The order sustains the division: in DevOps, the three come **after** Kubernetes 
 
 The syllabus **condenses**; the topics **list**. It is `topics` that carries the roadmap's fine items — the little beige squares hanging under each yellow topic (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — without turning the modal into a wall of technical terms. The field is optional: a course with no `topics` does not show the block. The catalogue's search looks in both.
 
-**All 119 courses have `topics` filled in — 2,265 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
+**All 121 courses have `topics` filled in — 2,316 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
 
 ### The language of the names
 
@@ -533,18 +536,18 @@ The syllabus **condenses**; the topics **list**. It is `topics` that carries the
 
 **Between "one course" and "the whole track" there is nothing, and the career tracks are long:**
 
-| track | courses | hours |
+| track | steps | hours |
 | --- | --- | --- |
-| Engenharia de Dados | 17 | 1,040h |
-| DevSecOps | 16 | 970h |
-| Segurança Cibernética | 15 | 970h |
-| Business Intelligence | 14 | 900h |
+| Engenharia de Dados | 21 | 1,350h |
+| Segurança Cibernética | 19 | 1,180h |
+| DevSecOps | 18 | 1,090h |
+| Business Intelligence | 17 | 1,050h |
 
-Eight of the thirteen pass 720h. That is a lot of time with no milestone of arrival — and it is exactly the hole Alura fills with the extra level it has.
+Thirteen of the eighteen pass 720h. That is a lot of time with no milestone of arrival — and it is exactly the hole Alura fills with the extra level it has.
 
 **Alura stacks; here it is flat.** There it goes `Career ⊃ Track ⊃ Course`: the Track is a slice by subject *inside* a Career, and it is what the certificate attaches to. Here there is the track and, below it, the course — nothing in between.
 
-The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **42 of the 119 courses are in two or more tracks** — `web-fundamentals` is in 12, `linux-terminal` in 10, `git` and `networks` in 9. That is 236 slots for 119 distinct courses, a reuse factor of 1.98×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
+The difference is not cosmetic. A hierarchy forces each course to have a single parent, and this catalogue does not fit that: **44 of the 121 courses are in two or more tracks** — `portfolio-project` and `first-job` are in 16, `git` in 13, `web-fundamentals` in 12, `linux-terminal` in 10. That is 272 slots for 121 distinct courses, a reuse factor of 2.25×. In a tree that becomes duplication; it is the graph that sustains the promise that nobody studies the same thing twice.
 
 In other words: the track solves **where to come in**; Alura's Track solves **how to know you have advanced**. They are orthogonal problems, and only the first one is solved here.
 
@@ -559,7 +562,7 @@ In other words: the track solves **where to come in**; Alura's Track solves **ho
 3. **The certificate's anchor.** A fork's branches make the question: a career certificate is every fixed step plus one complete branch per choice, which is what `certificateSets()` computes. The retired technology tracks made it sharper, because their fork was terminal and the paths never came back together — certifying "Domínio de Python" would have had to say which branch.
 4. **The translation cost.** A block name is a translatable string. Thirteen tracks with three or four blocks each is ~45 new names × 4 languages.
 
-**The benefit that would already exist today** — 1,040h on a single screen is intimidating on a showcase whose job is to convert an enrolment — is a *presentation* problem, and does not require inventing the unit of certification to be solved.
+**The benefit that would already exist today** — 1,350h on a single screen is intimidating on a showcase whose job is to convert an enrolment — is a *presentation* problem, and does not require inventing the unit of certification to be solved.
 
 ## Expansion map
 
@@ -594,7 +597,7 @@ BI and QA serve different audiences arriving through the same door: BI serves wh
 
 It cost **310h of new content across five courses** — the most expensive addition so far, above Go's 220h. It is worth it because it is the only recent addition that **opens a new door** instead of deepening an existing one; Go, Java, Docker and Kubernetes all deepened paths that already existed.
 
-It reuses 410h: `web-fundamentals`, `git`, `sql-databases`, `html-css`, `javascript`, `security-fundamentals` and `testing-cicd`. And it took `web-fundamentals` to **nine tracks** — it is the catalogue's most shared course.
+It reuses 410h: `web-fundamentals`, `git`, `sql-databases`, `html-css`, `javascript`, `security-fundamentals` and `testing-cicd`. And it took `web-fundamentals` to **nine tracks** — at the time, the catalogue's most shared course. It is in twelve now, and the two career courses that close every entry track have since passed it.
 
 **A graph detail it exposed:** `security-fundamentals` and `testing-cicd` are the closing of the QA curriculum, but their content prerequisites are at the start of the track (`web-fundamentals` and `apis`, the latter not even present). The graph threw them to level 03, beside JavaScript. It was the classic case for **`links`** — curriculum order rather than content dependency — and with it the two went back to level 06, before the finish.
 
@@ -657,13 +660,50 @@ What converges after the fork is the part no platform escapes: `mobile-offline` 
 
 **Liderança Técnica — Tech Lead / Engineering Manager.** The cheapest of the three: **three courses and 170h**, on top of `process-management` and `architect-communication`, which the Architecture track had already paid for. It is a continuation track — it declares that in its `goal`, like Software Architecture — and it is the answer to a career step the catalogue could see coming and could not serve: the engineer who is asked to answer for a team and finds that nothing they learned so far is about people, flow or budget.
 
+### The track ended one course too early
+
+Every track finished at the last technical course and then at the finish node with a job title on it — *Junior Front-end Developer* — and nothing in between taught anybody how to get that job. The catalogue could take a person from no computer at all to writing services, and then handed them a certificate and a shrug. Two courses close that, and they are in **all sixteen entry tracks** (every track except the two continuations, which are for people who already have the job):
+
+| course | h | what it is |
+| --- | --- | --- |
+| `portfolio-project` | 60h | the thing you can show: choosing a project that proves what the track taught, cutting it until it ships, deploying it, and explaining it in two minutes |
+| `first-job` | 50h | the CV that gets read, the profile that gets found, the interview, the salary conversation and the first ninety days |
+
+**They are the same course whichever track you came from**, which is the whole reason they are affordable: 110h of new content bought 32 track slots, and they went straight past `web-fundamentals` to become the catalogue's most reused courses. `requires` is empty on both — the knowledge prerequisite is the track itself, and the graph's fallback to the previous step draws that edge without anybody declaring it.
+
+The second one is deliberately not a technical course, and that is the risk in it: it is the only content in the catalogue whose subject is the market rather than the machine, so it is the only content that goes stale by sitting still. It is written to age slowly — how a screening call works, not which job board is fashionable — and it is the first place to look when a year has passed.
+
+### Version control where code was being written without it
+
+`git` was in nine tracks and missing from four that write code every week: Cloud Engineering, Networks and Infrastructure, Cyber Security and Business Intelligence. Terraform modules, automation scripts, detection rules and analysis notebooks are all code, and all four taught them with no version control anywhere in the sequence. It is in thirteen tracks now.
+
+The course grew with the move, from 30h to **40h**, and the new block is not more Git — it is **how a team moves a task**: the ticket, the branch, the review, the merge, sprint and kanban vocabulary, refinement and estimation, the definition of done, the three meetings and what they are for, and working alongside product, design and QA. That was a gap nothing else covered: the catalogue explained every tool a junior developer touches on their first day except the board their work arrives on. It sits in `git` rather than in a course of its own because it is 8 topics, not 40, and because the natural place to learn what a pull request is for is the course that teaches how to open one.
+
+### `advanced` means it assumes professional practice
+
+The level labels had drifted into meaning *how late in the track this comes*, which is what the position in the graph already says. Read against what the word should mean — **content that assumes a system in production, a team, real users or real data** — 34 courses were advanced only for being late, and 3 were intermediate while their own `prerequisites` field said they assume nothing:
+
+| | before | after |
+| --- | --- | --- |
+| beginner | 21 | 24 |
+| intermediate | 38 | 71 |
+| advanced | 60 | 26 |
+
+Sixty of 119 courses marked advanced was the tell. It made the catalogue read as a graduate school and, worse, it made the label useless — a filter that returns half the catalogue is not a filter. `javascript`, `python` and `sql-databases` are now what they say they are: courses that teach a language from nothing.
+
+Nothing in the graph moved. `level` is a label on a card; the graph's levels are computed from `requires`, and the two were never connected.
+
+**And one outcome was renamed**: Prompt Engineering delivered a *Prompt Engineering Specialist*, which is a job title with a visible expiry date. It is an **Applied AI Specialist** now — the same track, named after what the person can do rather than after the technique that is current while they study.
+
 **Courses shared today** (they show the "em N trilhas" badge):
 
 | Course | No. of tracks |
 | --- | --- |
+| `portfolio-project` · `first-job` | 16 |
+| `git` | 13 |
 | `web-fundamentals` | 12 |
 | `linux-terminal` | 10 |
-| `git` · `networks` | 9 |
+| `networks` | 9 |
 | `python` · `cloud` | 8 |
 | `sql-databases` | 7 |
 | `testing-cicd` · `docker` | 6 |
@@ -672,7 +712,7 @@ What converges after the fork is the part no platform escapes: `mobile-offline` 
 | `html-css` · `ai-dev` · `kubernetes` · `statistics` · `warehouse-modeling` · `computing-essentials` · `cryptography` · `prompt-engineering` · `ai-security` | 3 |
 | `servers-cache` · `aws-foundations` · `gcp-foundations` · `azure-foundations` · `pipelines-etl` · `data-governance` · `analytics-bi` · `data-cleaning` · `visualization` · `bi-techniques` · `data-storytelling` · `networks-security` · `prompt-reliability` · `process-management` · `architect-communication` · `operating-systems` · `attacks-threats` · `secure-code` · `soc-response` · `cloud-security` | 2 |
 
-**The model's economics**: added up, the eighteen tracks deliver up to 12,950 hours of training — but the content to produce is 7,650 hours, because a shared course is made once. **41% savings**, and it moves with every track: it fell when Mobile came in, because six of its eight new courses belong to one branch of one track, and it will rise again with the next track that is mostly reuse.
+**The model's economics**: added up, the eighteen tracks deliver up to 14,960 hours of training — but the content to produce is 7,770 hours, because a shared course is made once. **48% savings**, and it moves with every track: it fell to 41% when Mobile came in, because six of its eight new courses belong to one branch of one track, and it came back up when two courses of 110h between them went into sixteen tracks at once. That is the mechanism in one line — the indicator rewards content that serves everybody and charges for content that serves one branch of one track.
 
 The number is computed over every track, which today is every career. While the technology family existed it was excluded from this figure: those tracks were 100% reuse by construction, and including them would have pushed the savings up without the school having produced a single hour. The indicator is the same one now that there is nothing to exclude.
 
@@ -680,32 +720,32 @@ How that appears in practice, track by track (exclusive hours = content only it 
 
 | Track | Workload | Exclusive to it | Reused |
 | --- | --- | --- | --- |
-| Front-end Development | 570–590h | 560h | 33% |
-| Back-end Development | 830–980h | 830h | 44% |
-| Mobile Development | 480h | 610h | 26% |
-| DevOps and SRE | 780h | 60h | 92% |
-| Cloud Engineering | 610h | 360h | 63% |
-| Data Engineering | 1230h | 380h | 74% |
-| Data Science | 720h | 230h | 68% |
-| Database Administration | 790h | 270h | 66% |
-| Networks and Infrastructure | 730h | 210h | 71% |
-| Prompt Engineering | 200h | 0h | 100% |
-| AI Engineering | 730h | 370h | 49% |
+| Front-end Development | 690–710h | 560h | 41% |
+| Back-end Development | 950–1100h | 830h | 48% |
+| Mobile Development | 600h | 610h | 35% |
+| DevOps and SRE | 900h | 60h | 93% |
+| Cloud Engineering | 760h | 360h | 68% |
+| Data Engineering | 1350h | 380h | 76% |
+| Data Science | 840h | 230h | 73% |
+| Database Administration | 900h | 270h | 70% |
+| Networks and Infrastructure | 880h | 210h | 76% |
+| Prompt Engineering | 310h | 0h | 100% |
+| AI Engineering | 850h | 370h | 56% |
 | Software Architecture | 810h | 230h | 72% |
 | Technical Leadership | 280h | 170h | 39% |
-| IT Fundamentals and Support | 400h | 100h | 75% |
-| Cyber Security | 1030h | 150h | 85% |
-| DevSecOps | 970h | 120h | 88% |
-| Business Intelligence | 900h | 120h | 87% |
-| Software Quality and Testing | 720h | 310h | 57% |
+| IT Fundamentals and Support | 510h | 100h | 80% |
+| Cyber Security | 1180h | 150h | 87% |
+| DevSecOps | 1090h | 120h | 89% |
+| Business Intelligence | 1050h | 120h | 89% |
+| Software Quality and Testing | 840h | 310h | 63% |
 
-The exclusive column counts **everything the track needs produced**, which for a forked track is every branch — Mobile's 610h against a 480h path is the three platforms, only one of which any student takes.
+The exclusive column counts **everything the track needs produced**, which for a forked track is every branch — Mobile's 610h against a 600h path is the three platforms, only one of which any student takes.
 
-**DevOps e SRE costs 60 hours of new content** and delivers 780 — it is the model's extreme case. And **Engenharia de Prompt costs zero**: it is entirely a slice of Engenharia de IA.
+**DevOps e SRE costs 60 hours of new content** and delivers 900 — it is the model's extreme case. And **Engenharia de Prompt costs zero**: it is entirely a slice of Engenharia de IA.
 
 Note the cross effect: when DevSecOps went in, Segurança Cibernética's exclusive hours fell from 450h to 150h; when BI went in, Engenharia de Dados fell from 360h to 170h. It is not that they lost content — they started sharing it. **Every new track makes the old ones cheaper.**
 
-The Go and Java cases go in the opposite direction and show the other side of the arithmetic: `go`, `go-concurrency`, `java` and `java-functional` only appear in Back-end within the career family, so its exclusive hours rose from 480h to **760h** and the reuse fell from 37% to 10%. Back-end became the catalogue's most expensive track — and that is fair, because it is the one bankrolling four server languages. A language course is expensive precisely because it does **not** get shared.
+The Go and Java cases go in the opposite direction and show the other side of the arithmetic: `go`, `go-concurrency`, `java` and `java-functional` only appear in Back-end within the career family, so its exclusive hours rose from 480h to **830h**, more than any other track's. Back-end is the catalogue's most expensive track — and that is fair, because it is the one bankrolling four server languages. A language course is expensive precisely because it does **not** get shared.
 
 That is why Docker was born as its own course instead of becoming a block inside another: today `docker` serves five tracks.
 
@@ -731,12 +771,12 @@ Four commands, and **not one hand-written response**: the numbers, the track nam
 
 ```
 $ codeschool --status
-✓ 119 cursos · 18 trilhas · 7.650 horas de conteúdo
+✓ 121 cursos · 18 trilhas · 7.770 horas de conteúdo
 
 $ codeschool tracks
-→ Desenvolvimento Front-end · 570–590h
-→ Desenvolvimento Back-end · 830–980h
-→ Desenvolvimento Mobile · 480h
+→ Desenvolvimento Front-end · 690–710h
+→ Desenvolvimento Back-end · 950–1100h
+→ Desenvolvimento Mobile · 600h
   … e mais 15 trilhas
 
 $ codeschool course kubernetes --info
@@ -746,7 +786,7 @@ $ codeschool course kubernetes --info
 $ codeschool start▊
 ```
 
-The Back-end track shows `760–840h` because it has a fork: the range comes from `hoursRange()`, the same computation the tracks screen uses. The course in the third response is fixed (`SHOWCASE_COURSE`) and chosen for being advanced **and** having a prerequisite — that way the card shows both. If the id disappears from the catalogue, it falls back to the first course with `requires` filled in.
+The Back-end track shows `950–1100h` because it has a fork: the range comes from `hoursRange()`, the same computation the tracks screen uses. The course in the third response is fixed (`SHOWCASE_COURSE`) and chosen for being advanced **and** having a prerequisite — that way the card shows both. If the id disappears from the catalogue, it falls back to the first course with `requires` filled in.
 
 **The animation delay is computed, not written by position.** It used to be six `nth-child` rules with each line's delay; the terminal has thirteen now, and everything past the sixth appeared at once. `buildTerminal()` writes the position into `--i` and the CSS does `calc(.2s + var(--i) * .16s)` — the staggering comes to apply to however many lines there are.
 

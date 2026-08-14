@@ -15,6 +15,79 @@
 
 window.I18N.es = window.I18N.es || {};
 window.I18N.es.courses = {
+  "portfolio-project": {
+    "name": "El Proyecto de Portafolio: del Briefing al Deploy",
+    "summary": "Lo que podés mostrar. Elegir un proyecto que pruebe lo que el itinerario enseñó, recortarlo hasta que entre, y terminarlo — publicado, documentado y explicado en dos minutos.",
+    "syllabus": [
+      "Elegir el proyecto: qué tiene que probar, y a quién",
+      "Alcance que entra: la versión más chica que todavía vale mostrar",
+      "Trabajar como un equipo de una persona: tablero, commits, autorrevisión",
+      "La calidad que nota quien revisa: errores, pruebas, accesibilidad",
+      "Deploy, README y una demo que corre en la máquina de otra persona",
+      "Contarlo en dos minutos, y las preguntas que vienen después"
+    ],
+    "topics": [
+      "Para qué sirve un portafolio: prueba, no museo",
+      "Un proyecto terminado contra cinco tutoriales terminados",
+      "Elegir según el itinerario: qué abre de verdad quien contrata en tu área",
+      "Leer un briefing real, y escribir uno que no sea trivial",
+      "Alcance: la versión más chica que todavía prueba algo",
+      "Recortar funcionalidades sin recortar el punto",
+      "Hitos, y una fecha que te ponés vos",
+      "Un tablero para una sola persona: qué vale seguir y qué es teatro",
+      "Commits que se leen como una historia, porque alguien los va a leer",
+      "Revisar tu propio pull request antes que nadie",
+      "Errores, estados vacíos y los caminos que nadie demuestra",
+      "Dónde valen la pena las pruebas en un proyecto chico",
+      "Accesibilidad y responsividad como piso, no como terminación",
+      "Secretos y claves: lo que nunca puede llegar al repositorio",
+      "Deploy: capa gratuita, dominio, y algo que siga en pie",
+      "El README que hace entender el proyecto en sesenta segundos",
+      "Capturas, video de demostración y datos que no sean \"prueba prueba\"",
+      "Licencia, contribuciones y lo que un repositorio público dice de vos",
+      "Presentar en dos minutos: problema, decisión, compromiso, resultado",
+      "Las preguntas que siguen, y responder \"por qué lo hiciste así\"",
+      "Una retrospectiva escrita: qué harías distinto"
+    ],
+    "prerequisites": "Requiere el itinerario que estás haciendo — acá es donde se usa. El curso es el mismo en cualquier itinerario; lo que cambia es lo que construís."
+  },
+  "first-job": {
+    "name": "Del Estudio al Empleo: CV, Entrevistas y los Primeros 90 Días",
+    "summary": "La parte que viene después del último curso: un CV que se lee, un perfil que se encuentra, una entrevista sin sorpresas y los primeros noventa días que nadie explica.",
+    "syllabus": [
+      "El mercado al que entrás: puestos, seniority y qué se contrata de verdad",
+      "Un CV que sobrevive diez segundos, y un perfil que se encuentra",
+      "Postularse: dónde, cuántas veces y cómo hacer seguimiento",
+      "La entrevista técnica: live coding, desafío en casa y las preguntas detrás",
+      "Hablar de dinero sin adivinar",
+      "Los primeros noventa días, y el período de prueba que nadie explica"
+    ],
+    "topics": [
+      "Qué es realmente un puesto junior, y qué quiere decir el aviso con eso",
+      "Dónde están las vacantes: producto, agencia, consultora, freelance y afuera",
+      "El CV de una página: qué cortar y qué probar",
+      "Describir un proyecto por su resultado, no por la tecnología usada",
+      "El perfil de GitHub que alguien abre, y el que hace cerrar",
+      "LinkedIn: el titular, el resumen y el ruido",
+      "La carta de presentación, y cuándo vale escribirla",
+      "Postularse en volumen sin postularse a ciegas",
+      "Referidos: pedir sin vergüenza",
+      "Hacer seguimiento, y cómo leer un silencio",
+      "La llamada de filtro: qué se está revisando en realidad",
+      "Live coding sin bloquearse, y pensar en voz alta",
+      "El desafío en casa: alcance, tiempo dedicado y qué entregar",
+      "Preguntas de sistemas y de diseño, al nivel en que se hacen de verdad",
+      "Entrevista por competencias, y una respuesta estructurada que no sea un guion",
+      "Las preguntas para hacerles, y lo que las respuestas revelan",
+      "Salario: investigar un rango y responder \"cuál es tu pretensión\"",
+      "Leer una oferta: contrato, beneficios, equity y la letra chica",
+      "El rechazo: pedir devolución y mantener el embudo vivo",
+      "Los primeros noventa días: preguntar, el primer commit, el primer error",
+      "Período de prueba, expectativas y el 1:1 que deberías pedir",
+      "Seguir siendo empleable: qué seguir aprendiendo cuando el estudio deja de ser un itinerario"
+    ],
+    "prerequisites": "Sin requisito más allá de tener algo para mostrar, que es lo que produce el proyecto de portafolio. El curso es el mismo vengas del itinerario que vengas — el mercado cambia menos que la tecnología."
+  },
   "people-leadership": {
     "name": "Liderar Personas: 1:1, Feedback y Contratación",
     "summary": "La mitad del trabajo para la que ningún ascenso prepara. 1:1 que no son reuniones de estado, feedback que cambia algo, contratación sin teatro y las conversaciones que nadie quiere tener.",
@@ -544,13 +617,14 @@ window.I18N.es.courses = {
     "prerequisites": "Saber usar computadora e internet en el día a día."
   },
   "git": {
-    "name": "Git y Control de Versiones",
-    "summary": "Versioná tu código, trabajá en equipo y no vuelvas a perder trabajo.",
+    "name": "Git y Trabajo en Equipo: Versionado, Revisión y Proceso",
+    "summary": "Versioná tu código, no vuelvas a perder trabajo — y aprendé cómo un equipo mueve una tarea de verdad: el tablero, el ticket, la revisión y qué significa \"terminado\" para otra persona.",
     "syllabus": [
       "Repositorios, commits e historial",
       "Ramas, fusión y resolución de conflictos",
       "GitHub y GitLab: remotos, pull requests y revisión de código",
       "Flujos de trabajo en equipo (feature branch, trunk based)",
+      "Cómo trabaja un equipo: tablero, ticket, revisión y definición de terminado",
       "Buenas prácticas de mensajes y organización"
     ],
     "topics": [
@@ -564,9 +638,17 @@ window.I18N.es.courses = {
       "GitHub, GitLab y Bitbucket: issues, pull requests y revisión de código",
       "Flujos de trabajo: feature branch, trunk based y Git Flow",
       ".gitignore, submódulos y archivos grandes (Git LFS)",
-      "Mensajes de commit y el estándar de commits convencionales"
+      "Mensajes de commit y el estándar de commits convencionales",
+      "La vida de una tarea: ticket, rama, pull request, revisión, merge, release",
+      "Revisar el código de otra persona: qué comentar y qué dejar pasar",
+      "Recibir una revisión sin tomarla como algo personal",
+      "Sprint, kanban y el tablero: el vocabulario de la semana",
+      "Refinamiento, estimación y el ticket que no estaba listo para empezar",
+      "Definición de terminado, y lo que le cuesta al equipo el \"en mi máquina funciona\"",
+      "Daily, planning y retrospectiva: las reuniones, y para qué sirven",
+      "Trabajar junto a producto, diseño y QA sin sorpresas al final"
     ],
-    "prerequisites": "No exige programación: el versionado viene antes del primer lenguaje."
+    "prerequisites": "No exige programación: el versionado viene antes del primer lenguaje, y saber cómo un equipo lleva una tarea de la idea a producción también."
   },
   "javascript": {
     "name": "JavaScript",
@@ -4124,7 +4206,7 @@ window.I18N.es.tracks = {
     "goal": "La formación de quien construye y opera lo que la empresa alquila en vez de poseer: identidad, red, cómputo, entrega, monitoreo y la factura a fin de mes. El proveedor es elección tuya y cambia cuatro cursos — los otros siete son iguales en ambos caminos, porque el suelo debajo de los dos es el mismo, y es justamente el suelo que el material gratuito de los proveedores presupone que ya tenés. Secuencia alineada con las certificaciones associate.",
     "outcome": "Cloud Engineer júnior",
     "steps": {
-      "7": {
+      "8": {
         "choice": "el proveedor",
         "note": "Dominá uno bien antes de mirar los otros. Los conceptos se trasladan; la consola, la línea de comandos y el examen, no.",
         "options": [
@@ -4164,7 +4246,7 @@ window.I18N.es.tracks = {
   "prompt": {
     "goal": "El itinerario más corto del catálogo y el único que no exige saber programar: quien escribe, atiende, enseña o decide también lo necesita. Cubre entero el roadmap público de Prompt Engineering de la comunidad roadmap.sh, incluido el de AI Red Teaming que referencia.",
     "name": "Ingeniería de Prompt",
-    "outcome": "Especialista en Ingeniería de Prompt"
+    "outcome": "Especialista en IA aplicada"
   },
   "ai": {
     "goal": "La formación de quien construye productos con IA: elección de modelo, embeddings, RAG, agentes, MCP, evaluación y multimodal. Secuencia basada en el roadmap público de AI Engineer de la comunidad roadmap.sh — la base de programación viene de Python.",
