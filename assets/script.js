@@ -1613,7 +1613,7 @@ function openCourse(id) {
     '<div class="modal-col modal-col-detail">' +
     // the full technical list — collapsed, for whoever wants to check it topic by topic
     (c.topics && c.topics.length
-      ? '<details class="modal-topics"><summary>' + txt('detailed contents') +
+      ? '<details class="modal-topics"' + (twoColumns() ? ' open' : '') + '><summary>' + txt('detailed contents') +
         '<span class="count">' + c.topics.length + ' ' + txt('topics') + '</span></summary><ul>' +
         c.topics.map((t) => '<li>' + t + '</li>').join('') +
         '</ul></details>'
@@ -1642,92 +1642,116 @@ function openCourse(id) {
      background. They are the two halves of the same problem — the class handles
      the scrollbar and the inertia, the handlers handle the chaining. */
   document.documentElement.classList.add('modal-open');
-  fitColumns();
-  fitVideo();
-  fitTopics();
+  fitModal();
   $('#modal-close').focus();
 }
 
-/* ---------- the topic list takes the height that is left ----------
-   In two columns the modal body does not scroll: the list is what scrolls. But
-   its ceiling cannot be fixed — 48 topics with a 420px ceiling still made the
-   column overflow, and the modal went back to scrolling, taking the video and
-   the button out of view. Here we measure how much the column overflows and take
-   that much off the list, which is the only block that can shrink without losing
-   information (it scrolls). A 140px floor: below that the list stops being
-   legible and it is better to let the column scroll.
+/* ---------- one height for every course ----------
 
-   Why in JS and not in CSS: Chrome's `<details>` wraps the content in a slot, so
-   the `ul` does not become a flex item and `flex:1 1 auto` on it is ignored by
-   the layout. */
-function fitTopics() {
-  const det = modalBody.querySelector('.modal-topics');
-  const list = det && det.querySelector('ul');
-  if (!list) return;
-  list.style.maxHeight = '';
-  if (!det.open || !matchMedia('(min-width:1024px)').matches) return;
-  const col = det.closest('.modal-col-detail');
-  if (!col) return;
-  const overflow = col.scrollHeight - col.clientHeight;
-  if (overflow > 0) list.style.maxHeight = Math.max(140, list.clientHeight - overflow) + 'px';
-}
+   The box is a fixed height (`--modal-h`), so opening one course after another
+   does not resize the window's worth of dark panel each time. What varies is
+   which part of each column absorbs the difference, and both are measured here
+   because both depend on a width only the layout knows.
 
-/* THE SLACK IN THE LEFT COLUMN GOES TO THE VIDEO.
-   The right column runs from 419px to 650px depending on how many blocks of
-   chips a course earns — six tracks and six courses it opens the way to is two
-   tall blocks — while the left is always a frame, a sentence and a button.
-   `javascript` left 191px empty at 1920×950; `react-ts` and `kubernetes` fill
-   both sides exactly. Moving a block across balances the first and unbalances
-   the others, so instead the frame takes the leftover.
-   Capped at 4:3, because past that a 16:9 thumbnail is being cropped to fill a
-   shape it was never framed for, and the reserved reading of the empty state
-   turns into a hole. Measured rather than written in CSS for the usual reason:
-   the cap depends on the column's width, which only the layout knows. */
-/* THE SYLLABUS GOES ON THE LEFT ONLY WHERE IT FITS.
-   Under the video is where it belongs: it is what the enrolment button is being
-   pressed for, and the summary it replaced said in one line what the video is
-   there to say properly. But the left column is capped by the box (86vh), and on
-   a 768px screen the video, a seven-line syllabus and the button come to 106px
-   more than there is — which would put the button below the fold, in the one
-   column that exists to get it pressed.
-   So it is measured. Where it does not fit, the block goes back to the top of the
-   detail column, which is where it used to live. Nothing is lost either way; what
-   changes is which column runs long. */
-function fitColumns() {
+   THE LEFT is a title, the meta line, the frame, the syllabus and the button.
+   Everything but the frame is set by the course, and it ranges over 160px across
+   the catalogue — more than the auto margin above the button can hide. So the
+   frame takes it: it grows to 4:3 where the course is short, and is squeezed
+   towards 2.3:1 where it is long. 745px is the tallest the left column gets at
+   16:9, which is why it is the height chosen: on any screen tall enough, no
+   frame is ever squeezed at all.
+
+   THE RIGHT is the topic list, the prerequisites and two rows of chips. The list
+   is the part that can be any height, so it is given exactly the room the others
+   leave — which is what keeps the column from ending early, and from scrolling.
+
+   Below 1024px there is one column and none of this applies: the inline heights
+   are cleared and the page scrolls, which is what a phone wants. */
+const VIDEO_FLAT = 2.3;   // the widest the frame may be squeezed to
+const VIDEO_TALL = 4 / 3; // and the tallest it may grow into slack
+const LIST_FLOOR = 140;   // below this the list is not worth scrolling inside
+
+function twoColumns() { return matchMedia('(min-width:1024px)').matches; }
+
+function fitModal() {
   const intro = modalBody.querySelector('.modal-col-intro');
   const detail = modalBody.querySelector('.modal-col-detail');
-  const block = modalBody.querySelector('.modal-syllabus');
-  if (!intro || !detail || !block) return;
-  const actions = intro.querySelector('.modal-actions');
-  if (actions) intro.insertBefore(block, actions);        // start from the left, always
-  if (!matchMedia('(min-width:1024px)').matches) return;
-  if (intro.scrollHeight > intro.clientHeight + 1) detail.insertBefore(block, detail.firstChild);
-}
-
-function fitVideo() {
   const video = modalBody.querySelector('.modal-video');
-  if (!video) return;
-  video.style.height = '';
-  const col = video.closest('.modal-col-intro');
-  if (!col || !matchMedia('(min-width:1024px)').matches) return;
-  /* The gap is read between the summary and the button rather than from the
-     column's own overflow: the button is pushed to the floor by `margin-top:
-     auto`, so the column always reports itself full and the slack only exists
-     as the distance between those two. Resetting the height above is what makes
-     this measurement the untouched one. */
-  const actions = col.querySelector('.modal-actions');
-  const above = actions && actions.previousElementSibling;
-  if (!actions || !above) return;
-  const spare = actions.getBoundingClientRect().top - above.getBoundingClientRect().bottom;
-  if (spare < 40) return;
-  const wide = video.clientWidth * 9 / 16;         // what 16:9 gives it now
-  const tall = video.clientWidth * 3 / 4;          // as far as it may grow
-  video.style.height = Math.round(Math.min(tall, wide + spare)) + 'px';
+  const list = modalBody.querySelector('.modal-topics[open] > ul');
+  const syllabus = modalBody.querySelector('.modal-syllabus ul');
+  if (video) video.style.height = '';
+  if (list) list.style.height = '';
+  if (syllabus) syllabus.style.height = '';
+  if (!intro || !detail || !twoColumns()) return;
+
+  if (video && video.clientWidth) {
+    /* HOW MUCH ROOM THE COLUMN REALLY HAS.
+       Not `scrollHeight`, which never reports less than the column; and not the
+       gap above the button, which also contains that block's own bottom margin
+       and the button's padding — growing the frame by the whole gap ate both and
+       clipped the last line of the syllabus.
+       The button's `margin-top:auto` is zeroed for the measurement, the bottom
+       of the content is read against the top of the column, and the margin is
+       put straight back. One reflow, and the number is exact. */
+    const actions = intro.querySelector('.modal-actions');
+    if (actions) actions.style.marginTop = '0px';
+    const contentH = actions
+      ? actions.getBoundingClientRect().bottom - intro.getBoundingClientRect().top + intro.scrollTop
+      : intro.scrollHeight;
+    if (actions) actions.style.marginTop = '';
+
+    const w = video.clientWidth;
+    const now = video.getBoundingClientRect().height;
+    const diff = intro.clientHeight - contentH;   // positive: slack. negative: overflow.
+    video.style.height = Math.round(diff > 0
+      ? Math.min(w * VIDEO_TALL, now + diff)
+      : Math.max(w / VIDEO_FLAT, now + diff)) + 'px';
+  }
+
+  /* Last resort, and only on a short screen: with the frame already at its
+     flattest the longest syllabuses still overrun the column by up to 55px, and
+     what that pushes out of sight is the button. So the syllabus scrolls — the
+     one block on this side that can lose a line without losing the argument,
+     since every line of it is repeated in the topic list opposite. */
+  if (syllabus) {
+    const over = intro.scrollHeight - intro.clientHeight;
+    if (over > 0) {
+      syllabus.style.height =
+        Math.round(Math.max(60, syllabus.getBoundingClientRect().height - over)) + 'px';
+    }
+  }
+
+  if (list) {
+    // everything in the column that is not the list, taken off the column
+    /* What the blocks under the list need is ADDED UP, margins included, with
+       the list collapsed to nothing. Neither subtracting the list from
+       `scrollHeight` nor reading `scrollHeight` with the list at zero works:
+       `scrollHeight` never reports less than the column's own height, so where
+       the column does not overflow both give the column back and the list is
+       left exactly as it was — which is what kept it 363px short.
+       And the height is always set, even below the floor. Skipping there was the
+       other half of the same bug: `python` kept its natural 622px list in a
+       column with 135px for it and scrolled by 486. Clamped, it overflows by
+       four pixels. */
+    list.style.height = '0px';
+    const others = [...detail.children].reduce((sum, el) => {
+      const cs = getComputedStyle(el);
+      return sum + el.getBoundingClientRect().height +
+        parseFloat(cs.marginTop || 0) + parseFloat(cs.marginBottom || 0);
+    }, 0);
+    const room = detail.clientHeight - others;
+    /* Below the floor the list is not worth scrolling inside, and forcing it to
+       the floor is what made the column overflow. It closes instead: the summary
+       bar still says how many topics there are, and opening it by hand is a
+       choice the reader made, at which point the column may scroll. */
+    if (room < LIST_FLOOR) { list.style.height = ''; list.parentElement.open = false; return; }
+    list.style.height = Math.round(room) + 'px';
+  }
 }
-addEventListener('resize', () => { fitColumns(); fitVideo(); fitTopics(); });
+addEventListener('resize', fitModal);
 modalBody.addEventListener('toggle', (e) => {
   // opening the list changes the box's height, and with it what the frame may take
-  if (e.target.classList.contains('modal-topics')) { fitVideo(); fitTopics(); }
+  if (e.target.classList.contains('modal-topics')) fitModal();
 }, true);
 
 function closeModal() { closeModals(); }

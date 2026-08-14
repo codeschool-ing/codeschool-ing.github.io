@@ -872,33 +872,40 @@ That is why Docker was born as its own course instead of becoming a block inside
 
 On screens of **1024px and up** the modal opens in **two columns**: on the left what convinces — what the course is, the introduction video and the enrolment button —, on the right what details it — syllabus, detailed content, prerequisites and tracks. Below that it goes back to one column, and the HTML order is already the right reading order. The breakpoint is where each column still gets ~440px: any narrower than that and two columns read worse than one. Above 1500px the box stops growing — on a 4K screen the modal took up half the width in blank on one side and lines that were too long on the other.
 
-A course with 48 topics open made the whole modal scroll, and the left column — the video and the enrolment button — went up out of view with it. On large screens **the modal's body does not scroll**: what scrolls is the topic list, inside itself.
+**Every course's modal is the same height.** Opening one course after another used to resize the panel each time — 550px for `react-ts`, 766px for `first-job` — and the eye reads that as the page jumping. The box is `min(800px, 94vh)`: 800 is what the tallest left column needs, 741px of content plus the 94px the header and the body's padding take. Below 1024px none of it applies — one column, and the page scrolls, which is what a phone wants.
 
-The list's ceiling is **measured in JavaScript**, not fixed in CSS. A fixed ceiling does not solve it: at 420px the list stopped, but the whole column (syllabus + topics + prerequisites + tracks) still overflowed and the modal went back to scrolling. `fitTopics()` measures how much the column overflows and takes that much off the list — the only block that can shrink without losing information, because it scrolls. A 140px floor; below that the column scrolls, as a safety net.
+A fixed height only works if something on each side absorbs the difference, and each side has exactly one block that can:
 
-It was meant to be pure CSS (`flex:1 1 auto` on the list inside a `<details>` in `display:flex`), and it does not work: Chrome wraps the `<details>` content in a slot, so the `ul` does **not** become a flex item. The computed style accepts the rule and the layout ignores it — the list ended up 1387px inside a 246px block and spilled over the rest. Measuring is what showed that; looking at the CSS there was no way to know.
+| | what varies | what absorbs it |
+| --- | --- | --- |
+| left | title, meta line, syllabus and button — **160px across the catalogue** | the video frame, between 4:3 and 2.3:1 |
+| right | prerequisites and two rows of chips — **208px to 577px** | the topic list, which opens by default and is given the room the rest leaves |
 
-On mobile none of this applies: there, a single screen scroll is more natural than a box scrolling inside another.
+**Measuring the room was three bugs in a row, and all three were the same bug.** `scrollHeight` never reports less than the element's own height, so any arithmetic that reads it to find *spare* room gets the element back and concludes there is none:
 
-**The two columns do not hold the same amount, and no split makes them.** The left is a frame, a sentence and a button — near enough the same height for all 122 courses. The right runs from **419px to 650px** depending on how many blocks of chips a course earns: `javascript` is in six tracks and opens the way to six courses, and left 191px of the left column empty at 1920×950, while `react-ts` and `kubernetes` fill both sides to the pixel.
+- subtracting the list from the column's `scrollHeight` left the list exactly as it was, and the column 363px short;
+- reading `scrollHeight` with the list collapsed to zero did the same thing;
+- on the left, `margin-top:auto` on the button means the column is *always* full, so there is no overflow to read there either — which is why the frame never grew.
 
-Moving a block across was the obvious fix and it is not one: the arithmetic was done for each candidate, and every constant addition to the left balances the crowded courses and unbalances the sparse ones. Prerequisites moved across fixes `javascript` and leaves `react-ts` 213px out the other way. It trades one gap for another.
+What works is adding the blocks up, margins included, and on the left zeroing the auto margin for the length of the measurement. Reading the gap above the button instead is close but wrong: that gap also contains the block's own bottom margin and the button's padding, and growing the frame by all of it clipped the last line of the syllabus.
 
-**The summary went, and the syllabus took its place.** The one-line summary under the video said in a sentence what the video is there to say properly, and it is still on the catalogue card that got you here; what belongs beside the enrolment button is what you will actually learn. It moved the balance the right way — the left column was the shorter one — and it cost two fixes:
+The list is **always** given a height, even when the room is less than the 140px floor. Skipping there was the other half of the same class of mistake: `python` kept its natural 622px list in a column with 135px for it and scrolled by 486. Below the floor the panel closes instead — the summary bar still says how many topics there are, and opening it by hand is the reader's choice, at which point the column may scroll.
 
-- **The frame stopped being a flex item that shrinks.** With the syllabus below it, the video was squeezed to **3:1** on a 768px screen — a letterbox strip where a video should be. `flex-shrink:0`, and what gives instead is the column.
-- **It only moves where it fits.** The box is capped at 86vh, and on a 768px screen the video, a seven-line syllabus and the button come to **106px more than there is** — which would put the button below the fold, in the one column that exists to get it pressed. `fitColumns()` measures, and where it does not fit the block goes back to the top of the detail column, which is where it used to live. At 1920×950 the left ends flush and the right carries the slack; at 1366×768 it is the other way round, which is where it was before.
+It was meant to be pure CSS (`flex:1 1 auto` on the list inside a `<details>` in `display:flex`), and it does not work: Chrome wraps the `<details>` content in a slot, so the `ul` does **not** become a flex item. The computed style accepts the rule and the layout ignores it. Measuring is what showed that; looking at the CSS there was no way to know.
 
-So the slack is not removed, it is spent, in two steps:
+**The summary went and the syllabus took its place**, under the video. The summary said in a sentence what the video is there to say properly, and it is still on the catalogue card that got you here; what belongs beside the enrolment button is what you will actually learn.
 
-| | |
-| --- | --- |
-| the frame takes it first | up to **4:3** and no further — past that a 16:9 thumbnail is being cropped to fill a shape it was never framed for |
-| the button takes the rest | `margin-top:auto` drops it to the floor of the column, level with the bottom of the right one |
+The frame does not shrink as a flex item any more — with the syllabus below it, it was being squeezed to **3:1** on a 768px screen. `fitModal` decides its height deliberately instead, and where even 2.3:1 is not enough the **syllabus** scrolls: it is the one block on that side that can lose a line without losing the argument, because every line of it is repeated in the topic list opposite. What must never scroll out of sight is the button.
 
-The cap is measured in JS (`fitVideo`) rather than written in CSS for the same reason `fitTopics` is: it depends on the column's width, and only the layout knows that. The gap it reads is the distance between the summary and the button, **not** the column's own overflow — the auto margin means the column always reports itself full, so the slack exists only as that distance. Resetting the frame's height before measuring is what keeps the reading honest across a resize.
+Measured over all 122 courses:
 
-At 1366×768 it closes the gap outright; at 1920×950 `javascript` keeps 107px, which is the cap doing its job rather than a failure.
+| | one box height | left column scrolls | right column scrolls |
+| --- | --- | --- | --- |
+| 1920×950 | 800px | **0** | **0** |
+| 1280×800 | 752px | **0** | **0** |
+| 1366×768 | 722px | **0** | **0** |
+
+On a 768px screen 25 of the 122 frames are flatter than 16:9 and 4 open with the topic list closed. That is the screen paying for the fixed height, and it pays in the frame rather than in the button.
 
 **With the modal open, the background does not scroll.** Trapping only the wheel and touch in JavaScript was not enough — the handlers had a bare `return` before the `preventDefault()`, and the browser's scrollbar and the trackpad's inertia were still left over. It is two halves: a class on `<html>` cuts the overflow of the document and of the screen (handling the scrollbar and the inertia) and the handlers let through only what has its own scrolling **inside** the modal (handling the chaining). The page's position stays exactly where it was, because nothing is repositioned.
 
