@@ -7,9 +7,10 @@
  * and the diff shows none of it. The README claimed this was verified; it was
  * not, by anything that ran. Now it is.
  *
- * WHAT IT CHECKS. For each track, at four viewport sizes, once per branch of a
- * forked track, and twice over — in the panel and on the whole screen: sample
- * every drawn edge along its length and fail if a sample lands inside a card
+ * WHAT IT CHECKS. For each track, at six viewport sizes — four landscape and
+ * two portrait, where the graph flows down instead of right — once per branch of
+ * a forked track, and twice over: in the panel and on the whole screen. It samples
+ * every drawn edge along its length and fails if a sample lands inside a card
  * that is not one of that edge's two endpoints. Endpoints are excluded because
  * an edge starts and ends on them by construction.
  *
@@ -39,6 +40,11 @@ const SIZES = [
   { w: 1600, h: 900 },
   { w: 1366, h: 768 },
   { w: 1280, h: 800 },
+  // portrait monitors: the graph flows down there, which is the same router
+  // running in swapped coordinates. An edge that only crosses a card in that
+  // layout would be invisible to every landscape size above.
+  { w: 1080, h: 1920 },
+  { w: 1200, h: 1600 },
 ];
 const SAMPLES = 120;
 const TOLERANCE = 1;

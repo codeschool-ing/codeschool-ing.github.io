@@ -136,7 +136,7 @@ The detour is local: it passes just above the highest card in the way, or just b
 
 The curve's two rises have independent widths, computed from **each endpoint's real clearance**. With sub-columns the gap between cards falls from 48px to 14px, and a fixed 26px rise went straight through the neighbour — it was precisely through that rise that the line entered the card.
 
-This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **3,832 edges across 18 tracks, every branch of every fork, at four screen sizes, in the panel and on the whole screen — zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
+This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **5,748 edges across 18 tracks, every branch of every fork, at six screen sizes — four landscape and two portrait — in the panel and on the whole screen: zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
 
 Each edge is a `<g>` with two paths — one transparent and thick, only to catch the cursor, and the visible one. Hovering **the line** highlights it; hovering **the card** lights up every edge entering and leaving it.
 
@@ -210,6 +210,8 @@ ligacoes: { 'sql-databases': ['excel-analytics'] } // or a course id
 
 SQL does not require a server language — but in the Back-end track it comes after one. `requires` holds the **content** prerequisite, which is global; `links` holds **that track's** order.
 
+**The block widens with the branch.** Its courses used to divide a fixed 620px between them, which is generous for two and wrong for four: the Go branch's cards came out 142px wide next to the 238px ones outside the block, and the fork read as a different, smaller kind of card. The width now follows the count — `:has(.fork-courses > :nth-child(4))` — and the cards land at about 210px. The graph gets wider when that branch is selected, which is the trade.
+
 A step with a fork enters the graph as **a single node** — it is a decision, not a course. Whoever depends on a course inside the block (`sql-databases` depends on `node`) receives the edge from the whole block, so the graph stays correct on whichever path is chosen.
 
 In the modal, `requires` becomes **prerequisite** buttons (red, pointing backwards) and its inverse becomes **"abre caminho para"** (blue, pointing forwards) — you can navigate the catalogue by its dependencies.
@@ -233,6 +235,35 @@ The second row is the honest one: at 1366 the panel already uses most of the wid
 **Two things had to be fixed to make it work, and one was a real bug.** `splitLevels()` decides how many cards fit in a column from `clientHeight` minus the lane's padding — but `clientHeight` includes the *scroller's* padding too, which the cards never get. That is 4px on the track screen, where nobody notices, and 38px on the whole screen: the column was packed 38px past its own box, the last card was pushed out of the bottom of the graph, and the detour lane that should have passed below it was clamped back inside the container — drawing the edge from Automated Testing to the finish node straight through Data Governance, on Data Engineering at 1280×800, on all three branches. The graph test now renders **both layouts**, which is how that was found; it was clean in the panel at every size.
 
 The other was not a bug so much as a thing that had to go: the arrows were disappearing on expand, and that was the scaled mode hiding them — with the whole track on screen there is nothing left to page through, so both the CSS and `no-arrows` took them away. With the mode gone they are arrows again, and a click still pages while a hold still glides.
+
+### A portrait monitor: the graph flows down
+
+1080×1920 is a desktop screen, so none of the phone's rules reach it — and the landscape layout is wrong there in the other direction. The track marches to the right, hides two thirds of itself behind a horizontal scroll, and leaves most of the height empty. **On a portrait screen the same graph is transposed**: the levels stack, the cards of a level sit side by side, and what runs out is height, which is what the wheel is for.
+
+The edges are still drawn, and that is the part worth explaining. **The router was not written twice.** Everything in it thinks the graph goes left to right — an edge leaves a card's right side, crosses a corridor, comes in on the next card's left. Flowing down, the boxes go in with `x` and `y` swapped and every point comes out swapped back:
+
+```js
+const down = graphFlow() === 'down';
+const boxOf = (id) => { …; return down ? { x: b.y, y: b.x, w: b.h, h: b.w } : b; };
+const P = (x, y) => (down ? y + ',' + x : x + ',' + y);   // written the way the SVG reads it
+```
+
+"The lane above every card in the way" becomes the margin to their left; the corridor between two stacked cards becomes the gap between two cards side by side. The detour logic, the free-lane search and the clearances are the same lines of code.
+
+Which layout is in force is **decided by the CSS and read back by the JS**, so there is one breakpoint and not two:
+
+| | lane | sub-column | edges |
+| --- | --- | --- | --- |
+| `right` — landscape desktop | row of levels | column of cards | drawn |
+| `down` — portrait, ≥861px | column of levels | **row** of cards | drawn |
+| `list` — phone | column | column | hidden; `requires` shown as text |
+
+`splitLevels()` follows: flowing down, a level breaks when its cards run out of **width**, and what it breaks into is another row. Two things had to be tuned for the new geometry, and both were found by measurement rather than by looking:
+
+- **The fork block stacks its courses in portrait.** Left as a row it is 700px wide in a column of 238px cards, and every edge between the level above it and the level below had to travel around it — the worst was 4.05× its straight line. Stacked, it is barely wider than a card and the edges pass beside it.
+- **The gap between levels is 48px**, the same as the landscape gap between levels, because that is the distance the curve's rise is fitted to.
+
+Crookedness in portrait settles at **1.26 against 1.10** in landscape, and that difference is geometry rather than a defect: an edge that skips levels has to detour to the outside of the graph, and in portrait the outside is half of 970px away instead of half of 400px. The graph test renders **both orientations** — six viewport sizes now, four landscape and two portrait — and the crossing count is zero in all of them.
 
 ### The step key is a position, and positions move
 

@@ -477,7 +477,8 @@ html[data-theme="light"] .outcome-seal{background:rgba(212,15,40,.07);box-shadow
   border-top:1px dashed var(--wire);margin-top:4px;padding-top:5px;line-height:1.35;
 }
 /* where the edges are drawn they already say this; the text is left for screen
-   readers only. The breakpoint follows the graph's (861px). */
+   readers only. The breakpoint follows the graph's — and the graph draws its
+   edges in both of the layouts that are not the phone's list. */
 @media (min-width:861px){
   .course-node .requires{
     position:absolute;width:1px;height:1px;padding:0;margin:-1px;
@@ -598,10 +599,54 @@ html[data-theme="light"] .fork{background:rgba(43,82,201,.045)}
     grid-template-areas:"top note" "courses courses";
     column-gap:18px;row-gap:10px;max-width:620px;
   }
+  /* The block widens with the number of courses in the chosen branch, instead
+     of dividing a fixed 620px among them: at four courses that gave 142px
+     cards next to the 238px ones outside the block, and the fork read as a
+     different, smaller kind of card. These widths keep each one at about 238px.
+     The graph gets wider when the Go branch is selected, which is the trade. */
+  .fork:has(.fork-courses > :nth-child(3)){max-width:770px}
+  .fork:has(.fork-courses > :nth-child(4)){max-width:1010px}
   .fork-top{grid-area:top}
   .fork-note{grid-area:note;font-size:.7rem;line-height:1.4;align-self:end}
   .fork-courses{grid-area:courses}
-  .fork-courses .course-node{flex:1 1 0;min-width:0}
+  /* the same 238px the cards outside the block start from */
+  .fork-courses .course-node{flex:1 1 238px;min-width:0}
+}
+
+/* ---------- A PORTRAIT MONITOR: THE GRAPH FLOWS DOWN ----------
+   1080×1920 is a desktop screen, so none of the phone rules apply to it — and
+   the landscape layout is wrong there in the other direction: the track marches
+   right, hides two thirds of itself behind a horizontal scroll and leaves most
+   of the height empty. Here the same graph is transposed. Levels stack, the
+   cards of a level sit side by side, the edges are still drawn (the router runs
+   in swapped coordinates, see script.js) and what runs out is height, which is
+   what the wheel is for. */
+@media (min-width:861px) and (orientation:portrait){
+  .graph-levels{
+    flex-direction:column;align-items:stretch;
+    width:auto;min-width:0;height:max-content;min-height:100%;
+    gap:48px;padding:20px 24px;
+  }
+  /* a level is a stack of rows, and a row is cards side by side */
+  .level{flex-direction:column;align-items:center;gap:14px;height:auto;width:100%}
+  .subcol{flex-direction:row;align-items:stretch;justify-content:center;gap:16px;width:auto;max-width:100%}
+  .track-graph{overflow-x:hidden;overflow-y:auto}
+  /* nothing to page sideways: the scroll is vertical and belongs to the wheel */
+  .graph-arrow{display:none}
+  .track-graph.fade-right,.track-graph.fade-left{-webkit-mask-image:none;mask-image:none}
+  .track-graph.fade-down{
+    -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent);
+    mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent);
+  }
+  /* The fork block stacks, like it does on a phone. Not for want of width: a
+     block 700px wide in a column of 238px cards is something every edge between
+     the levels above and below it has to travel around, and the detour was four
+     times the straight line. Stacked it is barely wider than a card, and the
+     edges pass beside it. */
+  .fork{display:flex;flex-direction:column;max-width:min(100%,420px)}
+  .fork-note{max-width:none;font-size:.74rem}
+  .fork-courses{flex-direction:column}
+  .fork-courses .course-node{max-width:none;flex:1 1 auto}
 }
 
 /* ---------- CATALOGUE ---------- */

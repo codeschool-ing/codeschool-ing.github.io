@@ -715,6 +715,28 @@ function buildTrack(t) {
   );
 }
 
+/* ---------- which way the graph flows ----------
+   Three layouts, and the CSS decides which one is in force — the JS only reads
+   it back, so there is one breakpoint to change and not two:
+
+     right — levels side by side, cards stacked inside each level. The desktop
+             landscape layout, and what the whole router was written for.
+     down  — levels stacked, cards side by side inside each level. A portrait
+             monitor: 1080 wide and 1920 tall, where marching to the right hides
+             two thirds of the track behind a scrollbar and leaves the height
+             empty. It is the same graph transposed, edges included.
+     list  — one column, no edges, `requires` shown as text. The phone.
+
+   The flags are the flex directions themselves: the lane says whether the
+   levels stack, and a sub-column says whether the cards inside one do. */
+function graphFlow() {
+  const lane = panelEl.querySelector('.graph-levels');
+  if (!lane) return 'right';
+  if (getComputedStyle(lane).flexDirection === 'row') return 'right';
+  const sub = lane.querySelector('.subcol');
+  return sub && getComputedStyle(sub).flexDirection === 'row' ? 'down' : 'list';
+}
+
 /* ---------- splits each level into sub-columns ----------
    A level with many courses must not stretch below the screen. Here the real
    height of each card is measured and a sub-column is filled up to the limit
@@ -730,7 +752,11 @@ function splitLevels() {
   if (boxG) boxG.style.flex = '1 1 auto';
   // on a narrow screen the CSS stacks everything into one column: nothing to
   // split, and whatever an earlier measurement left goes back to one sub-column
-  const asList = getComputedStyle(lane).flexDirection !== 'row';
+  const flow = graphFlow();
+  const asList = flow === 'list';
+  // flowing down, a level breaks when the cards run out of WIDTH, and what it
+  // breaks into is another row. Same algorithm, other axis.
+  const across = flow === 'down';
   const gap = 10;
   // subtract the lane's real padding instead of a constant: it changed along with
   // the section header, and a magic number here would silence the gain.
@@ -742,9 +768,11 @@ function splitLevels() {
   // container and drew the edge straight through that card.
   const cs = getComputedStyle(lane);
   const sp = getComputedStyle(scroller);
-  const available = scroller.clientHeight -
-    (parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)) -
-    (parseFloat(sp.paddingTop) + parseFloat(sp.paddingBottom)) - 2;
+  const pad = (s) => across
+    ? parseFloat(s.paddingLeft) + parseFloat(s.paddingRight)
+    : parseFloat(s.paddingTop) + parseFloat(s.paddingBottom);
+  const available = (across ? scroller.clientWidth : scroller.clientHeight) -
+    pad(cs) - pad(sp) - 2;
   panelEl.querySelectorAll('.level').forEach((lvl) => {
     const items = [];
     lvl.querySelectorAll(':scope > .subcol').forEach((sc) => {
@@ -764,7 +792,7 @@ function splitLevels() {
     const cols = [[]];
     let used = 0;
     items.forEach((el) => {
-      const h = el.offsetHeight;
+      const h = across ? el.offsetWidth : el.offsetHeight;
       const current = cols[cols.length - 1];
       if (current.length && used + gap + h > available) { cols.push([]); used = 0; }
       cols[cols.length - 1].push(el);
@@ -789,7 +817,9 @@ function splitLevels() {
      Not on the whole screen: there the space below the graph belongs to nothing
      else, and hugging left 350px of empty window under a graph that had just
      been asked to take it. */
-  if (!asList && !document.body.classList.contains('graph-full')) {
+  // and only where the graph is as tall as it needs to be: flowing down it is
+  // taller than the box on purpose, and hugging would cut it off
+  if (flow === 'right' && !document.body.classList.contains('graph-full')) {
     let tallest = 0;
     panelEl.querySelectorAll('.level > .subcol').forEach((sc) => {
       tallest = Math.max(tallest, sc.offsetHeight);
@@ -814,12 +844,24 @@ function drawEdges(t) {
   const g = trackGraph(t);
   const base = cont.getBoundingClientRect();
   const L = cont.scrollLeft, T = cont.scrollTop;
+  /* THE ROUTER RUNS IN ONE AXIS AND SERVES BOTH. Everything below this line
+     thinks the graph goes left to right: an edge leaves a card's right side,
+     crosses a corridor and comes in on the next card's left. Flowing down, the
+     boxes go in with x and y swapped and every point comes out swapped back —
+     so "the lane above the cards" is the margin to their left, and not one line
+     of the routing had to be written twice. */
+  const down = graphFlow() === 'down';
   const boxOf = (id) => {
     const el = cont.querySelector('[data-node="' + CSS.escape(id) + '"]');
     if (!el) return null;
     const r = el.getBoundingClientRect();
-    return { x: r.left - base.left + L, y: r.top - base.top + T, w: r.width, h: r.height };
+    const b = { x: r.left - base.left + L, y: r.top - base.top + T, w: r.width, h: r.height };
+    return down ? { x: b.y, y: b.x, w: b.h, h: b.w } : b;
   };
+  // the far edge of the drawing, in the same swapped coordinates
+  const far = down ? cont.scrollWidth : cont.scrollHeight;
+  // a point, written the way the SVG has to read it
+  const P = (x, y) => (down ? y + ',' + x : x + ',' + y);
 
   svg.setAttribute('width', cont.scrollWidth);
   svg.setAttribute('height', cont.scrollHeight);
@@ -846,9 +888,9 @@ function drawEdges(t) {
     yTop = Math.min(yTop, c.y);
     yBottom = Math.max(yBottom, c.y + c.h);
   });
-  if (!isFinite(yTop)) { yTop = 0; yBottom = cont.scrollHeight; }
+  if (!isFinite(yTop)) { yTop = 0; yBottom = far; }
   const detourUp = Math.max(6, yTop - CLEARANCE);
-  const detourDown = Math.min(cont.scrollHeight - 6, yBottom + CLEARANCE);
+  const detourDown = Math.min(far - 6, yBottom + CLEARANCE);
 
   /* All the boxes measured at once. The detour is not decided by counting
      skipped levels — that missed the case where a level is split into
@@ -950,7 +992,7 @@ function drawEdges(t) {
           yD = (y1 - detourUp) + (y2 - detourUp) <= (detourDown - y1) + (detourDown - y2)
             ? detourUp : detourDown;
         }
-        yD = Math.max(6, Math.min(cont.scrollHeight - 6, yD));
+        yD = Math.max(6, Math.min(far - 6, yD));
         // each endpoint uses the clearance it actually has: the rise out of the
         // prerequisite fits the gap to its right, the one into the dependent
         // fits the gap to its left
@@ -959,14 +1001,14 @@ function drawEdges(t) {
           return Math.max(5, Math.min(26, clearance(x, ya, yb, ignore, rightwards) / 2));
         };
         const eS = width(x1, true), eE = width(x2, false);
-        dd = 'M' + x1 + ',' + y1 +
-          ' C' + (x1 + eS) + ',' + y1 + ' ' + (x1 + eS) + ',' + yD + ' ' + (x1 + eS * 2) + ',' + yD +
-          ' L' + (x2 - eE * 2) + ',' + yD +
-          ' C' + (x2 - eE) + ',' + yD + ' ' + (x2 - eE) + ',' + y2 + ' ' + x2 + ',' + y2;
+        dd = 'M' + P(x1, y1) +
+          ' C' + P(x1 + eS, y1) + ' ' + P(x1 + eS, yD) + ' ' + P(x1 + eS * 2, yD) +
+          ' L' + P(x2 - eE * 2, yD) +
+          ' C' + P(x2 - eE, yD) + ' ' + P(x2 - eE, y2) + ' ' + P(x2, y2);
       } else {
         const dx = Math.max(18, (x2 - x1) / 2);
-        dd = 'M' + x1 + ',' + y1 + ' C' + (x1 + dx) + ',' + y1 +
-          ' ' + (x2 - dx) + ',' + y2 + ' ' + x2 + ',' + y2;
+        dd = 'M' + P(x1, y1) + ' C' + P(x1 + dx, y1) +
+          ' ' + P(x2 - dx, y2) + ' ' + P(x2, y2);
       }
 
       lines.push(
@@ -974,7 +1016,7 @@ function drawEdges(t) {
           '<title>' + nodeLabel(d, g) + ' → ' + nodeLabel(node.id, g) + '</title>' +
           '<path class="hit" d="' + dd + '"/>' +
           '<path class="row" d="' + dd + '"/>' +
-          '<circle class="tip" cx="' + x2 + '" cy="' + y2 + '" r="3"/>' +
+          '<circle class="tip" cx="' + (down ? y2 : x2) + '" cy="' + (down ? x2 : y2) + '" r="3"/>' +
         '</g>'
       );
     });
