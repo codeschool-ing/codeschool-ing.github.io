@@ -701,7 +701,9 @@ function buildTrack(t) {
     '<div class="track-top">' +
       '<div>' +
         '<h3>' + t.name + '</h3>' +
-        '<p>' + t.goal + '</p>' +
+        '<p class="goal">' + t.goal + '</p>' +
+        '<button class="goal-more" type="button" data-goal-more hidden>' +
+          txt('read the whole objective') + '</button>' +
       '</div>' +
       '<div class="track-summary">' +
         '<span><b>' + path.length + '</b>' + txt('courses') + '</span>' +
@@ -714,6 +716,13 @@ function buildTrack(t) {
     '</div>' +
     milestones +
     '<div class="graph-box">' +
+      '<button class="graph-full-toggle" type="button" data-graph-full ' +
+        'aria-label="' + txt('see the graph on the whole screen') + '">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path class="i-open" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>' +
+        '<path class="i-close" d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>' +
+      '</button>' +
       '<button class="graph-arrow left" type="button" data-scroll="-1" aria-label="See the previous levels">←</button>' +
       '<div class="track-graph"><svg class="graph-edges" aria-hidden="true"></svg>' +
         '<div class="graph-levels">' + columns + '</div></div>' +
@@ -740,10 +749,18 @@ function splitLevels() {
   const asList = getComputedStyle(lane).flexDirection !== 'row';
   const gap = 10;
   // subtract the lane's real padding instead of a constant: it changed along with
-  // the section header, and a magic number here would silence the gain
+  // the section header, and a magic number here would silence the gain.
+  // The scroller's own padding counts too. clientHeight includes it and the
+  // cards never get it, so a column packed by this number is that much taller
+  // than the box that holds it. It is 4px on the track screen and 38px on the
+  // whole screen, and there it pushed the last card out of the bottom of the
+  // graph — where the lane an edge detours through was clamped back inside the
+  // container and drew the edge straight through that card.
   const cs = getComputedStyle(lane);
+  const sp = getComputedStyle(scroller);
   const available = scroller.clientHeight -
-    (parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)) - 4;
+    (parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)) -
+    (parseFloat(sp.paddingTop) + parseFloat(sp.paddingBottom)) - 2;
   panelEl.querySelectorAll('.level').forEach((lvl) => {
     const items = [];
     lvl.querySelectorAll(':scope > .subcol').forEach((sc) => {
@@ -783,8 +800,12 @@ function splitLevels() {
      Without this the cards sat centred in a much taller lane, and the
      name+objective block had 33px of slack to the tabs above against 103px to
      the first card below. The measuring is still done at full height — that is
-     what decides how many cards fit in a column. */
-  if (!asList) {
+     what decides how many cards fit in a column.
+
+     Not on the whole screen: there the space below the graph belongs to nothing
+     else, and hugging left 350px of empty window under a graph that had just
+     been asked to take it. */
+  if (!asList && !document.body.classList.contains('graph-full')) {
     let tallest = 0;
     panelEl.querySelectorAll('.level > .subcol').forEach((sc) => {
       tallest = Math.max(tallest, sc.offsetHeight);
@@ -976,6 +997,23 @@ function drawEdges(t) {
   });
   svg.innerHTML = lines.join('');
   updateGraphArrows();
+  // the panel is rebuilt whenever a fork changes branch, and it can be rebuilt
+  // while the graph owns the window: the button that came back says what it
+  // does now, not what it did the first time it was built
+  const toggle = panelEl.querySelector('.graph-full-toggle');
+  if (toggle) {
+    toggle.setAttribute('aria-label', txt(document.body.classList.contains('graph-full')
+      ? 'leave the whole screen' : 'see the graph on the whole screen'));
+  }
+  // "read the whole objective" only where there is something left to read.
+  // Today that is all eighteen — the shortest objective still runs past three
+  // lines — but a shorter one would get a link that opens nothing, and the
+  // number of lines is a property of the text, not something to keep track of.
+  const goal = panelEl.querySelector('.track-top p.goal');
+  const more = panelEl.querySelector('.goal-more');
+  if (goal && more && !goal.classList.contains('open')) {
+    more.hidden = goal.scrollHeight <= goal.clientHeight + 2;
+  }
 }
 
 /* a node's readable name, for the edge's tooltip */
@@ -1702,13 +1740,75 @@ window.addEventListener('wheel', (e) => {
   const screen = screens[current];
   const inner = innerScrollable(e.target, right, screen);
   if (inner) { inner.scrollTop += e.deltaY; return; }
+  if (document.body.classList.contains('graph-full')) return;
   if (!atEdge(screen, right)) { screen.scrollTop += e.deltaY; return; }
   if (Math.abs(e.deltaY) < 8) return;
   goTo(current + right);
 }, { passive: false });
 
+/* ---------- the graph on the whole screen ----------
+
+   On the track screen the graph gets what is left after the name, the objective
+   and the numbers have taken theirs: 390px of height at 1920×950, with 45% to
+   73% of its width behind a sideways scroll. The graph is not short, it is wide
+   — it always uses exactly the height it needs — so the panel's 1300px cap costs
+   it more than the heading does, and both are gone here.
+
+   It opens at its own size and stays there. A mode that scaled the whole track
+   down until it fit was tried and dropped: the tracks that need it are the ones
+   that only fit at 45%, which is a size nobody reads, and the arrows already
+   answer what comes next.
+
+   Not a second page and not the Fullscreen API: the panel is the same DOM moved
+   to a fixed layer, so nothing is rebuilt, the nav stays where it is, and Escape
+   gets you out. */
+function graphFullscreen(on) {
+  const body = document.body;
+  if (body.classList.contains('graph-full') === on) return;
+  body.classList.toggle('graph-full', on);
+  // the graph is laid out on measurements, and the measurements just changed:
+  // the levels split by the height they are given, and that is the whole point.
+  // drawEdges also relabels the button, which now means the opposite.
+  requestAnimationFrame(() => {
+    drawEdges(TRACKS[currentTrack]);
+    const b = panelEl.querySelector('.graph-full-toggle');
+    if (b) b.focus({ preventScroll: true });
+  });
+}
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('[data-graph-full]')) {
+    graphFullscreen(!document.body.classList.contains('graph-full'));
+    return;
+  }
+  const more = e.target.closest('[data-goal-more]');
+  if (more) {
+    const p = more.previousElementSibling;
+    const open = p.classList.toggle('open');
+    more.textContent = txt(open ? 'shorten the objective' : 'read the whole objective');
+    drawEdges(TRACKS[currentTrack]);
+  }
+});
+
+// the window changed size under a graph that is measuring itself against it
+addEventListener('resize', () => {
+  if (document.body.classList.contains('graph-full')) drawEdges(TRACKS[currentTrack]);
+});
+
 /* keyboard */
 window.addEventListener('keydown', (e) => {
+  if (document.body.classList.contains('graph-full')) {
+    if (e.key === 'Escape') { e.preventDefault(); graphFullscreen(false); }
+    // while the graph owns the window the arrows drive it, not the screens
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      const g = panelEl.querySelector('.track-graph');
+      if (g) { e.preventDefault(); g.scrollLeft += (e.key === 'ArrowLeft' ? -1 : 1) * 320; }
+    }
+    if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'].includes(e.key)) {
+      e.preventDefault();
+    }
+    return;
+  }
   if (openModal()) {
     if (e.key === 'Escape') closeModals();
     return;

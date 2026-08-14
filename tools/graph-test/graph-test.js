@@ -7,10 +7,16 @@
  * and the diff shows none of it. The README claimed this was verified; it was
  * not, by anything that ran. Now it is.
  *
- * WHAT IT CHECKS. For each track, at four viewport sizes, and once per branch of
- * a forked track: sample every drawn edge along its length and fail if a sample
- * lands inside a card that is not one of that edge's two endpoints. Endpoints
- * are excluded because an edge starts and ends on them by construction.
+ * WHAT IT CHECKS. For each track, at four viewport sizes, once per branch of a
+ * forked track, and twice over — in the panel and on the whole screen: sample
+ * every drawn edge along its length and fail if a sample lands inside a card
+ * that is not one of that edge's two endpoints. Endpoints are excluded because
+ * an edge starts and ends on them by construction.
+ *
+ * Both layouts, because the whole screen is not the same graph made bigger: the
+ * levels re-split against a taller box and the cards spread through it. The
+ * first thing this caught there was an edge drawn straight through a card, on a
+ * track that was clean in the panel at every size.
  *
  * The tolerance is 1px inside the card's box: a curve grazing the border is the
  * design (the detour lane sits 16px out), a curve 2px inside it is a bug.
@@ -60,10 +66,19 @@ const TOLERANCE = 1;
 
     for (const t of plan) {
       for (let branch = 0; branch < t.branches; branch++) {
-        const found = await page.evaluate(({ i, branch, SAMPLES, TOLERANCE }) => {
+       // twice, because the whole screen is a second layout of the same graph:
+       // the levels re-split against a taller box and the cards spread through
+       // it, so an edge that is clear in the panel is not thereby clear there
+       for (const full of [false, true]) {
+        const found = await page.evaluate(async ({ i, branch, full, SAMPLES, TOLERANCE }) => {
+          const wait = (ms) => new Promise((r) => setTimeout(r, ms));
           openTrack(i, true);
+          if (document.body.classList.contains('graph-full') !== full) {
+            document.querySelector('.graph-full-toggle').click();
+            await wait(60);   // it redraws on the next frame, on the new size
+          }
           const tabs = document.querySelectorAll('#track-panel .fork-tab');
-          if (tabs.length && tabs[branch]) tabs[branch].click();
+          if (tabs.length && tabs[branch]) { tabs[branch].click(); await wait(30); }
 
           const cont = document.querySelector('#track-panel .track-graph');
           const svg = cont && cont.querySelector('.graph-edges');
@@ -111,7 +126,7 @@ const TOLERANCE = 1;
             }
           });
           return { edges: edges.length, hits, drawn, direct, crooked };
-        }, { i: t.i, branch, SAMPLES, TOLERANCE });
+        }, { i: t.i, branch, full, SAMPLES, TOLERANCE });
 
         checked += found.edges;
         drawnTotal += found.drawn; directTotal += found.direct;
@@ -119,12 +134,15 @@ const TOLERANCE = 1;
         for (const h of found.hits) {
           console.log('CROSSING: ' + size.w + '×' + size.h + '  ' + t.id +
             (t.branches > 1 ? ' [branch ' + (branch + 1) + ']' : '') +
+            (full ? ' [whole screen]' : '') +
             '  ' + h.from + ' → ' + h.to + '  passes through ' + h.through +
             ' at ' + h.at + '% of the curve');
           crossings++;
         }
+       }
       }
     }
+    await page.evaluate(() => graphFullscreen(false));
 
     if (errors.length) {
       console.log('PAGE ERROR at ' + size.w + '×' + size.h + ': ' + errors.join(' | '));

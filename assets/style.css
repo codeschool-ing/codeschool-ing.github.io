@@ -496,6 +496,81 @@ html[data-theme="light"] .outcome-seal{background:rgba(212,15,40,.07);box-shadow
   }
 }
 
+/* ---------- THE GRAPH ON THE WHOLE SCREEN ----------
+   A button hands the graph the window: the panel becomes a fixed layer under
+   the nav, the objective steps aside, and the graph keeps its own size while
+   getting all the width and all the height there is. Escape closes it.
+   Below 900px there is nothing to do — the graph is already a vertical list. */
+.graph-box{position:relative}
+
+.graph-full-toggle{
+  position:absolute;top:-34px;right:0;z-index:3;
+  width:30px;height:30px;border-radius:4px;cursor:pointer;
+  background:var(--panel);border:1px solid var(--wire);color:var(--phosphor);
+  display:grid;place-items:center;
+  transition:border-color .2s,color .2s;
+  user-select:none;-webkit-user-select:none;touch-action:manipulation;
+}
+.graph-full-toggle:hover{border-color:var(--phosphor)}
+.graph-full-toggle svg{width:16px;height:16px}
+.graph-full-toggle .i-close{display:none}
+body.graph-full .graph-full-toggle .i-open{display:none}
+body.graph-full .graph-full-toggle .i-close{display:block}
+
+/* The objective sells the track and costs up to nine lines of fixed height,
+   which the graph pays for. Three lines and a link give it ~130px back on every
+   screen; the button hides itself where there is no fourth line. */
+.track-top p.goal{
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.track-top p.goal.open{-webkit-line-clamp:unset;overflow:visible}
+.goal-more{
+  background:none;border:0;padding:0;margin-top:4px;cursor:pointer;
+  font:inherit;font-size:.8rem;color:var(--phosphor);
+  text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;
+}
+
+body.graph-full{overflow:hidden}
+/* under the bar and not over it: the nav is 64px and stays where it always is,
+   so the language, the theme and the way out keep working */
+body.graph-full .track-panel{
+  position:fixed;inset:64px 0 0 0;z-index:70;
+  margin:0;padding:12px 18px 16px;
+  background:var(--ink);
+  display:flex;flex-direction:column;
+  max-width:none;width:100%;   /* the panel's 1300px cap is most of what the
+                                  graph was missing on a wide screen */
+}
+body.graph-full .track-top{
+  margin-bottom:10px;align-items:center;flex-wrap:nowrap;gap:18px;
+  border-bottom:1px solid var(--wire);padding-bottom:10px;
+}
+body.graph-full .track-top>div:first-child{max-width:none;flex:1 1 auto;min-width:0}
+body.graph-full .track-top h3{
+  font-size:1.05rem;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+/* the objective is prose and it is on the panel behind. The milestones are the
+   other tracks this one passes through, which is worth having in front of a
+   graph being read whole. */
+body.graph-full .track-top p.goal,
+body.graph-full .goal-more{display:none}
+body.graph-full .track-milestones{margin:0 0 8px}
+body.graph-full .track-summary{gap:22px}
+body.graph-full .graph-full-toggle{top:6px;right:6px}
+body.graph-full .track-graph{padding-top:34px}
+body.graph-full .graph-box{flex:1 1 auto;min-height:0}
+/* and the cards spread through the height instead of sitting in a band at the
+   top of it: one card to a level lands in the middle, two at a third and two
+   thirds, three at the quarters */
+body.graph-full .level{align-items:stretch}
+body.graph-full .subcol{justify-content:space-evenly}
+/* the dots point at screens, and in here there is one screen */
+body.graph-full .dots{display:none}
+
+@media (max-width:900px){
+  .graph-full-toggle{display:none}
+}
+
 /* ---------- A STEP WITH A FORK ----------
    The track's path opens up: the student picks an option and the flow carries on.
    Visually it is a dashed block wrapping that path's courses. */

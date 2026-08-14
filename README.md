@@ -136,7 +136,7 @@ The detour is local: it passes just above the highest card in the way, or just b
 
 The curve's two rises have independent widths, computed from **each endpoint's real clearance**. With sub-columns the gap between cards falls from 48px to 14px, and a fixed 26px rise went straight through the neighbour — it was precisely through that rise that the line entered the card.
 
-This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **1,852 edges across 18 tracks, every branch of every fork, at four screen sizes — zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
+This is verifiable, and now it is verified on every pull request: `tools/graph-test/graph-test.js` renders every track in Chromium, samples 120 points of each drawn path and fails if one falls inside a card that is not an endpoint of that edge. **3,704 edges across 18 tracks, every branch of every fork, at four screen sizes, in the panel and on the whole screen — zero.** It was checked by breaking the router on purpose: with the detour around obstacles disabled it reports 513 crossings and exits non-zero, which is the only reason to believe the zero.
 
 Each edge is a `<g>` with two paths — one transparent and thick, only to catch the cursor, and the visible one. Hovering **the line** highlights it; hovering **the card** lights up every edge entering and leaving it.
 
@@ -190,7 +190,7 @@ Now every free horizontal corridor across the span is a candidate — above, bel
 
 | | before | after |
 | --- | --- | --- |
-| crookedness across 1,852 edges | 1.1488 | **1.1113** |
+| crookedness across the panel's 1,852 edges | 1.1488 | **1.1113** |
 | edges over 1.35× their straight line | 88 | **5** |
 | the worst one | 2.20× | **1.40×** |
 | the edge in the report, at 1920×950 | 1,132px, rising to y=6 | **700px, ratio 1.03** |
@@ -213,6 +213,26 @@ SQL does not require a server language — but in the Back-end track it comes af
 A step with a fork enters the graph as **a single node** — it is a decision, not a course. Whoever depends on a course inside the block (`sql-databases` depends on `node`) receives the edge from the whole block, so the graph stays correct on whichever path is chosen.
 
 In the modal, `requires` becomes **prerequisite** buttons (red, pointing backwards) and its inverse becomes **"abre caminho para"** (blue, pointing forwards) — you can navigate the catalogue by its dependencies.
+
+### The graph on the whole screen
+
+The graph is what is left after the name, the objective and the numbers have taken theirs. On Database Administration at 1920×950 that is **390px of height**, and the objective above it is nine lines. Which sounds like a height problem and is not: the graph never overflows downwards — it always uses exactly the height it needs — while **43% of its width** is behind a sideways scroll, on average across the eighteen tracks, and 69% of it on Data Engineering.
+
+So the button in the corner of the graph gives it the window. The panel becomes a fixed layer under the nav — which stays, with the language, the theme and the way out — the objective steps aside, and the graph keeps its own size. **There is no scaled-down "whole track" mode.** One was built and dropped: the tracks that need it are the ones that only fit at 45%, where the course name is 8px, and the arrows already answer what comes next. What the graph gains is 1300px of panel cap, 216px of heading, and the whole height instead of what was left.
+
+The height goes to the cards, not to empty space: `align-items: stretch` on the level and `space-evenly` in the sub-column put one card in the middle, two at a third and two thirds, three at the quarters. Counting cards fully inside the lane, without scrolling, summed over the eighteen tracks:
+
+| | in the panel | on the whole screen |
+| --- | --- | --- |
+| 1920×950 | 109 courses | **164** (+50%) |
+| 1366×768 | 99 courses | 109 (+10%) |
+| the graph's height at 1920×950 | 390px | **724–768px** |
+
+The second row is the honest one: at 1366 the panel already uses most of the width, so what is gained there is room to breathe rather than courses to see. Cutting the objective to three lines with a *read the whole objective* link is worth another 44px on the median track and 111px on Database Administration, whose objective runs to nine — and that one is paid back in the panel too, where the graph starts that much higher.
+
+**Two things had to be fixed to make it work, and one was a real bug.** `splitLevels()` decides how many cards fit in a column from `clientHeight` minus the lane's padding — but `clientHeight` includes the *scroller's* padding too, which the cards never get. That is 4px on the track screen, where nobody notices, and 38px on the whole screen: the column was packed 38px past its own box, the last card was pushed out of the bottom of the graph, and the detour lane that should have passed below it was clamped back inside the container — drawing the edge from Automated Testing to the finish node straight through Data Governance, on Data Engineering at 1280×800, on all three branches. The graph test now renders **both layouts**, which is how that was found; it was clean in the panel at every size.
+
+The other was not a bug so much as a thing that had to go: the arrows were disappearing on expand, and that was the scaled mode hiding them — with the whole track on screen there is nothing left to page through, so both the CSS and `no-arrows` took them away. With the mode gone they are arrows again, and a click still pages while a hold still glides.
 
 ### The step key is a position, and positions move
 
