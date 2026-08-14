@@ -1667,8 +1667,13 @@ function openCourse(id) {
 
    Below 1024px there is one column and none of this applies: the inline heights
    are cleared and the page scrolls, which is what a phone wants. */
+/* Both are ratios of width over height, and both are applied to the width, which
+   is why one divides and the other multiplies. Writing the tall one as `4 / 3`
+   and multiplying by it made the cap 604px against a 453px frame — a portrait
+   box — and the frames that had the slack for it grew to 1.29:1, past the 4:3
+   this is supposed to stop at. The modal test is what noticed. */
 const VIDEO_FLAT = 2.3;   // the widest the frame may be squeezed to
-const VIDEO_TALL = 4 / 3; // and the tallest it may grow into slack
+const VIDEO_TALL = 3 / 4; // and the tallest it may grow into slack: width × 3/4 is 4:3
 const LIST_FLOOR = 140;   // below this the list is not worth scrolling inside
 
 function twoColumns() { return matchMedia('(min-width:1024px)').matches; }

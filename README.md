@@ -45,6 +45,8 @@ tools/                → utilities, outside the site; one folder per tool
   validate-catalog/   → checks `requires`: non-existent ids, cycles, order, `continues`
   validate-i18n/      → the four dictionaries against the catalogue
   graph-test/         → renders every track in Chromium; fails on a crossed edge
+  modal-test/         → opens all 122 course modals; fails on a scrollbar or a
+                        detailed contents that will not open
   version/            → reads or sets the version in `<meta name="version">`
 ```
 
@@ -908,6 +910,10 @@ Measured over all 122 courses:
 | 1366×768 | 722px | **0** | **0** |
 
 On a 768px screen 25 of the 122 frames are flatter than 16:9 and 4 open with the topic list closed. That is the screen paying for the fixed height, and it pays in the frame rather than in the button.
+
+**And this is verified on every pull request now.** `tools/modal-test/modal-test.js` opens all 122 course modals at three two-column widths and once at phone width — **366 modals** — and fails on a box whose height differs from the rest, a column that scrolls on open, a frame outside 4:3 to 2.3:1, an inline height left behind in one column, or a detailed contents that does not open and close when clicked.
+
+It exists because of the last defect on that list, and it earned its place immediately: the first run reported the frame reaching **1.29:1**, past the 4:3 it is supposed to stop at. `VIDEO_TALL` was written `4 / 3` and multiplied by the width, which makes the ceiling 604px against a 453px frame — a portrait box. It is `3 / 4` now. Nothing on the screen looked wrong enough to notice; the number was.
 
 **With the modal open, the background does not scroll.** Trapping only the wheel and touch in JavaScript was not enough — the handlers had a bare `return` before the `preventDefault()`, and the browser's scrollbar and the trackpad's inertia were still left over. It is two halves: a class on `<html>` cuts the overflow of the document and of the screen (handling the scrollbar and the inertia) and the handlers let through only what has its own scrolling **inside** the modal (handling the chaining). The page's position stays exactly where it was, because nothing is repositioned.
 
