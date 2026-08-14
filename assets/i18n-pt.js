@@ -14,6 +14,7 @@
 window.I18N = window.I18N || {};
 window.I18N.pt = window.I18N.pt || {};
 window.I18N.pt.ui = {
+  "foundations": "fundamentos",
   "part of {n} track": "faz parte de {n} trilha",
   "part of {n} tracks": "faz parte de {n} trilhas",
   "… and {n} more tracks": "… e mais {n} trilhas",
