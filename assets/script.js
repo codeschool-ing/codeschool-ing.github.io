@@ -1642,7 +1642,7 @@ function openCourse(id) {
      background. They are the two halves of the same problem — the class handles
      the scrollbar and the inertia, the handlers handle the chaining. */
   document.documentElement.classList.add('modal-open');
-  fitModal();
+  fitModal(true);
   $('#modal-close').focus();
 }
 
@@ -1673,7 +1673,7 @@ const LIST_FLOOR = 140;   // below this the list is not worth scrolling inside
 
 function twoColumns() { return matchMedia('(min-width:1024px)').matches; }
 
-function fitModal() {
+function fitModal(mayClose) {
   const intro = modalBody.querySelector('.modal-col-intro');
   const detail = modalBody.querySelector('.modal-col-detail');
   const video = modalBody.querySelector('.modal-video');
@@ -1740,11 +1740,20 @@ function fitModal() {
         parseFloat(cs.marginTop || 0) + parseFloat(cs.marginBottom || 0);
     }, 0);
     const room = detail.clientHeight - others;
-    /* Below the floor the list is not worth scrolling inside, and forcing it to
-       the floor is what made the column overflow. It closes instead: the summary
-       bar still says how many topics there are, and opening it by hand is a
-       choice the reader made, at which point the column may scroll. */
-    if (room < LIST_FLOOR) { list.style.height = ''; list.parentElement.open = false; return; }
+    /* Below the floor the list is not worth scrolling inside, so on the way in it
+       closes rather than forcing the column to overflow — the summary bar still
+       says how many topics there are.
+       But ONLY on the way in. `mayClose` is what the reader's own click does not
+       pass, and without it this ran from the `toggle` handler and shut the panel
+       again in the same frame: `git`, `python`, `sql-databases` and two more
+       could not be opened at all. Opening it is a choice, and the answer to a
+       choice is to honour it — pinned to the floor, and the column scrolls,
+       which is what the safety net is for. */
+    if (room < LIST_FLOOR) {
+      if (mayClose) { list.style.height = ''; list.parentElement.open = false; return; }
+      list.style.height = LIST_FLOOR + 'px';
+      return;
+    }
     list.style.height = Math.round(room) + 'px';
   }
 }

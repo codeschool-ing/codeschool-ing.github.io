@@ -889,7 +889,9 @@ A fixed height only works if something on each side absorbs the difference, and 
 
 What works is adding the blocks up, margins included, and on the left zeroing the auto margin for the length of the measurement. Reading the gap above the button instead is close but wrong: that gap also contains the block's own bottom margin and the button's padding, and growing the frame by all of it clipped the last line of the syllabus.
 
-The list is **always** given a height, even when the room is less than the 140px floor. Skipping there was the other half of the same class of mistake: `python` kept its natural 622px list in a column with 135px for it and scrolled by 486. Below the floor the panel closes instead — the summary bar still says how many topics there are, and opening it by hand is the reader's choice, at which point the column may scroll.
+The list is **always** given a height, even when the room is less than the 140px floor. Skipping there was the other half of the same class of mistake: `python` kept its natural 622px list in a column with 135px for it and scrolled by 486. Below the floor the panel closes instead — the summary bar still says how many topics there are.
+
+**And it closes only on the way in.** The same pass runs from the `toggle` handler, so for the five courses with no room — `git`, `python`, `sql-databases`, `cloud`, `networks` — clicking *conteúdo detalhado* opened the panel and this rule shut it again in the same frame. It could not be opened at all, and nothing threw: the click worked, the answer to it undid itself. `fitModal(mayClose)` takes the permission to close only from the initial render; a reader's click is a choice, and the answer to a choice is to honour it — the list is pinned to the floor and the column scrolls, which is what the safety net is there for.
 
 It was meant to be pure CSS (`flex:1 1 auto` on the list inside a `<details>` in `display:flex`), and it does not work: Chrome wraps the `<details>` content in a slot, so the `ul` does **not** become a flex item. The computed style accepts the rule and the layout ignores it. Measuring is what showed that; looking at the CSS there was no way to know.
 
