@@ -533,7 +533,7 @@ The order sustains the division: in DevOps, the three come **after** Kubernetes 
 
 The syllabus **condenses**; the topics **list**. It is `topics` that carries the roadmap's fine items — the little beige squares hanging under each yellow topic (`ARP`, `VRRP`, `802.1X`, `throughput`, `Top-P`, `SCD`...) — without turning the modal into a wall of technical terms. The field is optional: a course with no `topics` does not show the block. The catalogue's search looks in both.
 
-**All 122 courses have `topics` filled in — 2,403 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
+**All 122 courses have `topics` filled in — 2,402 topics in the catalogue.** When creating a new course, fill in both fields: without `topics` it looks visibly poorer than its neighbours.
 
 ### The language of the names
 
@@ -814,6 +814,28 @@ A Python course in 2026 that never mentions a type hint or `pytest` is incomplet
 The result: **no course in the catalogue is above 6h a topic any more**, the average is 3.52, and the price was 40h of new content against 180h more delivered.
 
 **It has one visible side effect.** `python` at 90h against `go` and `javascript` at 80h means the automation-language fork's three branches are no longer the same length, so DevOps and DevSecOps show a range — 1,030–1,040h and 1,140–1,150h — where they showed one number. That is honest rather than tidy: Python *is* the bigger course now, and the Back-end fork has always shown a range for the same reason.
+
+### The same thing taught twice
+
+`hours ÷ topics` says whether a course is thin. It says nothing about whether two courses are thin in the *same place*, so the 2,403 topics were compared against each other by vocabulary — and **per path, not per track**. Two branches of a fork are never taken by the same person, so an echo between `react-ts` and `angular`, or between `aws-compute` and `gcp-compute`, is not an echo at all; measured per track it looked like 62 duplicated pairs, and per path it was **12**.
+
+Twelve pairs in 2,403 topics is **0.5%**, and that number is the reuse thesis working rather than being asserted: shared courses are not quietly re-teaching each other. Ten of the twelve were fixed, and no topic was deleted — in every case the course that comes second keeps its slot and says the thing only it can say:
+
+| where | was said twice | the second one now says |
+| --- | --- | --- |
+| `cloud` × `aws-`/`gcp-foundations` | regions and zones, in general terms | what AWS charges to cross an AZ; what leaving a GCP region costs |
+| `cloud` × `cloud-security` (×3) | IAM, deployment models, VPC | least privilege and the escalation path, the seams between providers, egress control |
+| `networks-security` × `cryptography` | the TLS handshake step by step | TLS on the wire: downgrade, stripping, a certificate nobody validated |
+| `networks-security` × `attacks-threats` | man in the middle | sniffing, ARP spoofing, taking a session over on the wire |
+| `networks-security` × `ai-security` | logging, auditing, incident response | network flow records against prompt and output retention |
+| `ai-security` × `pentest` | the report: evidence, severity, recommendation | the red team report for a model: the prompt that worked, and how often |
+| `prompt-reliability` × `llm-observability` | LLM as judge | scoring live traffic, and what grading it costs |
+
+**The DevOps one was made three commits earlier and not noticed.** `cloud` and `*-foundations` had always overlapped, harmlessly, because no track held both — until the provider fork put them on the same path. A fork is not only a choice offered to a student; it is two courses that now follow one another.
+
+**Two pairs were left alone, deliberately.** `web-fundamentals` teaches the browser's devtools and HTTP; `web-automation` and `api-mobile-automation` teach them again from the tester's angle, later in the QA track. That is a different reading of the same material, which is what a track for a second audience is for.
+
+**And `python` lost a topic.** *Concurrency: threads, processes, asyncio and the GIL* had been put into a course that opens at "installation and your first script" — the most advanced topic in the catalogue's most reused course, at `beginner`. It is gone from there; `python-back` already teaches async/await where it earns its place. What that costs is real and worth naming: a student who reaches Python through Data or DevOps now meets no concurrency at all in the language course, and the alternative — promoting `python` to `intermediate` — would relabel a course that nine tracks open with.
 
 **Courses shared today** (they show the "em N trilhas" badge):
 
