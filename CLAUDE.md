@@ -26,7 +26,7 @@ is its `assets/base.css`, and `assets/i18n-runtime.js` is its copy of the same f
 divergence today.
 
 **`assets/style.css` now has a THIRD copy.** `codeschool-ing/console-frontend` — the staff
-console at admin.codeschool.ing — carries it as `assets/base.css` too, because GitHub Pages
+console at console.codeschool.ing — carries it as `assets/base.css` too, because GitHub Pages
 serves one custom domain per repository and a console on its own domain needs its own
 repository. Edit this file and it goes to two places, not one.
 
