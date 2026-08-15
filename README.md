@@ -898,6 +898,8 @@ On screens of **1024px and up** the modal opens in **two columns**: on the left 
 
 **Every course's modal is the same height.** Opening one course after another used to resize the panel each time — 550px for `react-ts`, 766px for `first-job` — and the eye reads that as the page jumping. The box is `min(800px, 94vh)`: 800 is what the tallest left column needs, 741px of content plus the 94px the header and the body's padding take. Below 1024px none of it applies — one column, and the page scrolls, which is what a phone wants.
 
+**The rule is hooked on `:has(.modal-col-detail)`, not on `:not(.modal-narrow)`,** and that is not a detail. This stylesheet is also the portal's `assets/base.css`, where every modal is a plain `.modal-box` — the height would have pinned a certificate and a confirmation dialog to 800px each. `:has()` names the thing itself, the box holding the two-column course body, and the fork block a few hundred lines up already uses it. A selector written against what a rule is *not* is a selector that travels badly.
+
 A fixed height only works if something on each side absorbs the difference, and each side has exactly one block that can:
 
 | | what varies | what absorbs it |
