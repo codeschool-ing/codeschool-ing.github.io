@@ -21,8 +21,18 @@ authority. Renaming an id here without renaming it there silently unjoins the tw
 repositories.
 
 Two more things are shared with that repository and should stay syncable: `assets/style.css`
-is its `assets/base.css`, and `assets/i18n-runtime.js` is its copy of the same file. The one
-known divergence is `.brand-name`, which is still `.brand-nome` there.
+is its `assets/base.css`, and `assets/i18n-runtime.js` is its copy of the same file. The
+`.brand-name` divergence both READMEs used to name was fixed on that side; there is no known
+divergence today.
+
+**`assets/style.css` now has a THIRD copy.** `codeschool-ing/console-frontend` — the staff
+console at admin.codeschool.ing — carries it as `assets/base.css` too, because GitHub Pages
+serves one custom domain per repository and a console on its own domain needs its own
+repository. Edit this file and it goes to two places, not one.
+
+That third copy is the only one that is checked: `console-frontend/tools/check-shared/check.sh`
+runs in its CI and fails on drift. Between here and the portal, the diff is still somebody
+remembering to run it.
 
 ## Anything stored in a browser needs a migration
 
