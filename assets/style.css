@@ -1070,8 +1070,15 @@ html.modal-open .screen{overflow:hidden}
      padding take — with the frame allowed to squeeze a little; 94vh is what a
      laptop can give, and there `fitModal` squeezes harder.
      The body is what stretches into it. */
-  .modal-box:not(.modal-narrow){width:min(1080px,94vw);height:min(800px,94vh);max-height:94vh}
-  .modal-box:not(.modal-narrow) .modal-body{flex:1 1 auto}
+  .modal-box:not(.modal-narrow){width:min(1080px,94vw)}
+  /* The fixed height belongs to the COURSE modal and to nothing else. `:not(
+     .modal-narrow)` was the wrong hook: this stylesheet is also the portal's
+     `base.css`, where every modal is a plain `.modal-box`, and the height would
+     have pinned a certificate and a confirmation dialog to 800px each. `:has()`
+     names the thing itself — the box holding the two-column course body — and
+     the fork block already uses it a few hundred lines up. */
+  .modal-box:has(.modal-col-detail){height:min(800px,94vh);max-height:94vh}
+  .modal-box:has(.modal-col-detail) .modal-body{flex:1 1 auto}
   /* THE BODY DOES NOT SCROLL. It takes the height the box allows and the two
      columns split that height; what scrolls is the topic list, inside
      itself. A fixed ceiling on the list was not enough: with 48 topics it
