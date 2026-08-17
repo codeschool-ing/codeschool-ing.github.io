@@ -432,6 +432,42 @@ function showHours() {
 }
 showHours();
 
+/* ---------- the plan card's two numbers ----------
+
+   THE ONE PLACE THAT USED TO SAY 86 AND 16. The catalogue had grown to 122 and
+   19 and the sales page went on undercounting itself by a third, in five files,
+   because somebody had typed the numbers into a sentence next to a file that
+   knows them. The hero never had that problem: it reads COURSES.length.
+
+   It cannot be `<strong id>` like the hero, though, and that is the whole
+   reason this function exists. The hero's sentence survives being cut into
+   fragments — "courses", "learning tracks" are noun phrases that stand alone
+   after a number. This one does not: French wants "Les 122 cours et les 19
+   parcours", and a translator handed the fragments "All", "courses and",
+   "tracks" cannot put the second "les" anywhere.
+
+   So the sentence stays whole and carries `{courses}` and `{tracks}`, which
+   every dictionary keeps in its own word order.
+
+   IT IS CALLED FROM `redrawAll` AND NOWHERE ELSE, and that is load-bearing.
+   `mapTexts()` runs at the very bottom of this file and stores each node's text
+   as the key to look up; substituting the numbers before it walks would store
+   "All 122 courses and 19 tracks", which no dictionary has — so every language
+   but English would silently show the English sentence. It is the same fact the
+   version link above relies on, wanting the opposite thing: that one must be
+   EMPTY when the walk happens, this one must still hold its placeholders.
+   `redrawAll` runs at boot via `applyLanguage()` and again on every switch, and
+   `applyTexts` restores the node from the pristine original each time, so the
+   placeholders are always there to replace. */
+function showPlanCounts() {
+  document.querySelectorAll('.plan-items li').forEach((li) => {
+    if (!li.textContent.includes('{courses}') && !li.textContent.includes('{tracks}')) return;
+    li.textContent = li.textContent
+      .replace('{courses}', COURSES.length)
+      .replace('{tracks}', TRACKS.length);
+  });
+}
+
 /* ---------- the hero terminal ----------
    Four commands, and not one hand-written response: the numbers, the track names
    and the course card all come out of COURSES and TRACKS. That way the terminal
@@ -2174,6 +2210,7 @@ function redrawAll() {
   openTrack(currentTrack, true);
   updateTabs();
   showHours();
+  showPlanCounts();
   buildTerminal();
 }
 

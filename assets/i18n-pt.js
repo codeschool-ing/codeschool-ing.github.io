@@ -35,7 +35,7 @@ window.I18N.pt.ui = {
   "forever": "para sempre",
   "The first course of every track, in full": "O primeiro curso de cada trilha, completo",
   "Exercises that mark themselves, in every lesson": "Exercícios que se corrigem sozinhos, em todas as aulas",
-  "All 86 courses and 16 tracks": "Todos os 86 cursos e 16 trilhas",
+  "All {courses} courses and {tracks} tracks": "Todos os {courses} cursos e {tracks} trilhas",
   "Course and track certificates, with a validation code": "Certificados de curso e de trilha, com código de validação",
   "/year": "/ano",
   "Yes, on your own account screen, without asking anyone. Access lasts until the end of the period you already paid for, and nothing is charged after that. Certificates you already earned stay valid forever — they record something you did, and losing access does not undo it.": "Sim, na sua própria tela de conta, sem pedir a ninguém. O acesso vale até o fim do período que você já pagou, e nada é cobrado depois disso. Os certificados que você já conquistou continuam válidos para sempre — eles registram algo que você fez, e perder o acesso não desfaz isso.",
