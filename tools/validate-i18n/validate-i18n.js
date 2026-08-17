@@ -94,6 +94,39 @@ LANGS.forEach((lang) => {
   });
 });
 
+/* ---------- the plan card's two numbers ----------
+
+   THE SENTENCE THAT SAID 86 AND 16. The catalogue passed 122 and 19 and the
+   sales page went on undercounting itself by a third, in five files, because
+   somebody had typed the size of the catalogue into a sentence sitting next to
+   the file that knows it. `script.js` fills `{courses}` and `{tracks}` in now.
+
+   What can undo that is a translator — or a future edit — helpfully replacing a
+   placeholder with the number it happened to render as. Then that one language
+   freezes at today's catalogue and nothing says so. So: the English key must
+   carry both placeholders, every translation of it must carry both, and no
+   dictionary may name a bare count. */
+const PLAN_KEY = 'All {courses} courses and {tracks} tracks';
+{
+  global.window.I18N = global.window.I18N || {};
+  ['i18n.js', 'i18n-pt.js'].forEach((f) => eval(read(f)));
+
+  const html = fs.readFileSync(path.join(dir, '..', 'index.html'), 'utf8');
+  if (!html.includes(PLAN_KEY)) {
+    bad('index.html: the plan card does not carry "' + PLAN_KEY + '" —',
+      'a hard-coded count is how it went stale the first time');
+  }
+  LANGS.forEach((lang) => {
+    const ui = ((global.window.I18N || {})[lang] || {}).ui || {};
+    const line = ui[PLAN_KEY];
+    if (!line) { bad(lang + ': no translation for the plan card\'s catalogue line'); return; }
+    if (!line.includes('{courses}') || !line.includes('{tracks}')) {
+      bad(lang + ': the plan card line lost a placeholder —', JSON.stringify(line) + ',',
+        'so that language is frozen at whatever the catalogue was that day');
+    }
+  });
+}
+
 console.log(problems
   ? '\n' + problems + ' problem' + (problems > 1 ? 's' : '') + ' — see above'
   : 'OK — ' + COURSES.length + ' courses and ' + TRACKS.length + ' tracks, complete in ' + LANGS.length + ' languages');
