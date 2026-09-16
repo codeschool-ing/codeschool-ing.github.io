@@ -54,6 +54,18 @@ jobs:
       - name: The four dictionaries match the catalogue
         run: node tools/validate-i18n/validate-i18n.js
 
+      # THE ONLY GENERATED FILES THIS REPOSITORY COMMITS, and the only reason
+      # they are committed is that Pages serves the branch as it is — there is
+      # nothing that builds on the way out, so a course page that exists only in
+      # a tool's head is a page nobody can visit.
+      #
+      # What that costs is drift: edit `catalog.js`, forget to run the tool, and
+      # 610 pages quietly describe last week's catalogue while the site itself
+      # describes this week's. Nothing about that is visible in a diff, which is
+      # the same argument as the two checks above.
+      - name: The course pages are the ones the generator writes
+        run: node tools/pages/pages.js --check
+
       - name: The version is readable, and is a version
         run: |
           set -euo pipefail

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Java: Funzionale e Concorrente — codeschool.ing</title>
+<meta name="description" content="Il Java che è cambiato: lambda, stream, thread virtuali e la libreria standard che si usa ogni giorno." />
+<link rel="canonical" href="https://codeschool.ing/it/course/java-functional.html" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/en/course/java-functional.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/course/java-functional.html" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/course/java-functional.html" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/course/java-functional.html" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/course/java-functional.html" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/en/course/java-functional.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="Java: Funzionale e Concorrente" />
+<meta property="og:description" content="Il Java che è cambiato: lambda, stream, thread virtuali e la libreria standard che si usa ogni giorno." />
+<meta property="og:url" content="https://codeschool.ing/it/course/java-functional.html" />
+<meta property="og:locale" content="it" />
+<meta property="og:locale:alternate" content="en" />
+<meta property="og:locale:alternate" content="pt_BR" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="fr" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Java: Funzionale e Concorrente" />
+<meta name="twitter:description" content="Il Java che è cambiato: lambda, stream, thread virtuali e la libreria standard che si usa ogni giorno." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<script>try{if(localStorage.getItem('codeschool-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Space+Grotesk:wght@700&display=swap" />
+<style>
+  /* assets/style.css is this site's, and three repositories carry it byte for
+     byte, so nothing here edits it and everything here works around it. Two of
+     its four bare element rules reach this page: nav{position:fixed}, which is
+     why the language row is a div carrying the role rather than a nav element,
+     and a{color:inherit;text-decoration:none}, which would leave every link on
+     a page of prose looking exactly like the prose.
+     (No backticks in here: this comment lives inside a template literal, and
+     the first draft of it closed the string four words in.) */
+  .sheet{max-width:820px;margin:0 auto;padding:32px 16px 64px}
+  /* :not(.btn), rather than a .sheet a.btn rule after it. A class inside a class
+     beats a lone class, so .sheet a was overriding .btn-primary's colour and
+     painting the button's label in the button's own background: it rendered as
+     a blue rectangle with nothing written on it. */
+  .sheet a:not(.btn){color:var(--phosphor);text-decoration:underline;text-underline-offset:2px}
+  .sheet h1{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;line-height:1.2;margin:.2em 0}
+  .sheet h2{font-size:1.15rem;margin:2em 0 .6em;color:var(--phosphor)}
+  .sheet ul{padding-left:1.2em}
+  .sheet li{margin:.35em 0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:1em 0;list-style:none;padding:0}
+  .facts li{border:1px solid var(--wire);border-radius:3px;padding:3px 10px;font-size:.85rem;color:var(--paper-dim)}
+  .langs{display:flex;flex-wrap:wrap;gap:10px;font-size:.85rem;margin:0 0 1.5em}
+  .langs a{color:var(--paper-dim);text-decoration:none}
+  .langs a:hover{color:var(--phosphor)}
+  .langs a[aria-current]{color:var(--paper);font-weight:600;text-decoration:none}
+  .lede{font-size:1.1rem;color:var(--paper)}
+  .go{display:inline-block;margin:2em 1em 0 0}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="langs" role="navigation" aria-label="Language">
+    <a href="/en/course/java-functional.html" hreflang="en" lang="en">English</a>
+    <a href="/pt/course/java-functional.html" hreflang="pt-BR" lang="pt-BR">Português</a>
+    <a href="/es/course/java-functional.html" hreflang="es" lang="es">Español</a>
+    <a href="/fr/course/java-functional.html" hreflang="fr" lang="fr">Français</a>
+    <a href="/it/course/java-functional.html" hreflang="it" lang="it" aria-current="true">Italiano</a>
+  </div>
+
+  <p class="mono" style="color:var(--paper-dim);margin:0">Corso</p>
+  <h1>Java: Funzionale e Concorrente</h1>
+  <p class="lede">Il Java che è cambiato: lambda, stream, thread virtuali e la libreria standard che si usa ogni giorno.</p>
+
+  <ul class="facts">
+    <li>70 ore</li>
+    <li>Livello: intermedio</li>
+  </ul>
+
+  <h2>Cosa ti serve prima</h2>
+  <p>Richiede il corso di Java: qui si danno per assodati orientamento agli oggetti, collezioni ed eccezioni.</p>
+
+  <h2>Cosa imparerai</h2>
+  <ul>
+      <li>Lambda, interfacce funzionali e composizione</li>
+      <li>Stream API: trasformare una collezione senza cicli</li>
+      <li>`Optional` e la fine del `NullPointerException` per distrazione</li>
+      <li>Concorrenza: thread, executor e thread virtuali</li>
+      <li>Modello di memoria, `volatile` e sincronizzazione</li>
+      <li>Libreria standard: file, data e ora, rete, espressioni regolari e crittografia</li>
+  </ul>
+
+  <h2>Elenco completo degli argomenti</h2>
+  <ul>
+      <li>Espressioni lambda: sintassi, cattura e cosa sostituiscono</li>
+      <li>Interfacce funzionali: `Function`, `Predicate`, `Supplier` e `Consumer`</li>
+      <li>Riferimenti a metodo e a costruttore</li>
+      <li>Funzioni di ordine superiore: ricevere e restituire comportamento</li>
+      <li>Composizione di funzioni: `andThen`, `compose` e il concatenamento</li>
+      <li>Stream API: sorgente, operazioni intermedie e terminali</li>
+      <li>`map`, `filter`, `reduce` e collettori</li>
+      <li>`Collectors`: raggruppare, partizionare e unire</li>
+      <li>Stream paralleli: quando aiutano e quando intralciano</li>
+      <li>`Optional`: creare, concatenare e l’antipattern del `get()`</li>
+      <li>Thread: creare, avviare e quanto costa davvero uno</li>
+      <li>Il modello di memoria di Java: visibilità e riordino</li>
+      <li>La parola `volatile`: cosa garantisce e cosa no</li>
+      <li>Sincronizzazione: `synchronized`, `Lock` e condizione di gara</li>
+      <li>Collezioni concorrenti e atomici</li>
+      <li>Executor, pool di thread e `CompletableFuture`</li>
+      <li>Thread virtuali: cosa cambia con Project Loom</li>
+      <li>Concorrenza strutturata: panorama</li>
+      <li>Input e output: flussi di byte e di caratteri</li>
+      <li>File e directory con NIO.2: `Path`, `Files` e attraversamento</li>
+      <li>Serializzazione, JSON e l’attenzione alla deserializzazione insicura</li>
+      <li>Data e ora: `LocalDate`, `Instant`, fuso orario e durata</li>
+      <li>Rete: socket, `HttpClient` e chiamate HTTP nella libreria standard</li>
+      <li>Espressioni regolari: `Pattern`, `Matcher` e costo del backtracking</li>
+      <li>Crittografia: digest, cifratura simmetrica, asimmetrica e `KeyStore`</li>
+      <li>Generazione sicura di casuali e archiviazione delle password</li>
+  </ul>
+
+  <p>
+    <a class="btn btn-primary go" href="https://app.codeschool.ing">Inizia ora</a>
+    <a class="go" href="/#courses">Vedi tutto il catalogo</a>
+  </p>
+</main>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Java: Funzionale e Concorrente",
+  "description": "Il Java che è cambiato: lambda, stream, thread virtuali e la libreria standard che si usa ogni giorno.",
+  "inLanguage": "it",
+  "url": "https://codeschool.ing/it/course/java-functional.html",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "codeschool.ing",
+    "url": "https://codeschool.ing/"
+  },
+  "educationalLevel": "intermedio",
+  "timeRequired": "PT70H",
+  "teaches": [
+    "Lambda, interfacce funzionali e composizione",
+    "Stream API: trasformare una collezione senza cicli",
+    "`Optional` e la fine del `NullPointerException` per distrazione",
+    "Concorrenza: thread, executor e thread virtuali",
+    "Modello di memoria, `volatile` e sincronizzazione",
+    "Libreria standard: file, data e ora, rete, espressioni regolari e crittografia"
+  ]
+}
+</script>
+</body>
+</html>

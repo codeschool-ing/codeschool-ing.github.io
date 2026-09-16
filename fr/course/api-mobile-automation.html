@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Automatisation des API et du Mobile — codeschool.ing</title>
+<meta name="description" content="Tester là où le défaut coûte le moins cher à trouver : à l’API, avant l’écran — et dans l’application, là où est l’utilisateur." />
+<link rel="canonical" href="https://codeschool.ing/fr/course/api-mobile-automation.html" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/en/course/api-mobile-automation.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/course/api-mobile-automation.html" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/course/api-mobile-automation.html" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/course/api-mobile-automation.html" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/course/api-mobile-automation.html" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/en/course/api-mobile-automation.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="Automatisation des API et du Mobile" />
+<meta property="og:description" content="Tester là où le défaut coûte le moins cher à trouver : à l’API, avant l’écran — et dans l’application, là où est l’utilisateur." />
+<meta property="og:url" content="https://codeschool.ing/fr/course/api-mobile-automation.html" />
+<meta property="og:locale" content="fr" />
+<meta property="og:locale:alternate" content="en" />
+<meta property="og:locale:alternate" content="pt_BR" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="it" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Automatisation des API et du Mobile" />
+<meta name="twitter:description" content="Tester là où le défaut coûte le moins cher à trouver : à l’API, avant l’écran — et dans l’application, là où est l’utilisateur." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<script>try{if(localStorage.getItem('codeschool-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Space+Grotesk:wght@700&display=swap" />
+<style>
+  /* assets/style.css is this site's, and three repositories carry it byte for
+     byte, so nothing here edits it and everything here works around it. Two of
+     its four bare element rules reach this page: nav{position:fixed}, which is
+     why the language row is a div carrying the role rather than a nav element,
+     and a{color:inherit;text-decoration:none}, which would leave every link on
+     a page of prose looking exactly like the prose.
+     (No backticks in here: this comment lives inside a template literal, and
+     the first draft of it closed the string four words in.) */
+  .sheet{max-width:820px;margin:0 auto;padding:32px 16px 64px}
+  /* :not(.btn), rather than a .sheet a.btn rule after it. A class inside a class
+     beats a lone class, so .sheet a was overriding .btn-primary's colour and
+     painting the button's label in the button's own background: it rendered as
+     a blue rectangle with nothing written on it. */
+  .sheet a:not(.btn){color:var(--phosphor);text-decoration:underline;text-underline-offset:2px}
+  .sheet h1{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;line-height:1.2;margin:.2em 0}
+  .sheet h2{font-size:1.15rem;margin:2em 0 .6em;color:var(--phosphor)}
+  .sheet ul{padding-left:1.2em}
+  .sheet li{margin:.35em 0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:1em 0;list-style:none;padding:0}
+  .facts li{border:1px solid var(--wire);border-radius:3px;padding:3px 10px;font-size:.85rem;color:var(--paper-dim)}
+  .langs{display:flex;flex-wrap:wrap;gap:10px;font-size:.85rem;margin:0 0 1.5em}
+  .langs a{color:var(--paper-dim);text-decoration:none}
+  .langs a:hover{color:var(--phosphor)}
+  .langs a[aria-current]{color:var(--paper);font-weight:600;text-decoration:none}
+  .lede{font-size:1.1rem;color:var(--paper)}
+  .go{display:inline-block;margin:2em 1em 0 0}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="langs" role="navigation" aria-label="Language">
+    <a href="/en/course/api-mobile-automation.html" hreflang="en" lang="en">English</a>
+    <a href="/pt/course/api-mobile-automation.html" hreflang="pt-BR" lang="pt-BR">Português</a>
+    <a href="/es/course/api-mobile-automation.html" hreflang="es" lang="es">Español</a>
+    <a href="/fr/course/api-mobile-automation.html" hreflang="fr" lang="fr" aria-current="true">Français</a>
+    <a href="/it/course/api-mobile-automation.html" hreflang="it" lang="it">Italiano</a>
+  </div>
+
+  <p class="mono" style="color:var(--paper-dim);margin:0">Cours</p>
+  <h1>Automatisation des API et du Mobile</h1>
+  <p class="lede">Tester là où le défaut coûte le moins cher à trouver : à l’API, avant l’écran — et dans l’application, là où est l’utilisateur.</p>
+
+  <ul class="facts">
+    <li>60 heures</li>
+    <li>Niveau: intermédiaire</li>
+  </ul>
+
+  <h2>Ce qu’il vous faut d’abord</h2>
+  <p>Exige des notions de programmation. Ne dépend pas du cours d’automatisation web — les deux peuvent être suivis dans n’importe quel ordre.</p>
+
+  <h2>Ce que vous allez apprendre</h2>
+  <ul>
+      <li>HTTP, REST et contrat d’API pour les testeurs</li>
+      <li>Postman et Newman : de la collection manuelle à l’exécution dans la chaîne</li>
+      <li>REST Assured et Karate : tests d’API en code</li>
+      <li>Contrat, schéma et tests d’intégration entre services</li>
+      <li>Automatisation mobile : Appium, Espresso et Detox</li>
+      <li>Émulateur, appareil réel et parc d’appareils dans le cloud</li>
+  </ul>
+
+  <h2>Liste complète des sujets</h2>
+  <ul>
+      <li>HTTP pour les testeurs : méthodes, codes de statut et en-têtes</li>
+      <li>REST, JSON et le contrat que l’API promet de tenir</li>
+      <li>Authentification d’API : clé, jeton, JWT et OAuth</li>
+      <li>Postman : requêtes, variables, environnements et collections</li>
+      <li>Tests et assertions dans Postman</li>
+      <li>Newman : lancer la collection en ligne de commande et dans la chaîne</li>
+      <li>REST Assured : test d’API en Java avec une syntaxe fluide</li>
+      <li>Karate : scénarios en Gherkin sans écrire de code de liaison</li>
+      <li>Panorama de SoapUI et des services SOAP historiques</li>
+      <li>Validation de schéma JSON et test de contrat</li>
+      <li>Services simulés (mock server) et virtualisation de service</li>
+      <li>Test d’intégration entre services et le problème de l’ordre</li>
+      <li>Idempotence, reprise et test délibéré du cas d’erreur</li>
+      <li>Automatisation mobile : ce qui change par rapport au web</li>
+      <li>Appium : un pilote pour Android et iOS</li>
+      <li>Espresso : test natif Android</li>
+      <li>Detox : test d’application React Native</li>
+      <li>Panorama de SwiftTesting et XCUITest sur iOS</li>
+      <li>Émulateur, simulateur et appareil réel : quand chacun ment</li>
+      <li>Parc d’appareils dans le cloud et matrice de compatibilité</li>
+      <li>Gestes, permissions et états de l’application dans les tests</li>
+      <li>Tester l’application hors ligne et avec un réseau dégradé</li>
+  </ul>
+
+  <h2>Fait partie de ces parcours</h2>
+  <ul>
+      <li>Qualité et Tests Logiciels</li>
+  </ul>
+
+  <p>
+    <a class="btn btn-primary go" href="https://app.codeschool.ing">Commencer maintenant</a>
+    <a class="go" href="/#courses">Voir tout le catalogue</a>
+  </p>
+</main>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Automatisation des API et du Mobile",
+  "description": "Tester là où le défaut coûte le moins cher à trouver : à l’API, avant l’écran — et dans l’application, là où est l’utilisateur.",
+  "inLanguage": "fr",
+  "url": "https://codeschool.ing/fr/course/api-mobile-automation.html",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "codeschool.ing",
+    "url": "https://codeschool.ing/"
+  },
+  "educationalLevel": "intermédiaire",
+  "timeRequired": "PT60H",
+  "teaches": [
+    "HTTP, REST et contrat d’API pour les testeurs",
+    "Postman et Newman : de la collection manuelle à l’exécution dans la chaîne",
+    "REST Assured et Karate : tests d’API en code",
+    "Contrat, schéma et tests d’intégration entre services",
+    "Automatisation mobile : Appium, Espresso et Detox",
+    "Émulateur, appareil réel et parc d’appareils dans le cloud"
+  ]
+}
+</script>
+</body>
+</html>

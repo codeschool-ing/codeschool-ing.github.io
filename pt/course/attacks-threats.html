@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ataques, Ameaças e Engenharia Social — codeschool.ing</title>
+<meta name="description" content="Conhecer o ataque para reconhecê-lo: como cada golpe funciona, que rastro deixa e o que realmente o impede." />
+<link rel="canonical" href="https://codeschool.ing/pt/course/attacks-threats.html" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/en/course/attacks-threats.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/course/attacks-threats.html" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/course/attacks-threats.html" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/course/attacks-threats.html" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/course/attacks-threats.html" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/en/course/attacks-threats.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="Ataques, Ameaças e Engenharia Social" />
+<meta property="og:description" content="Conhecer o ataque para reconhecê-lo: como cada golpe funciona, que rastro deixa e o que realmente o impede." />
+<meta property="og:url" content="https://codeschool.ing/pt/course/attacks-threats.html" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:locale:alternate" content="en" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="fr" />
+<meta property="og:locale:alternate" content="it" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Ataques, Ameaças e Engenharia Social" />
+<meta name="twitter:description" content="Conhecer o ataque para reconhecê-lo: como cada golpe funciona, que rastro deixa e o que realmente o impede." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<script>try{if(localStorage.getItem('codeschool-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Space+Grotesk:wght@700&display=swap" />
+<style>
+  /* assets/style.css is this site's, and three repositories carry it byte for
+     byte, so nothing here edits it and everything here works around it. Two of
+     its four bare element rules reach this page: nav{position:fixed}, which is
+     why the language row is a div carrying the role rather than a nav element,
+     and a{color:inherit;text-decoration:none}, which would leave every link on
+     a page of prose looking exactly like the prose.
+     (No backticks in here: this comment lives inside a template literal, and
+     the first draft of it closed the string four words in.) */
+  .sheet{max-width:820px;margin:0 auto;padding:32px 16px 64px}
+  /* :not(.btn), rather than a .sheet a.btn rule after it. A class inside a class
+     beats a lone class, so .sheet a was overriding .btn-primary's colour and
+     painting the button's label in the button's own background: it rendered as
+     a blue rectangle with nothing written on it. */
+  .sheet a:not(.btn){color:var(--phosphor);text-decoration:underline;text-underline-offset:2px}
+  .sheet h1{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;line-height:1.2;margin:.2em 0}
+  .sheet h2{font-size:1.15rem;margin:2em 0 .6em;color:var(--phosphor)}
+  .sheet ul{padding-left:1.2em}
+  .sheet li{margin:.35em 0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:1em 0;list-style:none;padding:0}
+  .facts li{border:1px solid var(--wire);border-radius:3px;padding:3px 10px;font-size:.85rem;color:var(--paper-dim)}
+  .langs{display:flex;flex-wrap:wrap;gap:10px;font-size:.85rem;margin:0 0 1.5em}
+  .langs a{color:var(--paper-dim);text-decoration:none}
+  .langs a:hover{color:var(--phosphor)}
+  .langs a[aria-current]{color:var(--paper);font-weight:600;text-decoration:none}
+  .lede{font-size:1.1rem;color:var(--paper)}
+  .go{display:inline-block;margin:2em 1em 0 0}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="langs" role="navigation" aria-label="Language">
+    <a href="/en/course/attacks-threats.html" hreflang="en" lang="en">English</a>
+    <a href="/pt/course/attacks-threats.html" hreflang="pt-BR" lang="pt-BR" aria-current="true">Português</a>
+    <a href="/es/course/attacks-threats.html" hreflang="es" lang="es">Español</a>
+    <a href="/fr/course/attacks-threats.html" hreflang="fr" lang="fr">Français</a>
+    <a href="/it/course/attacks-threats.html" hreflang="it" lang="it">Italiano</a>
+  </div>
+
+  <p class="mono" style="color:var(--paper-dim);margin:0">Curso</p>
+  <h1>Ataques, Ameaças e Engenharia Social</h1>
+  <p class="lede">Conhecer o ataque para reconhecê-lo: como cada golpe funciona, que rastro deixa e o que realmente o impede.</p>
+
+  <ul class="facts">
+    <li>70 horas</li>
+    <li>Nível: intermediário</li>
+  </ul>
+
+  <h2>O que você precisa antes</h2>
+  <p>Exige criptografia: um ataque se lê contra a defesa que ele derrota.</p>
+
+  <h2>O que você vai aprender</h2>
+  <ul>
+      <li>Engenharia social: os golpes que não usam código</li>
+      <li>Ataques de rede, de aplicação e de senha</li>
+      <li>Malware: tipos, comportamento e propagação</li>
+      <li>Ameaças avançadas, zero day e APT</li>
+      <li>Frameworks: Cyber Kill Chain, Diamond Model e MITRE ATT&amp;CK</li>
+      <li>Web: OWASP Top 10 na prática</li>
+  </ul>
+
+  <h2>Lista completa de tópicos</h2>
+  <ul>
+      <li>Engenharia social: por que o ser humano é o caminho mais curto</li>
+      <li>Phishing, vishing (voz), smishing (SMS) e whaling (alvo graúdo)</li>
+      <li>Spam e spim: o que muda e por que importa</li>
+      <li>Shoulder surfing, tailgating e dumpster diving</li>
+      <li>Impersonação, pretexto e prova social</li>
+      <li>Reconhecimento (recon) e coleta de informação pública</li>
+      <li>Watering hole, drive-by download e typo squatting</li>
+      <li>Ataques de senha: força bruta, dicionário e password spray</li>
+      <li>Pass the hash e reuso de credenciais</li>
+      <li>DoS e DDoS: volumétrico, de protocolo e de aplicação</li>
+      <li>Homem no meio (MITM), replay e sequestro de sessão</li>
+      <li>Falsificação (spoofing) de IP, de e-mail e de ARP</li>
+      <li>Envenenamento de DNS e de cache</li>
+      <li>Ataques em rede sem fio: evil twin, deauth, rogue AP e WPS</li>
+      <li>VLAN hopping e ataques em camada 2</li>
+      <li>Injeção de SQL, XSS e CSRF</li>
+      <li>Directory traversal e inclusão de arquivo</li>
+      <li>Estouro de buffer (buffer overflow) e vazamento de memória</li>
+      <li>Escalonamento de privilégio local e de domínio</li>
+      <li>OWASP Top 10: as dez classes que respondem pela maioria dos casos</li>
+      <li>Malware: vírus, worm, trojan, ransomware, rootkit, spyware e botnet</li>
+      <li>Zero day, ameaça conhecida e desconhecida</li>
+      <li>Ameaça persistente avançada (APT) e atores estatais</li>
+      <li>Cyber Kill Chain: as sete etapas de um ataque</li>
+      <li>Diamond Model: adversário, capacidade, infraestrutura e vítima</li>
+      <li>MITRE ATT&amp;CK: táticas, técnicas e procedimentos</li>
+  </ul>
+
+  <h2>Faz parte destas trilhas</h2>
+  <ul>
+      <li>Segurança Cibernética</li>
+      <li>DevSecOps</li>
+  </ul>
+
+  <p>
+    <a class="btn btn-primary go" href="https://app.codeschool.ing">Começar agora</a>
+    <a class="go" href="/#courses">Ver o catálogo inteiro</a>
+  </p>
+</main>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Ataques, Ameaças e Engenharia Social",
+  "description": "Conhecer o ataque para reconhecê-lo: como cada golpe funciona, que rastro deixa e o que realmente o impede.",
+  "inLanguage": "pt-BR",
+  "url": "https://codeschool.ing/pt/course/attacks-threats.html",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "codeschool.ing",
+    "url": "https://codeschool.ing/"
+  },
+  "educationalLevel": "intermediário",
+  "timeRequired": "PT70H",
+  "teaches": [
+    "Engenharia social: os golpes que não usam código",
+    "Ataques de rede, de aplicação e de senha",
+    "Malware: tipos, comportamento e propagação",
+    "Ameaças avançadas, zero day e APT",
+    "Frameworks: Cyber Kill Chain, Diamond Model e MITRE ATT&CK",
+    "Web: OWASP Top 10 na prática"
+  ]
+}
+</script>
+</body>
+</html>

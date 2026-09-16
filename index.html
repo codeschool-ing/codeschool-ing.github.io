@@ -11,6 +11,37 @@
      a tag that does not exist. Cut a release with tools/version/version.js. -->
 <meta name="version" content="dev" />
 <meta name="description" content="Online tech school: courses in programming, data, infrastructure, security and AI, organised into learning tracks. Study at your own pace, with a track that tells you what comes next." />
+
+<!-- WHERE THIS PAGE LIVES, said once and absolutely. This address is reachable
+     with and without a trailing slash, with tracking parameters somebody
+     pasted, and — until the course pages arrived — as the only page a search
+     engine had. A canonical is the sentence that makes all of those one page
+     instead of several weak ones.
+
+     It is NOT a language declaration. This file is English and says so in
+     `<html lang>`; the four translations are applied over this same DOM at
+     runtime, so they share this address and this canonical. Giving each one an
+     address of its own is what `tools/pages/pages.js` did for the COURSES, and
+     what this page still owes. -->
+<link rel="canonical" href="https://codeschool.ing/" />
+
+<!-- WHAT A SHARED LINK LOOKS LIKE. Without these, this address pasted into a
+     message is a bare URL: no title, no summary, no mark. The description is
+     the one above rather than a second copy with its own opinion. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="codeschool.ing — courses and tracks in technology" />
+<meta property="og:description" content="Online tech school: courses in programming, data, infrastructure, security and AI, organised into learning tracks. Study at your own pace, with a track that tells you what comes next." />
+<meta property="og:url" content="https://codeschool.ing/" />
+<meta property="og:locale" content="en" />
+<meta property="og:locale:alternate" content="pt_BR" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="fr" />
+<meta property="og:locale:alternate" content="it" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="codeschool.ing — courses and tracks in technology" />
+<meta name="twitter:description" content="Online tech school: courses in programming, data, infrastructure, security and AI, organised into learning tracks." />
+
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <script>/* applies the saved theme before the paint, so it does not flash.
    It reads the pre-rename key too: this runs before script.js, so it is the

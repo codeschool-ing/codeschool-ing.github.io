@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Front-end with React and TypeScript — codeschool.ing</title>
+<meta name="description" content="The one most job adverts name: components, typed state, the rendering model behind them, and the full-stack answer React gained with Next.js." />
+<link rel="canonical" href="https://codeschool.ing/en/course/react-ts.html" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/en/course/react-ts.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/course/react-ts.html" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/course/react-ts.html" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/course/react-ts.html" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/course/react-ts.html" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/en/course/react-ts.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="Front-end with React and TypeScript" />
+<meta property="og:description" content="The one most job adverts name: components, typed state, the rendering model behind them, and the full-stack answer React gained with Next.js." />
+<meta property="og:url" content="https://codeschool.ing/en/course/react-ts.html" />
+<meta property="og:locale" content="en" />
+<meta property="og:locale:alternate" content="pt_BR" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="fr" />
+<meta property="og:locale:alternate" content="it" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Front-end with React and TypeScript" />
+<meta name="twitter:description" content="The one most job adverts name: components, typed state, the rendering model behind them, and the full-stack answer React gained with Next.js." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<script>try{if(localStorage.getItem('codeschool-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Space+Grotesk:wght@700&display=swap" />
+<style>
+  /* assets/style.css is this site's, and three repositories carry it byte for
+     byte, so nothing here edits it and everything here works around it. Two of
+     its four bare element rules reach this page: nav{position:fixed}, which is
+     why the language row is a div carrying the role rather than a nav element,
+     and a{color:inherit;text-decoration:none}, which would leave every link on
+     a page of prose looking exactly like the prose.
+     (No backticks in here: this comment lives inside a template literal, and
+     the first draft of it closed the string four words in.) */
+  .sheet{max-width:820px;margin:0 auto;padding:32px 16px 64px}
+  /* :not(.btn), rather than a .sheet a.btn rule after it. A class inside a class
+     beats a lone class, so .sheet a was overriding .btn-primary's colour and
+     painting the button's label in the button's own background: it rendered as
+     a blue rectangle with nothing written on it. */
+  .sheet a:not(.btn){color:var(--phosphor);text-decoration:underline;text-underline-offset:2px}
+  .sheet h1{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;line-height:1.2;margin:.2em 0}
+  .sheet h2{font-size:1.15rem;margin:2em 0 .6em;color:var(--phosphor)}
+  .sheet ul{padding-left:1.2em}
+  .sheet li{margin:.35em 0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:1em 0;list-style:none;padding:0}
+  .facts li{border:1px solid var(--wire);border-radius:3px;padding:3px 10px;font-size:.85rem;color:var(--paper-dim)}
+  .langs{display:flex;flex-wrap:wrap;gap:10px;font-size:.85rem;margin:0 0 1.5em}
+  .langs a{color:var(--paper-dim);text-decoration:none}
+  .langs a:hover{color:var(--phosphor)}
+  .langs a[aria-current]{color:var(--paper);font-weight:600;text-decoration:none}
+  .lede{font-size:1.1rem;color:var(--paper)}
+  .go{display:inline-block;margin:2em 1em 0 0}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="langs" role="navigation" aria-label="Language">
+    <a href="/en/course/react-ts.html" hreflang="en" lang="en" aria-current="true">English</a>
+    <a href="/pt/course/react-ts.html" hreflang="pt-BR" lang="pt-BR">Português</a>
+    <a href="/es/course/react-ts.html" hreflang="es" lang="es">Español</a>
+    <a href="/fr/course/react-ts.html" hreflang="fr" lang="fr">Français</a>
+    <a href="/it/course/react-ts.html" hreflang="it" lang="it">Italiano</a>
+  </div>
+
+  <p class="mono" style="color:var(--paper-dim);margin:0">Course</p>
+  <h1>Front-end with React and TypeScript</h1>
+  <p class="lede">The one most job adverts name: components, typed state, the rendering model behind them, and the full-stack answer React gained with Next.js.</p>
+
+  <ul class="facts">
+    <li>90 hours</li>
+    <li>Level: intermediate</li>
+  </ul>
+
+  <h2>What you need first</h2>
+  <p>Both are required.</p>
+
+  <h2>What you will learn</h2>
+  <ul>
+      <li>Components, props and the rendering model: what re-renders, and why</li>
+      <li>State and effects: the hooks, their rules, and the dependency array</li>
+      <li>Data on screen: React Query, forms, Suspense and error boundaries</li>
+      <li>React 19: Server Components, the client boundary and actions</li>
+      <li>Routing and the full-stack answer: React Router and Next.js</li>
+      <li>TypeScript, Vite, testing and the tooling around all of it</li>
+  </ul>
+
+  <h2>Full topic list</h2>
+  <ul>
+      <li>Why React is a library where Angular is a framework, and what you assemble yourself</li>
+      <li>Components, props and composition</li>
+      <li>The rendering model: reconciliation, and what actually re-renders</li>
+      <li>Local state with useState, and the derived state you should not store</li>
+      <li>Effects with useEffect: the dependency array, and cleaning up after yourself</li>
+      <li>The rules of hooks, and the bugs that breaking them produces</li>
+      <li>useMemo, useCallback, useRef and writing a custom hook</li>
+      <li>Lists, keys and conditional rendering</li>
+      <li>Context, and global state with Redux, Zustand or Jotai</li>
+      <li>Controlled forms, uncontrolled inputs and the form libraries</li>
+      <li>Consuming APIs with React Query: cache, invalidation and loading states</li>
+      <li>Error boundaries, and the fallback the user actually sees</li>
+      <li>Suspense, lazy loading and code splitting</li>
+      <li>Portals, refs and reaching the DOM when you have to</li>
+      <li>Server Components and the client boundary</li>
+      <li>Actions, useTransition and optimistic updates</li>
+      <li>Routing with React Router: params, nested routes and guards</li>
+      <li>Next.js: file-based routing, rendering modes and data fetching</li>
+      <li>TypeScript: typing props, generics, and the component that takes anything</li>
+      <li>Vite: dev server, build and environment variables</li>
+      <li>Performance: memo, the profiler, and the re-render nobody asked for</li>
+      <li>Testing with Vitest and React Testing Library</li>
+      <li>ESLint, Prettier and Biome</li>
+      <li>A look at Angular, Vue and Svelte, from where React stands</li>
+  </ul>
+
+  <p>
+    <a class="btn btn-primary go" href="https://app.codeschool.ing">Start now</a>
+    <a class="go" href="/#courses">See the whole catalogue</a>
+  </p>
+</main>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Front-end with React and TypeScript",
+  "description": "The one most job adverts name: components, typed state, the rendering model behind them, and the full-stack answer React gained with Next.js.",
+  "inLanguage": "en",
+  "url": "https://codeschool.ing/en/course/react-ts.html",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "codeschool.ing",
+    "url": "https://codeschool.ing/"
+  },
+  "educationalLevel": "intermediate",
+  "timeRequired": "PT90H",
+  "teaches": [
+    "Components, props and the rendering model: what re-renders, and why",
+    "State and effects: the hooks, their rules, and the dependency array",
+    "Data on screen: React Query, forms, Suspense and error boundaries",
+    "React 19: Server Components, the client boundary and actions",
+    "Routing and the full-stack answer: React Router and Next.js",
+    "TypeScript, Vite, testing and the tooling around all of it"
+  ]
+}
+</script>
+</body>
+</html>

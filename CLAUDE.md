@@ -3,6 +3,12 @@
 The static showcase site (Stage 1). No build step and no dependencies: plain HTML, CSS and JS,
 with the catalogue in `assets/catalog.js`.
 
+**One exception, and it is generated INTO the branch rather than on the way out.**
+`/en/course/*.html` and its four language siblings, `sitemap.xml` and `robots.txt` are written
+by `tools/pages/pages.js` and committed, because Pages serves the branch as it is: a page that
+exists only inside a tool is a page nobody can visit. Edit `assets/catalog.js` or a dictionary
+and run the tool; CI fails on the difference if you forget.
+
 Stage 2, the Student Portal, lives in `codeschool-ing/portal-frontend`.
 
 ## Language
@@ -83,12 +89,14 @@ Each in its own folder, with the executable at the root of it:
 - `tools/modal-test/modal-test.js` — opens every course's modal, checks it keeps one
   height and neither column scrolls, and clicks the detailed contents to see it obey
 - `tools/version/version.js` — reads or sets the released version
+- `tools/pages/pages.js` — writes a page per course per language, the sitemap and robots.txt
 
 ## Before pushing
 
 ```sh
 node tools/validate-catalog/validate-catalog.js   # broken prerequisites, cycles, track order
 node tools/validate-i18n/validate-i18n.js         # the dictionaries against the catalogue
+node tools/pages/pages.js                         # the course pages, if the catalogue moved
 python3 tools/bundle/bundle.py                    # and open showcase.html from file://
 node tools/graph-test/graph-test.js               # needs npm ci + npx playwright install
 node tools/modal-test/modal-test.js               # same browser; ~3 minutes

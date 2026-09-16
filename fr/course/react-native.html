@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Applications mobiles avec React Native — codeschool.ing</title>
+<meta name="description" content="Une base de code, deux boutiques : React Native et Expo avec le JavaScript que vous écrivez déjà — et le récit honnête de ce que coûte le pont et du moment où il faut ouvrir le projet natif." />
+<link rel="canonical" href="https://codeschool.ing/fr/course/react-native.html" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/en/course/react-native.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/course/react-native.html" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/course/react-native.html" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/course/react-native.html" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/course/react-native.html" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/en/course/react-native.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="Applications mobiles avec React Native" />
+<meta property="og:description" content="Une base de code, deux boutiques : React Native et Expo avec le JavaScript que vous écrivez déjà — et le récit honnête de ce que coûte le pont et du moment où il faut ouvrir le projet natif." />
+<meta property="og:url" content="https://codeschool.ing/fr/course/react-native.html" />
+<meta property="og:locale" content="fr" />
+<meta property="og:locale:alternate" content="en" />
+<meta property="og:locale:alternate" content="pt_BR" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="it" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Applications mobiles avec React Native" />
+<meta name="twitter:description" content="Une base de code, deux boutiques : React Native et Expo avec le JavaScript que vous écrivez déjà — et le récit honnête de ce que coûte le pont et du moment où il faut ouvrir le projet natif." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<script>try{if(localStorage.getItem('codeschool-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Space+Grotesk:wght@700&display=swap" />
+<style>
+  /* assets/style.css is this site's, and three repositories carry it byte for
+     byte, so nothing here edits it and everything here works around it. Two of
+     its four bare element rules reach this page: nav{position:fixed}, which is
+     why the language row is a div carrying the role rather than a nav element,
+     and a{color:inherit;text-decoration:none}, which would leave every link on
+     a page of prose looking exactly like the prose.
+     (No backticks in here: this comment lives inside a template literal, and
+     the first draft of it closed the string four words in.) */
+  .sheet{max-width:820px;margin:0 auto;padding:32px 16px 64px}
+  /* :not(.btn), rather than a .sheet a.btn rule after it. A class inside a class
+     beats a lone class, so .sheet a was overriding .btn-primary's colour and
+     painting the button's label in the button's own background: it rendered as
+     a blue rectangle with nothing written on it. */
+  .sheet a:not(.btn){color:var(--phosphor);text-decoration:underline;text-underline-offset:2px}
+  .sheet h1{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;line-height:1.2;margin:.2em 0}
+  .sheet h2{font-size:1.15rem;margin:2em 0 .6em;color:var(--phosphor)}
+  .sheet ul{padding-left:1.2em}
+  .sheet li{margin:.35em 0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:1em 0;list-style:none;padding:0}
+  .facts li{border:1px solid var(--wire);border-radius:3px;padding:3px 10px;font-size:.85rem;color:var(--paper-dim)}
+  .langs{display:flex;flex-wrap:wrap;gap:10px;font-size:.85rem;margin:0 0 1.5em}
+  .langs a{color:var(--paper-dim);text-decoration:none}
+  .langs a:hover{color:var(--phosphor)}
+  .langs a[aria-current]{color:var(--paper);font-weight:600;text-decoration:none}
+  .lede{font-size:1.1rem;color:var(--paper)}
+  .go{display:inline-block;margin:2em 1em 0 0}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="langs" role="navigation" aria-label="Language">
+    <a href="/en/course/react-native.html" hreflang="en" lang="en">English</a>
+    <a href="/pt/course/react-native.html" hreflang="pt-BR" lang="pt-BR">Português</a>
+    <a href="/es/course/react-native.html" hreflang="es" lang="es">Español</a>
+    <a href="/fr/course/react-native.html" hreflang="fr" lang="fr" aria-current="true">Français</a>
+    <a href="/it/course/react-native.html" hreflang="it" lang="it">Italiano</a>
+  </div>
+
+  <p class="mono" style="color:var(--paper-dim);margin:0">Cours</p>
+  <h1>Applications mobiles avec React Native</h1>
+  <p class="lede">Une base de code, deux boutiques : React Native et Expo avec le JavaScript que vous écrivez déjà — et le récit honnête de ce que coûte le pont et du moment où il faut ouvrir le projet natif.</p>
+
+  <ul class="facts">
+    <li>90 heures</li>
+    <li>Niveau: intermédiaire</li>
+  </ul>
+
+  <h2>Ce qu’il vous faut d’abord</h2>
+  <p>Demande JavaScript, React compris — les composants, les hooks et l&#39;état sont les mêmes idées. Aucune expérience native.</p>
+
+  <h2>Ce que vous allez apprendre</h2>
+  <ul>
+      <li>React Native et Expo : le projet, le runtime et l&#39;outillage</li>
+      <li>Composants, styles et mise en page avec Flexbox</li>
+      <li>Navigation, état et données d&#39;une API</li>
+      <li>Fonctions de l&#39;appareil : caméra, stockage, position et notifications</li>
+      <li>Modules natifs, quand la bibliothèque n&#39;existe pas</li>
+      <li>Compilations, mises à jour à distance et les deux boutiques</li>
+  </ul>
+
+  <h2>Liste complète des sujets</h2>
+  <ul>
+      <li>Comment tourne React Native : JavaScript, la nouvelle architecture et le côté natif</li>
+      <li>Expo contre React Native nu : ce qu&#39;on gagne et ce qu&#39;on abandonne</li>
+      <li>Le projet, Metro, la build de développement et le simulateur</li>
+      <li>Composants de base : View, Text, Image, ScrollView — ceux qui ne sont pas du HTML</li>
+      <li>Styles : StyleSheet, Flexbox et le CSS qui n&#39;existe pas ici</li>
+      <li>Différences de plateforme : Platform.select et le fichier en .ios.js</li>
+      <li>Listes : FlatList, SectionList, clés et virtualisation</li>
+      <li>React Navigation : pile, onglets, paramètres et liens profonds</li>
+      <li>État : hooks, contexte et un store quand le contexte ne suffit plus</li>
+      <li>Récupération, cache et hors-ligne avec TanStack Query</li>
+      <li>Formulaires, validation et un clavier qui couvre le champ</li>
+      <li>Animation : Reanimated, gestes et 60 images par seconde hors du fil JavaScript</li>
+      <li>Caméra, sélecteur d&#39;images, fichiers et permissions</li>
+      <li>Stockage : AsyncStorage, MMKV, SQLite et le coffre sécurisé</li>
+      <li>Position, cartes et localisation en arrière-plan</li>
+      <li>Notifications push, avec Expo et avec Firebase</li>
+      <li>Modules natifs : appeler Kotlin et Swift depuis JavaScript</li>
+      <li>Débogage : DevTools, journaux et le bug qui n&#39;arrive qu&#39;en release</li>
+      <li>Performance : rendus inutiles, listes qui saccadent, mémoire des images et taille du bundle</li>
+      <li>EAS Build : identifiants et compiler sans Mac dans la pièce</li>
+      <li>Mises à jour à distance : ce qui peut passer par là, et ce qui ne peut pas</li>
+      <li>Un coup d&#39;œil à Flutter et Kotlin Multiplatform : les autres voies multiplateformes</li>
+  </ul>
+
+  <p>
+    <a class="btn btn-primary go" href="https://app.codeschool.ing">Commencer maintenant</a>
+    <a class="go" href="/#courses">Voir tout le catalogue</a>
+  </p>
+</main>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Applications mobiles avec React Native",
+  "description": "Une base de code, deux boutiques : React Native et Expo avec le JavaScript que vous écrivez déjà — et le récit honnête de ce que coûte le pont et du moment où il faut ouvrir le projet natif.",
+  "inLanguage": "fr",
+  "url": "https://codeschool.ing/fr/course/react-native.html",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "codeschool.ing",
+    "url": "https://codeschool.ing/"
+  },
+  "educationalLevel": "intermédiaire",
+  "timeRequired": "PT90H",
+  "teaches": [
+    "React Native et Expo : le projet, le runtime et l'outillage",
+    "Composants, styles et mise en page avec Flexbox",
+    "Navigation, état et données d'une API",
+    "Fonctions de l'appareil : caméra, stockage, position et notifications",
+    "Modules natifs, quand la bibliothèque n'existe pas",
+    "Compilations, mises à jour à distance et les deux boutiques"
+  ]
+}
+</script>
+</body>
+</html>

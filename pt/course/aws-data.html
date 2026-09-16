@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AWS: Dados, Armazenamento e Analytics — codeschool.ing</title>
+<meta name="description" content="Onde o dado cai, onde ele mora e onde ele é perguntado: do objeto num bucket à consulta que varre um terabyte." />
+<link rel="canonical" href="https://codeschool.ing/pt/course/aws-data.html" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/en/course/aws-data.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/course/aws-data.html" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/course/aws-data.html" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/course/aws-data.html" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/course/aws-data.html" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/en/course/aws-data.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="AWS: Dados, Armazenamento e Analytics" />
+<meta property="og:description" content="Onde o dado cai, onde ele mora e onde ele é perguntado: do objeto num bucket à consulta que varre um terabyte." />
+<meta property="og:url" content="https://codeschool.ing/pt/course/aws-data.html" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:locale:alternate" content="en" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="fr" />
+<meta property="og:locale:alternate" content="it" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="AWS: Dados, Armazenamento e Analytics" />
+<meta name="twitter:description" content="Onde o dado cai, onde ele mora e onde ele é perguntado: do objeto num bucket à consulta que varre um terabyte." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<script>try{if(localStorage.getItem('codeschool-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Space+Grotesk:wght@700&display=swap" />
+<style>
+  /* assets/style.css is this site's, and three repositories carry it byte for
+     byte, so nothing here edits it and everything here works around it. Two of
+     its four bare element rules reach this page: nav{position:fixed}, which is
+     why the language row is a div carrying the role rather than a nav element,
+     and a{color:inherit;text-decoration:none}, which would leave every link on
+     a page of prose looking exactly like the prose.
+     (No backticks in here: this comment lives inside a template literal, and
+     the first draft of it closed the string four words in.) */
+  .sheet{max-width:820px;margin:0 auto;padding:32px 16px 64px}
+  /* :not(.btn), rather than a .sheet a.btn rule after it. A class inside a class
+     beats a lone class, so .sheet a was overriding .btn-primary's colour and
+     painting the button's label in the button's own background: it rendered as
+     a blue rectangle with nothing written on it. */
+  .sheet a:not(.btn){color:var(--phosphor);text-decoration:underline;text-underline-offset:2px}
+  .sheet h1{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;line-height:1.2;margin:.2em 0}
+  .sheet h2{font-size:1.15rem;margin:2em 0 .6em;color:var(--phosphor)}
+  .sheet ul{padding-left:1.2em}
+  .sheet li{margin:.35em 0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:1em 0;list-style:none;padding:0}
+  .facts li{border:1px solid var(--wire);border-radius:3px;padding:3px 10px;font-size:.85rem;color:var(--paper-dim)}
+  .langs{display:flex;flex-wrap:wrap;gap:10px;font-size:.85rem;margin:0 0 1.5em}
+  .langs a{color:var(--paper-dim);text-decoration:none}
+  .langs a:hover{color:var(--phosphor)}
+  .langs a[aria-current]{color:var(--paper);font-weight:600;text-decoration:none}
+  .lede{font-size:1.1rem;color:var(--paper)}
+  .go{display:inline-block;margin:2em 1em 0 0}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="langs" role="navigation" aria-label="Language">
+    <a href="/en/course/aws-data.html" hreflang="en" lang="en">English</a>
+    <a href="/pt/course/aws-data.html" hreflang="pt-BR" lang="pt-BR" aria-current="true">Português</a>
+    <a href="/es/course/aws-data.html" hreflang="es" lang="es">Español</a>
+    <a href="/fr/course/aws-data.html" hreflang="fr" lang="fr">Français</a>
+    <a href="/it/course/aws-data.html" hreflang="it" lang="it">Italiano</a>
+  </div>
+
+  <p class="mono" style="color:var(--paper-dim);margin:0">Curso</p>
+  <h1>AWS: Dados, Armazenamento e Analytics</h1>
+  <p class="lede">Onde o dado cai, onde ele mora e onde ele é perguntado: do objeto num bucket à consulta que varre um terabyte.</p>
+
+  <ul class="facts">
+    <li>70 horas</li>
+    <li>Nível: intermediário</li>
+  </ul>
+
+  <h2>O que você precisa antes</h2>
+  <p>Os dois são exigidos. Modelagem de dados ajuda, mas não é pressuposta.</p>
+
+  <h2>O que você vai aprender</h2>
+  <ul>
+      <li>S3: classes, ciclo de vida, URLs pré-assinadas e o custo de ler</li>
+      <li>RDS e Aurora: relacional gerenciado, e onde o Aurora justifica o preço</li>
+      <li>DynamoDB: chave de partição, padrões de acesso e a tabela que não escala</li>
+      <li>Redshift e Athena: o warehouse, e o lake consultado onde ele está</li>
+      <li>Kinesis e MSK: fluxos que chegam atrasados e fora de ordem</li>
+      <li>Glue, EMR e MWAA: o pipeline que precisa rodar às três da manhã</li>
+  </ul>
+
+  <h2>Lista completa de tópicos</h2>
+  <ul>
+      <li>S3: buckets, objetos, prefixos e um esquema de nomes que sobrevive</li>
+      <li>Classes de armazenamento: standard, acesso infrequente, Glacier e Deep Archive</li>
+      <li>Regras de ciclo de vida, versionamento, Object Lock e retenção</li>
+      <li>URLs pré-assinadas, Block Public Access e o bucket que vazou</li>
+      <li>Egresso e cobrança por requisição: por que ler pode custar mais do que guardar</li>
+      <li>RDS: PostgreSQL, MySQL, MariaDB, Oracle e SQL Server</li>
+      <li>Multi-AZ, réplicas de leitura e recuperação para um ponto no tempo</li>
+      <li>Aurora: a camada de armazenamento que o distingue, e o Aurora Serverless</li>
+      <li>DynamoDB: chave de partição, chave de ordenação e single-table design</li>
+      <li>Índices secundários globais e a consulta que degenera em varredura</li>
+      <li>Capacidade: provisionada, sob demanda e com autoscaling</li>
+      <li>DynamoDB Streams e processamento disparado por mudança</li>
+      <li>ElastiCache: Redis e Memcached gerenciados</li>
+      <li>Redshift: nós, chaves de distribuição, chaves de ordenação e Serverless</li>
+      <li>Athena: consultar o S3 onde ele está, partições e bytes varridos</li>
+      <li>Glue Data Catalog, crawlers e evolução de esquema</li>
+      <li>Glue ETL: um job Spark sem cluster seu</li>
+      <li>Lake Formation: permissões sobre o lake</li>
+      <li>Parquet, ORC e particionamento: as duas decisões que definem a fatura</li>
+      <li>Kinesis Data Streams: shards, ordenação e retenção</li>
+      <li>Kinesis Data Firehose: entrega no S3 sem escrever código</li>
+      <li>MSK: Kafka gerenciado, e quando ele ganha do Kinesis</li>
+      <li>Garantias de entrega: ao menos uma vez e a idempotência que isso obriga</li>
+      <li>EMR: Spark e Hadoop gerenciados, e quando ele ganha do Glue</li>
+      <li>MWAA: Airflow gerenciado e o custo de deixá-lo ocioso</li>
+      <li>DMS e captura de mudanças a partir de um banco legado</li>
+      <li>Escolher o armazenamento: padrão de acesso, consistência, escala e preço</li>
+  </ul>
+
+  <p>
+    <a class="btn btn-primary go" href="https://app.codeschool.ing">Começar agora</a>
+    <a class="go" href="/#courses">Ver o catálogo inteiro</a>
+  </p>
+</main>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "AWS: Dados, Armazenamento e Analytics",
+  "description": "Onde o dado cai, onde ele mora e onde ele é perguntado: do objeto num bucket à consulta que varre um terabyte.",
+  "inLanguage": "pt-BR",
+  "url": "https://codeschool.ing/pt/course/aws-data.html",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "codeschool.ing",
+    "url": "https://codeschool.ing/"
+  },
+  "educationalLevel": "intermediário",
+  "timeRequired": "PT70H",
+  "teaches": [
+    "S3: classes, ciclo de vida, URLs pré-assinadas e o custo de ler",
+    "RDS e Aurora: relacional gerenciado, e onde o Aurora justifica o preço",
+    "DynamoDB: chave de partição, padrões de acesso e a tabela que não escala",
+    "Redshift e Athena: o warehouse, e o lake consultado onde ele está",
+    "Kinesis e MSK: fluxos que chegam atrasados e fora de ordem",
+    "Glue, EMR e MWAA: o pipeline que precisa rodar às três da manhã"
+  ]
+}
+</script>
+</body>
+</html>

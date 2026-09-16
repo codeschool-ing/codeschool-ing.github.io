@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Publishing and Operating a Mobile App — codeschool.ing</title>
+<meta name="description" content="From the signed build to the version already on people’s phones: stores, review, staged rollouts, crash reports, and the metric that says whether anybody came back." />
+<link rel="canonical" href="https://codeschool.ing/en/course/mobile-delivery.html" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/en/course/mobile-delivery.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/course/mobile-delivery.html" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/course/mobile-delivery.html" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/course/mobile-delivery.html" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/course/mobile-delivery.html" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/en/course/mobile-delivery.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="Publishing and Operating a Mobile App" />
+<meta property="og:description" content="From the signed build to the version already on people’s phones: stores, review, staged rollouts, crash reports, and the metric that says whether anybody came back." />
+<meta property="og:url" content="https://codeschool.ing/en/course/mobile-delivery.html" />
+<meta property="og:locale" content="en" />
+<meta property="og:locale:alternate" content="pt_BR" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="fr" />
+<meta property="og:locale:alternate" content="it" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Publishing and Operating a Mobile App" />
+<meta name="twitter:description" content="From the signed build to the version already on people’s phones: stores, review, staged rollouts, crash reports, and the metric that says whether anybody came back." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<script>try{if(localStorage.getItem('codeschool-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Space+Grotesk:wght@700&display=swap" />
+<style>
+  /* assets/style.css is this site's, and three repositories carry it byte for
+     byte, so nothing here edits it and everything here works around it. Two of
+     its four bare element rules reach this page: nav{position:fixed}, which is
+     why the language row is a div carrying the role rather than a nav element,
+     and a{color:inherit;text-decoration:none}, which would leave every link on
+     a page of prose looking exactly like the prose.
+     (No backticks in here: this comment lives inside a template literal, and
+     the first draft of it closed the string four words in.) */
+  .sheet{max-width:820px;margin:0 auto;padding:32px 16px 64px}
+  /* :not(.btn), rather than a .sheet a.btn rule after it. A class inside a class
+     beats a lone class, so .sheet a was overriding .btn-primary's colour and
+     painting the button's label in the button's own background: it rendered as
+     a blue rectangle with nothing written on it. */
+  .sheet a:not(.btn){color:var(--phosphor);text-decoration:underline;text-underline-offset:2px}
+  .sheet h1{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;line-height:1.2;margin:.2em 0}
+  .sheet h2{font-size:1.15rem;margin:2em 0 .6em;color:var(--phosphor)}
+  .sheet ul{padding-left:1.2em}
+  .sheet li{margin:.35em 0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:1em 0;list-style:none;padding:0}
+  .facts li{border:1px solid var(--wire);border-radius:3px;padding:3px 10px;font-size:.85rem;color:var(--paper-dim)}
+  .langs{display:flex;flex-wrap:wrap;gap:10px;font-size:.85rem;margin:0 0 1.5em}
+  .langs a{color:var(--paper-dim);text-decoration:none}
+  .langs a:hover{color:var(--phosphor)}
+  .langs a[aria-current]{color:var(--paper);font-weight:600;text-decoration:none}
+  .lede{font-size:1.1rem;color:var(--paper)}
+  .go{display:inline-block;margin:2em 1em 0 0}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="langs" role="navigation" aria-label="Language">
+    <a href="/en/course/mobile-delivery.html" hreflang="en" lang="en" aria-current="true">English</a>
+    <a href="/pt/course/mobile-delivery.html" hreflang="pt-BR" lang="pt-BR">Português</a>
+    <a href="/es/course/mobile-delivery.html" hreflang="es" lang="es">Español</a>
+    <a href="/fr/course/mobile-delivery.html" hreflang="fr" lang="fr">Français</a>
+    <a href="/it/course/mobile-delivery.html" hreflang="it" lang="it">Italiano</a>
+  </div>
+
+  <p class="mono" style="color:var(--paper-dim);margin:0">Course</p>
+  <h1>Publishing and Operating a Mobile App</h1>
+  <p class="lede">From the signed build to the version already on people’s phones: stores, review, staged rollouts, crash reports, and the metric that says whether anybody came back.</p>
+
+  <ul class="facts">
+    <li>60 hours</li>
+    <li>Level: intermediate</li>
+  </ul>
+
+  <h2>What you need first</h2>
+  <p>Requires a working app and a pipeline. It does not teach how to build one — it covers everything that happens after the build succeeds.</p>
+
+  <h2>What you will learn</h2>
+  <ul>
+      <li>Signing, certificates and the keys you must not lose</li>
+      <li>The stores: listing, review, and the rejection that repeats</li>
+      <li>Releasing in stages, and the rollback that does not exist</li>
+      <li>Crashes: symbols, stack traces and the bug only release has</li>
+      <li>Analytics, funnels and retention on mobile</li>
+      <li>Living with versions in the wild: forced updates and deprecation</li>
+  </ul>
+
+  <h2>Full topic list</h2>
+  <ul>
+      <li>Signing on Android: keystore, Play App Signing, and the key that cannot be lost</li>
+      <li>Signing on iOS: certificates, provisioning profiles, and the expiry that stops the build</li>
+      <li>Play Console and App Store Connect: accounts, roles and fees</li>
+      <li>The store listing: screenshots, description, keywords and assets</li>
+      <li>Privacy labels, data declarations, and the permission you have to justify</li>
+      <li>Review: the common rejections, the appeal, and how long it takes</li>
+      <li>Internal, closed and open testing; TestFlight</li>
+      <li>Staged rollout, and halting a release that is crashing</li>
+      <li>Versioning: version name, build number, and the semantics people read</li>
+      <li>CI for mobile: a hosted Mac, caching, and signing inside the pipeline</li>
+      <li>Fastlane: build, screenshots, metadata and upload</li>
+      <li>Crash reporting with Crashlytics or Sentry, and uploading symbols</li>
+      <li>Reading a stack trace from a minified release build</li>
+      <li>ANRs, watchdog kills, and the crash that is not a crash</li>
+      <li>Performance in the field: start-up time, dropped frames and battery</li>
+      <li>Analytics: events, funnels, and measurement that is not surveillance</li>
+      <li>Retention, DAU/MAU, and the churn a mobile app really has</li>
+      <li>App size, install conversion, and what the store shows before the download</li>
+      <li>Forced update, remote config and feature flags</li>
+      <li>Supporting versions in the wild: the API contract and the app that never updates</li>
+  </ul>
+
+  <h2>Part of these tracks</h2>
+  <ul>
+      <li>Mobile Development</li>
+  </ul>
+
+  <p>
+    <a class="btn btn-primary go" href="https://app.codeschool.ing">Start now</a>
+    <a class="go" href="/#courses">See the whole catalogue</a>
+  </p>
+</main>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Publishing and Operating a Mobile App",
+  "description": "From the signed build to the version already on people’s phones: stores, review, staged rollouts, crash reports, and the metric that says whether anybody came back.",
+  "inLanguage": "en",
+  "url": "https://codeschool.ing/en/course/mobile-delivery.html",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "codeschool.ing",
+    "url": "https://codeschool.ing/"
+  },
+  "educationalLevel": "intermediate",
+  "timeRequired": "PT60H",
+  "teaches": [
+    "Signing, certificates and the keys you must not lose",
+    "The stores: listing, review, and the rejection that repeats",
+    "Releasing in stages, and the rollback that does not exist",
+    "Crashes: symbols, stack traces and the bug only release has",
+    "Analytics, funnels and retention on mobile",
+    "Living with versions in the wild: forced updates and deprecation"
+  ]
+}
+</script>
+</body>
+</html>

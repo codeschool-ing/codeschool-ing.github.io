@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tecniche Analitiche: Serie Temporali, Test A/B e Coorti — codeschool.ing</title>
+<meta name="description" content="Le tre analisi che l’azienda chiede di più: dove stiamo andando, quale versione è migliore e perché il cliente sparisce." />
+<link rel="canonical" href="https://codeschool.ing/it/course/bi-techniques.html" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/en/course/bi-techniques.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/course/bi-techniques.html" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/course/bi-techniques.html" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/course/bi-techniques.html" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/course/bi-techniques.html" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/en/course/bi-techniques.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="Tecniche Analitiche: Serie Temporali, Test A/B e Coorti" />
+<meta property="og:description" content="Le tre analisi che l’azienda chiede di più: dove stiamo andando, quale versione è migliore e perché il cliente sparisce." />
+<meta property="og:url" content="https://codeschool.ing/it/course/bi-techniques.html" />
+<meta property="og:locale" content="it" />
+<meta property="og:locale:alternate" content="en" />
+<meta property="og:locale:alternate" content="pt_BR" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="fr" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Tecniche Analitiche: Serie Temporali, Test A/B e Coorti" />
+<meta name="twitter:description" content="Le tre analisi che l’azienda chiede di più: dove stiamo andando, quale versione è migliore e perché il cliente sparisce." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<script>try{if(localStorage.getItem('codeschool-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Space+Grotesk:wght@700&display=swap" />
+<style>
+  /* assets/style.css is this site's, and three repositories carry it byte for
+     byte, so nothing here edits it and everything here works around it. Two of
+     its four bare element rules reach this page: nav{position:fixed}, which is
+     why the language row is a div carrying the role rather than a nav element,
+     and a{color:inherit;text-decoration:none}, which would leave every link on
+     a page of prose looking exactly like the prose.
+     (No backticks in here: this comment lives inside a template literal, and
+     the first draft of it closed the string four words in.) */
+  .sheet{max-width:820px;margin:0 auto;padding:32px 16px 64px}
+  /* :not(.btn), rather than a .sheet a.btn rule after it. A class inside a class
+     beats a lone class, so .sheet a was overriding .btn-primary's colour and
+     painting the button's label in the button's own background: it rendered as
+     a blue rectangle with nothing written on it. */
+  .sheet a:not(.btn){color:var(--phosphor);text-decoration:underline;text-underline-offset:2px}
+  .sheet h1{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;line-height:1.2;margin:.2em 0}
+  .sheet h2{font-size:1.15rem;margin:2em 0 .6em;color:var(--phosphor)}
+  .sheet ul{padding-left:1.2em}
+  .sheet li{margin:.35em 0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:1em 0;list-style:none;padding:0}
+  .facts li{border:1px solid var(--wire);border-radius:3px;padding:3px 10px;font-size:.85rem;color:var(--paper-dim)}
+  .langs{display:flex;flex-wrap:wrap;gap:10px;font-size:.85rem;margin:0 0 1.5em}
+  .langs a{color:var(--paper-dim);text-decoration:none}
+  .langs a:hover{color:var(--phosphor)}
+  .langs a[aria-current]{color:var(--paper);font-weight:600;text-decoration:none}
+  .lede{font-size:1.1rem;color:var(--paper)}
+  .go{display:inline-block;margin:2em 1em 0 0}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="langs" role="navigation" aria-label="Language">
+    <a href="/en/course/bi-techniques.html" hreflang="en" lang="en">English</a>
+    <a href="/pt/course/bi-techniques.html" hreflang="pt-BR" lang="pt-BR">Português</a>
+    <a href="/es/course/bi-techniques.html" hreflang="es" lang="es">Español</a>
+    <a href="/fr/course/bi-techniques.html" hreflang="fr" lang="fr">Français</a>
+    <a href="/it/course/bi-techniques.html" hreflang="it" lang="it" aria-current="true">Italiano</a>
+  </div>
+
+  <p class="mono" style="color:var(--paper-dim);margin:0">Corso</p>
+  <h1>Tecniche Analitiche: Serie Temporali, Test A/B e Coorti</h1>
+  <p class="lede">Le tre analisi che l’azienda chiede di più: dove stiamo andando, quale versione è migliore e perché il cliente sparisce.</p>
+
+  <ul class="facts">
+    <li>60 ore</li>
+    <li>Livello: intermedio</li>
+  </ul>
+
+  <h2>Cosa ti serve prima</h2>
+  <p>Richiede la statistica. La visualizzazione aiuta ma non è presupposta — sono le tre analisi che le aziende chiedono di più.</p>
+
+  <h2>Cosa imparerai</h2>
+  <ul>
+      <li>Serie temporali: tendenza, stagionalità e rumore</li>
+      <li>Previsione e valutazione dell’errore</li>
+      <li>Test A/B: progettazione, dimensione del campione e lettura</li>
+      <li>Analisi delle coorti e fidelizzazione</li>
+      <li>Apprendimento automatico applicato alla BI</li>
+      <li>Riconoscere il bias algoritmico</li>
+  </ul>
+
+  <h2>Elenco completo degli argomenti</h2>
+  <ul>
+      <li>Componenti di una serie temporale: tendenza, stagionalità, ciclo e rumore</li>
+      <li>Scomposizione e medie mobili</li>
+      <li>Livellamento esponenziale e panorama di ARIMA e Prophet</li>
+      <li>Previsione: orizzonte, intervallo e revisione</li>
+      <li>Misurare l’errore di previsione: MAE, RMSE e MAPE</li>
+      <li>Trappole: stagionalità delle festività, cambio di regime e dato incompleto</li>
+      <li>Test A/B: ipotesi, metrica principale e criterio di successo</li>
+      <li>Calcolo della dimensione del campione e della durata del test</li>
+      <li>Randomizzazione, contaminazione ed effetto novità</li>
+      <li>Leggere il risultato: significatività, effetto minimo rilevabile e decisione</li>
+      <li>Test multipli e il problema di sbirciare in anticipo</li>
+      <li>Analisi delle coorti: definizione del gruppo e finestra di osservazione</li>
+      <li>Curve di fidelizzazione, abbandono e valore del cliente nel tempo</li>
+      <li>Imbuti di conversione e dove l’utente rinuncia</li>
+      <li>Segmentazione: RFM e raggruppamento (clustering)</li>
+      <li>Apprendimento supervisionato, non supervisionato e per rinforzo: panorama</li>
+      <li>Classificazione e regressione applicate a problemi di business</li>
+      <li>Bias algoritmico: da dove viene e come riconoscerlo</li>
+      <li>Strategie di mitigazione e uso etico del modello</li>
+  </ul>
+
+  <h2>Fa parte di questi percorsi</h2>
+  <ul>
+      <li>Data Science</li>
+      <li>Business Intelligence</li>
+  </ul>
+
+  <p>
+    <a class="btn btn-primary go" href="https://app.codeschool.ing">Inizia ora</a>
+    <a class="go" href="/#courses">Vedi tutto il catalogo</a>
+  </p>
+</main>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Tecniche Analitiche: Serie Temporali, Test A/B e Coorti",
+  "description": "Le tre analisi che l’azienda chiede di più: dove stiamo andando, quale versione è migliore e perché il cliente sparisce.",
+  "inLanguage": "it",
+  "url": "https://codeschool.ing/it/course/bi-techniques.html",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "codeschool.ing",
+    "url": "https://codeschool.ing/"
+  },
+  "educationalLevel": "intermedio",
+  "timeRequired": "PT60H",
+  "teaches": [
+    "Serie temporali: tendenza, stagionalità e rumore",
+    "Previsione e valutazione dell’errore",
+    "Test A/B: progettazione, dimensione del campione e lettura",
+    "Analisi delle coorti e fidelizzazione",
+    "Apprendimento automatico applicato alla BI",
+    "Riconoscere il bias algoritmico"
+  ]
+}
+</script>
+</body>
+</html>

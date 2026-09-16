@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deep Learning: Redes Neurais na Prática — codeschool.ing</title>
+<meta name="description" content="A parte do aprendizado de máquina que come dado e hora de GPU: o que a rede aprende de fato, como treinar sem perder uma semana e quando um modelo de boosting teria sido a resposta melhor." />
+<link rel="canonical" href="https://codeschool.ing/pt/course/deep-learning.html" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/en/course/deep-learning.html" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/course/deep-learning.html" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/course/deep-learning.html" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/course/deep-learning.html" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/course/deep-learning.html" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/en/course/deep-learning.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="codeschool.ing" />
+<meta property="og:title" content="Deep Learning: Redes Neurais na Prática" />
+<meta property="og:description" content="A parte do aprendizado de máquina que come dado e hora de GPU: o que a rede aprende de fato, como treinar sem perder uma semana e quando um modelo de boosting teria sido a resposta melhor." />
+<meta property="og:url" content="https://codeschool.ing/pt/course/deep-learning.html" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:locale:alternate" content="en" />
+<meta property="og:locale:alternate" content="es" />
+<meta property="og:locale:alternate" content="fr" />
+<meta property="og:locale:alternate" content="it" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Deep Learning: Redes Neurais na Prática" />
+<meta name="twitter:description" content="A parte do aprendizado de máquina que come dado e hora de GPU: o que a rede aprende de fato, como treinar sem perder uma semana e quando um modelo de boosting teria sido a resposta melhor." />
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+<script>try{if(localStorage.getItem('codeschool-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="/assets/style.css" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&family=Space+Grotesk:wght@700&display=swap" />
+<style>
+  /* assets/style.css is this site's, and three repositories carry it byte for
+     byte, so nothing here edits it and everything here works around it. Two of
+     its four bare element rules reach this page: nav{position:fixed}, which is
+     why the language row is a div carrying the role rather than a nav element,
+     and a{color:inherit;text-decoration:none}, which would leave every link on
+     a page of prose looking exactly like the prose.
+     (No backticks in here: this comment lives inside a template literal, and
+     the first draft of it closed the string four words in.) */
+  .sheet{max-width:820px;margin:0 auto;padding:32px 16px 64px}
+  /* :not(.btn), rather than a .sheet a.btn rule after it. A class inside a class
+     beats a lone class, so .sheet a was overriding .btn-primary's colour and
+     painting the button's label in the button's own background: it rendered as
+     a blue rectangle with nothing written on it. */
+  .sheet a:not(.btn){color:var(--phosphor);text-decoration:underline;text-underline-offset:2px}
+  .sheet h1{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;line-height:1.2;margin:.2em 0}
+  .sheet h2{font-size:1.15rem;margin:2em 0 .6em;color:var(--phosphor)}
+  .sheet ul{padding-left:1.2em}
+  .sheet li{margin:.35em 0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:1em 0;list-style:none;padding:0}
+  .facts li{border:1px solid var(--wire);border-radius:3px;padding:3px 10px;font-size:.85rem;color:var(--paper-dim)}
+  .langs{display:flex;flex-wrap:wrap;gap:10px;font-size:.85rem;margin:0 0 1.5em}
+  .langs a{color:var(--paper-dim);text-decoration:none}
+  .langs a:hover{color:var(--phosphor)}
+  .langs a[aria-current]{color:var(--paper);font-weight:600;text-decoration:none}
+  .lede{font-size:1.1rem;color:var(--paper)}
+  .go{display:inline-block;margin:2em 1em 0 0}
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="langs" role="navigation" aria-label="Language">
+    <a href="/en/course/deep-learning.html" hreflang="en" lang="en">English</a>
+    <a href="/pt/course/deep-learning.html" hreflang="pt-BR" lang="pt-BR" aria-current="true">Português</a>
+    <a href="/es/course/deep-learning.html" hreflang="es" lang="es">Español</a>
+    <a href="/fr/course/deep-learning.html" hreflang="fr" lang="fr">Français</a>
+    <a href="/it/course/deep-learning.html" hreflang="it" lang="it">Italiano</a>
+  </div>
+
+  <p class="mono" style="color:var(--paper-dim);margin:0">Curso</p>
+  <h1>Deep Learning: Redes Neurais na Prática</h1>
+  <p class="lede">A parte do aprendizado de máquina que come dado e hora de GPU: o que a rede aprende de fato, como treinar sem perder uma semana e quando um modelo de boosting teria sido a resposta melhor.</p>
+
+  <ul class="facts">
+    <li>70 horas</li>
+    <li>Nível: avançado</li>
+  </ul>
+
+  <h2>O que você precisa antes</h2>
+  <p>Requer machine learning: a divisão, as métricas e o overfitting já são dados como sabidos. Álgebra linear e derivadas aparecem, explicadas onde são usadas.</p>
+
+  <h2>O que você vai aprender</h2>
+  <ul>
+      <li>Do perceptron ao backpropagation, com a matemática que importa</li>
+      <li>Treino: função de perda, otimizador, taxa de aprendizado e overfitting</li>
+      <li>PyTorch: tensores, autograd e o laço de treino</li>
+      <li>Redes convolucionais para imagens</li>
+      <li>Sequências, atenção e transformers</li>
+      <li>Transfer learning, fine-tuning e quando não usar nada disso</li>
+  </ul>
+
+  <h2>Lista completa de tópicos</h2>
+  <ul>
+      <li>O perceptron, funções de ativação e o que uma camada calcula de fato</li>
+      <li>Passagem para frente, perda e descida do gradiente em uma dimensão</li>
+      <li>Backpropagation, sem enrolação</li>
+      <li>Funções de perda: MSE, entropia cruzada e a que serve para a tarefa</li>
+      <li>Otimizadores: SGD, momento, Adam e a taxa de aprendizado acima de tudo</li>
+      <li>Tamanho de lote, épocas e como ler direito uma curva de treino</li>
+      <li>Overfitting: regularização, dropout, parada antecipada e aumento de dados</li>
+      <li>Normalização: por lote, por camada e por que estabiliza o treino</li>
+      <li>PyTorch: tensores, autograd, módulos e o laço de treino</li>
+      <li>Datasets e dataloaders, e a GPU parada esperando dado</li>
+      <li>Convolução: filtros, passo, preenchimento e pooling</li>
+      <li>As arquiteturas clássicas: ResNet, EfficientNet e o que cada uma mudou</li>
+      <li>Aumento de dados e transfer learning para imagens</li>
+      <li>Sequências: RNN e LSTM, e por que foram substituídas</li>
+      <li>Atenção e o transformer, por dentro</li>
+      <li>Embeddings, tokens e o que o modelo lê no lugar do texto</li>
+      <li>Fine-tuning de um modelo pré-treinado, e quais camadas congelar</li>
+      <li>Rastrear experimentos: execuções, sementes e saber o que fez diferença</li>
+      <li>Custo: GPU, precisão mista e tempo de treino contra o ganho</li>
+      <li>Quando não usar deep learning: dado tabular, dado pouco e a linha de base do boosting</li>
+  </ul>
+
+  <h2>Faz parte destas trilhas</h2>
+  <ul>
+      <li>Ciência de Dados</li>
+  </ul>
+
+  <p>
+    <a class="btn btn-primary go" href="https://app.codeschool.ing">Começar agora</a>
+    <a class="go" href="/#courses">Ver o catálogo inteiro</a>
+  </p>
+</main>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Deep Learning: Redes Neurais na Prática",
+  "description": "A parte do aprendizado de máquina que come dado e hora de GPU: o que a rede aprende de fato, como treinar sem perder uma semana e quando um modelo de boosting teria sido a resposta melhor.",
+  "inLanguage": "pt-BR",
+  "url": "https://codeschool.ing/pt/course/deep-learning.html",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "codeschool.ing",
+    "url": "https://codeschool.ing/"
+  },
+  "educationalLevel": "avançado",
+  "timeRequired": "PT70H",
+  "teaches": [
+    "Do perceptron ao backpropagation, com a matemática que importa",
+    "Treino: função de perda, otimizador, taxa de aprendizado e overfitting",
+    "PyTorch: tensores, autograd e o laço de treino",
+    "Redes convolucionais para imagens",
+    "Sequências, atenção e transformers",
+    "Transfer learning, fine-tuning e quando não usar nada disso"
+  ]
+}
+</script>
+</body>
+</html>

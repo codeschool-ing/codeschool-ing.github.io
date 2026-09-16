@@ -1,0 +1,6 @@
+# Everything here is meant to be found; the student area is not, and is
+# not served from this host. See sitemap.xml for what there is.
+User-agent: *
+Allow: /
+
+Sitemap: https://codeschool.ing/sitemap.xml
