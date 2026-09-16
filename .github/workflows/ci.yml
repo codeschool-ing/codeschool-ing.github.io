@@ -113,6 +113,17 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
 
+      # THE TRANSLATED FRONT PAGES ARE RENDERED BY THE SITE ITSELF, which is why
+      # this check is in the job that has a browser rather than beside the other
+      # generated-file check. Reimplementing the DOM walk `i18n-runtime.js` does
+      # would be a second translator to keep in step; running it is not.
+      #
+      # It fails on more than a stale page: `index.html` changing without the
+      # four following, a container added to `DYNAMIC` and not to the tool, and
+      # a release, which stamps a version into the head of all five.
+      - name: The four translated front pages are the ones the site renders
+        run: node tools/home-pages/home-pages.js --check
+
       # An edge passing through a card it has nothing to do with is invisible in a
       # diff and obvious on the screen. The README claimed this was verified; until
       # this job existed, nothing verified it.

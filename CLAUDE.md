@@ -3,11 +3,18 @@
 The static showcase site (Stage 1). No build step and no dependencies: plain HTML, CSS and JS,
 with the catalogue in `assets/catalog.js`.
 
-**One exception, and it is generated INTO the branch rather than on the way out.**
-`/en/course/*.html` and its four language siblings, `sitemap.xml` and `robots.txt` are written
-by `tools/pages/pages.js` and committed, because Pages serves the branch as it is: a page that
-exists only inside a tool is a page nobody can visit. Edit `assets/catalog.js` or a dictionary
-and run the tool; CI fails on the difference if you forget.
+**One exception, and it is generated INTO the branch rather than on the way out.** Pages serves
+the branch as it is, so a page that exists only inside a tool is a page nobody can visit:
+
+- `tools/pages/pages.js` — a page per course per language, plus `sitemap.xml` and `robots.txt`.
+  Re-run it when `assets/catalog.js` or a course dictionary moves.
+- `tools/home-pages/home-pages.js` — `/pt/ /es/ /fr/ /it/`, the front page in the other four
+  languages. It RENDERS `index.html` in a real browser with the language set, so the
+  translation is the site's own and there is no second translator to keep in step. Re-run it
+  when `index.html` moves, when `DYNAMIC` in `assets/i18n-runtime.js` moves, and **on every
+  release**, because the version is stamped into the head of all five.
+
+CI fails on the difference if you forget, in both cases.
 
 Stage 2, the Student Portal, lives in `codeschool-ing/portal-frontend`.
 
@@ -90,6 +97,7 @@ Each in its own folder, with the executable at the root of it:
   height and neither column scrolls, and clicks the detailed contents to see it obey
 - `tools/version/version.js` — reads or sets the released version
 - `tools/pages/pages.js` — writes a page per course per language, the sitemap and robots.txt
+- `tools/home-pages/home-pages.js` — writes the front page in the other four languages
 
 ## Before pushing
 
@@ -97,6 +105,7 @@ Each in its own folder, with the executable at the root of it:
 node tools/validate-catalog/validate-catalog.js   # broken prerequisites, cycles, track order
 node tools/validate-i18n/validate-i18n.js         # the dictionaries against the catalogue
 node tools/pages/pages.js                         # the course pages, if the catalogue moved
+node tools/home-pages/home-pages.js               # /pt/ /es/ /fr/ /it/, if index.html moved
 python3 tools/bundle/bundle.py                    # and open showcase.html from file://
 node tools/graph-test/graph-test.js               # needs npm ci + npx playwright install
 node tools/modal-test/modal-test.js               # same browser; ~3 minutes
@@ -127,13 +136,20 @@ catalogue, its four dictionaries and the sections together.
 
 ## Cutting a release
 
-The version lives in `index.html`, in `<meta name="version">`, and nowhere else. There is no
-build step here — Pages serves the default branch as it is — so stamping it on the way out
-would mean a robot commit per release. The file is authoritative and the tag is checked
-against it instead:
+The version is AUTHORED in one place, `index.html`'s `<meta name="version">`, and `version.js`
+is the only thing that writes it. It is not the only place it ends up: the four translated
+front pages are that same head rendered, so they carry it too, and `home-pages.js` is what
+brings them up to date — which is why it is in the sequence below and why CI fails a release
+that skipped it. The COURSE pages carry no version at all, and that is deliberate; they say
+nothing about the build.
+
+There is no build step here — Pages serves the default branch as it is — so stamping it on the
+way out would mean a robot commit per release. The authored file is authoritative and the tag
+is checked against it instead:
 
 ```sh
 node tools/version/version.js 1.2.0    # never edit the meta tag by hand
+node tools/home-pages/home-pages.js    # the four carry the version too
 git commit -am 'Release 1.2.0' && git tag v1.2.0 && git push --follow-tags
 ```
 

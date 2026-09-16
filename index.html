@@ -13,17 +13,24 @@
 <meta name="description" content="Online tech school: courses in programming, data, infrastructure, security and AI, organised into learning tracks. Study at your own pace, with a track that tells you what comes next." />
 
 <!-- WHERE THIS PAGE LIVES, said once and absolutely. This address is reachable
-     with and without a trailing slash, with tracking parameters somebody
-     pasted, and — until the course pages arrived — as the only page a search
-     engine had. A canonical is the sentence that makes all of those one page
-     instead of several weak ones.
+     with and without a trailing slash, and with whatever tracking parameters
+     somebody pasted. A canonical is the sentence that makes all of those one
+     page instead of several weak ones.
 
-     It is NOT a language declaration. This file is English and says so in
-     `<html lang>`; the four translations are applied over this same DOM at
-     runtime, so they share this address and this canonical. Giving each one an
-     address of its own is what `tools/pages/pages.js` did for the COURSES, and
-     what this page still owes. -->
+     AND IT IS A LANGUAGE DECLARATION NOW, which it could not be before. This
+     file is the ENGLISH page: `/pt/` `/es/` `/fr/` `/it/` are the other four,
+     written by `tools/home-pages/home-pages.js` from this same file rendered in
+     the language, so each of the five is one address saying one thing. The
+     alternates below name all five, this one included — a set of pages that
+     disagree about who is in the set is ignored wholesale — and `x-default` is
+     this page, which is where to send somebody whose language is not among
+     them. -->
 <link rel="canonical" href="https://codeschool.ing/" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/" />
 
 <!-- WHAT A SHARED LINK LOOKS LIKE. Without these, this address pasted into a
      message is a bare URL: no title, no summary, no mark. The description is
@@ -401,5 +408,33 @@ if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script
 <script src="assets/i18n-courses-it.js"></script>
 <script src="assets/i18n-runtime.js"></script>
 <script src="assets/script.js"></script>
+
+<!-- THE PICKER MOVES, IT DOES NOT ONLY REWRITE. Each language has an address of
+     its own now, so switching to Portuguese and staying at the English one
+     would leave the address saying something the page does not — the one thing
+     a search engine must never be told twice. The five paths are the ones
+     `tools/home-pages/home-pages.js` writes.
+
+     Capture phase, so the button's own handler never runs: `i18n-runtime.js`
+     builds those buttons and is a file this repository shares byte for byte
+     with portal-frontend, so it is not edited for a decision only this site
+     has made.
+
+     AND IT STANDS DOWN OFF A SERVER. `showcase.html` is this page inlined into
+     one file, opened from a disk with nothing serving it, where `/pt/` is not a
+     place. There it falls through to the in-place switch, which is the only one
+     that can work — and which is what the bundle has always done. -->
+<script>
+document.addEventListener('click', function (e) {
+  if (location.protocol !== 'http:' && location.protocol !== 'https:') return;
+  var b = e.target.closest && e.target.closest('#lang-menu .lang-op');
+  if (!b) return;
+  var where = { English: '/', 'Português': '/pt/', 'Español': '/es/', 'Français': '/fr/', Italiano: '/it/' }[b.textContent.trim()];
+  if (!where || where === location.pathname) return;
+  e.preventDefault();
+  e.stopPropagation();
+  location.href = where;
+}, true);
+</script>
 </body>
 </html>

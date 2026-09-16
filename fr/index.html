@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>codeschool.ing</title>
+<!-- The released version, and the only place it is written. `assets/script.js`
+     renders it into the footer and the release workflow checks it against the
+     tag, so the page and the GitHub release cannot disagree in silence.
+     "dev" means "not a release": the footer shows nothing rather than link to
+     a tag that does not exist. Cut a release with tools/version/version.js. -->
+<meta name="version" content="dev">
+<meta name="description" content="École de technologie en ligne : cours de programmation, données, infrastructure, sécurité et IA organisés en parcours de formation. Apprenez à votre rythme, avec un parcours qui vous dit ce qui vient ensuite.">
+
+<!-- WHERE THIS PAGE LIVES, said once and absolutely. This address is reachable
+     with and without a trailing slash, and with whatever tracking parameters
+     somebody pasted. A canonical is the sentence that makes all of those one
+     page instead of several weak ones.
+
+     AND IT IS A LANGUAGE DECLARATION NOW, which it could not be before. This
+     file is the ENGLISH page: `/pt/` `/es/` `/fr/` `/it/` are the other four,
+     written by `tools/home-pages/home-pages.js` from this same file rendered in
+     the language, so each of the five is one address saying one thing. The
+     alternates below name all five, this one included — a set of pages that
+     disagree about who is in the set is ignored wholesale — and `x-default` is
+     this page, which is where to send somebody whose language is not among
+     them. -->
+<link rel="canonical" href="https://codeschool.ing/fr/" />
+<link rel="alternate" hreflang="en" href="https://codeschool.ing/" />
+<link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/" />
+<link rel="alternate" hreflang="es" href="https://codeschool.ing/es/" />
+<link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/" />
+<link rel="alternate" hreflang="it" href="https://codeschool.ing/it/" />
+<link rel="alternate" hreflang="x-default" href="https://codeschool.ing/" />
+
+<!-- WHAT A SHARED LINK LOOKS LIKE. Without these, this address pasted into a
+     message is a bare URL: no title, no summary, no mark. The description is
+     the one above rather than a second copy with its own opinion. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="codeschool.ing">
+<meta property="og:title" content="Apprenez à votre rythme, avec le bon parcours dès le départ">
+<meta property="og:description" content="École de technologie en ligne : cours de programmation, données, infrastructure, sécurité et IA organisés en parcours de formation. Apprenez à votre rythme, avec un parcours qui vous dit ce qui vient ensuite.">
+<meta property="og:url" content="https://codeschool.ing/fr/">
+<meta property="og:locale" content="fr">
+<meta property="og:locale:alternate" content="en">
+<meta property="og:locale:alternate" content="pt_BR">
+<meta property="og:locale:alternate" content="es">
+<meta property="og:locale:alternate" content="it">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apprenez à votre rythme, avec le bon parcours dès le départ">
+<meta name="twitter:description" content="École de technologie en ligne : cours de programmation, données, infrastructure, sécurité et IA organisés en parcours de formation. Apprenez à votre rythme, avec un parcours qui vous dit ce qui vient ensuite.">
+
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>/* applies the saved theme before the paint, so it does not flash.
+   It reads the pre-rename key too: this runs before script.js, so it is the
+   first read a returning visitor gets, and missing it would show them one
+   frame of the theme they turned off. script.js does the writing back. */
+try{var t=localStorage.getItem('codeschool-theme')||{claro:'light',escuro:'dark'}[localStorage.getItem('codeschool-tema')];
+if(t==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<!-- The local stylesheet first, and the only one that blocks the first paint.
+     It is same-origin, served from the same Pages edge as this HTML, so paint
+     waits on nothing we do not control. -->
+<link rel="stylesheet" href="/assets/style.css">
+<!-- Google Fonts off the critical path. It used to block the paint, which made
+     it the one render-blocking resource on a third-party host: when it stalled,
+     the page showed unstyled until it resolved (the "needs an F5" flash).
+     `media="print"` keeps it out of the render-blocking set; onload flips it to
+     `all` once it arrives; `display=swap` (in the URL) paints text in the
+     fallback face until then. <noscript> keeps the fonts without JavaScript. -->
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<noscript><link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" /></noscript>
+<script>try{localStorage.setItem('codeschool-language','fr')}catch(e){}</script>
+</head>
+<body>
+
+<nav>
+  <a href="#top" class="brand">
+    <span class="led"></span><span class="brand-name">codeschool<span class="brand-sep">.</span>ing</span><span class="brand-beta">Beta</span>
+  </a>
+  <div class="navlinks" id="menu">
+    <!-- An anchor, because it does take you somewhere. The school is
+         self-service: whoever wants in creates their own account in the portal.
+         There is no counter here to leave a contact at. Its twin in nav-actions
+         is the same destination for whoever already has an account. -->
+    <a href="https://app.codeschool.ing" class="nav-cta" id="cta-subscribe">Commencer</a>
+    <a href="#tracks">Parcours</a>
+    <a href="#courses">Cours</a>
+    <a href="#plans">Formules</a>
+    <a href="#students">Élèves</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-actions">
+    <button id="theme-btn" class="theme" aria-label="Switch to the light theme">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"></path></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"></path></svg>
+    </button>
+    <div class="lang" id="lang">
+      <button class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Choisir la langue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"></path></svg>
+        <span id="lang-short">FR</span>
+      </button>
+      <div class="lang-menu" id="lang-menu" role="menu"><button type="button" class="lang-op" lang="en">English</button><button type="button" class="lang-op" lang="pt-BR">Português</button><button type="button" class="lang-op" lang="es">Español</button><button type="button" class="lang-op on" lang="fr">Français</button><button type="button" class="lang-op" lang="it">Italiano</button></div>
+    </div>
+    <!-- The Stage-2 Student Portal: a separate repository, served at its own
+         subdomain. codeschool-ing/portal-frontend, on app.codeschool.ing. -->
+    <a href="https://app.codeschool.ing" class="nav-student" id="nav-student">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"></path></svg>
+      <span>Espace élève</span>
+    </a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu">≡</button>
+  </div>
+</nav>
+
+<!-- SCREEN 1 · HERO -->
+<header class="screen hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="eyebrow">École de technologie</div>
+      <h1>Apprenez à votre rythme,<br>avec <span class="fx">le bon parcours dès le départ</span><span class="cursor"></span></h1>
+      <p class="lead">
+        Une formation en technologie organisée en <strong>parcours</strong> : vous savez exactement quel cours suivre en premier, ce qui vient ensuite et où chaque étape vous mène. Les cours de base comptent pour plusieurs métiers — vous n’étudiez jamais deux fois la même chose.
+      </p>
+      <div class="hero-actions">
+        <a href="#tracks" class="btn btn-primary">Voir les parcours →</a>
+        <a href="#courses" class="btn btn-ghost">Catalogue de cours</a>
+      </div>
+      <div class="hero-nums">
+        <span><strong id="n-courses">122</strong> cours</span>
+        <span><strong id="n-tracks">19</strong> parcours de formation</span>
+        <span><strong id="n-hours">7 880</strong> heures de contenu</span>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="term-bar">
+        <span class="dot d-r"></span><span class="dot d-y"></span><span class="dot d-g"></span>
+        <span>eleve@codeschool:~</span>
+      </div>
+      <!-- built in `buildTerminal()`, from CURSOS and TRILHAS: the responses are
+           real data, so they do not go stale when the catalogue changes. The
+           command is in English, the response in the user's language. -->
+      <div class="term-body" id="term-body"><div class="term-line" style="--i: 0;"><span class="pr">$</span> codeschool --status</div><div class="term-line" style="--i: 1;"><span class="ok">✓</span> 122 cours · 19 parcours · 7 880 heures de contenu</div><div class="term-gap" style="--i: 2;"></div><div class="term-line" style="--i: 3;"><span class="pr">$</span> codeschool tracks</div><div class="term-line" style="--i: 4;"><span class="pr">→</span> Développement Front-end · 690–710h</div><div class="term-line" style="--i: 5;"><span class="pr">→</span> Développement Back-end · 960–1110h</div><div class="term-line" style="--i: 6;"><span class="pr">→</span> Développement mobile · 650h</div><div class="term-line" style="--i: 7;"><span class="cm">  … et 16 autres parcours</span></div><div class="term-gap" style="--i: 8;"></div><div class="term-line" style="--i: 9;"><span class="pr">$</span> codeschool course kubernetes --info</div><div class="term-line" style="--i: 10;"><span class="pr">→</span> Kubernetes : Orchestration en Production · 80h · avancé</div><div class="term-line" style="--i: 11;"><span class="cm">↳</span> à faire avant : Docker et Conteneurs</div><div class="term-gap" style="--i: 12;"></div><div class="term-line" style="--i: 13;"><span class="pr">$</span> codeschool start<span class="cursor"></span></div></div>
+    </div>
+  </div>
+</header>
+
+<!-- SCREEN 2 · TRACKS -->
+<section id="tracks" class="screen panel-sec">
+  <!-- One row of tracks. No heading, no tag and no switcher — every pixel above
+       the graph is one course fewer per column. -->
+  <!-- on mobile the row becomes a menu: at 360px wide, "← trilha trilha →"
+       showed half a tab at a time -->
+  <div class="drop" id="drop-tracks">
+    <button class="drop-btn" type="button" aria-expanded="false" aria-label="Choisir un parcours">
+      <span class="drop-current"></span><span class="drop-arrow" aria-hidden="true">▾</span>
+    </button>
+    <div class="drop-list" id="drop-tracks-list" role="menu"></div>
+  </div>
+  <div class="tabs-box">
+    <button class="tabs-arrow left" type="button" data-scroll="-1" aria-label="Parcours précédents" disabled="">←</button>
+    <div class="track-tabs fade-right" id="tabs" role="tablist" aria-label="Parcours"><button class="track-tab on" type="button" data-idx="0" role="tab">Développement Front-end</button><button class="track-tab" type="button" data-idx="1" role="tab">Développement Back-end</button><button class="track-tab" type="button" data-idx="2" role="tab">Développement mobile</button><button class="track-tab" type="button" data-idx="3" role="tab">DevOps et SRE</button><button class="track-tab" type="button" data-idx="4" role="tab">Ingénierie du Cloud</button><button class="track-tab" type="button" data-idx="5" role="tab">Ingénierie des Données</button><button class="track-tab" type="button" data-idx="6" role="tab">Plateforme de Données</button><button class="track-tab" type="button" data-idx="7" role="tab">Science des données</button><button class="track-tab" type="button" data-idx="8" role="tab">Administration de Bases de Données</button><button class="track-tab" type="button" data-idx="9" role="tab">Réseaux et Infrastructure</button><button class="track-tab" type="button" data-idx="10" role="tab">Ingénierie de Prompt</button><button class="track-tab" type="button" data-idx="11" role="tab">Ingénierie de l’IA</button><button class="track-tab" type="button" data-idx="12" role="tab">Architecture Logicielle</button><button class="track-tab" type="button" data-idx="13" role="tab">Leadership technique</button><button class="track-tab" type="button" data-idx="14" role="tab">Fondamentaux de l’Informatique et Support</button><button class="track-tab" type="button" data-idx="15" role="tab">Cybersécurité</button><button class="track-tab" type="button" data-idx="16" role="tab">DevSecOps</button><button class="track-tab" type="button" data-idx="17" role="tab">Business Intelligence</button><button class="track-tab" type="button" data-idx="18" role="tab">Qualité et Tests Logiciels</button></div>
+    <button class="tabs-arrow right" type="button" data-scroll="1" aria-label="Parcours suivants">→</button>
+  </div>
+  <div class="track-panel" id="track-panel" aria-live="polite"></div>
+</section>
+
+<!-- SCREEN 3 · COURSES -->
+<section id="courses" class="screen">
+  <div class="sec-head">
+    <h2>Portfolio</h2>
+    <p>Tout ce que contiennent les parcours, cours par cours. Cherchez par nom, filtrez par domaine ou ouvrez-en un pour voir le programme.</p>
+  </div>
+  <div class="filters">
+    <div class="search" style="width: 277px;">
+      <span class="search-ico" aria-hidden="true">⌕</span>
+      <input type="search" id="search" placeholder="rechercher un cours ou un id..." aria-label="Rechercher un cours">
+      <button type="button" id="search-clear" hidden="" aria-label="Effacer la recherche">×</button>
+    </div>
+    <div class="drop" id="drop-filters">
+      <button class="drop-btn" type="button" aria-expanded="false" aria-label="Filtrer par domaine">
+        <span class="drop-current"></span><span class="drop-arrow" aria-hidden="true">▾</span>
+      </button>
+      <div class="drop-list" id="drop-filters-list" role="menu"></div>
+    </div>
+    <div class="chips-box">
+      <button class="tabs-arrow left" id="chips-left" type="button" aria-label="Filtres précédents" disabled="">←</button>
+      <div class="chips fade-right" id="chips-category" role="group" aria-label="Filter by area"></div>
+      <button class="tabs-arrow right" id="chips-right" type="button" aria-label="Filtres suivants">→</button>
+    </div>
+  </div>
+  <div class="courses-scroll">
+    <div class="courses-grid" id="courses-grid" aria-live="polite"></div>
+    <p class="empty" id="courses-empty" hidden="">aucun cours trouvé — essayez un autre terme.</p>
+  </div>
+</section>
+
+<!-- SCREEN 4 · PLANS -->
+<!-- THE SAME THREE PLANS THE PORTAL GRANTS, and that is the point of the shape
+     below. codeschool-ing/portal-frontend's assets/plans.js is the record a
+     signed-in student's account points at; its ids — student, pro, team — are
+     stored in a browser and migrated, so they are fixed. This page is where
+     somebody chooses one, and it used to advertise three OTHER plans (Essential,
+     Complete, Teams) at prices of 00. Whoever subscribed to "Complete" here
+     signed in and found a plan called "Pro" with different benefits.
+
+     The names, the pitches, the benefit lines and the numbers are now the ones
+     in plans.js, line for line — the benefit lines are its FEATURES sentences,
+     which is why they read as a list of capabilities rather than as copy.
+
+     THE PRICES ARE STILL INVENTED, and the marker below says so. What is no
+     longer invented is the relationship: R$ 0 forever on the entry plan is not
+     decoration, it is what the portal actually does — a new account gets
+     PLANS[0], so if the entry plan were paid, every student would silently hold
+     a paid subscription nobody charged for. -->
+<section id="plans" class="screen panel-sec">
+  <div class="sec-head">
+    <h2>Formules</h2>
+    <p>Le premier cours de chaque parcours est gratuit, pour toujours. Le reste est un abonnement, pour un an.</p>
+  </div>
+  <div class="plans plans-two">
+    <article class="plan">
+      <h3 class="plan-name">Visiteur</h3>
+      <p class="plan-pitch">Le premier cours de chaque parcours, pour voir comment l'école fonctionne.</p>
+      <p class="plan-price"><span class="plan-currency">R$</span><strong>0</strong><span class="plan-period">pour toujours</span></p>
+      <ul class="plan-items">
+        <li>Le premier cours de chaque parcours, en entier</li>
+        <li>Un parcours guidé avec une carte de progression</li>
+        <li>Des exercices qui se corrigent seuls, dans chaque leçon</li>
+      </ul>
+      <a href="https://app.codeschool.ing" class="btn btn-ghost plan-btn">Commencer →</a>
+    </article>
+    <article class="plan plan-featured">
+      <h3 class="plan-name">Élève</h3>
+      <p class="plan-pitch">L'école entière, pendant un an.</p>
+      <p class="plan-price"><span class="plan-currency">R$</span><strong>490</strong><span class="plan-period">/an</span></p>
+      <p class="plan-instalments">ou 12× de 40,83 R$ sur la carte</p>
+      <ul class="plan-items">
+        <li>Les 122 cours et les 19 parcours</li>
+        <li>Les examens finaux de cours et de parcours</li>
+        <li>Certificats de cours et de parcours, avec code de validation</li>
+        <li>Du matériel d’accompagnement à télécharger</li>
+        <li>Des cours à regarder hors connexion</li>
+      </ul>
+      <a href="https://app.codeschool.ing" class="btn btn-primary plan-btn">Commencer →</a>
+    </article>
+  </div>
+</section>
+
+<!-- SCREEN 5 · STUDENTS -->
+<section id="students" class="screen">
+  <div class="sec-head">
+    <h2>Ceux qui sont passés par ici</h2>
+    <p><span class="mono dim">[témoignages d’exemple — en attente des vrais]</span></p>
+  </div>
+  <div class="quotes" id="quotes"></div>
+</section>
+
+<!-- SCREEN 6 · FAQ -->
+<!-- It took over the screen that was the enrolment form's: the form became a
+     modal, opened by the plan buttons and by "Comece agora" at the top. Answers
+     that depend on policy not yet decided carry the marker in square brackets —
+     the same criterion as the prices and the testimonials. -->
+<section id="faq" class="screen panel-sec">
+  <div class="sec-head">
+    <h2>Questions fréquentes</h2>
+    <p>Ce qu’on nous demande le plus — et, signalé, ce qui reste à décider.</p>
+  </div>
+  <div class="faq faq-view">
+    <details>
+      <summary>Faut-il avoir un ordinateur chez soi ?</summary>
+      <p>Oui — les cours sont pratiques et vous avancez en faisant. Un ordinateur simple avec internet et un navigateur suffisent.</p>
+    </details>
+    <details>
+      <summary>Les cours sont-ils en direct ou enregistrés ?</summary>
+      <p>Toutes enregistrées. Vous les regardez quand vous pouvez, autant de fois qu'il le faut, et les exercices se corrigent tout seuls en chemin. Il n'y a ni rencontres en direct ni horaire fixe — le rythme est entièrement le vôtre.</p>
+    </details>
+    <details>
+      <summary>Faut-il suivre le parcours entier ?</summary>
+      <p>Non. Le parcours est un ordre conseillé — si vous n’avez besoin que d’un seul cours, ne regardez que celui-là.</p>
+    </details>
+    <details>
+      <summary>L’attestation est-elle reconnue ?</summary>
+      <p>Nous délivrons une attestation de formation continue avec le volume horaire et un code de validation, acceptée comme preuve de qualification professionnelle.</p>
+    </details>
+    <details>
+      <summary>Puis-je résilier quand je veux ?</summary>
+      <p>Oui, depuis votre propre écran de compte, sans rien demander à personne. L'accès dure jusqu'à la fin de la période déjà payée, et rien n'est prélevé ensuite. Les certificats déjà obtenus restent valables pour toujours — ils attestent de quelque chose que vous avez fait, et perdre l'accès ne l'annule pas.</p>
+    </details>
+    <details>
+      <summary>Quels sont les moyens de paiement ?</summary>
+      <p>Carte bancaire et Pix. <span class="mono dim">[à confirmer avec le prestataire de paiement avant de facturer]</span></p>
+    </details>
+    <details>
+      <summary>Peut-on acheter un cours seul, sans s’abonner ?</summary>
+      <p>Non. Ce qui est vendu, c'est l'accès à l'école entière, car ce qui compte ici c'est le parcours — l'ordre des cours et ce que chacun débloque — et un cours acheté seul perd exactement cela. Le premier cours de chaque parcours est gratuit : vous pouvez essayer avant de payer quoi que ce soit.</p>
+    </details>
+    <details>
+      <summary>Mon entreprise peut-elle souscrire pour l’équipe ?</summary>
+      <p>Pas encore sous forme de formule entreprise : aujourd'hui chacun s'abonne sur son propre compte. Une formule pour les équipes, avec facturation au nom de la société, sera construite lorsqu'une entreprise la demandera — écrivez-nous si c'est votre cas.</p>
+    </details>
+  </div>
+</section>
+
+<!-- SCREEN 7 · CONTACT -->
+<section id="contact" class="screen">
+  <div class="sec-head">
+    <h2>Tout est en libre-service</h2>
+    <p>Créez votre compte, choisissez un parcours, étudiez, passez les examens et éditez votre certificat — seul, quand vous voulez. Changer votre e-mail, votre mot de passe ou votre nom, exporter vos données et supprimer votre compte sont tous dans l'écran du compte.</p>
+  </div>
+
+  <!-- The portal first, because it is where the answer to almost everything is.
+       The e-mail stays as a channel for what genuinely needs a person, and it
+       promises nothing about how fast it is answered: the school has no counter
+       and no support hours, and saying otherwise would be inventing a service. -->
+  <div class="contact-row">
+    <a class="channel channel-featured" href="https://app.codeschool.ing">
+      <span class="channel-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"></path></svg>
+      </span>
+      <span><span class="channel-label">Espace élève</span><span class="channel-value">app.codeschool.ing</span></span>
+    </a>
+
+    <form class="news" id="news-form" novalidate="">
+      <div class="news-copy">
+        <span class="news-tag">// newsletter</span>
+        <p>Nouveaux groupes, cours et contenus techniques gratuits. Sans spam.</p>
+      </div>
+      <div class="news-row">
+        <label class="news-prompt" for="news-email"><span class="pr">$</span> abonner --email</label>
+        <input type="email" id="news-email" placeholder="vous@exemple.com" required="" autocomplete="email">
+        <button type="submit" class="btn btn-primary news-btn">s’abonner →</button>
+      </div>
+      <p class="news-status" id="news-status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <!-- The one address, for what the portal genuinely cannot resolve — a data
+       request under the LGPD, above all, which the privacy policy points here
+       for. Deliberately a line and not a card: making it prominent would invite
+       people to write instead of doing it themselves, which is slower for them
+       and for us. No hours and no reply time, because there are none. -->
+  <p class="contact-mail">
+    Quelque chose que seule une personne peut régler ? <a href="mailto:contact@codeschool.ing">contact@codeschool.ing</a>
+  </p>
+
+  <div class="social-grid">
+    <a class="social" href="https://www.linkedin.com/company/codeschool-ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="19" height="19" rx="4"></rect><circle cx="7.6" cy="7.8" r="1.3" fill="currentColor" stroke="none"></circle><path d="M7.6 10.5V17M11.5 17v-6.5m0 2.2c0-1.2 1-2.2 2.2-2.2s2.3 1 2.3 2.2V17" stroke-linecap="round"></path></svg>
+      <span class="s-name">LinkedIn</span><span class="s-user">/codeschool-ing</span><span class="s-arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="social" href="https://www.instagram.com/codeschool.ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="19" height="19" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"></circle></svg>
+      <span class="s-name">Instagram</span><span class="s-user">@codeschool.ing</span><span class="s-arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="social" href="https://www.facebook.com/codeschool.ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="19" height="19" rx="4"></rect><path d="M14.8 8h-1.6c-.9 0-1.5.6-1.5 1.5V21M9.5 12.5h5" stroke-linecap="round"></path></svg>
+      <span class="s-name">Facebook</span><span class="s-user">/codeschool.ing</span><span class="s-arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="social" href="https://www.tiktok.com/@codeschool.ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M14.5 4v9.5a4 4 0 1 1-4-4"></path><path d="M14.5 5.5c.5 2 2 3.5 4.5 3.8"></path></svg>
+      <span class="s-name">TikTok</span><span class="s-user">@codeschool.ing</span><span class="s-arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="social" href="https://www.youtube.com/@codeschool.ing">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5.5" width="19" height="13" rx="4"></rect><path d="M10.2 9.2v5.6l4.6-2.8-4.6-2.8Z" fill="currentColor" stroke="none"></path></svg>
+      <span class="s-name">YouTube</span><span class="s-user">@codeschool.ing</span><span class="s-arrow" aria-hidden="true">↗</span>
+    </a>
+  </div>
+
+  <!-- The honest line: the whole site is a work in progress, and the numbers on
+       it are not real yet. It says so where a footer disclaimer is looked for,
+       rather than leaving invented prices to read as a commitment. -->
+  <p class="foot-wip">En développement — le contenu et les témoignages sont illustratifs, et rien n'est encore facturé.</p>
+
+  <div class="foot-slim">
+    <span>© <span id="year">2026</span> codeschool.ing</span>
+    <div class="foot-links">
+      <a href="privacidade.html">confidentialité</a>
+      <a href="termos.html">conditions</a>
+      <a href="https://github.com/codeschool-ing">github</a>
+      <!-- filled in by assets/script.js, and left out entirely when this build
+           is not a release -->
+      <a class="mono" id="version" hidden=""></a>
+    </div>
+    <span>fait au Brésil · pour partout</span>
+  </div>
+</section>
+
+<!-- course detail -->
+<div class="modal" id="modal" hidden="">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="term-bar">
+      <span class="dot d-r"></span><span class="dot d-y"></span><span class="dot d-g"></span>
+      <span class="modal-file" id="modal-file"></span>
+      <button class="modal-close" id="modal-close" aria-label="Fermer">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="/assets/catalog.js"></script>
+<script src="/assets/i18n.js"></script>
+<script src="/assets/i18n-pt.js"></script>
+<script src="/assets/i18n-courses-pt.js"></script>
+<script src="/assets/i18n-courses-es.js"></script>
+<script src="/assets/i18n-courses-fr.js"></script>
+<script src="/assets/i18n-courses-it.js"></script>
+<script src="/assets/i18n-runtime.js"></script>
+<script src="/assets/script.js"></script><div class="dots"><button type="button" aria-label="Aller à la section 1" class="on"></button><button type="button" aria-label="Aller à la section 2"></button><button type="button" aria-label="Aller à la section 3"></button><button type="button" aria-label="Aller à la section 4"></button><button type="button" aria-label="Aller à la section 5"></button><button type="button" aria-label="Aller à la section 6"></button><button type="button" aria-label="Aller à la section 7"></button></div>
+
+<!-- THE PICKER MOVES, IT DOES NOT ONLY REWRITE. Each language has an address of
+     its own now, so switching to Portuguese and staying at the English one
+     would leave the address saying something the page does not — the one thing
+     a search engine must never be told twice. The five paths are the ones
+     `tools/home-pages/home-pages.js` writes.
+
+     Capture phase, so the button's own handler never runs: `i18n-runtime.js`
+     builds those buttons and is a file this repository shares byte for byte
+     with portal-frontend, so it is not edited for a decision only this site
+     has made.
+
+     AND IT STANDS DOWN OFF A SERVER. `showcase.html` is this page inlined into
+     one file, opened from a disk with nothing serving it, where `/pt/` is not a
+     place. There it falls through to the in-place switch, which is the only one
+     that can work — and which is what the bundle has always done. -->
+<script>
+document.addEventListener('click', function (e) {
+  if (location.protocol !== 'http:' && location.protocol !== 'https:') return;
+  var b = e.target.closest && e.target.closest('#lang-menu .lang-op');
+  if (!b) return;
+  var where = { English: '/', 'Português': '/pt/', 'Español': '/es/', 'Français': '/fr/', Italiano: '/it/' }[b.textContent.trim()];
+  if (!where || where === location.pathname) return;
+  e.preventDefault();
+  e.stopPropagation();
+  location.href = where;
+}, true);
+</script>
+
+
+</body></html>

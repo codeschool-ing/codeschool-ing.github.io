@@ -6,7 +6,7 @@
  * English, because English is what the file says. The four translations are
  * complete, and none of them was reachable from a search.
  *
- * The catalogue is the other half. 148 courses live inside `assets/catalog.js`
+ * The catalogue is the other half. 122 courses live inside `assets/catalog.js`
  * and are drawn into one grid on one page: a name, a summary, a syllabus of
  * five to seven lines and the full topic list, for each of them, in five
  * languages — real page content with no page to be on.
@@ -269,13 +269,27 @@ function everything() {
     '  </url>',
   ].join('\n')));
 
+  /* THE FRONT PAGES BELONG IN HERE TOO, and they are written by the other tool.
+     One sitemap or none: a second file listing the other five would need a
+     third to point at both, and a page left out of every sitemap is a page that
+     waits to be found by a link. So this file knows the five addresses —
+     `/` plus the four `tools/home-pages/home-pages.js` writes — and nothing
+     else about them. */
+  const home = (code) => (code === 'en' ? `${ORIGIN}/` : `${ORIGIN}/${code}/`);
+  const fronts = LANGUAGES.map((lang) => [
+    '  <url>',
+    `    <loc>${home(lang.code)}</loc>`,
+    ...LANGUAGES.map((l) =>
+      `    <xhtml:link rel="alternate" hreflang="${l.html}" href="${home(l.code)}"/>`),
+    `    <xhtml:link rel="alternate" hreflang="x-default" href="${home('en')}"/>`,
+    '  </url>',
+  ].join('\n'));
+
   files.set('sitemap.xml', [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
     '        xmlns:xhtml="http://www.w3.org/1999/xhtml">',
-    '  <url>',
-    `    <loc>${ORIGIN}/</loc>`,
-    '  </url>',
+    ...fronts,
     ...entries,
     '</urlset>',
     '',

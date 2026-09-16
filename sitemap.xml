@@ -3,6 +3,48 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://codeschool.ing/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeschool.ing/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://codeschool.ing/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://codeschool.ing/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://codeschool.ing/"/>
+  </url>
+  <url>
+    <loc>https://codeschool.ing/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeschool.ing/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://codeschool.ing/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://codeschool.ing/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://codeschool.ing/"/>
+  </url>
+  <url>
+    <loc>https://codeschool.ing/es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeschool.ing/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://codeschool.ing/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://codeschool.ing/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://codeschool.ing/"/>
+  </url>
+  <url>
+    <loc>https://codeschool.ing/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeschool.ing/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://codeschool.ing/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://codeschool.ing/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://codeschool.ing/"/>
+  </url>
+  <url>
+    <loc>https://codeschool.ing/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://codeschool.ing/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://codeschool.ing/pt/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://codeschool.ing/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://codeschool.ing/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://codeschool.ing/it/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://codeschool.ing/"/>
   </url>
   <url>
     <loc>https://codeschool.ing/en/course/web-fundamentals.html</loc>
